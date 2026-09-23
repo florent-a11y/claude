@@ -45,7 +45,7 @@ export default function Pricing() {
         <ul>
           <li>Guided multilingual form with passport photo reading.</li>
           <li>Manual review of every field by a trained team member.</li>
-          <li>Submission on the official portal and delivery of your QR code by email and WhatsApp.</li>
+          <li>Submission on the official portal and delivery of your QR code by email.</li>
           <li>Airport checklist, customs allowance summary and IMEI registration instructions.</li>
           <li>Support until you have cleared immigration.</li>
         </ul>

@@ -31,7 +31,6 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
           <h2 className="font-semibold">Contact</h2>
           <CopyField label="Email (enter this in the official form so the traveler receives the QR)" value={o.contact.email} />
           <CopyField label="Phone" value={o.contact.phone} />
-          <p className="mt-2 text-sm">WhatsApp delivery: {yes(o.contact.whatsapp)}</p>
         </div>
         <div className="card">
           <h2 className="font-semibold">Travel</h2>

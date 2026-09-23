@@ -36,7 +36,7 @@ export default function Guide() {
       </ol>
       <div className="card mt-10 bg-slate-50">
         <h2 className="text-xl font-bold">Let us prepare and check it</h2>
-        <p className="mt-2 text-ink-700">Our team prepares and verifies your card for $24.90 per traveler, delivered to email and WhatsApp. Useful for families, groups, or if you are not confident with online forms.</p>
+        <p className="mt-2 text-ink-700">Our team prepares and verifies your card for $24.90 per traveler, delivered by email. Useful for families, groups, or if you are not confident with online forms.</p>
         <Link href="/apply" className="btn-primary mt-4">Use the assistance service</Link>
       </div>
     </div>

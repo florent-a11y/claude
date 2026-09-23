@@ -9,7 +9,7 @@ import { EVOA_PURPOSES, eligibility } from "@/lib/evoa";
 const emptyTraveler: Traveler = { givenNames: "", familyName: "", gender: "M", dateOfBirth: "", nationality: "", passportNumber: "", passportIssued: "", passportExpiry: "" };
 const emptyTravel: Travel = { arrivalDate: "", departureDate: "", portOfEntry: "DPS", transportMode: "air", flightNumber: "", originCountry: "", purpose: PURPOSES[0], visaType: VISA_TYPES[0], accommodationName: "", accommodationAddress: "", accommodationCity: "" };
 const emptyDecl: Declarations = { countriesVisited21d: [], symptoms: false, animalsPlants: false, cashOver100M: false, goodsOverAllowance: false, commercialGoods: false, registerImei: false, baggagePieces: 1, notes: "" };
-const emptyContact = { email: "", phone: "", whatsapp: true, express: false, acceptTerms: false, acknowledgeNotGov: false };
+const emptyContact = { email: "", phone: "", express: false, acceptTerms: false, acknowledgeNotGov: false };
 const emptyEvoa: Evoa = { intendedEntryDate: "", purpose: "tourism", returnTicket: false, documents: [] };
 
 type Errors = Record<string, string>;
@@ -213,9 +213,8 @@ export function ApplyForm({ initialProduct = "arrival_card" }: { initialProduct?
         <div className="card mt-6 space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
             <label><span className="label">Email (the QR code is sent here)</span><input type="email" className="input" value={contact.email} onChange={(e) => setContact({ ...contact, email: e.target.value.trim() })} /><E k="email" /></label>
-            <label><span className="label">Mobile phone with country code</span><input type="tel" className="input" placeholder="+44 7…" value={contact.phone} onChange={(e) => setContact({ ...contact, phone: e.target.value })} /><E k="phone" /></label>
+            <label><span className="label">Mobile phone with country code (in case we need to reach you)</span><input type="tel" className="input" placeholder="+44 7…" value={contact.phone} onChange={(e) => setContact({ ...contact, phone: e.target.value })} /><E k="phone" /></label>
           </div>
-          <label className="flex items-start gap-3"><input type="checkbox" className="checkbox" checked={contact.whatsapp} onChange={(e) => setContact({ ...contact, whatsapp: e.target.checked })} /><span className="text-sm">Also send my QR code by WhatsApp to this number</span></label>
           <label className="flex items-start gap-3 rounded-lg border border-slate-200 p-3"><input type="checkbox" className="checkbox" checked={contact.express} onChange={(e) => setContact({ ...contact, express: e.target.checked })} /><span className="text-sm"><strong>Express</strong> – verified and submitted within {product === "arrival_card" ? PRICING.arrivalCard.expressSlaHours : PRICING.evoa.expressSlaHours} hours (+{money(PRICING.express)}). Standard is within {product === "arrival_card" ? PRICING.arrivalCard.standardSlaHours : PRICING.evoa.standardSlaHours} hours.{product !== "arrival_card" ? " e-VOA approval by the authorities usually follows the same day, at most 2 working days." : ""}</span></label>
           <hr className="border-slate-200" />
           <label className="flex items-start gap-3"><input type="checkbox" className="checkbox" checked={contact.acknowledgeNotGov} onChange={(e) => setContact({ ...contact, acknowledgeNotGov: e.target.checked })} /><span className="text-sm">I understand this is a private assistance service and not a government website.</span></label>

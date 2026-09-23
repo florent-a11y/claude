@@ -30,7 +30,7 @@ export async function notifyOpsNewOrder(order: Order) {
     `Product: ${PRODUCT_LABELS[order.product]}${order.contact.express ? " (EXPRESS)" : ""}`,
     `Arrival: ${order.travel.arrivalDate} at ${order.travel.portOfEntry}, flight ${order.travel.flightNumber || "n/a"}`,
     `Travelers: ${order.travelers.map((t) => `${t.familyName} ${t.givenNames} (${t.nationality})`).join("; ")}`,
-    `Contact: ${order.contact.email} · ${order.contact.phone}${order.contact.whatsapp ? " (WhatsApp)" : ""}`,
+    `Contact: ${order.contact.email} · ${order.contact.phone}`,
     order.evoa ? `e-VOA entry ${order.evoa.intendedEntryDate}, purpose ${order.evoa.purpose}, documents uploaded: ${order.evoa.documents.length}` : "",
     "", `Open in ops console: ${url}`,
   ].filter((l) => l !== undefined);
@@ -47,7 +47,7 @@ export async function sendCustomerConfirmation(order: Order) {
   const lines = [
     `Dear ${lead.givenNames},`,
     `Thank you. We have received your order and payment of ${money(order.amountCents, order.currency)} for ${order.travelers.length} traveler${order.travelers.length > 1 ? "s" : ""}.`,
-    isAc ? `Arrival card: a team member checks your details and submits the card inside the 72-hour window before your arrival on ${order.travel.arrivalDate}. You will receive the QR code by email${order.contact.whatsapp ? " and WhatsApp" : ""}.` : "",
+    isAc ? `Arrival card: a team member checks your details and submits the card inside the 72-hour window before your arrival on ${order.travel.arrivalDate}. You will receive the QR code by email.` : "",
     isEv ? `e-VOA: we verify your passport scan and photo and lodge the application within ${order.contact.express ? 12 : 48} hours. Approval by the authorities usually follows the same day, at most 2 working days.` : "",
     `Questions? Reply to this email or write to ${site.supportEmail}.`,
     `${site.company} is a private assistance service and is not affiliated with any government website.`,

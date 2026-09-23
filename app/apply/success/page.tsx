@@ -27,7 +27,7 @@ export default async function Success({ searchParams }: { searchParams: Promise<
         <ol className="mt-2 list-decimal space-y-1 pl-5 text-ink-700">
           <li>A team member checks every field against your passport details{order?.product !== "arrival_card" ? ", and your passport scan and photo for the e-VOA" : ""}.</li>
           <li>We submit the card on the official portal, entering your email so the QR arrives from the government system as well.</li>
-          <li>You receive the QR code (PDF and image) plus an airport checklist by email{order?.contact.whatsapp ? " and WhatsApp" : ""}.</li>
+          <li>You receive the QR code (PDF and image) plus an airport checklist by email.</li>
           <li>Show the QR with your passport at immigration and customs.</li>
         </ol>
       </div>

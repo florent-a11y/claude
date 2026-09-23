@@ -6,11 +6,10 @@ export const site = {
   address: process.env.NEXT_PUBLIC_COMPANY_ADDRESS ?? "[Registered address, Hong Kong]",
   companyReg: process.env.NEXT_PUBLIC_COMPANY_REG ?? "[HK business registration no.]",
   supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "support@example.com",
-  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "",
   officialPortal: "https://allindonesia.imigrasi.go.id/",
   officialRetrieve: "https://allindonesia.imigrasi.go.id/arrival-card-submission/retrieve",
   description:
-    "Private assistance service for the Indonesia (All Indonesia) digital arrival card. Transparent price, human-checked, delivered by email and WhatsApp. Not affiliated with the Government of Indonesia.",
+    "Private assistance service for the Indonesia (All Indonesia) digital arrival card. Transparent price, human-checked, delivered by email. Not affiliated with the Government of Indonesia.",
 };
 
 export const DISCLOSURE =

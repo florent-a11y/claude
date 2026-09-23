@@ -56,7 +56,7 @@ export const evoaSchema = z.object({
 export const contactSchema = z.object({
   email: z.string().email(),
   phone: z.string().min(6).max(20),
-  whatsapp: z.boolean(),
+  whatsapp: z.boolean().optional().default(false),
   express: z.boolean(),
   acceptTerms: z.literal(true, { message: "You must accept the terms" }),
   acknowledgeNotGov: z.literal(true, { message: "Please confirm you understand this is not a government website" }),

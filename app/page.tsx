@@ -8,7 +8,7 @@ const steps = [
   { n: 1, t: "See the price", d: "The full price is on this page and on the first form screen. Nothing is added later." },
   { n: 2, t: "Fill our guided form", d: "Plain-language questions in one place: passport, flight, stay, health and customs declarations." },
   { n: 3, t: "We prepare and check", d: "A trained team member checks every field, then submits it on the official portal on your behalf." },
-  { n: 4, t: "Receive your QR", d: "By email and WhatsApp, with a reminder for the 72-hour window and a one-page airport checklist." },
+  { n: 4, t: "Receive your QR", d: "By email, with a reminder for the 72-hour window and a one-page airport checklist." },
 ];
 
 const features = [
@@ -16,7 +16,7 @@ const features = [
   { icon: Clock, t: "Delivered in under 12 h", d: "Express option delivers in under 2 hours. Full refund if we miss the deadline before your arrival." },
   { icon: Languages, t: "Support in your language", d: "Chat with us in English, Chinese, Korean, Japanese, German, French or Russian." },
   { icon: Smartphone, t: "Works on your phone", d: "Photograph your passport, we read the details. No app to install, no account to create." },
-  { icon: MessageCircle, t: "WhatsApp delivery", d: "Your QR code and airport checklist arrive where you will look for them." },
+  { icon: MessageCircle, t: "Support until you land", d: "Questions before or after submission are answered by email within minutes during support hours." },
   { icon: CheckCircle2, t: "Customs and IMEI covered", d: "We tell you what to declare, what the allowances are and how to register your phone." },
 ];
 
@@ -38,7 +38,7 @@ export default function Home() {
             <p className="mb-3 inline-block rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-700 ring-1 ring-brand-100">Mandatory for all arrivals to Indonesia since 1 Sept 2025</p>
             <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">Your Indonesia arrival card, prepared and checked by a person.</h1>
             <p className="mt-5 text-lg text-ink-700">
-              Skip the confusing form and the typo risk. Answer our guided questions, we prepare and submit your All Indonesia arrival card and send the QR code to your email and WhatsApp.
+              Skip the confusing form and the typo risk. Answer our guided questions, we prepare and submit your All Indonesia arrival card and send the QR code to your email.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link href="/apply" className="btn-primary">Start now – from $24.90</Link>
@@ -82,7 +82,7 @@ export default function Home() {
         <div className="card grid gap-6 border-brand-100 bg-brand-50 md:grid-cols-2">
           <div>
             <h2 className="text-2xl font-bold">Need a visa too? e-VOA assistance</h2>
-            <p className="mt-2 text-ink-700">Most nationalities can get the 30-day electronic visa on arrival before flying. We check your passport and photo, submit the application and deliver the approved e-VOA. Bundle it with the arrival card and save $10 per traveler.</p>
+            <p className="mt-2 text-ink-700">Most nationalities can get the 30-day electronic visa on arrival before flying. We check your passport and photo, submit the application and deliver the approved e-VOA by email. Bundle it with the arrival card and save $10 per traveler.</p>
           </div>
           <div className="flex items-center gap-3 md:justify-end">
             <Link href="/evoa" className="btn-primary">e-VOA assistance</Link>

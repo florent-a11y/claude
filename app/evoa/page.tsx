@@ -8,7 +8,7 @@ import { EligibilityChecker } from "./Eligibility";
 
 export const metadata: Metadata = {
   title: "Indonesia e-VOA application assistance – visa on arrival online",
-  description: "We prepare and submit your Indonesia e-VOA (electronic visa on arrival): 30 days, extendable once. Human-checked, visa fee itemized, delivered by email and WhatsApp.",
+  description: "We prepare and submit your Indonesia e-VOA (electronic visa on arrival): 30 days, extendable once. Human-checked, visa fee itemized, delivered by email.",
 };
 
 const steps = [
@@ -32,7 +32,7 @@ export default function Evoa() {
           <div>
             <p className="mb-3 inline-block rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-700 ring-1 ring-brand-100">Electronic Visa on Arrival · {EVOA.validityDays} days · extendable once</p>
             <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">Your Indonesia e-VOA, prepared and checked before you fly.</h1>
-            <p className="mt-5 text-lg text-ink-700">Skip the queue at the visa-on-arrival counter. We check your passport and photo, submit the electronic visa on arrival application, and send you the approved e-VOA by email and WhatsApp.</p>
+            <p className="mt-5 text-lg text-ink-700">Skip the queue at the visa-on-arrival counter. We check your passport and photo, submit the electronic visa on arrival application, and send you the approved e-VOA by email.</p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link href="/apply?product=evoa" className="btn-primary">Start e-VOA – {money(q.first)}</Link>
               <Link href="/apply?product=bundle" className="btn-secondary">e-VOA + arrival card bundle</Link>

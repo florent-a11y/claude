@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ApplyForm } from "./ApplyForm";
 import { DISCLOSURE } from "@/lib/config";
 
-export const metadata: Metadata = { title: "Apply – Indonesia arrival card assistance", description: "Guided form for the Indonesia arrival card. Transparent price shown first. Human-checked, delivered by email and WhatsApp." };
+export const metadata: Metadata = { title: "Apply – Indonesia arrival card assistance", description: "Guided form for the Indonesia arrival card. Transparent price shown first. Human-checked, delivered by email." };
 
 export default async function Apply({ searchParams }: { searchParams: Promise<{ failed?: string; product?: string }> }) {
   const { failed, product } = await searchParams;
