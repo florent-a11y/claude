@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { z } from "zod";
 import { countryList, PORTS_OF_ENTRY, PURPOSES, VISA_TYPES } from "@/lib/countries";
 import { travelerSchema, travelSchema, declarationsSchema, contactSchema, evoaSchema, type Traveler, type Travel, type Declarations, type Evoa, type Product } from "@/lib/schema";
@@ -7,6 +7,7 @@ import { quote, money, PRICING, PRODUCT_LABELS } from "@/lib/pricing";
 import { EVOA_PURPOSES, eligibility } from "@/lib/evoa";
 import { hoursUntilArrival, isWindowGated, WINDOW_HOURS, windowState, type WindowState } from "@/lib/window";
 import { ReminderForm } from "@/components/ReminderForm";
+import { getAttribution, track } from "@/lib/analytics-client";
 
 const emptyTraveler: Traveler = { givenNames: "", familyName: "", gender: "M", dateOfBirth: "", nationality: "", passportNumber: "", passportIssued: "", passportExpiry: "" };
 const emptyTravel: Travel = { arrivalDate: "", departureDate: "", portOfEntry: "DPS", transportMode: "air", flightNumber: "", originCountry: "", purpose: PURPOSES[0], visaType: VISA_TYPES[0], accommodationName: "", accommodationAddress: "", accommodationCity: "" };
@@ -40,6 +41,7 @@ export function ApplyForm({ initialProduct = "arrival_card", initialArrival = ""
   const [busy, setBusy] = useState(false);
   const [serverError, setServerError] = useState("");
   const [showReminder, setShowReminder] = useState(false);
+  const checkoutTracked = useRef(false); // begin_checkout once per form, not on every Back/Continue
 
   const q = useMemo(() => quote(travelers.length, contact.express, product), [travelers.length, contact.express, product]);
   const STEPS = stepsFor(product);
@@ -87,6 +89,12 @@ export function ApplyForm({ initialProduct = "arrival_card", initialArrival = ""
     if (step === 1 && gated) return false; // the reminder panel replaces Continue; belt and braces
     setErrors({});
     if (step < last) { setStep(step + 1); window.scrollTo({ top: 0, behavior: "smooth" }); }
+    if (step + 1 === last && !checkoutTracked.current) {
+      checkoutTracked.current = true;
+      const value = q.total / 100;
+      const item = { item_id: product, item_name: PRODUCT_LABELS[product], quantity: q.travelers, price: Math.round((value / q.travelers) * 100) / 100 };
+      track("begin_checkout", { currency: q.currency, value, items: [item] }, { meta: { event: "InitiateCheckout", params: { currency: q.currency, value, content_type: "product", content_ids: [product], num_items: q.travelers } } });
+    }
     return true;
   }
 
@@ -94,7 +102,7 @@ export function ApplyForm({ initialProduct = "arrival_card", initialArrival = ""
     if (!next()) return;
     setBusy(true); setServerError("");
     try {
-      const res = await fetch("/api/orders", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ product, travelers, travel, declarations: decl, evoa: product === "arrival_card" ? undefined : evoa, contact }) });
+      const res = await fetch("/api/orders", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ product, travelers, travel, declarations: decl, evoa: product === "arrival_card" ? undefined : evoa, contact, attribution: getAttribution() }) });
       const data = await res.json();
       if (!res.ok) {
         setServerError(data.error ?? "Something went wrong");

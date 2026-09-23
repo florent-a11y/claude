@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { countryList } from "@/lib/countries";
 import { type Product } from "@/lib/schema";
 import { formatWindowOpens, hoursUntilArrival, WINDOW_HOURS, windowState } from "@/lib/window";
+import { getAttribution, track } from "@/lib/analytics-client";
 
 export interface ReminderFormProps {
   initialArrival?: string;
@@ -47,7 +48,7 @@ export function ReminderForm({ initialArrival = "", initialEmail = "", initialTr
     try {
       const res = await fetch("/api/reminders", {
         method: "POST", headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email, arrivalDate, travelers, nationality: nationality || undefined, productInterest: product, source: source || undefined, consent, website }),
+        body: JSON.stringify({ email, arrivalDate, travelers, nationality: nationality || undefined, productInterest: product, source: source || undefined, consent, website, attribution: getAttribution() }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -58,6 +59,7 @@ export function ReminderForm({ initialArrival = "", initialEmail = "", initialTr
         return;
       }
       setDone({ arrivalDate, hoursLeft: data.hoursLeft ?? hoursUntilArrival(arrivalDate) });
+      track("generate_lead", { lead_type: "window_reminder", product, travelers }, { meta: { event: "Lead", params: { content_name: "window_reminder", content_category: product } } });
     } catch {
       setErrors({ form: "Network error. Please try again." });
     } finally { setBusy(false); }

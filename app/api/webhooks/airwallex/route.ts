@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { verifyWebhook } from "@/lib/airwallex";
 import { findOrderByIntent, updateOrder } from "@/lib/store";
 import { onOrderPaid, onOrderUpdated } from "@/lib/notify";
+import { sendPurchaseEvents } from "@/lib/tracking";
 
 export const runtime = "nodejs";
 
@@ -20,7 +21,10 @@ export async function POST(req: Request) {
   const now = new Date().toISOString();
   if (event.name === "payment_intent.succeeded" && order.status === "pending_payment") {
     const paid = await updateOrder(order.id, { status: "paid", paidAt: now, activity: [...(order.activity ?? []), { at: now, by: "airwallex", action: "payment succeeded" }] });
-    if (paid) await onOrderPaid(paid);
+    if (paid) {
+      await onOrderPaid(paid);
+      await sendPurchaseEvents(paid); // server-side GA4 + Meta purchase; fires even if the customer closed the browser
+    }
   } else if (event.name === "payment_intent.cancelled") {
     const o = await updateOrder(order.id, { status: "cancelled", activity: [...(order.activity ?? []), { at: now, by: "airwallex", action: "payment cancelled" }] });
     if (o) await onOrderUpdated(o);

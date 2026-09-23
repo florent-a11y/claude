@@ -63,6 +63,27 @@ export const contactSchema = z.object({
   acknowledgeNotGov: z.literal(true, { message: "Please confirm you understand this is not a government website" }),
 });
 
+/**
+ * Ad attribution captured in the browser (lib/analytics-client.ts) and completed by the server (ip, userAgent).
+ * Used only to send the paid conversion back to GA4 / Meta (lib/tracking.ts). Every field is optional.
+ */
+const attr = z.string().trim().max(200);
+export const attributionSchema = z.object({
+  gaClientId: attr,
+  fbp: attr,
+  fbc: attr,
+  gclid: attr,
+  fbclid: attr,
+  utmSource: attr,
+  utmMedium: attr,
+  utmCampaign: attr,
+  landingPage: attr,
+  userAgent: attr,
+  /** Server-side only: first value of x-forwarded-for. */
+  ip: attr,
+}).partial();
+export type Attribution = z.infer<typeof attributionSchema>;
+
 export const orderInputSchema = z.object({
   product: productSchema.default("arrival_card"),
   travelers: z.array(travelerSchema).min(1).max(10),
@@ -70,6 +91,7 @@ export const orderInputSchema = z.object({
   declarations: declarationsSchema,
   evoa: evoaSchema.optional(),
   contact: contactSchema,
+  attribution: attributionSchema.optional(),
 }).superRefine((o, ctx) => {
   if (o.product !== "arrival_card") {
     if (!o.evoa) { ctx.addIssue({ code: "custom", path: ["evoa"], message: "e-VOA details are required" }); return; }
@@ -90,6 +112,7 @@ export const reminderInputSchema = z.object({
   consent: z.literal(true, { message: "Please agree to receive the reminder email" }),
   /** Honeypot: real users never see or fill this field. */
   website: z.literal("").optional(),
+  attribution: attributionSchema.optional(),
 });
 
 export type ReminderInput = z.infer<typeof reminderInputSchema>;
@@ -110,6 +133,7 @@ export interface Reminder {
   convertedOrderId?: string;
   /** Random token used in the unsubscribe and prefill links. */
   token: string;
+  attribution?: Attribution;
 }
 
 export type ReminderStatus = "waiting" | "notified" | "unsubscribed" | "converted";
@@ -167,4 +191,6 @@ export interface Order extends OrderInput {
   reviewRequestedAt?: string;
   /** Set when the order was already too old for a review request (never nag late). */
   reviewSkipped?: boolean;
+  /** Set once the server-side purchase conversions (GA4 + Meta) have been attempted; see lib/tracking.ts. */
+  trackingSentAt?: string;
 }
