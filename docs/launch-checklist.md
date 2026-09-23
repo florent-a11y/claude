@@ -70,7 +70,7 @@ Note: the name contains "allindonesia", the government programme's brand; keep a
 - [ ] Indonesian counsel memo on ITE and PDP exposure.
 - [ ] Trustpilot business profile; review invitation after delivery.
 - [x] New-order email alert to ops and order confirmation to the customer (Resend). Set `RESEND_API_KEY`, `EMAIL_FROM` (a verified sender domain in Resend), `OPS_EMAIL`.
-- [ ] QR / e-VOA delivery email to the customer is still sent manually by ops from the console.
+- [x] QR / e-VOA delivery: "Deliver to customer" panel in the order page emails the files with airport instructions and marks the order delivered.
 - [ ] Optional Google Sheet mirror of all orders: create a Google Cloud service account with the Sheets API enabled, download its JSON key, share the sheet with the service account email as Editor, set `GOOGLE_SHEET_ID` (from the sheet URL) and `GOOGLE_SERVICE_ACCOUNT_JSON` (the whole JSON on one line).
 - [x] Mobile navigation menu.
 - [ ] Passport photo OCR (MRZ): planned, not implemented; the form is manual entry today.

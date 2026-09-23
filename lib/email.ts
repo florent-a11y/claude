@@ -20,6 +20,38 @@ async function send(to: string[], subject: string, html: string, text: string) {
 
 function esc(s: string) { return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]!)); }
 
+export interface Attachment { filename: string; content: Buffer; contentType: string }
+
+/** Sends the QR code / e-VOA to the traveler. Attachments are the files ops uploaded in the console. */
+export async function sendDeliveryEmail(order: Order, attachments: Attachment[], message: string) {
+  const lead = order.travelers[0];
+  const isAc = order.product !== "evoa";
+  const isEv = order.product !== "arrival_card";
+  const what = isAc && isEv ? "arrival card QR code and e-VOA" : isAc ? "arrival card QR code" : "e-VOA";
+  const subject = `Your Indonesia ${what} – ${lead.familyName}, ${lead.givenNames} – arrival ${order.travel.arrivalDate}`;
+  const lines = [
+    `Dear ${lead.givenNames},`,
+    `Your ${what} ${attachments.length > 1 ? "documents are" : "is"} attached to this email.`,
+    isAc ? "At the airport: show the QR code (on your phone or printed) together with your passport at immigration, and again at customs. One QR code per traveler." : "",
+    isEv ? "Print the e-VOA or keep it on your phone and present it at immigration with your passport and your return ticket. It is valid for 30 days and can be extended once in Indonesia." : "",
+    "Please check that names, passport numbers and dates match your passports exactly and tell us immediately if anything is wrong.",
+    message.trim(),
+    `Have a good trip. Questions: reply to this email or write to ${site.supportEmail}.`,
+    `${site.company} is a private assistance service and is not affiliated with any government website.`,
+  ].filter(Boolean);
+  const text = lines.join("\n\n");
+  const html = `<div style="font-family:system-ui;font-size:15px;line-height:1.5">${lines.map((l) => `<p>${esc(l)}</p>`).join("")}</div>`;
+  if (!emailConfigured()) return { skipped: true };
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { authorization: `Bearer ${process.env.RESEND_API_KEY}`, "content-type": "application/json" },
+    body: JSON.stringify({ from: process.env.EMAIL_FROM, to: [order.contact.email], subject, html, text,
+      attachments: attachments.map((a) => ({ filename: a.filename, content: a.content.toString("base64"), content_type: a.contentType })) }),
+  });
+  if (!res.ok) throw new Error(`Resend ${res.status}: ${await res.text()}`);
+  return { skipped: false };
+}
+
 export async function notifyOpsNewOrder(order: Order) {
   const to = (process.env.OPS_EMAIL ?? "").split(",").map((s) => s.trim()).filter(Boolean);
   const lead = order.travelers[0];

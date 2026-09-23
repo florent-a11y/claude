@@ -4,7 +4,7 @@ import { COUNTRIES, PORTS_OF_ENTRY } from "@/lib/countries";
 import { money, PRODUCT_LABELS } from "@/lib/pricing";
 import { EVOA_PURPOSES } from "@/lib/evoa";
 import { site } from "@/lib/config";
-import { OrderActions, CopyField } from "./Actions";
+import { OrderActions, CopyField, DeliverPanel } from "./Actions";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Order", robots: { index: false, follow: false } };
@@ -25,6 +25,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
         <div className="flex gap-2">{o.product !== "evoa" && <a className="btn-secondary !py-2 text-sm" href={site.officialPortal} target="_blank" rel="noopener">Arrival card portal ↗</a>}{o.product !== "arrival_card" && <a className="btn-secondary !py-2 text-sm" href="https://evisa.imigrasi.go.id/" target="_blank" rel="noopener">e-VOA portal ↗</a>}</div>
       </div>
       <OrderActions id={o.id} status={o.status} notes={o.opsNotes ?? ""} assignee={o.assignee ?? ""} acknowledgedAt={o.acknowledgedAt} activity={o.activity ?? []} orderJson={JSON.stringify(o)} />
+      {o.status !== "pending_payment" && o.status !== "cancelled" && o.status !== "refunded" && <DeliverPanel id={o.id} email={o.contact.email} product={o.product} delivered={o.deliveredDocuments ?? []} />}
 
       <section className="mt-8 grid gap-6 md:grid-cols-2">
         <div className="card">

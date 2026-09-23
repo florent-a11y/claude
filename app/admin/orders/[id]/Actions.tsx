@@ -19,10 +19,46 @@ export function CopyField({ label, value }: { label: string; value: string }) {
 const NEXT: Partial<Record<OrderStatus, Array<{ to: OrderStatus; label: string; primary?: boolean }>>> = {
   paid: [{ to: "in_progress", label: "Start processing", primary: true }],
   acknowledged: [{ to: "in_progress", label: "Start processing", primary: true }],
-  in_progress: [{ to: "submitted", label: "Submitted to portal", primary: true }, { to: "delivered", label: "Mark delivered" }],
-  submitted: [{ to: "delivered", label: "Mark delivered (QR / e-VOA sent)", primary: true }],
+  in_progress: [{ to: "submitted", label: "Submitted to portal", primary: true }, { to: "delivered", label: "Mark delivered without email" }],
+  submitted: [{ to: "delivered", label: "Mark delivered without email" }],
   delivered: [],
 };
+
+export function DeliverPanel({ id, email, product, delivered }: { id: string; email: string; product: string; delivered: string[] }) {
+  const router = useRouter();
+  const [msg, setMsg] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [result, setResult] = useState("");
+  const [files, setFiles] = useState<FileList | null>(null);
+  async function send() {
+    if (!files || files.length === 0) { setResult("Attach the QR code (PDF or image) first."); return; }
+    setBusy(true); setResult("");
+    const fd = new FormData();
+    for (const f of Array.from(files)) fd.append("files", f);
+    fd.append("message", msg);
+    const res = await fetch(`/api/admin/orders/${id}/deliver`, { method: "POST", body: fd });
+    const data = await res.json();
+    setBusy(false);
+    if (!res.ok) { setResult(data.error ?? "Failed"); return; }
+    setResult(data.emailed ? `Sent to ${email} and marked delivered.` : "Marked delivered. Email service is not configured, so nothing was sent.");
+    router.refresh();
+  }
+  return (
+    <div className="card mt-6 border-brand-100">
+      <h2 className="font-semibold">Deliver to customer</h2>
+      <p className="mt-1 text-sm text-ink-700">Attach the {product === "evoa" ? "e-VOA PDF" : product === "bundle" ? "arrival card QR (one per traveler) and the e-VOA PDF" : "arrival card QR code (one per traveler)"}. The customer receives an email with the files and the airport instructions, and the order is marked delivered.</p>
+      <div className="mt-3 grid gap-3 md:grid-cols-2">
+        <label><span className="label">Files (PDF, JPG, PNG; max 8 MB each)</span><input type="file" multiple accept="image/jpeg,image/png,image/webp,application/pdf" className="input" onChange={(e) => setFiles(e.target.files)} /></label>
+        <label><span className="label">Personal note to include (optional)</span><textarea className="input" rows={2} value={msg} onChange={(e) => setMsg(e.target.value)} placeholder="e.g. Your flight arrives after midnight, the QR is valid for the calendar day of arrival." /></label>
+      </div>
+      <div className="mt-3 flex items-center gap-3">
+        <button className="btn-primary !py-2 text-sm" disabled={busy} onClick={send}>{busy ? "Sending…" : `Send to ${email} and mark delivered`}</button>
+        {result && <span className="text-sm text-ink-700">{result}</span>}
+      </div>
+      {delivered.length > 0 && <p className="mt-3 text-xs text-ink-500">Previously sent: {delivered.map((d, i) => <a key={d} className="mr-2 text-brand-600 underline" href={`/api/admin/documents/${d}`} target="_blank" rel="noopener">file {i + 1}</a>)}</p>}
+    </div>
+  );
+}
 
 export function OrderActions({ id, status, notes, assignee, acknowledgedAt, activity, orderJson }: { id: string; status: OrderStatus; notes: string; assignee: string; acknowledgedAt?: string; activity: Activity[]; orderJson: string }) {
   const router = useRouter();

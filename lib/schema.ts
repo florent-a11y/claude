@@ -118,4 +118,6 @@ export interface Order extends OrderInput {
   assignee?: string;
   acknowledgedAt?: string;
   activity?: Activity[];
+  /** Ids (private bucket) of the files sent to the customer at delivery. */
+  deliveredDocuments?: string[];
 }
