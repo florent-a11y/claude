@@ -992,7 +992,7 @@
       "securityTitle": "安全",
       "security": "传输和存储加密、团队基于角色的访问控制、审计日志，以及在法定期限内（印度尼西亚法律规定为 3×24 小时）向受影响人员和主管部门通报数据泄露。",
       "cookiesTitle": "Cookie",
-      "cookies": "我们仅使用严格必要的 Cookie 和不进行跨站跟踪、尊重隐私的分析工具。"
+      "cookies": "我们使用 Google Analytics 4 和 Meta（Facebook）Pixel，包括其服务器端接口（Google Analytics Measurement Protocol 和 Meta Conversions API），以衡量访问量和广告转化。对于已完成的订单，我们会向 Google 和 Meta 发送订单金额以及您的电子邮箱、电话号码、姓名和国籍的哈希（不可逆）版本，连同您的 IP 地址、浏览器标识符和广告点击标识符，以便广告平台将购买归因于某条广告。您的护照或申报信息不会发送给它们。您可以通过这些平台的设置选择退出，或使用会拦截其脚本的浏览器。"
     },
     "refunds": {
       "metaTitle": "退款政策",

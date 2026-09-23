@@ -55,6 +55,12 @@ export async function POST(req: Request) {
     unsubscribedAt: undefined, // signing up again re-subscribes
     convertedOrderId: existing?.convertedOrderId,
     token: existing?.token ?? randomBytes(16).toString("hex"),
+    attribution: {
+      ...existing?.attribution,
+      ...input.attribution,
+      ...(ip !== "unknown" ? { ip: ip.slice(0, 200) } : {}),
+      ...(req.headers.get("user-agent") ? { userAgent: req.headers.get("user-agent")!.slice(0, 200) } : {}),
+    },
   };
   await saveReminder(reminder);
 

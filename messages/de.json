@@ -992,7 +992,7 @@
       "securityTitle": "Sicherheit",
       "security": "Verschlüsselung bei der Übertragung und im Ruhezustand, rollenbasierter Zugriff für unser Team, Prüfprotokolle und Benachrichtigung der Betroffenen und Behörden bei Datenpannen innerhalb der gesetzlichen Frist (3×24 Stunden nach indonesischem Recht).",
       "cookiesTitle": "Cookies",
-      "cookies": "Wir verwenden nur unbedingt notwendige Cookies und datenschutzfreundliche Analysen ohne seitenübergreifendes Tracking."
+      "cookies": "Wir verwenden Google Analytics 4 und das Meta-(Facebook-)Pixel, einschließlich ihrer serverseitigen Schnittstellen (Google Analytics Measurement Protocol und Meta Conversions API), um Besuche und Werbekonversionen zu messen. Bei einer abgeschlossenen Bestellung übermitteln wir Google und Meta den Bestellwert sowie eine gehashte (nicht umkehrbare) Form Ihrer E-Mail-Adresse, Telefonnummer, Ihres Namens und Ihrer Staatsangehörigkeit, zusammen mit Ihrer IP-Adresse, Ihrer Browserkennung und Werbe-Klickkennungen, damit die Werbeplattformen den Kauf einer Anzeige zuordnen können. Nichts über Ihren Reisepass oder Ihre Erklärungen wird an sie gesendet. Sie können dem über die Einstellungen dieser Plattformen widersprechen oder einen Browser verwenden, der deren Skripte blockiert."
     },
     "refunds": {
       "metaTitle": "Erstattungsrichtlinie",

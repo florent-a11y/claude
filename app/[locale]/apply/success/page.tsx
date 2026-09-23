@@ -3,7 +3,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { pageMetadata } from "@/i18n/seo";
 import { getOrder } from "@/lib/store";
-import { PRICING } from "@/lib/pricing";
+import { PRICING, PRODUCT_LABELS } from "@/lib/pricing";
+import { PurchaseTracker } from "@/components/PurchaseTracker";
 
 type Props = { params: Promise<{ locale: string }>; searchParams: Promise<{ order?: string; dev?: string }> };
 
@@ -22,8 +23,12 @@ export default async function Success({ params, searchParams }: Props) {
   const tp = await getTranslations("Products");
   const { order: id, dev } = await searchParams;
   const order = id ? await getOrder(id).catch(() => null) : null;
+  // Browser-side duplicate of the server purchase event (same ids, so GA4/Meta deduplicate). The payment provider
+  // only redirects here after a successful charge, so a still-pending status just means the webhook has not landed yet.
+  const trackPurchase = order && order.status !== "cancelled" && order.status !== "refunded";
   return (
     <div className="mx-auto max-w-2xl px-4 py-16 text-center">
+      {trackPurchase && <PurchaseTracker orderId={order.id} value={order.amountCents / 100} currency={order.currency} product={order.product} productLabel={PRODUCT_LABELS[order.product]} travelers={order.travelers.length} />}
       <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-brand-100 text-3xl text-brand-700">✓</div>
       <h1 className="mt-6 text-3xl font-bold">{t("title")}</h1>
       {order ? (
