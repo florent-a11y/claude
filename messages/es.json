@@ -1,285 +1,285 @@
 {
   "Common": {
-    "selectPlaceholder": "Select…",
-    "officialSource": "Official source ↗",
-    "readOriginal": "Read the original ↗",
-    "language": "Language",
-    "notAffiliated": "Private assistance service, not affiliated with any government website. <link>Read our disclosure</link>.",
-    "siteDescription": "Private assistance service for the Indonesia (All Indonesia) digital arrival card. Transparent price, human-checked, delivered by email. Not affiliated with the Government of Indonesia."
+    "selectPlaceholder": "Seleccione…",
+    "officialSource": "Fuente oficial ↗",
+    "readOriginal": "Leer el original ↗",
+    "language": "Idioma",
+    "notAffiliated": "Servicio de asistencia privado, sin vinculación con ningún sitio web gubernamental. <link>Lea nuestro aviso</link>.",
+    "siteDescription": "Servicio de asistencia privado para la tarjeta de llegada digital de Indonesia (All Indonesia). Precio transparente, revisión por una persona, entrega por correo electrónico. Sin vinculación con el Gobierno de Indonesia."
   },
   "Metadata": {
-    "defaultTitle": "{siteName} – Indonesia arrival card help, human-checked",
+    "defaultTitle": "{siteName} – Ayuda con la tarjeta de llegada de Indonesia, revisada por una persona",
     "titleTemplate": "%s | {shortName}",
-    "description": "Private assistance service for the Indonesia (All Indonesia) digital arrival card. Transparent price, human-checked, delivered by email. Not affiliated with the Government of Indonesia."
+    "description": "Servicio de asistencia privado para la tarjeta de llegada digital de Indonesia (All Indonesia). Precio transparente, revisión por una persona, entrega por correo electrónico. Sin vinculación con el Gobierno de Indonesia."
   },
   "Disclosure": {
-    "bar": "Private assistance service, <strong>not affiliated with any government website</strong>. Our fee covers preparation, checking and support.",
-    "full": "We are a private travel-assistance company and are not affiliated with, endorsed by or acting for the Government of Indonesia or the Directorate General of Immigration. Our fee pays for form preparation, verification, delivery and support."
+    "bar": "Servicio de asistencia privado, <strong>sin vinculación con ningún sitio web gubernamental</strong>. Nuestra tarifa cubre la preparación, la revisión y el soporte.",
+    "full": "Somos una empresa privada de asistencia al viajero. No estamos vinculados al Gobierno de Indonesia ni a la Dirección General de Inmigración, no contamos con su respaldo y no actuamos en su nombre. Nuestra tarifa paga la preparación del formulario, la verificación, la entrega y el soporte."
   },
   "OfficialNote": {
-    "text": "You can also complete the All Indonesia arrival card yourself, free of charge, on the official government portal <link>{host}</link>."
+    "text": "También puede completar la tarjeta de llegada All Indonesia usted mismo, de forma gratuita, en el portal oficial del Gobierno <link>{host}</link>."
   },
   "Header": {
     "nav": {
-      "arrivalCard": "Arrival card",
-      "reminder": "Reminder",
-      "evoa": "e-VOA visa",
-      "pricing": "Pricing",
-      "guide": "How it works",
-      "customs": "Customs",
-      "news": "Official news",
-      "faq": "FAQ",
-      "contact": "Contact"
+      "arrivalCard": "Tarjeta de llegada",
+      "reminder": "Recordatorio",
+      "evoa": "Visa e-VOA",
+      "pricing": "Precios",
+      "guide": "Cómo funciona",
+      "customs": "Aduanas",
+      "news": "Noticias oficiales",
+      "faq": "Preguntas frecuentes",
+      "contact": "Contacto"
     },
-    "mainNav": "Main",
-    "mobileNav": "Mobile",
-    "start": "Start",
-    "startMobile": "Start my application",
-    "openMenu": "Open menu",
-    "closeMenu": "Close menu",
-    "language": "Language"
+    "mainNav": "Principal",
+    "mobileNav": "Móvil",
+    "start": "Empezar",
+    "startMobile": "Iniciar mi solicitud",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
+    "language": "Idioma"
   },
   "Footer": {
-    "service": "Service",
-    "resources": "Resources",
+    "service": "Servicio",
+    "resources": "Recursos",
     "legal": "Legal",
-    "arrivalCard": "Arrival card assistance",
-    "reminder": "72-hour window reminder",
-    "evoa": "e-VOA visa assistance",
-    "pricing": "Pricing",
-    "faq": "FAQ",
-    "contact": "Contact & support",
-    "guide": "How the arrival card works",
-    "customs": "Customs allowances",
-    "news": "Official news summaries",
-    "disclosure": "Non-affiliation disclosure",
-    "terms": "Terms of service",
-    "privacy": "Privacy policy",
-    "refunds": "Refund policy",
-    "rights": "© {year} {company}. All rights reserved."
+    "arrivalCard": "Asistencia con la tarjeta de llegada",
+    "reminder": "Recordatorio de la ventana de 72 horas",
+    "evoa": "Asistencia con la visa e-VOA",
+    "pricing": "Precios",
+    "faq": "Preguntas frecuentes",
+    "contact": "Contacto y soporte",
+    "guide": "Cómo funciona la tarjeta de llegada",
+    "customs": "Franquicias aduaneras",
+    "news": "Resúmenes de noticias oficiales",
+    "disclosure": "Aviso de no vinculación",
+    "terms": "Términos del servicio",
+    "privacy": "Política de privacidad",
+    "refunds": "Política de reembolsos",
+    "rights": "© {year} {company}. Todos los derechos reservados."
   },
   "PriceCard": {
-    "title": "Transparent price, shown before you type anything",
-    "first": "Arrival card, first traveler",
-    "additional": "Each additional traveler (same booking)",
-    "evoa": "e-VOA visa assistance (optional, incl. visa fee)",
-    "from": "from {price}",
-    "express": "Express, human-verified in under {hours} h (optional)",
+    "title": "Precio transparente, visible antes de escribir cualquier dato",
+    "first": "Tarjeta de llegada, primer viajero",
+    "additional": "Cada viajero adicional (misma reserva)",
+    "evoa": "Asistencia con la visa e-VOA (opcional, incluye la tasa de visa)",
+    "from": "desde {price}",
+    "express": "Exprés, verificación por una persona en menos de {hours} h (opcional)",
     "plus": "+{price}",
-    "note": "No hidden fees, no upsell after you enter your details. Full refund if we do not deliver your card at least 6 hours before your arrival time.",
-    "cta": "Start my arrival card"
+    "note": "Sin cargos ocultos ni ventas adicionales después de introducir sus datos. Reembolso completo si no entregamos su tarjeta al menos 6 horas antes de su hora de llegada.",
+    "cta": "Iniciar mi tarjeta de llegada"
   },
   "Products": {
-    "arrival_card": "Arrival card assistance",
-    "evoa": "e-VOA (visa on arrival) assistance",
-    "bundle": "e-VOA + arrival card bundle"
+    "arrival_card": "Asistencia con la tarjeta de llegada",
+    "evoa": "Asistencia con la e-VOA (visa a la llegada)",
+    "bundle": "Paquete e-VOA + tarjeta de llegada"
   },
   "Home": {
-    "jsonLdName": "Indonesia arrival card assistance",
-    "badge": "Mandatory for all arrivals to Indonesia since 1 Oct 2025",
-    "title": "Your Indonesia arrival card, prepared and checked by a person.",
-    "lead": "Skip the confusing form and the typo risk. Answer our guided questions, we prepare and submit your All Indonesia arrival card and send the QR code to your email.",
-    "ctaStart": "Start now – from {price}",
-    "ctaHow": "How it works",
-    "reminderTitle": "Flying in more than 3 days? Get a reminder.",
-    "reminderText": "The official portal only accepts the arrival card within 72 hours before arrival. We do not take payment before then. Leave your arrival date and we email you the moment your window opens, with your details prefilled.",
-    "reminderNote": "Free, two emails at most, unsubscribe with one click. <link>More about the 72-hour rule</link>.",
-    "howTitle": "How it works",
+    "jsonLdName": "Asistencia con la tarjeta de llegada de Indonesia",
+    "badge": "Obligatoria para todas las llegadas a Indonesia desde el 1 de octubre de 2025",
+    "title": "Su tarjeta de llegada de Indonesia, preparada y revisada por una persona.",
+    "lead": "Evite el formulario confuso y el riesgo de errores de escritura. Responda a nuestras preguntas guiadas; nosotros preparamos y enviamos su tarjeta de llegada All Indonesia y le mandamos el código QR a su correo electrónico.",
+    "ctaStart": "Empezar ahora – desde {price}",
+    "ctaHow": "Cómo funciona",
+    "reminderTitle": "¿Vuela dentro de más de 3 días? Reciba un recordatorio.",
+    "reminderText": "El portal oficial solo acepta la tarjeta de llegada dentro de las 72 horas previas a la llegada. No cobramos antes de ese momento. Déjenos su fecha de llegada y le escribiremos en cuanto se abra su ventana, con sus datos ya precargados.",
+    "reminderNote": "Gratuito, dos correos como máximo, baja con un solo clic. <link>Más sobre la regla de las 72 horas</link>.",
+    "howTitle": "Cómo funciona",
     "steps": {
       "price": {
-        "t": "See the price",
-        "d": "The full price is on this page and on the first form screen. Nothing is added later."
+        "t": "Vea el precio",
+        "d": "El precio completo está en esta página y en la primera pantalla del formulario. No se añade nada después."
       },
       "form": {
-        "t": "Fill our guided form",
-        "d": "Plain-language questions in one place: passport, flight, stay, health and customs declarations."
+        "t": "Complete nuestro formulario guiado",
+        "d": "Preguntas en lenguaje sencillo, en un solo lugar: pasaporte, vuelo, estancia, declaraciones de salud y de aduanas."
       },
       "check": {
-        "t": "We prepare and check",
-        "d": "A trained team member checks every field, then submits it on the official portal on your behalf."
+        "t": "Preparamos y revisamos",
+        "d": "Un miembro del equipo con formación revisa cada campo y luego envía la tarjeta en el portal oficial en su nombre."
       },
       "qr": {
-        "t": "Receive your QR",
-        "d": "By email, with a reminder for the 72-hour window and a one-page airport checklist."
+        "t": "Reciba su QR",
+        "d": "Por correo electrónico, con un recordatorio de la ventana de 72 horas y una lista de verificación de una página para el aeropuerto."
       }
     },
-    "featuresTitle": "What you get for the fee",
+    "featuresTitle": "Qué obtiene por la tarifa",
     "features": {
       "human": {
-        "t": "Human-checked",
-        "d": "Every submission is reviewed by a person. Typos in a passport number are the number one cause of airport delays."
+        "t": "Revisión por una persona",
+        "d": "Cada envío es revisado por una persona. Los errores de escritura en el número de pasaporte son la primera causa de retrasos en el aeropuerto."
       },
       "fast": {
-        "t": "Delivered in under 12 h",
-        "d": "Express option delivers in under 2 hours. Full refund if we miss the deadline before your arrival."
+        "t": "Entrega en menos de 12 h",
+        "d": "La opción exprés entrega en menos de 2 horas. Reembolso completo si no cumplimos el plazo antes de su llegada."
       },
       "language": {
-        "t": "Support in your language",
-        "d": "Chat with us in English, Chinese, Korean, Japanese, German, French or Russian."
+        "t": "Soporte en su idioma",
+        "d": "Escríbanos en inglés, chino, coreano, japonés, alemán, francés o ruso."
       },
       "phone": {
-        "t": "Works on your phone",
-        "d": "Photograph your passport, we read the details. No app to install, no account to create."
+        "t": "Funciona en su teléfono",
+        "d": "Fotografíe su pasaporte y nosotros leemos los datos. Sin aplicación que instalar ni cuenta que crear."
       },
       "support": {
-        "t": "Support until you land",
-        "d": "Questions before or after submission are answered by email within minutes during support hours."
+        "t": "Soporte hasta que aterrice",
+        "d": "Las preguntas antes o después del envío se responden por correo electrónico en pocos minutos durante el horario de soporte."
       },
       "customs": {
-        "t": "Customs and IMEI covered",
-        "d": "We tell you what to declare, what the allowances are and how to register your phone."
+        "t": "Aduanas e IMEI incluidos",
+        "d": "Le indicamos qué declarar, cuáles son las franquicias y cómo registrar su teléfono."
       }
     },
-    "evoaTitle": "Need a visa too? e-VOA assistance",
-    "evoaText": "Most nationalities can get the 30-day electronic visa on arrival before flying. We check your passport and photo, submit the application and deliver the approved e-VOA by email. Bundle it with the arrival card and save {discount} per traveler.",
-    "evoaCta": "e-VOA assistance",
-    "bundleCta": "Bundle both",
-    "guideTitle": "Want to understand the arrival card first?",
-    "guideText": "We explain what the All Indonesia arrival card is, who needs it, the 72-hour rule, and every declaration you will be asked for.",
-    "guideCta": "Read the guide",
-    "faqCta": "FAQ"
+    "evoaTitle": "¿También necesita visa? Asistencia con la e-VOA",
+    "evoaText": "La mayoría de las nacionalidades pueden obtener la visa electrónica a la llegada de 30 días antes de volar. Revisamos su pasaporte y su foto, presentamos la solicitud y le entregamos la e-VOA aprobada por correo electrónico. Combínela con la tarjeta de llegada y ahorre {discount} por viajero.",
+    "evoaCta": "Asistencia con la e-VOA",
+    "bundleCta": "Combinar ambas",
+    "guideTitle": "¿Prefiere entender primero la tarjeta de llegada?",
+    "guideText": "Explicamos qué es la tarjeta de llegada All Indonesia, quién la necesita, la regla de las 72 horas y cada declaración que se le pedirá.",
+    "guideCta": "Leer la guía",
+    "faqCta": "Preguntas frecuentes"
   },
   "Apply": {
-    "metaTitle": "Apply – Indonesia arrival card assistance",
-    "metaDescription": "Guided form for the Indonesia arrival card. Transparent price shown first. Human-checked, delivered by email.",
-    "titleArrivalCard": "Arrival card assistance",
-    "titleEvoa": "e-VOA assistance",
-    "titleBundle": "e-VOA + arrival card",
-    "paymentFailed": "Payment was not completed. Your details were not submitted. You can try again below.",
-    "welcomeBack": "Welcome back. Your arrival date ({date}){withEmail, select, yes { and email} other {}} are prefilled from your reminder.",
-    "select": "Select…",
+    "metaTitle": "Solicitar – Asistencia con la tarjeta de llegada de Indonesia",
+    "metaDescription": "Formulario guiado para la tarjeta de llegada de Indonesia. Precio transparente desde el principio. Revisión por una persona, entrega por correo electrónico.",
+    "titleArrivalCard": "Asistencia con la tarjeta de llegada",
+    "titleEvoa": "Asistencia con la e-VOA",
+    "titleBundle": "e-VOA + tarjeta de llegada",
+    "paymentFailed": "El pago no se completó. Sus datos no se han enviado. Puede intentarlo de nuevo a continuación.",
+    "welcomeBack": "Le damos la bienvenida de nuevo. Su fecha de llegada ({date}){withEmail, select, yes { y su correo electrónico} other {}} se han precargado desde su recordatorio.",
+    "select": "Seleccione…",
     "steps": {
-      "travelers": "Price & travelers",
-      "travel": "Travel details",
-      "declarations": "Declarations",
-      "evoaDocs": "e-VOA documents",
-      "contact": "Contact & pay"
+      "travelers": "Precio y viajeros",
+      "travel": "Datos del viaje",
+      "declarations": "Declaraciones",
+      "evoaDocs": "Documentos para la e-VOA",
+      "contact": "Contacto y pago"
     },
     "stepLabel": "{n}. {label}",
     "summary": {
-      "travelers": "{count, plural, one {# traveler} other {# travelers}}",
-      "serviceFee": "service fee {price}",
-      "visaFee": "visa fee {price}",
-      "express": "express {price}",
+      "travelers": "{count, plural, one {# viajero} other {# viajeros}}",
+      "serviceFee": "tarifa de servicio {price}",
+      "visaFee": "tasa de visa {price}",
+      "express": "exprés {price}",
       "total": "Total {price}"
     },
-    "fixErrors": "Please correct the highlighted fields.",
+    "fixErrors": "Corrija los campos marcados.",
     "traveler": {
-      "legend": "Traveler {n}",
-      "contactPerson": " (contact person)",
-      "familyName": "Family name (as in passport)",
-      "givenNames": "Given names",
-      "gender": "Gender",
-      "dateOfBirth": "Date of birth",
-      "nationality": "Nationality (passport country)",
-      "passportNumber": "Passport number",
-      "passportIssued": "Passport issue date",
-      "passportExpiry": "Passport expiry date",
-      "remove": "Remove traveler",
-      "add": "+ Add traveler ({price})",
-      "aseanVisaFree": "ASEAN nationals enter visa-free and do not need an e-VOA.",
-      "checkEligibility": "One nationality in this booking may not be e-VOA eligible; we will confirm before submitting and refund the service fee if not eligible."
+      "legend": "Viajero {n}",
+      "contactPerson": " (persona de contacto)",
+      "familyName": "Apellidos (como en el pasaporte)",
+      "givenNames": "Nombres",
+      "gender": "Sexo",
+      "dateOfBirth": "Fecha de nacimiento",
+      "nationality": "Nacionalidad (país del pasaporte)",
+      "passportNumber": "Número de pasaporte",
+      "passportIssued": "Fecha de expedición del pasaporte",
+      "passportExpiry": "Fecha de vencimiento del pasaporte",
+      "remove": "Quitar viajero",
+      "add": "+ Añadir viajero ({price})",
+      "aseanVisaFree": "Los ciudadanos de la ASEAN entran sin visa y no necesitan e-VOA.",
+      "checkEligibility": "Una de las nacionalidades de esta reserva podría no ser elegible para la e-VOA; lo confirmaremos antes de presentar la solicitud y reembolsaremos la tarifa de servicio si no es elegible."
     },
     "travel": {
-      "arrivalDate": "Arrival date in Indonesia",
-      "arrivalHint": "We submit inside the official 72-hour window before this date.",
-      "departureDate": "Planned departure date (optional)",
-      "transportMode": "Mode of transport",
-      "portOfEntry": "Port of entry",
-      "flightNumber": "Flight / vessel number",
-      "flightPlaceholder": "e.g. GA715",
-      "originCountry": "Country you are arriving from",
-      "purpose": "Purpose of visit",
-      "visaType": "Visa type",
-      "accommodationName": "Accommodation name (hotel, villa, host)",
-      "accommodationAddress": "Address",
-      "accommodationCity": "City / regency",
-      "cityPlaceholder": "e.g. Badung, Bali"
+      "arrivalDate": "Fecha de llegada a Indonesia",
+      "arrivalHint": "Enviamos la tarjeta dentro de la ventana oficial de 72 horas previas a esta fecha.",
+      "departureDate": "Fecha prevista de salida (opcional)",
+      "transportMode": "Medio de transporte",
+      "portOfEntry": "Puerto de entrada",
+      "flightNumber": "Número de vuelo o de embarcación",
+      "flightPlaceholder": "p. ej. GA715",
+      "originCountry": "País desde el que llega",
+      "purpose": "Motivo de la visita",
+      "visaType": "Tipo de visa",
+      "accommodationName": "Nombre del alojamiento (hotel, villa, anfitrión)",
+      "accommodationAddress": "Dirección",
+      "accommodationCity": "Ciudad / regencia",
+      "cityPlaceholder": "p. ej. Badung, Bali"
     },
     "declarations": {
-      "intro": "These answers go on your official declaration. Answering “yes” usually just means a short check on arrival; answering falsely is an offence.",
-      "countriesVisited": "Countries visited in the last 21 days (other than your home country)",
-      "countriesHint": "Hold Ctrl / Cmd to select several. Leave empty if none.",
-      "symptoms": "Anyone in this booking currently has fever, cough, breathing difficulty, rash or diarrhoea",
-      "animalsPlants": "Carrying live animals, animal products, plants, seeds, fruit or fresh food",
-      "cashOver100M": "Carrying cash or bearer instruments worth IDR 100,000,000 or more",
-      "goodsOverAllowance": "Carrying goods above the personal allowance (USD 500 per person, 1 L alcohol, 200 cigarettes)",
-      "commercialGoods": "Carrying goods for sale, samples or professional equipment",
-      "registerImei": "I want to register a phone's IMEI for use with an Indonesian SIM card",
-      "baggagePieces": "Pieces of checked baggage (total)",
-      "notes": "Anything we should know? (optional)"
+      "intro": "Estas respuestas van en su declaración oficial. Responder «sí» suele implicar solo una breve comprobación a la llegada; responder con falsedad es una infracción.",
+      "countriesVisited": "Países visitados en los últimos 21 días (distintos de su país de origen)",
+      "countriesHint": "Mantenga pulsado Ctrl / Cmd para seleccionar varios. Déjelo vacío si no procede.",
+      "symptoms": "Alguien de esta reserva tiene actualmente fiebre, tos, dificultad para respirar, erupción cutánea o diarrea",
+      "animalsPlants": "Transporta animales vivos, productos de origen animal, plantas, semillas, fruta o alimentos frescos",
+      "cashOver100M": "Transporta efectivo o instrumentos al portador por valor de IDR 100,000,000 o más",
+      "goodsOverAllowance": "Transporta mercancías por encima de la franquicia personal (USD 500 por persona, 1 L de alcohol, 200 cigarrillos)",
+      "commercialGoods": "Transporta mercancías para la venta, muestras o equipo profesional",
+      "registerImei": "Quiero registrar el IMEI de un teléfono para usarlo con una tarjeta SIM indonesia",
+      "baggagePieces": "Piezas de equipaje facturado (total)",
+      "notes": "¿Algo que debamos saber? (opcional)"
     },
     "evoa": {
-      "intro": "For the e-VOA we need, per traveler, a clear photo or scan of the passport bio page and a recent passport-style photo (plain background, no glasses, no hat). JPG, PNG or PDF, max 8 MB each.",
-      "intendedEntryDate": "Intended entry date",
-      "purpose": "Purpose of visit",
-      "returnTicket": "I have (or will have) a return or onward ticket, which immigration may ask to see.",
-      "travelerLegend": "Traveler {n}: {familyName} {givenNames}",
-      "passportScan": "Passport bio page",
-      "photo": "Passport-style photo",
-      "uploaded": "✓ uploaded",
-      "uploading": "Uploading…",
-      "uploadFailed": "Upload failed",
-      "documentsMissing": "Please upload both files for traveler {list}"
+      "intro": "Para la e-VOA necesitamos, por cada viajero, una foto o un escaneo nítido de la página de datos del pasaporte y una foto reciente tipo pasaporte (fondo liso, sin gafas, sin sombrero). JPG, PNG o PDF, máximo 8 MB cada uno.",
+      "intendedEntryDate": "Fecha prevista de entrada",
+      "purpose": "Motivo de la visita",
+      "returnTicket": "Tengo (o tendré) un pasaje de regreso o de continuación, que inmigración podría pedirme.",
+      "travelerLegend": "Viajero {n}: {familyName} {givenNames}",
+      "passportScan": "Página de datos del pasaporte",
+      "photo": "Foto tipo pasaporte",
+      "uploaded": "✓ subido",
+      "uploading": "Subiendo…",
+      "uploadFailed": "Error al subir",
+      "documentsMissing": "Suba ambos archivos del viajero {list}"
     },
     "contact": {
-      "email": "Email (the QR code is sent here)",
-      "phone": "Mobile phone with country code (in case we need to reach you)",
-      "phonePlaceholder": "+44 7…",
-      "express": "<strong>Express</strong> – verified and submitted within {expressHours} hours (+{price}). Standard is within {standardHours} hours.",
-      "expressEvoaNote": "e-VOA approval by the authorities usually follows the same day, at most 2 working days.",
-      "acknowledgeNotGov": "I understand this is a private assistance service and not a government website.",
-      "acceptTerms": "I accept the <terms>terms</terms>, <privacy>privacy policy</privacy> and <refunds>refund policy</refunds>, and I am authorised to provide the details of all travelers in this booking."
+      "email": "Correo electrónico (aquí se envía el código QR)",
+      "phone": "Teléfono móvil con prefijo internacional (por si necesitamos contactarle)",
+      "phonePlaceholder": "+34 6…",
+      "express": "<strong>Exprés</strong> – verificación y envío en un plazo de {expressHours} horas (+{price}). El estándar es en un plazo de {standardHours} horas.",
+      "expressEvoaNote": "La aprobación de la e-VOA por las autoridades suele llegar el mismo día y, como máximo, en 2 días hábiles.",
+      "acknowledgeNotGov": "Entiendo que este es un servicio de asistencia privado y no un sitio web gubernamental.",
+      "acceptTerms": "Acepto los <terms>términos</terms>, la <privacy>política de privacidad</privacy> y la <refunds>política de reembolsos</refunds>, y estoy autorizado a facilitar los datos de todos los viajeros de esta reserva."
     },
     "gate": {
-      "pastTitle": "This arrival date is in the past.",
-      "pastText": "The arrival card must be submitted before you arrive. Please check the date. If you are already in Indonesia, the card cannot be submitted any more and we cannot help with it.",
-      "earlyTitle": "Too early for the arrival card: your arrival is about {days, plural, one {# day} other {# days}} away.",
-      "earlyText": "The official portal only accepts arrival card submissions inside the {hours} hours before arrival. We do not take payment before then, so there is nothing to refund later. Leave your email and we will send you a message the moment the window opens for {date}; your details will be prefilled.",
-      "orderEvoa": "Order the e-VOA now",
-      "setReminder": "Set a reminder for the arrival card",
-      "evoaNote": "The e-VOA can be applied for up to 90 days ahead. You can order it now and come back for the arrival card when we email you.",
-      "changeDate": "Change the arrival date to continue.",
-      "waitForWindow": "Continue is available once the window is open."
+      "pastTitle": "Esta fecha de llegada ya ha pasado.",
+      "pastText": "La tarjeta de llegada debe enviarse antes de llegar. Compruebe la fecha. Si ya está en Indonesia, la tarjeta ya no puede enviarse y no podemos ayudarle con ella.",
+      "earlyTitle": "Aún es pronto para la tarjeta de llegada: faltan unos {days, plural, one {# día} other {# días}} para su llegada.",
+      "earlyText": "El portal oficial solo acepta el envío de la tarjeta de llegada dentro de las {hours} horas previas a la llegada. No cobramos antes de ese momento, así que no habrá nada que reembolsar después. Déjenos su correo electrónico y le enviaremos un mensaje en cuanto se abra la ventana para el {date}; sus datos estarán precargados.",
+      "orderEvoa": "Pedir la e-VOA ahora",
+      "setReminder": "Crear un recordatorio para la tarjeta de llegada",
+      "evoaNote": "La e-VOA puede solicitarse hasta 90 días antes. Puede pedirla ahora y volver para la tarjeta de llegada cuando le escribamos.",
+      "changeDate": "Cambie la fecha de llegada para continuar.",
+      "waitForWindow": "Podrá continuar cuando se abra la ventana."
     },
-    "back": "Back",
-    "continue": "Continue",
-    "pay": "Pay {price} securely",
-    "redirecting": "Redirecting to secure payment…",
-    "paymentNote": "Card payment is processed on a secure hosted page by our payment provider. We never see or store card numbers. The charge appears as our company name on your statement.",
-    "serverError": "Something went wrong",
-    "networkError": "Network error. Please try again."
+    "back": "Atrás",
+    "continue": "Continuar",
+    "pay": "Pagar {price} de forma segura",
+    "redirecting": "Redirigiendo al pago seguro…",
+    "paymentNote": "El pago con tarjeta se procesa en una página segura alojada por nuestro proveedor de pagos. Nunca vemos ni almacenamos números de tarjeta. El cargo aparece con el nombre de nuestra empresa en su extracto.",
+    "serverError": "Se ha producido un error",
+    "networkError": "Error de red. Inténtelo de nuevo."
   },
   "Validation": {
-    "required": "Required",
-    "date": "Use YYYY-MM-DD",
-    "passportNumber": "Check passport number",
-    "passportScan": "Passport scan is required",
-    "passportPhoto": "Passport photo is required",
-    "acceptTerms": "You must accept the terms",
-    "acknowledgeNotGov": "Please confirm you understand this is not a government website",
-    "evoaRequired": "e-VOA details are required",
-    "email": "Enter a valid email address",
-    "tooShort": "Too short",
-    "tooLong": "Too long",
-    "invalid": "Invalid value",
-    "consent": "Please agree to receive the reminder email",
-    "arrivalFuture": "Arrival date must be today or in the future",
-    "documentsMissing": "Documents missing for traveler {list}"
+    "required": "Obligatorio",
+    "date": "Use el formato AAAA-MM-DD",
+    "passportNumber": "Compruebe el número de pasaporte",
+    "passportScan": "El escaneo del pasaporte es obligatorio",
+    "passportPhoto": "La foto tipo pasaporte es obligatoria",
+    "acceptTerms": "Debe aceptar los términos",
+    "acknowledgeNotGov": "Confirme que entiende que este no es un sitio web gubernamental",
+    "evoaRequired": "Los datos de la e-VOA son obligatorios",
+    "email": "Introduzca una dirección de correo electrónico válida",
+    "tooShort": "Demasiado corto",
+    "tooLong": "Demasiado largo",
+    "invalid": "Valor no válido",
+    "consent": "Acepte recibir el correo de recordatorio",
+    "arrivalFuture": "La fecha de llegada debe ser hoy o una fecha futura",
+    "documentsMissing": "Faltan documentos del viajero {list}"
   },
   "Options": {
     "gender": {
-      "M": "Male",
-      "F": "Female",
-      "X": "Other / X"
+      "M": "Masculino",
+      "F": "Femenino",
+      "X": "Otro / X"
     },
     "transport": {
-      "air": "Air",
-      "sea": "Sea",
-      "land": "Land"
+      "air": "Aéreo",
+      "sea": "Marítimo",
+      "land": "Terrestre"
     },
     "ports": {
-      "CGK": "Jakarta – Soekarno-Hatta (CGK)",
+      "CGK": "Yakarta – Soekarno-Hatta (CGK)",
       "DPS": "Bali – Ngurah Rai (DPS)",
       "SUB": "Surabaya – Juanda (SUB)",
       "KNO": "Medan – Kualanamu (KNO)",
@@ -290,929 +290,929 @@
       "BTH": "Batam – Hang Nadim (BTH)",
       "BPN": "Balikpapan – SAMS Sepinggan (BPN)",
       "KJT": "Kertajati (KJT)",
-      "BTM_SEA": "Batam Centre ferry terminal (sea)",
-      "TNJ_SEA": "Tanjung Pinang ferry terminal (sea)",
-      "LAND": "Land border (Entikong / Aruk / Motaain / other)",
-      "OTHER": "Other international entry point"
+      "BTM_SEA": "Terminal de ferris de Batam Centre (marítimo)",
+      "TNJ_SEA": "Terminal de ferris de Tanjung Pinang (marítimo)",
+      "LAND": "Frontera terrestre (Entikong / Aruk / Motaain / otra)",
+      "OTHER": "Otro punto de entrada internacional"
     },
     "purposes": {
-      "holiday": "Holiday / tourism",
-      "family": "Visiting family or friends",
-      "business": "Business meeting / conference",
-      "work": "Work (with work permit)",
-      "study": "Study",
-      "medical": "Medical treatment",
-      "transit": "Transit",
-      "other": "Other"
+      "holiday": "Vacaciones / turismo",
+      "family": "Visita a familiares o amigos",
+      "business": "Reunión de negocios / conferencia",
+      "work": "Trabajo (con permiso de trabajo)",
+      "study": "Estudios",
+      "medical": "Tratamiento médico",
+      "transit": "Tránsito",
+      "other": "Otro"
     },
     "visaTypes": {
-      "visaFree": "Visa-free entry",
-      "voa": "Visa on Arrival (VOA) – paid at airport",
-      "evoa": "e-VOA (electronic visa on arrival)",
+      "visaFree": "Entrada sin visa",
+      "voa": "Visa a la llegada (VOA) – se paga en el aeropuerto",
+      "evoa": "e-VOA (visa electrónica a la llegada)",
       "evisa": "e-Visa (B211A, C1, C2, D1, D2, etc.)",
-      "kitas": "KITAS / KITAP holder",
-      "diplomatic": "Diplomatic / official",
-      "unsure": "Not sure – please advise"
+      "kitas": "Titular de KITAS / KITAP",
+      "diplomatic": "Diplomático / oficial",
+      "unsure": "No estoy seguro – necesito orientación"
     },
     "evoaPurposes": {
-      "tourism": "Tourism / holiday",
-      "business": "Business meeting, conference, purchasing",
-      "family": "Visiting family or friends",
-      "transit": "Transit",
-      "official": "Government / official duties"
+      "tourism": "Turismo / vacaciones",
+      "business": "Reunión de negocios, conferencia, compras",
+      "family": "Visita a familiares o amigos",
+      "transit": "Tránsito",
+      "official": "Funciones gubernamentales / oficiales"
     }
   },
   "ReminderForm": {
-    "email": "Email",
-    "arrivalDate": "Arrival date in Indonesia",
-    "travelers": "Travelers",
-    "nationality": "Nationality (optional)",
-    "select": "Select…",
-    "consent": "I agree to receive the reminder email. One heads-up the day before, one when the window opens, nothing else. Unsubscribe with one click.",
-    "saving": "Saving…",
-    "submit": "Remind me when the window opens",
-    "footnote": "Free. No payment is taken now. Private assistance service, not affiliated with any government website.",
-    "genericError": "Something went wrong. Please try again.",
-    "networkError": "Network error. Please try again.",
-    "openTitle": "Good news: the window for {date} is already open.",
-    "openText": "The official portal accepts submissions now. We have saved your reminder in case you need it later.",
-    "startCta": "Start my application",
-    "doneTitle": "Done.",
-    "doneText": "We will email you on <strong>{when}</strong> (your local time) when the window opens, {hours} h before arrival. We do not take payment before then."
+    "email": "Correo electrónico",
+    "arrivalDate": "Fecha de llegada a Indonesia",
+    "travelers": "Viajeros",
+    "nationality": "Nacionalidad (opcional)",
+    "select": "Seleccione…",
+    "consent": "Acepto recibir el correo de recordatorio. Un aviso el día anterior, otro cuando se abra la ventana, nada más. Baja con un solo clic.",
+    "saving": "Guardando…",
+    "submit": "Avisarme cuando se abra la ventana",
+    "footnote": "Gratuito. No se cobra nada ahora. Servicio de asistencia privado, sin vinculación con ningún sitio web gubernamental.",
+    "genericError": "Se ha producido un error. Inténtelo de nuevo.",
+    "networkError": "Error de red. Inténtelo de nuevo.",
+    "openTitle": "Buenas noticias: la ventana para el {date} ya está abierta.",
+    "openText": "El portal oficial acepta envíos ahora. Hemos guardado su recordatorio por si lo necesita más adelante.",
+    "startCta": "Iniciar mi solicitud",
+    "doneTitle": "Listo.",
+    "doneText": "Le escribiremos el <strong>{when}</strong> (su hora local), cuando se abra la ventana, {hours} h antes de la llegada. No cobramos antes de ese momento."
   },
   "Reminder": {
-    "metaTitle": "Indonesia arrival card: we tell you when to apply",
-    "metaDescription": "The official portal only accepts the All Indonesia arrival card within 72 hours before arrival. Leave your arrival date and we email you the moment your window opens. Free reminder, no payment now.",
-    "badge": "Free reminder, no payment now",
-    "title": "Indonesia arrival card: we tell you when to apply",
-    "lead": "The official portal only accepts the arrival card within 72 hours before you land. Apply earlier and it is rejected. Leave your arrival date and we email you the moment your window opens.",
-    "bullet1": "One email the day before, one when the window opens",
-    "bullet2": "Your details prefilled in the link, so it takes two minutes",
-    "bullet3": "Then choose: we prepare and check your card, or you do it yourself",
-    "unsubscribed": "You have been unsubscribed. We will not email you about this trip again.",
-    "unsubscribeInvalid": "That unsubscribe link is not valid or has already been used. Write to {email} if you keep receiving emails.",
-    "formTitle": "Get the reminder",
-    "formText": "We compute the exact moment the 72-hour window opens for your date.",
-    "ruleTitle": "The 72-hour rule, in short",
-    "rule1": "Every traveler entering Indonesia by air, sea or land needs an All Indonesia arrival card: one online form for immigration, customs and health, which produces a QR code shown on arrival.",
-    "rule2": "The system opens the form only inside the 72 hours before the arrival date. If you try before, the submission is refused. Most travelers only discover this when they sit down to fill it in a week ahead, then forget it in the rush before the flight.",
-    "rule3": "A reminder solves that. Tell us your arrival date and we work out when the window opens for you and send a single email at that moment. Nothing is charged until you decide, inside the window, whether you want our assistance.",
-    "rule4": "If you also need a visa, the e-VOA can be applied for up to 90 days ahead. <link>See e-VOA assistance</link>.",
-    "howTitle": "How it works",
+    "metaTitle": "Tarjeta de llegada de Indonesia: le avisamos cuándo solicitarla",
+    "metaDescription": "El portal oficial solo acepta la tarjeta de llegada All Indonesia dentro de las 72 horas previas a la llegada. Déjenos su fecha de llegada y le escribiremos en cuanto se abra su ventana. Recordatorio gratuito, sin pago ahora.",
+    "badge": "Recordatorio gratuito, sin pago ahora",
+    "title": "Tarjeta de llegada de Indonesia: le avisamos cuándo solicitarla",
+    "lead": "El portal oficial solo acepta la tarjeta de llegada dentro de las 72 horas previas a su aterrizaje. Si la solicita antes, se rechaza. Déjenos su fecha de llegada y le escribiremos en cuanto se abra su ventana.",
+    "bullet1": "Un correo el día anterior y otro cuando se abra la ventana",
+    "bullet2": "Sus datos precargados en el enlace, así que toma dos minutos",
+    "bullet3": "Después elija: preparamos y revisamos su tarjeta, o la hace usted mismo",
+    "unsubscribed": "Se ha dado de baja. No le enviaremos más correos sobre este viaje.",
+    "unsubscribeInvalid": "Ese enlace de baja no es válido o ya se ha utilizado. Escriba a {email} si sigue recibiendo correos.",
+    "formTitle": "Reciba el recordatorio",
+    "formText": "Calculamos el momento exacto en que se abre la ventana de 72 horas para su fecha.",
+    "ruleTitle": "La regla de las 72 horas, en resumen",
+    "rule1": "Todo viajero que entra en Indonesia por vía aérea, marítima o terrestre necesita una tarjeta de llegada All Indonesia: un único formulario en línea para inmigración, aduanas y salud, que genera un código QR que se muestra a la llegada.",
+    "rule2": "El sistema abre el formulario solo dentro de las 72 horas previas a la fecha de llegada. Si lo intenta antes, el envío se rechaza. La mayoría de los viajeros lo descubren cuando se sientan a completarlo una semana antes, y luego lo olvidan con las prisas previas al vuelo.",
+    "rule3": "Un recordatorio lo resuelve. Indíquenos su fecha de llegada; calculamos cuándo se abre su ventana y le enviamos un solo correo en ese momento. No se cobra nada hasta que decida, dentro de la ventana, si quiere nuestra asistencia.",
+    "rule4": "Si también necesita visa, la e-VOA puede solicitarse hasta 90 días antes. <link>Ver la asistencia con la e-VOA</link>.",
+    "howTitle": "Cómo funciona",
     "steps": {
       "set": {
-        "t": "Set a reminder",
-        "d": "Your email and arrival date. Takes 20 seconds. No payment, no account."
+        "t": "Cree un recordatorio",
+        "d": "Su correo electrónico y su fecha de llegada. Toma 20 segundos. Sin pago, sin cuenta."
       },
       "email": {
-        "t": "Get the email when the window opens",
-        "d": "A short heads-up the day before, then a message the moment the portal accepts your date, with a link that has your details prefilled."
+        "t": "Reciba el correo cuando se abra la ventana",
+        "d": "Un breve aviso el día anterior y luego un mensaje en cuanto el portal acepte su fecha, con un enlace que lleva sus datos precargados."
       },
       "choose": {
-        "t": "We prepare and check your card, or you do it yourself",
-        "d": "Order our assistance from {price} and a person checks every field before submission. Or follow our free guide and submit on the official portal yourself."
+        "t": "Preparamos y revisamos su tarjeta, o la hace usted mismo",
+        "d": "Pida nuestra asistencia desde {price} y una persona revisa cada campo antes del envío. O siga nuestra guía gratuita y envíela usted mismo en el portal oficial."
       }
     },
-    "ctaSet": "Set my reminder",
-    "ctaGuide": "Read the free guide",
-    "questionsTitle": "Questions",
+    "ctaSet": "Crear mi recordatorio",
+    "ctaGuide": "Leer la guía gratuita",
+    "questionsTitle": "Preguntas",
     "faqs": {
       "whyNotToday": {
-        "q": "Why can I not apply today?",
-        "a": "The official All Indonesia system only accepts arrival card submissions inside the 72 hours (3 days) before your scheduled arrival. Earlier submissions are rejected, which is why we do not take an order or payment before the window opens."
+        "q": "¿Por qué no puedo solicitarla hoy?",
+        "a": "El sistema oficial All Indonesia solo acepta el envío de la tarjeta de llegada dentro de las 72 horas (3 días) previas a su llegada programada. Los envíos anteriores se rechazan; por eso no aceptamos pedidos ni pagos antes de que se abra la ventana."
       },
       "free": {
-        "q": "Is the reminder free?",
-        "a": "Yes. You receive at most two emails for your trip: a heads-up the day before and one when the window opens. Unsubscribe with one click."
+        "q": "¿El recordatorio es gratuito?",
+        "a": "Sí. Recibirá como máximo dos correos para su viaje: un aviso el día anterior y otro cuando se abra la ventana. Baja con un solo clic."
       },
       "mustBuy": {
-        "q": "Do I have to buy your service afterwards?",
-        "a": "No. The email includes a link to our guided form if you want a person to prepare and check the card, and a link to our free guide if you prefer to do it yourself on the official portal."
+        "q": "¿Tengo que contratar su servicio después?",
+        "a": "No. El correo incluye un enlace a nuestro formulario guiado, si quiere que una persona prepare y revise la tarjeta, y un enlace a nuestra guía gratuita, si prefiere hacerlo usted mismo en el portal oficial."
       },
       "evoa": {
-        "q": "What about the e-VOA visa?",
-        "a": "The e-VOA has no 72-hour limit and can be applied for up to 90 days before arrival. If you need one, you can order it now and set the reminder for the arrival card only."
+        "q": "¿Y la visa e-VOA?",
+        "a": "La e-VOA no tiene límite de 72 horas y puede solicitarse hasta 90 días antes de la llegada. Si la necesita, puede pedirla ahora y crear el recordatorio solo para la tarjeta de llegada."
       },
       "government": {
-        "q": "Are you the Indonesian government?",
-        "a": "No. We are a private assistance company, not affiliated with the Government of Indonesia, the Directorate General of Immigration or any government website."
+        "q": "¿Son ustedes el Gobierno de Indonesia?",
+        "a": "No. Somos una empresa de asistencia privada, sin vinculación con el Gobierno de Indonesia, la Dirección General de Inmigración ni ningún sitio web gubernamental."
       }
     }
   },
   "Success": {
-    "metaTitle": "Order received",
-    "title": "Thank you – we have your details",
-    "order": "Order <strong>{id}</strong> ({product}). A confirmation goes to <strong>{email}</strong>.",
-    "arrivalCardNext": "Your arrival card QR code will follow within {hours} hours, and no earlier than 72 hours before your arrival on {date}, because the official system only accepts submissions in that window.",
-    "evoaNext": "We verify and submit your e-VOA within {hours} hours; approval usually follows the same day, at most 2 working days.",
-    "confirming": "Your payment is being confirmed. You will receive an email shortly.",
-    "devMode": "Development mode: payment provider not configured, order saved as paid.",
-    "nextTitle": "What happens next",
-    "next1": "A team member checks every field against your passport details{evoa, select, yes {, and your passport scan and photo for the e-VOA} other {}}.",
-    "next2": "We submit the card on the official portal, entering your email so the QR arrives from the government system as well.",
-    "next3": "You receive the QR code (PDF and image) plus an airport checklist by email.",
-    "next4": "Show the QR with your passport at immigration and customs.",
-    "cta": "Read the airport checklist"
+    "metaTitle": "Pedido recibido",
+    "title": "Gracias – tenemos sus datos",
+    "order": "Pedido <strong>{id}</strong> ({product}). Se enviará una confirmación a <strong>{email}</strong>.",
+    "arrivalCardNext": "El código QR de su tarjeta de llegada le llegará en un plazo de {hours} horas, y nunca antes de las 72 horas previas a su llegada el {date}, porque el sistema oficial solo acepta envíos en esa ventana.",
+    "evoaNext": "Verificamos y presentamos su e-VOA en un plazo de {hours} horas; la aprobación suele llegar el mismo día y, como máximo, en 2 días hábiles.",
+    "confirming": "Su pago se está confirmando. Recibirá un correo electrónico en breve.",
+    "devMode": "Modo de desarrollo: proveedor de pagos no configurado, pedido guardado como pagado.",
+    "nextTitle": "Qué ocurre ahora",
+    "next1": "Un miembro del equipo comprueba cada campo con los datos de su pasaporte{evoa, select, yes {, y su escaneo del pasaporte y su foto para la e-VOA} other {}}.",
+    "next2": "Enviamos la tarjeta en el portal oficial, indicando su correo electrónico para que el QR también le llegue desde el sistema gubernamental.",
+    "next3": "Recibirá el código QR (PDF e imagen) y una lista de verificación para el aeropuerto por correo electrónico.",
+    "next4": "Muestre el QR junto con su pasaporte en inmigración y en aduanas.",
+    "cta": "Leer la lista de verificación para el aeropuerto"
   },
   "Evoa": {
-    "metaTitle": "Indonesia e-VOA application assistance – visa on arrival online",
-    "metaDescription": "We prepare and submit your Indonesia e-VOA (electronic visa on arrival): 30 days, extendable once. Human-checked, visa fee itemized, delivered by email.",
-    "jsonLdName": "Indonesia e-VOA application assistance",
-    "badge": "Electronic Visa on Arrival · {days} days · extendable once",
-    "title": "Your Indonesia e-VOA, prepared and checked before you fly.",
-    "lead": "Skip the queue at the visa-on-arrival counter. We check your passport and photo, submit the electronic visa on arrival application, and send you the approved e-VOA by email.",
-    "ctaStart": "Start e-VOA – {price}",
-    "ctaBundle": "e-VOA + arrival card bundle",
-    "priceTitle": "Price per traveler, itemized",
-    "governmentFee": "Government e-VOA fee (IDR {idr} per traveler, in USD)",
-    "serviceFirst": "Our service fee, first traveler",
-    "serviceAdditional": "Our service fee, each additional traveler",
-    "bundle": "Bundle with arrival card assistance",
-    "bundleSave": "save {price} per traveler",
-    "express": "Express, verified within {hours} h (optional)",
+    "metaTitle": "Asistencia con la solicitud de e-VOA para Indonesia – visa a la llegada en línea",
+    "metaDescription": "Preparamos y presentamos su e-VOA de Indonesia (visa electrónica a la llegada): 30 días, prorrogable una vez. Revisión por una persona, tasa de visa detallada, entrega por correo electrónico.",
+    "jsonLdName": "Asistencia con la solicitud de e-VOA para Indonesia",
+    "badge": "Visa electrónica a la llegada · {days} días · prorrogable una vez",
+    "title": "Su e-VOA de Indonesia, preparada y revisada antes de volar.",
+    "lead": "Evite la cola en el mostrador de visa a la llegada. Revisamos su pasaporte y su foto, presentamos la solicitud de visa electrónica a la llegada y le enviamos la e-VOA aprobada por correo electrónico.",
+    "ctaStart": "Iniciar e-VOA – {price}",
+    "ctaBundle": "Paquete e-VOA + tarjeta de llegada",
+    "priceTitle": "Precio por viajero, detallado",
+    "governmentFee": "Tasa gubernamental de la e-VOA (IDR {idr} por viajero, en USD)",
+    "serviceFirst": "Nuestra tarifa de servicio, primer viajero",
+    "serviceAdditional": "Nuestra tarifa de servicio, cada viajero adicional",
+    "bundle": "Paquete con asistencia con la tarjeta de llegada",
+    "bundleSave": "ahorre {price} por viajero",
+    "express": "Exprés, verificación en un plazo de {hours} h (opcional)",
     "plus": "+{price}",
-    "totalFirst": "Total first traveler: {price}",
-    "refundNote": "Service fee refunded in full if your nationality is not eligible or if we cannot submit. The visa fee is non-refundable once the application is lodged with the authorities.",
-    "eligibleTitle": "Am I eligible?",
-    "eligibleText": "Passport must be valid at least {months} months from the date of entry. You need a return or onward ticket.",
-    "howTitle": "How it works",
+    "totalFirst": "Total primer viajero: {price}",
+    "refundNote": "La tarifa de servicio se reembolsa íntegramente si su nacionalidad no es elegible o si no podemos presentar la solicitud. La tasa de visa no es reembolsable una vez presentada la solicitud ante las autoridades.",
+    "eligibleTitle": "¿Soy elegible?",
+    "eligibleText": "El pasaporte debe tener una validez mínima de {months} meses desde la fecha de entrada. Necesita un pasaje de regreso o de continuación.",
+    "howTitle": "Cómo funciona",
     "steps": {
       "check": {
-        "t": "Check eligibility",
-        "d": "Enter your nationality below. ASEAN nationals are visa-free; most other travelers can use the e-VOA."
+        "t": "Compruebe la elegibilidad",
+        "d": "Introduzca su nacionalidad más abajo. Los ciudadanos de la ASEAN no necesitan visa; la mayoría de los demás viajeros pueden usar la e-VOA."
       },
       "send": {
-        "t": "Send passport and photo",
-        "d": "Upload a photo of your passport bio page and a recent passport-style photo from your phone."
+        "t": "Envíe el pasaporte y la foto",
+        "d": "Suba desde su teléfono una foto de la página de datos del pasaporte y una foto reciente tipo pasaporte."
       },
       "prepare": {
-        "t": "We prepare and check",
-        "d": "A team member checks passport validity (6 months minimum), photo quality and every field, then submits the application."
+        "t": "Preparamos y revisamos",
+        "d": "Un miembro del equipo comprueba la validez del pasaporte (mínimo 6 meses), la calidad de la foto y cada campo, y luego presenta la solicitud."
       },
       "receive": {
-        "t": "Receive your e-VOA",
-        "d": "Usually the same day, at most 2 working days. Print it or show it on your phone at immigration. Combine it with your arrival card QR."
+        "t": "Reciba su e-VOA",
+        "d": "Normalmente el mismo día, como máximo en 2 días hábiles. Imprímala o muéstrela en su teléfono en inmigración. Combínela con el QR de su tarjeta de llegada."
       }
     },
-    "factsTitle": "e-VOA facts",
+    "factsTitle": "Datos clave de la e-VOA",
     "facts": {
-      "stay": "Stay: {days} days from entry, extendable once for another {extraDays} days at an immigration office in Indonesia.",
-      "purposes": "Purposes: tourism, family visits, business meetings and purchasing, transit, official duties. Not valid for employment or journalism.",
-      "window": "Apply up to about {days} days before travel. Processing is typically {processing}.",
-      "documents": "Documents: passport bio page (valid 6+ months), recent passport-style photo, return or onward ticket, email address.",
-      "entry": "Entry through any international airport, seaport or land border that accepts visa on arrival. You still need the arrival card QR."
+      "stay": "Estancia: {days} días desde la entrada, prorrogable una vez por otros {extraDays} días en una oficina de inmigración en Indonesia.",
+      "purposes": "Motivos: turismo, visitas familiares, reuniones de negocios y compras, tránsito, funciones oficiales. No es válida para trabajar ni para el periodismo.",
+      "window": "Solicítela hasta unos {days} días antes del viaje. El tiempo de tramitación suele ser {processing}.",
+      "documents": "Documentos: página de datos del pasaporte (validez mínima de 6 meses), foto reciente tipo pasaporte, pasaje de regreso o de continuación, dirección de correo electrónico.",
+      "entry": "Entrada por cualquier aeropuerto internacional, puerto marítimo o frontera terrestre que acepte la visa a la llegada. Sigue necesitando el QR de la tarjeta de llegada."
     },
-    "typicalProcessing": "same day to 2 working days",
+    "typicalProcessing": "del mismo día a 2 días hábiles",
     "eligibility": {
-      "nationality": "Nationality (passport country)",
-      "select": "Select…",
-      "visaFree": "ASEAN nationals enter Indonesia visa-free for 30 days. You do not need an e-VOA, only the <link>arrival card</link>.",
-      "eligible": "Eligible for the e-VOA. <link>Start your application</link>.",
-      "check": "Your nationality may need a visa issued before travel rather than an e-VOA. <link>Ask us</link> and we will confirm within a few hours, free of obligation."
+      "nationality": "Nacionalidad (país del pasaporte)",
+      "select": "Seleccione…",
+      "visaFree": "Los ciudadanos de la ASEAN entran en Indonesia sin visa durante 30 días. No necesita e-VOA, solo la <link>tarjeta de llegada</link>.",
+      "eligible": "Elegible para la e-VOA. <link>Inicie su solicitud</link>.",
+      "check": "Su nacionalidad podría requerir una visa expedida antes del viaje en lugar de una e-VOA. <link>Consúltenos</link> y se lo confirmaremos en unas horas, sin compromiso."
     }
   },
   "Pricing": {
-    "metaTitle": "Pricing",
-    "metaDescription": "One transparent price for Indonesia arrival card assistance. No hidden fees.",
-    "title": "Pricing",
-    "arrivalCardTitle": "Arrival card assistance",
-    "intro": "You see the total before entering any personal data. We are a private assistance service, not affiliated with any government website.",
-    "examples": "Examples",
-    "booking": "Booking",
-    "standard": "Standard (under {hours} h)",
-    "express": "Express (under {hours} h)",
-    "travelers": "{count, plural, one {# traveler} other {# travelers}}",
-    "evoaTitle": "e-VOA (visa on arrival) assistance",
-    "perTraveler": "Per traveler",
-    "amount": "Amount",
-    "governmentFee": "Government e-VOA fee (IDR {idr} per traveler, in USD)",
-    "serviceFirst": "Service fee, first traveler",
-    "serviceAdditional": "Service fee, each additional traveler",
-    "bundleDiscount": "Bundle discount when ordered with arrival card assistance",
+    "metaTitle": "Precios",
+    "metaDescription": "Un precio transparente para la asistencia con la tarjeta de llegada de Indonesia. Sin cargos ocultos.",
+    "title": "Precios",
+    "arrivalCardTitle": "Asistencia con la tarjeta de llegada",
+    "intro": "Verá el total antes de introducir cualquier dato personal. Somos un servicio de asistencia privado, sin vinculación con ningún sitio web gubernamental.",
+    "examples": "Ejemplos",
+    "booking": "Reserva",
+    "standard": "Estándar (menos de {hours} h)",
+    "express": "Exprés (menos de {hours} h)",
+    "travelers": "{count, plural, one {# viajero} other {# viajeros}}",
+    "evoaTitle": "Asistencia con la e-VOA (visa a la llegada)",
+    "perTraveler": "Por viajero",
+    "amount": "Importe",
+    "governmentFee": "Tasa gubernamental de la e-VOA (IDR {idr} por viajero, en USD)",
+    "serviceFirst": "Tarifa de servicio, primer viajero",
+    "serviceAdditional": "Tarifa de servicio, cada viajero adicional",
+    "bundleDiscount": "Descuento por paquete al pedirla junto con la asistencia con la tarjeta de llegada",
     "minus": "−{price}",
     "plus": "+{price}",
-    "expressEvoa": "Express (optional, verified within {hours} h)",
-    "evoaOnly": "e-VOA only",
-    "evoaBundle": "e-VOA + arrival card bundle",
-    "visaFeeNote": "The visa fee is paid on your behalf when the application is lodged with the Indonesian authorities and is non-refundable from that point. Details on the <link>e-VOA page</link>.",
-    "includedTitle": "What is included",
+    "expressEvoa": "Exprés (opcional, verificación en un plazo de {hours} h)",
+    "evoaOnly": "Solo e-VOA",
+    "evoaBundle": "Paquete e-VOA + tarjeta de llegada",
+    "visaFeeNote": "La tasa de visa se paga en su nombre cuando la solicitud se presenta ante las autoridades indonesias y no es reembolsable a partir de ese momento. Más detalles en la <link>página de la e-VOA</link>.",
+    "includedTitle": "Qué incluye",
     "included": {
-      "form": "Guided multilingual form with passport photo reading.",
-      "review": "Manual review of every field by a trained team member.",
-      "submission": "Submission on the official portal and delivery of your QR code by email.",
-      "checklist": "Airport checklist, customs allowance summary and IMEI registration instructions.",
-      "support": "Support until you have cleared immigration."
+      "form": "Formulario guiado multilingüe con lectura de la foto del pasaporte.",
+      "review": "Revisión manual de cada campo por un miembro del equipo con formación.",
+      "submission": "Envío en el portal oficial y entrega de su código QR por correo electrónico.",
+      "checklist": "Lista de verificación para el aeropuerto, resumen de las franquicias aduaneras e instrucciones para registrar el IMEI.",
+      "support": "Soporte hasta que haya pasado inmigración."
     },
-    "refundsTitle": "Refunds",
-    "refunds": "Full refund if your card is not delivered at least 6 hours before your scheduled arrival, or if you cancel before we start processing. See the <link>refund policy</link>."
+    "refundsTitle": "Reembolsos",
+    "refunds": "Reembolso completo si su tarjeta no se entrega al menos 6 horas antes de su llegada programada, o si cancela antes de que empecemos a procesarla. Consulte la <link>política de reembolsos</link>."
   },
   "Guide": {
-    "metaTitle": "Indonesia arrival card guide 2026: how to fill the All Indonesia form, step by step",
-    "metaDescription": "Complete guide to the All Indonesia arrival card: who needs it, the 72-hour window, every step on the official portal and in the app, family and group filing, health and customs questions, the QR code, known app problems and their fixes, and common mistakes.",
-    "howToName": "How to fill the All Indonesia arrival card on the official portal",
-    "howToDescription": "Step-by-step instructions for the Indonesia digital arrival card, from opening the official portal to saving the QR code.",
-    "kicker": "Guide, updated September 2026",
-    "title": "Indonesia arrival card guide: how to fill the All Indonesia form, step by step",
-    "intro1": "The All Indonesia arrival card is the digital form every traveler completes before entering Indonesia. It replaced the paper immigration card, the electronic customs declaration (e-CD) and the SATUSEHAT health form with one submission that produces one QR code. It is run by the Directorate General of Immigration.",
-    "intro2": "It became mandatory on 1 September 2025 at Jakarta (CGK), Bali (DPS), Surabaya (SUB) and the Batam ferry terminals, and on 1 October 2025 at every international airport, seaport and land border. It applies to all nationalities, to Indonesian citizens coming home, and to children and infants. It is not a visa. You still need visa-free entry, a visa on arrival or another visa.",
-    "officialApps": "Official apps: <play>All Indonesia on Google Play</play> and <store>All Indonesia on the App Store</store>, both published by Direktorat Jenderal Imigrasi.",
-    "tocLabel": "Contents",
-    "tocTitle": "On this page",
+    "metaTitle": "Guía de la tarjeta de llegada de Indonesia 2026: cómo completar el formulario All Indonesia paso a paso",
+    "metaDescription": "Guía completa de la tarjeta de llegada All Indonesia: quién la necesita, la ventana de 72 horas, cada paso en el portal oficial y en la aplicación, trámite para familias y grupos, preguntas de salud y de aduanas, el código QR, problemas conocidos de la aplicación y sus soluciones, y errores frecuentes.",
+    "howToName": "Cómo completar la tarjeta de llegada All Indonesia en el portal oficial",
+    "howToDescription": "Instrucciones paso a paso para la tarjeta de llegada digital de Indonesia, desde abrir el portal oficial hasta guardar el código QR.",
+    "kicker": "Guía, actualizada en septiembre de 2026",
+    "title": "Guía de la tarjeta de llegada de Indonesia: cómo completar el formulario All Indonesia paso a paso",
+    "intro1": "La tarjeta de llegada All Indonesia es el formulario digital que todo viajero completa antes de entrar en Indonesia. Sustituyó a la tarjeta de inmigración en papel, la declaración electrónica de aduanas (e-CD) y el formulario de salud SATUSEHAT por un único envío que genera un solo código QR. La gestiona la Dirección General de Inmigración.",
+    "intro2": "Pasó a ser obligatoria el 1 de septiembre de 2025 en Yakarta (CGK), Bali (DPS), Surabaya (SUB) y las terminales de ferris de Batam, y el 1 de octubre de 2025 en todos los aeropuertos internacionales, puertos marítimos y fronteras terrestres. Se aplica a todas las nacionalidades, a los ciudadanos indonesios que regresan al país y a los niños y bebés. No es una visa. Sigue necesitando entrada sin visa, visa a la llegada u otra visa.",
+    "officialApps": "Aplicaciones oficiales: <play>All Indonesia en Google Play</play> y <store>All Indonesia en el App Store</store>, ambas publicadas por Direktorat Jenderal Imigrasi.",
+    "tocLabel": "Contenido",
+    "tocTitle": "En esta página",
     "toc": {
-      "before": "Before you start",
-      "portal": "Step by step on the official portal",
-      "app": "Step by step in the app",
-      "family": "Filing for a family or a group",
-      "healthCustoms": "Health and customs sections explained",
-      "after": "After submitting",
-      "problems": "App and portal problems, and fixes",
-      "mistakes": "Common mistakes",
-      "faq": "Frequently asked questions",
-      "sources": "Sources"
+      "before": "Antes de empezar",
+      "portal": "Paso a paso en el portal oficial",
+      "app": "Paso a paso en la aplicación",
+      "family": "Trámite para una familia o un grupo",
+      "healthCustoms": "Secciones de salud y aduanas explicadas",
+      "after": "Después del envío",
+      "problems": "Problemas de la aplicación y del portal, y soluciones",
+      "mistakes": "Errores frecuentes",
+      "faq": "Preguntas frecuentes",
+      "sources": "Fuentes"
     },
     "before": {
-      "intro": "Fifteen minutes is enough if everything is on the table.",
-      "needTitle": "What you need",
+      "intro": "Quince minutos bastan si tiene todo a mano.",
+      "needTitle": "Qué necesita",
       "need": {
-        "passport": "Passport, open at the photo page.",
-        "flight": "Flight or ferry number, date, and the airport or port where you first clear immigration.",
-        "departure": "Departure date from Indonesia, even approximate, and your visa type (visa-free, visa on arrival, e-VOA or other).",
-        "accommodation": "Name and address of your first accommodation.",
-        "email": "An email address you can open on your phone. The verification code and the QR code go there.",
-        "countries": "The countries you visited in the last 21 days.",
-        "goods": "What you carry: cash, alcohol, tobacco, gifts, food, and whether you want to register a phone.",
-        "nik": "Indonesian citizens: your NIK."
+        "passport": "Pasaporte, abierto por la página de la foto.",
+        "flight": "Número de vuelo o de ferri, fecha, y el aeropuerto o puerto donde pasará inmigración por primera vez.",
+        "departure": "Fecha de salida de Indonesia, aunque sea aproximada, y su tipo de visa (sin visa, visa a la llegada, e-VOA u otra).",
+        "accommodation": "Nombre y dirección de su primer alojamiento.",
+        "email": "Una dirección de correo electrónico que pueda abrir en su teléfono. Allí llegan el código de verificación y el código QR.",
+        "countries": "Los países que ha visitado en los últimos 21 días.",
+        "goods": "Lo que lleva consigo: efectivo, alcohol, tabaco, regalos, alimentos, y si desea registrar un teléfono.",
+        "nik": "Ciudadanos indonesios: su NIK."
       },
-      "timingTitle": "Timing: the 72-hour window",
-      "timing": "The portal accepts a card only when the arrival date is within the next 72 hours. Submit earlier and it is refused, because the card is tied to a specific arrival and the data must be current for immigration and health officials. Most people submit one or two days before landing. Do not leave it to the airport: some airlines ask for the QR at check-in, and airport Wi-Fi is slow. Flying in more than three days? <link>Set a free reminder</link> and we email you when your window opens.",
-      "deviceTitle": "Device and email advice",
+      "timingTitle": "Plazos: la ventana de 72 horas",
+      "timing": "El portal acepta una tarjeta solo cuando la fecha de llegada está dentro de las próximas 72 horas. Si la envía antes, se rechaza, porque la tarjeta está vinculada a una llegada concreta y los datos deben estar actualizados para los funcionarios de inmigración y de salud. La mayoría la envía uno o dos días antes de aterrizar. No lo deje para el aeropuerto: algunas aerolíneas piden el QR en el mostrador de facturación, y el wifi del aeropuerto es lento. ¿Vuela dentro de más de tres días? <link>Cree un recordatorio gratuito</link> y le escribiremos cuando se abra su ventana.",
+      "deviceTitle": "Consejos sobre el dispositivo y el correo",
       "device": {
-        "connection": "Use a stable connection. A dropped connection during submission is the usual reason a QR never appears.",
-        "personalEmail": "Prefer a personal email address over a work address with strict filtering.",
-        "oneCard": "One traveler, one card. Filing for several people? Do them one after another with the passports in front of you."
+        "connection": "Use una conexión estable. Una conexión interrumpida durante el envío es la causa habitual de que el QR nunca aparezca.",
+        "personalEmail": "Prefiera una dirección de correo personal a una de trabajo con filtros estrictos.",
+        "oneCard": "Un viajero, una tarjeta. ¿Tramita para varias personas? Hágalas una tras otra con los pasaportes delante."
       }
     },
-    "portalIntro": "The web portal at <link>allindonesia.imigrasi.go.id</link> is available in Indonesian, English and Mandarin and does not require an account. This is the flow as documented by immigration offices and travelers in 2025 and 2026. Screen names change from time to time; the order of the sections has not.",
+    "portalIntro": "El portal web <link>allindonesia.imigrasi.go.id</link> está disponible en indonesio, inglés y mandarín y no requiere cuenta. Este es el proceso tal como lo han documentado las oficinas de inmigración y los viajeros en 2025 y 2026. Los nombres de las pantallas cambian de vez en cuando; el orden de las secciones no.",
     "portalSteps": {
       "open": {
-        "t": "Open the official portal and pick your category",
-        "d": "Go to allindonesia.imigrasi.go.id, switch the language to English if needed and choose the arrival card service. Then select foreign visitor or Indonesian citizen. Indonesian citizens also enter their NIK (national ID number)."
+        "t": "Abra el portal oficial y elija su categoría",
+        "d": "Entre en allindonesia.imigrasi.go.id, cambie el idioma a inglés si lo necesita y elija el servicio de tarjeta de llegada. Después seleccione visitante extranjero o ciudadano indonesio. Los ciudadanos indonesios introducen además su NIK (número de identidad nacional)."
       },
       "email": {
-        "t": "Confirm your email address",
-        "d": "Type the email address where you want the QR code. The portal sends a verification code to it (check on the portal, the flow changes). If nothing arrives within a few minutes, look in the spam folder before requesting a new code."
+        "t": "Confirme su dirección de correo electrónico",
+        "d": "Escriba la dirección de correo en la que quiere recibir el código QR. El portal le envía un código de verificación (compruébelo en el portal, el proceso cambia). Si no llega nada en unos minutos, mire en la carpeta de spam antes de pedir un nuevo código."
       },
       "personal": {
-        "t": "Enter your personal and passport details",
-        "d": "Scan the machine-readable zone at the bottom of the passport photo page with your camera, or type the details. Check every field: full name as printed, nationality, passport number, date of birth, gender, expiry date and a phone number."
+        "t": "Introduzca sus datos personales y del pasaporte",
+        "d": "Escanee con la cámara la zona de lectura mecánica situada en la parte inferior de la página de la foto del pasaporte, o escriba los datos. Compruebe cada campo: nombre completo tal como está impreso, nacionalidad, número de pasaporte, fecha de nacimiento, sexo, fecha de vencimiento y un número de teléfono."
       },
       "travel": {
-        "t": "Enter your travel details",
-        "d": "Arrival date in Indonesia (the local date, not your departure date), mode of transport, flight or vessel number, port of entry, planned departure date, purpose of visit, visa type and your address in Indonesia. A hotel name and city is accepted."
+        "t": "Introduzca los datos del viaje",
+        "d": "Fecha de llegada a Indonesia (la fecha local, no la de salida), medio de transporte, número de vuelo o de embarcación, puerto de entrada, fecha prevista de salida, motivo de la visita, tipo de visa y su dirección en Indonesia. Se acepta el nombre de un hotel y la ciudad."
       },
       "health": {
-        "t": "Answer the health declaration",
-        "d": "State whether you currently have symptoms such as fever, cough or breathing difficulty, and list the countries visited in the previous 21 days. A truthful yes does not refuse entry; it may mean a short check on arrival."
+        "t": "Responda a la declaración de salud",
+        "d": "Indique si tiene actualmente síntomas como fiebre, tos o dificultad para respirar, y enumere los países visitados en los 21 días anteriores. Un sí sincero no supone la denegación de entrada; puede implicar una breve comprobación a la llegada."
       },
       "customs": {
-        "t": "Answer the customs and quarantine declaration",
-        "d": "Declare cash of IDR 100 million or more, goods above the USD 500 allowance, alcohol and tobacco above the limits, commercial goods, animals, plants or fresh food, and your number of bags. Answer yes to the IMEI question only if you want to register a phone for use beyond 90 days."
+        "t": "Responda a la declaración de aduanas y cuarentena",
+        "d": "Declare efectivo por valor de 100 millones de IDR o más, mercancías por encima de la franquicia de USD 500, alcohol y tabaco por encima de los límites, mercancías comerciales, animales, plantas o alimentos frescos, y su número de bultos. Responda sí a la pregunta sobre el IMEI solo si quiere registrar un teléfono para usarlo más de 90 días."
       },
       "review": {
-        "t": "Review every field and submit",
-        "d": "Compare the name and passport number on the summary screen with the passport itself. Check the arrival date and port of entry. Submit once."
+        "t": "Revise cada campo y envíe",
+        "d": "Compare el nombre y el número de pasaporte de la pantalla de resumen con el propio pasaporte. Compruebe la fecha de llegada y el puerto de entrada. Envíe una sola vez."
       },
       "save": {
-        "t": "Save the QR code",
-        "d": "The confirmation with the QR code appears on screen and is emailed to you. Download it, take a full-screen screenshot and print a copy if you can."
+        "t": "Guarde el código QR",
+        "d": "La confirmación con el código QR aparece en pantalla y se le envía por correo electrónico. Descárguela, haga una captura de pantalla completa e imprima una copia si puede."
       }
     },
-    "appIntro": "The app asks the same questions. The difference is that it needs an account and keeps your cards in one place.",
+    "appIntro": "La aplicación hace las mismas preguntas. La diferencia es que necesita una cuenta y guarda sus tarjetas en un solo lugar.",
     "appSteps": {
       "install": {
-        "t": "Install the official app",
-        "d": "Search for All Indonesia by Direktorat Jenderal Imigrasi on Google Play or the App Store, or use the links above. Ignore look-alike apps."
+        "t": "Instale la aplicación oficial",
+        "d": "Busque All Indonesia de Direktorat Jenderal Imigrasi en Google Play o en el App Store, o use los enlaces de arriba. Ignore las aplicaciones de aspecto similar."
       },
       "account": {
-        "t": "Create an account",
-        "d": "Register with your details, an email address and a password, then enter the one-time code sent to that email. Do this at home, before the 72-hour window opens."
+        "t": "Cree una cuenta",
+        "d": "Regístrese con sus datos, una dirección de correo electrónico y una contraseña, y luego introduzca el código de un solo uso enviado a ese correo. Hágalo en casa, antes de que se abra la ventana de 72 horas."
       },
       "start": {
-        "t": "Start an arrival card",
-        "d": "Sign in, choose the arrival card service and your category. Scan the passport with the camera or type the details."
+        "t": "Inicie una tarjeta de llegada",
+        "d": "Inicie sesión, elija el servicio de tarjeta de llegada y su categoría. Escanee el pasaporte con la cámara o escriba los datos."
       },
       "sections": {
-        "t": "Complete the same sections as on the web",
-        "d": "Travel details, address in Indonesia, health declaration, customs and quarantine. The questions are identical to the portal."
+        "t": "Complete las mismas secciones que en la web",
+        "d": "Datos del viaje, dirección en Indonesia, declaración de salud, aduanas y cuarentena. Las preguntas son idénticas a las del portal."
       },
       "submit": {
-        "t": "Submit and keep the QR in the app",
-        "d": "The QR code is stored in the app and emailed to you. Screenshot it as a backup so you do not depend on a login at the airport."
+        "t": "Envíe y conserve el QR en la aplicación",
+        "d": "El código QR se guarda en la aplicación y se le envía por correo electrónico. Haga una captura de pantalla como copia de seguridad para no depender de un inicio de sesión en el aeropuerto."
       }
     },
-    "appOrWebTitle": "App or website?",
+    "appOrWebTitle": "¿Aplicación o sitio web?",
     "appOrWeb": {
-      "web": "Website: a one-off trip, a larger screen, or when the app is crashing. No registration.",
-      "app": "App: frequent trips, group filing (travel guides report up to ten travelers per group submission; check the current limit in the app), or having the QR at hand without opening your email. It also offers more languages, including Japanese, Korean, Russian and Arabic."
+      "web": "Sitio web: un viaje puntual, una pantalla más grande o cuando la aplicación falla. Sin registro.",
+      "app": "Aplicación: viajes frecuentes, trámite en grupo (las guías de viaje mencionan hasta diez viajeros por envío de grupo; compruebe el límite actual en la aplicación) o tener el QR a mano sin abrir el correo. También ofrece más idiomas, entre ellos japonés, coreano, ruso y árabe."
     },
-    "family1": "The system is built around one card per person. Every traveler, including a baby with their own passport, must have a card in their own name. A parent or group leader can fill them all in. The app has a group option that takes several travelers in one session.",
-    "family2": "One warning. Travelers on the Bali forum report that a group submission returned a QR for the leader only, while the other members got an arrival card number but no code. Glitch or design, the safe approach is the same: after submitting, confirm that every person has their own QR. If not, look them up on the <link>retrieve page</link> or submit an individual card for that person.",
-    "familyTipsTitle": "Tips for doing several in a row",
+    "family1": "El sistema está diseñado con una tarjeta por persona. Cada viajero, incluido un bebé con su propio pasaporte, debe tener una tarjeta a su nombre. Un padre o madre, o el responsable del grupo, puede completarlas todas. La aplicación tiene una opción de grupo que admite varios viajeros en una sola sesión.",
+    "family2": "Una advertencia. Viajeros del foro de Bali informan de que un envío en grupo devolvió el QR solo del responsable, mientras que los demás miembros obtuvieron un número de tarjeta de llegada pero ningún código. Sea un fallo o el diseño del sistema, la forma segura de actuar es la misma: después de enviar, confirme que cada persona tiene su propio QR. Si no, búsquelos en la <link>página de recuperación</link> o envíe una tarjeta individual para esa persona.",
+    "familyTipsTitle": "Consejos para hacer varias seguidas",
     "familyTips": {
-      "order": "Line up the passports in the order you will type them and tick each one off.",
-      "sameEmail": "Use the same email for all cards, then rename each file with the traveler's name.",
-      "noCopy": "Flight, port and address are the same for everyone; never copy a passport number from one card to the next.",
-      "child": "For a child, purpose of visit and address are those of the accompanying adult."
+      "order": "Ordene los pasaportes en el orden en que los va a introducir y marque cada uno al terminar.",
+      "sameEmail": "Use el mismo correo para todas las tarjetas y luego renombre cada archivo con el nombre del viajero.",
+      "noCopy": "El vuelo, el puerto y la dirección son los mismos para todos; nunca copie un número de pasaporte de una tarjeta a la siguiente.",
+      "child": "Para un niño, el motivo de la visita y la dirección son los del adulto acompañante."
     },
-    "healthTitle": "Health declaration",
-    "health": "Two things are asked: current symptoms and travel history. Answer yes to symptoms if you have a fever, cough, breathing difficulty or similar signs of infection. Then list the countries visited in the previous 21 days, the incubation period the Ministry of Health uses for the diseases it monitors. A yes may mean a temperature check or a few questions on arrival. A false no is an offence.",
-    "customsTitle": "Customs declaration",
-    "customsIntro": "Answer yes if any of these applies to you or to the family you declare for:",
+    "healthTitle": "Declaración de salud",
+    "health": "Se preguntan dos cosas: síntomas actuales e historial de viajes. Responda sí a los síntomas si tiene fiebre, tos, dificultad para respirar o signos similares de infección. Luego enumere los países visitados en los 21 días anteriores, el periodo de incubación que el Ministerio de Salud usa para las enfermedades que vigila. Un sí puede implicar un control de temperatura o algunas preguntas a la llegada. Un no falso es una infracción.",
+    "customsTitle": "Declaración de aduanas",
+    "customsIntro": "Responda sí si algo de esto se aplica a usted o a la familia por la que declara:",
     "customsYes": {
-      "cash": "Cash, cheques or other bearer instruments worth IDR 100 million or more, in any currency.",
-      "goods": "Personal goods worth more than USD 500 in total, or more than 1 litre of alcohol, 200 cigarettes, 25 cigars or 100 grams of tobacco.",
-      "commercial": "Goods for sale or for a business, samples included.",
-      "prohibited": "Narcotics, weapons, ammunition or pornography. These are prohibited outright."
+      "cash": "Efectivo, cheques u otros instrumentos al portador por valor de 100 millones de IDR o más, en cualquier moneda.",
+      "goods": "Bienes personales por un valor total superior a USD 500, o más de 1 litro de alcohol, 200 cigarrillos, 25 puros o 100 gramos de tabaco.",
+      "commercial": "Mercancías para la venta o para un negocio, muestras incluidas.",
+      "prohibited": "Narcóticos, armas, munición o pornografía. Están totalmente prohibidos."
     },
-    "customsBags": "You also state how many bags you have. Full allowances and a quick calculator are on our <link>customs page</link>.",
-    "quarantineTitle": "Quarantine declaration",
-    "quarantine": "Answer yes if you carry live animals, animal products, plants, seeds, fruit, vegetables or other fresh food. Some need a health or phytosanitary certificate; most are inspected or confiscated. Sealed packaged snacks are usually fine, but answer about what you actually carry.",
-    "imeiTitle": "IMEI registration",
-    "imei": "A phone bought abroad works on an Indonesian SIM for up to 90 days without registration. Staying longer? Answer yes to the IMEI question and show the QR to the customs officer, who completes the registration. The usual limit is two devices per traveler, and tax may apply above the allowance. Short visits need nothing.",
+    "customsBags": "También indica cuántos bultos lleva. Las franquicias completas y una calculadora rápida están en nuestra <link>página de aduanas</link>.",
+    "quarantineTitle": "Declaración de cuarentena",
+    "quarantine": "Responda sí si lleva animales vivos, productos de origen animal, plantas, semillas, fruta, verduras u otros alimentos frescos. Algunos necesitan un certificado sanitario o fitosanitario; la mayoría se inspeccionan o se confiscan. Los aperitivos envasados y sellados suelen pasar sin problema, pero responda según lo que realmente lleva.",
+    "imeiTitle": "Registro del IMEI",
+    "imei": "Un teléfono comprado en el extranjero funciona con una SIM indonesia hasta 90 días sin registro. ¿Se queda más tiempo? Responda sí a la pregunta sobre el IMEI y muestre el QR al funcionario de aduanas, que completa el registro. El límite habitual es de dos dispositivos por viajero, y puede aplicarse un impuesto por encima de la franquicia. Las visitas cortas no requieren nada.",
     "after": {
-      "qrEmailTitle": "The QR email",
-      "qrEmail": "The confirmation arrives within minutes. Save the attachment, screenshot the full code and print it if you can. Keep it in one album with your passport photo page.",
-      "lostTitle": "Lost QR",
-      "lost": "Use the <link>retrieve page on the official portal</link>. It looks up your submission with your passport details and email (check on the portal, the fields may change) and lets you download the card again. In the app, the card stays in your account.",
-      "airlineTitle": "Airline check-in",
-      "airline": "The card is an Indonesian requirement, not an airline one, but ground staff on many routes check it before printing a boarding pass. Have the QR open at the counter and at the gate.",
-      "immigrationTitle": "Immigration",
-      "immigration": "At the large airports you go to an autogate if you hold a biometric passport and a visa or exemption the gate supports. Place the passport on the reader, look at the camera, and the system checks that a valid arrival card exists for that passport. If the gate cannot match you, go to a counter and show the QR with your passport. Visa on arrival is paid before immigration; the card does not replace it.",
-      "customsTitle": "Customs",
-      "customs": "After baggage claim, scan the QR at the customs kiosk. Nothing declared and no random check: green channel. Something declared: red channel, where an officer inspects or assesses duty. Keep receipts for expensive items."
+      "qrEmailTitle": "El correo con el QR",
+      "qrEmail": "La confirmación llega en pocos minutos. Guarde el archivo adjunto, haga una captura del código completo e imprímalo si puede. Guárdelo en un mismo álbum junto con la foto de la página de datos de su pasaporte.",
+      "lostTitle": "QR perdido",
+      "lost": "Use la <link>página de recuperación del portal oficial</link>. Localiza su envío con los datos de su pasaporte y su correo electrónico (compruébelo en el portal, los campos pueden cambiar) y le permite descargar la tarjeta de nuevo. En la aplicación, la tarjeta permanece en su cuenta.",
+      "airlineTitle": "Facturación con la aerolínea",
+      "airline": "La tarjeta es un requisito de Indonesia, no de la aerolínea, pero el personal de tierra de muchas rutas la comprueba antes de imprimir la tarjeta de embarque. Tenga el QR abierto en el mostrador y en la puerta de embarque.",
+      "immigrationTitle": "Inmigración",
+      "immigration": "En los grandes aeropuertos pasará por una puerta automática si tiene un pasaporte biométrico y una visa o exención que la puerta admita. Coloque el pasaporte en el lector, mire a la cámara y el sistema comprueba que existe una tarjeta de llegada válida para ese pasaporte. Si la puerta no puede identificarle, acuda a un mostrador y muestre el QR con su pasaporte. La visa a la llegada se paga antes de inmigración; la tarjeta no la sustituye.",
+      "customsTitle": "Aduanas",
+      "customs": "Tras recoger el equipaje, escanee el QR en el quiosco de aduanas. Nada que declarar y sin control aleatorio: canal verde. Algo declarado: canal rojo, donde un funcionario inspecciona o calcula los derechos. Conserve los recibos de los artículos caros."
     },
-    "problemCol": "Problem",
-    "fixCol": "What to do",
+    "problemCol": "Problema",
+    "fixCol": "Qué hacer",
     "problems": {
       "noEmail": {
-        "p": "Verification code or QR email never arrives",
-        "f": "Check spam and promotions. Wait five minutes. Confirm the address has no typo. Request a new code once. If a work address filters it, use a personal one."
+        "p": "El código de verificación o el correo con el QR nunca llega",
+        "f": "Revise las carpetas de spam y promociones. Espere cinco minutos. Confirme que la dirección no tiene errores. Pida un nuevo código una sola vez. Si una dirección de trabajo lo filtra, use una personal."
       },
       "appCloses": {
-        "p": "App closes when you press Next",
-        "f": "Update the app, restart the phone and retry. If it persists, use the web portal; it produces the same QR code."
+        "p": "La aplicación se cierra al pulsar Siguiente",
+        "f": "Actualice la aplicación, reinicie el teléfono e inténtelo de nuevo. Si persiste, use el portal web; genera el mismo código QR."
       },
       "loginLoop": {
-        "p": "App loops back to the login screen",
-        "f": "Sign out, clear the app cache or reinstall, sign in again. Or switch to the web portal."
+        "p": "La aplicación vuelve una y otra vez a la pantalla de inicio de sesión",
+        "f": "Cierre la sesión, borre la caché de la aplicación o reinstálela, e inicie sesión de nuevo. O cambie al portal web."
       },
       "scanFails": {
-        "p": "Passport scan or photo upload fails",
-        "f": "Lay the passport flat in good light without glare. If it still fails, type the details by hand and check them twice."
+        "p": "Falla el escaneo del pasaporte o la subida de la foto",
+        "f": "Coloque el pasaporte plano, con buena luz y sin reflejos. Si sigue fallando, escriba los datos a mano y compruébelos dos veces."
       },
       "tooEarly": {
-        "p": "Submission refused as too early",
-        "f": "The form only accepts an arrival date within the next 72 hours. Come back when the window opens."
+        "p": "Envío rechazado por ser demasiado pronto",
+        "f": "El formulario solo acepta una fecha de llegada dentro de las próximas 72 horas. Vuelva cuando se abra la ventana."
       },
       "slow": {
-        "p": "Portal slow or timing out",
-        "f": "Try early morning or late evening in Indonesian time. Do not resubmit blindly; check the retrieve page to see whether the first attempt went through."
+        "p": "El portal va lento o se agota el tiempo de espera",
+        "f": "Pruebe a primera hora de la mañana o a última hora de la noche, hora de Indonesia. No vuelva a enviar a ciegas; compruebe en la página de recuperación si el primer intento se registró."
       },
       "wrongDate": {
-        "p": "QR shows the wrong arrival date",
-        "f": "Reported after overnight flights: the card shows the day before the date entered. Submit a new card with the correct local date and keep that one."
+        "p": "El QR muestra una fecha de llegada incorrecta",
+        "f": "Se ha informado tras vuelos nocturnos: la tarjeta muestra el día anterior a la fecha introducida. Envíe una nueva tarjeta con la fecha local correcta y conserve esa."
       },
       "twice": {
-        "p": "You submitted twice",
-        "f": "Keep the copy with the correct details and show only that one. Duplicates are not reported to cause refusals."
+        "p": "Ha enviado dos veces",
+        "f": "Conserve la copia con los datos correctos y muestre solo esa. No hay constancia de que los duplicados provoquen denegaciones."
       },
       "airline": {
-        "p": "Airline asks for the QR at check-in",
-        "f": "Common on flights from Singapore, Australia and the Gulf. Have the QR open on your phone before the counter."
+        "p": "La aerolínea pide el QR en el mostrador de facturación",
+        "f": "Es habitual en vuelos desde Singapur, Australia y el Golfo. Tenga el QR abierto en su teléfono antes de llegar al mostrador."
       },
       "oneQr": {
-        "p": "Only one QR arrived for a group",
-        "f": "Look up each traveler on the retrieve page with their passport details. If someone has no card, submit an individual one for them."
+        "p": "Solo llegó un QR para un grupo",
+        "f": "Busque a cada viajero en la página de recuperación con los datos de su pasaporte. Si alguien no tiene tarjeta, envíe una individual para esa persona."
       }
     },
     "mistakes": {
       "name": {
-        "m": "Name does not match the passport",
-        "c": "The card is flagged and you are sent to a manual counter. Copy the name from the machine-readable zone, all given names included, no titles or accents."
+        "m": "El nombre no coincide con el pasaporte",
+        "c": "La tarjeta queda marcada y le envían a un mostrador manual. Copie el nombre de la zona de lectura mecánica, con todos los nombres de pila, sin títulos ni acentos."
       },
       "passportNumber": {
-        "m": "Passport number typed with 0 instead of O, or 1 instead of I",
-        "c": "The autogate cannot match you. Read the number from the machine-readable zone and check each character."
+        "m": "Número de pasaporte escrito con 0 en lugar de O, o con 1 en lugar de I",
+        "c": "La puerta automática no puede identificarle. Lea el número en la zona de lectura mecánica y compruebe cada carácter."
       },
       "date": {
-        "m": "Wrong arrival date",
-        "c": "The card may not be valid on the day you land. Use the local date of arrival in Indonesia; on an overnight flight that is the day after departure."
+        "m": "Fecha de llegada incorrecta",
+        "c": "La tarjeta podría no ser válida el día en que aterrice. Use la fecha local de llegada a Indonesia; en un vuelo nocturno es el día siguiente al de la salida."
       },
       "port": {
-        "m": "Wrong port of entry",
-        "c": "Officers ask questions and the customs kiosk may not find you. Pick the airport or port where you first clear immigration, not your final destination after a domestic connection."
+        "m": "Puerto de entrada incorrecto",
+        "c": "Los funcionarios hacen preguntas y el quiosco de aduanas podría no encontrarle. Elija el aeropuerto o puerto donde pasa inmigración por primera vez, no su destino final tras una conexión nacional."
       },
       "unofficial": {
-        "m": "Using an unofficial paid site that looks official",
-        "c": "You pay for a free form and hand your passport data to strangers; fake follow-up emails asking for more money often follow. Type allindonesia.imigrasi.go.id yourself and use only the official apps."
+        "m": "Usar un sitio de pago no oficial que parece oficial",
+        "c": "Paga por un formulario gratuito y entrega los datos de su pasaporte a desconocidos; a menudo siguen correos falsos que piden más dinero. Escriba usted mismo allindonesia.imigrasi.go.id y use solo las aplicaciones oficiales."
       },
       "customs": {
-        "m": "Forgetting the customs part",
-        "c": "Undeclared cash or goods can be fined or seized. Read the customs questions before you travel and check the allowances on our customs page."
+        "m": "Olvidar la parte de aduanas",
+        "c": "El efectivo o las mercancías no declarados pueden ser objeto de multa o incautación. Lea las preguntas de aduanas antes de viajar y compruebe las franquicias en nuestra página de aduanas."
       },
       "oneQr": {
-        "m": "One QR for the whole family",
-        "c": "Each traveler must be matched to a card. Make sure every person, infants included, has a card in their own name and their own QR."
+        "m": "Un solo QR para toda la familia",
+        "c": "Cada viajero debe estar vinculado a una tarjeta. Asegúrese de que cada persona, bebés incluidos, tiene una tarjeta a su nombre y su propio QR."
       },
       "screenshot": {
-        "m": "Screenshot cropped or too small to scan",
-        "c": "The kiosk cannot read it and you queue again. Keep the original file and a screenshot showing the whole code, with screen brightness up."
+        "m": "Captura de pantalla recortada o demasiado pequeña para escanearla",
+        "c": "El quiosco no puede leerla y vuelve a hacer cola. Conserve el archivo original y una captura que muestre el código completo, con el brillo de la pantalla al máximo."
       },
       "email": {
-        "m": "Email address with a typo",
-        "c": "No verification code and no QR. Type the address twice and check it before you continue."
+        "m": "Dirección de correo electrónico con un error",
+        "c": "Sin código de verificación y sin QR. Escriba la dirección dos veces y compruébela antes de continuar."
       }
     },
     "faqs": {
       "visa": {
-        "q": "Is the All Indonesia arrival card a visa?",
-        "a": "No. It is a declaration to immigration, customs, health and quarantine. You still need visa-free entry, a visa on arrival, an e-VOA or another visa, depending on your nationality."
+        "q": "¿La tarjeta de llegada All Indonesia es una visa?",
+        "a": "No. Es una declaración ante inmigración, aduanas, salud y cuarentena. Sigue necesitando entrada sin visa, visa a la llegada, e-VOA u otra visa, según su nacionalidad."
       },
       "cost": {
-        "q": "Does it cost anything?",
-        "a": "No. The card is free on the official portal and in the official app. Any site that charges for the card itself is unofficial. Our fee pays for preparing, checking and delivering it on your behalf."
+        "q": "¿Cuesta algo?",
+        "a": "No. La tarjeta es gratuita en el portal oficial y en la aplicación oficial. Cualquier sitio que cobre por la tarjeta en sí no es oficial. Nuestra tarifa paga su preparación, revisión y entrega en su nombre."
       },
       "when": {
-        "q": "When can I submit it?",
-        "a": "Inside the 72 hours before your arrival date in Indonesia. Earlier submissions are refused. Most travelers submit 24 to 48 hours before landing."
+        "q": "¿Cuándo puedo enviarla?",
+        "a": "Dentro de las 72 horas previas a su fecha de llegada a Indonesia. Los envíos anteriores se rechazan. La mayoría de los viajeros la envían entre 24 y 48 horas antes de aterrizar."
       },
       "children": {
-        "q": "Do children and infants need one?",
-        "a": "Yes. Every traveler with a passport needs a card, whatever their age. A parent can fill it in for them."
+        "q": "¿Los niños y bebés necesitan una?",
+        "a": "Sí. Todo viajero con pasaporte necesita una tarjeta, sea cual sea su edad. Un padre o madre puede completarla por ellos."
       },
       "citizens": {
-        "q": "Do Indonesian citizens need it?",
-        "a": "Yes. Citizens returning from abroad complete the same card, choosing the Indonesian citizen category and entering their NIK."
+        "q": "¿Los ciudadanos indonesios la necesitan?",
+        "a": "Sí. Los ciudadanos que regresan del extranjero completan la misma tarjeta, eligiendo la categoría de ciudadano indonesio e introduciendo su NIK."
       },
       "transit": {
-        "q": "I am only transiting. Do I need it?",
-        "a": "If you stay in the international transit area and do not pass immigration, no. If you clear immigration, even for one night, yes."
+        "q": "Solo estoy en tránsito. ¿La necesito?",
+        "a": "Si permanece en la zona de tránsito internacional y no pasa inmigración, no. Si pasa inmigración, aunque sea por una noche, sí."
       },
       "print": {
-        "q": "Do I need to print the QR code?",
-        "a": "No. A digital copy on your phone is accepted. A printout is a useful backup if your battery or signal fails."
+        "q": "¿Tengo que imprimir el código QR?",
+        "a": "No. Se acepta una copia digital en su teléfono. Una copia impresa es un respaldo útil si falla la batería o la señal."
       },
       "lost": {
-        "q": "I lost the QR code. What now?",
-        "a": "Use the retrieve page on the official portal with your passport details to download it again, or open the app where it is stored."
+        "q": "He perdido el código QR. ¿Qué hago?",
+        "a": "Use la página de recuperación del portal oficial con los datos de su pasaporte para descargarlo de nuevo, o abra la aplicación, donde está guardado."
       },
       "onArrival": {
-        "q": "Can I fill it in on arrival?",
-        "a": "In practice yes, on your phone in the arrivals hall, but it is slow and some airlines ask for it before boarding. Do it before you fly."
+        "q": "¿Puedo completarla a la llegada?",
+        "a": "En la práctica sí, en su teléfono en la sala de llegadas, pero es lento y algunas aerolíneas la piden antes de embarcar. Hágalo antes de volar."
       },
       "airports": {
-        "q": "Which airports and ports use it?",
-        "a": "All international airports since 1 October 2025, including Jakarta, Bali, Surabaya, Medan, Makassar, Manado and Labuan Bajo, plus international seaports such as the Batam and Bintan ferry terminals and Benoa, and land borders such as Motaain."
+        "q": "¿Qué aeropuertos y puertos la usan?",
+        "a": "Todos los aeropuertos internacionales desde el 1 de octubre de 2025, incluidos Yakarta, Bali, Surabaya, Medan, Makassar, Manado y Labuan Bajo, además de puertos marítimos internacionales como las terminales de ferris de Batam y Bintan y Benoa, y fronteras terrestres como Motaain."
       },
       "appOrWeb": {
-        "q": "Should I use the app or the website?",
-        "a": "Either. The website needs no account and works on any device. The app stores the QR and suits repeat trips and groups, but it requires registration and has had crashes."
+        "q": "¿Debo usar la aplicación o el sitio web?",
+        "a": "Cualquiera de los dos. El sitio web no necesita cuenta y funciona en cualquier dispositivo. La aplicación guarda el QR y es adecuada para viajes repetidos y grupos, pero requiere registro y ha tenido fallos."
       },
       "airport": {
-        "q": "What happens at the airport?",
-        "a": "At immigration you scan your passport at an autogate or hand it to an officer; the system finds your card. After baggage claim you scan the QR at the customs kiosk and take the green or red channel."
+        "q": "¿Qué ocurre en el aeropuerto?",
+        "a": "En inmigración escanea su pasaporte en una puerta automática o se lo entrega a un funcionario; el sistema localiza su tarjeta. Tras recoger el equipaje, escanea el QR en el quiosco de aduanas y pasa por el canal verde o rojo."
       }
     },
-    "sourcesIntro": "Pages we relied on, all checked on 23 September 2026. Rules change; the official portal always wins over this page.",
+    "sourcesIntro": "Páginas en las que nos hemos basado, todas comprobadas el 23 de septiembre de 2026. Las normas cambian; el portal oficial siempre prevalece sobre esta página.",
     "sources": {
-      "portal": "<portal>All Indonesia official portal</portal>, its <help>help centre</help> and <retrieve>retrieve page</retrieve>, Directorate General of Immigration.",
-      "apps": "<play>All Indonesia on Google Play</play> and <store>on the App Store</store>, listings and user reviews.",
-      "cirebon": "<link>All Indonesia (Indonesia Arrival Card)</link>, Cirebon Immigration Office.",
-      "karawang": "<link>How to register in the All Indonesia app</link>, Karawang Immigration Office.",
-      "woah": "<link>All Indonesia Arrival Card guide (PDF)</link>, WOAH Asia-Pacific, September 2025.",
-      "wikipedia": "<link>All Indonesia Arrival Card</link>, Wikipedia, rollout timeline and sections of the form.",
-      "autogate": "<link>Autogate system at international airports</link>, Wonderful Indonesia.",
-      "customs": "<link>Directorate General of Customs and Excise</link>, allowances and the cash rule.",
-      "tripadvisor": "Tripadvisor Bali forum: <a>All Indonesia arrival card</a>, <b>wrong date on the card</b>, <c>only one QR for a group</c>.",
-      "guides": "Travel guides used to cross-check the flow: <wego>Wego</wego>, <wbtb>Welcome Back to Bali</wbtb>, <bali>bali.com</bali>, <emerhub>Emerhub</emerhub>, <tsl>TheSmartLocal</tsl>, <zoom>Zoom Travel</zoom>."
+      "portal": "<portal>Portal oficial All Indonesia</portal>, su <help>centro de ayuda</help> y su <retrieve>página de recuperación</retrieve>, Dirección General de Inmigración.",
+      "apps": "<play>All Indonesia en Google Play</play> y <store>en el App Store</store>, fichas y reseñas de usuarios.",
+      "cirebon": "<link>All Indonesia (Indonesia Arrival Card)</link>, Oficina de Inmigración de Cirebon.",
+      "karawang": "<link>Cómo registrarse en la aplicación All Indonesia</link>, Oficina de Inmigración de Karawang.",
+      "woah": "<link>Guía de la All Indonesia Arrival Card (PDF)</link>, WOAH Asia-Pacífico, septiembre de 2025.",
+      "wikipedia": "<link>All Indonesia Arrival Card</link>, Wikipedia, cronología de la implantación y secciones del formulario.",
+      "autogate": "<link>Sistema de puertas automáticas en los aeropuertos internacionales</link>, Wonderful Indonesia.",
+      "customs": "<link>Dirección General de Aduanas e Impuestos Especiales</link>, franquicias y la norma sobre el efectivo.",
+      "tripadvisor": "Foro de Bali de Tripadvisor: <a>All Indonesia arrival card</a>, <b>fecha incorrecta en la tarjeta</b>, <c>un solo QR para un grupo</c>.",
+      "guides": "Guías de viaje usadas para contrastar el proceso: <wego>Wego</wego>, <wbtb>Welcome Back to Bali</wbtb>, <bali>bali.com</bali>, <emerhub>Emerhub</emerhub>, <tsl>TheSmartLocal</tsl>, <zoom>Zoom Travel</zoom>."
     },
-    "ctaTitle": "Prefer to have it prepared and checked?",
-    "ctaText": "Our team prepares your card from a short guided form, checks every field against your passport, submits it inside the 72-hour window and emails the QR code. From {price} per traveler. Useful for families, groups, or if you would rather not deal with the portal.",
-    "cta": "Use the assistance service",
-    "ctaReminder": "Flying in more than 3 days? <link>Set a reminder</link> and we tell you when the window opens."
+    "ctaTitle": "¿Prefiere que se la preparen y revisen?",
+    "ctaText": "Nuestro equipo prepara su tarjeta a partir de un breve formulario guiado, comprueba cada campo con su pasaporte, la envía dentro de la ventana de 72 horas y le manda el código QR por correo electrónico. Desde {price} por viajero. Útil para familias, grupos o si prefiere no lidiar con el portal.",
+    "cta": "Usar el servicio de asistencia",
+    "ctaReminder": "¿Vuela dentro de más de 3 días? <link>Cree un recordatorio</link> y le avisamos cuando se abra la ventana."
   },
   "Customs": {
-    "metaTitle": "Indonesia customs allowances 2026: duty-free limits, cash, IMEI",
-    "metaDescription": "What you must declare when entering Indonesia: USD 500 personal goods allowance, alcohol and tobacco limits, IDR 100 million cash rule, phone IMEI registration.",
-    "title": "Indonesia customs allowances and what to declare",
-    "intro": "Summary of the rules applied by Bea Cukai (Indonesian Customs) for arriving passengers. Always check the <link>official customs site</link> for the latest figures.",
-    "colItem": "Item",
-    "colAllowance": "Allowance per adult passenger",
-    "colExceeded": "If exceeded",
+    "metaTitle": "Franquicias aduaneras de Indonesia 2026: límites libres de impuestos, efectivo, IMEI",
+    "metaDescription": "Qué debe declarar al entrar en Indonesia: franquicia de USD 500 para bienes personales, límites de alcohol y tabaco, norma de los 100 millones de IDR en efectivo, registro del IMEI del teléfono.",
+    "title": "Franquicias aduaneras de Indonesia y qué declarar",
+    "intro": "Resumen de las normas que aplica Bea Cukai (Aduanas de Indonesia) a los pasajeros que llegan. Consulte siempre el <link>sitio oficial de aduanas</link> para conocer las cifras más recientes.",
+    "colItem": "Artículo",
+    "colAllowance": "Franquicia por pasajero adulto",
+    "colExceeded": "Si se supera",
     "rows": {
       "goods": {
-        "item": "Personal goods (non-commercial)",
-        "allowance": "USD 500 total value",
-        "exceeded": "Import duty and taxes on the excess"
+        "item": "Bienes personales (no comerciales)",
+        "allowance": "USD 500 de valor total",
+        "exceeded": "Derechos de importación e impuestos sobre el exceso"
       },
       "alcohol": {
-        "item": "Alcoholic beverages",
-        "allowance": "1 litre",
-        "exceeded": "Excess is confiscated and destroyed"
+        "item": "Bebidas alcohólicas",
+        "allowance": "1 litro",
+        "exceeded": "El exceso se confisca y se destruye"
       },
       "tobacco": {
-        "item": "Tobacco",
-        "allowance": "200 cigarettes, or 25 cigars, or 100 g tobacco",
-        "exceeded": "Excess is confiscated and destroyed"
+        "item": "Tabaco",
+        "allowance": "200 cigarrillos, o 25 puros, o 100 g de tabaco",
+        "exceeded": "El exceso se confisca y se destruye"
       },
       "cash": {
-        "item": "Cash and bearer instruments",
-        "allowance": "Below IDR 100,000,000 (or equivalent)",
-        "exceeded": "Must be declared; penalties for non-declaration"
+        "item": "Efectivo e instrumentos al portador",
+        "allowance": "Menos de IDR 100,000,000 (o equivalente)",
+        "exceeded": "Debe declararse; sanciones por no declarar"
       },
       "phones": {
-        "item": "Mobile phones",
-        "allowance": "Max 2 devices; IMEI registration required to use an Indonesian SIM beyond 90 days",
-        "exceeded": "Register at customs on arrival; tax may apply above allowance"
+        "item": "Teléfonos móviles",
+        "allowance": "Máximo 2 dispositivos; registro del IMEI obligatorio para usar una SIM indonesia más de 90 días",
+        "exceeded": "Registro en aduanas a la llegada; puede aplicarse un impuesto por encima de la franquicia"
       },
       "bio": {
-        "item": "Animals, plants, fresh food",
-        "allowance": "Requires quarantine declaration and permits",
-        "exceeded": "Confiscated; fines possible"
+        "item": "Animales, plantas, alimentos frescos",
+        "allowance": "Requieren declaración de cuarentena y permisos",
+        "exceeded": "Confiscación; posibles multas"
       },
       "prohibited": {
-        "item": "Drugs, weapons, pornography",
-        "allowance": "Prohibited",
-        "exceeded": "Criminal prosecution"
+        "item": "Drogas, armas, pornografía",
+        "allowance": "Prohibido",
+        "exceeded": "Proceso penal"
       }
     },
-    "quickCheck": "Quick check: do I need to declare?",
+    "quickCheck": "Comprobación rápida: ¿tengo que declarar?",
     "calculator": {
-      "goods": "Value of goods bought abroad (USD)",
-      "alcohol": "Alcohol (litres)",
-      "cigarettes": "Cigarettes (sticks)",
-      "cash": "Cash carried (IDR equivalent)",
-      "phones": "Mobile phones carried",
-      "bio": "I carry animals, plants, seeds, or fresh food products",
-      "flagGoods": "Personal goods above the USD 500 allowance: duty applies on about USD {excess}.",
-      "flagAlcohol": "Alcohol above 1 litre: the excess will be confiscated.",
-      "flagCigarettes": "More than 200 cigarettes: the excess will be confiscated.",
-      "flagCash": "Cash of IDR 100 million or more must be declared on the arrival card.",
-      "flagPhones": "More than 2 phones exceeds the passenger allowance; tax will be assessed.",
-      "flagBio": "Animals, plants or fresh food products must be declared for quarantine inspection.",
-      "nothing": "Nothing to declare based on these answers. Answer “no” to the customs questions on the arrival card.",
-      "indicative": "Indicative only. Customs officers make the final decision."
+      "goods": "Valor de los bienes comprados en el extranjero (USD)",
+      "alcohol": "Alcohol (litros)",
+      "cigarettes": "Cigarrillos (unidades)",
+      "cash": "Efectivo que lleva (equivalente en IDR)",
+      "phones": "Teléfonos móviles que lleva",
+      "bio": "Llevo animales, plantas, semillas o alimentos frescos",
+      "flagGoods": "Bienes personales por encima de la franquicia de USD 500: se aplican derechos sobre unos USD {excess}.",
+      "flagAlcohol": "Alcohol por encima de 1 litro: el exceso se confiscará.",
+      "flagCigarettes": "Más de 200 cigarrillos: el exceso se confiscará.",
+      "flagCash": "El efectivo de 100 millones de IDR o más debe declararse en la tarjeta de llegada.",
+      "flagPhones": "Más de 2 teléfonos supera la franquicia del pasajero; se liquidará un impuesto.",
+      "flagBio": "Los animales, plantas o alimentos frescos deben declararse para la inspección de cuarentena.",
+      "nothing": "Nada que declarar según estas respuestas. Responda «no» a las preguntas de aduanas en la tarjeta de llegada.",
+      "indicative": "Solo orientativo. Los funcionarios de aduanas toman la decisión final."
     }
   },
   "News": {
-    "metaTitle": "Official immigration and customs news, summarized",
-    "metaDescription": "Plain-English summaries of announcements from Indonesia's Directorate General of Immigration and Customs, with links to the original source.",
-    "title": "Official news, summarized for travelers",
-    "intro": "Short English summaries of announcements published by the Indonesian immigration and customs authorities. Each item links to the original. We are not the source and do not speak for these authorities.",
-    "keyRules": "Key rules in force",
+    "metaTitle": "Noticias oficiales de inmigración y aduanas, resumidas",
+    "metaDescription": "Resúmenes en lenguaje sencillo de los anuncios de la Dirección General de Inmigración y de Aduanas de Indonesia, con enlaces a la fuente original.",
+    "title": "Noticias oficiales, resumidas para viajeros",
+    "intro": "Breves resúmenes de los anuncios publicados por las autoridades indonesias de inmigración y aduanas. Cada entrada enlaza al original. No somos la fuente ni hablamos en nombre de estas autoridades.",
+    "keyRules": "Normas clave en vigor",
     "evergreen": {
       "arrivalCard": {
-        "title": "All Indonesia arrival card is mandatory at all international entry points",
-        "text": "Since 1 October 2025 every international arrival must submit the digital arrival card within 72 hours before arrival and present the QR code with their passport."
+        "title": "La tarjeta de llegada All Indonesia es obligatoria en todos los puntos de entrada internacionales",
+        "text": "Desde el 1 de octubre de 2025, toda llegada internacional debe enviar la tarjeta de llegada digital dentro de las 72 horas previas a la llegada y presentar el código QR con su pasaporte."
       },
       "cash": {
-        "title": "Cash of IDR 100 million or more must be declared",
-        "text": "Bringing IDR 100,000,000 or more (or foreign currency equivalent) into or out of Indonesia requires a declaration to Customs."
+        "title": "El efectivo de 100 millones de IDR o más debe declararse",
+        "text": "Introducir en Indonesia o sacar del país IDR 100,000,000 o más (o su equivalente en moneda extranjera) requiere una declaración ante Aduanas."
       }
     },
-    "latest": "Latest announcements",
-    "empty": "The feed is refreshed twice a week from the official sites. No items yet.",
+    "latest": "Últimos anuncios",
+    "empty": "El feed se actualiza dos veces por semana desde los sitios oficiales. Aún no hay entradas.",
     "sources": {
       "imigrasi": "Ditjen Imigrasi",
       "beacukai": "Bea Cukai",
-      "other": "Official source"
+      "other": "Fuente oficial"
     }
   },
   "Faq": {
-    "metaTitle": "FAQ – Indonesia arrival card",
-    "metaDescription": "Answers about the All Indonesia arrival card: who needs it, the 72-hour rule, the QR code, customs and our assistance service.",
-    "title": "Frequently asked questions",
+    "metaTitle": "Preguntas frecuentes – Tarjeta de llegada de Indonesia",
+    "metaDescription": "Respuestas sobre la tarjeta de llegada All Indonesia: quién la necesita, la regla de las 72 horas, el código QR, aduanas y nuestro servicio de asistencia.",
+    "title": "Preguntas frecuentes",
     "items": {
       "fee": {
-        "q": "What does the fee cover?",
-        "a": "Guided data collection, manual verification of every field, submission of your arrival card, delivery of the QR code by email, and support until you have cleared immigration."
+        "q": "¿Qué cubre la tarifa?",
+        "a": "La recogida guiada de datos, la verificación manual de cada campo, el envío de su tarjeta de llegada, la entrega del código QR por correo electrónico y el soporte hasta que haya pasado inmigración."
       },
       "who": {
-        "q": "Who must complete it?",
-        "a": "All international arrivals to Indonesia by air, sea or land, including Indonesian citizens and children. Each traveler needs their own card."
+        "q": "¿Quién debe completarla?",
+        "a": "Todas las llegadas internacionales a Indonesia por vía aérea, marítima o terrestre, incluidos los ciudadanos indonesios y los niños. Cada viajero necesita su propia tarjeta."
       },
       "when": {
-        "q": "When must it be submitted?",
-        "a": "Within 72 hours (3 days) before your scheduled arrival. Submitting earlier than 72 hours is not accepted by the system, so we schedule your submission inside that window."
+        "q": "¿Cuándo debe enviarse?",
+        "a": "Dentro de las 72 horas (3 días) previas a su llegada programada. El sistema no acepta envíos con más de 72 horas de antelación, por lo que programamos su envío dentro de esa ventana."
       },
       "receive": {
-        "q": "What do I receive?",
-        "a": "A QR code, which you show with your passport at immigration and customs on arrival. We send it by email as a PDF and an image."
+        "q": "¿Qué recibo?",
+        "a": "Un código QR, que muestra junto con su pasaporte en inmigración y aduanas a la llegada. Se lo enviamos por correo electrónico en PDF y como imagen."
       },
       "visa": {
-        "q": "Does the arrival card replace a visa?",
-        "a": "No. It is an arrival declaration (immigration, customs and health in one form). You still need visa-free entry, a Visa on Arrival, an e-VOA or another visa as applicable. We can prepare the e-VOA for you as well."
+        "q": "¿La tarjeta de llegada sustituye a la visa?",
+        "a": "No. Es una declaración de llegada (inmigración, aduanas y salud en un solo formulario). Sigue necesitando entrada sin visa, visa a la llegada, e-VOA u otra visa, según corresponda. También podemos preparar la e-VOA por usted."
       },
       "evoa": {
-        "q": "What is the e-VOA and who can use it?",
-        "a": "The electronic Visa on Arrival is a 30-day visa, extendable once for 30 days, available to around 97 nationalities for tourism, family visits, business meetings and transit. ASEAN nationals do not need it. Your passport must be valid for at least 6 months."
+        "q": "¿Qué es la e-VOA y quién puede usarla?",
+        "a": "La visa electrónica a la llegada es una visa de 30 días, prorrogable una vez por 30 días, disponible para unas 97 nacionalidades para turismo, visitas familiares, reuniones de negocios y tránsito. Los ciudadanos de la ASEAN no la necesitan. Su pasaporte debe tener una validez mínima de 6 meses."
       },
       "evoaPrice": {
-        "q": "How is the e-VOA price made up?",
-        "a": "The government e-VOA fee of IDR 500,000 (about USD 31) is shown separately from our service fee. The government fee is non-refundable once the application is lodged; our service fee is refunded if you are not eligible or we cannot submit."
+        "q": "¿Cómo se compone el precio de la e-VOA?",
+        "a": "La tasa gubernamental de la e-VOA, de IDR 500,000 (unos USD 31), se muestra por separado de nuestra tarifa de servicio. La tasa gubernamental no es reembolsable una vez presentada la solicitud; nuestra tarifa de servicio se reembolsa si no es elegible o si no podemos presentarla."
       },
       "evoaTime": {
-        "q": "How long does the e-VOA take?",
-        "a": "Usually the same day, at most 2 working days after we submit. Apply at least 5 days before travel to be safe; the express option prioritizes verification and submission."
+        "q": "¿Cuánto tarda la e-VOA?",
+        "a": "Normalmente el mismo día y, como máximo, 2 días hábiles después de presentarla. Para mayor seguridad, solicítela al menos 5 días antes del viaje; la opción exprés prioriza la verificación y la presentación."
       },
       "airports": {
-        "q": "Which airports and ports use it?",
-        "a": "All major international entry points, including Jakarta (CGK), Bali (DPS), Surabaya (SUB), Medan (KNO), Makassar (UPG) and the Batam and Tanjung Pinang ferry terminals. Some airlines ask to see the QR before boarding."
+        "q": "¿Qué aeropuertos y puertos la usan?",
+        "a": "Todos los principales puntos de entrada internacionales, incluidos Yakarta (CGK), Bali (DPS), Surabaya (SUB), Medan (KNO), Makassar (UPG) y las terminales de ferris de Batam y Tanjung Pinang. Algunas aerolíneas piden ver el QR antes de embarcar."
       },
       "mistake": {
-        "q": "What if I make a mistake?",
-        "a": "Details such as passport number must match exactly. That is the main reason people use our service: a person checks every field before submission."
+        "q": "¿Y si cometo un error?",
+        "a": "Datos como el número de pasaporte deben coincidir exactamente. Esa es la principal razón por la que la gente usa nuestro servicio: una persona revisa cada campo antes del envío."
       },
       "safety": {
-        "q": "Is my passport data safe?",
-        "a": "Data is encrypted, used only to prepare your card, never sold, and deleted 30 days after your arrival date. See our privacy policy."
+        "q": "¿Están seguros los datos de mi pasaporte?",
+        "a": "Los datos se cifran, se usan solo para preparar su tarjeta, nunca se venden y se eliminan 30 días después de su fecha de llegada. Consulte nuestra política de privacidad."
       },
       "refund": {
-        "q": "Can I get a refund?",
-        "a": "Yes, in full if we do not deliver at least 6 hours before your arrival time or if you cancel before processing starts."
+        "q": "¿Puedo obtener un reembolso?",
+        "a": "Sí, completo si no entregamos al menos 6 horas antes de su hora de llegada o si cancela antes de que empiece el procesamiento."
       },
       "government": {
-        "q": "Are you the Indonesian government?",
-        "a": "No. We are a private assistance company, not affiliated with the Government of Indonesia, the Directorate General of Immigration or any government website."
+        "q": "¿Son ustedes el Gobierno de Indonesia?",
+        "a": "No. Somos una empresa de asistencia privada, sin vinculación con el Gobierno de Indonesia, la Dirección General de Inmigración ni ningún sitio web gubernamental."
       },
       "diy": {
-        "q": "Can I complete the arrival card without your service?",
-        "a": "Yes. The All Indonesia arrival card can be completed free of charge on the official government portal allindonesia.imigrasi.go.id. Our fee is only for preparing, checking and delivering it for you."
+        "q": "¿Puedo completar la tarjeta de llegada sin su servicio?",
+        "a": "Sí. La tarjeta de llegada All Indonesia puede completarse de forma gratuita en el portal oficial del Gobierno allindonesia.imigrasi.go.id. Nuestra tarifa es solo por prepararla, revisarla y entregársela."
       }
     }
   },
   "Contact": {
-    "metaTitle": "Contact & support",
-    "title": "Contact & support",
-    "hours": "Support hours: 07:00–23:00 Jakarta time (UTC+7), every day. Typical response time under 15 minutes for paid orders.",
-    "email": "Email",
-    "orderQuestions": "Order questions",
-    "orderQuestionsText": "Reply to your confirmation email with your order number and we answer within 15 minutes during support hours."
+    "metaTitle": "Contacto y soporte",
+    "title": "Contacto y soporte",
+    "hours": "Horario de soporte: de 07:00 a 23:00, hora de Yakarta (UTC+7), todos los días. Tiempo de respuesta habitual inferior a 15 minutos para pedidos pagados.",
+    "email": "Correo electrónico",
+    "orderQuestions": "Preguntas sobre pedidos",
+    "orderQuestionsText": "Responda a su correo de confirmación con su número de pedido y le contestaremos en 15 minutos durante el horario de soporte."
   },
   "Legal": {
-    "operatorContact": "{company}, {address}. {reg}. Contact: <mail>{email}</mail>.",
+    "operatorContact": "{company}, {address}. {reg}. Contacto: <mail>{email}</mail>.",
     "disclosure": {
-      "metaTitle": "Non-affiliation disclosure",
-      "title": "Non-affiliation disclosure",
-      "meaningTitle": "What this means for you",
-      "meaning1": "Our fee is for a service: guided data collection, manual verification, submission on your behalf, delivery and support.",
-      "meaning2": "We do not issue visas, arrival cards or any government document. The QR code you receive is generated by the Indonesian government system.",
-      "meaning3": "We do not use government logos, emblems or names in our branding, and we are not endorsed by any Indonesian authority.",
-      "operatorTitle": "Operator"
+      "metaTitle": "Aviso de no vinculación",
+      "title": "Aviso de no vinculación",
+      "meaningTitle": "Qué significa esto para usted",
+      "meaning1": "Nuestra tarifa corresponde a un servicio: recogida guiada de datos, verificación manual, envío en su nombre, entrega y soporte.",
+      "meaning2": "No expedimos visas, tarjetas de llegada ni ningún documento gubernamental. El código QR que recibe lo genera el sistema del Gobierno de Indonesia.",
+      "meaning3": "No usamos logotipos, emblemas ni nombres gubernamentales en nuestra marca, y no contamos con el respaldo de ninguna autoridad indonesia.",
+      "operatorTitle": "Operador"
     },
     "privacy": {
-      "metaTitle": "Privacy policy",
-      "title": "Privacy policy",
-      "template": "Template for legal review before launch. Last updated: {date}.",
-      "controllerTitle": "Controller",
-      "collectTitle": "Data we collect",
-      "collect1": "Identity and passport details of each traveler (name, date of birth, gender, nationality, passport number and dates), and for e-VOA orders a scan of the passport bio page and a passport-style photo.",
-      "collect2": "Travel details (dates, flight, port of entry, accommodation) and the health and customs declarations you make.",
-      "collect3": "Contact details (email, phone) and order records. Card details are processed by our payment provider and never stored by us.",
-      "purposeTitle": "Purpose and legal basis",
-      "purpose": "To perform the contract you place with us: preparing and submitting your arrival card and delivering the result. Also to comply with legal obligations (accounting, fraud prevention) and, with your consent, to send service reminders.",
-      "sharingTitle": "Sharing",
-      "sharing": "Your data is entered into the official Indonesian government portal to submit your arrival card. It is also processed by our hosting, database, email and messaging providers under data-processing agreements. We never sell personal data.",
-      "transfersTitle": "International transfers",
-      "transfers": "Data is stored in Singapore and processed by our team in Hong Kong and Indonesia. Transfers are protected by contractual safeguards meeting the standards of Indonesia's Personal Data Protection Law and the GDPR.",
-      "retentionTitle": "Retention",
-      "retention": "Passport and declaration data, including uploaded passport scans and photos, is deleted 30 days after your arrival date. Order and payment records are kept for 7 years as required by accounting law, without passport data.",
-      "rightsTitle": "Your rights",
-      "rights": "You may request access, correction, deletion or a copy of your data, withdraw consent and lodge a complaint with a supervisory authority. Write to <mail>{email}</mail>. We respond within 3 working days.",
-      "securityTitle": "Security",
-      "security": "Encryption in transit and at rest, role-based access for our team, audit logs, and breach notification to affected persons and authorities within the legally required period (3×24 hours under Indonesian law).",
+      "metaTitle": "Política de privacidad",
+      "title": "Política de privacidad",
+      "template": "Plantilla para revisión legal antes del lanzamiento. Última actualización: {date}.",
+      "controllerTitle": "Responsable del tratamiento",
+      "collectTitle": "Datos que recogemos",
+      "collect1": "Datos de identidad y del pasaporte de cada viajero (nombre, fecha de nacimiento, sexo, nacionalidad, número de pasaporte y fechas) y, para los pedidos de e-VOA, un escaneo de la página de datos del pasaporte y una foto tipo pasaporte.",
+      "collect2": "Datos del viaje (fechas, vuelo, puerto de entrada, alojamiento) y las declaraciones de salud y de aduanas que realiza.",
+      "collect3": "Datos de contacto (correo electrónico, teléfono) y registros de pedidos. Los datos de la tarjeta bancaria los procesa nuestro proveedor de pagos y nosotros nunca los almacenamos.",
+      "purposeTitle": "Finalidad y base legal",
+      "purpose": "Ejecutar el contrato que celebra con nosotros: preparar y enviar su tarjeta de llegada y entregarle el resultado. También cumplir obligaciones legales (contabilidad, prevención del fraude) y, con su consentimiento, enviarle recordatorios del servicio.",
+      "sharingTitle": "Comunicación de datos",
+      "sharing": "Sus datos se introducen en el portal oficial del Gobierno de Indonesia para enviar su tarjeta de llegada. También los procesan nuestros proveedores de alojamiento web, base de datos, correo electrónico y mensajería en virtud de acuerdos de tratamiento de datos. Nunca vendemos datos personales.",
+      "transfersTitle": "Transferencias internacionales",
+      "transfers": "Los datos se almacenan en Singapur y los procesa nuestro equipo en Hong Kong e Indonesia. Las transferencias están protegidas por garantías contractuales que cumplen los estándares de la Ley de Protección de Datos Personales de Indonesia y del RGPD.",
+      "retentionTitle": "Conservación",
+      "retention": "Los datos del pasaporte y de las declaraciones, incluidos los escaneos del pasaporte y las fotos subidas, se eliminan 30 días después de su fecha de llegada. Los registros de pedidos y pagos se conservan 7 años, como exige la legislación contable, sin datos del pasaporte.",
+      "rightsTitle": "Sus derechos",
+      "rights": "Puede solicitar el acceso, la rectificación, la eliminación o una copia de sus datos, retirar su consentimiento y presentar una reclamación ante una autoridad de control. Escriba a <mail>{email}</mail>. Respondemos en un plazo de 3 días hábiles.",
+      "securityTitle": "Seguridad",
+      "security": "Cifrado en tránsito y en reposo, acceso basado en roles para nuestro equipo, registros de auditoría y notificación de brechas de seguridad a las personas afectadas y a las autoridades dentro del plazo legalmente exigido (3×24 horas según la legislación indonesia).",
       "cookiesTitle": "Cookies",
-      "cookies": "We use Google Analytics 4 and the Meta (Facebook) Pixel, including their server-side interfaces (Google Analytics Measurement Protocol and Meta Conversions API), to measure visits and advertising conversions. For a completed order we send Google and Meta the order value and a hashed (irreversible) version of your email address, phone number, name and nationality, together with your IP address, browser identifier and advertising click identifiers, so that the advertising platforms can attribute the purchase to an advertisement. Nothing about your passport or your declarations is sent to them. You can opt out through the settings of those platforms or by using a browser that blocks their scripts."
+      "cookies": "Usamos Google Analytics 4 y el píxel de Meta (Facebook), incluidas sus interfaces del lado del servidor (Google Analytics Measurement Protocol y Meta Conversions API), para medir las visitas y las conversiones publicitarias. Para un pedido completado, enviamos a Google y a Meta el valor del pedido y una versión cifrada mediante hash (irreversible) de su dirección de correo electrónico, número de teléfono, nombre y nacionalidad, junto con su dirección IP, el identificador de su navegador y los identificadores de clic publicitario, de modo que las plataformas publicitarias puedan atribuir la compra a un anuncio. No se les envía nada sobre su pasaporte ni sobre sus declaraciones. Puede oponerse a través de la configuración de esas plataformas o usando un navegador que bloquee sus scripts."
     },
     "refunds": {
-      "metaTitle": "Refund policy",
-      "title": "Refund policy",
-      "updated": "Last updated: {date}.",
+      "metaTitle": "Política de reembolsos",
+      "title": "Política de reembolsos",
+      "updated": "Última actualización: {date}.",
       "items": {
-        "deadline": "<strong>Missed deadline:</strong> full refund, automatically, if your QR code is not delivered at least 6 hours before your scheduled arrival.",
-        "cancelBefore": "<strong>Cancellation before processing:</strong> full refund if you cancel before a team member has started your order. Email us with your order number.",
-        "cancelAfter": "<strong>Cancellation after processing:</strong> 50% refund if the card has not yet been submitted; no refund once the QR code has been delivered.",
-        "noLongerNeeded": "<strong>You no longer need the service:</strong> full refund if you tell us before we submit.",
-        "tooEarly": "<strong>Ordered too early:</strong> we do not take payment for arrival cards more than {hours} hours before arrival. If a payment slips through, we hold the order and process it when the window opens, or refund in full on request before we start.",
-        "evoaFee": "<strong>e-VOA visa fee:</strong> non-refundable once the application is lodged with the Indonesian authorities. Refunded in full if we have not yet lodged it.",
-        "evoaRefused": "<strong>e-VOA not eligible or refused:</strong> full refund of our service fee; the visa fee is refunded only if not yet lodged.",
-        "ourError": "<strong>Our error:</strong> full refund plus a free resubmission if a mistake on our side causes the card to be rejected."
+        "deadline": "<strong>Plazo incumplido:</strong> reembolso completo, de forma automática, si su código QR no se entrega al menos 6 horas antes de su llegada programada.",
+        "cancelBefore": "<strong>Cancelación antes del procesamiento:</strong> reembolso completo si cancela antes de que un miembro del equipo haya empezado con su pedido. Escríbanos indicando su número de pedido.",
+        "cancelAfter": "<strong>Cancelación después del procesamiento:</strong> reembolso del 50% si la tarjeta aún no se ha enviado; sin reembolso una vez entregado el código QR.",
+        "noLongerNeeded": "<strong>Ya no necesita el servicio:</strong> reembolso completo si nos lo comunica antes de que enviemos la tarjeta.",
+        "tooEarly": "<strong>Pedido demasiado pronto:</strong> no cobramos por tarjetas de llegada con más de {hours} horas de antelación a la llegada. Si un pago se registra pese a ello, retenemos el pedido y lo procesamos cuando se abra la ventana, o lo reembolsamos íntegramente si lo solicita antes de que empecemos.",
+        "evoaFee": "<strong>Tasa de la visa e-VOA:</strong> no reembolsable una vez presentada la solicitud ante las autoridades indonesias. Se reembolsa íntegramente si aún no la hemos presentado.",
+        "evoaRefused": "<strong>e-VOA no elegible o denegada:</strong> reembolso completo de nuestra tarifa de servicio; la tasa de visa solo se reembolsa si aún no se ha presentado.",
+        "ourError": "<strong>Error nuestro:</strong> reembolso completo más un nuevo envío gratuito si un error por nuestra parte provoca el rechazo de la tarjeta."
       },
-      "timing": "Refunds are returned to the original card within 5–10 business days.",
-      "disputes": "If something goes wrong, contact us at <mail>{email}</mail> before opening a dispute with your bank. We answer within one business day and resolve almost every case with a refund or a resubmission. A chargeback opened without contacting us first may be contested with the order record, the delivery email and the <terms>terms of service</terms>."
+      "timing": "Los reembolsos se devuelven a la tarjeta original en un plazo de 5–10 días hábiles.",
+      "disputes": "Si algo sale mal, contacte con nosotros en <mail>{email}</mail> antes de abrir una disputa con su banco. Respondemos en un día hábil y resolvemos casi todos los casos con un reembolso o un nuevo envío. Una devolución de cargo abierta sin contactarnos primero puede impugnarse con el registro del pedido, el correo de entrega y los <terms>términos del servicio</terms>."
     },
     "terms": {
-      "metaTitle": "Terms of service",
-      "title": "Terms of service",
-      "template": "Template for review by a Hong Kong solicitor before launch. Last updated: {date}.",
-      "s1Title": "1. Parties and service",
-      "s1": "These terms govern the assistance service (the \"Service\") provided by {company} (\"we\", \"us\"), {jurisdiction} ({reg}) with its registered office at {address}, to the person placing an order (\"you\"). The Service consists of collecting your information through our guided form, checking it, submitting the Indonesia arrival card on the official government portal on your behalf, and delivering the resulting QR code to you.",
-      "s2Title": "2. Not a government service",
-      "s2": "We are not affiliated with, endorsed by or acting for the Government of Indonesia, and this website is not a government website. You are paying for our assistance only. We do not guarantee entry to Indonesia, which is at the sole discretion of Indonesian authorities.",
-      "s3Title": "3. Price and payment",
-      "s3": "The price is displayed before you enter personal data and again at checkout. Payment is taken by card through our payment provider. The charge appears on your statement under our company descriptor, never as a government fee.",
-      "s4Title": "4. Your obligations",
-      "s4": "You must provide accurate information and hold authority to provide the information of other travelers in your booking. You remain responsible for the accuracy of the declarations (customs, health, immigration) made in your name.",
-      "s5Title": "5. Delivery and refunds",
-      "s5a": "Standard delivery is within {acStandard} hours for arrival cards and within {evStandard} hours for e-VOA verification; Express delivery is within {acExpress} hours for arrival cards and within {evExpress} hours for e-VOA verification.",
-      "s5b": "Standard and Express delivery times run from the later of: (a) confirmation of your payment, (b) receipt of every detail and document we need, and (c) for arrival cards, the opening of the official {window}-hour window. Express ({acExpress} hours for arrival cards, {evExpress} hours for e-VOA verification) applies to our preparation and submission; the authorities' own processing time for the e-VOA is outside our control.",
-      "s5c": "If we do not deliver your arrival card QR code at least 6 hours before your scheduled arrival, you receive a full refund. See the <link>refund policy</link>.",
-      "s6Title": "6. Orders placed too early",
-      "s6a": "The official portal accepts arrival card submissions only within {window} hours before arrival. Our order form does not take payment for arrival card assistance before that window opens; instead it offers a free reminder, and we email you when the window opens.",
-      "s6b": "If, despite this, an order is accepted outside the window (for example a bundle whose e-VOA part is processed immediately), the arrival card part is prepared as soon as the window opens, and the delivery times in section 5 count from that moment.",
-      "s6c": "If you change your arrival date, you must tell us before we submit. If a card is submitted for a date that you later change, a new submission is a new order.",
-      "s7Title": "7. Data protection",
-      "s7": "We process personal data as described in the <link>privacy policy</link>, including the requirements of Indonesia's Law No. 27 of 2022 on Personal Data Protection, the Hong Kong Personal Data (Privacy) Ordinance and, where applicable, the GDPR.",
-      "s8Title": "8. Liability",
-      "s8": "Our total liability for any claim is limited to the amount you paid for the Service. We are not liable for refusal of entry, airline decisions, changes in government rules, or outages of the official portal, except where caused by our negligence.",
-      "s9Title": "9. Disputes and chargebacks",
-      "s9": "If something goes wrong, contact us at <mail>{email}</mail> before opening a dispute with your bank. We answer within one business day and resolve almost every case with a refund or a resubmission. A chargeback opened without contacting us first may be contested with the order record, the delivery email and this agreement.",
-      "s10Title": "10. Governing law",
-      "s10": "These terms are governed by the laws of Hong Kong SAR. Disputes are subject to the non-exclusive jurisdiction of the Hong Kong courts. Consumers keep any mandatory protections of their country of residence."
+      "metaTitle": "Términos del servicio",
+      "title": "Términos del servicio",
+      "template": "Plantilla para revisión por un abogado de Hong Kong antes del lanzamiento. Última actualización: {date}.",
+      "s1Title": "1. Partes y servicio",
+      "s1": "Estos términos rigen el servicio de asistencia (el «Servicio») prestado por {company} («nosotros»), {jurisdiction} ({reg}), con domicilio social en {address}, a la persona que realiza un pedido («usted»). El Servicio consiste en recoger su información a través de nuestro formulario guiado, revisarla, enviar la tarjeta de llegada de Indonesia en el portal oficial del Gobierno en su nombre y entregarle el código QR resultante.",
+      "s2Title": "2. No es un servicio gubernamental",
+      "s2": "No estamos vinculados al Gobierno de Indonesia, no contamos con su respaldo ni actuamos en su nombre, y este sitio web no es un sitio web gubernamental. Usted paga únicamente por nuestra asistencia. No garantizamos la entrada en Indonesia, que queda a la entera discreción de las autoridades indonesias.",
+      "s3Title": "3. Precio y pago",
+      "s3": "El precio se muestra antes de que introduzca datos personales y de nuevo al finalizar la compra. El pago se realiza con tarjeta a través de nuestro proveedor de pagos. El cargo aparece en su extracto con el descriptor de nuestra empresa, nunca como una tasa gubernamental.",
+      "s4Title": "4. Sus obligaciones",
+      "s4": "Debe facilitar información exacta y estar autorizado para facilitar la información de los demás viajeros de su reserva. Usted sigue siendo responsable de la exactitud de las declaraciones (aduanas, salud, inmigración) realizadas en su nombre.",
+      "s5Title": "5. Entrega y reembolsos",
+      "s5a": "La entrega estándar se realiza en un plazo de {acStandard} horas para las tarjetas de llegada y de {evStandard} horas para la verificación de la e-VOA; la entrega exprés se realiza en un plazo de {acExpress} horas para las tarjetas de llegada y de {evExpress} horas para la verificación de la e-VOA.",
+      "s5b": "Los plazos de entrega estándar y exprés cuentan desde el último de estos momentos: (a) la confirmación de su pago, (b) la recepción de todos los datos y documentos que necesitamos y (c) para las tarjetas de llegada, la apertura de la ventana oficial de {window} horas. El servicio exprés ({acExpress} horas para las tarjetas de llegada, {evExpress} horas para la verificación de la e-VOA) se aplica a nuestra preparación y envío; el tiempo de tramitación de la e-VOA por parte de las autoridades escapa a nuestro control.",
+      "s5c": "Si no entregamos el código QR de su tarjeta de llegada al menos 6 horas antes de su llegada programada, recibe un reembolso completo. Consulte la <link>política de reembolsos</link>.",
+      "s6Title": "6. Pedidos realizados demasiado pronto",
+      "s6a": "El portal oficial acepta el envío de la tarjeta de llegada solo dentro de las {window} horas previas a la llegada. Nuestro formulario de pedido no cobra la asistencia con la tarjeta de llegada antes de que se abra esa ventana; en su lugar ofrece un recordatorio gratuito, y le escribimos cuando se abre la ventana.",
+      "s6b": "Si, a pesar de ello, se acepta un pedido fuera de la ventana (por ejemplo, un paquete cuya parte de e-VOA se procesa de inmediato), la parte de la tarjeta de llegada se prepara en cuanto se abre la ventana, y los plazos de entrega de la sección 5 cuentan desde ese momento.",
+      "s6c": "Si cambia su fecha de llegada, debe comunicárnoslo antes de que enviemos la tarjeta. Si se envía una tarjeta para una fecha que usted cambia después, un nuevo envío es un nuevo pedido.",
+      "s7Title": "7. Protección de datos",
+      "s7": "Tratamos los datos personales según se describe en la <link>política de privacidad</link>, incluidos los requisitos de la Ley n.º 27 de 2022 de Indonesia sobre Protección de Datos Personales, la Ordenanza de Datos Personales (Privacidad) de Hong Kong y, cuando proceda, el RGPD.",
+      "s8Title": "8. Responsabilidad",
+      "s8": "Nuestra responsabilidad total por cualquier reclamación se limita al importe que pagó por el Servicio. No somos responsables de la denegación de entrada, las decisiones de las aerolíneas, los cambios en las normas gubernamentales ni las caídas del portal oficial, salvo cuando se deban a nuestra negligencia.",
+      "s9Title": "9. Disputas y devoluciones de cargo",
+      "s9": "Si algo sale mal, contacte con nosotros en <mail>{email}</mail> antes de abrir una disputa con su banco. Respondemos en un día hábil y resolvemos casi todos los casos con un reembolso o un nuevo envío. Una devolución de cargo abierta sin contactarnos primero puede impugnarse con el registro del pedido, el correo de entrega y este acuerdo.",
+      "s10Title": "10. Legislación aplicable",
+      "s10": "Estos términos se rigen por las leyes de la RAE de Hong Kong. Las disputas se someten a la jurisdicción no exclusiva de los tribunales de Hong Kong. Los consumidores conservan las protecciones imperativas de su país de residencia."
     }
   },
   "NotFound": {
-    "title": "Page not found",
-    "text": "The page you are looking for does not exist or has moved.",
-    "cta": "Back to the home page"
+    "title": "Página no encontrada",
+    "text": "La página que busca no existe o se ha movido.",
+    "cta": "Volver a la página de inicio"
   },
   "Email": {
-    "greeting": "Dear {name},",
-    "hello": "Hello,",
-    "questions": "Questions? Reply to this email or write to {email}.",
-    "notAffiliated": "{company} is a private assistance service and is not affiliated with any government website.",
-    "stopEmails": "Stop these emails",
-    "noLongerTravelling": "No longer travelling?",
+    "greeting": "Estimado/a {name}:",
+    "hello": "Hola:",
+    "questions": "¿Tiene preguntas? Responda a este correo o escriba a {email}.",
+    "notAffiliated": "{company} es un servicio de asistencia privado y no tiene vinculación con ningún sitio web gubernamental.",
+    "stopEmails": "Dejar de recibir estos correos",
+    "noLongerTravelling": "¿Ya no viaja?",
     "products": {
-      "arrival_card": "arrival card assistance",
-      "evoa": "e-VOA (visa on arrival) assistance",
-      "bundle": "e-VOA + arrival card bundle"
+      "arrival_card": "asistencia con la tarjeta de llegada",
+      "evoa": "asistencia con la e-VOA (visa a la llegada)",
+      "bundle": "paquete e-VOA + tarjeta de llegada"
     },
     "confirmation": {
-      "subject": "We received your {product} order {id}",
-      "received": "Thank you. We have received your order and payment of {amount} for {count, plural, one {# traveler} other {# travelers}}.",
-      "arrivalCard": "Arrival card: a team member checks your details and submits the card inside the 72-hour window before your arrival on {date}. You will receive the QR code by email.",
-      "evoa": "e-VOA: we verify your passport scan and photo and lodge the application within {hours} hours. Approval by the authorities usually follows the same day, at most 2 working days."
+      "subject": "Hemos recibido su pedido {id} ({product})",
+      "received": "Gracias. Hemos recibido su pedido y su pago de {amount} por {count, plural, one {# viajero} other {# viajeros}}.",
+      "arrivalCard": "Tarjeta de llegada: un miembro del equipo revisa sus datos y envía la tarjeta dentro de la ventana de 72 horas previas a su llegada el {date}. Recibirá el código QR por correo electrónico.",
+      "evoa": "e-VOA: verificamos el escaneo de su pasaporte y su foto y presentamos la solicitud en un plazo de {hours} horas. La aprobación por las autoridades suele llegar el mismo día y, como máximo, en 2 días hábiles."
     },
     "delivery": {
-      "subject": "Your Indonesia {what} – {familyName}, {givenNames} – arrival {date}",
-      "whatBoth": "arrival card QR code and e-VOA",
-      "whatArrivalCard": "arrival card QR code",
+      "subject": "Su {what} para Indonesia – {familyName}, {givenNames} – llegada {date}",
+      "whatBoth": "código QR de la tarjeta de llegada y e-VOA",
+      "whatArrivalCard": "código QR de la tarjeta de llegada",
       "whatEvoa": "e-VOA",
-      "attached": "Your {what} {count, plural, one {is} other {documents are}} attached to this email.",
-      "arrivalCard": "At the airport: show the QR code (on your phone or printed) together with your passport at immigration, and again at customs. One QR code per traveler.",
-      "evoa": "Print the e-VOA or keep it on your phone and present it at immigration with your passport and your return ticket. It is valid for 30 days and can be extended once in Indonesia.",
-      "check": "Please check that names, passport numbers and dates match your passports exactly and tell us immediately if anything is wrong.",
-      "questions": "Have a good trip. Questions: reply to this email or write to {email}."
+      "attached": "{count, plural, one {Adjuntamos a este correo su {what}.} other {Adjuntamos a este correo sus documentos ({what}).}}",
+      "arrivalCard": "En el aeropuerto: muestre el código QR (en su teléfono o impreso) junto con su pasaporte en inmigración, y de nuevo en aduanas. Un código QR por viajero.",
+      "evoa": "Imprima la e-VOA o guárdela en su teléfono y preséntela en inmigración con su pasaporte y su pasaje de regreso. Es válida durante 30 días y puede prorrogarse una vez en Indonesia.",
+      "check": "Compruebe que los nombres, los números de pasaporte y las fechas coinciden exactamente con sus pasaportes y avísenos de inmediato si algo no es correcto.",
+      "questions": "Buen viaje. Preguntas: responda a este correo o escriba a {email}."
     },
     "review": {
-      "subject": "How was your arrival in Indonesia?",
-      "trustpilot": "Review us on Trustpilot",
-      "google": "Review us on Google",
-      "whatBoth": "arrival card and e-VOA",
-      "whatArrivalCard": "arrival card",
+      "subject": "¿Qué tal fue su llegada a Indonesia?",
+      "trustpilot": "Valórenos en Trustpilot",
+      "google": "Valórenos en Google",
+      "whatBoth": "tarjeta de llegada y e-VOA",
+      "whatArrivalCard": "tarjeta de llegada",
       "whatEvoa": "e-VOA",
-      "thanks": "Thank you for trusting us with your {what}. We hope your arrival in Indonesia on {date} went smoothly.",
-      "wrong": "If anything went wrong, reply to this email first so we can fix it.",
-      "ask": "If everything went well, would you take a minute to leave us a short review? It helps other travelers find a service they can trust and means a lot to our small team."
+      "thanks": "Gracias por confiarnos su {what}. Esperamos que su llegada a Indonesia el {date} haya ido bien.",
+      "wrong": "Si algo salió mal, responda primero a este correo para que podamos solucionarlo.",
+      "ask": "Si todo fue bien, ¿nos dedicaría un minuto para dejarnos una breve reseña? Ayuda a otros viajeros a encontrar un servicio de confianza y significa mucho para nuestro pequeño equipo."
     },
     "windowOpen": {
-      "subject": "Indonesia arrival card: your submission window is open (arrival {date})",
-      "open": "You asked us to tell you when the arrival card can be submitted for your arrival in Indonesia on {date}. That moment has come: the official portal now accepts submissions for your date.",
-      "assist": "If you would like us to prepare and check the card for {count, plural, one {# traveler} other {# travelers}}, open the link below. Your arrival date and email are already filled in.",
-      "start": "Open the link below to start your application. Your arrival date and email are already filled in.",
-      "diy": "If you prefer to do it yourself, the guide on our website explains every field.",
-      "startLabel": "Start",
-      "cta": "Start my application"
+      "subject": "Tarjeta de llegada de Indonesia: su ventana de envío está abierta (llegada {date})",
+      "open": "Nos pidió que le avisáramos cuando pudiera enviarse la tarjeta de llegada para su llegada a Indonesia el {date}. Ese momento ha llegado: el portal oficial ya acepta envíos para su fecha.",
+      "assist": "Si desea que preparemos y revisemos la tarjeta para {count, plural, one {# viajero} other {# viajeros}}, abra el enlace de abajo. Su fecha de llegada y su correo electrónico ya están precargados.",
+      "start": "Abra el enlace de abajo para iniciar su solicitud. Su fecha de llegada y su correo electrónico ya están precargados.",
+      "diy": "Si prefiere hacerlo usted mismo, la guía de nuestro sitio web explica cada campo.",
+      "startLabel": "Empezar",
+      "cta": "Iniciar mi solicitud"
     },
     "headsUp": {
-      "subject": "Tomorrow your Indonesia arrival card window opens (arrival {date})",
-      "note": "A quick note: the official portal will accept the arrival card for your arrival on {date} from {opens} (Jakarta time). We will email you again at that moment.",
-      "nothing": "Nothing to do for now. If you want, have your passport and accommodation details ready so it takes two minutes.",
-      "pageLabel": "Our page",
-      "cta": "See what we need"
+      "subject": "Mañana se abre su ventana para la tarjeta de llegada de Indonesia (llegada {date})",
+      "note": "Una breve nota: el portal oficial aceptará la tarjeta de llegada para su llegada el {date} a partir de las {opens} (hora de Yakarta). Le escribiremos de nuevo en ese momento.",
+      "nothing": "Por ahora no tiene que hacer nada. Si quiere, tenga a mano su pasaporte y los datos de su alojamiento para que le tome dos minutos.",
+      "pageLabel": "Nuestra página",
+      "cta": "Ver qué necesitamos"
     }
   },
   "Countries": {
-    "AE": "United Arab Emirates",
+    "AE": "Emiratos Árabes Unidos",
     "AL": "Albania",
     "AM": "Armenia",
     "AR": "Argentina",
     "AT": "Austria",
     "AU": "Australia",
-    "AZ": "Azerbaijan",
-    "BA": "Bosnia and Herzegovina",
-    "BD": "Bangladesh",
-    "BE": "Belgium",
+    "AZ": "Azerbaiyán",
+    "BA": "Bosnia y Herzegovina",
+    "BD": "Bangladés",
+    "BE": "Bélgica",
     "BG": "Bulgaria",
-    "BH": "Bahrain",
-    "BN": "Brunei",
-    "BR": "Brazil",
-    "BY": "Belarus",
-    "CA": "Canada",
-    "CH": "Switzerland",
+    "BH": "Baréin",
+    "BN": "Brunéi",
+    "BR": "Brasil",
+    "BY": "Bielorrusia",
+    "CA": "Canadá",
+    "CH": "Suiza",
     "CL": "Chile",
     "CN": "China",
     "CO": "Colombia",
     "CR": "Costa Rica",
-    "CY": "Cyprus",
-    "CZ": "Czechia",
-    "DE": "Germany",
-    "DK": "Denmark",
-    "DO": "Dominican Republic",
-    "DZ": "Algeria",
+    "CY": "Chipre",
+    "CZ": "Chequia",
+    "DE": "Alemania",
+    "DK": "Dinamarca",
+    "DO": "República Dominicana",
+    "DZ": "Argelia",
     "EC": "Ecuador",
     "EE": "Estonia",
-    "EG": "Egypt",
-    "ES": "Spain",
-    "ET": "Ethiopia",
-    "FI": "Finland",
-    "FJ": "Fiji",
-    "FR": "France",
-    "GB": "United Kingdom",
+    "EG": "Egipto",
+    "ES": "España",
+    "ET": "Etiopía",
+    "FI": "Finlandia",
+    "FJ": "Fiyi",
+    "FR": "Francia",
+    "GB": "Reino Unido",
     "GE": "Georgia",
     "GH": "Ghana",
-    "GR": "Greece",
-    "HK": "Hong Kong SAR",
-    "HR": "Croatia",
-    "HU": "Hungary",
+    "GR": "Grecia",
+    "HK": "Hong Kong (RAE)",
+    "HR": "Croacia",
+    "HU": "Hungría",
     "ID": "Indonesia",
-    "IE": "Ireland",
+    "IE": "Irlanda",
     "IL": "Israel",
     "IN": "India",
-    "IQ": "Iraq",
-    "IR": "Iran",
-    "IS": "Iceland",
-    "IT": "Italy",
-    "JO": "Jordan",
-    "JP": "Japan",
-    "KE": "Kenya",
-    "KH": "Cambodia",
-    "KR": "South Korea",
+    "IQ": "Irak",
+    "IR": "Irán",
+    "IS": "Islandia",
+    "IT": "Italia",
+    "JO": "Jordania",
+    "JP": "Japón",
+    "KE": "Kenia",
+    "KH": "Camboya",
+    "KR": "Corea del Sur",
     "KW": "Kuwait",
-    "KZ": "Kazakhstan",
+    "KZ": "Kazajistán",
     "LA": "Laos",
-    "LB": "Lebanon",
+    "LB": "Líbano",
     "LK": "Sri Lanka",
-    "LT": "Lithuania",
-    "LU": "Luxembourg",
-    "LV": "Latvia",
-    "MA": "Morocco",
-    "MD": "Moldova",
+    "LT": "Lituania",
+    "LU": "Luxemburgo",
+    "LV": "Letonia",
+    "MA": "Marruecos",
+    "MD": "Moldavia",
     "ME": "Montenegro",
-    "MK": "North Macedonia",
+    "MK": "Macedonia del Norte",
     "MM": "Myanmar",
     "MN": "Mongolia",
-    "MO": "Macao SAR",
+    "MO": "Macao (RAE)",
     "MT": "Malta",
-    "MV": "Maldives",
-    "MX": "Mexico",
-    "MY": "Malaysia",
+    "MV": "Maldivas",
+    "MX": "México",
+    "MY": "Malasia",
     "NG": "Nigeria",
-    "NL": "Netherlands",
-    "NO": "Norway",
+    "NL": "Países Bajos",
+    "NO": "Noruega",
     "NP": "Nepal",
-    "NZ": "New Zealand",
-    "OM": "Oman",
-    "PA": "Panama",
-    "PE": "Peru",
-    "PG": "Papua New Guinea",
-    "PH": "Philippines",
-    "PK": "Pakistan",
-    "PL": "Poland",
+    "NZ": "Nueva Zelanda",
+    "OM": "Omán",
+    "PA": "Panamá",
+    "PE": "Perú",
+    "PG": "Papúa Nueva Guinea",
+    "PH": "Filipinas",
+    "PK": "Pakistán",
+    "PL": "Polonia",
     "PT": "Portugal",
-    "QA": "Qatar",
-    "RO": "Romania",
+    "QA": "Catar",
+    "RO": "Rumanía",
     "RS": "Serbia",
-    "RU": "Russia",
-    "SA": "Saudi Arabia",
-    "SE": "Sweden",
-    "SG": "Singapore",
-    "SI": "Slovenia",
-    "SK": "Slovakia",
-    "TH": "Thailand",
-    "TL": "Timor-Leste",
-    "TN": "Tunisia",
-    "TR": "Türkiye",
-    "TW": "Taiwan",
+    "RU": "Rusia",
+    "SA": "Arabia Saudita",
+    "SE": "Suecia",
+    "SG": "Singapur",
+    "SI": "Eslovenia",
+    "SK": "Eslovaquia",
+    "TH": "Tailandia",
+    "TL": "Timor Oriental",
+    "TN": "Túnez",
+    "TR": "Turquía",
+    "TW": "Taiwán",
     "TZ": "Tanzania",
-    "UA": "Ukraine",
+    "UA": "Ucrania",
     "UG": "Uganda",
-    "US": "United States",
+    "US": "Estados Unidos",
     "UY": "Uruguay",
-    "UZ": "Uzbekistan",
+    "UZ": "Uzbekistán",
     "VE": "Venezuela",
     "VN": "Vietnam",
-    "ZA": "South Africa"
+    "ZA": "Sudáfrica"
   }
 }
