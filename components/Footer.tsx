@@ -23,12 +23,11 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <p className="font-semibold text-ink-900">Free resources</p>
+            <p className="font-semibold text-ink-900">Resources</p>
             <ul className="mt-2 space-y-1">
-              <li><Link href="/guide">Do it yourself guide</Link></li>
+              <li><Link href="/guide">How the arrival card works</Link></li>
               <li><Link href="/customs">Customs allowances</Link></li>
               <li><Link href="/news">Official news summaries</Link></li>
-              <li><a href={site.officialPortal} rel="noopener nofollow" target="_blank">Official government portal ↗</a></li>
             </ul>
           </div>
           <div>

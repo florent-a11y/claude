@@ -42,9 +42,9 @@ export default function Home() {
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link href="/apply" className="btn-primary">Start now – $24.90 per traveler</Link>
-              <Link href="/guide" className="btn-secondary">Do it yourself for free</Link>
+              <Link href="/guide" className="btn-secondary">How it works</Link>
             </div>
-            <p className="mt-4 text-sm text-ink-500">Private service. The official form at allindonesia.imigrasi.go.id is free. <Link className="underline" href="/legal/disclosure">Read our disclosure</Link>.</p>
+            <p className="mt-4 text-sm text-ink-500">Private assistance service, not affiliated with any government website. <Link className="underline" href="/legal/disclosure">Read our disclosure</Link>.</p>
           </div>
           <PriceCard />
         </div>
@@ -81,12 +81,12 @@ export default function Home() {
       <section className="mx-auto max-w-6xl px-4 py-14">
         <div className="card grid gap-6 md:grid-cols-2">
           <div>
-            <h2 className="text-2xl font-bold">Prefer to do it yourself? Good idea.</h2>
-            <p className="mt-2 text-ink-700">The official form is free and takes about 10 minutes if you have all your details ready. We wrote a step-by-step guide with every field explained. No sign-up needed.</p>
+            <h2 className="text-2xl font-bold">Want to understand the arrival card first?</h2>
+            <p className="mt-2 text-ink-700">We explain what the All Indonesia arrival card is, who needs it, the 72-hour rule, and every declaration you will be asked for.</p>
           </div>
           <div className="flex items-center gap-3 md:justify-end">
-            <Link href="/guide" className="btn-secondary">Open the free guide</Link>
-            <a href={site.officialPortal} target="_blank" rel="noopener nofollow" className="btn-ghost">Official portal ↗</a>
+            <Link href="/guide" className="btn-secondary">Read the guide</Link>
+            <Link href="/faq" className="btn-ghost">FAQ</Link>
           </div>
         </div>
       </section>

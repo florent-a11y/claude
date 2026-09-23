@@ -45,7 +45,7 @@ export const contactSchema = z.object({
   whatsapp: z.boolean(),
   express: z.boolean(),
   acceptTerms: z.literal(true, { message: "You must accept the terms" }),
-  acknowledgeFree: z.literal(true, { message: "Please confirm you understand the official form is free" }),
+  acknowledgeNotGov: z.literal(true, { message: "Please confirm you understand this is not a government website" }),
 });
 
 export const orderInputSchema = z.object({

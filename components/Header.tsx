@@ -4,7 +4,7 @@ import { site } from "@/lib/config";
 const nav = [
   { href: "/apply", label: "Apply" },
   { href: "/pricing", label: "Pricing" },
-  { href: "/guide", label: "Free guide" },
+  { href: "/guide", label: "How it works" },
   { href: "/customs", label: "Customs" },
   { href: "/news", label: "Official news" },
   { href: "/faq", label: "FAQ" },

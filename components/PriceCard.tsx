@@ -9,7 +9,6 @@ export function PriceCard({ compact = false }: { compact?: boolean }) {
         <li className="flex items-center justify-between py-3"><span>First traveler</span><strong className="text-xl text-ink-900">{money(PRICING.firstTraveler)}</strong></li>
         <li className="flex items-center justify-between py-3"><span>Each additional traveler (same booking)</span><strong>{money(PRICING.additionalTraveler)}</strong></li>
         <li className="flex items-center justify-between py-3"><span>Express, human-verified in under {PRICING.expressSlaHours} h (optional)</span><strong>+{money(PRICING.express)}</strong></li>
-        <li className="flex items-center justify-between py-3"><span>Government fee for the arrival card</span><strong className="text-brand-600">{money(0)} (it is free)</strong></li>
       </ul>
       {!compact && (
         <p className="mt-4 text-sm text-ink-500">

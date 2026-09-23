@@ -14,4 +14,4 @@ export const site = {
 };
 
 export const DISCLOSURE =
-  "We are a private travel-assistance company and are not affiliated with the Government of Indonesia or the Directorate General of Immigration. The All Indonesia arrival card is free of charge on the official portal allindonesia.imigrasi.go.id. Our fee pays for form preparation, verification, delivery and support.";
+  "We are a private travel-assistance company and are not affiliated with, endorsed by or acting for the Government of Indonesia or the Directorate General of Immigration. Our fee pays for form preparation, verification, delivery and support.";

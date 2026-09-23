@@ -103,9 +103,12 @@ Data protection:
 - Operating entity: the HK Ltd. Show its name, HK address and registration number in the footer,
   T&Cs, privacy policy and receipts.
 - Mandatory disclosure (top of every page and on checkout):
-  "We are a private travel-assistance company, not affiliated with the Government of Indonesia or
-  the Directorate General of Immigration. The All Indonesia arrival card is free at
-  allindonesia.imigrasi.go.id. Our fee is for form preparation, verification and support."
+  "We are a private travel-assistance company, not affiliated with, endorsed by or acting for the
+  Government of Indonesia or the Directorate General of Immigration. Our fee is for form
+  preparation, verification and support."
+  (Owner's decision on 2026-09-23: the site does not state that the official form is free. Note
+  that UK CMA, EU UCPD and US FTC enforcement against visa/ETA assistance sites has centred on
+  exactly that omission; revisit with counsel before scaling paid acquisition.)
 - Never use: Garuda emblem, Imigrasi/Bea Cukai logos, "official", ".go.id" look-alike colours,
   the words "imigrasi", "govt", "official" in the domain. This is what turns a legal service into
   passing-off/fraud exposure and gets domains blocked by Komdigi.

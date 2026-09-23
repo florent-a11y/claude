@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import { PriceCard } from "@/components/PriceCard";
 import { PRICING, money } from "@/lib/pricing";
 
-export const metadata: Metadata = { title: "Pricing", description: "One transparent price for Indonesia arrival card assistance. No hidden fees. The government form itself is free." };
+export const metadata: Metadata = { title: "Pricing", description: "One transparent price for Indonesia arrival card assistance. No hidden fees." };
 
 export default function Pricing() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
       <h1 className="text-3xl font-bold">Pricing</h1>
-      <p className="mt-2 text-ink-700">You see the total before entering any personal data. The Indonesian government does not charge for the arrival card; our fee is only for the assistance service.</p>
+      <p className="mt-2 text-ink-700">You see the total before entering any personal data. We are a private assistance service, not affiliated with any government website.</p>
       <div className="mt-8"><PriceCard /></div>
       <div className="prose-basic mt-10">
         <h2>Examples</h2>

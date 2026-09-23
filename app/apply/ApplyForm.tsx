@@ -8,7 +8,7 @@ import { quote, money, PRICING } from "@/lib/pricing";
 const emptyTraveler: Traveler = { givenNames: "", familyName: "", gender: "M", dateOfBirth: "", nationality: "", passportNumber: "", passportIssued: "", passportExpiry: "" };
 const emptyTravel: Travel = { arrivalDate: "", departureDate: "", portOfEntry: "DPS", transportMode: "air", flightNumber: "", originCountry: "", purpose: PURPOSES[0], visaType: VISA_TYPES[0], accommodationName: "", accommodationAddress: "", accommodationCity: "" };
 const emptyDecl: Declarations = { countriesVisited21d: [], symptoms: false, animalsPlants: false, cashOver100M: false, goodsOverAllowance: false, commercialGoods: false, registerImei: false, baggagePieces: 1, notes: "" };
-const emptyContact = { email: "", phone: "", whatsapp: true, express: false, acceptTerms: false, acknowledgeFree: false };
+const emptyContact = { email: "", phone: "", whatsapp: true, express: false, acceptTerms: false, acknowledgeNotGov: false };
 
 type Errors = Record<string, string>;
 function flatten(err: z.ZodError): Errors {
@@ -68,7 +68,7 @@ export function ApplyForm() {
         <div className="text-sm text-ink-700">
           {q.travelers} traveler{q.travelers > 1 ? "s" : ""} · {money(PRICING.firstTraveler)} + {q.travelers - 1} × {money(PRICING.additionalTraveler)}{contact.express ? ` + express ${money(PRICING.express)}` : ""}
         </div>
-        <div className="text-lg font-bold">Total {money(q.total)} <span className="text-xs font-normal text-ink-500">(government fee: $0)</span></div>
+        <div className="text-lg font-bold">Total {money(q.total)} <span className="text-xs font-normal text-ink-500">(all inclusive)</span></div>
       </div>
 
       {Object.keys(errors).length > 0 && <p className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">Please correct the highlighted fields.</p>}
@@ -141,8 +141,8 @@ export function ApplyForm() {
           <label className="flex items-start gap-3"><input type="checkbox" className="checkbox" checked={contact.whatsapp} onChange={(e) => setContact({ ...contact, whatsapp: e.target.checked })} /><span className="text-sm">Also send my QR code by WhatsApp to this number</span></label>
           <label className="flex items-start gap-3 rounded-lg border border-slate-200 p-3"><input type="checkbox" className="checkbox" checked={contact.express} onChange={(e) => setContact({ ...contact, express: e.target.checked })} /><span className="text-sm"><strong>Express</strong> – human-verified and delivered in under {PRICING.expressSlaHours} hours (+{money(PRICING.express)}). Standard is under {PRICING.standardSlaHours} hours.</span></label>
           <hr className="border-slate-200" />
-          <label className="flex items-start gap-3"><input type="checkbox" className="checkbox" checked={contact.acknowledgeFree} onChange={(e) => setContact({ ...contact, acknowledgeFree: e.target.checked })} /><span className="text-sm">I understand this is a private assistance service, not the Indonesian government, and that the arrival card is free at allindonesia.imigrasi.go.id.</span></label>
-          <E k="acknowledgeFree" />
+          <label className="flex items-start gap-3"><input type="checkbox" className="checkbox" checked={contact.acknowledgeNotGov} onChange={(e) => setContact({ ...contact, acknowledgeNotGov: e.target.checked })} /><span className="text-sm">I understand this is a private assistance service and not a government website.</span></label>
+          <E k="acknowledgeNotGov" />
           <label className="flex items-start gap-3"><input type="checkbox" className="checkbox" checked={contact.acceptTerms} onChange={(e) => setContact({ ...contact, acceptTerms: e.target.checked })} /><span className="text-sm">I accept the <a className="underline" href="/legal/terms" target="_blank">terms</a>, <a className="underline" href="/legal/privacy" target="_blank">privacy policy</a> and <a className="underline" href="/legal/refunds" target="_blank">refund policy</a>, and I am authorised to provide the details of all travelers in this booking.</span></label>
           <E k="acceptTerms" />
           {serverError && <p className="error">{serverError}</p>}

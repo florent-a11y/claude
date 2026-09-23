@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/JsonLd";
-import { site } from "@/lib/config";
 
 export const metadata: Metadata = { title: "FAQ – Indonesia arrival card", description: "Answers about the All Indonesia arrival card: who needs it, the 72-hour rule, the QR code, customs and our assistance service." };
 
 const faqs = [
-  { q: "Is the Indonesia arrival card really free?", a: `Yes. The All Indonesia arrival card is free of charge on the official portal ${site.officialPortal}. We are a private company and charge only for preparing, checking and delivering it for you.` },
+  { q: "What does the fee cover?", a: "Guided data collection, manual verification of every field, submission of your arrival card, delivery of the QR code by email and WhatsApp, and support until you have cleared immigration." },
   { q: "Who must complete it?", a: "All international arrivals to Indonesia by air, sea or land, including Indonesian citizens and children. Each traveler needs their own card." },
   { q: "When must it be submitted?", a: "Within 72 hours (3 days) before your scheduled arrival. Submitting earlier than 72 hours is not accepted by the system, so we schedule your submission inside that window." },
   { q: "What do I receive?", a: "A QR code, which you show with your passport at immigration and customs on arrival. We send it by email and WhatsApp as a PDF and an image." },
@@ -14,7 +13,7 @@ const faqs = [
   { q: "What if I make a mistake?", a: "Details such as passport number must match exactly. That is the main reason people use our service: a person checks every field before submission." },
   { q: "Is my passport data safe?", a: "Data is encrypted, used only to prepare your card, never sold, and deleted 30 days after your arrival date. See our privacy policy." },
   { q: "Can I get a refund?", a: "Yes, in full if we do not deliver at least 6 hours before your arrival time or if you cancel before processing starts." },
-  { q: "Are you the Indonesian government?", a: "No. We are not affiliated with the Government of Indonesia or the Directorate General of Immigration." },
+  { q: "Are you the Indonesian government?", a: "No. We are a private assistance company, not affiliated with the Government of Indonesia, the Directorate General of Immigration or any government website." },
 ];
 
 export default function FAQ() {

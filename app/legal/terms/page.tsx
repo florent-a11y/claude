@@ -9,7 +9,7 @@ export default function Page() {
       <h2>1. Parties and service</h2>
       <p>These terms govern the assistance service (the "Service") provided by {site.company} ("we", "us"), a company incorporated in Hong Kong SAR at {site.address}, to the person placing an order ("you"). The Service consists of collecting your information through our guided form, checking it, submitting the Indonesia arrival card on the official government portal on your behalf, and delivering the resulting QR code to you.</p>
       <h2>2. Not a government service</h2>
-      <p>We are not affiliated with, endorsed by or acting for the Government of Indonesia. The arrival card is free on the official portal. You are paying for our assistance only. We do not guarantee entry to Indonesia, which is at the sole discretion of Indonesian authorities.</p>
+      <p>We are not affiliated with, endorsed by or acting for the Government of Indonesia, and this website is not a government website. You are paying for our assistance only. We do not guarantee entry to Indonesia, which is at the sole discretion of Indonesian authorities.</p>
       <h2>3. Price and payment</h2>
       <p>The price is displayed before you enter personal data and again at checkout. Payment is taken by card through our payment provider. The charge appears on your statement under our company descriptor, never as a government fee.</p>
       <h2>4. Your obligations</h2>
