@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { listOrders } from "@/lib/store";
-import { money } from "@/lib/pricing";
+import { money, PRODUCT_LABELS } from "@/lib/pricing";
 import type { OrderStatus } from "@/lib/schema";
 
 export const dynamic = "force-dynamic";
@@ -29,7 +29,7 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
         ))}
       </div>
       <table className="mt-6 w-full text-sm">
-        <thead><tr className="text-left text-ink-500"><th className="py-2">Arrival</th><th>Hours to arrival</th><th>Lead traveler</th><th>Pax</th><th>Express</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+        <thead><tr className="text-left text-ink-500"><th className="py-2">Arrival</th><th>Hours to arrival</th><th>Product</th><th>Lead traveler</th><th>Pax</th><th>Express</th><th>Amount</th><th>Status</th><th></th></tr></thead>
         <tbody>
           {(status ? orders : queue.concat(orders.filter((o) => !queue.includes(o)))).map((o) => {
             const h = hoursLeft(o.travel.arrivalDate);
@@ -37,6 +37,7 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
               <tr key={o.id} className="border-t border-slate-100">
                 <td className="py-2">{o.travel.arrivalDate}</td>
                 <td className={h <= 72 && h > 0 ? "font-semibold text-green-700" : h <= 0 ? "text-red-600" : "text-ink-500"}>{h}</td>
+                <td className="text-xs">{PRODUCT_LABELS[o.product]}</td>
                 <td>{o.travelers[0].familyName}, {o.travelers[0].givenNames}</td>
                 <td>{o.travelers.length}</td>
                 <td>{o.contact.express ? "yes" : ""}</td>

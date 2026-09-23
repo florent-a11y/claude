@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import { getOrder } from "@/lib/store";
 import { COUNTRIES, PORTS_OF_ENTRY } from "@/lib/countries";
-import { money } from "@/lib/pricing";
+import { money, PRODUCT_LABELS } from "@/lib/pricing";
+import { EVOA_PURPOSES } from "@/lib/evoa";
 import { site } from "@/lib/config";
 import { OrderActions, CopyField } from "./Actions";
 
@@ -19,9 +20,9 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold">Order {o.id.slice(0, 8)}</h1>
-          <p className="text-sm text-ink-500">Created {new Date(o.createdAt).toLocaleString("en-GB")} · {money(o.amountCents, o.currency)} · {o.status}{o.contact.express ? " · EXPRESS" : ""}</p>
+          <p className="text-sm text-ink-500">{PRODUCT_LABELS[o.product]} · Created {new Date(o.createdAt).toLocaleString("en-GB")} · {money(o.amountCents, o.currency)}{o.governmentFeeCents > 0 ? ` (incl. ${money(o.governmentFeeCents, o.currency)} government fee to pay on the e-VOA portal)` : ""} · {o.status}{o.contact.express ? " · EXPRESS" : ""}</p>
         </div>
-        <a className="btn-secondary !py-2 text-sm" href={site.officialPortal} target="_blank" rel="noopener">Open official portal ↗</a>
+        <div className="flex gap-2">{o.product !== "evoa" && <a className="btn-secondary !py-2 text-sm" href={site.officialPortal} target="_blank" rel="noopener">Arrival card portal ↗</a>}{o.product !== "arrival_card" && <a className="btn-secondary !py-2 text-sm" href="https://evisa.imigrasi.go.id/" target="_blank" rel="noopener">e-VOA portal ↗</a>}</div>
       </div>
       <OrderActions id={o.id} status={o.status} notes={o.opsNotes ?? ""} orderJson={JSON.stringify(o)} />
 
@@ -59,6 +60,22 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
         </div>
         {o.declarations.notes && <p className="mt-2 text-sm">Notes: {o.declarations.notes}</p>}
       </section>
+
+      {o.evoa && (
+        <section className="mt-6 card">
+          <h2 className="font-semibold">e-VOA</h2>
+          <div className="mt-2 grid gap-1 text-sm md:grid-cols-2">
+            <p>Intended entry: {o.evoa.intendedEntryDate}</p>
+            <p>Purpose: {EVOA_PURPOSES.find((p) => p.value === o.evoa!.purpose)?.label ?? o.evoa.purpose}</p>
+            <p>Return ticket: {yes(o.evoa.returnTicket)}</p>
+          </div>
+          <ul className="mt-3 space-y-1 text-sm">
+            {o.evoa.documents.map((d) => (
+              <li key={d.travelerIndex}>Traveler {d.travelerIndex + 1}: <a className="text-brand-600 underline" href={`/api/admin/documents/${d.passportScanId}`} target="_blank" rel="noopener">passport scan</a> · <a className="text-brand-600 underline" href={`/api/admin/documents/${d.photoId}`} target="_blank" rel="noopener">photo</a></li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {o.travelers.map((t, i) => (
         <section key={i} className="mt-6 card">

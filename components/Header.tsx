@@ -2,7 +2,8 @@ import Link from "next/link";
 import { site } from "@/lib/config";
 
 const nav = [
-  { href: "/apply", label: "Apply" },
+  { href: "/apply", label: "Arrival card" },
+  { href: "/evoa", label: "e-VOA visa" },
   { href: "/pricing", label: "Pricing" },
   { href: "/guide", label: "How it works" },
   { href: "/customs", label: "Customs" },
@@ -23,7 +24,7 @@ export function Header() {
             <Link key={n.href} href={n.href} className="hover:text-brand-600">{n.label}</Link>
           ))}
         </nav>
-        <Link href="/apply" className="btn-primary !px-4 !py-2 text-sm">Start – $24.90</Link>
+        <Link href="/apply" className="btn-primary !px-4 !py-2 text-sm">Start</Link>
       </div>
     </header>
   );

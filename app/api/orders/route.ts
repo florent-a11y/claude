@@ -17,13 +17,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Validation failed", issues: parsed.error.issues }, { status: 422 });
   }
   const input = parsed.data;
-  const q = quote(input.travelers.length, input.contact.express);
+  const q = quote(input.travelers.length, input.contact.express, input.product);
   const order: Order = {
     ...input,
     id: randomUUID(),
     createdAt: new Date().toISOString(),
     status: "pending_payment",
     amountCents: q.total,
+    governmentFeeCents: q.governmentFee,
     currency: q.currency,
   };
 

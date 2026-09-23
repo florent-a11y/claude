@@ -41,7 +41,7 @@ export default function Home() {
               Skip the confusing form and the typo risk. Answer our guided questions, we prepare and submit your All Indonesia arrival card and send the QR code to your email and WhatsApp.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/apply" className="btn-primary">Start now – $24.90 per traveler</Link>
+              <Link href="/apply" className="btn-primary">Start now – from $24.90</Link>
               <Link href="/guide" className="btn-secondary">How it works</Link>
             </div>
             <p className="mt-4 text-sm text-ink-500">Private assistance service, not affiliated with any government website. <Link className="underline" href="/legal/disclosure">Read our disclosure</Link>.</p>
@@ -74,6 +74,19 @@ export default function Home() {
                 <p className="mt-1 text-sm text-ink-700">{f.d}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 pt-14">
+        <div className="card grid gap-6 border-brand-100 bg-brand-50 md:grid-cols-2">
+          <div>
+            <h2 className="text-2xl font-bold">Need a visa too? e-VOA assistance</h2>
+            <p className="mt-2 text-ink-700">Most nationalities can get the 30-day electronic visa on arrival before flying. We check your passport and photo, submit the application and deliver the approved e-VOA. Bundle it with the arrival card and save $10 per traveler.</p>
+          </div>
+          <div className="flex items-center gap-3 md:justify-end">
+            <Link href="/evoa" className="btn-primary">e-VOA assistance</Link>
+            <Link href="/apply?product=bundle" className="btn-secondary">Bundle both</Link>
           </div>
         </div>
       </section>

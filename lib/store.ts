@@ -46,6 +46,8 @@ type OrderRow = {
   created_at: string;
   status: OrderStatus;
   amount_cents: number;
+  government_fee_cents: number;
+  product: string;
   currency: string;
   airwallex_intent_id: string | null;
   paid_at: string | null;
@@ -53,7 +55,7 @@ type OrderRow = {
   ops_notes: string | null;
   email: string;
   phone: string;
-  payload: Omit<Order, "id" | "createdAt" | "status" | "amountCents" | "currency" | "airwallexIntentId" | "paidAt" | "deliveredAt" | "opsNotes">;
+  payload: Omit<Order, "id" | "createdAt" | "status" | "amountCents" | "governmentFeeCents" | "currency" | "airwallexIntentId" | "paidAt" | "deliveredAt" | "opsNotes">;
 };
 
 function toOrder(r: OrderRow): Order {
@@ -63,6 +65,7 @@ function toOrder(r: OrderRow): Order {
     createdAt: r.created_at,
     status: r.status,
     amountCents: r.amount_cents,
+    governmentFeeCents: r.government_fee_cents ?? 0,
     currency: r.currency,
     airwallexIntentId: r.airwallex_intent_id ?? undefined,
     paidAt: r.paid_at ?? undefined,
@@ -71,9 +74,9 @@ function toOrder(r: OrderRow): Order {
   };
 }
 function toRow(o: Order): OrderRow {
-  const { id, createdAt, status, amountCents, currency, airwallexIntentId, paidAt, deliveredAt, opsNotes, ...payload } = o;
+  const { id, createdAt, status, amountCents, governmentFeeCents, currency, airwallexIntentId, paidAt, deliveredAt, opsNotes, ...payload } = o;
   return {
-    id, created_at: createdAt, status, amount_cents: amountCents, currency,
+    id, created_at: createdAt, status, amount_cents: amountCents, government_fee_cents: governmentFeeCents, product: o.product, currency,
     airwallex_intent_id: airwallexIntentId ?? null, paid_at: paidAt ?? null,
     delivered_at: deliveredAt ?? null, ops_notes: opsNotes ?? null,
     email: o.contact.email, phone: o.contact.phone, payload,

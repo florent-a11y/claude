@@ -6,9 +6,10 @@ export function PriceCard({ compact = false }: { compact?: boolean }) {
     <div className="card border-brand-100">
       <p className="text-sm font-semibold uppercase tracking-wide text-brand-600">Transparent price, shown before you type anything</p>
       <ul className="mt-4 divide-y divide-slate-100 text-ink-700">
-        <li className="flex items-center justify-between py-3"><span>First traveler</span><strong className="text-xl text-ink-900">{money(PRICING.firstTraveler)}</strong></li>
-        <li className="flex items-center justify-between py-3"><span>Each additional traveler (same booking)</span><strong>{money(PRICING.additionalTraveler)}</strong></li>
-        <li className="flex items-center justify-between py-3"><span>Express, human-verified in under {PRICING.expressSlaHours} h (optional)</span><strong>+{money(PRICING.express)}</strong></li>
+        <li className="flex items-center justify-between py-3"><span>Arrival card, first traveler</span><strong className="text-xl text-ink-900">{money(PRICING.arrivalCard.first)}</strong></li>
+        <li className="flex items-center justify-between py-3"><span>Each additional traveler (same booking)</span><strong>{money(PRICING.arrivalCard.additional)}</strong></li>
+        <li className="flex items-center justify-between py-3"><span>e-VOA visa assistance (optional, incl. government fee)</span><strong>from {money(PRICING.evoa.first + PRICING.evoa.governmentFee)}</strong></li>
+        <li className="flex items-center justify-between py-3"><span>Express, human-verified in under {PRICING.arrivalCard.expressSlaHours} h (optional)</span><strong>+{money(PRICING.express)}</strong></li>
       </ul>
       {!compact && (
         <p className="mt-4 text-sm text-ink-500">

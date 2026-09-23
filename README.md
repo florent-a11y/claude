@@ -20,7 +20,9 @@ Without Airwallex keys, checkout skips payment and marks the order paid (dev onl
 ## Key paths
 | Path | Purpose |
 |---|---|
-| `app/apply` | 4-step guided form → `POST /api/orders` → Airwallex hosted checkout |
+| `app/apply` | Guided form (arrival card, e-VOA, or bundle) → `POST /api/orders` → Airwallex hosted checkout |
+| `app/evoa` | e-VOA landing page with eligibility checker and itemized government fee |
+| `app/api/uploads` | Passport scan / photo uploads to a private Supabase Storage bucket |
 | `app/api/webhooks/airwallex` | Marks orders paid/refunded (HMAC-verified) |
 | `app/admin` | Ops console (HTTP basic auth), queue sorted by arrival date, copy-to-clipboard fields |
 | `extension/` | Chrome extension: fills the official form from order JSON; a human reviews and submits |

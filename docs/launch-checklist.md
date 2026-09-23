@@ -43,7 +43,7 @@ Set `NEXT_PUBLIC_SITE_URL` to the final `https://www.` URL and redirect the apex
 
 ## 4. Supabase
 
-1. Create the project (Singapore). SQL editor → run `supabase/schema.sql`.
+1. Create the project (Singapore). SQL editor → run `supabase/schema.sql` (creates tables and the private `documents` bucket for e-VOA uploads).
 2. Enable the `pg_cron` extension and run the commented purge job in the same file.
 3. Project settings → API → copy URL and **service_role** key into Vercel. The service key is only ever used in server code.
 
@@ -71,3 +71,5 @@ Set `NEXT_PUBLIC_SITE_URL` to the final `https://www.` URL and redirect the apex
 - [ ] Mobile navigation menu (the phone header shows only the CTA today).
 - [ ] Passport photo OCR (MRZ): planned, not implemented; the form is manual entry today.
 - [ ] Translations (ZH, KO, JA, DE, FR, RU): planned; the site is English-only today.
+- [ ] e-VOA: company card on the official e-visa portal for paying government fees; check the IDR/USD rate monthly and adjust `PRICING.evoa.governmentFee` if it drifts more than 5%.
+- [ ] e-VOA: verify the eligible-nationality list in `lib/evoa.ts` against the official list before launch.

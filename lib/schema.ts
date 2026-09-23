@@ -39,6 +39,20 @@ export const declarationsSchema = z.object({
   notes: z.string().max(500).optional().or(z.literal("")),
 });
 
+export const productSchema = z.enum(["arrival_card", "evoa", "bundle"]);
+
+/** e-VOA specific data. Documents are upload ids returned by /api/uploads. */
+export const evoaSchema = z.object({
+  intendedEntryDate: date,
+  purpose: z.enum(["tourism", "business", "family", "transit", "official"]),
+  returnTicket: z.boolean(),
+  documents: z.array(z.object({
+    travelerIndex: z.number().int().min(0).max(9),
+    passportScanId: z.string().min(1, "Passport scan is required"),
+    photoId: z.string().min(1, "Passport photo is required"),
+  })).min(1),
+});
+
 export const contactSchema = z.object({
   email: z.string().email(),
   phone: z.string().min(6).max(20),
@@ -49,22 +63,33 @@ export const contactSchema = z.object({
 });
 
 export const orderInputSchema = z.object({
+  product: productSchema.default("arrival_card"),
   travelers: z.array(travelerSchema).min(1).max(10),
   travel: travelSchema,
   declarations: declarationsSchema,
+  evoa: evoaSchema.optional(),
   contact: contactSchema,
+}).superRefine((o, ctx) => {
+  if (o.product !== "arrival_card") {
+    if (!o.evoa) { ctx.addIssue({ code: "custom", path: ["evoa"], message: "e-VOA details are required" }); return; }
+    const missing = o.travelers.map((_, i) => i).filter((i) => !o.evoa!.documents.some((d) => d.travelerIndex === i));
+    if (missing.length) ctx.addIssue({ code: "custom", path: ["evoa", "documents"], message: `Documents missing for traveler ${missing.map((i) => i + 1).join(", ")}` });
+  }
 });
 
 export type Traveler = z.infer<typeof travelerSchema>;
 export type Travel = z.infer<typeof travelSchema>;
 export type Declarations = z.infer<typeof declarationsSchema>;
 export type Contact = z.infer<typeof contactSchema>;
+export type Evoa = z.infer<typeof evoaSchema>;
+export type Product = z.infer<typeof productSchema>;
 export type OrderInput = z.infer<typeof orderInputSchema>;
 
 export type OrderStatus = "pending_payment" | "paid" | "in_progress" | "delivered" | "refunded" | "cancelled";
 
 export interface Order extends OrderInput {
   id: string;
+  governmentFeeCents: number;
   createdAt: string;
   status: OrderStatus;
   amountCents: number;

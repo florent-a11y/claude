@@ -4,6 +4,8 @@ create table if not exists public.orders (
   created_at timestamptz not null default now(),
   status text not null check (status in ('pending_payment','paid','in_progress','delivered','refunded','cancelled')),
   amount_cents integer not null,
+  government_fee_cents integer not null default 0,
+  product text not null default 'arrival_card' check (product in ('arrival_card','evoa','bundle')),
   currency text not null default 'USD',
   airwallex_intent_id text unique,
   paid_at timestamptz,
@@ -25,6 +27,11 @@ create table if not exists public.news_items (
   published_at timestamptz not null default now()
 );
 
+-- Private bucket for e-VOA documents (passport scan, photo). Served to ops via short signed URLs only.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('documents', 'documents', false, 8388608, array['image/jpeg','image/png','image/webp','application/pdf'])
+on conflict (id) do nothing;
+
 alter table public.orders enable row level security;
 alter table public.news_items enable row level security;
 -- No policies for anon/authenticated: only the service role (server) can read/write.
@@ -34,4 +41,6 @@ alter table public.news_items enable row level security;
 -- select cron.schedule('purge-orders', '0 3 * * *', $$
 --   delete from public.orders
 --   where (payload->'travel'->>'arrivalDate')::date < now() - interval '30 days';
+--   -- also purge uploaded documents older than 30 days:
+--   delete from storage.objects where bucket_id = 'documents' and created_at < now() - interval '45 days';
 -- $$);

@@ -10,7 +10,7 @@ export default function Page() {
       <p>{site.company}, {site.address}. Contact: <a href={`mailto:${site.supportEmail}`}>{site.supportEmail}</a>.</p>
       <h2>Data we collect</h2>
       <ul>
-        <li>Identity and passport details of each traveler (name, date of birth, gender, nationality, passport number and dates).</li>
+        <li>Identity and passport details of each traveler (name, date of birth, gender, nationality, passport number and dates), and for e-VOA orders a scan of the passport bio page and a passport-style photo.</li>
         <li>Travel details (dates, flight, port of entry, accommodation) and the health and customs declarations you make.</li>
         <li>Contact details (email, phone) and order records. Card details are processed by our payment provider and never stored by us.</li>
       </ul>
@@ -21,7 +21,7 @@ export default function Page() {
       <h2>International transfers</h2>
       <p>Data is stored in Singapore and processed by our team in Hong Kong and Indonesia. Transfers are protected by contractual safeguards meeting the standards of Indonesia's Personal Data Protection Law and the GDPR.</p>
       <h2>Retention</h2>
-      <p>Passport and declaration data is deleted 30 days after your arrival date. Order and payment records are kept for 7 years as required by accounting law, without passport data.</p>
+      <p>Passport and declaration data, including uploaded passport scans and photos, is deleted 30 days after your arrival date. Order and payment records are kept for 7 years as required by accounting law, without passport data.</p>
       <h2>Your rights</h2>
       <p>You may request access, correction, deletion or a copy of your data, withdraw consent and lodge a complaint with a supervisory authority. Write to <a href={`mailto:${site.supportEmail}`}>{site.supportEmail}</a>. We respond within 3 working days.</p>
       <h2>Security</h2>

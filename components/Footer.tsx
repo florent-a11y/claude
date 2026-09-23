@@ -16,7 +16,8 @@ export function Footer() {
           <div>
             <p className="font-semibold text-ink-900">Service</p>
             <ul className="mt-2 space-y-1">
-              <li><Link href="/apply">Apply for assistance</Link></li>
+              <li><Link href="/apply">Arrival card assistance</Link></li>
+              <li><Link href="/evoa">e-VOA visa assistance</Link></li>
               <li><Link href="/pricing">Pricing</Link></li>
               <li><Link href="/faq">FAQ</Link></li>
               <li><Link href="/contact">Contact & support</Link></li>

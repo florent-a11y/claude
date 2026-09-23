@@ -2,13 +2,15 @@
 import { useMemo, useState } from "react";
 import { z } from "zod";
 import { countryList, PORTS_OF_ENTRY, PURPOSES, VISA_TYPES } from "@/lib/countries";
-import { travelerSchema, travelSchema, declarationsSchema, contactSchema, type Traveler, type Travel, type Declarations, type Contact } from "@/lib/schema";
-import { quote, money, PRICING } from "@/lib/pricing";
+import { travelerSchema, travelSchema, declarationsSchema, contactSchema, evoaSchema, type Traveler, type Travel, type Declarations, type Evoa, type Product } from "@/lib/schema";
+import { quote, money, PRICING, PRODUCT_LABELS } from "@/lib/pricing";
+import { EVOA_PURPOSES, eligibility } from "@/lib/evoa";
 
 const emptyTraveler: Traveler = { givenNames: "", familyName: "", gender: "M", dateOfBirth: "", nationality: "", passportNumber: "", passportIssued: "", passportExpiry: "" };
 const emptyTravel: Travel = { arrivalDate: "", departureDate: "", portOfEntry: "DPS", transportMode: "air", flightNumber: "", originCountry: "", purpose: PURPOSES[0], visaType: VISA_TYPES[0], accommodationName: "", accommodationAddress: "", accommodationCity: "" };
 const emptyDecl: Declarations = { countriesVisited21d: [], symptoms: false, animalsPlants: false, cashOver100M: false, goodsOverAllowance: false, commercialGoods: false, registerImei: false, baggagePieces: 1, notes: "" };
 const emptyContact = { email: "", phone: "", whatsapp: true, express: false, acceptTerms: false, acknowledgeNotGov: false };
+const emptyEvoa: Evoa = { intendedEntryDate: "", purpose: "tourism", returnTicket: false, documents: [] };
 
 type Errors = Record<string, string>;
 function flatten(err: z.ZodError): Errors {
@@ -17,9 +19,16 @@ function flatten(err: z.ZodError): Errors {
   return out;
 }
 
-const STEPS = ["Price & travelers", "Travel details", "Declarations", "Contact & pay"];
+function stepsFor(product: Product) {
+  return product === "arrival_card"
+    ? ["Price & travelers", "Travel details", "Declarations", "Contact & pay"]
+    : ["Price & travelers", "Travel details", "Declarations", "e-VOA documents", "Contact & pay"];
+}
 
-export function ApplyForm() {
+export function ApplyForm({ initialProduct = "arrival_card" }: { initialProduct?: Product }) {
+  const [product, setProduct] = useState<Product>(initialProduct);
+  const [evoa, setEvoa] = useState<Evoa>(emptyEvoa);
+  const [uploading, setUploading] = useState<string>("");
   const [step, setStep] = useState(0);
   const [travelers, setTravelers] = useState<Traveler[]>([{ ...emptyTraveler }]);
   const [travel, setTravel] = useState<Travel>(emptyTravel);
@@ -29,17 +38,45 @@ export function ApplyForm() {
   const [busy, setBusy] = useState(false);
   const [serverError, setServerError] = useState("");
 
-  const q = useMemo(() => quote(travelers.length, contact.express), [travelers.length, contact.express]);
+  const q = useMemo(() => quote(travelers.length, contact.express, product), [travelers.length, contact.express, product]);
+  const STEPS = stepsFor(product);
+  const last = STEPS.length - 1;
+  const evoaStep = product === "arrival_card" ? -1 : 3;
+  const contactStep = last;
+
+  async function upload(travelerIndex: number, kind: "passportScanId" | "photoId", file: File | undefined) {
+    if (!file) return;
+    setUploading(`${travelerIndex}-${kind}`);
+    try {
+      const fd = new FormData(); fd.append("file", file);
+      const res = await fetch("/api/uploads", { method: "POST", body: fd });
+      const data = await res.json();
+      if (!res.ok) { setErrors({ ...errors, [`documents.${travelerIndex}.${kind}`]: data.error ?? "Upload failed" }); return; }
+      setEvoa((prev) => {
+        const docs = prev.documents.filter((d) => d.travelerIndex !== travelerIndex);
+        const cur = prev.documents.find((d) => d.travelerIndex === travelerIndex) ?? { travelerIndex, passportScanId: "", photoId: "" };
+        return { ...prev, documents: [...docs, { ...cur, [kind]: data.id }] };
+      });
+      setErrors((e) => { const n = { ...e }; delete n[`documents.${travelerIndex}.${kind}`]; return n; });
+    } finally { setUploading(""); }
+  }
 
   function next() {
     let res: z.ZodSafeParseResult<unknown>;
     if (step === 0) res = z.array(travelerSchema).safeParse(travelers);
     else if (step === 1) res = travelSchema.safeParse(travel);
     else if (step === 2) res = declarationsSchema.safeParse(decl);
+    else if (step === evoaStep) {
+      res = evoaSchema.safeParse(evoa);
+      if (res.success) {
+        const missing = travelers.map((_, i) => i).filter((i) => !evoa.documents.some((d) => d.travelerIndex === i && d.passportScanId && d.photoId));
+        if (missing.length) { setErrors({ documents: `Please upload both files for traveler ${missing.map((i) => i + 1).join(", ")}` }); window.scrollTo({ top: 0, behavior: "smooth" }); return false; }
+      }
+    }
     else res = contactSchema.safeParse(contact);
     if (!res.success) { setErrors(flatten(res.error)); window.scrollTo({ top: 0, behavior: "smooth" }); return false; }
     setErrors({});
-    if (step < 3) { setStep(step + 1); window.scrollTo({ top: 0, behavior: "smooth" }); }
+    if (step < last) { setStep(step + 1); window.scrollTo({ top: 0, behavior: "smooth" }); }
     return true;
   }
 
@@ -47,7 +84,7 @@ export function ApplyForm() {
     if (!next()) return;
     setBusy(true); setServerError("");
     try {
-      const res = await fetch("/api/orders", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ travelers, travel, declarations: decl, contact }) });
+      const res = await fetch("/api/orders", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ product, travelers, travel, declarations: decl, evoa: product === "arrival_card" ? undefined : evoa, contact }) });
       const data = await res.json();
       if (!res.ok) { setServerError(data.error ?? "Something went wrong"); if (data.issues) setErrors(flatten({ issues: data.issues } as z.ZodError)); setBusy(false); return; }
       window.location.href = data.redirectUrl;
@@ -64,11 +101,20 @@ export function ApplyForm() {
         {STEPS.map((s, i) => <li key={s} className={`rounded-full px-3 py-1 ${i === step ? "bg-brand-500 text-white" : i < step ? "bg-brand-100 text-brand-700" : "bg-slate-100 text-ink-500"}`}>{i + 1}. {s}</li>)}
       </ol>
 
-      <div className="card mt-4 flex flex-wrap items-center justify-between gap-2 border-brand-100 bg-brand-50">
-        <div className="text-sm text-ink-700">
-          {q.travelers} traveler{q.travelers > 1 ? "s" : ""} · {money(PRICING.firstTraveler)} + {q.travelers - 1} × {money(PRICING.additionalTraveler)}{contact.express ? ` + express ${money(PRICING.express)}` : ""}
+      <div className="card mt-4 border-brand-100 bg-brand-50">
+        <div className="flex flex-wrap gap-2">
+          {(["arrival_card", "evoa", "bundle"] as Product[]).map((p) => (
+            <button key={p} type="button" onClick={() => { setProduct(p); setStep(0); setErrors({}); }} className={`rounded-full px-3 py-1.5 text-sm font-medium ring-1 ${product === p ? "bg-brand-500 text-white ring-brand-500" : "bg-white text-ink-700 ring-slate-200 hover:bg-brand-100"}`}>{PRODUCT_LABELS[p]}</button>
+          ))}
         </div>
-        <div className="text-lg font-bold">Total {money(q.total)} <span className="text-xs font-normal text-ink-500">(all inclusive)</span></div>
+        <div className="mt-3 flex flex-wrap items-end justify-between gap-2">
+          <div className="text-sm text-ink-700">
+            {q.travelers} traveler{q.travelers > 1 ? "s" : ""} · service fee {money(q.serviceFee)}
+            {q.governmentFee > 0 ? ` · government e-VOA fee ${money(q.governmentFee)} (at cost)` : ""}
+            {contact.express ? ` · express ${money(q.extra)}` : ""}
+          </div>
+          <div className="text-lg font-bold">Total {money(q.total)}</div>
+        </div>
       </div>
 
       {Object.keys(errors).length > 0 && <p className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">Please correct the highlighted fields.</p>}
@@ -91,7 +137,13 @@ export function ApplyForm() {
               {i > 0 && <button type="button" className="mt-3 text-sm text-red-600 underline" onClick={() => setTravelers(travelers.filter((_, j) => j !== i))}>Remove traveler</button>}
             </fieldset>
           ))}
-          {travelers.length < 10 && <button type="button" className="btn-secondary" onClick={() => setTravelers([...travelers, { ...emptyTraveler, nationality: travelers[0].nationality }])}>+ Add traveler ({money(PRICING.additionalTraveler)})</button>}
+          {product !== "arrival_card" && travelers.some((t) => t.nationality && eligibility(t.nationality) !== "evoa") && (
+            <p className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+              {travelers.filter((t) => t.nationality && eligibility(t.nationality) === "visa_free").length > 0 && "ASEAN nationals enter visa-free and do not need an e-VOA. "}
+              {travelers.filter((t) => t.nationality && eligibility(t.nationality) === "check").length > 0 && "One nationality in this booking may not be e-VOA eligible; we will confirm before submitting and refund the service fee if not eligible."}
+            </p>
+          )}
+          {travelers.length < 10 && <button type="button" className="btn-secondary" onClick={() => setTravelers([...travelers, { ...emptyTraveler, nationality: travelers[0].nationality }])}>+ Add traveler ({money(product === "arrival_card" ? PRICING.arrivalCard.additional : product === "evoa" ? PRICING.evoa.additional + PRICING.evoa.governmentFee : PRICING.arrivalCard.additional + PRICING.evoa.additional + PRICING.evoa.governmentFee - PRICING.bundleDiscount)})</button>}
         </div>
       )}
 
@@ -132,14 +184,39 @@ export function ApplyForm() {
         </div>
       )}
 
-      {step === 3 && (
+      {step === evoaStep && (
+        <div className="card mt-6 space-y-5">
+          <p className="text-sm text-ink-700">For the e-VOA we need, per traveler, a clear photo or scan of the passport bio page and a recent passport-style photo (plain background, no glasses, no hat). JPG, PNG or PDF, max 8 MB each.</p>
+          {errors.documents && <p className="error">{errors.documents}</p>}
+          <div className="grid gap-4 md:grid-cols-2">
+            <label><span className="label">Intended entry date</span><input type="date" className="input" value={evoa.intendedEntryDate} onChange={(e) => setEvoa({ ...evoa, intendedEntryDate: e.target.value })} /><E k="intendedEntryDate" /></label>
+            <label><span className="label">Purpose of visit</span><select className="input" value={evoa.purpose} onChange={(e) => setEvoa({ ...evoa, purpose: e.target.value as Evoa["purpose"] })}>{EVOA_PURPOSES.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}</select></label>
+          </div>
+          <label className="flex items-start gap-3"><input type="checkbox" className="checkbox" checked={evoa.returnTicket} onChange={(e) => setEvoa({ ...evoa, returnTicket: e.target.checked })} /><span className="text-sm">I have (or will have) a return or onward ticket, which immigration may ask to see.</span></label>
+          {travelers.map((t, i) => {
+            const d = evoa.documents.find((x) => x.travelerIndex === i);
+            return (
+              <fieldset key={i} className="rounded-xl border border-slate-200 p-4">
+                <legend className="px-1 text-sm font-semibold">Traveler {i + 1}: {t.familyName || "—"} {t.givenNames}</legend>
+                <div className="mt-2 grid gap-4 md:grid-cols-2">
+                  <label><span className="label">Passport bio page {d?.passportScanId && <span className="text-brand-600">✓ uploaded</span>}</span><input type="file" accept="image/jpeg,image/png,image/webp,application/pdf" className="input" disabled={uploading !== ""} onChange={(e) => upload(i, "passportScanId", e.target.files?.[0])} /><E k={`documents.${i}.passportScanId`} /></label>
+                  <label><span className="label">Passport-style photo {d?.photoId && <span className="text-brand-600">✓ uploaded</span>}</span><input type="file" accept="image/jpeg,image/png,image/webp" className="input" disabled={uploading !== ""} onChange={(e) => upload(i, "photoId", e.target.files?.[0])} /><E k={`documents.${i}.photoId`} /></label>
+                </div>
+              </fieldset>
+            );
+          })}
+          {uploading && <p className="text-sm text-ink-500">Uploading…</p>}
+        </div>
+      )}
+
+      {step === contactStep && (
         <div className="card mt-6 space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
             <label><span className="label">Email (the QR code is sent here)</span><input type="email" className="input" value={contact.email} onChange={(e) => setContact({ ...contact, email: e.target.value.trim() })} /><E k="email" /></label>
             <label><span className="label">Mobile phone with country code</span><input type="tel" className="input" placeholder="+44 7…" value={contact.phone} onChange={(e) => setContact({ ...contact, phone: e.target.value })} /><E k="phone" /></label>
           </div>
           <label className="flex items-start gap-3"><input type="checkbox" className="checkbox" checked={contact.whatsapp} onChange={(e) => setContact({ ...contact, whatsapp: e.target.checked })} /><span className="text-sm">Also send my QR code by WhatsApp to this number</span></label>
-          <label className="flex items-start gap-3 rounded-lg border border-slate-200 p-3"><input type="checkbox" className="checkbox" checked={contact.express} onChange={(e) => setContact({ ...contact, express: e.target.checked })} /><span className="text-sm"><strong>Express</strong> – human-verified and delivered in under {PRICING.expressSlaHours} hours (+{money(PRICING.express)}). Standard is under {PRICING.standardSlaHours} hours.</span></label>
+          <label className="flex items-start gap-3 rounded-lg border border-slate-200 p-3"><input type="checkbox" className="checkbox" checked={contact.express} onChange={(e) => setContact({ ...contact, express: e.target.checked })} /><span className="text-sm"><strong>Express</strong> – verified and submitted within {product === "arrival_card" ? PRICING.arrivalCard.expressSlaHours : PRICING.evoa.expressSlaHours} hours (+{money(PRICING.express)}). Standard is within {product === "arrival_card" ? PRICING.arrivalCard.standardSlaHours : PRICING.evoa.standardSlaHours} hours.{product !== "arrival_card" ? " e-VOA approval by the authorities usually follows the same day, at most 2 working days." : ""}</span></label>
           <hr className="border-slate-200" />
           <label className="flex items-start gap-3"><input type="checkbox" className="checkbox" checked={contact.acknowledgeNotGov} onChange={(e) => setContact({ ...contact, acknowledgeNotGov: e.target.checked })} /><span className="text-sm">I understand this is a private assistance service and not a government website.</span></label>
           <E k="acknowledgeNotGov" />
@@ -151,7 +228,7 @@ export function ApplyForm() {
 
       <div className="mt-6 flex items-center justify-between">
         <button type="button" className="btn-ghost" disabled={step === 0 || busy} onClick={() => setStep(step - 1)}>Back</button>
-        {step < 3
+        {step < last
           ? <button type="button" className="btn-primary" onClick={next}>Continue</button>
           : <button type="button" className="btn-primary" disabled={busy} onClick={submit}>{busy ? "Redirecting to secure payment…" : `Pay ${money(q.total)} securely`}</button>}
       </div>
