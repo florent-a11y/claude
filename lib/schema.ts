@@ -85,7 +85,24 @@ export type Evoa = z.infer<typeof evoaSchema>;
 export type Product = z.infer<typeof productSchema>;
 export type OrderInput = z.infer<typeof orderInputSchema>;
 
-export type OrderStatus = "pending_payment" | "paid" | "in_progress" | "delivered" | "refunded" | "cancelled";
+export const ORDER_STATUSES = ["pending_payment", "paid", "acknowledged", "in_progress", "submitted", "delivered", "refunded", "cancelled"] as const;
+export type OrderStatus = (typeof ORDER_STATUSES)[number];
+
+export const STATUS_LABELS: Record<OrderStatus, string> = {
+  pending_payment: "Awaiting payment",
+  paid: "New (paid)",
+  acknowledged: "Acknowledged",
+  in_progress: "In progress",
+  submitted: "Submitted to portal",
+  delivered: "Delivered",
+  refunded: "Refunded",
+  cancelled: "Cancelled",
+};
+
+/** Statuses that still need work from the team. */
+export const OPEN_STATUSES: OrderStatus[] = ["paid", "acknowledged", "in_progress", "submitted"];
+
+export interface Activity { at: string; by: string; action: string; note?: string }
 
 export interface Order extends OrderInput {
   id: string;
@@ -98,4 +115,7 @@ export interface Order extends OrderInput {
   paidAt?: string;
   deliveredAt?: string;
   opsNotes?: string;
+  assignee?: string;
+  acknowledgedAt?: string;
+  activity?: Activity[];
 }

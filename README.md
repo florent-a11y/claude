@@ -24,7 +24,8 @@ Without Airwallex keys, checkout skips payment and marks the order paid (dev onl
 | `app/evoa` | e-VOA landing page with eligibility checker and itemized government fee |
 | `app/api/uploads` | Passport scan / photo uploads to a private Supabase Storage bucket |
 | `app/api/webhooks/airwallex` | Marks orders paid/refunded (HMAC-verified) |
-| `app/admin` | Ops console (HTTP basic auth), queue sorted by arrival date, copy-to-clipboard fields |
+| `app/admin` | Ops CRM (HTTP basic auth): stats, views (to treat / new / window open / done), search, acknowledge, assignee, status pipeline, activity log, CSV export |
+| `lib/email.ts`, `lib/sheets.ts` | New-order alert + customer confirmation (Resend); optional Google Sheet mirror of orders |
 | `extension/` | Chrome extension: fills the official form from order JSON; a human reviews and submits |
 | `app/api/news/refresh` | Cron (Vercel) that summarizes official announcements |
 | `supabase/schema.sql` | Tables, RLS, 30-day passport-data purge |

@@ -24,7 +24,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
         </div>
         <div className="flex gap-2">{o.product !== "evoa" && <a className="btn-secondary !py-2 text-sm" href={site.officialPortal} target="_blank" rel="noopener">Arrival card portal ↗</a>}{o.product !== "arrival_card" && <a className="btn-secondary !py-2 text-sm" href="https://evisa.imigrasi.go.id/" target="_blank" rel="noopener">e-VOA portal ↗</a>}</div>
       </div>
-      <OrderActions id={o.id} status={o.status} notes={o.opsNotes ?? ""} orderJson={JSON.stringify(o)} />
+      <OrderActions id={o.id} status={o.status} notes={o.opsNotes ?? ""} assignee={o.assignee ?? ""} acknowledgedAt={o.acknowledgedAt} activity={o.activity ?? []} orderJson={JSON.stringify(o)} />
 
       <section className="mt-8 grid gap-6 md:grid-cols-2">
         <div className="card">

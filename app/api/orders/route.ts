@@ -5,6 +5,7 @@ import { quote } from "@/lib/pricing";
 import { saveOrder } from "@/lib/store";
 import { airwallexConfigured, createPaymentIntent, hostedCheckoutUrl } from "@/lib/airwallex";
 import { site } from "@/lib/config";
+import { onOrderPaid } from "@/lib/notify";
 
 export const runtime = "nodejs";
 
@@ -32,7 +33,9 @@ export async function POST(req: Request) {
     // Dev mode: no payment provider yet. Persist the order and go straight to the success page.
     order.status = "paid";
     order.paidAt = new Date().toISOString();
+    order.activity = [{ at: order.paidAt, by: "system", action: "paid (dev mode)" }];
     await saveOrder(order);
+    await onOrderPaid(order);
     return NextResponse.json({ orderId: order.id, redirectUrl: `${site.url}/apply/success?order=${order.id}&dev=1` });
   }
 

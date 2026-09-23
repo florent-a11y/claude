@@ -2,7 +2,7 @@
 create table if not exists public.orders (
   id uuid primary key,
   created_at timestamptz not null default now(),
-  status text not null check (status in ('pending_payment','paid','in_progress','delivered','refunded','cancelled')),
+  status text not null check (status in ('pending_payment','paid','acknowledged','in_progress','submitted','delivered','refunded','cancelled')),
   amount_cents integer not null,
   government_fee_cents integer not null default 0,
   product text not null default 'arrival_card' check (product in ('arrival_card','evoa','bundle')),
@@ -44,3 +44,8 @@ alter table public.news_items enable row level security;
 --   -- also purge uploaded documents older than 30 days:
 --   delete from storage.objects where bucket_id = 'documents' and created_at < now() - interval '45 days';
 -- $$);
+
+-- Migration if the table already exists with the old status list:
+-- alter table public.orders drop constraint orders_status_check;
+-- alter table public.orders add constraint orders_status_check
+--   check (status in ('pending_payment','paid','acknowledged','in_progress','submitted','delivered','refunded','cancelled'));

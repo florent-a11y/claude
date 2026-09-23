@@ -67,7 +67,9 @@ Set `NEXT_PUBLIC_SITE_URL` to the final `https://www.` URL and redirect the apex
 - [ ] HK solicitor review of `/legal/terms` and `/legal/privacy` (drafted, not reviewed).
 - [ ] Indonesian counsel memo on ITE and PDP exposure.
 - [ ] Trustpilot business profile; review invitation after delivery.
-- [ ] Transactional emails (order confirmation, QR delivery) via Resend: not yet implemented, ops sends manually at launch.
+- [x] New-order email alert to ops and order confirmation to the customer (Resend). Set `RESEND_API_KEY`, `EMAIL_FROM` (a verified sender domain in Resend), `OPS_EMAIL`.
+- [ ] QR / e-VOA delivery email to the customer is still sent manually by ops from the console.
+- [ ] Optional Google Sheet mirror of all orders: create a Google Cloud service account with the Sheets API enabled, download its JSON key, share the sheet with the service account email as Editor, set `GOOGLE_SHEET_ID` (from the sheet URL) and `GOOGLE_SERVICE_ACCOUNT_JSON` (the whole JSON on one line).
 - [ ] Mobile navigation menu (the phone header shows only the CTA today).
 - [ ] Passport photo OCR (MRZ): planned, not implemented; the form is manual entry today.
 - [ ] Translations (ZH, KO, JA, DE, FR, RU): planned; the site is English-only today.
