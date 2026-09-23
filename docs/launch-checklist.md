@@ -79,7 +79,7 @@ Domain: allindonesia-arrivalcard.com. Visible brand everywhere (logo, titles, em
 
 ## 7. Before going live
 
-- [ ] Replace the placeholders in `.env` (company name, support email). Address and registration number are intentionally not shown on the site (owner decision, 2026-09-23); EU/UK distance-selling rules expect them, revisit with counsel.
+- [x] Legal identity shown in footer, contact and legal pages (Bulan Juli Limited, CR 76938968, BR 76938968-000, Unit 909 Prosperity Millennia Plaza, 663 King's Road, Quarry Bay, Hong Kong — registered office per the NR1 change effective 13 July 2026).
 - [ ] HK solicitor review of `/legal/terms` and `/legal/privacy` (drafted, not reviewed).
 - [ ] Indonesian counsel memo on ITE and PDP exposure.
 - [ ] Trustpilot business profile; review invitation after delivery.

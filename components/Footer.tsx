@@ -9,6 +9,8 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-4">
           <div>
             <p className="font-semibold text-ink-900">{site.company}</p>
+            <p className="mt-1 text-xs">{site.address}</p>
+            <p className="text-xs">{site.companyReg}</p>
             <p className="mt-2"><a className="underline" href={`mailto:${site.supportEmail}`}>{site.supportEmail}</a></p>
           </div>
           <div>

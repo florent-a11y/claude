@@ -7,7 +7,7 @@ export default function Page() {
       <h1 className="text-3xl font-bold">Privacy policy</h1>
       <p className="mt-4 text-sm">Template for legal review before launch. Last updated: 2026-09-23.</p>
       <h2>Controller</h2>
-      <p>{site.company}. Contact: <a href={`mailto:${site.supportEmail}`}>{site.supportEmail}</a>.</p>
+      <p>{site.company}, {site.address}. {site.companyReg}. Contact: <a href={`mailto:${site.supportEmail}`}>{site.supportEmail}</a>.</p>
       <h2>Data we collect</h2>
       <ul>
         <li>Identity and passport details of each traveler (name, date of birth, gender, nationality, passport number and dates), and for e-VOA orders a scan of the passport bio page and a passport-style photo.</li>

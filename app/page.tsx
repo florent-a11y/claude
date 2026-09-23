@@ -29,7 +29,12 @@ export default function Home() {
         "@context": "https://schema.org",
         "@type": "Service",
         name: "Indonesia arrival card assistance",
-        provider: { "@type": "Organization", name: site.company },
+        provider: {
+          "@type": "Organization",
+          name: site.company,
+          identifier: site.companyId,
+          address: { "@type": "PostalAddress", ...site.postalAddress },
+        },
         areaServed: "Indonesia",
         offers: { "@type": "Offer", price: "24.90", priceCurrency: "USD", url: `${site.url}/apply` },
         description: site.description,

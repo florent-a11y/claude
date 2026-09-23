@@ -2,7 +2,21 @@ export const site = {
   name: "Arrival Card Assist",
   shortName: "Arrival Card Assist",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-  company: process.env.NEXT_PUBLIC_COMPANY_NAME ?? "[Your Hong Kong company name]",
+  company: process.env.NEXT_PUBLIC_COMPANY_NAME ?? "Bulan Juli Limited",
+  companyReg:
+    process.env.NEXT_PUBLIC_COMPANY_REG ??
+    "Company Registration No. 76938968 · Business Registration No. 76938968-000",
+  companyId: "76938968",
+  jurisdiction: "a company incorporated in Hong Kong SAR",
+  address:
+    process.env.NEXT_PUBLIC_COMPANY_ADDRESS ??
+    "Unit 909, Prosperity Millennia Plaza, 663 King's Road, Quarry Bay, Hong Kong",
+  postalAddress: {
+    streetAddress: "Unit 909, Prosperity Millennia Plaza, 663 King's Road",
+    addressLocality: "Quarry Bay",
+    addressRegion: "Hong Kong",
+    addressCountry: "HK",
+  },
   supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "support@example.com",
   officialPortal: "https://allindonesia.imigrasi.go.id/",
   officialRetrieve: "https://allindonesia.imigrasi.go.id/arrival-card-submission/retrieve",
