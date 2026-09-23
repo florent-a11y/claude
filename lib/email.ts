@@ -99,6 +99,43 @@ function reminderLinks(r: Reminder) {
   return { apply, unsubscribe };
 }
 
+// ---------- Review request ----------
+/** Review links, only those configured (TRUSTPILOT_REVIEW_URL, GOOGLE_REVIEW_URL). */
+export function reviewLinks() {
+  const links: Array<{ href: string; label: string }> = [];
+  const tp = (process.env.TRUSTPILOT_REVIEW_URL ?? "").trim();
+  const g = (process.env.GOOGLE_REVIEW_URL ?? "").trim();
+  if (tp) links.push({ href: tp, label: "Review us on Trustpilot" });
+  if (g) links.push({ href: g, label: "Review us on Google" });
+  return links;
+}
+
+/** Sent once, 2 days after arrival, to delivered orders. Skipped when no review link is configured. */
+export async function sendReviewRequest(order: Order) {
+  const links = reviewLinks();
+  if (links.length === 0) return { skipped: true };
+  const lead = order.travelers[0];
+  const isAc = order.product !== "evoa";
+  const isEv = order.product !== "arrival_card";
+  const what = isAc && isEv ? "arrival card and e-VOA" : isAc ? "arrival card" : "e-VOA";
+  const subject = "How was your arrival in Indonesia?";
+  const before = [
+    `Dear ${lead.givenNames},`,
+    `Thank you for trusting us with your ${what}. We hope your arrival in Indonesia on ${order.travel.arrivalDate} went smoothly.`,
+    "If anything went wrong, reply to this email first so we can fix it.",
+    "If everything went well, would you take a minute to leave us a short review? It helps other travelers find a service they can trust and means a lot to our small team.",
+  ];
+  const after = [
+    `Questions? Reply to this email or write to ${site.supportEmail}.`,
+    NOT_GOV,
+  ];
+  const text = [...before, ...links.map((l) => `${l.label}: ${l.href}`), ...after].join("\n\n");
+  const html = `<div style="font-family:system-ui;font-size:15px;line-height:1.5">${before.map((l) => `<p>${esc(l)}</p>`).join("")}` +
+    `<p>${links.map((l) => `<a href="${esc(l.href)}" style="display:inline-block;margin:0 8px 8px 0;background:#0f7a5f;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none">${esc(l.label)}</a>`).join("")}</p>` +
+    `${after.map((l) => `<p>${esc(l)}</p>`).join("")}</div>`;
+  return send([order.contact.email], subject, html, text);
+}
+
 function reminderHtml(lines: string[], button: { href: string; label: string }, unsubscribe: string) {
   return `<div style="font-family:system-ui;font-size:15px;line-height:1.5">${lines.map((l) => `<p>${esc(l)}</p>`).join("")}` +
     `<p><a href="${button.href}" style="background:#e8632b;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none">${esc(button.label)}</a></p>` +

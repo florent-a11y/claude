@@ -138,6 +138,18 @@ export async function updateOrder(id: string, patch: Partial<Order>): Promise<Or
   return next;
 }
 
+/** Delivered orders that have not received a review request yet (used by the review cron). Newest first. */
+export async function listDeliveredOrdersForReview(limit = 500): Promise<Order[]> {
+  const client = sb();
+  if (client) {
+    const { data, error } = await client.from("orders").select("*").eq("status", "delivered").order("created_at", { ascending: false }).limit(limit);
+    if (error) throw new Error(error.message);
+    return (data as OrderRow[]).map(toOrder).filter((o) => !o.reviewRequestedAt);
+  }
+  const all = await readJson<Order[]>("orders.json", []);
+  return all.filter((o) => o.status === "delivered" && !o.reviewRequestedAt).slice(0, limit);
+}
+
 // ---------- Reminders (waitlist) ----------
 type ReminderRow = {
   id: string;

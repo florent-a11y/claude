@@ -163,4 +163,8 @@ export interface Order extends OrderInput {
   activity?: Activity[];
   /** Ids (private bucket) of the files sent to the customer at delivery. */
   deliveredDocuments?: string[];
+  /** When the "how was your arrival?" review request email went out (cron, 2 days after arrival). */
+  reviewRequestedAt?: string;
+  /** Set when the order was already too old for a review request (never nag late). */
+  reviewSkipped?: boolean;
 }

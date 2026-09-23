@@ -20,7 +20,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold">Order {o.id.slice(0, 8)}</h1>
-          <p className="text-sm text-ink-500">{PRODUCT_LABELS[o.product]} · Created {new Date(o.createdAt).toLocaleString("en-GB")} · {money(o.amountCents, o.currency)}{o.governmentFeeCents > 0 ? ` (incl. ${money(o.governmentFeeCents, o.currency)} visa fee collected; pay IDR 500,000 + card charge on the e-VOA portal)` : ""} · {o.status}{o.contact.express ? " · EXPRESS" : ""}</p>
+          <p className="text-sm text-ink-500">{PRODUCT_LABELS[o.product]} · Created {new Date(o.createdAt).toLocaleString("en-GB")} · {money(o.amountCents, o.currency)}{o.governmentFeeCents > 0 ? ` (incl. ${money(o.governmentFeeCents, o.currency)} visa fee collected; pay IDR 500,000 + card charge on the e-VOA portal)` : ""} · {o.status}{o.contact.express ? " · EXPRESS" : ""}{o.reviewRequestedAt ? ` · review requested ${new Date(o.reviewRequestedAt).toLocaleDateString("en-GB")}` : ""}</p>
         </div>
         <div className="flex gap-2">{o.product !== "evoa" && <a className="btn-secondary !py-2 text-sm" href={site.officialPortal} target="_blank" rel="noopener">Arrival card portal ↗</a>}{o.product !== "arrival_card" && <a className="btn-secondary !py-2 text-sm" href="https://evisa.imigrasi.go.id/" target="_blank" rel="noopener">e-VOA portal ↗</a>}</div>
       </div>
