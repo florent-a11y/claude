@@ -21,16 +21,18 @@ Steps:
 
 ## 2. Domain
 
-Check availability at a registrar (Cloudflare Registrar sells at cost; availability could not be checked from the build environment). Buy in this order of preference:
+Live domain: **www.allindonesia-arrivalcard.com** (apex redirects to www). Registered at Cloudflare, served by Vercel.
 
-1. `indonesiaarrivalcard.com` — exact match for the highest-intent keyword.
-2. `indonesia-arrivalcard.com` — hyphenated fallback.
-3. `baliarrivalcard.com` — second brand for Bali-specific landing pages (redirect or sister site).
-4. `arrivalcardassist.com` — brandable; works if you later add Thailand/Malaysia/Singapore cards.
+DNS at Cloudflare, both records **DNS only** (grey cloud), Cloudflare proxy kept off:
 
-Avoid: `imigrasi`, `official`, `gov`, `portal`, `allindonesia` alone, `.id` through a proxy contact. These are the look-alike patterns Ditjen Imigrasi warns about and they hurt with Google, Cloudflare Trust & Safety and the card schemes.
+| Type | Name | Content |
+|---|---|---|
+| A | @ | 76.76.21.21 |
+| CNAME | www | cname.vercel-dns.com |
 
-Set `NEXT_PUBLIC_SITE_URL` to the final `https://www.` URL and redirect the apex to www in Vercel.
+Cloudflare SSL/TLS mode: Full (strict). `NEXT_PUBLIC_SITE_URL=https://www.allindonesia-arrivalcard.com` in Vercel, then redeploy.
+
+Note: the name contains "allindonesia", the government programme's brand; keep a neutral fallback domain (e.g. indonesiaarrivalcard.com) in reserve in case of a look-alike complaint.
 
 ## 3. Airwallex setup (HK entity)
 
