@@ -49,6 +49,15 @@ Note: the name contains "allindonesia", the government programme's brand; keep a
 2. Enable the `pg_cron` extension and run the commented purge job in the same file.
 3. Project settings → API → copy URL and **service_role** key into Vercel. The service key is only ever used in server code.
 
+## 4b. Reminder list (72-hour window)
+
+The order form refuses payment for the arrival card when arrival is more than 72 hours away (the portal
+rejects earlier submissions) and captures email + arrival date instead. `/reminder` is the ads landing page.
+The cron `/api/reminders/notify` (twice daily, `vercel.json`) emails "your window is open" with a prefilled
+link back to `/apply`, plus a heads-up the day before. Needs Resend configured. The list and CSV export are
+at `/admin/reminders`. If Supabase was set up before this change, run the `reminders` table block from
+`supabase/schema.sql`.
+
 ## 5. Ops
 
 1. Set `ADMIN_USER`/`ADMIN_PASSWORD` (long random). Console at `/admin`. Put it behind Cloudflare Access (free for up to 50 users) for a second factor.

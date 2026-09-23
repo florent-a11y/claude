@@ -23,7 +23,7 @@ export function Header() {
           <span>{site.shortName}</span>
         </Link>
         <nav aria-label="Main" className="hidden items-center gap-5 text-sm font-medium text-ink-700 lg:flex">
-          {NAV.slice(0, 7).map((n) => (
+          {NAV.slice(0, 8).map((n) => (
             <Link key={n.href} href={n.href} className="hover:text-brand-600">{n.label}</Link>
           ))}
         </nav>
