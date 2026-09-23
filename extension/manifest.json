@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Arrival Card Assist – ops autofill",
+  "version": "0.1.0",
+  "description": "Internal tool: fills the official All Indonesia form from an order copied from the ops console. A human reviews and clicks Submit.",
+  "permissions": ["clipboardRead", "activeTab", "scripting", "storage"],
+  "host_permissions": ["https://allindonesia.imigrasi.go.id/*"],
+  "action": { "default_popup": "popup.html", "default_title": "Autofill arrival card" },
+  "content_scripts": [{ "matches": ["https://allindonesia.imigrasi.go.id/*"], "js": ["content.js"] }]
+}

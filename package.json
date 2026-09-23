@@ -1,0 +1,32 @@
+{
+  "name": "indonesia-arrival-assist",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "news:refresh": "tsx scripts/refresh-news.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.128.0",
+    "@supabase/supabase-js": "^2.117.0",
+    "lucide-react": "^1.47.0",
+    "next": "15.5.26",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "rss-parser": "^3.13.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.19.0",
+    "typescript": "^5"
+  }
+}

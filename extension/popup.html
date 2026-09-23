@@ -1,0 +1,10 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{font:14px system-ui;width:320px;padding:12px}textarea{width:100%;height:120px}button{margin-top:8px;padding:8px 12px}label{display:block;margin-top:8px}</style></head>
+<body>
+<strong>Ops autofill</strong>
+<p>Paste the order JSON (from “Copy order JSON” in the ops console), pick the traveler, then click Fill. Review every field before submitting.</p>
+<textarea id="json" placeholder='{"travelers":[...],"travel":{...}}'></textarea>
+<label>Traveler index <input id="idx" type="number" value="0" min="0" style="width:60px"></label>
+<button id="fill">Fill current page</button>
+<p id="msg"></p>
+<script src="popup.js"></script>
+</body></html>

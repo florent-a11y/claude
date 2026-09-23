@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-50: #eef7f4;
+  --color-brand-100: #d6ece4;
+  --color-brand-500: #0f7a5f;
+  --color-brand-600: #0c6650;
+  --color-brand-700: #095241;
+  --color-accent-500: #e8632b;
+  --color-accent-600: #cf5321;
+  --color-ink-900: #14211d;
+  --color-ink-700: #33443e;
+  --color-ink-500: #5f6f69;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { @apply bg-white text-ink-900 antialiased; }
+
+@layer components {
+  .btn, .btn-primary, .btn-secondary, .btn-ghost { @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-base font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed; }
+  .btn-primary { @apply bg-accent-500 text-white hover:bg-accent-600 focus-visible:ring-accent-500; }
+  .btn-secondary { @apply bg-brand-50 text-brand-700 hover:bg-brand-100 focus-visible:ring-brand-500; }
+  .btn-ghost { @apply text-brand-700 hover:bg-brand-50; }
+}
+
+.card { @apply rounded-2xl border border-slate-200 bg-white p-6 shadow-sm; }
+.label { @apply mb-1 block text-sm font-medium text-ink-700; }
+.input { @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-base text-ink-900 shadow-sm placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30; }
+.checkbox { @apply mt-1 h-5 w-5 shrink-0 rounded border-slate-300 text-brand-600 focus:ring-brand-500; }
+.error { @apply mt-1 text-sm text-red-600; }
+.prose-basic h2 { @apply mt-10 mb-3 text-2xl font-bold; }
+.prose-basic h3 { @apply mt-6 mb-2 text-lg font-semibold; }
+.prose-basic p { @apply mb-4 leading-relaxed text-ink-700; }
+.prose-basic ul { @apply mb-4 list-disc space-y-1 pl-6 text-ink-700; }
+.prose-basic ol { @apply mb-4 list-decimal space-y-1 pl-6 text-ink-700; }
+.prose-basic a { @apply text-brand-600 underline underline-offset-2; }
+.prose-basic table { @apply my-4 w-full text-sm; }
+.prose-basic th { @apply bg-brand-50 px-3 py-2 text-left font-semibold; }
+.prose-basic td { @apply border-t border-slate-200 px-3 py-2 align-top; }
