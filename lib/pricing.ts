@@ -6,9 +6,9 @@ export const PRICING = {
   evoa: {
     first: 3990,
     additional: 2990,
-    /** Government e-VOA fee IDR 500,000 plus the official portal's card surcharge, converted at a
-     *  fixed rate with a small buffer. Passed through at cost per traveler; adjust if IDR moves. */
-    governmentFee: 3400,
+    /** Visa fee charged per traveler: IDR 800,000 converted at ~16,300 IDR/USD. Covers the IDR 500,000
+     *  government e-VOA fee plus card and currency handling. Adjust if IDR moves. */
+    governmentFee: 4900,
     standardSlaHours: 48,
     expressSlaHours: 12,
   },

@@ -27,7 +27,7 @@ export default function Pricing() {
         <table>
           <thead><tr><th>Per traveler</th><th>Amount</th></tr></thead>
           <tbody>
-            <tr><td>Government e-VOA fee (IDR 500,000 incl. portal card charge), passed through at cost</td><td>{money(PRICING.evoa.governmentFee)}</td></tr>
+            <tr><td>Visa fee (IDR 800,000: includes the IDR 500,000 government e-VOA fee plus card and currency charges)</td><td>{money(PRICING.evoa.governmentFee)}</td></tr>
             <tr><td>Service fee, first traveler</td><td>{money(PRICING.evoa.first)}</td></tr>
             <tr><td>Service fee, each additional traveler</td><td>{money(PRICING.evoa.additional)}</td></tr>
             <tr><td>Bundle discount when ordered with arrival card assistance</td><td>−{money(PRICING.bundleDiscount)}</td></tr>
@@ -40,7 +40,7 @@ export default function Pricing() {
             {[1, 2, 4].map((n) => <tr key={n}><td>{n} traveler{n > 1 ? "s" : ""}</td><td>{money(quote(n, false, "evoa").total)}</td><td>{money(quote(n, false, "bundle").total)}</td></tr>)}
           </tbody>
         </table>
-        <p>Government fees are paid to the Indonesian authorities on your behalf and are non-refundable once the application is lodged. Details on the <Link href="/evoa">e-VOA page</Link>.</p>
+        <p>The visa fee is paid on your behalf when the application is lodged with the Indonesian authorities and is non-refundable from that point. Details on the <Link href="/evoa">e-VOA page</Link>.</p>
         <h2>What is included</h2>
         <ul>
           <li>Guided multilingual form with passport photo reading.</li>

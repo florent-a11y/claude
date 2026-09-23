@@ -8,7 +8,7 @@ export function PriceCard({ compact = false }: { compact?: boolean }) {
       <ul className="mt-4 divide-y divide-slate-100 text-ink-700">
         <li className="flex items-center justify-between py-3"><span>Arrival card, first traveler</span><strong className="text-xl text-ink-900">{money(PRICING.arrivalCard.first)}</strong></li>
         <li className="flex items-center justify-between py-3"><span>Each additional traveler (same booking)</span><strong>{money(PRICING.arrivalCard.additional)}</strong></li>
-        <li className="flex items-center justify-between py-3"><span>e-VOA visa assistance (optional, incl. government fee)</span><strong>from {money(PRICING.evoa.first + PRICING.evoa.governmentFee)}</strong></li>
+        <li className="flex items-center justify-between py-3"><span>e-VOA visa assistance (optional, incl. visa fee)</span><strong>from {money(PRICING.evoa.first + PRICING.evoa.governmentFee)}</strong></li>
         <li className="flex items-center justify-between py-3"><span>Express, human-verified in under {PRICING.arrivalCard.expressSlaHours} h (optional)</span><strong>+{money(PRICING.express)}</strong></li>
       </ul>
       {!compact && (

@@ -8,7 +8,7 @@ import { EligibilityChecker } from "./Eligibility";
 
 export const metadata: Metadata = {
   title: "Indonesia e-VOA application assistance – visa on arrival online",
-  description: "We prepare and submit your Indonesia e-VOA (electronic visa on arrival): 30 days, extendable once. Human-checked, government fee itemized, delivered by email and WhatsApp.",
+  description: "We prepare and submit your Indonesia e-VOA (electronic visa on arrival): 30 days, extendable once. Human-checked, visa fee itemized, delivered by email and WhatsApp.",
 };
 
 const steps = [
@@ -42,14 +42,14 @@ export default function Evoa() {
           <div className="card border-brand-100">
             <p className="text-sm font-semibold uppercase tracking-wide text-brand-600">Price per traveler, itemized</p>
             <ul className="mt-4 divide-y divide-slate-100 text-ink-700">
-              <li className="flex justify-between py-3"><span>Government e-VOA fee (IDR {EVOA.governmentFeeIdr.toLocaleString("en-US")} incl. portal card charge, at cost)</span><strong>{money(PRICING.evoa.governmentFee)}</strong></li>
+              <li className="flex justify-between py-3"><span>Visa fee (IDR {EVOA.visaFeeIdr.toLocaleString("en-US")}: includes the IDR {EVOA.governmentFeeIdr.toLocaleString("en-US")} government e-VOA fee plus card and currency charges)</span><strong>{money(PRICING.evoa.governmentFee)}</strong></li>
               <li className="flex justify-between py-3"><span>Our service fee, first traveler</span><strong>{money(PRICING.evoa.first)}</strong></li>
               <li className="flex justify-between py-3"><span>Our service fee, each additional traveler</span><strong>{money(PRICING.evoa.additional)}</strong></li>
               <li className="flex justify-between py-3"><span>Bundle with arrival card assistance</span><strong className="text-brand-600">save {money(PRICING.bundleDiscount)} per traveler</strong></li>
               <li className="flex justify-between py-3"><span>Express, verified within {PRICING.evoa.expressSlaHours} h (optional)</span><strong>+{money(PRICING.express)}</strong></li>
             </ul>
             <p className="mt-3 text-lg font-bold">Total first traveler: {money(q.first)}</p>
-            <p className="mt-2 text-sm text-ink-500">Service fee refunded in full if your nationality is not eligible or if we cannot submit. Government fees paid to the authorities are non-refundable once the application is lodged.</p>
+            <p className="mt-2 text-sm text-ink-500">Service fee refunded in full if your nationality is not eligible or if we cannot submit. The visa fee is non-refundable once the application is lodged with the authorities.</p>
           </div>
         </div>
       </section>

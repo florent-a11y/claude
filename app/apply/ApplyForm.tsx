@@ -110,7 +110,7 @@ export function ApplyForm({ initialProduct = "arrival_card" }: { initialProduct?
         <div className="mt-3 flex flex-wrap items-end justify-between gap-2">
           <div className="text-sm text-ink-700">
             {q.travelers} traveler{q.travelers > 1 ? "s" : ""} · service fee {money(q.serviceFee)}
-            {q.governmentFee > 0 ? ` · government e-VOA fee ${money(q.governmentFee)} (at cost)` : ""}
+            {q.governmentFee > 0 ? ` · visa fee ${money(q.governmentFee)}` : ""}
             {contact.express ? ` · express ${money(q.extra)}` : ""}
           </div>
           <div className="text-lg font-bold">Total {money(q.total)}</div>

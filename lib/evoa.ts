@@ -6,6 +6,7 @@ export const EVOA = {
   validityDays: 30,
   extendableOnceDays: 30,
   governmentFeeIdr: 500_000,
+  visaFeeIdr: 800_000, // what we charge per traveler for the visa fee line (government fee + card and currency handling)
   passportMinValidityMonths: 6,
   applyWindowDays: 90, // may apply up to ~90 days before the intended entry date
   typicalProcessing: "same day to 2 working days",
