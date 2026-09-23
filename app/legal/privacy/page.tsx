@@ -27,7 +27,7 @@ export default function Page() {
       <h2>Security</h2>
       <p>Encryption in transit and at rest, role-based access for our team, audit logs, and breach notification to affected persons and authorities within the legally required period (3×24 hours under Indonesian law).</p>
       <h2>Cookies</h2>
-      <p>We use only strictly necessary cookies and privacy-respecting analytics without cross-site tracking.</p>
+      <p>We use Google Analytics 4 and the Meta (Facebook) Pixel, including their server-side interfaces (Google Analytics Measurement Protocol and Meta Conversions API), to measure visits and advertising conversions. For a completed order we send Google and Meta the order value and a hashed (irreversible) version of your email address, phone number, name and nationality, together with your IP address, browser identifier and advertising click identifiers, so that the advertising platforms can attribute the purchase to an advertisement. Nothing about your passport or your declarations is sent to them. You can opt out through the settings of those platforms or by using a browser that blocks their scripts.</p>
     </div>
   );
 }
