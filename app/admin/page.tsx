@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { listOrders } from "@/lib/store";
+import { listOrders, listReminders } from "@/lib/store";
 import { money, PRODUCT_LABELS } from "@/lib/pricing";
 import { OPEN_STATUSES, ORDER_STATUSES, STATUS_LABELS, type Order, type OrderStatus } from "@/lib/schema";
 import { emailConfigured } from "@/lib/email";
@@ -29,7 +29,7 @@ const VIEWS: Array<{ key: string; label: string; filter: (o: Order) => boolean }
 
 export default async function Admin({ searchParams }: { searchParams: Promise<{ view?: string; status?: string; q?: string; assignee?: string }> }) {
   const sp = await searchParams;
-  const all = await listOrders({ limit: 2000 });
+  const [all, reminders] = await Promise.all([listOrders({ limit: 2000 }), listReminders({ limit: 5000 }).catch(() => [])]);
   const view = VIEWS.find((v) => v.key === sp.view) ?? VIEWS[0];
   const q = (sp.q ?? "").trim().toLowerCase();
   let rows = all.filter(view.filter);
@@ -50,6 +50,7 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
     overdue: all.filter((o) => OPEN_STATUSES.includes(o.status) && hoursLeft(o.travel.arrivalDate) <= 6).length,
     deliveredToday: all.filter((o) => o.deliveredAt?.slice(0, 10) === today).length,
     revenue30d: all.filter((o) => o.paidAt && Date.now() - new Date(o.paidAt).getTime() < 30 * 864e5 && o.status !== "refunded").reduce((s, o) => s + o.amountCents, 0),
+    reminders: reminders.filter((r) => !r.unsubscribedAt && hoursLeft(r.arrivalDate) > 0).length,
   };
   const assignees = [...new Set(all.map((o) => o.assignee).filter(Boolean))] as string[];
   const link = (patch: Record<string, string | undefined>) => {
@@ -61,7 +62,7 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
     <div className="mx-auto max-w-7xl px-4 py-8">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div><h1 className="text-2xl font-bold">Ops console</h1><p className="text-sm text-ink-500">Submit arrival cards only inside the 72-hour window. Acknowledge new orders so the team knows who has them.</p></div>
-        <div className="flex gap-2 text-sm"><a className="btn-secondary !py-2" href="/api/admin/export">Export CSV</a></div>
+        <div className="flex gap-2 text-sm"><Link className="btn-secondary !py-2" href="/admin/reminders">Reminder list</Link><a className="btn-secondary !py-2" href="/api/admin/export">Export CSV</a></div>
       </div>
       {(!emailConfigured() || !sheetsConfigured()) && (
         <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-2 text-xs text-amber-900">
@@ -69,10 +70,11 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
         </p>
       )}
 
-      <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-6">
+      <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-7">
         {[["New (paid)", stats.new, "text-red-700"], ["Open", stats.open, ""], ["Window open", stats.window, "text-green-700"], ["Due ≤ 6 h", stats.overdue, "text-red-700"], ["Delivered today", stats.deliveredToday, ""], ["Revenue 30 d", money(stats.revenue30d), ""]].map(([l, v, c]) => (
           <div key={String(l)} className="card !p-4"><p className="text-xs text-ink-500">{l}</p><p className={`text-2xl font-bold ${c}`}>{v}</p></div>
         ))}
+        <Link href="/admin/reminders" className="card !p-4 hover:bg-brand-50"><p className="text-xs text-ink-500">Reminders (upcoming)</p><p className="text-2xl font-bold">{stats.reminders}</p></Link>
       </div>
 
       <div className="mt-6 flex flex-wrap items-center gap-2 text-sm">

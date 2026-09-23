@@ -1,7 +1,8 @@
 import "server-only";
-import type { Order } from "./schema";
+import type { Order, Reminder } from "./schema";
 import { money, PRODUCT_LABELS } from "./pricing";
 import { site } from "./config";
+import { formatWindowOpens } from "./window";
 
 export function emailConfigured() {
   return Boolean(process.env.RESEND_API_KEY && process.env.EMAIL_FROM);
@@ -87,4 +88,53 @@ export async function sendCustomerConfirmation(order: Order) {
   const text = lines.join("\n\n");
   const html = `<div style="font-family:system-ui;font-size:15px;line-height:1.5">${lines.map((l) => `<p>${esc(l)}</p>`).join("")}</div>`;
   return send([order.contact.email], subject, html, text);
+}
+
+// ---------- Reminder list ----------
+const NOT_GOV = `${site.company} is a private assistance service and is not affiliated with any government website.`;
+
+function reminderLinks(r: Reminder) {
+  const apply = `${site.url}/apply?arrival=${r.arrivalDate}&email=${encodeURIComponent(r.email)}&product=${r.productInterest}&ref=reminder`;
+  const unsubscribe = `${site.url}/api/reminders/unsubscribe?token=${encodeURIComponent(r.token)}`;
+  return { apply, unsubscribe };
+}
+
+function reminderHtml(lines: string[], button: { href: string; label: string }, unsubscribe: string) {
+  return `<div style="font-family:system-ui;font-size:15px;line-height:1.5">${lines.map((l) => `<p>${esc(l)}</p>`).join("")}` +
+    `<p><a href="${button.href}" style="background:#e8632b;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none">${esc(button.label)}</a></p>` +
+    `<p style="font-size:12px;color:#5f6f69">No longer travelling? <a href="${unsubscribe}">Stop these emails</a>.</p></div>`;
+}
+
+/** Sent once the official 72-hour window for the reminder's arrival date is open. */
+export async function sendReminderWindowOpen(r: Reminder) {
+  const { apply, unsubscribe } = reminderLinks(r);
+  const isAc = r.productInterest !== "evoa";
+  const subject = `Indonesia arrival card: your submission window is open (arrival ${r.arrivalDate})`;
+  const lines = [
+    "Hello,",
+    `You asked us to tell you when the arrival card can be submitted for your arrival in Indonesia on ${r.arrivalDate}. That moment has come: the official portal now accepts submissions for your date.`,
+    isAc
+      ? `If you would like us to prepare and check the card for ${r.travelers} traveler${r.travelers > 1 ? "s" : ""}, open the link below. Your arrival date and email are already filled in.`
+      : "Open the link below to start your application. Your arrival date and email are already filled in.",
+    "If you prefer to do it yourself, the guide on our website explains every field.",
+    `Questions? Reply to this email or write to ${site.supportEmail}.`,
+    NOT_GOV,
+  ];
+  const text = [...lines, `Start: ${apply}`, `Stop these emails: ${unsubscribe}`].join("\n\n");
+  return send([r.email], subject, reminderHtml(lines, { href: apply, label: "Start my application" }, unsubscribe), text);
+}
+
+/** Short heads-up sent roughly a day before the window opens. */
+export async function sendReminderHeadsUp(r: Reminder) {
+  const { apply, unsubscribe } = reminderLinks(r);
+  const opens = formatWindowOpens(r.arrivalDate, "Asia/Jakarta");
+  const subject = `Tomorrow your Indonesia arrival card window opens (arrival ${r.arrivalDate})`;
+  const lines = [
+    "Hello,",
+    `A quick note: the official portal will accept the arrival card for your arrival on ${r.arrivalDate} from ${opens} (Jakarta time). We will email you again at that moment.`,
+    "Nothing to do for now. If you want, have your passport and accommodation details ready so it takes two minutes.",
+    NOT_GOV,
+  ];
+  const text = [...lines, `Our page: ${apply}`, `Stop these emails: ${unsubscribe}`].join("\n\n");
+  return send([r.email], subject, reminderHtml(lines, { href: apply, label: "See what we need" }, unsubscribe), text);
 }
