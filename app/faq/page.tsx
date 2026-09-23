@@ -17,6 +17,7 @@ const faqs = [
   { q: "Is my passport data safe?", a: "Data is encrypted, used only to prepare your card, never sold, and deleted 30 days after your arrival date. See our privacy policy." },
   { q: "Can I get a refund?", a: "Yes, in full if we do not deliver at least 6 hours before your arrival time or if you cancel before processing starts." },
   { q: "Are you the Indonesian government?", a: "No. We are a private assistance company, not affiliated with the Government of Indonesia, the Directorate General of Immigration or any government website." },
+  { q: "Can I complete the arrival card without your service?", a: "Yes. The All Indonesia arrival card can be completed free of charge on the official government portal allindonesia.imigrasi.go.id. Our fee is only for preparing, checking and delivering it for you." },
 ];
 
 export default function FAQ() {

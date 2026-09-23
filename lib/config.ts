@@ -12,3 +12,8 @@ export const site = {
 
 export const DISCLOSURE =
   "We are a private travel-assistance company and are not affiliated with, endorsed by or acting for the Government of Indonesia or the Directorate General of Immigration. Our fee pays for form preparation, verification, delivery and support.";
+
+export const OFFICIAL_PORTAL_HOST = "allindonesia.imigrasi.go.id";
+
+export const OFFICIAL_NOTE =
+  `You can also complete the All Indonesia arrival card yourself, free of charge, on the official government portal ${OFFICIAL_PORTAL_HOST}.`;

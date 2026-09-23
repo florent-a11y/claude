@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
+import { OfficialNote } from "@/components/OfficialNote";
 
 export const metadata: Metadata = {
   title: "Indonesia arrival card guide: requirements, 72-hour rule, QR code",
@@ -26,6 +27,7 @@ export default function Guide() {
       }} />
       <h1 className="text-3xl font-bold">The Indonesia arrival card explained</h1>
       <p className="mt-3 text-ink-700">The All Indonesia arrival card combines the immigration, customs and health declarations into one online form. It is mandatory for every traveler entering Indonesia by air, sea or land.</p>
+      <OfficialNote className="mt-2 text-sm text-ink-500" />
       <ol className="mt-8 space-y-6">
         {steps.map((s, i) => (
           <li key={s.t} className="card flex gap-4">

@@ -4,6 +4,7 @@ import { PriceCard } from "@/components/PriceCard";
 import { JsonLd } from "@/components/JsonLd";
 import { ReminderForm } from "@/components/ReminderForm";
 import { site } from "@/lib/config";
+import { OfficialNote } from "@/components/OfficialNote";
 
 const steps = [
   { n: 1, t: "See the price", d: "The full price is on this page and on the first form screen. Nothing is added later." },
@@ -46,6 +47,7 @@ export default function Home() {
               <Link href="/guide" className="btn-secondary">How it works</Link>
             </div>
             <p className="mt-4 text-sm text-ink-500">Private assistance service, not affiliated with any government website. <Link className="underline" href="/legal/disclosure">Read our disclosure</Link>.</p>
+            <OfficialNote className="mt-1 text-sm text-ink-500" />
           </div>
           <PriceCard />
         </div>
