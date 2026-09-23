@@ -7,7 +7,7 @@ export default function Page() {
       <h1 className="text-3xl font-bold">Terms of service</h1>
       <p className="mt-4 text-sm">Template for review by a Hong Kong solicitor before launch. Last updated: 2026-09-23.</p>
       <h2>1. Parties and service</h2>
-      <p>These terms govern the assistance service (the "Service") provided by {site.company} ("we", "us"), a company incorporated in Hong Kong SAR at {site.address}, to the person placing an order ("you"). The Service consists of collecting your information through our guided form, checking it, submitting the Indonesia arrival card on the official government portal on your behalf, and delivering the resulting QR code to you.</p>
+      <p>These terms govern the assistance service (the "Service") provided by {site.company} ("we", "us"), a company incorporated in Hong Kong SAR, to the person placing an order ("you"). The Service consists of collecting your information through our guided form, checking it, submitting the Indonesia arrival card on the official government portal on your behalf, and delivering the resulting QR code to you.</p>
       <h2>2. Not a government service</h2>
       <p>We are not affiliated with, endorsed by or acting for the Government of Indonesia, and this website is not a government website. You are paying for our assistance only. We do not guarantee entry to Indonesia, which is at the sole discretion of Indonesian authorities.</p>
       <h2>3. Price and payment</h2>

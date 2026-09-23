@@ -14,8 +14,6 @@ export default function Contact() {
       </div>
       <div className="card mt-6 text-sm text-ink-700">
         <p className="font-semibold text-ink-900">{site.company}</p>
-        <p>{site.address}</p>
-        <p>{site.companyReg}</p>
       </div>
     </div>
   );

@@ -3,8 +3,6 @@ export const site = {
   shortName: "Arrival Card Assist",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   company: process.env.NEXT_PUBLIC_COMPANY_NAME ?? "[Your Hong Kong company name]",
-  address: process.env.NEXT_PUBLIC_COMPANY_ADDRESS ?? "[Registered address, Hong Kong]",
-  companyReg: process.env.NEXT_PUBLIC_COMPANY_REG ?? "[HK business registration no.]",
   supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "support@example.com",
   officialPortal: "https://allindonesia.imigrasi.go.id/",
   officialRetrieve: "https://allindonesia.imigrasi.go.id/arrival-card-submission/retrieve",

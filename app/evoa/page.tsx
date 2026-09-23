@@ -24,7 +24,7 @@ export default function Evoa() {
     <>
       <JsonLd data={{
         "@context": "https://schema.org", "@type": "Service", name: "Indonesia e-VOA application assistance",
-        provider: { "@type": "Organization", name: site.company, address: site.address },
+        provider: { "@type": "Organization", name: site.company },
         offers: { "@type": "Offer", price: (q.first / 100).toFixed(2), priceCurrency: "USD", url: `${site.url}/apply?product=evoa` },
       }} />
       <section className="bg-gradient-to-b from-brand-50 to-white">

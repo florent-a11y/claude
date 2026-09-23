@@ -13,7 +13,7 @@ export default function Page() {
         <li>We do not use government logos, emblems or names in our branding, and we are not endorsed by any Indonesian authority.</li>
       </ul>
       <h2>Operator</h2>
-      <p>{site.company}, {site.address}, {site.companyReg}. Contact: <a href={`mailto:${site.supportEmail}`}>{site.supportEmail}</a>.</p>
+      <p>{site.company}. Contact: <a href={`mailto:${site.supportEmail}`}>{site.supportEmail}</a>.</p>
     </div>
   );
 }

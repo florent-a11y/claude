@@ -63,7 +63,7 @@ Set `NEXT_PUBLIC_SITE_URL` to the final `https://www.` URL and redirect the apex
 
 ## 7. Before going live
 
-- [ ] Replace the placeholders in `.env` (company name, address, BR number, support email, WhatsApp).
+- [ ] Replace the placeholders in `.env` (company name, support email). Address and registration number are intentionally not shown on the site (owner decision, 2026-09-23); EU/UK distance-selling rules expect them, revisit with counsel.
 - [ ] HK solicitor review of `/legal/terms` and `/legal/privacy` (drafted, not reviewed).
 - [ ] Indonesian counsel memo on ITE and PDP exposure.
 - [ ] Trustpilot business profile; review invitation after delivery.
