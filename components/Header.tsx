@@ -8,7 +8,6 @@ import { LocaleSwitcher } from "./LocaleSwitcher";
 export const NAV = [
   { href: "/apply", key: "arrivalCard" },
   { href: "/reminder", key: "reminder" },
-  { href: "/reminder", key: "reminder" },
   { href: "/evoa", key: "evoa" },
   { href: "/pricing", key: "pricing" },
   { href: "/guide", key: "guide" },
@@ -29,8 +28,8 @@ export async function Header() {
           <span>{site.shortName}</span>
         </Link>
         <nav aria-label={t("mainNav")} className="hidden items-center gap-4 text-sm font-medium text-ink-700 lg:flex">
-          {items.slice(0, 8).map((n) => (
-            <Link key={n.href} href={n.href} className="hover:text-brand-600">{n.label}</Link>
+          {items.slice(0, 8).map((n, i) => (
+            <Link key={n.href} href={n.href} className={`whitespace-nowrap hover:text-brand-600${i >= 5 ? " hidden xl:inline" : ""}`}>{n.label}</Link>
           ))}
         </nav>
         <div className="flex items-center gap-2">
