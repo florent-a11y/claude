@@ -5,6 +5,8 @@ import { countryList, PORTS_OF_ENTRY, PURPOSES, VISA_TYPES } from "@/lib/countri
 import { travelerSchema, travelSchema, declarationsSchema, contactSchema, evoaSchema, type Traveler, type Travel, type Declarations, type Evoa, type Product } from "@/lib/schema";
 import { quote, money, PRICING, PRODUCT_LABELS } from "@/lib/pricing";
 import { EVOA_PURPOSES, eligibility } from "@/lib/evoa";
+import { hoursUntilArrival, isWindowGated, WINDOW_HOURS, windowState, type WindowState } from "@/lib/window";
+import { ReminderForm } from "@/components/ReminderForm";
 
 const emptyTraveler: Traveler = { givenNames: "", familyName: "", gender: "M", dateOfBirth: "", nationality: "", passportNumber: "", passportIssued: "", passportExpiry: "" };
 const emptyTravel: Travel = { arrivalDate: "", departureDate: "", portOfEntry: "DPS", transportMode: "air", flightNumber: "", originCountry: "", purpose: PURPOSES[0], visaType: VISA_TYPES[0], accommodationName: "", accommodationAddress: "", accommodationCity: "" };
@@ -25,24 +27,31 @@ function stepsFor(product: Product) {
     : ["Price & travelers", "Travel details", "Declarations", "e-VOA documents", "Contact & pay"];
 }
 
-export function ApplyForm({ initialProduct = "arrival_card" }: { initialProduct?: Product }) {
+export function ApplyForm({ initialProduct = "arrival_card", initialArrival = "", initialEmail = "" }: { initialProduct?: Product; initialArrival?: string; initialEmail?: string }) {
   const [product, setProduct] = useState<Product>(initialProduct);
   const [evoa, setEvoa] = useState<Evoa>(emptyEvoa);
   const [uploading, setUploading] = useState<string>("");
   const [step, setStep] = useState(0);
   const [travelers, setTravelers] = useState<Traveler[]>([{ ...emptyTraveler }]);
-  const [travel, setTravel] = useState<Travel>(emptyTravel);
+  const [travel, setTravel] = useState<Travel>({ ...emptyTravel, arrivalDate: initialArrival });
   const [decl, setDecl] = useState<Declarations>(emptyDecl);
-  const [contact, setContact] = useState<typeof emptyContact>(emptyContact);
+  const [contact, setContact] = useState<typeof emptyContact>({ ...emptyContact, email: initialEmail });
   const [errors, setErrors] = useState<Errors>({});
   const [busy, setBusy] = useState(false);
   const [serverError, setServerError] = useState("");
+  const [showReminder, setShowReminder] = useState(false);
 
   const q = useMemo(() => quote(travelers.length, contact.express, product), [travelers.length, contact.express, product]);
   const STEPS = stepsFor(product);
   const last = STEPS.length - 1;
   const evoaStep = product === "arrival_card" ? -1 : 3;
   const contactStep = last;
+
+  // 72-hour gate: the official portal only accepts arrival cards inside 72 h before arrival, so we do not take payment before then.
+  const validDate = /^\d{4}-\d{2}-\d{2}$/.test(travel.arrivalDate);
+  const hoursLeft = validDate ? hoursUntilArrival(travel.arrivalDate) : 0;
+  const gate: WindowState = validDate && isWindowGated(product) ? windowState(hoursLeft) : "open";
+  const gated = gate !== "open";
 
   async function upload(travelerIndex: number, kind: "passportScanId" | "photoId", file: File | undefined) {
     if (!file) return;
@@ -75,6 +84,7 @@ export function ApplyForm({ initialProduct = "arrival_card" }: { initialProduct?
     }
     else res = contactSchema.safeParse(contact);
     if (!res.success) { setErrors(flatten(res.error)); window.scrollTo({ top: 0, behavior: "smooth" }); return false; }
+    if (step === 1 && gated) return false; // the reminder panel replaces Continue; belt and braces
     setErrors({});
     if (step < last) { setStep(step + 1); window.scrollTo({ top: 0, behavior: "smooth" }); }
     return true;
@@ -86,7 +96,12 @@ export function ApplyForm({ initialProduct = "arrival_card" }: { initialProduct?
     try {
       const res = await fetch("/api/orders", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ product, travelers, travel, declarations: decl, evoa: product === "arrival_card" ? undefined : evoa, contact }) });
       const data = await res.json();
-      if (!res.ok) { setServerError(data.error ?? "Something went wrong"); if (data.issues) setErrors(flatten({ issues: data.issues } as z.ZodError)); setBusy(false); return; }
+      if (!res.ok) {
+        setServerError(data.error ?? "Something went wrong");
+        if (data.issues) setErrors(flatten({ issues: data.issues } as z.ZodError));
+        if (data.tooEarly || (typeof data.hoursLeft === "number" && data.hoursLeft < 0)) { setStep(1); setErrors({ arrivalDate: data.error }); window.scrollTo({ top: 0, behavior: "smooth" }); }
+        setBusy(false); return;
+      }
       window.location.href = data.redirectUrl;
     } catch {
       setServerError("Network error. Please try again."); setBusy(false);
@@ -225,9 +240,39 @@ export function ApplyForm({ initialProduct = "arrival_card" }: { initialProduct?
         </div>
       )}
 
+      {step === 1 && gated && gate === "past" && (
+        <div className="mt-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-900" role="alert">
+          <p className="font-semibold">This arrival date is in the past.</p>
+          <p className="mt-1">The arrival card must be submitted before you arrive. Please check the date. If you are already in Indonesia, the card cannot be submitted any more and we cannot help with it.</p>
+        </div>
+      )}
+
+      {step === 1 && gated && gate === "too_early" && (
+        <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-5" role="status">
+          <p className="font-semibold text-amber-900">Too early for the arrival card: your arrival is about {Math.round(hoursLeft / 24)} days away.</p>
+          <p className="mt-2 text-sm text-ink-700">The official portal only accepts arrival card submissions inside the {WINDOW_HOURS} hours before arrival. We do not take payment before then, so there is nothing to refund later. Leave your email and we will send you a message the moment the window opens for {travel.arrivalDate}; your details will be prefilled.</p>
+          {product === "bundle" && !showReminder && (
+            <div className="mt-4 flex flex-wrap gap-3">
+              <button type="button" className="btn-primary" onClick={() => { setProduct("evoa"); setStep(0); setErrors({}); }}>Order the e-VOA now</button>
+              <button type="button" className="btn-secondary" onClick={() => setShowReminder(true)}>Set a reminder for the arrival card</button>
+            </div>
+          )}
+          {product === "bundle" && !showReminder && (
+            <p className="mt-3 text-xs text-ink-500">The e-VOA can be applied for up to 90 days ahead. You can order it now and come back for the arrival card when we email you.</p>
+          )}
+          {(product !== "bundle" || showReminder) && (
+            <div className="mt-4">
+              <ReminderForm compact initialArrival={travel.arrivalDate} initialEmail={contact.email} initialTravelers={travelers.length} initialNationality={travelers[0]?.nationality} product={product} />
+            </div>
+          )}
+        </div>
+      )}
+
       <div className="mt-6 flex items-center justify-between">
         <button type="button" className="btn-ghost" disabled={step === 0 || busy} onClick={() => setStep(step - 1)}>Back</button>
-        {step < last
+        {step === 1 && gated
+          ? <span className="text-sm text-ink-500">{gate === "past" ? "Change the arrival date to continue." : "Continue is available once the window is open."}</span>
+          : step < last
           ? <button type="button" className="btn-primary" onClick={next}>Continue</button>
           : <button type="button" className="btn-primary" disabled={busy} onClick={submit}>{busy ? "Redirecting to secure payment…" : `Pay ${money(q.total)} securely`}</button>}
       </div>

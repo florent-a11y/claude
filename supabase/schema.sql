@@ -27,6 +27,27 @@ create table if not exists public.news_items (
   published_at timestamptz not null default now()
 );
 
+-- Reminder list ("waitlist"): travelers arriving in more than 72 hours; we email them when the window opens.
+create table if not exists public.reminders (
+  id uuid primary key,
+  email text not null,
+  arrival_date date not null,
+  travelers integer not null default 1 check (travelers between 1 and 10),
+  nationality text,
+  product_interest text not null default 'arrival_card' check (product_interest in ('arrival_card','evoa','bundle')),
+  locale text not null default 'en',
+  source text,
+  created_at timestamptz not null default now(),
+  notified_at timestamptz,
+  notified_early_at timestamptz,
+  unsubscribed_at timestamptz,
+  converted_order_id uuid,
+  token text not null unique
+);
+create index if not exists reminders_arrival_date_idx on public.reminders (arrival_date);
+-- One row per person and arrival date; the API looks up the existing row and updates it (upsert).
+create unique index if not exists reminders_email_date_uidx on public.reminders (lower(email), arrival_date);
+
 -- Private bucket for e-VOA documents (passport scan, photo). Served to ops via short signed URLs only.
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values ('documents', 'documents', false, 8388608, array['image/jpeg','image/png','image/webp','application/pdf'])
@@ -34,6 +55,7 @@ on conflict (id) do nothing;
 
 alter table public.orders enable row level security;
 alter table public.news_items enable row level security;
+alter table public.reminders enable row level security;
 -- No policies for anon/authenticated: only the service role (server) can read/write.
 
 -- PDP Law retention: hard-delete passport data 30 days after the arrival date.

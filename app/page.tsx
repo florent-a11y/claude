@@ -2,6 +2,7 @@ import Link from "next/link";
 import { CheckCircle2, Clock, Languages, MessageCircle, ShieldCheck, Smartphone } from "lucide-react";
 import { PriceCard } from "@/components/PriceCard";
 import { JsonLd } from "@/components/JsonLd";
+import { ReminderForm } from "@/components/ReminderForm";
 import { site } from "@/lib/config";
 
 const steps = [
@@ -47,6 +48,17 @@ export default function Home() {
             <p className="mt-4 text-sm text-ink-500">Private assistance service, not affiliated with any government website. <Link className="underline" href="/legal/disclosure">Read our disclosure</Link>.</p>
           </div>
           <PriceCard />
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 pt-14">
+        <div className="card grid gap-6 border-brand-100 md:grid-cols-2">
+          <div>
+            <h2 className="text-2xl font-bold">Flying in more than 3 days? Get a reminder.</h2>
+            <p className="mt-2 text-ink-700">The official portal only accepts the arrival card within 72 hours before arrival. We do not take payment before then. Leave your arrival date and we email you the moment your window opens, with your details prefilled.</p>
+            <p className="mt-2 text-sm text-ink-500">Free, two emails at most, unsubscribe with one click. <Link className="underline" href="/reminder">More about the 72-hour rule</Link>.</p>
+          </div>
+          <ReminderForm compact />
         </div>
       </section>
 

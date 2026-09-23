@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { todayJakarta } from "./window";
 
 const date = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD");
 
@@ -76,6 +77,48 @@ export const orderInputSchema = z.object({
     if (missing.length) ctx.addIssue({ code: "custom", path: ["evoa", "documents"], message: `Documents missing for traveler ${missing.map((i) => i + 1).join(", ")}` });
   }
 });
+
+/** Reminder list ("waitlist"): travelers who arrive in more than 72 hours leave their email and we tell them when to apply. */
+export const reminderInputSchema = z.object({
+  email: z.string().trim().toLowerCase().email("Enter a valid email"),
+  arrivalDate: date.refine((v) => v >= todayJakarta(), "Arrival date must be today or in the future"),
+  travelers: z.coerce.number().int().min(1).max(10).default(1),
+  nationality: z.string().trim().toUpperCase().length(2).optional().or(z.literal("")),
+  productInterest: productSchema.default("arrival_card"),
+  locale: z.string().max(10).default("en"),
+  source: z.string().trim().max(60).optional().or(z.literal("")),
+  consent: z.literal(true, { message: "Please agree to receive the reminder email" }),
+  /** Honeypot: real users never see or fill this field. */
+  website: z.literal("").optional(),
+});
+
+export type ReminderInput = z.infer<typeof reminderInputSchema>;
+
+export interface Reminder {
+  id: string;
+  email: string;
+  arrivalDate: string;
+  travelers: number;
+  nationality?: string;
+  productInterest: Product;
+  locale: string;
+  source?: string;
+  createdAt: string;
+  notifiedAt?: string;
+  notifiedEarlyAt?: string;
+  unsubscribedAt?: string;
+  convertedOrderId?: string;
+  /** Random token used in the unsubscribe and prefill links. */
+  token: string;
+}
+
+export type ReminderStatus = "waiting" | "notified" | "unsubscribed" | "converted";
+export function reminderStatus(r: Reminder): ReminderStatus {
+  if (r.convertedOrderId) return "converted";
+  if (r.unsubscribedAt) return "unsubscribed";
+  if (r.notifiedAt) return "notified";
+  return "waiting";
+}
 
 export type Traveler = z.infer<typeof travelerSchema>;
 export type Travel = z.infer<typeof travelSchema>;

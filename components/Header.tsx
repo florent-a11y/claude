@@ -4,6 +4,7 @@ import { MobileMenu } from "./MobileMenu";
 
 export const NAV = [
   { href: "/apply", label: "Arrival card" },
+  { href: "/reminder", label: "Reminder" },
   { href: "/evoa", label: "e-VOA visa" },
   { href: "/pricing", label: "Pricing" },
   { href: "/guide", label: "How it works" },
