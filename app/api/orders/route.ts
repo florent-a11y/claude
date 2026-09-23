@@ -6,9 +6,17 @@ import { findReminder, saveOrder, updateReminder } from "@/lib/store";
 import { airwallexConfigured, createPaymentIntent, hostedCheckoutUrl } from "@/lib/airwallex";
 import { site } from "@/lib/config";
 import { onOrderPaid } from "@/lib/notify";
+import { sendPurchaseEvents } from "@/lib/tracking";
 import { hoursUntilArrival, isWindowGated, WINDOW_HOURS, windowState } from "@/lib/window";
 
 export const runtime = "nodejs";
+
+/** Server-side attribution fields (for Meta CAPI / GA4 matching); the client cannot spoof these. */
+function requestAttribution(req: Request) {
+  const ip = (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || req.headers.get("x-real-ip") || "";
+  const userAgent = (req.headers.get("user-agent") ?? "").slice(0, 200);
+  return { ...(ip ? { ip: ip.slice(0, 200) } : {}), ...(userAgent ? { userAgent } : {}) };
+}
 
 /** Best effort: mark the matching reminder (same email + arrival date) as converted. Never fails the order. */
 async function linkReminder(order: Order) {
@@ -54,6 +62,7 @@ export async function POST(req: Request) {
     amountCents: q.total,
     governmentFeeCents: q.governmentFee,
     currency: q.currency,
+    attribution: { ...input.attribution, ...requestAttribution(req) },
   };
 
   if (!airwallexConfigured()) {
@@ -64,6 +73,7 @@ export async function POST(req: Request) {
     await saveOrder(order);
     await linkReminder(order);
     await onOrderPaid(order);
+    await sendPurchaseEvents(order);
     return NextResponse.json({ orderId: order.id, redirectUrl: `${site.url}/apply/success?order=${order.id}&dev=1` });
   }
 

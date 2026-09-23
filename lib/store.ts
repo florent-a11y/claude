@@ -154,6 +154,7 @@ type ReminderRow = {
   unsubscribed_at: string | null;
   converted_order_id: string | null;
   token: string;
+  attribution: Reminder["attribution"] | null;
 };
 
 function toReminder(r: ReminderRow): Reminder {
@@ -172,6 +173,7 @@ function toReminder(r: ReminderRow): Reminder {
     unsubscribedAt: r.unsubscribed_at ?? undefined,
     convertedOrderId: r.converted_order_id ?? undefined,
     token: r.token,
+    attribution: r.attribution ?? undefined,
   };
 }
 function toReminderRow(r: Reminder): ReminderRow {
@@ -179,7 +181,7 @@ function toReminderRow(r: Reminder): ReminderRow {
     id: r.id, email: r.email, arrival_date: r.arrivalDate, travelers: r.travelers, nationality: r.nationality ?? null,
     product_interest: r.productInterest, locale: r.locale, source: r.source ?? null, created_at: r.createdAt,
     notified_at: r.notifiedAt ?? null, notified_early_at: r.notifiedEarlyAt ?? null, unsubscribed_at: r.unsubscribedAt ?? null,
-    converted_order_id: r.convertedOrderId ?? null, token: r.token,
+    converted_order_id: r.convertedOrderId ?? null, token: r.token, attribution: r.attribution ?? null,
   };
 }
 

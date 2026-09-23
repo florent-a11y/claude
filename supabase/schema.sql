@@ -42,9 +42,13 @@ create table if not exists public.reminders (
   notified_early_at timestamptz,
   unsubscribed_at timestamptz,
   converted_order_id uuid,
-  token text not null unique
+  token text not null unique,
+  -- Ad attribution (utm, gclid, fbclid, cookies, ip, user agent) captured at sign-up; see docs/tracking.md.
+  attribution jsonb
 );
 create index if not exists reminders_arrival_date_idx on public.reminders (arrival_date);
+-- Migration if the table already exists without the column:
+-- alter table public.reminders add column if not exists attribution jsonb;
 -- One row per person and arrival date; the API looks up the existing row and updates it (upsert).
 create unique index if not exists reminders_email_date_uidx on public.reminders (lower(email), arrival_date);
 
