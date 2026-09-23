@@ -21,7 +21,7 @@ Steps:
 
 ## 2. Domain
 
-Live domain: **www.allindonesia-arrivalcard.com** (apex redirects to www). Registered at Cloudflare, served by Vercel.
+Live domain: **allindonesia-arrivalcard.com** (www redirects to the apex). Registered at Cloudflare, served by Vercel.
 
 DNS at Cloudflare, both records **DNS only** (grey cloud), Cloudflare proxy kept off:
 
@@ -30,7 +30,7 @@ DNS at Cloudflare, both records **DNS only** (grey cloud), Cloudflare proxy kept
 | A | @ | 76.76.21.21 |
 | CNAME | www | cname.vercel-dns.com |
 
-Cloudflare SSL/TLS mode: Full (strict). `NEXT_PUBLIC_SITE_URL=https://www.allindonesia-arrivalcard.com` in Vercel, then redeploy.
+Cloudflare SSL/TLS mode: Full (strict). `NEXT_PUBLIC_SITE_URL=https://allindonesia-arrivalcard.com` in Vercel, then redeploy.
 
 Note: the name contains "allindonesia", the government programme's brand; keep a neutral fallback domain (e.g. indonesiaarrivalcard.com) in reserve in case of a look-alike complaint.
 
