@@ -8,7 +8,7 @@ export const revalidate = 3600;
 const labels = { imigrasi: "Ditjen Imigrasi", beacukai: "Bea Cukai", other: "Official source" };
 
 const evergreen = [
-  { title: "All Indonesia arrival card is mandatory at all international entry points", text: "Since 1 September 2025 every international arrival must submit the digital arrival card within 72 hours before arrival and present the QR code with their passport.", url: site.officialPortal },
+  { title: "All Indonesia arrival card is mandatory at all international entry points", text: "Since 1 October 2025 every international arrival must submit the digital arrival card within 72 hours before arrival and present the QR code with their passport.", url: site.officialPortal },
   { title: "Cash of IDR 100 million or more must be declared", text: "Bringing IDR 100,000,000 or more (or foreign currency equivalent) into or out of Indonesia requires a declaration to Customs.", url: "https://www.beacukai.go.id/" },
 ];
 

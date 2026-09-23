@@ -36,7 +36,7 @@ export default function Home() {
       <section className="bg-gradient-to-b from-brand-50 to-white">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-2 md:py-20">
           <div>
-            <p className="mb-3 inline-block rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-700 ring-1 ring-brand-100">Mandatory for all arrivals to Indonesia since 1 Sept 2025</p>
+            <p className="mb-3 inline-block rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-700 ring-1 ring-brand-100">Mandatory for all arrivals to Indonesia since 1 Oct 2025</p>
             <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">Your Indonesia arrival card, prepared and checked by a person.</h1>
             <p className="mt-5 text-lg text-ink-700">
               Skip the confusing form and the typo risk. Answer our guided questions, we prepare and submit your All Indonesia arrival card and send the QR code to your email.

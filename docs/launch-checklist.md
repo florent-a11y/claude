@@ -58,6 +58,11 @@ link back to `/apply`, plus a heads-up the day before. Needs Resend configured. 
 at `/admin/reminders`. If Supabase was set up before this change, run the `reminders` table block from
 `supabase/schema.sql`.
 
+## 4c. Brand
+
+Domain: allindonesia-arrivalcard.com. Visible brand everywhere (logo, titles, emails, ads): **Arrival Card Assist**.
+"All Indonesia" is only ever used descriptively for the government's arrival card, never as our name.
+
 ## 5. Ops
 
 1. Set `ADMIN_USER`/`ADMIN_PASSWORD` (long random). Console at `/admin`. Put it behind Cloudflare Access (free for up to 50 users) for a second factor.

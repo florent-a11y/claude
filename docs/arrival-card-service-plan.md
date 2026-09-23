@@ -4,7 +4,7 @@ Date: 2026-09-23. Prepared for the Hong Kong entity (Airwallex account already o
 
 ## 1. What the market actually is
 
-- The All Indonesia arrival card (allindonesia.imigrasi.go.id) is **free**, mandatory since 1 Sept 2025,
+- The All Indonesia arrival card (allindonesia.imigrasi.go.id) is **free**, mandatory since 1 October 2025,
   must be submitted within 72 h of arrival, and the QR code is emailed to the traveler.
 - Paid third-party sites (indonesia-portal.com, indonesia-arrival.com run by Ringdo B.V., NL) charge
   USD 20–160. Travel guides (bali.com, Trip.com, Smartraveller, Welcome Back to Bali) explicitly call

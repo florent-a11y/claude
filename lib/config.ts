@@ -1,5 +1,5 @@
 export const site = {
-  name: "Indonesia Arrival Card Assist",
+  name: "Arrival Card Assist",
   shortName: "Arrival Card Assist",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   company: process.env.NEXT_PUBLIC_COMPANY_NAME ?? "[Your Hong Kong company name]",
