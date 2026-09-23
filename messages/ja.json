@@ -1,1218 +1,1218 @@
 {
   "Common": {
-    "selectPlaceholder": "Select…",
-    "officialSource": "Official source ↗",
-    "readOriginal": "Read the original ↗",
-    "language": "Language",
-    "notAffiliated": "Private assistance service, not affiliated with any government website. <link>Read our disclosure</link>.",
-    "siteDescription": "Private assistance service for the Indonesia (All Indonesia) digital arrival card. Transparent price, human-checked, delivered by email. Not affiliated with the Government of Indonesia."
+    "selectPlaceholder": "選択してください…",
+    "officialSource": "公式情報源 ↗",
+    "readOriginal": "原文を読む ↗",
+    "language": "言語",
+    "notAffiliated": "民間のサポートサービスであり、いかなる政府ウェブサイトとも提携していません。<link>免責事項を読む</link>。",
+    "siteDescription": "インドネシアのデジタル入国カード「All Indonesia 入国カード（Arrival Card）」の民間サポートサービスです。明朗な料金、担当者による確認、メールでのお届け。インドネシア政府とは提携していません。"
   },
   "Metadata": {
-    "defaultTitle": "{siteName} – Indonesia arrival card help, human-checked",
+    "defaultTitle": "{siteName} – インドネシア入国カードのサポート、担当者が確認",
     "titleTemplate": "%s | {shortName}",
-    "description": "Private assistance service for the Indonesia (All Indonesia) digital arrival card. Transparent price, human-checked, delivered by email. Not affiliated with the Government of Indonesia."
+    "description": "インドネシアのデジタル入国カード「All Indonesia 入国カード（Arrival Card）」の民間サポートサービスです。明朗な料金、担当者による確認、メールでのお届け。インドネシア政府とは提携していません。"
   },
   "Disclosure": {
-    "bar": "Private assistance service, <strong>not affiliated with any government website</strong>. Our fee covers preparation, checking and support.",
-    "full": "We are a private travel-assistance company and are not affiliated with, endorsed by or acting for the Government of Indonesia or the Directorate General of Immigration. Our fee pays for form preparation, verification, delivery and support."
+    "bar": "民間のサポートサービスであり、<strong>いかなる政府ウェブサイトとも提携していません</strong>。当社の料金は、書類の準備、確認、サポートに充てられます。",
+    "full": "当社は民間の旅行サポート会社であり、インドネシア政府および入国管理総局とは提携しておらず、その承認を受けておらず、その代理として行動するものでもありません。当社の料金は、フォームの準備、確認、お届け、サポートの対価です。"
   },
   "OfficialNote": {
-    "text": "You can also complete the All Indonesia arrival card yourself, free of charge, on the official government portal <link>{host}</link>."
+    "text": "All Indonesia 入国カード（Arrival Card）は、政府の公式ポータル <link>{host}</link> でご自身で無料で申請することもできます。"
   },
   "Header": {
     "nav": {
-      "arrivalCard": "Arrival card",
-      "reminder": "Reminder",
-      "evoa": "e-VOA visa",
-      "pricing": "Pricing",
-      "guide": "How it works",
-      "customs": "Customs",
-      "news": "Official news",
-      "faq": "FAQ",
-      "contact": "Contact"
+      "arrivalCard": "入国カード",
+      "reminder": "リマインダー",
+      "evoa": "e-VOAビザ",
+      "pricing": "料金",
+      "guide": "ご利用の流れ",
+      "customs": "税関",
+      "news": "公式ニュース",
+      "faq": "よくある質問",
+      "contact": "お問い合わせ"
     },
-    "mainNav": "Main",
-    "mobileNav": "Mobile",
-    "start": "Start",
-    "startMobile": "Start my application",
-    "openMenu": "Open menu",
-    "closeMenu": "Close menu",
-    "language": "Language"
+    "mainNav": "メイン",
+    "mobileNav": "モバイル",
+    "start": "開始",
+    "startMobile": "申請を開始する",
+    "openMenu": "メニューを開く",
+    "closeMenu": "メニューを閉じる",
+    "language": "言語"
   },
   "Footer": {
-    "service": "Service",
-    "resources": "Resources",
-    "legal": "Legal",
-    "arrivalCard": "Arrival card assistance",
-    "reminder": "72-hour window reminder",
-    "evoa": "e-VOA visa assistance",
-    "pricing": "Pricing",
-    "faq": "FAQ",
-    "contact": "Contact & support",
-    "guide": "How the arrival card works",
-    "customs": "Customs allowances",
-    "news": "Official news summaries",
-    "disclosure": "Non-affiliation disclosure",
-    "terms": "Terms of service",
-    "privacy": "Privacy policy",
-    "refunds": "Refund policy",
-    "rights": "© {year} {company}. All rights reserved."
+    "service": "サービス",
+    "resources": "お役立ち情報",
+    "legal": "法的情報",
+    "arrivalCard": "入国カード申請サポート",
+    "reminder": "72時間受付期間のリマインダー",
+    "evoa": "e-VOAビザ申請サポート",
+    "pricing": "料金",
+    "faq": "よくある質問",
+    "contact": "お問い合わせ・サポート",
+    "guide": "入国カードの仕組み",
+    "customs": "税関の免税範囲",
+    "news": "公式ニュースの要約",
+    "disclosure": "非提携に関する開示",
+    "terms": "利用規約",
+    "privacy": "プライバシーポリシー",
+    "refunds": "返金ポリシー",
+    "rights": "© {year} {company}。無断複製・転載を禁じます。"
   },
   "PriceCard": {
-    "title": "Transparent price, shown before you type anything",
-    "first": "Arrival card, first traveler",
-    "additional": "Each additional traveler (same booking)",
-    "evoa": "e-VOA visa assistance (optional, incl. visa fee)",
-    "from": "from {price}",
-    "express": "Express, human-verified in under {hours} h (optional)",
+    "title": "入力前に表示される明朗な料金",
+    "first": "入国カード、1人目の旅行者",
+    "additional": "追加の旅行者1名ごと（同一のお申し込み）",
+    "evoa": "e-VOAビザ申請サポート（オプション、ビザ料金込み）",
+    "from": "{price}から",
+    "express": "特急、{hours}時間以内に担当者が確認（オプション）",
     "plus": "+{price}",
-    "note": "No hidden fees, no upsell after you enter your details. Full refund if we do not deliver your card at least 6 hours before your arrival time.",
-    "cta": "Start my arrival card"
+    "note": "隠れた費用はなく、情報入力後の追加販売もありません。ご到着時刻の6時間前までに入国カードをお届けできなかった場合は全額返金いたします。",
+    "cta": "入国カードの申請を開始する"
   },
   "Products": {
-    "arrival_card": "Arrival card assistance",
-    "evoa": "e-VOA (visa on arrival) assistance",
-    "bundle": "e-VOA + arrival card bundle"
+    "arrival_card": "入国カード申請サポート",
+    "evoa": "e-VOA（到着ビザ）申請サポート",
+    "bundle": "e-VOA + 入国カードのセット"
   },
   "Home": {
-    "jsonLdName": "Indonesia arrival card assistance",
-    "badge": "Mandatory for all arrivals to Indonesia since 1 Oct 2025",
-    "title": "Your Indonesia arrival card, prepared and checked by a person.",
-    "lead": "Skip the confusing form and the typo risk. Answer our guided questions, we prepare and submit your All Indonesia arrival card and send the QR code to your email.",
-    "ctaStart": "Start now – from {price}",
-    "ctaHow": "How it works",
-    "reminderTitle": "Flying in more than 3 days? Get a reminder.",
-    "reminderText": "The official portal only accepts the arrival card within 72 hours before arrival. We do not take payment before then. Leave your arrival date and we email you the moment your window opens, with your details prefilled.",
-    "reminderNote": "Free, two emails at most, unsubscribe with one click. <link>More about the 72-hour rule</link>.",
-    "howTitle": "How it works",
+    "jsonLdName": "インドネシア入国カード申請サポート",
+    "badge": "2025年10月1日より、インドネシアに到着するすべての旅行者に義務付け",
+    "title": "あなたのインドネシア入国カードを、担当者が準備し確認します。",
+    "lead": "わかりにくいフォームや入力ミスの心配は不要です。当社のガイド付き質問にお答えいただくだけで、当社がAll Indonesia 入国カード（Arrival Card）を準備・提出し、QRコードをメールでお送りします。",
+    "ctaStart": "今すぐ開始 – {price}から",
+    "ctaHow": "ご利用の流れ",
+    "reminderTitle": "ご到着まで3日以上ありますか。リマインダーをご利用ください。",
+    "reminderText": "公式ポータルは、到着の72時間前からしか入国カードを受け付けません。当社もそれ以前にお支払いをいただくことはありません。到着日をお知らせいただければ、受付期間が開始した瞬間に、情報を事前入力した状態でメールをお送りします。",
+    "reminderNote": "無料、メールは最大2通、ワンクリックで配信停止。<link>72時間ルールについて詳しく</link>。",
+    "howTitle": "ご利用の流れ",
     "steps": {
       "price": {
-        "t": "See the price",
-        "d": "The full price is on this page and on the first form screen. Nothing is added later."
+        "t": "料金を確認",
+        "d": "全額がこのページとフォームの最初の画面に表示されます。後から追加されることはありません。"
       },
       "form": {
-        "t": "Fill our guided form",
-        "d": "Plain-language questions in one place: passport, flight, stay, health and customs declarations."
+        "t": "ガイド付きフォームに入力",
+        "d": "パスポート、フライト、滞在先、健康・税関申告に関する平易な質問を一か所にまとめています。"
       },
       "check": {
-        "t": "We prepare and check",
-        "d": "A trained team member checks every field, then submits it on the official portal on your behalf."
+        "t": "当社が準備し確認",
+        "d": "研修を受けたチームメンバーがすべての項目を確認したうえで、お客様に代わって公式ポータルに提出します。"
       },
       "qr": {
-        "t": "Receive your QR",
-        "d": "By email, with a reminder for the 72-hour window and a one-page airport checklist."
+        "t": "QRコードを受け取る",
+        "d": "メールでお届けします。72時間受付期間のリマインダーと、1ページの空港チェックリスト付きです。"
       }
     },
-    "featuresTitle": "What you get for the fee",
+    "featuresTitle": "料金に含まれるもの",
     "features": {
       "human": {
-        "t": "Human-checked",
-        "d": "Every submission is reviewed by a person. Typos in a passport number are the number one cause of airport delays."
+        "t": "担当者による確認",
+        "d": "すべての提出内容を担当者が確認します。パスポート番号の入力ミスは、空港での遅延の最大の原因です。"
       },
       "fast": {
-        "t": "Delivered in under 12 h",
-        "d": "Express option delivers in under 2 hours. Full refund if we miss the deadline before your arrival."
+        "t": "12時間以内にお届け",
+        "d": "特急オプションでは2時間以内にお届けします。ご到着前の期限に間に合わなかった場合は全額返金いたします。"
       },
       "language": {
-        "t": "Support in your language",
-        "d": "Chat with us in English, Chinese, Korean, Japanese, German, French or Russian."
+        "t": "お客様の言語でサポート",
+        "d": "英語、中国語、韓国語、日本語、ドイツ語、フランス語、ロシア語でチャットできます。"
       },
       "phone": {
-        "t": "Works on your phone",
-        "d": "Photograph your passport, we read the details. No app to install, no account to create."
+        "t": "スマートフォンで完結",
+        "d": "パスポートを撮影していただければ、当社が情報を読み取ります。アプリのインストールもアカウント作成も不要です。"
       },
       "support": {
-        "t": "Support until you land",
-        "d": "Questions before or after submission are answered by email within minutes during support hours."
+        "t": "ご到着までサポート",
+        "d": "提出の前後のご質問には、サポート時間内であれば数分以内にメールで回答します。"
       },
       "customs": {
-        "t": "Customs and IMEI covered",
-        "d": "We tell you what to declare, what the allowances are and how to register your phone."
+        "t": "税関とIMEIにも対応",
+        "d": "何を申告すべきか、免税範囲はどれくらいか、携帯電話の登録方法をお伝えします。"
       }
     },
-    "evoaTitle": "Need a visa too? e-VOA assistance",
-    "evoaText": "Most nationalities can get the 30-day electronic visa on arrival before flying. We check your passport and photo, submit the application and deliver the approved e-VOA by email. Bundle it with the arrival card and save {discount} per traveler.",
-    "evoaCta": "e-VOA assistance",
-    "bundleCta": "Bundle both",
-    "guideTitle": "Want to understand the arrival card first?",
-    "guideText": "We explain what the All Indonesia arrival card is, who needs it, the 72-hour rule, and every declaration you will be asked for.",
-    "guideCta": "Read the guide",
-    "faqCta": "FAQ"
+    "evoaTitle": "ビザも必要ですか。e-VOA申請サポート",
+    "evoaText": "多くの国籍の方は、出発前に30日間の電子到着ビザを取得できます。当社がパスポートと写真を確認し、申請を提出して、承認されたe-VOAをメールでお届けします。入国カードとセットにすると、旅行者1名あたり{discount}お得です。",
+    "evoaCta": "e-VOA申請サポート",
+    "bundleCta": "両方をセットで",
+    "guideTitle": "まず入国カードについて知りたい方へ",
+    "guideText": "All Indonesia 入国カードとは何か、誰に必要か、72時間ルール、そして求められるすべての申告項目について解説しています。",
+    "guideCta": "ガイドを読む",
+    "faqCta": "よくある質問"
   },
   "Apply": {
-    "metaTitle": "Apply – Indonesia arrival card assistance",
-    "metaDescription": "Guided form for the Indonesia arrival card. Transparent price shown first. Human-checked, delivered by email.",
-    "titleArrivalCard": "Arrival card assistance",
-    "titleEvoa": "e-VOA assistance",
-    "titleBundle": "e-VOA + arrival card",
-    "paymentFailed": "Payment was not completed. Your details were not submitted. You can try again below.",
-    "welcomeBack": "Welcome back. Your arrival date ({date}){withEmail, select, yes { and email} other {}} are prefilled from your reminder.",
-    "select": "Select…",
+    "metaTitle": "申請 – インドネシア入国カード申請サポート",
+    "metaDescription": "インドネシア入国カードのガイド付きフォーム。明朗な料金を最初に表示。担当者が確認し、メールでお届けします。",
+    "titleArrivalCard": "入国カード申請サポート",
+    "titleEvoa": "e-VOA申請サポート",
+    "titleBundle": "e-VOA + 入国カード",
+    "paymentFailed": "お支払いが完了しませんでした。お客様の情報は提出されていません。以下から再度お試しください。",
+    "welcomeBack": "おかえりなさい。到着日（{date}）{withEmail, select, yes {とメールアドレス} other {}}は、リマインダーの情報から事前入力されています。",
+    "select": "選択してください…",
     "steps": {
-      "travelers": "Price & travelers",
-      "travel": "Travel details",
-      "declarations": "Declarations",
-      "evoaDocs": "e-VOA documents",
-      "contact": "Contact & pay"
+      "travelers": "料金と旅行者",
+      "travel": "旅行の詳細",
+      "declarations": "申告",
+      "evoaDocs": "e-VOA書類",
+      "contact": "連絡先とお支払い"
     },
     "stepLabel": "{n}. {label}",
     "summary": {
-      "travelers": "{count, plural, one {# traveler} other {# travelers}}",
-      "serviceFee": "service fee {price}",
-      "visaFee": "visa fee {price}",
-      "express": "express {price}",
-      "total": "Total {price}"
+      "travelers": "{count, plural, one {旅行者#名} other {旅行者#名}}",
+      "serviceFee": "サービス料金 {price}",
+      "visaFee": "ビザ料金 {price}",
+      "express": "特急 {price}",
+      "total": "合計 {price}"
     },
-    "fixErrors": "Please correct the highlighted fields.",
+    "fixErrors": "ハイライトされた項目を修正してください。",
     "traveler": {
-      "legend": "Traveler {n}",
-      "contactPerson": " (contact person)",
-      "familyName": "Family name (as in passport)",
-      "givenNames": "Given names",
-      "gender": "Gender",
-      "dateOfBirth": "Date of birth",
-      "nationality": "Nationality (passport country)",
-      "passportNumber": "Passport number",
-      "passportIssued": "Passport issue date",
-      "passportExpiry": "Passport expiry date",
-      "remove": "Remove traveler",
-      "add": "+ Add traveler ({price})",
-      "aseanVisaFree": "ASEAN nationals enter visa-free and do not need an e-VOA.",
-      "checkEligibility": "One nationality in this booking may not be e-VOA eligible; we will confirm before submitting and refund the service fee if not eligible."
+      "legend": "旅行者{n}",
+      "contactPerson": "（連絡担当者）",
+      "familyName": "姓（パスポート記載のとおり）",
+      "givenNames": "名",
+      "gender": "性別",
+      "dateOfBirth": "生年月日",
+      "nationality": "国籍（パスポート発行国）",
+      "passportNumber": "パスポート番号",
+      "passportIssued": "パスポート発行日",
+      "passportExpiry": "パスポート有効期限",
+      "remove": "旅行者を削除",
+      "add": "+ 旅行者を追加（{price}）",
+      "aseanVisaFree": "ASEAN加盟国の国民はビザなしで入国でき、e-VOAは不要です。",
+      "checkEligibility": "このお申し込みに含まれる国籍のうち1つは、e-VOAの対象外である可能性があります。提出前に当社で確認し、対象外の場合はサービス料金を返金いたします。"
     },
     "travel": {
-      "arrivalDate": "Arrival date in Indonesia",
-      "arrivalHint": "We submit inside the official 72-hour window before this date.",
-      "departureDate": "Planned departure date (optional)",
-      "transportMode": "Mode of transport",
-      "portOfEntry": "Port of entry",
-      "flightNumber": "Flight / vessel number",
-      "flightPlaceholder": "e.g. GA715",
-      "originCountry": "Country you are arriving from",
-      "purpose": "Purpose of visit",
-      "visaType": "Visa type",
-      "accommodationName": "Accommodation name (hotel, villa, host)",
-      "accommodationAddress": "Address",
-      "accommodationCity": "City / regency",
-      "cityPlaceholder": "e.g. Badung, Bali"
+      "arrivalDate": "インドネシアへの到着日",
+      "arrivalHint": "この日の前の公式な72時間の受付期間内に提出します。",
+      "departureDate": "出国予定日（任意）",
+      "transportMode": "交通手段",
+      "portOfEntry": "入国地点",
+      "flightNumber": "便名 / 船名",
+      "flightPlaceholder": "例：GA715",
+      "originCountry": "出発国",
+      "purpose": "訪問目的",
+      "visaType": "ビザの種類",
+      "accommodationName": "宿泊先の名称（ホテル、ヴィラ、ホスト）",
+      "accommodationAddress": "住所",
+      "accommodationCity": "市 / 県",
+      "cityPlaceholder": "例：Badung, Bali"
     },
     "declarations": {
-      "intro": "These answers go on your official declaration. Answering “yes” usually just means a short check on arrival; answering falsely is an offence.",
-      "countriesVisited": "Countries visited in the last 21 days (other than your home country)",
-      "countriesHint": "Hold Ctrl / Cmd to select several. Leave empty if none.",
-      "symptoms": "Anyone in this booking currently has fever, cough, breathing difficulty, rash or diarrhoea",
-      "animalsPlants": "Carrying live animals, animal products, plants, seeds, fruit or fresh food",
-      "cashOver100M": "Carrying cash or bearer instruments worth IDR 100,000,000 or more",
-      "goodsOverAllowance": "Carrying goods above the personal allowance (USD 500 per person, 1 L alcohol, 200 cigarettes)",
-      "commercialGoods": "Carrying goods for sale, samples or professional equipment",
-      "registerImei": "I want to register a phone's IMEI for use with an Indonesian SIM card",
-      "baggagePieces": "Pieces of checked baggage (total)",
-      "notes": "Anything we should know? (optional)"
+      "intro": "これらの回答は公式の申告書に記載されます。「はい」と答えても、通常は到着時に簡単な確認があるだけです。虚偽の申告は違法行為です。",
+      "countriesVisited": "過去21日間に訪問した国（母国を除く）",
+      "countriesHint": "Ctrl / Cmdキーを押しながら複数選択できます。該当がなければ空欄のままにしてください。",
+      "symptoms": "このお申し込みに含まれる方のうち、現在、発熱、咳、呼吸困難、発疹、下痢のある方がいる",
+      "animalsPlants": "生きた動物、動物製品、植物、種子、果物、生鮮食品を持ち込む",
+      "cashOver100M": "IDR 100,000,000（1億ルピア）以上相当の現金または無記名有価証券を持ち込む",
+      "goodsOverAllowance": "個人の免税範囲（1人あたりUSD 500、酒類1 L、たばこ200本）を超える物品を持ち込む",
+      "commercialGoods": "販売用の商品、サンプル、業務用機材を持ち込む",
+      "registerImei": "インドネシアのSIMカードで使用するため、携帯電話のIMEIを登録したい",
+      "baggagePieces": "預け入れ手荷物の個数（合計）",
+      "notes": "その他お知らせいただきたいこと（任意）"
     },
     "evoa": {
-      "intro": "For the e-VOA we need, per traveler, a clear photo or scan of the passport bio page and a recent passport-style photo (plain background, no glasses, no hat). JPG, PNG or PDF, max 8 MB each.",
-      "intendedEntryDate": "Intended entry date",
-      "purpose": "Purpose of visit",
-      "returnTicket": "I have (or will have) a return or onward ticket, which immigration may ask to see.",
-      "travelerLegend": "Traveler {n}: {familyName} {givenNames}",
-      "passportScan": "Passport bio page",
-      "photo": "Passport-style photo",
-      "uploaded": "✓ uploaded",
-      "uploading": "Uploading…",
-      "uploadFailed": "Upload failed",
-      "documentsMissing": "Please upload both files for traveler {list}"
+      "intro": "e-VOAには、旅行者ごとに、パスポートの顔写真ページの鮮明な写真またはスキャン、および最近のパスポート用写真（無地の背景、眼鏡・帽子なし）が必要です。JPG、PNG、PDF形式、各最大8 MB。",
+      "intendedEntryDate": "入国予定日",
+      "purpose": "訪問目的",
+      "returnTicket": "帰国または次の目的地への航空券を所持しています（または所持する予定です）。入国審査で提示を求められる場合があります。",
+      "travelerLegend": "旅行者{n}：{familyName} {givenNames}",
+      "passportScan": "パスポートの顔写真ページ",
+      "photo": "パスポート用写真",
+      "uploaded": "✓ アップロード済み",
+      "uploading": "アップロード中…",
+      "uploadFailed": "アップロードに失敗しました",
+      "documentsMissing": "旅行者{list}の両方のファイルをアップロードしてください"
     },
     "contact": {
-      "email": "Email (the QR code is sent here)",
-      "phone": "Mobile phone with country code (in case we need to reach you)",
-      "phonePlaceholder": "+44 7…",
-      "express": "<strong>Express</strong> – verified and submitted within {expressHours} hours (+{price}). Standard is within {standardHours} hours.",
-      "expressEvoaNote": "e-VOA approval by the authorities usually follows the same day, at most 2 working days.",
-      "acknowledgeNotGov": "I understand this is a private assistance service and not a government website.",
-      "acceptTerms": "I accept the <terms>terms</terms>, <privacy>privacy policy</privacy> and <refunds>refund policy</refunds>, and I am authorised to provide the details of all travelers in this booking."
+      "email": "メールアドレス（QRコードの送付先）",
+      "phone": "国番号付きの携帯電話番号（ご連絡が必要な場合のため）",
+      "phonePlaceholder": "+81 90…",
+      "express": "<strong>特急</strong> – {expressHours}時間以内に確認・提出（+{price}）。標準は{standardHours}時間以内です。",
+      "expressEvoaNote": "当局によるe-VOAの承認は通常当日、遅くとも2営業日以内に下ります。",
+      "acknowledgeNotGov": "これが民間のサポートサービスであり、政府のウェブサイトではないことを理解しています。",
+      "acceptTerms": "<terms>利用規約</terms>、<privacy>プライバシーポリシー</privacy>、<refunds>返金ポリシー</refunds>に同意し、このお申し込みに含まれるすべての旅行者の情報を提供する権限を有しています。"
     },
     "gate": {
-      "pastTitle": "This arrival date is in the past.",
-      "pastText": "The arrival card must be submitted before you arrive. Please check the date. If you are already in Indonesia, the card cannot be submitted any more and we cannot help with it.",
-      "earlyTitle": "Too early for the arrival card: your arrival is about {days, plural, one {# day} other {# days}} away.",
-      "earlyText": "The official portal only accepts arrival card submissions inside the {hours} hours before arrival. We do not take payment before then, so there is nothing to refund later. Leave your email and we will send you a message the moment the window opens for {date}; your details will be prefilled.",
-      "orderEvoa": "Order the e-VOA now",
-      "setReminder": "Set a reminder for the arrival card",
-      "evoaNote": "The e-VOA can be applied for up to 90 days ahead. You can order it now and come back for the arrival card when we email you.",
-      "changeDate": "Change the arrival date to continue.",
-      "waitForWindow": "Continue is available once the window is open."
+      "pastTitle": "この到着日は過去の日付です。",
+      "pastText": "入国カードは到着前に提出する必要があります。日付をご確認ください。すでにインドネシアに入国している場合、入国カードはもう提出できず、当社でもお手伝いできません。",
+      "earlyTitle": "入国カードの申請にはまだ早すぎます。ご到着まで約{days, plural, one {#日} other {#日}}あります。",
+      "earlyText": "公式ポータルは、到着前{hours}時間以内の入国カード提出しか受け付けません。当社もそれ以前にお支払いをいただくことはないため、後で返金が必要になることもありません。メールアドレスをお知らせいただければ、{date}の受付期間が開始した瞬間にメッセージをお送りします。お客様の情報は事前入力されます。",
+      "orderEvoa": "e-VOAを今すぐ申し込む",
+      "setReminder": "入国カードのリマインダーを設定する",
+      "evoaNote": "e-VOAは最大90日前から申請できます。今すぐお申し込みいただき、当社からのメールが届いたら入国カードのために戻ってきてください。",
+      "changeDate": "続行するには到着日を変更してください。",
+      "waitForWindow": "受付期間が開始すると続行できます。"
     },
-    "back": "Back",
-    "continue": "Continue",
-    "pay": "Pay {price} securely",
-    "redirecting": "Redirecting to secure payment…",
-    "paymentNote": "Card payment is processed on a secure hosted page by our payment provider. We never see or store card numbers. The charge appears as our company name on your statement.",
-    "serverError": "Something went wrong",
-    "networkError": "Network error. Please try again."
+    "back": "戻る",
+    "continue": "続行",
+    "pay": "{price}を安全に支払う",
+    "redirecting": "安全な決済ページに移動しています…",
+    "paymentNote": "カード決済は、当社の決済代行会社が提供する安全なホスト型ページで処理されます。当社がカード番号を閲覧・保存することは一切ありません。ご利用明細には当社の会社名で表示されます。",
+    "serverError": "問題が発生しました",
+    "networkError": "ネットワークエラーです。もう一度お試しください。"
   },
   "Validation": {
-    "required": "Required",
-    "date": "Use YYYY-MM-DD",
-    "passportNumber": "Check passport number",
-    "passportScan": "Passport scan is required",
-    "passportPhoto": "Passport photo is required",
-    "acceptTerms": "You must accept the terms",
-    "acknowledgeNotGov": "Please confirm you understand this is not a government website",
-    "evoaRequired": "e-VOA details are required",
-    "email": "Enter a valid email address",
-    "tooShort": "Too short",
-    "tooLong": "Too long",
-    "invalid": "Invalid value",
-    "consent": "Please agree to receive the reminder email",
-    "arrivalFuture": "Arrival date must be today or in the future",
-    "documentsMissing": "Documents missing for traveler {list}"
+    "required": "必須",
+    "date": "YYYY-MM-DD形式で入力してください",
+    "passportNumber": "パスポート番号をご確認ください",
+    "passportScan": "パスポートのスキャンが必要です",
+    "passportPhoto": "パスポート用写真が必要です",
+    "acceptTerms": "規約に同意する必要があります",
+    "acknowledgeNotGov": "政府のウェブサイトではないことを理解した旨をご確認ください",
+    "evoaRequired": "e-VOAの詳細が必要です",
+    "email": "有効なメールアドレスを入力してください",
+    "tooShort": "短すぎます",
+    "tooLong": "長すぎます",
+    "invalid": "無効な値です",
+    "consent": "リマインダーメールの受信に同意してください",
+    "arrivalFuture": "到着日は今日以降の日付にしてください",
+    "documentsMissing": "旅行者{list}の書類が不足しています"
   },
   "Options": {
     "gender": {
-      "M": "Male",
-      "F": "Female",
-      "X": "Other / X"
+      "M": "男性",
+      "F": "女性",
+      "X": "その他 / X"
     },
     "transport": {
-      "air": "Air",
-      "sea": "Sea",
-      "land": "Land"
+      "air": "空路",
+      "sea": "海路",
+      "land": "陸路"
     },
     "ports": {
-      "CGK": "Jakarta – Soekarno-Hatta (CGK)",
-      "DPS": "Bali – Ngurah Rai (DPS)",
-      "SUB": "Surabaya – Juanda (SUB)",
-      "KNO": "Medan – Kualanamu (KNO)",
-      "UPG": "Makassar – Sultan Hasanuddin (UPG)",
-      "YIA": "Yogyakarta – YIA",
-      "LOP": "Lombok – Zainuddin Abdul Madjid (LOP)",
-      "MDC": "Manado – Sam Ratulangi (MDC)",
-      "BTH": "Batam – Hang Nadim (BTH)",
-      "BPN": "Balikpapan – SAMS Sepinggan (BPN)",
-      "KJT": "Kertajati (KJT)",
-      "BTM_SEA": "Batam Centre ferry terminal (sea)",
-      "TNJ_SEA": "Tanjung Pinang ferry terminal (sea)",
-      "LAND": "Land border (Entikong / Aruk / Motaain / other)",
-      "OTHER": "Other international entry point"
+      "CGK": "ジャカルタ – スカルノハッタ（CGK）",
+      "DPS": "バリ – ングラ・ライ（DPS）",
+      "SUB": "スラバヤ – ジュアンダ（SUB）",
+      "KNO": "メダン – クアラナム（KNO）",
+      "UPG": "マカッサル – スルタン・ハサヌディン（UPG）",
+      "YIA": "ジョグジャカルタ – YIA",
+      "LOP": "ロンボク – ザイヌディン・アブドゥル・マジッド（LOP）",
+      "MDC": "マナド – サム・ラトゥランギ（MDC）",
+      "BTH": "バタム – ハン・ナディム（BTH）",
+      "BPN": "バリクパパン – SAMS スピンガン（BPN）",
+      "KJT": "クルタジャティ（KJT）",
+      "BTM_SEA": "バタムセンター・フェリーターミナル（海路）",
+      "TNJ_SEA": "タンジュンピナン・フェリーターミナル（海路）",
+      "LAND": "陸路国境（エンティコン / アルック / モタアイン / その他）",
+      "OTHER": "その他の国際入国地点"
     },
     "purposes": {
-      "holiday": "Holiday / tourism",
-      "family": "Visiting family or friends",
-      "business": "Business meeting / conference",
-      "work": "Work (with work permit)",
-      "study": "Study",
-      "medical": "Medical treatment",
-      "transit": "Transit",
-      "other": "Other"
+      "holiday": "休暇 / 観光",
+      "family": "家族・友人の訪問",
+      "business": "商談 / 会議",
+      "work": "就労（就労許可あり）",
+      "study": "留学",
+      "medical": "医療",
+      "transit": "乗り継ぎ",
+      "other": "その他"
     },
     "visaTypes": {
-      "visaFree": "Visa-free entry",
-      "voa": "Visa on Arrival (VOA) – paid at airport",
-      "evoa": "e-VOA (electronic visa on arrival)",
-      "evisa": "e-Visa (B211A, C1, C2, D1, D2, etc.)",
-      "kitas": "KITAS / KITAP holder",
-      "diplomatic": "Diplomatic / official",
-      "unsure": "Not sure – please advise"
+      "visaFree": "ビザ免除での入国",
+      "voa": "到着ビザ（VOA） – 空港で支払い",
+      "evoa": "e-VOA（電子到着ビザ）",
+      "evisa": "e-Visa（B211A、C1、C2、D1、D2など）",
+      "kitas": "KITAS / KITAP保持者",
+      "diplomatic": "外交 / 公用",
+      "unsure": "わからない – 相談したい"
     },
     "evoaPurposes": {
-      "tourism": "Tourism / holiday",
-      "business": "Business meeting, conference, purchasing",
-      "family": "Visiting family or friends",
-      "transit": "Transit",
-      "official": "Government / official duties"
+      "tourism": "観光 / 休暇",
+      "business": "商談、会議、購買",
+      "family": "家族・友人の訪問",
+      "transit": "乗り継ぎ",
+      "official": "政府 / 公務"
     }
   },
   "ReminderForm": {
-    "email": "Email",
-    "arrivalDate": "Arrival date in Indonesia",
-    "travelers": "Travelers",
-    "nationality": "Nationality (optional)",
-    "select": "Select…",
-    "consent": "I agree to receive the reminder email. One heads-up the day before, one when the window opens, nothing else. Unsubscribe with one click.",
-    "saving": "Saving…",
-    "submit": "Remind me when the window opens",
-    "footnote": "Free. No payment is taken now. Private assistance service, not affiliated with any government website.",
-    "genericError": "Something went wrong. Please try again.",
-    "networkError": "Network error. Please try again.",
-    "openTitle": "Good news: the window for {date} is already open.",
-    "openText": "The official portal accepts submissions now. We have saved your reminder in case you need it later.",
-    "startCta": "Start my application",
-    "doneTitle": "Done.",
-    "doneText": "We will email you on <strong>{when}</strong> (your local time) when the window opens, {hours} h before arrival. We do not take payment before then."
+    "email": "メールアドレス",
+    "arrivalDate": "インドネシアへの到着日",
+    "travelers": "旅行者",
+    "nationality": "国籍（任意）",
+    "select": "選択してください…",
+    "consent": "リマインダーメールの受信に同意します。前日に1通の事前通知、受付開始時に1通、それ以外はありません。ワンクリックで配信停止できます。",
+    "saving": "保存中…",
+    "submit": "受付が始まったら知らせる",
+    "footnote": "無料です。今お支払いいただくことはありません。民間のサポートサービスであり、いかなる政府ウェブサイトとも提携していません。",
+    "genericError": "問題が発生しました。もう一度お試しください。",
+    "networkError": "ネットワークエラーです。もう一度お試しください。",
+    "openTitle": "朗報です。{date}の受付期間はすでに開始しています。",
+    "openText": "公式ポータルは現在提出を受け付けています。後で必要になった場合に備えて、リマインダーは保存しました。",
+    "startCta": "申請を開始する",
+    "doneTitle": "完了しました。",
+    "doneText": "受付期間が開始する到着{hours}時間前、<strong>{when}</strong>（お客様の現地時間）にメールをお送りします。それ以前にお支払いをいただくことはありません。"
   },
   "Reminder": {
-    "metaTitle": "Indonesia arrival card: we tell you when to apply",
-    "metaDescription": "The official portal only accepts the All Indonesia arrival card within 72 hours before arrival. Leave your arrival date and we email you the moment your window opens. Free reminder, no payment now.",
-    "badge": "Free reminder, no payment now",
-    "title": "Indonesia arrival card: we tell you when to apply",
-    "lead": "The official portal only accepts the arrival card within 72 hours before you land. Apply earlier and it is rejected. Leave your arrival date and we email you the moment your window opens.",
-    "bullet1": "One email the day before, one when the window opens",
-    "bullet2": "Your details prefilled in the link, so it takes two minutes",
-    "bullet3": "Then choose: we prepare and check your card, or you do it yourself",
-    "unsubscribed": "You have been unsubscribed. We will not email you about this trip again.",
-    "unsubscribeInvalid": "That unsubscribe link is not valid or has already been used. Write to {email} if you keep receiving emails.",
-    "formTitle": "Get the reminder",
-    "formText": "We compute the exact moment the 72-hour window opens for your date.",
-    "ruleTitle": "The 72-hour rule, in short",
-    "rule1": "Every traveler entering Indonesia by air, sea or land needs an All Indonesia arrival card: one online form for immigration, customs and health, which produces a QR code shown on arrival.",
-    "rule2": "The system opens the form only inside the 72 hours before the arrival date. If you try before, the submission is refused. Most travelers only discover this when they sit down to fill it in a week ahead, then forget it in the rush before the flight.",
-    "rule3": "A reminder solves that. Tell us your arrival date and we work out when the window opens for you and send a single email at that moment. Nothing is charged until you decide, inside the window, whether you want our assistance.",
-    "rule4": "If you also need a visa, the e-VOA can be applied for up to 90 days ahead. <link>See e-VOA assistance</link>.",
-    "howTitle": "How it works",
+    "metaTitle": "インドネシア入国カード：申請のタイミングをお知らせします",
+    "metaDescription": "公式ポータルは、到着前72時間以内しかAll Indonesia 入国カード（Arrival Card）を受け付けません。到着日をお知らせいただければ、受付期間が開始した瞬間にメールでお知らせします。無料のリマインダー、今のお支払いは不要です。",
+    "badge": "無料のリマインダー、今のお支払いは不要",
+    "title": "インドネシア入国カード：申請のタイミングをお知らせします",
+    "lead": "公式ポータルは、到着の72時間前からしか入国カードを受け付けません。それより早く申請すると拒否されます。到着日をお知らせいただければ、受付期間が開始した瞬間にメールでお知らせします。",
+    "bullet1": "前日に1通、受付開始時に1通のメール",
+    "bullet2": "リンクに情報が事前入力されているので、2分で完了",
+    "bullet3": "その後はお選びください。当社がカードを準備・確認するか、ご自身で申請するか",
+    "unsubscribed": "配信停止が完了しました。この旅行に関するメールは今後お送りしません。",
+    "unsubscribeInvalid": "この配信停止リンクは無効か、すでに使用されています。メールが届き続ける場合は{email}までご連絡ください。",
+    "formTitle": "リマインダーを受け取る",
+    "formText": "お客様の到着日について、72時間の受付期間が開始する正確な時刻を計算します。",
+    "ruleTitle": "72時間ルールの概要",
+    "rule1": "空路、海路、陸路でインドネシアに入国するすべての旅行者には、All Indonesia 入国カード（Arrival Card）が必要です。入国審査、税関、健康申告を1つにまとめたオンラインフォームで、到着時に提示するQRコードが発行されます。",
+    "rule2": "システムがフォームを受け付けるのは、到着日の72時間前からです。それより前に試みると提出は拒否されます。多くの旅行者は1週間前に記入しようとして初めてこのことに気づき、その後、出発前の慌ただしさの中で忘れてしまいます。",
+    "rule3": "リマインダーがこの問題を解決します。到着日をお知らせいただければ、当社が受付開始時刻を計算し、その瞬間に1通のメールをお送りします。受付期間内に当社のサポートを利用するかどうかをお決めいただくまで、料金は一切かかりません。",
+    "rule4": "ビザも必要な場合、e-VOAは最大90日前から申請できます。<link>e-VOA申請サポートを見る</link>。",
+    "howTitle": "ご利用の流れ",
     "steps": {
       "set": {
-        "t": "Set a reminder",
-        "d": "Your email and arrival date. Takes 20 seconds. No payment, no account."
+        "t": "リマインダーを設定",
+        "d": "メールアドレスと到着日だけ。20秒で完了します。お支払いもアカウントも不要です。"
       },
       "email": {
-        "t": "Get the email when the window opens",
-        "d": "A short heads-up the day before, then a message the moment the portal accepts your date, with a link that has your details prefilled."
+        "t": "受付開始時にメールを受け取る",
+        "d": "前日に簡単な事前通知、そしてポータルがお客様の日付を受け付けた瞬間に、情報が事前入力されたリンク付きのメッセージをお送りします。"
       },
       "choose": {
-        "t": "We prepare and check your card, or you do it yourself",
-        "d": "Order our assistance from {price} and a person checks every field before submission. Or follow our free guide and submit on the official portal yourself."
+        "t": "当社がカードを準備・確認、またはご自身で申請",
+        "d": "{price}からの当社サポートをお申し込みいただければ、提出前に担当者がすべての項目を確認します。または、当社の無料ガイドに従って、ご自身で公式ポータルに提出することもできます。"
       }
     },
-    "ctaSet": "Set my reminder",
-    "ctaGuide": "Read the free guide",
-    "questionsTitle": "Questions",
+    "ctaSet": "リマインダーを設定する",
+    "ctaGuide": "無料ガイドを読む",
+    "questionsTitle": "よくある質問",
     "faqs": {
       "whyNotToday": {
-        "q": "Why can I not apply today?",
-        "a": "The official All Indonesia system only accepts arrival card submissions inside the 72 hours (3 days) before your scheduled arrival. Earlier submissions are rejected, which is why we do not take an order or payment before the window opens."
+        "q": "なぜ今日申請できないのですか。",
+        "a": "公式のAll Indonesiaシステムは、予定到着日の72時間（3日）前からしか入国カードの提出を受け付けません。それより早い提出は拒否されるため、当社も受付期間が開始するまでご注文やお支払いをお受けしません。"
       },
       "free": {
-        "q": "Is the reminder free?",
-        "a": "Yes. You receive at most two emails for your trip: a heads-up the day before and one when the window opens. Unsubscribe with one click."
+        "q": "リマインダーは無料ですか。",
+        "a": "はい。1回の旅行につき最大2通のメールをお送りします。前日の事前通知と、受付開始時の1通です。ワンクリックで配信停止できます。"
       },
       "mustBuy": {
-        "q": "Do I have to buy your service afterwards?",
-        "a": "No. The email includes a link to our guided form if you want a person to prepare and check the card, and a link to our free guide if you prefer to do it yourself on the official portal."
+        "q": "その後、必ずサービスを購入しなければなりませんか。",
+        "a": "いいえ。メールには、担当者にカードの準備と確認を依頼したい場合のガイド付きフォームへのリンクと、公式ポータルでご自身で申請したい場合の無料ガイドへのリンクが含まれています。"
       },
       "evoa": {
-        "q": "What about the e-VOA visa?",
-        "a": "The e-VOA has no 72-hour limit and can be applied for up to 90 days before arrival. If you need one, you can order it now and set the reminder for the arrival card only."
+        "q": "e-VOAビザについてはどうですか。",
+        "a": "e-VOAには72時間の制限がなく、到着の最大90日前から申請できます。必要な場合は今すぐお申し込みいただき、入国カードについてのみリマインダーを設定できます。"
       },
       "government": {
-        "q": "Are you the Indonesian government?",
-        "a": "No. We are a private assistance company, not affiliated with the Government of Indonesia, the Directorate General of Immigration or any government website."
+        "q": "あなたはインドネシア政府ですか。",
+        "a": "いいえ。当社は民間のサポート会社であり、インドネシア政府、入国管理総局、およびいかなる政府ウェブサイトとも提携していません。"
       }
     }
   },
   "Success": {
-    "metaTitle": "Order received",
-    "title": "Thank you – we have your details",
-    "order": "Order <strong>{id}</strong> ({product}). A confirmation goes to <strong>{email}</strong>.",
-    "arrivalCardNext": "Your arrival card QR code will follow within {hours} hours, and no earlier than 72 hours before your arrival on {date}, because the official system only accepts submissions in that window.",
-    "evoaNext": "We verify and submit your e-VOA within {hours} hours; approval usually follows the same day, at most 2 working days.",
-    "confirming": "Your payment is being confirmed. You will receive an email shortly.",
-    "devMode": "Development mode: payment provider not configured, order saved as paid.",
-    "nextTitle": "What happens next",
-    "next1": "A team member checks every field against your passport details{evoa, select, yes {, and your passport scan and photo for the e-VOA} other {}}.",
-    "next2": "We submit the card on the official portal, entering your email so the QR arrives from the government system as well.",
-    "next3": "You receive the QR code (PDF and image) plus an airport checklist by email.",
-    "next4": "Show the QR with your passport at immigration and customs.",
-    "cta": "Read the airport checklist"
+    "metaTitle": "ご注文を受け付けました",
+    "title": "ありがとうございます – お客様の情報を受け取りました",
+    "order": "ご注文<strong>{id}</strong>（{product}）。確認メールを<strong>{email}</strong>にお送りします。",
+    "arrivalCardNext": "入国カードのQRコードは{hours}時間以内にお届けしますが、公式システムがその期間内の提出しか受け付けないため、{date}のご到着の72時間前より早くお届けすることはありません。",
+    "evoaNext": "{hours}時間以内にe-VOAを確認・提出します。承認は通常当日、遅くとも2営業日以内に下ります。",
+    "confirming": "お支払いを確認しています。まもなくメールが届きます。",
+    "devMode": "開発モード：決済代行会社が設定されていないため、注文は支払い済みとして保存されました。",
+    "nextTitle": "この後の流れ",
+    "next1": "チームメンバーがすべての項目をパスポートの情報{evoa, select, yes {、およびe-VOA用のパスポートスキャンと写真} other {}}と照合して確認します。",
+    "next2": "当社が公式ポータルでカードを提出します。その際お客様のメールアドレスを入力するため、政府システムからもQRコードが届きます。",
+    "next3": "QRコード（PDFと画像）と空港チェックリストをメールでお受け取りいただきます。",
+    "next4": "入国審査と税関で、パスポートと一緒にQRコードを提示してください。",
+    "cta": "空港チェックリストを読む"
   },
   "Evoa": {
-    "metaTitle": "Indonesia e-VOA application assistance – visa on arrival online",
-    "metaDescription": "We prepare and submit your Indonesia e-VOA (electronic visa on arrival): 30 days, extendable once. Human-checked, visa fee itemized, delivered by email.",
-    "jsonLdName": "Indonesia e-VOA application assistance",
-    "badge": "Electronic Visa on Arrival · {days} days · extendable once",
-    "title": "Your Indonesia e-VOA, prepared and checked before you fly.",
-    "lead": "Skip the queue at the visa-on-arrival counter. We check your passport and photo, submit the electronic visa on arrival application, and send you the approved e-VOA by email.",
-    "ctaStart": "Start e-VOA – {price}",
-    "ctaBundle": "e-VOA + arrival card bundle",
-    "priceTitle": "Price per traveler, itemized",
-    "governmentFee": "Government e-VOA fee (IDR {idr} per traveler, in USD)",
-    "serviceFirst": "Our service fee, first traveler",
-    "serviceAdditional": "Our service fee, each additional traveler",
-    "bundle": "Bundle with arrival card assistance",
-    "bundleSave": "save {price} per traveler",
-    "express": "Express, verified within {hours} h (optional)",
+    "metaTitle": "インドネシアe-VOA申請サポート – オンラインの到着ビザ",
+    "metaDescription": "インドネシアのe-VOA（電子到着ビザ）を当社が準備・提出します。30日間、1回延長可能。担当者が確認、ビザ料金は明細表示、メールでお届けします。",
+    "jsonLdName": "インドネシアe-VOA申請サポート",
+    "badge": "電子到着ビザ · {days}日間 · 1回延長可能",
+    "title": "あなたのインドネシアe-VOAを、出発前に準備し確認します。",
+    "lead": "到着ビザカウンターの行列を回避しましょう。当社がパスポートと写真を確認し、電子到着ビザの申請を提出して、承認されたe-VOAをメールでお送りします。",
+    "ctaStart": "e-VOAを開始 – {price}",
+    "ctaBundle": "e-VOA + 入国カードのセット",
+    "priceTitle": "旅行者1名あたりの料金（明細）",
+    "governmentFee": "政府のe-VOA料金（旅行者1名あたりIDR {idr}、米ドル換算）",
+    "serviceFirst": "当社のサービス料金、1人目の旅行者",
+    "serviceAdditional": "当社のサービス料金、追加の旅行者1名ごと",
+    "bundle": "入国カード申請サポートとのセット",
+    "bundleSave": "旅行者1名あたり{price}お得",
+    "express": "特急、{hours}時間以内に確認（オプション）",
     "plus": "+{price}",
-    "totalFirst": "Total first traveler: {price}",
-    "refundNote": "Service fee refunded in full if your nationality is not eligible or if we cannot submit. The visa fee is non-refundable once the application is lodged with the authorities.",
-    "eligibleTitle": "Am I eligible?",
-    "eligibleText": "Passport must be valid at least {months} months from the date of entry. You need a return or onward ticket.",
-    "howTitle": "How it works",
+    "totalFirst": "1人目の旅行者の合計：{price}",
+    "refundNote": "お客様の国籍が対象外の場合、または当社が提出できない場合は、サービス料金を全額返金いたします。ビザ料金は、当局に申請が提出された後は返金できません。",
+    "eligibleTitle": "対象になりますか。",
+    "eligibleText": "パスポートは入国日から{months}か月以上有効である必要があります。帰国または次の目的地への航空券が必要です。",
+    "howTitle": "ご利用の流れ",
     "steps": {
       "check": {
-        "t": "Check eligibility",
-        "d": "Enter your nationality below. ASEAN nationals are visa-free; most other travelers can use the e-VOA."
+        "t": "対象かどうかを確認",
+        "d": "以下で国籍を入力してください。ASEAN加盟国の国民はビザ免除です。それ以外の多くの旅行者はe-VOAを利用できます。"
       },
       "send": {
-        "t": "Send passport and photo",
-        "d": "Upload a photo of your passport bio page and a recent passport-style photo from your phone."
+        "t": "パスポートと写真を送付",
+        "d": "パスポートの顔写真ページの写真と最近のパスポート用写真を、スマートフォンからアップロードしてください。"
       },
       "prepare": {
-        "t": "We prepare and check",
-        "d": "A team member checks passport validity (6 months minimum), photo quality and every field, then submits the application."
+        "t": "当社が準備し確認",
+        "d": "チームメンバーがパスポートの有効期限（最低6か月）、写真の品質、すべての項目を確認したうえで、申請を提出します。"
       },
       "receive": {
-        "t": "Receive your e-VOA",
-        "d": "Usually the same day, at most 2 working days. Print it or show it on your phone at immigration. Combine it with your arrival card QR."
+        "t": "e-VOAを受け取る",
+        "d": "通常は当日、遅くとも2営業日以内。印刷するか、入国審査でスマートフォンに表示してください。入国カードのQRコードと併せてご用意ください。"
       }
     },
-    "factsTitle": "e-VOA facts",
+    "factsTitle": "e-VOAの基本情報",
     "facts": {
-      "stay": "Stay: {days} days from entry, extendable once for another {extraDays} days at an immigration office in Indonesia.",
-      "purposes": "Purposes: tourism, family visits, business meetings and purchasing, transit, official duties. Not valid for employment or journalism.",
-      "window": "Apply up to about {days} days before travel. Processing is typically {processing}.",
-      "documents": "Documents: passport bio page (valid 6+ months), recent passport-style photo, return or onward ticket, email address.",
-      "entry": "Entry through any international airport, seaport or land border that accepts visa on arrival. You still need the arrival card QR."
+      "stay": "滞在期間：入国から{days}日間。インドネシア国内の入国管理事務所でさらに{extraDays}日間、1回延長できます。",
+      "purposes": "目的：観光、家族訪問、商談・購買、乗り継ぎ、公務。就労や報道活動には使用できません。",
+      "window": "渡航の約{days}日前から申請できます。処理期間は通常{processing}です。",
+      "documents": "書類：パスポートの顔写真ページ（残存有効期間6か月以上）、最近のパスポート用写真、帰国または次の目的地への航空券、メールアドレス。",
+      "entry": "到着ビザを受け付けるすべての国際空港、港、陸路国境から入国できます。入国カードのQRコードは別途必要です。"
     },
-    "typicalProcessing": "same day to 2 working days",
+    "typicalProcessing": "当日から2営業日",
     "eligibility": {
-      "nationality": "Nationality (passport country)",
-      "select": "Select…",
-      "visaFree": "ASEAN nationals enter Indonesia visa-free for 30 days. You do not need an e-VOA, only the <link>arrival card</link>.",
-      "eligible": "Eligible for the e-VOA. <link>Start your application</link>.",
-      "check": "Your nationality may need a visa issued before travel rather than an e-VOA. <link>Ask us</link> and we will confirm within a few hours, free of obligation."
+      "nationality": "国籍（パスポート発行国）",
+      "select": "選択してください…",
+      "visaFree": "ASEAN加盟国の国民は、ビザなしで30日間インドネシアに入国できます。e-VOAは不要で、<link>入国カード</link>のみ必要です。",
+      "eligible": "e-VOAの対象です。<link>申請を開始する</link>。",
+      "check": "お客様の国籍では、e-VOAではなく渡航前に発給されるビザが必要な可能性があります。<link>お問い合わせ</link>いただければ、数時間以内に無料で確認いたします。"
     }
   },
   "Pricing": {
-    "metaTitle": "Pricing",
-    "metaDescription": "One transparent price for Indonesia arrival card assistance. No hidden fees.",
-    "title": "Pricing",
-    "arrivalCardTitle": "Arrival card assistance",
-    "intro": "You see the total before entering any personal data. We are a private assistance service, not affiliated with any government website.",
-    "examples": "Examples",
-    "booking": "Booking",
-    "standard": "Standard (under {hours} h)",
-    "express": "Express (under {hours} h)",
-    "travelers": "{count, plural, one {# traveler} other {# travelers}}",
-    "evoaTitle": "e-VOA (visa on arrival) assistance",
-    "perTraveler": "Per traveler",
-    "amount": "Amount",
-    "governmentFee": "Government e-VOA fee (IDR {idr} per traveler, in USD)",
-    "serviceFirst": "Service fee, first traveler",
-    "serviceAdditional": "Service fee, each additional traveler",
-    "bundleDiscount": "Bundle discount when ordered with arrival card assistance",
+    "metaTitle": "料金",
+    "metaDescription": "インドネシア入国カード申請サポートの明朗な料金。隠れた費用はありません。",
+    "title": "料金",
+    "arrivalCardTitle": "入国カード申請サポート",
+    "intro": "個人情報を入力する前に合計金額をご確認いただけます。当社は民間のサポートサービスであり、いかなる政府ウェブサイトとも提携していません。",
+    "examples": "料金例",
+    "booking": "お申し込み",
+    "standard": "標準（{hours}時間以内）",
+    "express": "特急（{hours}時間以内）",
+    "travelers": "{count, plural, one {旅行者#名} other {旅行者#名}}",
+    "evoaTitle": "e-VOA（到着ビザ）申請サポート",
+    "perTraveler": "旅行者1名あたり",
+    "amount": "金額",
+    "governmentFee": "政府のe-VOA料金（旅行者1名あたりIDR {idr}、米ドル換算）",
+    "serviceFirst": "サービス料金、1人目の旅行者",
+    "serviceAdditional": "サービス料金、追加の旅行者1名ごと",
+    "bundleDiscount": "入国カード申請サポートと同時にお申し込みの場合のセット割引",
     "minus": "−{price}",
     "plus": "+{price}",
-    "expressEvoa": "Express (optional, verified within {hours} h)",
-    "evoaOnly": "e-VOA only",
-    "evoaBundle": "e-VOA + arrival card bundle",
-    "visaFeeNote": "The visa fee is paid on your behalf when the application is lodged with the Indonesian authorities and is non-refundable from that point. Details on the <link>e-VOA page</link>.",
-    "includedTitle": "What is included",
+    "expressEvoa": "特急（オプション、{hours}時間以内に確認）",
+    "evoaOnly": "e-VOAのみ",
+    "evoaBundle": "e-VOA + 入国カードのセット",
+    "visaFeeNote": "ビザ料金は、インドネシア当局に申請が提出される際にお客様に代わって支払われ、その時点以降は返金できません。詳細は<link>e-VOAページ</link>をご覧ください。",
+    "includedTitle": "含まれるもの",
     "included": {
-      "form": "Guided multilingual form with passport photo reading.",
-      "review": "Manual review of every field by a trained team member.",
-      "submission": "Submission on the official portal and delivery of your QR code by email.",
-      "checklist": "Airport checklist, customs allowance summary and IMEI registration instructions.",
-      "support": "Support until you have cleared immigration."
+      "form": "パスポート写真の読み取り機能付きの多言語ガイド付きフォーム。",
+      "review": "研修を受けたチームメンバーによるすべての項目の手作業での確認。",
+      "submission": "公式ポータルでの提出と、QRコードのメールでのお届け。",
+      "checklist": "空港チェックリスト、税関免税範囲の概要、IMEI登録の手順。",
+      "support": "入国審査を通過するまでのサポート。"
     },
-    "refundsTitle": "Refunds",
-    "refunds": "Full refund if your card is not delivered at least 6 hours before your scheduled arrival, or if you cancel before we start processing. See the <link>refund policy</link>."
+    "refundsTitle": "返金",
+    "refunds": "予定到着時刻の6時間前までにカードをお届けできなかった場合、または処理開始前にキャンセルされた場合は全額返金いたします。<link>返金ポリシー</link>をご覧ください。"
   },
   "Guide": {
-    "metaTitle": "Indonesia arrival card guide 2026: how to fill the All Indonesia form, step by step",
-    "metaDescription": "Complete guide to the All Indonesia arrival card: who needs it, the 72-hour window, every step on the official portal and in the app, family and group filing, health and customs questions, the QR code, known app problems and their fixes, and common mistakes.",
-    "howToName": "How to fill the All Indonesia arrival card on the official portal",
-    "howToDescription": "Step-by-step instructions for the Indonesia digital arrival card, from opening the official portal to saving the QR code.",
-    "kicker": "Guide, updated September 2026",
-    "title": "Indonesia arrival card guide: how to fill the All Indonesia form, step by step",
-    "intro1": "The All Indonesia arrival card is the digital form every traveler completes before entering Indonesia. It replaced the paper immigration card, the electronic customs declaration (e-CD) and the SATUSEHAT health form with one submission that produces one QR code. It is run by the Directorate General of Immigration.",
-    "intro2": "It became mandatory on 1 September 2025 at Jakarta (CGK), Bali (DPS), Surabaya (SUB) and the Batam ferry terminals, and on 1 October 2025 at every international airport, seaport and land border. It applies to all nationalities, to Indonesian citizens coming home, and to children and infants. It is not a visa. You still need visa-free entry, a visa on arrival or another visa.",
-    "officialApps": "Official apps: <play>All Indonesia on Google Play</play> and <store>All Indonesia on the App Store</store>, both published by Direktorat Jenderal Imigrasi.",
-    "tocLabel": "Contents",
-    "tocTitle": "On this page",
+    "metaTitle": "インドネシア入国カードガイド2026：All Indonesiaフォームの記入方法をステップごとに解説",
+    "metaDescription": "All Indonesia 入国カード（Arrival Card）の完全ガイド：誰に必要か、72時間の受付期間、公式ポータルとアプリでの各ステップ、家族・グループでの申請、健康・税関の質問、QRコード、既知のアプリの問題と対処法、よくある間違い。",
+    "howToName": "公式ポータルでAll Indonesia 入国カードを記入する方法",
+    "howToDescription": "インドネシアのデジタル入国カードについて、公式ポータルを開くところからQRコードを保存するまでのステップごとの手順。",
+    "kicker": "ガイド、2026年9月更新",
+    "title": "インドネシア入国カードガイド：All Indonesiaフォームの記入方法をステップごとに解説",
+    "intro1": "All Indonesia 入国カード（Arrival Card）は、すべての旅行者がインドネシア入国前に記入するデジタルフォームです。紙の入国カード、電子税関申告（e-CD）、SATUSEHAT健康フォームに代わり、1回の提出で1つのQRコードが発行されます。運営は入国管理総局です。",
+    "intro2": "2025年9月1日にジャカルタ（CGK）、バリ（DPS）、スラバヤ（SUB）、バタムのフェリーターミナルで義務化され、2025年10月1日からはすべての国際空港、港、陸路国境で義務化されました。すべての国籍の旅行者、帰国するインドネシア国民、子どもや乳幼児にも適用されます。ビザではありません。ビザ免除、到着ビザ、またはその他のビザは別途必要です。",
+    "officialApps": "公式アプリ：<play>Google PlayのAll Indonesia</play>と<store>App StoreのAll Indonesia</store>。いずれもDirektorat Jenderal Imigrasiが公開しています。",
+    "tocLabel": "目次",
+    "tocTitle": "このページの内容",
     "toc": {
-      "before": "Before you start",
-      "portal": "Step by step on the official portal",
-      "app": "Step by step in the app",
-      "family": "Filing for a family or a group",
-      "healthCustoms": "Health and customs sections explained",
-      "after": "After submitting",
-      "problems": "App and portal problems, and fixes",
-      "mistakes": "Common mistakes",
-      "faq": "Frequently asked questions",
-      "sources": "Sources"
+      "before": "始める前に",
+      "portal": "公式ポータルでのステップごとの手順",
+      "app": "アプリでのステップごとの手順",
+      "family": "家族・グループでの申請",
+      "healthCustoms": "健康・税関セクションの解説",
+      "after": "提出後",
+      "problems": "アプリとポータルの問題と対処法",
+      "mistakes": "よくある間違い",
+      "faq": "よくある質問",
+      "sources": "情報源"
     },
     "before": {
-      "intro": "Fifteen minutes is enough if everything is on the table.",
-      "needTitle": "What you need",
+      "intro": "必要なものがすべて手元にあれば、15分で十分です。",
+      "needTitle": "必要なもの",
       "need": {
-        "passport": "Passport, open at the photo page.",
-        "flight": "Flight or ferry number, date, and the airport or port where you first clear immigration.",
-        "departure": "Departure date from Indonesia, even approximate, and your visa type (visa-free, visa on arrival, e-VOA or other).",
-        "accommodation": "Name and address of your first accommodation.",
-        "email": "An email address you can open on your phone. The verification code and the QR code go there.",
-        "countries": "The countries you visited in the last 21 days.",
-        "goods": "What you carry: cash, alcohol, tobacco, gifts, food, and whether you want to register a phone.",
-        "nik": "Indonesian citizens: your NIK."
+        "passport": "パスポート（顔写真ページを開いた状態で）。",
+        "flight": "便名またはフェリー名、日付、最初に入国審査を受ける空港または港。",
+        "departure": "インドネシアからの出国日（おおよそで可）とビザの種類（ビザ免除、到着ビザ、e-VOA、その他）。",
+        "accommodation": "最初の宿泊先の名称と住所。",
+        "email": "スマートフォンで開けるメールアドレス。確認コードとQRコードがここに届きます。",
+        "countries": "過去21日間に訪問した国。",
+        "goods": "持ち込む物品：現金、酒類、たばこ、贈答品、食品、および携帯電話を登録したいかどうか。",
+        "nik": "インドネシア国民の方：NIK。"
       },
-      "timingTitle": "Timing: the 72-hour window",
-      "timing": "The portal accepts a card only when the arrival date is within the next 72 hours. Submit earlier and it is refused, because the card is tied to a specific arrival and the data must be current for immigration and health officials. Most people submit one or two days before landing. Do not leave it to the airport: some airlines ask for the QR at check-in, and airport Wi-Fi is slow. Flying in more than three days? <link>Set a free reminder</link> and we email you when your window opens.",
-      "deviceTitle": "Device and email advice",
+      "timingTitle": "タイミング：72時間の受付期間",
+      "timing": "ポータルは、到着日が今後72時間以内の場合にのみカードを受け付けます。それより早く提出すると拒否されます。カードは特定の到着に紐付けられており、入国審査や保健当局にとって最新のデータである必要があるためです。多くの人は到着の1～2日前に提出しています。空港に着いてからにするのは避けてください。チェックイン時にQRコードの提示を求める航空会社もあり、空港のWi-Fiは遅いためです。ご到着まで3日以上ありますか。<link>無料のリマインダーを設定</link>していただければ、受付期間が開始したときにメールでお知らせします。",
+      "deviceTitle": "端末とメールに関するアドバイス",
       "device": {
-        "connection": "Use a stable connection. A dropped connection during submission is the usual reason a QR never appears.",
-        "personalEmail": "Prefer a personal email address over a work address with strict filtering.",
-        "oneCard": "One traveler, one card. Filing for several people? Do them one after another with the passports in front of you."
+        "connection": "安定した接続を使用してください。提出中の接続切断は、QRコードが届かない最も一般的な原因です。",
+        "personalEmail": "厳しいフィルタリングのある勤務先のアドレスよりも、個人のメールアドレスをおすすめします。",
+        "oneCard": "旅行者1人につきカード1枚です。複数人分を申請する場合は、パスポートを手元に置いて1人ずつ順番に行ってください。"
       }
     },
-    "portalIntro": "The web portal at <link>allindonesia.imigrasi.go.id</link> is available in Indonesian, English and Mandarin and does not require an account. This is the flow as documented by immigration offices and travelers in 2025 and 2026. Screen names change from time to time; the order of the sections has not.",
+    "portalIntro": "ウェブポータル<link>allindonesia.imigrasi.go.id</link>はインドネシア語、英語、中国語で利用でき、アカウントは不要です。以下は、2025年と2026年に入国管理事務所と旅行者が記録した流れです。画面名は時々変わりますが、セクションの順序は変わっていません。",
     "portalSteps": {
       "open": {
-        "t": "Open the official portal and pick your category",
-        "d": "Go to allindonesia.imigrasi.go.id, switch the language to English if needed and choose the arrival card service. Then select foreign visitor or Indonesian citizen. Indonesian citizens also enter their NIK (national ID number)."
+        "t": "公式ポータルを開き、カテゴリーを選択",
+        "d": "allindonesia.imigrasi.go.idにアクセスし、必要に応じて言語を英語に切り替え、入国カードサービスを選択します。次に、外国人訪問者またはインドネシア国民を選択します。インドネシア国民はNIK（国民識別番号）も入力します。"
       },
       "email": {
-        "t": "Confirm your email address",
-        "d": "Type the email address where you want the QR code. The portal sends a verification code to it (check on the portal, the flow changes). If nothing arrives within a few minutes, look in the spam folder before requesting a new code."
+        "t": "メールアドレスを確認",
+        "d": "QRコードを受け取りたいメールアドレスを入力します。ポータルからそのアドレスに確認コードが送られます（流れは変わることがあるため、ポータルでご確認ください）。数分以内に届かない場合は、新しいコードを要求する前に迷惑メールフォルダを確認してください。"
       },
       "personal": {
-        "t": "Enter your personal and passport details",
-        "d": "Scan the machine-readable zone at the bottom of the passport photo page with your camera, or type the details. Check every field: full name as printed, nationality, passport number, date of birth, gender, expiry date and a phone number."
+        "t": "個人情報とパスポート情報を入力",
+        "d": "パスポートの顔写真ページ下部の機械読取領域をカメラでスキャンするか、情報を手入力します。すべての項目を確認してください：印字どおりの氏名、国籍、パスポート番号、生年月日、性別、有効期限、電話番号。"
       },
       "travel": {
-        "t": "Enter your travel details",
-        "d": "Arrival date in Indonesia (the local date, not your departure date), mode of transport, flight or vessel number, port of entry, planned departure date, purpose of visit, visa type and your address in Indonesia. A hotel name and city is accepted."
+        "t": "旅行の詳細を入力",
+        "d": "インドネシアへの到着日（出発日ではなく現地の日付）、交通手段、便名または船名、入国地点、出国予定日、訪問目的、ビザの種類、インドネシアでの住所。ホテル名と都市名でも受け付けられます。"
       },
       "health": {
-        "t": "Answer the health declaration",
-        "d": "State whether you currently have symptoms such as fever, cough or breathing difficulty, and list the countries visited in the previous 21 days. A truthful yes does not refuse entry; it may mean a short check on arrival."
+        "t": "健康申告に回答",
+        "d": "発熱、咳、呼吸困難などの症状が現在あるかどうかを申告し、過去21日間に訪問した国を記入します。正直に「はい」と答えても入国は拒否されません。到着時に簡単な確認がある場合があります。"
       },
       "customs": {
-        "t": "Answer the customs and quarantine declaration",
-        "d": "Declare cash of IDR 100 million or more, goods above the USD 500 allowance, alcohol and tobacco above the limits, commercial goods, animals, plants or fresh food, and your number of bags. Answer yes to the IMEI question only if you want to register a phone for use beyond 90 days."
+        "t": "税関・検疫申告に回答",
+        "d": "1億ルピア以上の現金、USD 500の免税範囲を超える物品、制限を超える酒類やたばこ、商業用物品、動物、植物、生鮮食品、および手荷物の個数を申告します。IMEIの質問には、90日を超えて携帯電話を使用するために登録したい場合にのみ「はい」と答えてください。"
       },
       "review": {
-        "t": "Review every field and submit",
-        "d": "Compare the name and passport number on the summary screen with the passport itself. Check the arrival date and port of entry. Submit once."
+        "t": "すべての項目を確認して提出",
+        "d": "確認画面の氏名とパスポート番号をパスポート本体と照合します。到着日と入国地点を確認します。提出は1回だけ行ってください。"
       },
       "save": {
-        "t": "Save the QR code",
-        "d": "The confirmation with the QR code appears on screen and is emailed to you. Download it, take a full-screen screenshot and print a copy if you can."
+        "t": "QRコードを保存",
+        "d": "QRコード付きの確認画面が表示され、メールでも送られます。ダウンロードし、全画面のスクリーンショットを撮り、可能であれば印刷しておいてください。"
       }
     },
-    "appIntro": "The app asks the same questions. The difference is that it needs an account and keeps your cards in one place.",
+    "appIntro": "アプリでも同じ質問が出ます。違いはアカウントが必要なことと、カードを一か所にまとめて保管できることです。",
     "appSteps": {
       "install": {
-        "t": "Install the official app",
-        "d": "Search for All Indonesia by Direktorat Jenderal Imigrasi on Google Play or the App Store, or use the links above. Ignore look-alike apps."
+        "t": "公式アプリをインストール",
+        "d": "Google PlayまたはApp StoreでDirektorat Jenderal ImigrasiのAll Indonesiaを検索するか、上記のリンクを使用してください。類似アプリは無視してください。"
       },
       "account": {
-        "t": "Create an account",
-        "d": "Register with your details, an email address and a password, then enter the one-time code sent to that email. Do this at home, before the 72-hour window opens."
+        "t": "アカウントを作成",
+        "d": "お客様の情報、メールアドレス、パスワードで登録し、そのメールに送られたワンタイムコードを入力します。72時間の受付期間が始まる前に、自宅で済ませておきましょう。"
       },
       "start": {
-        "t": "Start an arrival card",
-        "d": "Sign in, choose the arrival card service and your category. Scan the passport with the camera or type the details."
+        "t": "入国カードの作成を開始",
+        "d": "サインインし、入国カードサービスとカテゴリーを選択します。カメラでパスポートをスキャンするか、情報を手入力します。"
       },
       "sections": {
-        "t": "Complete the same sections as on the web",
-        "d": "Travel details, address in Indonesia, health declaration, customs and quarantine. The questions are identical to the portal."
+        "t": "ウェブと同じセクションを記入",
+        "d": "旅行の詳細、インドネシアでの住所、健康申告、税関・検疫。質問はポータルと同一です。"
       },
       "submit": {
-        "t": "Submit and keep the QR in the app",
-        "d": "The QR code is stored in the app and emailed to you. Screenshot it as a backup so you do not depend on a login at the airport."
+        "t": "提出し、QRコードをアプリに保管",
+        "d": "QRコードはアプリに保存され、メールでも送られます。空港でログインに頼らずに済むよう、バックアップとしてスクリーンショットを撮っておいてください。"
       }
     },
-    "appOrWebTitle": "App or website?",
+    "appOrWebTitle": "アプリとウェブサイトのどちらを使うべきか",
     "appOrWeb": {
-      "web": "Website: a one-off trip, a larger screen, or when the app is crashing. No registration.",
-      "app": "App: frequent trips, group filing (travel guides report up to ten travelers per group submission; check the current limit in the app), or having the QR at hand without opening your email. It also offers more languages, including Japanese, Korean, Russian and Arabic."
+      "web": "ウェブサイト：1回限りの旅行、大きな画面、またはアプリがクラッシュする場合。登録不要です。",
+      "app": "アプリ：頻繁な旅行、グループでの申請（旅行ガイドによると1回のグループ提出で最大10名。現在の上限はアプリでご確認ください）、またはメールを開かずにQRコードを手元に置きたい場合。日本語、韓国語、ロシア語、アラビア語など、より多くの言語にも対応しています。"
     },
-    "family1": "The system is built around one card per person. Every traveler, including a baby with their own passport, must have a card in their own name. A parent or group leader can fill them all in. The app has a group option that takes several travelers in one session.",
-    "family2": "One warning. Travelers on the Bali forum report that a group submission returned a QR for the leader only, while the other members got an arrival card number but no code. Glitch or design, the safe approach is the same: after submitting, confirm that every person has their own QR. If not, look them up on the <link>retrieve page</link> or submit an individual card for that person.",
-    "familyTipsTitle": "Tips for doing several in a row",
+    "family1": "システムは1人につき1枚のカードを前提としています。自分のパスポートを持つ乳児を含め、すべての旅行者が自分の名前でカードを持つ必要があります。親またはグループの代表者が全員分を記入できます。アプリには、1回のセッションで複数の旅行者を入力できるグループオプションがあります。",
+    "family2": "1つ注意点があります。バリのフォーラムでは、グループ提出で代表者のQRコードしか返されず、他のメンバーは入国カード番号は受け取ったもののコードは届かなかったという旅行者の報告があります。不具合であれ仕様であれ、安全な対処法は同じです。提出後、全員が自分のQRコードを持っていることを確認してください。ない場合は、<link>照会ページ</link>で検索するか、その人の分を個別に提出してください。",
+    "familyTipsTitle": "複数人分を続けて申請するときのコツ",
     "familyTips": {
-      "order": "Line up the passports in the order you will type them and tick each one off.",
-      "sameEmail": "Use the same email for all cards, then rename each file with the traveler's name.",
-      "noCopy": "Flight, port and address are the same for everyone; never copy a passport number from one card to the next.",
-      "child": "For a child, purpose of visit and address are those of the accompanying adult."
+      "order": "入力する順番にパスポートを並べ、1つずつチェックを付けていきましょう。",
+      "sameEmail": "すべてのカードに同じメールアドレスを使い、各ファイルを旅行者の名前に変更しておきましょう。",
+      "noCopy": "便名、入国地点、住所は全員同じですが、パスポート番号を前のカードからコピーしてはいけません。",
+      "child": "子どもの場合、訪問目的と住所は同伴する大人のものを記入します。"
     },
-    "healthTitle": "Health declaration",
-    "health": "Two things are asked: current symptoms and travel history. Answer yes to symptoms if you have a fever, cough, breathing difficulty or similar signs of infection. Then list the countries visited in the previous 21 days, the incubation period the Ministry of Health uses for the diseases it monitors. A yes may mean a temperature check or a few questions on arrival. A false no is an offence.",
-    "customsTitle": "Customs declaration",
-    "customsIntro": "Answer yes if any of these applies to you or to the family you declare for:",
+    "healthTitle": "健康申告",
+    "health": "質問は2つです。現在の症状と渡航歴です。発熱、咳、呼吸困難など感染の兆候がある場合は、症状について「はい」と答えてください。次に、過去21日間に訪問した国を記入します。21日間は、保健省が監視対象の疾病について用いる潜伏期間です。「はい」と答えると、到着時に検温やいくつかの質問がある場合があります。虚偽の「いいえ」は違法行為です。",
+    "customsTitle": "税関申告",
+    "customsIntro": "以下のいずれかがご自身または申告対象の家族に該当する場合は「はい」と答えてください：",
     "customsYes": {
-      "cash": "Cash, cheques or other bearer instruments worth IDR 100 million or more, in any currency.",
-      "goods": "Personal goods worth more than USD 500 in total, or more than 1 litre of alcohol, 200 cigarettes, 25 cigars or 100 grams of tobacco.",
-      "commercial": "Goods for sale or for a business, samples included.",
-      "prohibited": "Narcotics, weapons, ammunition or pornography. These are prohibited outright."
+      "cash": "通貨を問わず、1億ルピア以上相当の現金、小切手、その他の無記名有価証券。",
+      "goods": "合計USD 500を超える個人用物品、または1リットルを超える酒類、200本を超える紙巻たばこ、25本を超える葉巻、100グラムを超えるたばこ。",
+      "commercial": "販売用または事業用の物品（サンプルを含む）。",
+      "prohibited": "麻薬、武器、弾薬、わいせつ物。これらは全面的に禁止されています。"
     },
-    "customsBags": "You also state how many bags you have. Full allowances and a quick calculator are on our <link>customs page</link>.",
-    "quarantineTitle": "Quarantine declaration",
-    "quarantine": "Answer yes if you carry live animals, animal products, plants, seeds, fruit, vegetables or other fresh food. Some need a health or phytosanitary certificate; most are inspected or confiscated. Sealed packaged snacks are usually fine, but answer about what you actually carry.",
-    "imeiTitle": "IMEI registration",
-    "imei": "A phone bought abroad works on an Indonesian SIM for up to 90 days without registration. Staying longer? Answer yes to the IMEI question and show the QR to the customs officer, who completes the registration. The usual limit is two devices per traveler, and tax may apply above the allowance. Short visits need nothing.",
+    "customsBags": "手荷物の個数も申告します。免税範囲の全容と簡易計算ツールは当社の<link>税関ページ</link>にあります。",
+    "quarantineTitle": "検疫申告",
+    "quarantine": "生きた動物、動物製品、植物、種子、果物、野菜、その他の生鮮食品を持ち込む場合は「はい」と答えてください。衛生証明書や植物検疫証明書が必要なものもあり、多くは検査または没収されます。密封された包装済みのスナックは通常問題ありませんが、実際に持ち込むものについて正直に答えてください。",
+    "imeiTitle": "IMEI登録",
+    "imei": "海外で購入した携帯電話は、登録なしでインドネシアのSIMで最大90日間使用できます。それより長く滞在しますか。IMEIの質問に「はい」と答え、税関職員にQRコードを提示すれば、職員が登録を完了します。通常の上限は旅行者1人あたり2台で、免税範囲を超えると課税される場合があります。短期滞在なら何も必要ありません。",
     "after": {
-      "qrEmailTitle": "The QR email",
-      "qrEmail": "The confirmation arrives within minutes. Save the attachment, screenshot the full code and print it if you can. Keep it in one album with your passport photo page.",
-      "lostTitle": "Lost QR",
-      "lost": "Use the <link>retrieve page on the official portal</link>. It looks up your submission with your passport details and email (check on the portal, the fields may change) and lets you download the card again. In the app, the card stays in your account.",
-      "airlineTitle": "Airline check-in",
-      "airline": "The card is an Indonesian requirement, not an airline one, but ground staff on many routes check it before printing a boarding pass. Have the QR open at the counter and at the gate.",
-      "immigrationTitle": "Immigration",
-      "immigration": "At the large airports you go to an autogate if you hold a biometric passport and a visa or exemption the gate supports. Place the passport on the reader, look at the camera, and the system checks that a valid arrival card exists for that passport. If the gate cannot match you, go to a counter and show the QR with your passport. Visa on arrival is paid before immigration; the card does not replace it.",
-      "customsTitle": "Customs",
-      "customs": "After baggage claim, scan the QR at the customs kiosk. Nothing declared and no random check: green channel. Something declared: red channel, where an officer inspects or assesses duty. Keep receipts for expensive items."
+      "qrEmailTitle": "QRコードのメール",
+      "qrEmail": "確認メールは数分以内に届きます。添付ファイルを保存し、コード全体のスクリーンショットを撮り、可能であれば印刷してください。パスポートの顔写真ページと同じアルバムに保管しておきましょう。",
+      "lostTitle": "QRコードを紛失した場合",
+      "lost": "<link>公式ポータルの照会ページ</link>を使用してください。パスポート情報とメールアドレスで提出内容を検索し（項目は変わることがあるため、ポータルでご確認ください）、カードを再ダウンロードできます。アプリでは、カードはアカウント内に残ります。",
+      "airlineTitle": "航空会社のチェックイン",
+      "airline": "このカードは航空会社ではなくインドネシア側の要件ですが、多くの路線で地上係員が搭乗券を発行する前に確認します。カウンターと搭乗ゲートではQRコードをすぐに表示できるようにしておいてください。",
+      "immigrationTitle": "入国審査",
+      "immigration": "大規模空港では、生体認証パスポートを持ち、ゲートが対応するビザまたは免除の対象であれば、自動化ゲートに進みます。パスポートを読取機に置き、カメラを見ると、システムがそのパスポートに有効な入国カードがあるかを確認します。ゲートで照合できない場合は、カウンターに進み、パスポートと一緒にQRコードを提示してください。到着ビザは入国審査前に支払います。入国カードはビザの代わりにはなりません。",
+      "customsTitle": "税関",
+      "customs": "手荷物受取後、税関のキオスクでQRコードをスキャンします。申告なしで無作為検査もなければ、緑のレーンへ。申告がある場合は赤のレーンへ進み、職員が検査または関税を査定します。高額品のレシートは保管しておいてください。"
     },
-    "problemCol": "Problem",
-    "fixCol": "What to do",
+    "problemCol": "問題",
+    "fixCol": "対処法",
     "problems": {
       "noEmail": {
-        "p": "Verification code or QR email never arrives",
-        "f": "Check spam and promotions. Wait five minutes. Confirm the address has no typo. Request a new code once. If a work address filters it, use a personal one."
+        "p": "確認コードやQRコードのメールが届かない",
+        "f": "迷惑メールとプロモーションフォルダを確認します。5分待ちます。アドレスに誤字がないか確認します。新しいコードを1回だけ要求します。勤務先のアドレスでフィルタリングされる場合は、個人のアドレスを使用してください。"
       },
       "appCloses": {
-        "p": "App closes when you press Next",
-        "f": "Update the app, restart the phone and retry. If it persists, use the web portal; it produces the same QR code."
+        "p": "「次へ」を押すとアプリが終了する",
+        "f": "アプリを更新し、端末を再起動して再試行します。続く場合はウェブポータルを使用してください。同じQRコードが発行されます。"
       },
       "loginLoop": {
-        "p": "App loops back to the login screen",
-        "f": "Sign out, clear the app cache or reinstall, sign in again. Or switch to the web portal."
+        "p": "アプリがログイン画面に戻ってしまう",
+        "f": "サインアウトし、アプリのキャッシュを消去するか再インストールして、再度サインインします。またはウェブポータルに切り替えてください。"
       },
       "scanFails": {
-        "p": "Passport scan or photo upload fails",
-        "f": "Lay the passport flat in good light without glare. If it still fails, type the details by hand and check them twice."
+        "p": "パスポートのスキャンや写真のアップロードに失敗する",
+        "f": "反射のない明るい場所でパスポートを平らに置きます。それでも失敗する場合は、情報を手入力し、2回確認してください。"
       },
       "tooEarly": {
-        "p": "Submission refused as too early",
-        "f": "The form only accepts an arrival date within the next 72 hours. Come back when the window opens."
+        "p": "早すぎるとして提出が拒否される",
+        "f": "フォームは今後72時間以内の到着日しか受け付けません。受付期間が始まってから再度お試しください。"
       },
       "slow": {
-        "p": "Portal slow or timing out",
-        "f": "Try early morning or late evening in Indonesian time. Do not resubmit blindly; check the retrieve page to see whether the first attempt went through."
+        "p": "ポータルが遅い、またはタイムアウトする",
+        "f": "インドネシア時間の早朝か深夜に試してください。やみくもに再提出せず、照会ページで最初の提出が完了しているか確認してください。"
       },
       "wrongDate": {
-        "p": "QR shows the wrong arrival date",
-        "f": "Reported after overnight flights: the card shows the day before the date entered. Submit a new card with the correct local date and keep that one."
+        "p": "QRコードの到着日が間違っている",
+        "f": "夜行便の後に報告されています。入力した日付の前日がカードに表示されるというものです。正しい現地の日付で新しいカードを提出し、そちらを使用してください。"
       },
       "twice": {
-        "p": "You submitted twice",
-        "f": "Keep the copy with the correct details and show only that one. Duplicates are not reported to cause refusals."
+        "p": "2回提出してしまった",
+        "f": "正しい情報のコピーを保管し、それだけを提示してください。重複による入国拒否は報告されていません。"
       },
       "airline": {
-        "p": "Airline asks for the QR at check-in",
-        "f": "Common on flights from Singapore, Australia and the Gulf. Have the QR open on your phone before the counter."
+        "p": "航空会社がチェックイン時にQRコードを求める",
+        "f": "シンガポール、オーストラリア、湾岸諸国からの便でよくあります。カウンターに行く前にスマートフォンでQRコードを開いておいてください。"
       },
       "oneQr": {
-        "p": "Only one QR arrived for a group",
-        "f": "Look up each traveler on the retrieve page with their passport details. If someone has no card, submit an individual one for them."
+        "p": "グループでQRコードが1つしか届かなかった",
+        "f": "照会ページで各旅行者をパスポート情報で検索します。カードがない人がいれば、その人の分を個別に提出してください。"
       }
     },
     "mistakes": {
       "name": {
-        "m": "Name does not match the passport",
-        "c": "The card is flagged and you are sent to a manual counter. Copy the name from the machine-readable zone, all given names included, no titles or accents."
+        "m": "氏名がパスポートと一致しない",
+        "c": "カードにフラグが立ち、有人カウンターに回されます。機械読取領域から、すべての名を含めて氏名をそのまま書き写し、敬称やアクセント記号は付けないでください。"
       },
       "passportNumber": {
-        "m": "Passport number typed with 0 instead of O, or 1 instead of I",
-        "c": "The autogate cannot match you. Read the number from the machine-readable zone and check each character."
+        "m": "パスポート番号のOを0、Iを1と入力してしまう",
+        "c": "自動化ゲートで照合できません。機械読取領域から番号を読み取り、1文字ずつ確認してください。"
       },
       "date": {
-        "m": "Wrong arrival date",
-        "c": "The card may not be valid on the day you land. Use the local date of arrival in Indonesia; on an overnight flight that is the day after departure."
+        "m": "到着日の間違い",
+        "c": "到着日にカードが有効でない可能性があります。インドネシア到着の現地日付を使用してください。夜行便の場合は出発日の翌日になります。"
       },
       "port": {
-        "m": "Wrong port of entry",
-        "c": "Officers ask questions and the customs kiosk may not find you. Pick the airport or port where you first clear immigration, not your final destination after a domestic connection."
+        "m": "入国地点の間違い",
+        "c": "職員から質問され、税関のキオスクで見つからない場合があります。国内線乗り継ぎ後の最終目的地ではなく、最初に入国審査を受ける空港または港を選択してください。"
       },
       "unofficial": {
-        "m": "Using an unofficial paid site that looks official",
-        "c": "You pay for a free form and hand your passport data to strangers; fake follow-up emails asking for more money often follow. Type allindonesia.imigrasi.go.id yourself and use only the official apps."
+        "m": "公式に見える非公式の有料サイトを使ってしまう",
+        "c": "無料のフォームに料金を支払い、パスポート情報を見知らぬ相手に渡すことになります。その後、追加の支払いを求める偽のフォローアップメールが届くことがよくあります。allindonesia.imigrasi.go.idをご自身で入力し、公式アプリのみを使用してください。"
       },
       "customs": {
-        "m": "Forgetting the customs part",
-        "c": "Undeclared cash or goods can be fined or seized. Read the customs questions before you travel and check the allowances on our customs page."
+        "m": "税関の部分を忘れる",
+        "c": "未申告の現金や物品は罰金や没収の対象になることがあります。渡航前に税関の質問を読み、当社の税関ページで免税範囲を確認してください。"
       },
       "oneQr": {
-        "m": "One QR for the whole family",
-        "c": "Each traveler must be matched to a card. Make sure every person, infants included, has a card in their own name and their own QR."
+        "m": "家族全員でQRコードが1つ",
+        "c": "各旅行者はカードと照合される必要があります。乳幼児を含む全員が自分の名前のカードと自分のQRコードを持っていることを確認してください。"
       },
       "screenshot": {
-        "m": "Screenshot cropped or too small to scan",
-        "c": "The kiosk cannot read it and you queue again. Keep the original file and a screenshot showing the whole code, with screen brightness up."
+        "m": "スクリーンショットが切れている、または小さすぎて読み取れない",
+        "c": "キオスクで読み取れず、再度並ぶことになります。元のファイルと、コード全体が写ったスクリーンショットを保管し、画面の明るさを上げてください。"
       },
       "email": {
-        "m": "Email address with a typo",
-        "c": "No verification code and no QR. Type the address twice and check it before you continue."
+        "m": "メールアドレスの誤字",
+        "c": "確認コードもQRコードも届きません。アドレスを2回入力し、続行前に確認してください。"
       }
     },
     "faqs": {
       "visa": {
-        "q": "Is the All Indonesia arrival card a visa?",
-        "a": "No. It is a declaration to immigration, customs, health and quarantine. You still need visa-free entry, a visa on arrival, an e-VOA or another visa, depending on your nationality."
+        "q": "All Indonesia 入国カードはビザですか。",
+        "a": "いいえ。入国審査、税関、健康、検疫に対する申告です。国籍に応じて、ビザ免除、到着ビザ、e-VOA、またはその他のビザが別途必要です。"
       },
       "cost": {
-        "q": "Does it cost anything?",
-        "a": "No. The card is free on the official portal and in the official app. Any site that charges for the card itself is unofficial. Our fee pays for preparing, checking and delivering it on your behalf."
+        "q": "費用はかかりますか。",
+        "a": "いいえ。カードは公式ポータルと公式アプリで無料です。カード自体に料金を請求するサイトは非公式です。当社の料金は、お客様に代わって準備、確認、お届けを行う対価です。"
       },
       "when": {
-        "q": "When can I submit it?",
-        "a": "Inside the 72 hours before your arrival date in Indonesia. Earlier submissions are refused. Most travelers submit 24 to 48 hours before landing."
+        "q": "いつ提出できますか。",
+        "a": "インドネシアへの到着日の72時間前からです。それより早い提出は拒否されます。多くの旅行者は到着の24～48時間前に提出しています。"
       },
       "children": {
-        "q": "Do children and infants need one?",
-        "a": "Yes. Every traveler with a passport needs a card, whatever their age. A parent can fill it in for them."
+        "q": "子どもや乳幼児にも必要ですか。",
+        "a": "はい。パスポートを持つすべての旅行者に、年齢を問わずカードが必要です。親が代わりに記入できます。"
       },
       "citizens": {
-        "q": "Do Indonesian citizens need it?",
-        "a": "Yes. Citizens returning from abroad complete the same card, choosing the Indonesian citizen category and entering their NIK."
+        "q": "インドネシア国民にも必要ですか。",
+        "a": "はい。海外から帰国する国民も同じカードを記入し、インドネシア国民のカテゴリーを選択してNIKを入力します。"
       },
       "transit": {
-        "q": "I am only transiting. Do I need it?",
-        "a": "If you stay in the international transit area and do not pass immigration, no. If you clear immigration, even for one night, yes."
+        "q": "乗り継ぎだけです。必要ですか。",
+        "a": "国際線乗り継ぎエリアにとどまり、入国審査を通過しない場合は不要です。1泊であっても入国審査を通過する場合は必要です。"
       },
       "print": {
-        "q": "Do I need to print the QR code?",
-        "a": "No. A digital copy on your phone is accepted. A printout is a useful backup if your battery or signal fails."
+        "q": "QRコードを印刷する必要はありますか。",
+        "a": "いいえ。スマートフォン上のデジタルコピーで受け付けられます。バッテリーや電波が切れた場合に備えて、印刷したものがあると便利です。"
       },
       "lost": {
-        "q": "I lost the QR code. What now?",
-        "a": "Use the retrieve page on the official portal with your passport details to download it again, or open the app where it is stored."
+        "q": "QRコードをなくしました。どうすればよいですか。",
+        "a": "公式ポータルの照会ページでパスポート情報を使って再ダウンロードするか、保存されているアプリを開いてください。"
       },
       "onArrival": {
-        "q": "Can I fill it in on arrival?",
-        "a": "In practice yes, on your phone in the arrivals hall, but it is slow and some airlines ask for it before boarding. Do it before you fly."
+        "q": "到着時に記入できますか。",
+        "a": "実際には、到着ロビーでスマートフォンから記入することは可能ですが、時間がかかるうえ、搭乗前に提示を求める航空会社もあります。出発前に済ませてください。"
       },
       "airports": {
-        "q": "Which airports and ports use it?",
-        "a": "All international airports since 1 October 2025, including Jakarta, Bali, Surabaya, Medan, Makassar, Manado and Labuan Bajo, plus international seaports such as the Batam and Bintan ferry terminals and Benoa, and land borders such as Motaain."
+        "q": "どの空港や港で使われていますか。",
+        "a": "2025年10月1日以降、ジャカルタ、バリ、スラバヤ、メダン、マカッサル、マナド、ラブアンバジョを含むすべての国際空港に加え、バタムやビンタンのフェリーターミナル、ベノアなどの国際港、モタアインなどの陸路国境で使われています。"
       },
       "appOrWeb": {
-        "q": "Should I use the app or the website?",
-        "a": "Either. The website needs no account and works on any device. The app stores the QR and suits repeat trips and groups, but it requires registration and has had crashes."
+        "q": "アプリとウェブサイトのどちらを使うべきですか。",
+        "a": "どちらでも構いません。ウェブサイトはアカウント不要で、どの端末でも動作します。アプリはQRコードを保存でき、繰り返しの旅行やグループに向いていますが、登録が必要で、クラッシュの報告もあります。"
       },
       "airport": {
-        "q": "What happens at the airport?",
-        "a": "At immigration you scan your passport at an autogate or hand it to an officer; the system finds your card. After baggage claim you scan the QR at the customs kiosk and take the green or red channel."
+        "q": "空港では何が起こりますか。",
+        "a": "入国審査では、自動化ゲートでパスポートをスキャンするか職員に手渡すと、システムがカードを見つけます。手荷物受取後、税関のキオスクでQRコードをスキャンし、緑または赤のレーンに進みます。"
       }
     },
-    "sourcesIntro": "Pages we relied on, all checked on 23 September 2026. Rules change; the official portal always wins over this page.",
+    "sourcesIntro": "参照したページはすべて2026年9月23日に確認しました。規則は変わります。常に公式ポータルの情報がこのページに優先します。",
     "sources": {
-      "portal": "<portal>All Indonesia official portal</portal>, its <help>help centre</help> and <retrieve>retrieve page</retrieve>, Directorate General of Immigration.",
-      "apps": "<play>All Indonesia on Google Play</play> and <store>on the App Store</store>, listings and user reviews.",
-      "cirebon": "<link>All Indonesia (Indonesia Arrival Card)</link>, Cirebon Immigration Office.",
-      "karawang": "<link>How to register in the All Indonesia app</link>, Karawang Immigration Office.",
-      "woah": "<link>All Indonesia Arrival Card guide (PDF)</link>, WOAH Asia-Pacific, September 2025.",
-      "wikipedia": "<link>All Indonesia Arrival Card</link>, Wikipedia, rollout timeline and sections of the form.",
-      "autogate": "<link>Autogate system at international airports</link>, Wonderful Indonesia.",
-      "customs": "<link>Directorate General of Customs and Excise</link>, allowances and the cash rule.",
-      "tripadvisor": "Tripadvisor Bali forum: <a>All Indonesia arrival card</a>, <b>wrong date on the card</b>, <c>only one QR for a group</c>.",
-      "guides": "Travel guides used to cross-check the flow: <wego>Wego</wego>, <wbtb>Welcome Back to Bali</wbtb>, <bali>bali.com</bali>, <emerhub>Emerhub</emerhub>, <tsl>TheSmartLocal</tsl>, <zoom>Zoom Travel</zoom>."
+      "portal": "<portal>All Indonesia公式ポータル</portal>、その<help>ヘルプセンター</help>と<retrieve>照会ページ</retrieve>、入国管理総局。",
+      "apps": "<play>Google PlayのAll Indonesia</play>と<store>App StoreのAll Indonesia</store>、アプリ情報とユーザーレビュー。",
+      "cirebon": "<link>All Indonesia（インドネシア入国カード）</link>、チルボン入国管理事務所。",
+      "karawang": "<link>All Indonesiaアプリでの登録方法</link>、カラワン入国管理事務所。",
+      "woah": "<link>All Indonesia 入国カードガイド（PDF）</link>、WOAHアジア太平洋、2025年9月。",
+      "wikipedia": "<link>All Indonesia Arrival Card</link>、Wikipedia、導入の経緯とフォームの各セクション。",
+      "autogate": "<link>国際空港の自動化ゲートシステム</link>、Wonderful Indonesia。",
+      "customs": "<link>税関総局</link>、免税範囲と現金の規則。",
+      "tripadvisor": "Tripadvisorバリフォーラム：<a>All Indonesia 入国カード</a>、<b>カードの日付の誤り</b>、<c>グループでQRコードが1つのみ</c>。",
+      "guides": "流れの照合に使用した旅行ガイド：<wego>Wego</wego>、<wbtb>Welcome Back to Bali</wbtb>、<bali>bali.com</bali>、<emerhub>Emerhub</emerhub>、<tsl>TheSmartLocal</tsl>、<zoom>Zoom Travel</zoom>。"
     },
-    "ctaTitle": "Prefer to have it prepared and checked?",
-    "ctaText": "Our team prepares your card from a short guided form, checks every field against your passport, submits it inside the 72-hour window and emails the QR code. From {price} per traveler. Useful for families, groups, or if you would rather not deal with the portal.",
-    "cta": "Use the assistance service",
-    "ctaReminder": "Flying in more than 3 days? <link>Set a reminder</link> and we tell you when the window opens."
+    "ctaTitle": "準備と確認を任せたい方へ",
+    "ctaText": "当社のチームが短いガイド付きフォームからカードを準備し、すべての項目をパスポートと照合し、72時間の受付期間内に提出して、QRコードをメールでお送りします。旅行者1名あたり{price}から。家族やグループ、またはポータルの操作を避けたい方に便利です。",
+    "cta": "サポートサービスを利用する",
+    "ctaReminder": "ご到着まで3日以上ありますか。<link>リマインダーを設定</link>していただければ、受付期間が開始したときにお知らせします。"
   },
   "Customs": {
-    "metaTitle": "Indonesia customs allowances 2026: duty-free limits, cash, IMEI",
-    "metaDescription": "What you must declare when entering Indonesia: USD 500 personal goods allowance, alcohol and tobacco limits, IDR 100 million cash rule, phone IMEI registration.",
-    "title": "Indonesia customs allowances and what to declare",
-    "intro": "Summary of the rules applied by Bea Cukai (Indonesian Customs) for arriving passengers. Always check the <link>official customs site</link> for the latest figures.",
-    "colItem": "Item",
-    "colAllowance": "Allowance per adult passenger",
-    "colExceeded": "If exceeded",
+    "metaTitle": "インドネシア税関の免税範囲2026：免税限度額、現金、IMEI",
+    "metaDescription": "インドネシア入国時に申告すべきもの：個人用物品USD 500の免税範囲、酒類・たばこの制限、1億ルピアの現金規則、携帯電話のIMEI登録。",
+    "title": "インドネシア税関の免税範囲と申告すべきもの",
+    "intro": "Bea Cukai（インドネシア税関）が到着旅客に適用する規則の概要です。最新の数値は必ず<link>税関の公式サイト</link>でご確認ください。",
+    "colItem": "品目",
+    "colAllowance": "成人旅客1人あたりの免税範囲",
+    "colExceeded": "超過した場合",
     "rows": {
       "goods": {
-        "item": "Personal goods (non-commercial)",
-        "allowance": "USD 500 total value",
-        "exceeded": "Import duty and taxes on the excess"
+        "item": "個人用物品（非商業用）",
+        "allowance": "合計USD 500相当",
+        "exceeded": "超過分に輸入関税と税金"
       },
       "alcohol": {
-        "item": "Alcoholic beverages",
-        "allowance": "1 litre",
-        "exceeded": "Excess is confiscated and destroyed"
+        "item": "酒類",
+        "allowance": "1リットル",
+        "exceeded": "超過分は没収・廃棄"
       },
       "tobacco": {
-        "item": "Tobacco",
-        "allowance": "200 cigarettes, or 25 cigars, or 100 g tobacco",
-        "exceeded": "Excess is confiscated and destroyed"
+        "item": "たばこ",
+        "allowance": "紙巻たばこ200本、または葉巻25本、またはたばこ100 g",
+        "exceeded": "超過分は没収・廃棄"
       },
       "cash": {
-        "item": "Cash and bearer instruments",
-        "allowance": "Below IDR 100,000,000 (or equivalent)",
-        "exceeded": "Must be declared; penalties for non-declaration"
+        "item": "現金および無記名有価証券",
+        "allowance": "IDR 100,000,000未満（または相当額）",
+        "exceeded": "申告が必要。未申告には罰則"
       },
       "phones": {
-        "item": "Mobile phones",
-        "allowance": "Max 2 devices; IMEI registration required to use an Indonesian SIM beyond 90 days",
-        "exceeded": "Register at customs on arrival; tax may apply above allowance"
+        "item": "携帯電話",
+        "allowance": "最大2台。インドネシアのSIMを90日を超えて使用するにはIMEI登録が必要",
+        "exceeded": "到着時に税関で登録。免税範囲を超えると課税の場合あり"
       },
       "bio": {
-        "item": "Animals, plants, fresh food",
-        "allowance": "Requires quarantine declaration and permits",
-        "exceeded": "Confiscated; fines possible"
+        "item": "動物、植物、生鮮食品",
+        "allowance": "検疫申告と許可証が必要",
+        "exceeded": "没収。罰金の可能性あり"
       },
       "prohibited": {
-        "item": "Drugs, weapons, pornography",
-        "allowance": "Prohibited",
-        "exceeded": "Criminal prosecution"
+        "item": "麻薬、武器、わいせつ物",
+        "allowance": "禁止",
+        "exceeded": "刑事訴追"
       }
     },
-    "quickCheck": "Quick check: do I need to declare?",
+    "quickCheck": "簡易チェック：申告は必要ですか。",
     "calculator": {
-      "goods": "Value of goods bought abroad (USD)",
-      "alcohol": "Alcohol (litres)",
-      "cigarettes": "Cigarettes (sticks)",
-      "cash": "Cash carried (IDR equivalent)",
-      "phones": "Mobile phones carried",
-      "bio": "I carry animals, plants, seeds, or fresh food products",
-      "flagGoods": "Personal goods above the USD 500 allowance: duty applies on about USD {excess}.",
-      "flagAlcohol": "Alcohol above 1 litre: the excess will be confiscated.",
-      "flagCigarettes": "More than 200 cigarettes: the excess will be confiscated.",
-      "flagCash": "Cash of IDR 100 million or more must be declared on the arrival card.",
-      "flagPhones": "More than 2 phones exceeds the passenger allowance; tax will be assessed.",
-      "flagBio": "Animals, plants or fresh food products must be declared for quarantine inspection.",
-      "nothing": "Nothing to declare based on these answers. Answer “no” to the customs questions on the arrival card.",
-      "indicative": "Indicative only. Customs officers make the final decision."
+      "goods": "海外で購入した物品の価額（USD）",
+      "alcohol": "酒類（リットル）",
+      "cigarettes": "紙巻たばこ（本）",
+      "cash": "携行する現金（ルピア換算）",
+      "phones": "携行する携帯電話の台数",
+      "bio": "動物、植物、種子、生鮮食品を携行している",
+      "flagGoods": "個人用物品がUSD 500の免税範囲を超えています。約USD {excess}に関税がかかります。",
+      "flagAlcohol": "酒類が1リットルを超えています。超過分は没収されます。",
+      "flagCigarettes": "紙巻たばこが200本を超えています。超過分は没収されます。",
+      "flagCash": "1億ルピア以上の現金は入国カードで申告する必要があります。",
+      "flagPhones": "携帯電話が2台を超えると旅客の免税範囲を超過し、課税されます。",
+      "flagBio": "動物、植物、生鮮食品は検疫検査のために申告する必要があります。",
+      "nothing": "これらの回答に基づくと、申告するものはありません。入国カードの税関の質問には「いいえ」と答えてください。",
+      "indicative": "あくまで目安です。最終的な判断は税関職員が行います。"
     }
   },
   "News": {
-    "metaTitle": "Official immigration and customs news, summarized",
-    "metaDescription": "Plain-English summaries of announcements from Indonesia's Directorate General of Immigration and Customs, with links to the original source.",
-    "title": "Official news, summarized for travelers",
-    "intro": "Short English summaries of announcements published by the Indonesian immigration and customs authorities. Each item links to the original. We are not the source and do not speak for these authorities.",
-    "keyRules": "Key rules in force",
+    "metaTitle": "入国管理・税関の公式ニュースの要約",
+    "metaDescription": "インドネシア入国管理総局と税関の発表をわかりやすく要約し、原文へのリンクを掲載しています。",
+    "title": "旅行者向けに要約した公式ニュース",
+    "intro": "インドネシアの入国管理当局と税関当局が公表した発表の短い要約です。各項目は原文にリンクしています。当社は情報源ではなく、これらの当局を代弁するものでもありません。",
+    "keyRules": "現在有効な主な規則",
     "evergreen": {
       "arrivalCard": {
-        "title": "All Indonesia arrival card is mandatory at all international entry points",
-        "text": "Since 1 October 2025 every international arrival must submit the digital arrival card within 72 hours before arrival and present the QR code with their passport."
+        "title": "All Indonesia 入国カードはすべての国際入国地点で義務",
+        "text": "2025年10月1日以降、すべての国際線到着者は到着前72時間以内にデジタル入国カードを提出し、パスポートと一緒にQRコードを提示する必要があります。"
       },
       "cash": {
-        "title": "Cash of IDR 100 million or more must be declared",
-        "text": "Bringing IDR 100,000,000 or more (or foreign currency equivalent) into or out of Indonesia requires a declaration to Customs."
+        "title": "1億ルピア以上の現金は申告が必要",
+        "text": "IDR 100,000,000以上（または相当する外貨）をインドネシアに持ち込む、または持ち出す場合は、税関への申告が必要です。"
       }
     },
-    "latest": "Latest announcements",
-    "empty": "The feed is refreshed twice a week from the official sites. No items yet.",
+    "latest": "最新の発表",
+    "empty": "このフィードは公式サイトから週2回更新されます。まだ項目はありません。",
     "sources": {
       "imigrasi": "Ditjen Imigrasi",
       "beacukai": "Bea Cukai",
-      "other": "Official source"
+      "other": "公式情報源"
     }
   },
   "Faq": {
-    "metaTitle": "FAQ – Indonesia arrival card",
-    "metaDescription": "Answers about the All Indonesia arrival card: who needs it, the 72-hour rule, the QR code, customs and our assistance service.",
-    "title": "Frequently asked questions",
+    "metaTitle": "よくある質問 – インドネシア入国カード",
+    "metaDescription": "All Indonesia 入国カード（Arrival Card）に関する回答：誰に必要か、72時間ルール、QRコード、税関、当社のサポートサービス。",
+    "title": "よくある質問",
     "items": {
       "fee": {
-        "q": "What does the fee cover?",
-        "a": "Guided data collection, manual verification of every field, submission of your arrival card, delivery of the QR code by email, and support until you have cleared immigration."
+        "q": "料金には何が含まれますか。",
+        "a": "ガイド付きのデータ収集、すべての項目の手作業での確認、入国カードの提出、QRコードのメールでのお届け、入国審査を通過するまでのサポートです。"
       },
       "who": {
-        "q": "Who must complete it?",
-        "a": "All international arrivals to Indonesia by air, sea or land, including Indonesian citizens and children. Each traveler needs their own card."
+        "q": "誰が記入する必要がありますか。",
+        "a": "インドネシア国民と子どもを含め、空路、海路、陸路でインドネシアに到着するすべての国際線旅行者です。旅行者ごとに自分のカードが必要です。"
       },
       "when": {
-        "q": "When must it be submitted?",
-        "a": "Within 72 hours (3 days) before your scheduled arrival. Submitting earlier than 72 hours is not accepted by the system, so we schedule your submission inside that window."
+        "q": "いつまでに提出する必要がありますか。",
+        "a": "予定到着日の72時間（3日）前から到着までの間です。72時間より前の提出はシステムに受け付けられないため、当社はその期間内に提出を予定します。"
       },
       "receive": {
-        "q": "What do I receive?",
-        "a": "A QR code, which you show with your passport at immigration and customs on arrival. We send it by email as a PDF and an image."
+        "q": "何を受け取りますか。",
+        "a": "QRコードです。到着時に入国審査と税関でパスポートと一緒に提示します。PDFと画像としてメールでお送りします。"
       },
       "visa": {
-        "q": "Does the arrival card replace a visa?",
-        "a": "No. It is an arrival declaration (immigration, customs and health in one form). You still need visa-free entry, a Visa on Arrival, an e-VOA or another visa as applicable. We can prepare the e-VOA for you as well."
+        "q": "入国カードはビザの代わりになりますか。",
+        "a": "いいえ。これは入国申告（入国審査、税関、健康を1つのフォームにまとめたもの）です。該当する場合は、ビザ免除、到着ビザ、e-VOA、またはその他のビザが別途必要です。e-VOAの準備も当社で承ります。"
       },
       "evoa": {
-        "q": "What is the e-VOA and who can use it?",
-        "a": "The electronic Visa on Arrival is a 30-day visa, extendable once for 30 days, available to around 97 nationalities for tourism, family visits, business meetings and transit. ASEAN nationals do not need it. Your passport must be valid for at least 6 months."
+        "q": "e-VOAとは何ですか。誰が利用できますか。",
+        "a": "電子到着ビザは30日間のビザで、1回30日間の延長が可能です。観光、家族訪問、商談、乗り継ぎを目的として約97の国籍の方が利用できます。ASEAN加盟国の国民には不要です。パスポートの残存有効期間は6か月以上必要です。"
       },
       "evoaPrice": {
-        "q": "How is the e-VOA price made up?",
-        "a": "The government e-VOA fee of IDR 500,000 (about USD 31) is shown separately from our service fee. The government fee is non-refundable once the application is lodged; our service fee is refunded if you are not eligible or we cannot submit."
+        "q": "e-VOAの料金はどのように構成されていますか。",
+        "a": "政府のe-VOA料金IDR 500,000（約USD 31）は、当社のサービス料金とは別に表示されます。政府料金は申請提出後は返金できません。当社のサービス料金は、対象外の場合や当社が提出できない場合に返金されます。"
       },
       "evoaTime": {
-        "q": "How long does the e-VOA take?",
-        "a": "Usually the same day, at most 2 working days after we submit. Apply at least 5 days before travel to be safe; the express option prioritizes verification and submission."
+        "q": "e-VOAにはどのくらい時間がかかりますか。",
+        "a": "通常は当社の提出後当日、遅くとも2営業日以内です。安全のため、渡航の5日前までに申請してください。特急オプションでは確認と提出が優先されます。"
       },
       "airports": {
-        "q": "Which airports and ports use it?",
-        "a": "All major international entry points, including Jakarta (CGK), Bali (DPS), Surabaya (SUB), Medan (KNO), Makassar (UPG) and the Batam and Tanjung Pinang ferry terminals. Some airlines ask to see the QR before boarding."
+        "q": "どの空港や港で使われていますか。",
+        "a": "ジャカルタ（CGK）、バリ（DPS）、スラバヤ（SUB）、メダン（KNO）、マカッサル（UPG）、バタムとタンジュンピナンのフェリーターミナルを含む、すべての主要な国際入国地点です。搭乗前にQRコードの提示を求める航空会社もあります。"
       },
       "mistake": {
-        "q": "What if I make a mistake?",
-        "a": "Details such as passport number must match exactly. That is the main reason people use our service: a person checks every field before submission."
+        "q": "間違えた場合はどうなりますか。",
+        "a": "パスポート番号などの情報は正確に一致している必要があります。それこそが当社のサービスをご利用いただく主な理由です。提出前に担当者がすべての項目を確認します。"
       },
       "safety": {
-        "q": "Is my passport data safe?",
-        "a": "Data is encrypted, used only to prepare your card, never sold, and deleted 30 days after your arrival date. See our privacy policy."
+        "q": "パスポートのデータは安全ですか。",
+        "a": "データは暗号化され、カードの準備のみに使用され、販売されることはなく、到着日の30日後に削除されます。プライバシーポリシーをご覧ください。"
       },
       "refund": {
-        "q": "Can I get a refund?",
-        "a": "Yes, in full if we do not deliver at least 6 hours before your arrival time or if you cancel before processing starts."
+        "q": "返金は受けられますか。",
+        "a": "はい。到着時刻の6時間前までにお届けできなかった場合、または処理開始前にキャンセルされた場合は全額返金いたします。"
       },
       "government": {
-        "q": "Are you the Indonesian government?",
-        "a": "No. We are a private assistance company, not affiliated with the Government of Indonesia, the Directorate General of Immigration or any government website."
+        "q": "あなたはインドネシア政府ですか。",
+        "a": "いいえ。当社は民間のサポート会社であり、インドネシア政府、入国管理総局、およびいかなる政府ウェブサイトとも提携していません。"
       },
       "diy": {
-        "q": "Can I complete the arrival card without your service?",
-        "a": "Yes. The All Indonesia arrival card can be completed free of charge on the official government portal allindonesia.imigrasi.go.id. Our fee is only for preparing, checking and delivering it for you."
+        "q": "サービスを利用せずに入国カードを申請できますか。",
+        "a": "はい。All Indonesia 入国カード（Arrival Card）は、政府の公式ポータル allindonesia.imigrasi.go.id で無料で申請できます。当社の料金は、お客様に代わって準備、確認、お届けを行うことに対するものです。"
       }
     }
   },
   "Contact": {
-    "metaTitle": "Contact & support",
-    "title": "Contact & support",
-    "hours": "Support hours: 07:00–23:00 Jakarta time (UTC+7), every day. Typical response time under 15 minutes for paid orders.",
-    "email": "Email",
-    "orderQuestions": "Order questions",
-    "orderQuestionsText": "Reply to your confirmation email with your order number and we answer within 15 minutes during support hours."
+    "metaTitle": "お問い合わせ・サポート",
+    "title": "お問い合わせ・サポート",
+    "hours": "サポート時間：ジャカルタ時間（UTC+7）07:00–23:00、年中無休。有料のご注文については通常15分以内に回答します。",
+    "email": "メール",
+    "orderQuestions": "ご注文に関するご質問",
+    "orderQuestionsText": "確認メールに注文番号を添えてご返信いただければ、サポート時間内に15分以内に回答します。"
   },
   "Legal": {
-    "operatorContact": "{company}, {address}. {reg}. Contact: <mail>{email}</mail>.",
+    "operatorContact": "{company}、{address}。{reg}。連絡先：<mail>{email}</mail>。",
     "disclosure": {
-      "metaTitle": "Non-affiliation disclosure",
-      "title": "Non-affiliation disclosure",
-      "meaningTitle": "What this means for you",
-      "meaning1": "Our fee is for a service: guided data collection, manual verification, submission on your behalf, delivery and support.",
-      "meaning2": "We do not issue visas, arrival cards or any government document. The QR code you receive is generated by the Indonesian government system.",
-      "meaning3": "We do not use government logos, emblems or names in our branding, and we are not endorsed by any Indonesian authority.",
-      "operatorTitle": "Operator"
+      "metaTitle": "非提携に関する開示",
+      "title": "非提携に関する開示",
+      "meaningTitle": "お客様にとっての意味",
+      "meaning1": "当社の料金はサービスに対するものです。ガイド付きのデータ収集、手作業での確認、お客様に代わっての提出、お届け、サポートです。",
+      "meaning2": "当社はビザ、入国カード、その他いかなる政府文書も発行しません。お客様が受け取るQRコードは、インドネシア政府のシステムによって生成されます。",
+      "meaning3": "当社はブランディングに政府のロゴ、紋章、名称を使用しておらず、いかなるインドネシア当局からも承認を受けていません。",
+      "operatorTitle": "運営者"
     },
     "privacy": {
-      "metaTitle": "Privacy policy",
-      "title": "Privacy policy",
-      "template": "Template for legal review before launch. Last updated: {date}.",
-      "controllerTitle": "Controller",
-      "collectTitle": "Data we collect",
-      "collect1": "Identity and passport details of each traveler (name, date of birth, gender, nationality, passport number and dates), and for e-VOA orders a scan of the passport bio page and a passport-style photo.",
-      "collect2": "Travel details (dates, flight, port of entry, accommodation) and the health and customs declarations you make.",
-      "collect3": "Contact details (email, phone) and order records. Card details are processed by our payment provider and never stored by us.",
-      "purposeTitle": "Purpose and legal basis",
-      "purpose": "To perform the contract you place with us: preparing and submitting your arrival card and delivering the result. Also to comply with legal obligations (accounting, fraud prevention) and, with your consent, to send service reminders.",
-      "sharingTitle": "Sharing",
-      "sharing": "Your data is entered into the official Indonesian government portal to submit your arrival card. It is also processed by our hosting, database, email and messaging providers under data-processing agreements. We never sell personal data.",
-      "transfersTitle": "International transfers",
-      "transfers": "Data is stored in Singapore and processed by our team in Hong Kong and Indonesia. Transfers are protected by contractual safeguards meeting the standards of Indonesia's Personal Data Protection Law and the GDPR.",
-      "retentionTitle": "Retention",
-      "retention": "Passport and declaration data, including uploaded passport scans and photos, is deleted 30 days after your arrival date. Order and payment records are kept for 7 years as required by accounting law, without passport data.",
-      "rightsTitle": "Your rights",
-      "rights": "You may request access, correction, deletion or a copy of your data, withdraw consent and lodge a complaint with a supervisory authority. Write to <mail>{email}</mail>. We respond within 3 working days.",
-      "securityTitle": "Security",
-      "security": "Encryption in transit and at rest, role-based access for our team, audit logs, and breach notification to affected persons and authorities within the legally required period (3×24 hours under Indonesian law).",
-      "cookiesTitle": "Cookies",
-      "cookies": "We use Google Analytics 4 and the Meta (Facebook) Pixel, including their server-side interfaces (Google Analytics Measurement Protocol and Meta Conversions API), to measure visits and advertising conversions. For a completed order we send Google and Meta the order value and a hashed (irreversible) version of your email address, phone number, name and nationality, together with your IP address, browser identifier and advertising click identifiers, so that the advertising platforms can attribute the purchase to an advertisement. Nothing about your passport or your declarations is sent to them. You can opt out through the settings of those platforms or by using a browser that blocks their scripts."
+      "metaTitle": "プライバシーポリシー",
+      "title": "プライバシーポリシー",
+      "template": "公開前に法務レビューを受けるためのテンプレートです。最終更新日：{date}。",
+      "controllerTitle": "管理者",
+      "collectTitle": "収集するデータ",
+      "collect1": "各旅行者の本人確認情報とパスポート情報（氏名、生年月日、性別、国籍、パスポート番号と日付）、およびe-VOAのご注文の場合はパスポートの顔写真ページのスキャンとパスポート用写真。",
+      "collect2": "旅行の詳細（日付、便名、入国地点、宿泊先）と、お客様が行う健康・税関申告。",
+      "collect3": "連絡先（メールアドレス、電話番号）と注文記録。カード情報は当社の決済代行会社が処理し、当社が保存することはありません。",
+      "purposeTitle": "目的と法的根拠",
+      "purpose": "お客様との契約の履行のため：入国カードの準備と提出、および結果のお届け。また、法的義務（会計、不正防止）の遵守のため、およびお客様の同意に基づき、サービスに関するリマインダーを送信するため。",
+      "sharingTitle": "共有",
+      "sharing": "お客様のデータは、入国カードを提出するためにインドネシア政府の公式ポータルに入力されます。また、データ処理契約に基づき、当社のホスティング、データベース、メール、メッセージングの各プロバイダーによって処理されます。個人データを販売することは決してありません。",
+      "transfersTitle": "国際的なデータ移転",
+      "transfers": "データはシンガポールに保管され、香港およびインドネシアの当社チームによって処理されます。移転は、インドネシアの個人データ保護法およびGDPRの基準を満たす契約上の保護措置によって保護されています。",
+      "retentionTitle": "保存期間",
+      "retention": "アップロードされたパスポートのスキャンと写真を含むパスポート情報と申告データは、到着日の30日後に削除されます。注文と支払いの記録は、会計法の要請により、パスポート情報を除いて7年間保管されます。",
+      "rightsTitle": "お客様の権利",
+      "rights": "お客様は、データへのアクセス、訂正、削除、コピーの請求、同意の撤回、監督当局への苦情の申し立てを行うことができます。<mail>{email}</mail>までご連絡ください。3営業日以内に回答します。",
+      "securityTitle": "セキュリティ",
+      "security": "転送中および保存時の暗号化、当社チームの役割に基づくアクセス制御、監査ログ、および法定期間内（インドネシア法では3×24時間）の影響を受ける方および当局への侵害通知。",
+      "cookiesTitle": "Cookie",
+      "cookies": "当社は、訪問数と広告のコンバージョンを測定するために、Google Analytics 4とMeta（Facebook）ピクセルを、それらのサーバーサイドインターフェース（Google Analytics Measurement ProtocolおよびMeta Conversions API）を含めて使用しています。注文が完了した場合、広告プラットフォームが購入を広告に帰属させられるよう、注文金額と、お客様のメールアドレス、電話番号、氏名、国籍のハッシュ化（不可逆）した値を、IPアドレス、ブラウザ識別子、広告クリック識別子とともにGoogleとMetaに送信します。パスポートや申告に関する情報は一切送信されません。これらのプラットフォームの設定から、またはそれらのスクリプトをブロックするブラウザを使用することで、オプトアウトできます。"
     },
     "refunds": {
-      "metaTitle": "Refund policy",
-      "title": "Refund policy",
-      "updated": "Last updated: {date}.",
+      "metaTitle": "返金ポリシー",
+      "title": "返金ポリシー",
+      "updated": "最終更新日：{date}。",
       "items": {
-        "deadline": "<strong>Missed deadline:</strong> full refund, automatically, if your QR code is not delivered at least 6 hours before your scheduled arrival.",
-        "cancelBefore": "<strong>Cancellation before processing:</strong> full refund if you cancel before a team member has started your order. Email us with your order number.",
-        "cancelAfter": "<strong>Cancellation after processing:</strong> 50% refund if the card has not yet been submitted; no refund once the QR code has been delivered.",
-        "noLongerNeeded": "<strong>You no longer need the service:</strong> full refund if you tell us before we submit.",
-        "tooEarly": "<strong>Ordered too early:</strong> we do not take payment for arrival cards more than {hours} hours before arrival. If a payment slips through, we hold the order and process it when the window opens, or refund in full on request before we start.",
-        "evoaFee": "<strong>e-VOA visa fee:</strong> non-refundable once the application is lodged with the Indonesian authorities. Refunded in full if we have not yet lodged it.",
-        "evoaRefused": "<strong>e-VOA not eligible or refused:</strong> full refund of our service fee; the visa fee is refunded only if not yet lodged.",
-        "ourError": "<strong>Our error:</strong> full refund plus a free resubmission if a mistake on our side causes the card to be rejected."
+        "deadline": "<strong>期限超過：</strong>予定到着時刻の6時間前までにQRコードがお届けされなかった場合、自動的に全額返金します。",
+        "cancelBefore": "<strong>処理開始前のキャンセル：</strong>チームメンバーがご注文の処理を開始する前にキャンセルされた場合は全額返金します。注文番号を添えてメールでご連絡ください。",
+        "cancelAfter": "<strong>処理開始後のキャンセル：</strong>カードがまだ提出されていない場合は50%返金。QRコードのお届け後は返金できません。",
+        "noLongerNeeded": "<strong>サービスが不要になった場合：</strong>当社が提出する前にお知らせいただければ全額返金します。",
+        "tooEarly": "<strong>早すぎるご注文：</strong>到着の{hours}時間より前に入国カードのお支払いをお受けすることはありません。万一お支払いが通ってしまった場合は、ご注文を保留し、受付期間が開始した時点で処理するか、処理開始前のご要望により全額返金します。",
+        "evoaFee": "<strong>e-VOAビザ料金：</strong>インドネシア当局に申請が提出された後は返金できません。まだ提出していない場合は全額返金します。",
+        "evoaRefused": "<strong>e-VOAの対象外または却下：</strong>当社のサービス料金を全額返金します。ビザ料金は、まだ提出していない場合にのみ返金されます。",
+        "ourError": "<strong>当社の過失：</strong>当社側のミスによりカードが却下された場合は、全額返金に加えて無料で再提出します。"
       },
-      "timing": "Refunds are returned to the original card within 5–10 business days.",
-      "disputes": "If something goes wrong, contact us at <mail>{email}</mail> before opening a dispute with your bank. We answer within one business day and resolve almost every case with a refund or a resubmission. A chargeback opened without contacting us first may be contested with the order record, the delivery email and the <terms>terms of service</terms>."
+      "timing": "返金は5～10営業日以内に元のカードに返金されます。",
+      "disputes": "問題が発生した場合は、銀行に異議申し立てを行う前に<mail>{email}</mail>までご連絡ください。1営業日以内に回答し、ほぼすべてのケースを返金または再提出で解決しています。事前のご連絡なく開始されたチャージバックについては、注文記録、お届けメール、および<terms>利用規約</terms>に基づいて異議を申し立てる場合があります。"
     },
     "terms": {
-      "metaTitle": "Terms of service",
-      "title": "Terms of service",
-      "template": "Template for review by a Hong Kong solicitor before launch. Last updated: {date}.",
-      "s1Title": "1. Parties and service",
-      "s1": "These terms govern the assistance service (the \"Service\") provided by {company} (\"we\", \"us\"), {jurisdiction} ({reg}) with its registered office at {address}, to the person placing an order (\"you\"). The Service consists of collecting your information through our guided form, checking it, submitting the Indonesia arrival card on the official government portal on your behalf, and delivering the resulting QR code to you.",
-      "s2Title": "2. Not a government service",
-      "s2": "We are not affiliated with, endorsed by or acting for the Government of Indonesia, and this website is not a government website. You are paying for our assistance only. We do not guarantee entry to Indonesia, which is at the sole discretion of Indonesian authorities.",
-      "s3Title": "3. Price and payment",
-      "s3": "The price is displayed before you enter personal data and again at checkout. Payment is taken by card through our payment provider. The charge appears on your statement under our company descriptor, never as a government fee.",
-      "s4Title": "4. Your obligations",
-      "s4": "You must provide accurate information and hold authority to provide the information of other travelers in your booking. You remain responsible for the accuracy of the declarations (customs, health, immigration) made in your name.",
-      "s5Title": "5. Delivery and refunds",
-      "s5a": "Standard delivery is within {acStandard} hours for arrival cards and within {evStandard} hours for e-VOA verification; Express delivery is within {acExpress} hours for arrival cards and within {evExpress} hours for e-VOA verification.",
-      "s5b": "Standard and Express delivery times run from the later of: (a) confirmation of your payment, (b) receipt of every detail and document we need, and (c) for arrival cards, the opening of the official {window}-hour window. Express ({acExpress} hours for arrival cards, {evExpress} hours for e-VOA verification) applies to our preparation and submission; the authorities' own processing time for the e-VOA is outside our control.",
-      "s5c": "If we do not deliver your arrival card QR code at least 6 hours before your scheduled arrival, you receive a full refund. See the <link>refund policy</link>.",
-      "s6Title": "6. Orders placed too early",
-      "s6a": "The official portal accepts arrival card submissions only within {window} hours before arrival. Our order form does not take payment for arrival card assistance before that window opens; instead it offers a free reminder, and we email you when the window opens.",
-      "s6b": "If, despite this, an order is accepted outside the window (for example a bundle whose e-VOA part is processed immediately), the arrival card part is prepared as soon as the window opens, and the delivery times in section 5 count from that moment.",
-      "s6c": "If you change your arrival date, you must tell us before we submit. If a card is submitted for a date that you later change, a new submission is a new order.",
-      "s7Title": "7. Data protection",
-      "s7": "We process personal data as described in the <link>privacy policy</link>, including the requirements of Indonesia's Law No. 27 of 2022 on Personal Data Protection, the Hong Kong Personal Data (Privacy) Ordinance and, where applicable, the GDPR.",
-      "s8Title": "8. Liability",
-      "s8": "Our total liability for any claim is limited to the amount you paid for the Service. We are not liable for refusal of entry, airline decisions, changes in government rules, or outages of the official portal, except where caused by our negligence.",
-      "s9Title": "9. Disputes and chargebacks",
-      "s9": "If something goes wrong, contact us at <mail>{email}</mail> before opening a dispute with your bank. We answer within one business day and resolve almost every case with a refund or a resubmission. A chargeback opened without contacting us first may be contested with the order record, the delivery email and this agreement.",
-      "s10Title": "10. Governing law",
-      "s10": "These terms are governed by the laws of Hong Kong SAR. Disputes are subject to the non-exclusive jurisdiction of the Hong Kong courts. Consumers keep any mandatory protections of their country of residence."
+      "metaTitle": "利用規約",
+      "title": "利用規約",
+      "template": "公開前に香港の弁護士によるレビューを受けるためのテンプレートです。最終更新日：{date}。",
+      "s1Title": "1. 当事者とサービス",
+      "s1": "本規約は、{jurisdiction}（{reg}）であり{address}に登記上の事務所を有する{company}（以下「当社」）が、注文を行う方（以下「お客様」）に提供するサポートサービス（以下「本サービス」）に適用されます。本サービスは、当社のガイド付きフォームを通じてお客様の情報を収集し、確認し、お客様に代わって政府の公式ポータルでインドネシア入国カードを提出し、発行されたQRコードをお客様にお届けすることで構成されます。",
+      "s2Title": "2. 政府のサービスではありません",
+      "s2": "当社はインドネシア政府と提携しておらず、その承認を受けておらず、その代理として行動するものでもなく、本ウェブサイトは政府のウェブサイトではありません。お客様は当社のサポートに対してのみお支払いいただきます。当社はインドネシアへの入国を保証しません。入国の可否はインドネシア当局の裁量に委ねられています。",
+      "s3Title": "3. 料金とお支払い",
+      "s3": "料金は個人データの入力前に表示され、お支払い時に再度表示されます。お支払いは当社の決済代行会社を通じてカードで行われます。ご利用明細には当社の会社名で表示され、政府料金として表示されることはありません。",
+      "s4Title": "4. お客様の義務",
+      "s4": "お客様は正確な情報を提供し、お申し込みに含まれる他の旅行者の情報を提供する権限を有していなければなりません。お客様の名前で行われる申告（税関、健康、入国審査）の正確性については、お客様が引き続き責任を負います。",
+      "s5Title": "5. お届けと返金",
+      "s5a": "標準のお届けは、入国カードについては{acStandard}時間以内、e-VOAの確認については{evStandard}時間以内です。特急のお届けは、入国カードについては{acExpress}時間以内、e-VOAの確認については{evExpress}時間以内です。",
+      "s5b": "標準および特急のお届け時間は、次のうち最も遅い時点から起算します：(a) お支払いの確認、(b) 当社が必要とするすべての情報と書類の受領、(c) 入国カードについては、公式の{window}時間の受付期間の開始。特急（入国カードは{acExpress}時間、e-VOAの確認は{evExpress}時間）は当社の準備と提出に適用されます。e-VOAに対する当局自身の処理時間は当社の管理外です。",
+      "s5c": "予定到着時刻の6時間前までに入国カードのQRコードをお届けできなかった場合、全額返金いたします。<link>返金ポリシー</link>をご覧ください。",
+      "s6Title": "6. 早すぎるご注文",
+      "s6a": "公式ポータルは、到着前{window}時間以内しか入国カードの提出を受け付けません。当社の注文フォームは、その受付期間が開始する前に入国カード申請サポートのお支払いをお受けせず、代わりに無料のリマインダーを提供し、受付期間が開始した時点でメールをお送りします。",
+      "s6b": "それにもかかわらず受付期間外にご注文が受け付けられた場合（例えば、e-VOA部分が即時処理されるセットの場合）、入国カード部分は受付期間の開始後速やかに準備され、第5条のお届け時間はその時点から起算します。",
+      "s6c": "到着日を変更する場合は、当社が提出する前にお知らせください。提出後に日付を変更した場合、新たな提出は新たなご注文となります。",
+      "s7Title": "7. データ保護",
+      "s7": "当社は、<link>プライバシーポリシー</link>に記載のとおり、インドネシアの個人データ保護に関する2022年法律第27号、香港の個人情報（プライバシー）条例、および該当する場合はGDPRの要件を含めて、個人データを処理します。",
+      "s8Title": "8. 責任",
+      "s8": "いかなる請求についても、当社の責任の総額は、お客様が本サービスに対して支払った金額を上限とします。当社は、入国拒否、航空会社の判断、政府規則の変更、公式ポータルの障害について、当社の過失による場合を除き、責任を負いません。",
+      "s9Title": "9. 紛争とチャージバック",
+      "s9": "問題が発生した場合は、銀行に異議申し立てを行う前に<mail>{email}</mail>までご連絡ください。1営業日以内に回答し、ほぼすべてのケースを返金または再提出で解決しています。事前のご連絡なく開始されたチャージバックについては、注文記録、お届けメール、および本契約に基づいて異議を申し立てる場合があります。",
+      "s10Title": "10. 準拠法",
+      "s10": "本規約は香港特別行政区の法律に準拠します。紛争は香港の裁判所の非専属的管轄に服します。消費者は、居住国の強行法規による保護を引き続き享受します。"
     }
   },
   "NotFound": {
-    "title": "Page not found",
-    "text": "The page you are looking for does not exist or has moved.",
-    "cta": "Back to the home page"
+    "title": "ページが見つかりません",
+    "text": "お探しのページは存在しないか、移動しました。",
+    "cta": "ホームページに戻る"
   },
   "Email": {
-    "greeting": "Dear {name},",
-    "hello": "Hello,",
-    "questions": "Questions? Reply to this email or write to {email}.",
-    "notAffiliated": "{company} is a private assistance service and is not affiliated with any government website.",
-    "stopEmails": "Stop these emails",
-    "noLongerTravelling": "No longer travelling?",
+    "greeting": "{name} 様",
+    "hello": "こんにちは。",
+    "questions": "ご質問がある場合は、このメールに返信するか、{email}までご連絡ください。",
+    "notAffiliated": "{company}は民間のサポートサービスであり、いかなる政府ウェブサイトとも提携していません。",
+    "stopEmails": "このメールの配信を停止する",
+    "noLongerTravelling": "渡航の予定がなくなりましたか。",
     "products": {
-      "arrival_card": "arrival card assistance",
-      "evoa": "e-VOA (visa on arrival) assistance",
-      "bundle": "e-VOA + arrival card bundle"
+      "arrival_card": "入国カード申請サポート",
+      "evoa": "e-VOA（到着ビザ）申請サポート",
+      "bundle": "e-VOA + 入国カードのセット"
     },
     "confirmation": {
-      "subject": "We received your {product} order {id}",
-      "received": "Thank you. We have received your order and payment of {amount} for {count, plural, one {# traveler} other {# travelers}}.",
-      "arrivalCard": "Arrival card: a team member checks your details and submits the card inside the 72-hour window before your arrival on {date}. You will receive the QR code by email.",
-      "evoa": "e-VOA: we verify your passport scan and photo and lodge the application within {hours} hours. Approval by the authorities usually follows the same day, at most 2 working days."
+      "subject": "{product}のご注文{id}を受け付けました",
+      "received": "ありがとうございます。{count, plural, one {旅行者#名} other {旅行者#名}}分のご注文と{amount}のお支払いを受け取りました。",
+      "arrivalCard": "入国カード：チームメンバーがお客様の情報を確認し、{date}のご到着前の72時間の受付期間内にカードを提出します。QRコードはメールでお届けします。",
+      "evoa": "e-VOA：パスポートのスキャンと写真を確認し、{hours}時間以内に申請を提出します。当局による承認は通常当日、遅くとも2営業日以内に下ります。"
     },
     "delivery": {
-      "subject": "Your Indonesia {what} – {familyName}, {givenNames} – arrival {date}",
-      "whatBoth": "arrival card QR code and e-VOA",
-      "whatArrivalCard": "arrival card QR code",
+      "subject": "インドネシア{what} – {familyName}, {givenNames} – 到着{date}",
+      "whatBoth": "入国カードQRコードとe-VOA",
+      "whatArrivalCard": "入国カードQRコード",
       "whatEvoa": "e-VOA",
-      "attached": "Your {what} {count, plural, one {is} other {documents are}} attached to this email.",
-      "arrivalCard": "At the airport: show the QR code (on your phone or printed) together with your passport at immigration, and again at customs. One QR code per traveler.",
-      "evoa": "Print the e-VOA or keep it on your phone and present it at immigration with your passport and your return ticket. It is valid for 30 days and can be extended once in Indonesia.",
-      "check": "Please check that names, passport numbers and dates match your passports exactly and tell us immediately if anything is wrong.",
-      "questions": "Have a good trip. Questions: reply to this email or write to {email}."
+      "attached": "お客様の{what}{count, plural, one {を} other {の書類を}}このメールに添付しています。",
+      "arrivalCard": "空港では、入国審査でパスポートと一緒にQRコード（スマートフォン上または印刷したもの）を提示し、税関でも再度提示してください。QRコードは旅行者1人につき1つです。",
+      "evoa": "e-VOAを印刷するかスマートフォンに保存し、入国審査でパスポートと帰りの航空券と一緒に提示してください。有効期間は30日間で、インドネシア国内で1回延長できます。",
+      "check": "氏名、パスポート番号、日付がパスポートと正確に一致しているかご確認いただき、間違いがあればすぐにお知らせください。",
+      "questions": "よいご旅行を。ご質問は、このメールに返信するか、{email}までご連絡ください。"
     },
     "review": {
-      "subject": "How was your arrival in Indonesia?",
-      "trustpilot": "Review us on Trustpilot",
-      "google": "Review us on Google",
-      "whatBoth": "arrival card and e-VOA",
-      "whatArrivalCard": "arrival card",
+      "subject": "インドネシアへのご到着はいかがでしたか。",
+      "trustpilot": "Trustpilotでレビューを書く",
+      "google": "Googleでレビューを書く",
+      "whatBoth": "入国カードとe-VOA",
+      "whatArrivalCard": "入国カード",
       "whatEvoa": "e-VOA",
-      "thanks": "Thank you for trusting us with your {what}. We hope your arrival in Indonesia on {date} went smoothly.",
-      "wrong": "If anything went wrong, reply to this email first so we can fix it.",
-      "ask": "If everything went well, would you take a minute to leave us a short review? It helps other travelers find a service they can trust and means a lot to our small team."
+      "thanks": "{what}を当社にお任せいただきありがとうございました。{date}のインドネシアへのご到着が順調であったことを願っております。",
+      "wrong": "何か問題があった場合は、まずこのメールに返信してください。当社で対応いたします。",
+      "ask": "すべて順調でしたら、1分ほどお時間をいただき、短いレビューを残していただけないでしょうか。他の旅行者が信頼できるサービスを見つける助けになり、当社の小さなチームにとって大きな励みになります。"
     },
     "windowOpen": {
-      "subject": "Indonesia arrival card: your submission window is open (arrival {date})",
-      "open": "You asked us to tell you when the arrival card can be submitted for your arrival in Indonesia on {date}. That moment has come: the official portal now accepts submissions for your date.",
-      "assist": "If you would like us to prepare and check the card for {count, plural, one {# traveler} other {# travelers}}, open the link below. Your arrival date and email are already filled in.",
-      "start": "Open the link below to start your application. Your arrival date and email are already filled in.",
-      "diy": "If you prefer to do it yourself, the guide on our website explains every field.",
-      "startLabel": "Start",
-      "cta": "Start my application"
+      "subject": "インドネシア入国カード：提出の受付期間が開始しました（到着{date}）",
+      "open": "{date}のインドネシア到着について、入国カードを提出できるようになったらお知らせするようご依頼いただきました。その時が来ました。公式ポータルは現在、お客様の日付の提出を受け付けています。",
+      "assist": "{count, plural, one {旅行者#名} other {旅行者#名}}分のカードの準備と確認を当社にご希望の場合は、以下のリンクを開いてください。到着日とメールアドレスはすでに入力されています。",
+      "start": "以下のリンクを開いて申請を開始してください。到着日とメールアドレスはすでに入力されています。",
+      "diy": "ご自身で申請される場合は、当社ウェブサイトのガイドですべての項目を解説しています。",
+      "startLabel": "開始",
+      "cta": "申請を開始する"
     },
     "headsUp": {
-      "subject": "Tomorrow your Indonesia arrival card window opens (arrival {date})",
-      "note": "A quick note: the official portal will accept the arrival card for your arrival on {date} from {opens} (Jakarta time). We will email you again at that moment.",
-      "nothing": "Nothing to do for now. If you want, have your passport and accommodation details ready so it takes two minutes.",
-      "pageLabel": "Our page",
-      "cta": "See what we need"
+      "subject": "明日、インドネシア入国カードの受付期間が開始します（到着{date}）",
+      "note": "お知らせです。公式ポータルは、{date}のご到着分の入国カードを{opens}（ジャカルタ時間）から受け付けます。その時点で再度メールをお送りします。",
+      "nothing": "今は何もする必要はありません。よろしければ、2分で済むよう、パスポートと宿泊先の情報をご用意ください。",
+      "pageLabel": "当社のページ",
+      "cta": "必要なものを確認する"
     }
   },
   "Countries": {
-    "AE": "United Arab Emirates",
-    "AL": "Albania",
-    "AM": "Armenia",
-    "AR": "Argentina",
-    "AT": "Austria",
-    "AU": "Australia",
-    "AZ": "Azerbaijan",
-    "BA": "Bosnia and Herzegovina",
-    "BD": "Bangladesh",
-    "BE": "Belgium",
-    "BG": "Bulgaria",
-    "BH": "Bahrain",
-    "BN": "Brunei",
-    "BR": "Brazil",
-    "BY": "Belarus",
-    "CA": "Canada",
-    "CH": "Switzerland",
-    "CL": "Chile",
-    "CN": "China",
-    "CO": "Colombia",
-    "CR": "Costa Rica",
-    "CY": "Cyprus",
-    "CZ": "Czechia",
-    "DE": "Germany",
-    "DK": "Denmark",
-    "DO": "Dominican Republic",
-    "DZ": "Algeria",
-    "EC": "Ecuador",
-    "EE": "Estonia",
-    "EG": "Egypt",
-    "ES": "Spain",
-    "ET": "Ethiopia",
-    "FI": "Finland",
-    "FJ": "Fiji",
-    "FR": "France",
-    "GB": "United Kingdom",
-    "GE": "Georgia",
-    "GH": "Ghana",
-    "GR": "Greece",
-    "HK": "Hong Kong SAR",
-    "HR": "Croatia",
-    "HU": "Hungary",
-    "ID": "Indonesia",
-    "IE": "Ireland",
-    "IL": "Israel",
-    "IN": "India",
-    "IQ": "Iraq",
-    "IR": "Iran",
-    "IS": "Iceland",
-    "IT": "Italy",
-    "JO": "Jordan",
-    "JP": "Japan",
-    "KE": "Kenya",
-    "KH": "Cambodia",
-    "KR": "South Korea",
-    "KW": "Kuwait",
-    "KZ": "Kazakhstan",
-    "LA": "Laos",
-    "LB": "Lebanon",
-    "LK": "Sri Lanka",
-    "LT": "Lithuania",
-    "LU": "Luxembourg",
-    "LV": "Latvia",
-    "MA": "Morocco",
-    "MD": "Moldova",
-    "ME": "Montenegro",
-    "MK": "North Macedonia",
-    "MM": "Myanmar",
-    "MN": "Mongolia",
-    "MO": "Macao SAR",
-    "MT": "Malta",
-    "MV": "Maldives",
-    "MX": "Mexico",
-    "MY": "Malaysia",
-    "NG": "Nigeria",
-    "NL": "Netherlands",
-    "NO": "Norway",
-    "NP": "Nepal",
-    "NZ": "New Zealand",
-    "OM": "Oman",
-    "PA": "Panama",
-    "PE": "Peru",
-    "PG": "Papua New Guinea",
-    "PH": "Philippines",
-    "PK": "Pakistan",
-    "PL": "Poland",
-    "PT": "Portugal",
-    "QA": "Qatar",
-    "RO": "Romania",
-    "RS": "Serbia",
-    "RU": "Russia",
-    "SA": "Saudi Arabia",
-    "SE": "Sweden",
-    "SG": "Singapore",
-    "SI": "Slovenia",
-    "SK": "Slovakia",
-    "TH": "Thailand",
-    "TL": "Timor-Leste",
-    "TN": "Tunisia",
-    "TR": "Türkiye",
-    "TW": "Taiwan",
-    "TZ": "Tanzania",
-    "UA": "Ukraine",
-    "UG": "Uganda",
-    "US": "United States",
-    "UY": "Uruguay",
-    "UZ": "Uzbekistan",
-    "VE": "Venezuela",
-    "VN": "Vietnam",
-    "ZA": "South Africa"
+    "AE": "アラブ首長国連邦",
+    "AL": "アルバニア",
+    "AM": "アルメニア",
+    "AR": "アルゼンチン",
+    "AT": "オーストリア",
+    "AU": "オーストラリア",
+    "AZ": "アゼルバイジャン",
+    "BA": "ボスニア・ヘルツェゴビナ",
+    "BD": "バングラデシュ",
+    "BE": "ベルギー",
+    "BG": "ブルガリア",
+    "BH": "バーレーン",
+    "BN": "ブルネイ",
+    "BR": "ブラジル",
+    "BY": "ベラルーシ",
+    "CA": "カナダ",
+    "CH": "スイス",
+    "CL": "チリ",
+    "CN": "中国",
+    "CO": "コロンビア",
+    "CR": "コスタリカ",
+    "CY": "キプロス",
+    "CZ": "チェコ",
+    "DE": "ドイツ",
+    "DK": "デンマーク",
+    "DO": "ドミニカ共和国",
+    "DZ": "アルジェリア",
+    "EC": "エクアドル",
+    "EE": "エストニア",
+    "EG": "エジプト",
+    "ES": "スペイン",
+    "ET": "エチオピア",
+    "FI": "フィンランド",
+    "FJ": "フィジー",
+    "FR": "フランス",
+    "GB": "イギリス",
+    "GE": "ジョージア",
+    "GH": "ガーナ",
+    "GR": "ギリシャ",
+    "HK": "香港特別行政区",
+    "HR": "クロアチア",
+    "HU": "ハンガリー",
+    "ID": "インドネシア",
+    "IE": "アイルランド",
+    "IL": "イスラエル",
+    "IN": "インド",
+    "IQ": "イラク",
+    "IR": "イラン",
+    "IS": "アイスランド",
+    "IT": "イタリア",
+    "JO": "ヨルダン",
+    "JP": "日本",
+    "KE": "ケニア",
+    "KH": "カンボジア",
+    "KR": "韓国",
+    "KW": "クウェート",
+    "KZ": "カザフスタン",
+    "LA": "ラオス",
+    "LB": "レバノン",
+    "LK": "スリランカ",
+    "LT": "リトアニア",
+    "LU": "ルクセンブルク",
+    "LV": "ラトビア",
+    "MA": "モロッコ",
+    "MD": "モルドバ",
+    "ME": "モンテネグロ",
+    "MK": "北マケドニア",
+    "MM": "ミャンマー",
+    "MN": "モンゴル",
+    "MO": "マカオ特別行政区",
+    "MT": "マルタ",
+    "MV": "モルディブ",
+    "MX": "メキシコ",
+    "MY": "マレーシア",
+    "NG": "ナイジェリア",
+    "NL": "オランダ",
+    "NO": "ノルウェー",
+    "NP": "ネパール",
+    "NZ": "ニュージーランド",
+    "OM": "オマーン",
+    "PA": "パナマ",
+    "PE": "ペルー",
+    "PG": "パプアニューギニア",
+    "PH": "フィリピン",
+    "PK": "パキスタン",
+    "PL": "ポーランド",
+    "PT": "ポルトガル",
+    "QA": "カタール",
+    "RO": "ルーマニア",
+    "RS": "セルビア",
+    "RU": "ロシア",
+    "SA": "サウジアラビア",
+    "SE": "スウェーデン",
+    "SG": "シンガポール",
+    "SI": "スロベニア",
+    "SK": "スロバキア",
+    "TH": "タイ",
+    "TL": "東ティモール",
+    "TN": "チュニジア",
+    "TR": "トルコ",
+    "TW": "台湾",
+    "TZ": "タンザニア",
+    "UA": "ウクライナ",
+    "UG": "ウガンダ",
+    "US": "アメリカ合衆国",
+    "UY": "ウルグアイ",
+    "UZ": "ウズベキスタン",
+    "VE": "ベネズエラ",
+    "VN": "ベトナム",
+    "ZA": "南アフリカ"
   }
 }
