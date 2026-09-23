@@ -1,8 +1,11 @@
 import "server-only";
+import { createTranslator } from "next-intl";
 import type { Order, Reminder } from "./schema";
 import { money, PRODUCT_LABELS } from "./pricing";
 import { site } from "./config";
 import { formatWindowOpens } from "./window";
+import { loadMessages, messageFallback } from "@/i18n/messages";
+import { intlLocale, routing } from "@/i18n/routing";
 
 export function emailConfigured() {
   return Boolean(process.env.RESEND_API_KEY && process.env.EMAIL_FROM);
@@ -21,24 +24,39 @@ async function send(to: string[], subject: string, html: string, text: string) {
 
 function esc(s: string) { return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]!)); }
 
+// ---------- Customer email language ----------
+/** Customer emails are written in the language the customer used on the site (order/reminder `locale`),
+ *  from the "Email" namespace of messages/<locale>.json, with English filling any gap. Ops emails stay English. */
+async function customerT(locale: string | undefined) {
+  const l = locale && (routing.locales as readonly string[]).includes(locale) ? locale : routing.defaultLocale;
+  const messages = await loadMessages(l);
+  // Messages are loaded dynamically, so the catalog is untyped here; keys are validated at runtime with an English fallback.
+  const tr = createTranslator({ locale: l, messages: messages as Parameters<typeof createTranslator>[0]["messages"], getMessageFallback: messageFallback, onError: () => {} }) as unknown as
+    (key: string, values?: Record<string, string | number | Date>) => string;
+  const t = (key: string, values?: Record<string, string | number | Date>) => tr(`Email.${key}`, values);
+  const m = (cents: number, currency?: string) => money(cents, currency, intlLocale(l));
+  return { t, m, locale: l };
+}
+
 export interface Attachment { filename: string; content: Buffer; contentType: string }
 
 /** Sends the QR code / e-VOA to the traveler. Attachments are the files ops uploaded in the console. */
 export async function sendDeliveryEmail(order: Order, attachments: Attachment[], message: string) {
+  const { t } = await customerT(order.contact.locale);
   const lead = order.travelers[0];
   const isAc = order.product !== "evoa";
   const isEv = order.product !== "arrival_card";
-  const what = isAc && isEv ? "arrival card QR code and e-VOA" : isAc ? "arrival card QR code" : "e-VOA";
-  const subject = `Your Indonesia ${what} – ${lead.familyName}, ${lead.givenNames} – arrival ${order.travel.arrivalDate}`;
+  const what = isAc && isEv ? t("delivery.whatBoth") : isAc ? t("delivery.whatArrivalCard") : t("delivery.whatEvoa");
+  const subject = t("delivery.subject", { what, familyName: lead.familyName, givenNames: lead.givenNames, date: order.travel.arrivalDate });
   const lines = [
-    `Dear ${lead.givenNames},`,
-    `Your ${what} ${attachments.length > 1 ? "documents are" : "is"} attached to this email.`,
-    isAc ? "At the airport: show the QR code (on your phone or printed) together with your passport at immigration, and again at customs. One QR code per traveler." : "",
-    isEv ? "Print the e-VOA or keep it on your phone and present it at immigration with your passport and your return ticket. It is valid for 30 days and can be extended once in Indonesia." : "",
-    "Please check that names, passport numbers and dates match your passports exactly and tell us immediately if anything is wrong.",
+    t("greeting", { name: lead.givenNames }),
+    t("delivery.attached", { what, count: attachments.length }),
+    isAc ? t("delivery.arrivalCard") : "",
+    isEv ? t("delivery.evoa") : "",
+    t("delivery.check"),
     message.trim(),
-    `Have a good trip. Questions: reply to this email or write to ${site.supportEmail}.`,
-    `${site.company} is a private assistance service and is not affiliated with any government website.`,
+    t("delivery.questions", { email: site.supportEmail }),
+    t("notAffiliated", { company: site.company }),
   ].filter(Boolean);
   const text = lines.join("\n\n");
   const html = `<div style="font-family:system-ui;font-size:15px;line-height:1.5">${lines.map((l) => `<p>${esc(l)}</p>`).join("")}</div>`;
@@ -53,6 +71,7 @@ export async function sendDeliveryEmail(order: Order, attachments: Attachment[],
   return { skipped: false };
 }
 
+/** Ops alert: always English. */
 export async function notifyOpsNewOrder(order: Order) {
   const to = (process.env.OPS_EMAIL ?? "").split(",").map((s) => s.trim()).filter(Boolean);
   const lead = order.travelers[0];
@@ -63,7 +82,7 @@ export async function notifyOpsNewOrder(order: Order) {
     `Product: ${PRODUCT_LABELS[order.product]}${order.contact.express ? " (EXPRESS)" : ""}`,
     `Arrival: ${order.travel.arrivalDate} at ${order.travel.portOfEntry}, flight ${order.travel.flightNumber || "n/a"}`,
     `Travelers: ${order.travelers.map((t) => `${t.familyName} ${t.givenNames} (${t.nationality})`).join("; ")}`,
-    `Contact: ${order.contact.email} · ${order.contact.phone}`,
+    `Contact: ${order.contact.email} · ${order.contact.phone} · language ${order.contact.locale ?? "en"}`,
     order.evoa ? `e-VOA entry ${order.evoa.intendedEntryDate}, purpose ${order.evoa.purpose}, documents uploaded: ${order.evoa.documents.length}` : "",
     "", `Open in ops console: ${url}`,
   ].filter((l) => l !== undefined);
@@ -73,17 +92,18 @@ export async function notifyOpsNewOrder(order: Order) {
 }
 
 export async function sendCustomerConfirmation(order: Order) {
+  const { t, m } = await customerT(order.contact.locale);
   const lead = order.travelers[0];
   const isAc = order.product !== "evoa";
   const isEv = order.product !== "arrival_card";
-  const subject = `We received your ${PRODUCT_LABELS[order.product].toLowerCase()} order ${order.id.slice(0, 8).toUpperCase()}`;
+  const subject = t("confirmation.subject", { product: t(`products.${order.product}`), id: order.id.slice(0, 8).toUpperCase() });
   const lines = [
-    `Dear ${lead.givenNames},`,
-    `Thank you. We have received your order and payment of ${money(order.amountCents, order.currency)} for ${order.travelers.length} traveler${order.travelers.length > 1 ? "s" : ""}.`,
-    isAc ? `Arrival card: a team member checks your details and submits the card inside the 72-hour window before your arrival on ${order.travel.arrivalDate}. You will receive the QR code by email.` : "",
-    isEv ? `e-VOA: we verify your passport scan and photo and lodge the application within ${order.contact.express ? 12 : 48} hours. Approval by the authorities usually follows the same day, at most 2 working days.` : "",
-    `Questions? Reply to this email or write to ${site.supportEmail}.`,
-    `${site.company} is a private assistance service and is not affiliated with any government website.`,
+    t("greeting", { name: lead.givenNames }),
+    t("confirmation.received", { amount: m(order.amountCents, order.currency), count: order.travelers.length }),
+    isAc ? t("confirmation.arrivalCard", { date: order.travel.arrivalDate }) : "",
+    isEv ? t("confirmation.evoa", { hours: order.contact.express ? 12 : 48 }) : "",
+    t("questions", { email: site.supportEmail }),
+    t("notAffiliated", { company: site.company }),
   ].filter(Boolean);
   const text = lines.join("\n\n");
   const html = `<div style="font-family:system-ui;font-size:15px;line-height:1.5">${lines.map((l) => `<p>${esc(l)}</p>`).join("")}</div>`;
@@ -91,10 +111,9 @@ export async function sendCustomerConfirmation(order: Order) {
 }
 
 // ---------- Reminder list ----------
-const NOT_GOV = `${site.company} is a private assistance service and is not affiliated with any government website.`;
-
 function reminderLinks(r: Reminder) {
-  const apply = `${site.url}/apply?arrival=${r.arrivalDate}&email=${encodeURIComponent(r.email)}&product=${r.productInterest}&ref=reminder`;
+  const prefix = r.locale && r.locale !== routing.defaultLocale && (routing.locales as readonly string[]).includes(r.locale) ? `/${r.locale}` : "";
+  const apply = `${site.url}${prefix}/apply?arrival=${r.arrivalDate}&email=${encodeURIComponent(r.email)}&product=${r.productInterest}&ref=reminder`;
   const unsubscribe = `${site.url}/api/reminders/unsubscribe?token=${encodeURIComponent(r.token)}`;
   return { apply, unsubscribe };
 }
@@ -102,32 +121,34 @@ function reminderLinks(r: Reminder) {
 // ---------- Review request ----------
 /** Review links, only those configured (TRUSTPILOT_REVIEW_URL, GOOGLE_REVIEW_URL). */
 export function reviewLinks() {
-  const links: Array<{ href: string; label: string }> = [];
+  const links: Array<{ href: string; key: "trustpilot" | "google" }> = [];
   const tp = (process.env.TRUSTPILOT_REVIEW_URL ?? "").trim();
   const g = (process.env.GOOGLE_REVIEW_URL ?? "").trim();
-  if (tp) links.push({ href: tp, label: "Review us on Trustpilot" });
-  if (g) links.push({ href: g, label: "Review us on Google" });
+  if (tp) links.push({ href: tp, key: "trustpilot" });
+  if (g) links.push({ href: g, key: "google" });
   return links;
 }
 
 /** Sent once, 2 days after arrival, to delivered orders. Skipped when no review link is configured. */
 export async function sendReviewRequest(order: Order) {
-  const links = reviewLinks();
-  if (links.length === 0) return { skipped: true };
+  const configured = reviewLinks();
+  if (configured.length === 0) return { skipped: true };
+  const { t } = await customerT(order.contact.locale);
+  const links = configured.map((l) => ({ href: l.href, label: t(`review.${l.key}`) }));
   const lead = order.travelers[0];
   const isAc = order.product !== "evoa";
   const isEv = order.product !== "arrival_card";
-  const what = isAc && isEv ? "arrival card and e-VOA" : isAc ? "arrival card" : "e-VOA";
-  const subject = "How was your arrival in Indonesia?";
+  const what = isAc && isEv ? t("review.whatBoth") : isAc ? t("review.whatArrivalCard") : t("review.whatEvoa");
+  const subject = t("review.subject");
   const before = [
-    `Dear ${lead.givenNames},`,
-    `Thank you for trusting us with your ${what}. We hope your arrival in Indonesia on ${order.travel.arrivalDate} went smoothly.`,
-    "If anything went wrong, reply to this email first so we can fix it.",
-    "If everything went well, would you take a minute to leave us a short review? It helps other travelers find a service they can trust and means a lot to our small team.",
+    t("greeting", { name: lead.givenNames }),
+    t("review.thanks", { what, date: order.travel.arrivalDate }),
+    t("review.wrong"),
+    t("review.ask"),
   ];
   const after = [
-    `Questions? Reply to this email or write to ${site.supportEmail}.`,
-    NOT_GOV,
+    t("questions", { email: site.supportEmail }),
+    t("notAffiliated", { company: site.company }),
   ];
   const text = [...before, ...links.map((l) => `${l.label}: ${l.href}`), ...after].join("\n\n");
   const html = `<div style="font-family:system-ui;font-size:15px;line-height:1.5">${before.map((l) => `<p>${esc(l)}</p>`).join("")}` +
@@ -136,42 +157,42 @@ export async function sendReviewRequest(order: Order) {
   return send([order.contact.email], subject, html, text);
 }
 
-function reminderHtml(lines: string[], button: { href: string; label: string }, unsubscribe: string) {
+function reminderHtml(lines: string[], button: { href: string; label: string }, unsubscribe: string, footer: { text: string; link: string }) {
   return `<div style="font-family:system-ui;font-size:15px;line-height:1.5">${lines.map((l) => `<p>${esc(l)}</p>`).join("")}` +
     `<p><a href="${button.href}" style="background:#e8632b;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none">${esc(button.label)}</a></p>` +
-    `<p style="font-size:12px;color:#5f6f69">No longer travelling? <a href="${unsubscribe}">Stop these emails</a>.</p></div>`;
+    `<p style="font-size:12px;color:#5f6f69">${esc(footer.text)} <a href="${unsubscribe}">${esc(footer.link)}</a>.</p></div>`;
 }
 
 /** Sent once the official 72-hour window for the reminder's arrival date is open. */
 export async function sendReminderWindowOpen(r: Reminder) {
+  const { t } = await customerT(r.locale);
   const { apply, unsubscribe } = reminderLinks(r);
   const isAc = r.productInterest !== "evoa";
-  const subject = `Indonesia arrival card: your submission window is open (arrival ${r.arrivalDate})`;
+  const subject = t("windowOpen.subject", { date: r.arrivalDate });
   const lines = [
-    "Hello,",
-    `You asked us to tell you when the arrival card can be submitted for your arrival in Indonesia on ${r.arrivalDate}. That moment has come: the official portal now accepts submissions for your date.`,
-    isAc
-      ? `If you would like us to prepare and check the card for ${r.travelers} traveler${r.travelers > 1 ? "s" : ""}, open the link below. Your arrival date and email are already filled in.`
-      : "Open the link below to start your application. Your arrival date and email are already filled in.",
-    "If you prefer to do it yourself, the guide on our website explains every field.",
-    `Questions? Reply to this email or write to ${site.supportEmail}.`,
-    NOT_GOV,
+    t("hello"),
+    t("windowOpen.open", { date: r.arrivalDate }),
+    isAc ? t("windowOpen.assist", { count: r.travelers }) : t("windowOpen.start"),
+    t("windowOpen.diy"),
+    t("questions", { email: site.supportEmail }),
+    t("notAffiliated", { company: site.company }),
   ];
-  const text = [...lines, `Start: ${apply}`, `Stop these emails: ${unsubscribe}`].join("\n\n");
-  return send([r.email], subject, reminderHtml(lines, { href: apply, label: "Start my application" }, unsubscribe), text);
+  const text = [...lines, `${t("windowOpen.startLabel")}: ${apply}`, `${t("stopEmails")}: ${unsubscribe}`].join("\n\n");
+  return send([r.email], subject, reminderHtml(lines, { href: apply, label: t("windowOpen.cta") }, unsubscribe, { text: t("noLongerTravelling"), link: t("stopEmails") }), text);
 }
 
 /** Short heads-up sent roughly a day before the window opens. */
 export async function sendReminderHeadsUp(r: Reminder) {
+  const { t, locale } = await customerT(r.locale);
   const { apply, unsubscribe } = reminderLinks(r);
-  const opens = formatWindowOpens(r.arrivalDate, "Asia/Jakarta");
-  const subject = `Tomorrow your Indonesia arrival card window opens (arrival ${r.arrivalDate})`;
+  const opens = formatWindowOpens(r.arrivalDate, "Asia/Jakarta", intlLocale(locale));
+  const subject = t("headsUp.subject", { date: r.arrivalDate });
   const lines = [
-    "Hello,",
-    `A quick note: the official portal will accept the arrival card for your arrival on ${r.arrivalDate} from ${opens} (Jakarta time). We will email you again at that moment.`,
-    "Nothing to do for now. If you want, have your passport and accommodation details ready so it takes two minutes.",
-    NOT_GOV,
+    t("hello"),
+    t("headsUp.note", { date: r.arrivalDate, opens }),
+    t("headsUp.nothing"),
+    t("notAffiliated", { company: site.company }),
   ];
-  const text = [...lines, `Our page: ${apply}`, `Stop these emails: ${unsubscribe}`].join("\n\n");
-  return send([r.email], subject, reminderHtml(lines, { href: apply, label: "See what we need" }, unsubscribe), text);
+  const text = [...lines, `${t("headsUp.pageLabel")}: ${apply}`, `${t("stopEmails")}: ${unsubscribe}`].join("\n\n");
+  return send([r.email], subject, reminderHtml(lines, { href: apply, label: t("headsUp.cta") }, unsubscribe, { text: t("noLongerTravelling"), link: t("stopEmails") }), text);
 }

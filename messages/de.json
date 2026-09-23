@@ -1,0 +1,1218 @@
+{
+  "Common": {
+    "selectPlaceholder": "Bitte wählen…",
+    "officialSource": "Offizielle Quelle ↗",
+    "readOriginal": "Original lesen ↗",
+    "language": "Sprache",
+    "notAffiliated": "Privater Assistenzdienst, nicht mit einer Regierungswebsite verbunden. <link>Lesen Sie unseren Hinweis</link>.",
+    "siteDescription": "Privater Assistenzdienst für die digitale Einreisekarte Indonesiens (All Indonesia Arrival Card). Transparenter Preis, von Menschen geprüft, Zustellung per E-Mail. Nicht mit der Regierung Indonesiens verbunden."
+  },
+  "Metadata": {
+    "defaultTitle": "{siteName} – Hilfe bei der Einreisekarte für Indonesien, von Menschen geprüft",
+    "titleTemplate": "%s | {shortName}",
+    "description": "Privater Assistenzdienst für die digitale Einreisekarte Indonesiens (All Indonesia Arrival Card). Transparenter Preis, von Menschen geprüft, Zustellung per E-Mail. Nicht mit der Regierung Indonesiens verbunden."
+  },
+  "Disclosure": {
+    "bar": "Privater Assistenzdienst, <strong>nicht mit einer Regierungswebsite verbunden</strong>. Unsere Gebühr deckt Vorbereitung, Prüfung und Support ab.",
+    "full": "Wir sind ein privates Reiseassistenz-Unternehmen und sind weder mit der Regierung Indonesiens noch mit der Generaldirektion für Einwanderung verbunden, von ihnen unterstützt oder in ihrem Auftrag tätig. Unsere Gebühr bezahlt die Vorbereitung des Formulars, die Prüfung, die Zustellung und den Support."
+  },
+  "OfficialNote": {
+    "text": "Sie können die All Indonesia Arrival Card auch selbst kostenlos auf dem offiziellen Regierungsportal <link>{host}</link> ausfüllen."
+  },
+  "Header": {
+    "nav": {
+      "arrivalCard": "Einreisekarte",
+      "reminder": "Erinnerung",
+      "evoa": "e-VOA-Visum",
+      "pricing": "Preise",
+      "guide": "So funktioniert es",
+      "customs": "Zoll",
+      "news": "Amtliche Meldungen",
+      "faq": "FAQ",
+      "contact": "Kontakt"
+    },
+    "mainNav": "Hauptnavigation",
+    "mobileNav": "Mobile Navigation",
+    "start": "Starten",
+    "startMobile": "Meinen Antrag starten",
+    "openMenu": "Menü öffnen",
+    "closeMenu": "Menü schließen",
+    "language": "Sprache"
+  },
+  "Footer": {
+    "service": "Service",
+    "resources": "Ressourcen",
+    "legal": "Rechtliches",
+    "arrivalCard": "Hilfe bei der Einreisekarte",
+    "reminder": "Erinnerung für das 72-Stunden-Fenster",
+    "evoa": "Hilfe beim e-VOA-Visum",
+    "pricing": "Preise",
+    "faq": "FAQ",
+    "contact": "Kontakt & Support",
+    "guide": "So funktioniert die Einreisekarte",
+    "customs": "Zollfreimengen",
+    "news": "Zusammenfassungen amtlicher Meldungen",
+    "disclosure": "Hinweis zur Nichtzugehörigkeit",
+    "terms": "Nutzungsbedingungen",
+    "privacy": "Datenschutzerklärung",
+    "refunds": "Erstattungsrichtlinie",
+    "rights": "© {year} {company}. Alle Rechte vorbehalten."
+  },
+  "PriceCard": {
+    "title": "Transparenter Preis, angezeigt bevor Sie etwas eingeben",
+    "first": "Einreisekarte, erster Reisender",
+    "additional": "Jeder weitere Reisende (gleiche Buchung)",
+    "evoa": "Hilfe beim e-VOA-Visum (optional, inkl. Visumgebühr)",
+    "from": "ab {price}",
+    "express": "Express, von Menschen geprüft in unter {hours} Std. (optional)",
+    "plus": "+{price}",
+    "note": "Keine versteckten Gebühren, kein Upselling nach Eingabe Ihrer Daten. Volle Erstattung, wenn wir Ihre Karte nicht mindestens 6 Stunden vor Ihrer Ankunftszeit zustellen.",
+    "cta": "Meine Einreisekarte starten"
+  },
+  "Products": {
+    "arrival_card": "Hilfe bei der Einreisekarte",
+    "evoa": "Hilfe beim e-VOA (Visum bei Ankunft)",
+    "bundle": "Paket e-VOA + Einreisekarte"
+  },
+  "Home": {
+    "jsonLdName": "Hilfe bei der Einreisekarte für Indonesien",
+    "badge": "Seit dem 1. Okt. 2025 Pflicht für alle Einreisen nach Indonesien",
+    "title": "Ihre Einreisekarte für Indonesien, vorbereitet und geprüft von einem Menschen.",
+    "lead": "Sparen Sie sich das verwirrende Formular und das Tippfehler-Risiko. Beantworten Sie unsere geführten Fragen, wir bereiten Ihre All Indonesia Arrival Card vor, reichen sie ein und senden den QR-Code an Ihre E-Mail-Adresse.",
+    "ctaStart": "Jetzt starten – ab {price}",
+    "ctaHow": "So funktioniert es",
+    "reminderTitle": "Fliegen Sie erst in mehr als 3 Tagen? Lassen Sie sich erinnern.",
+    "reminderText": "Das offizielle Portal nimmt die Einreisekarte nur innerhalb von 72 Stunden vor der Ankunft an. Vorher nehmen wir keine Zahlung entgegen. Hinterlassen Sie Ihr Ankunftsdatum, und wir schreiben Ihnen in dem Moment, in dem Ihr Zeitfenster öffnet, mit vorausgefüllten Angaben.",
+    "reminderNote": "Kostenlos, höchstens zwei E-Mails, Abmeldung mit einem Klick. <link>Mehr zur 72-Stunden-Regel</link>.",
+    "howTitle": "So funktioniert es",
+    "steps": {
+      "price": {
+        "t": "Preis ansehen",
+        "d": "Der volle Preis steht auf dieser Seite und auf dem ersten Bildschirm des Formulars. Später kommt nichts hinzu."
+      },
+      "form": {
+        "t": "Unser geführtes Formular ausfüllen",
+        "d": "Verständliche Fragen an einem Ort: Reisepass, Flug, Aufenthalt, Gesundheits- und Zollerklärungen."
+      },
+      "check": {
+        "t": "Wir bereiten vor und prüfen",
+        "d": "Ein geschultes Teammitglied prüft jedes Feld und reicht die Karte dann in Ihrem Namen auf dem offiziellen Portal ein."
+      },
+      "qr": {
+        "t": "QR-Code erhalten",
+        "d": "Per E-Mail, mit einer Erinnerung an das 72-Stunden-Fenster und einer einseitigen Checkliste für den Flughafen."
+      }
+    },
+    "featuresTitle": "Was Sie für die Gebühr bekommen",
+    "features": {
+      "human": {
+        "t": "Von Menschen geprüft",
+        "d": "Jede Einreichung wird von einer Person geprüft. Tippfehler in der Passnummer sind die häufigste Ursache für Verzögerungen am Flughafen."
+      },
+      "fast": {
+        "t": "Zustellung in unter 12 Std.",
+        "d": "Die Express-Option liefert in unter 2 Stunden. Volle Erstattung, wenn wir die Frist vor Ihrer Ankunft verpassen."
+      },
+      "language": {
+        "t": "Support in Ihrer Sprache",
+        "d": "Schreiben Sie uns auf Englisch, Chinesisch, Koreanisch, Japanisch, Deutsch, Französisch oder Russisch."
+      },
+      "phone": {
+        "t": "Funktioniert auf Ihrem Smartphone",
+        "d": "Fotografieren Sie Ihren Reisepass, wir lesen die Daten aus. Keine App zu installieren, kein Konto anzulegen."
+      },
+      "support": {
+        "t": "Support bis zur Landung",
+        "d": "Fragen vor oder nach der Einreichung beantworten wir während der Supportzeiten innerhalb von Minuten per E-Mail."
+      },
+      "customs": {
+        "t": "Zoll und IMEI inklusive",
+        "d": "Wir sagen Ihnen, was Sie anmelden müssen, welche Freimengen gelten und wie Sie Ihr Telefon registrieren."
+      }
+    },
+    "evoaTitle": "Brauchen Sie auch ein Visum? e-VOA-Hilfe",
+    "evoaText": "Die meisten Nationalitäten können das 30-tägige elektronische Visum bei Ankunft vor dem Abflug beantragen. Wir prüfen Ihren Reisepass und Ihr Foto, reichen den Antrag ein und liefern das genehmigte e-VOA per E-Mail. Kombinieren Sie es mit der Einreisekarte und sparen Sie {discount} pro Reisendem.",
+    "evoaCta": "e-VOA-Hilfe",
+    "bundleCta": "Beides als Paket",
+    "guideTitle": "Möchten Sie die Einreisekarte zuerst verstehen?",
+    "guideText": "Wir erklären, was die All Indonesia Arrival Card ist, wer sie braucht, die 72-Stunden-Regel und jede Erklärung, die von Ihnen verlangt wird.",
+    "guideCta": "Leitfaden lesen",
+    "faqCta": "FAQ"
+  },
+  "Apply": {
+    "metaTitle": "Beantragen – Hilfe bei der Einreisekarte für Indonesien",
+    "metaDescription": "Geführtes Formular für die Einreisekarte Indonesiens. Transparenter Preis zuerst. Von Menschen geprüft, Zustellung per E-Mail.",
+    "titleArrivalCard": "Hilfe bei der Einreisekarte",
+    "titleEvoa": "e-VOA-Hilfe",
+    "titleBundle": "e-VOA + Einreisekarte",
+    "paymentFailed": "Die Zahlung wurde nicht abgeschlossen. Ihre Angaben wurden nicht übermittelt. Sie können es unten erneut versuchen.",
+    "welcomeBack": "Willkommen zurück. Ihr Ankunftsdatum ({date}){withEmail, select, yes { und Ihre E-Mail-Adresse} other {}} sind aus Ihrer Erinnerung vorausgefüllt.",
+    "select": "Bitte wählen…",
+    "steps": {
+      "travelers": "Preis & Reisende",
+      "travel": "Reisedaten",
+      "declarations": "Erklärungen",
+      "evoaDocs": "e-VOA-Dokumente",
+      "contact": "Kontakt & Zahlung"
+    },
+    "stepLabel": "{n}. {label}",
+    "summary": {
+      "travelers": "{count, plural, one {# Reisender} other {# Reisende}}",
+      "serviceFee": "Servicegebühr {price}",
+      "visaFee": "Visumgebühr {price}",
+      "express": "Express {price}",
+      "total": "Gesamt {price}"
+    },
+    "fixErrors": "Bitte korrigieren Sie die markierten Felder.",
+    "traveler": {
+      "legend": "Reisender {n}",
+      "contactPerson": " (Kontaktperson)",
+      "familyName": "Nachname (wie im Reisepass)",
+      "givenNames": "Vornamen",
+      "gender": "Geschlecht",
+      "dateOfBirth": "Geburtsdatum",
+      "nationality": "Staatsangehörigkeit (Land des Reisepasses)",
+      "passportNumber": "Reisepassnummer",
+      "passportIssued": "Ausstellungsdatum des Reisepasses",
+      "passportExpiry": "Ablaufdatum des Reisepasses",
+      "remove": "Reisenden entfernen",
+      "add": "+ Reisenden hinzufügen ({price})",
+      "aseanVisaFree": "ASEAN-Staatsangehörige reisen visumfrei ein und benötigen kein e-VOA.",
+      "checkEligibility": "Eine Staatsangehörigkeit in dieser Buchung ist möglicherweise nicht e-VOA-berechtigt; wir klären das vor der Einreichung und erstatten die Servicegebühr, falls keine Berechtigung besteht."
+    },
+    "travel": {
+      "arrivalDate": "Ankunftsdatum in Indonesien",
+      "arrivalHint": "Wir reichen innerhalb des offiziellen 72-Stunden-Fensters vor diesem Datum ein.",
+      "departureDate": "Geplantes Abreisedatum (optional)",
+      "transportMode": "Verkehrsmittel",
+      "portOfEntry": "Einreiseort",
+      "flightNumber": "Flug- / Schiffsnummer",
+      "flightPlaceholder": "z. B. GA715",
+      "originCountry": "Land, aus dem Sie anreisen",
+      "purpose": "Reisezweck",
+      "visaType": "Visumart",
+      "accommodationName": "Name der Unterkunft (Hotel, Villa, Gastgeber)",
+      "accommodationAddress": "Adresse",
+      "accommodationCity": "Stadt / Regierungsbezirk",
+      "cityPlaceholder": "z. B. Badung, Bali"
+    },
+    "declarations": {
+      "intro": "Diese Antworten gehen in Ihre amtliche Erklärung ein. Ein „Ja“ bedeutet in der Regel nur eine kurze Kontrolle bei der Ankunft; eine falsche Antwort ist eine Straftat.",
+      "countriesVisited": "In den letzten 21 Tagen besuchte Länder (außer Ihrem Heimatland)",
+      "countriesHint": "Halten Sie Strg / Cmd gedrückt, um mehrere auszuwählen. Leer lassen, wenn keine.",
+      "symptoms": "Jemand in dieser Buchung hat derzeit Fieber, Husten, Atembeschwerden, Hautausschlag oder Durchfall",
+      "animalsPlants": "Mitführen von lebenden Tieren, tierischen Produkten, Pflanzen, Samen, Obst oder frischen Lebensmitteln",
+      "cashOver100M": "Mitführen von Bargeld oder Inhaberpapieren im Wert von 100.000.000 IDR oder mehr",
+      "goodsOverAllowance": "Mitführen von Waren über der persönlichen Freimenge (500 USD pro Person, 1 l Alkohol, 200 Zigaretten)",
+      "commercialGoods": "Mitführen von Waren zum Verkauf, Mustern oder Berufsausrüstung",
+      "registerImei": "Ich möchte die IMEI eines Telefons für die Nutzung mit einer indonesischen SIM-Karte registrieren",
+      "baggagePieces": "Anzahl aufgegebener Gepäckstücke (gesamt)",
+      "notes": "Gibt es etwas, das wir wissen sollten? (optional)"
+    },
+    "evoa": {
+      "intro": "Für das e-VOA benötigen wir pro Reisendem ein klares Foto oder einen Scan der Passdatenseite sowie ein aktuelles Passfoto (neutraler Hintergrund, ohne Brille, ohne Kopfbedeckung). JPG, PNG oder PDF, max. 8 MB pro Datei.",
+      "intendedEntryDate": "Geplantes Einreisedatum",
+      "purpose": "Reisezweck",
+      "returnTicket": "Ich habe (oder werde haben) ein Rück- oder Weiterreiseticket, das die Einwanderungsbehörde sehen möchte.",
+      "travelerLegend": "Reisender {n}: {familyName} {givenNames}",
+      "passportScan": "Passdatenseite",
+      "photo": "Passfoto",
+      "uploaded": "✓ hochgeladen",
+      "uploading": "Wird hochgeladen…",
+      "uploadFailed": "Upload fehlgeschlagen",
+      "documentsMissing": "Bitte laden Sie beide Dateien für Reisenden {list} hoch"
+    },
+    "contact": {
+      "email": "E-Mail (hierhin wird der QR-Code gesendet)",
+      "phone": "Mobilnummer mit Ländervorwahl (falls wir Sie erreichen müssen)",
+      "phonePlaceholder": "+49 15…",
+      "express": "<strong>Express</strong> – geprüft und eingereicht innerhalb von {expressHours} Stunden (+{price}). Standard ist innerhalb von {standardHours} Stunden.",
+      "expressEvoaNote": "Die e-VOA-Genehmigung durch die Behörden folgt in der Regel am selben Tag, spätestens nach 2 Werktagen.",
+      "acknowledgeNotGov": "Ich verstehe, dass dies ein privater Assistenzdienst und keine Regierungswebsite ist.",
+      "acceptTerms": "Ich akzeptiere die <terms>Nutzungsbedingungen</terms>, die <privacy>Datenschutzerklärung</privacy> und die <refunds>Erstattungsrichtlinie</refunds> und bin berechtigt, die Daten aller Reisenden dieser Buchung anzugeben."
+    },
+    "gate": {
+      "pastTitle": "Dieses Ankunftsdatum liegt in der Vergangenheit.",
+      "pastText": "Die Einreisekarte muss vor Ihrer Ankunft eingereicht werden. Bitte prüfen Sie das Datum. Wenn Sie bereits in Indonesien sind, kann die Karte nicht mehr eingereicht werden, und wir können dabei nicht helfen.",
+      "earlyTitle": "Zu früh für die Einreisekarte: Ihre Ankunft ist noch etwa {days, plural, one {# Tag} other {# Tage}} entfernt.",
+      "earlyText": "Das offizielle Portal nimmt Einreisekarten nur innerhalb der {hours} Stunden vor der Ankunft an. Vorher nehmen wir keine Zahlung entgegen, es gibt also später nichts zu erstatten. Hinterlassen Sie Ihre E-Mail-Adresse, und wir schreiben Ihnen in dem Moment, in dem das Zeitfenster für den {date} öffnet; Ihre Angaben werden vorausgefüllt.",
+      "orderEvoa": "e-VOA jetzt bestellen",
+      "setReminder": "Erinnerung für die Einreisekarte einrichten",
+      "evoaNote": "Das e-VOA kann bis zu 90 Tage im Voraus beantragt werden. Sie können es jetzt bestellen und für die Einreisekarte zurückkommen, wenn wir Ihnen schreiben.",
+      "changeDate": "Ändern Sie das Ankunftsdatum, um fortzufahren.",
+      "waitForWindow": "Weiter ist verfügbar, sobald das Zeitfenster geöffnet ist."
+    },
+    "back": "Zurück",
+    "continue": "Weiter",
+    "pay": "{price} sicher bezahlen",
+    "redirecting": "Weiterleitung zur sicheren Zahlung…",
+    "paymentNote": "Die Kartenzahlung wird auf einer sicheren, gehosteten Seite unseres Zahlungsanbieters abgewickelt. Wir sehen oder speichern niemals Kartennummern. Die Abbuchung erscheint mit unserem Firmennamen auf Ihrer Abrechnung.",
+    "serverError": "Etwas ist schiefgelaufen",
+    "networkError": "Netzwerkfehler. Bitte versuchen Sie es erneut."
+  },
+  "Validation": {
+    "required": "Pflichtfeld",
+    "date": "Format JJJJ-MM-TT verwenden",
+    "passportNumber": "Reisepassnummer prüfen",
+    "passportScan": "Passscan ist erforderlich",
+    "passportPhoto": "Passfoto ist erforderlich",
+    "acceptTerms": "Sie müssen die Bedingungen akzeptieren",
+    "acknowledgeNotGov": "Bitte bestätigen Sie, dass Sie verstanden haben, dass dies keine Regierungswebsite ist",
+    "evoaRequired": "e-VOA-Angaben sind erforderlich",
+    "email": "Geben Sie eine gültige E-Mail-Adresse ein",
+    "tooShort": "Zu kurz",
+    "tooLong": "Zu lang",
+    "invalid": "Ungültiger Wert",
+    "consent": "Bitte stimmen Sie dem Erhalt der Erinnerungs-E-Mail zu",
+    "arrivalFuture": "Das Ankunftsdatum muss heute oder in der Zukunft liegen",
+    "documentsMissing": "Dokumente fehlen für Reisenden {list}"
+  },
+  "Options": {
+    "gender": {
+      "M": "Männlich",
+      "F": "Weiblich",
+      "X": "Divers / X"
+    },
+    "transport": {
+      "air": "Flugzeug",
+      "sea": "Schiff",
+      "land": "Landweg"
+    },
+    "ports": {
+      "CGK": "Jakarta – Soekarno-Hatta (CGK)",
+      "DPS": "Bali – Ngurah Rai (DPS)",
+      "SUB": "Surabaya – Juanda (SUB)",
+      "KNO": "Medan – Kualanamu (KNO)",
+      "UPG": "Makassar – Sultan Hasanuddin (UPG)",
+      "YIA": "Yogyakarta – YIA",
+      "LOP": "Lombok – Zainuddin Abdul Madjid (LOP)",
+      "MDC": "Manado – Sam Ratulangi (MDC)",
+      "BTH": "Batam – Hang Nadim (BTH)",
+      "BPN": "Balikpapan – SAMS Sepinggan (BPN)",
+      "KJT": "Kertajati (KJT)",
+      "BTM_SEA": "Fährterminal Batam Centre (Seeweg)",
+      "TNJ_SEA": "Fährterminal Tanjung Pinang (Seeweg)",
+      "LAND": "Landgrenze (Entikong / Aruk / Motaain / andere)",
+      "OTHER": "Anderer internationaler Einreiseort"
+    },
+    "purposes": {
+      "holiday": "Urlaub / Tourismus",
+      "family": "Besuch von Familie oder Freunden",
+      "business": "Geschäftstreffen / Konferenz",
+      "work": "Arbeit (mit Arbeitserlaubnis)",
+      "study": "Studium",
+      "medical": "Medizinische Behandlung",
+      "transit": "Transit",
+      "other": "Sonstiges"
+    },
+    "visaTypes": {
+      "visaFree": "Visumfreie Einreise",
+      "voa": "Visum bei Ankunft (VOA) – am Flughafen bezahlt",
+      "evoa": "e-VOA (elektronisches Visum bei Ankunft)",
+      "evisa": "e-Visum (B211A, C1, C2, D1, D2 usw.)",
+      "kitas": "Inhaber von KITAS / KITAP",
+      "diplomatic": "Diplomatisch / dienstlich",
+      "unsure": "Nicht sicher – bitte beraten"
+    },
+    "evoaPurposes": {
+      "tourism": "Tourismus / Urlaub",
+      "business": "Geschäftstreffen, Konferenz, Einkauf",
+      "family": "Besuch von Familie oder Freunden",
+      "transit": "Transit",
+      "official": "Regierungs- / Dienstgeschäfte"
+    }
+  },
+  "ReminderForm": {
+    "email": "E-Mail",
+    "arrivalDate": "Ankunftsdatum in Indonesien",
+    "travelers": "Reisende",
+    "nationality": "Staatsangehörigkeit (optional)",
+    "select": "Bitte wählen…",
+    "consent": "Ich stimme dem Erhalt der Erinnerungs-E-Mail zu. Ein Hinweis am Vortag, einer beim Öffnen des Zeitfensters, sonst nichts. Abmeldung mit einem Klick.",
+    "saving": "Wird gespeichert…",
+    "submit": "Erinnern Sie mich, wenn das Zeitfenster öffnet",
+    "footnote": "Kostenlos. Es wird jetzt keine Zahlung entgegengenommen. Privater Assistenzdienst, nicht mit einer Regierungswebsite verbunden.",
+    "genericError": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+    "networkError": "Netzwerkfehler. Bitte versuchen Sie es erneut.",
+    "openTitle": "Gute Nachricht: Das Zeitfenster für den {date} ist bereits geöffnet.",
+    "openText": "Das offizielle Portal nimmt jetzt Einreichungen an. Wir haben Ihre Erinnerung gespeichert, falls Sie sie später brauchen.",
+    "startCta": "Meinen Antrag starten",
+    "doneTitle": "Erledigt.",
+    "doneText": "Wir schreiben Ihnen am <strong>{when}</strong> (Ihre Ortszeit), wenn das Zeitfenster öffnet, {hours} Stunden vor der Ankunft. Vorher nehmen wir keine Zahlung entgegen."
+  },
+  "Reminder": {
+    "metaTitle": "Einreisekarte Indonesien: Wir sagen Ihnen, wann Sie beantragen können",
+    "metaDescription": "Das offizielle Portal nimmt die All Indonesia Arrival Card nur innerhalb von 72 Stunden vor der Ankunft an. Hinterlassen Sie Ihr Ankunftsdatum, und wir schreiben Ihnen, sobald Ihr Zeitfenster öffnet. Kostenlose Erinnerung, keine Zahlung jetzt.",
+    "badge": "Kostenlose Erinnerung, keine Zahlung jetzt",
+    "title": "Einreisekarte Indonesien: Wir sagen Ihnen, wann Sie beantragen können",
+    "lead": "Das offizielle Portal nimmt die Einreisekarte nur innerhalb von 72 Stunden vor Ihrer Landung an. Wer früher beantragt, wird abgelehnt. Hinterlassen Sie Ihr Ankunftsdatum, und wir schreiben Ihnen in dem Moment, in dem Ihr Zeitfenster öffnet.",
+    "bullet1": "Eine E-Mail am Vortag, eine beim Öffnen des Zeitfensters",
+    "bullet2": "Ihre Angaben sind im Link vorausgefüllt, es dauert also zwei Minuten",
+    "bullet3": "Dann entscheiden Sie: Wir bereiten Ihre Karte vor und prüfen sie, oder Sie machen es selbst",
+    "unsubscribed": "Sie wurden abgemeldet. Wir schreiben Ihnen zu dieser Reise nicht mehr.",
+    "unsubscribeInvalid": "Dieser Abmeldelink ist ungültig oder wurde bereits verwendet. Schreiben Sie an {email}, falls Sie weiterhin E-Mails erhalten.",
+    "formTitle": "Erinnerung erhalten",
+    "formText": "Wir berechnen den genauen Zeitpunkt, an dem das 72-Stunden-Fenster für Ihr Datum öffnet.",
+    "ruleTitle": "Die 72-Stunden-Regel, kurz erklärt",
+    "rule1": "Jeder Reisende, der auf dem Luft-, See- oder Landweg nach Indonesien einreist, braucht eine All Indonesia Arrival Card: ein Online-Formular für Einwanderung, Zoll und Gesundheit, das einen bei der Ankunft vorzuzeigenden QR-Code erzeugt.",
+    "rule2": "Das System öffnet das Formular nur innerhalb der 72 Stunden vor dem Ankunftsdatum. Wer es vorher versucht, wird abgewiesen. Die meisten Reisenden merken das erst, wenn sie es eine Woche vorher ausfüllen wollen, und vergessen es dann in der Hektik vor dem Flug.",
+    "rule3": "Eine Erinnerung löst das. Nennen Sie uns Ihr Ankunftsdatum, wir berechnen, wann das Zeitfenster für Sie öffnet, und senden genau dann eine einzige E-Mail. Es wird nichts berechnet, bis Sie innerhalb des Zeitfensters entscheiden, ob Sie unsere Hilfe möchten.",
+    "rule4": "Wenn Sie auch ein Visum brauchen: Das e-VOA kann bis zu 90 Tage im Voraus beantragt werden. <link>Zur e-VOA-Hilfe</link>.",
+    "howTitle": "So funktioniert es",
+    "steps": {
+      "set": {
+        "t": "Erinnerung einrichten",
+        "d": "Ihre E-Mail-Adresse und Ihr Ankunftsdatum. Dauert 20 Sekunden. Keine Zahlung, kein Konto."
+      },
+      "email": {
+        "t": "E-Mail erhalten, wenn das Zeitfenster öffnet",
+        "d": "Ein kurzer Hinweis am Vortag, dann eine Nachricht in dem Moment, in dem das Portal Ihr Datum annimmt, mit einem Link, in dem Ihre Angaben vorausgefüllt sind."
+      },
+      "choose": {
+        "t": "Wir bereiten Ihre Karte vor und prüfen sie, oder Sie machen es selbst",
+        "d": "Bestellen Sie unsere Hilfe ab {price}, und eine Person prüft jedes Feld vor der Einreichung. Oder folgen Sie unserem kostenlosen Leitfaden und reichen Sie selbst auf dem offiziellen Portal ein."
+      }
+    },
+    "ctaSet": "Meine Erinnerung einrichten",
+    "ctaGuide": "Kostenlosen Leitfaden lesen",
+    "questionsTitle": "Fragen",
+    "faqs": {
+      "whyNotToday": {
+        "q": "Warum kann ich nicht heute beantragen?",
+        "a": "Das offizielle All-Indonesia-System nimmt Einreisekarten nur innerhalb der 72 Stunden (3 Tage) vor Ihrer geplanten Ankunft an. Frühere Einreichungen werden abgelehnt. Deshalb nehmen wir vor dem Öffnen des Zeitfensters weder eine Bestellung noch eine Zahlung entgegen."
+      },
+      "free": {
+        "q": "Ist die Erinnerung kostenlos?",
+        "a": "Ja. Sie erhalten für Ihre Reise höchstens zwei E-Mails: einen Hinweis am Vortag und eine, wenn das Zeitfenster öffnet. Abmeldung mit einem Klick."
+      },
+      "mustBuy": {
+        "q": "Muss ich danach Ihren Service kaufen?",
+        "a": "Nein. Die E-Mail enthält einen Link zu unserem geführten Formular, falls eine Person die Karte vorbereiten und prüfen soll, und einen Link zu unserem kostenlosen Leitfaden, falls Sie es lieber selbst auf dem offiziellen Portal erledigen."
+      },
+      "evoa": {
+        "q": "Und das e-VOA-Visum?",
+        "a": "Für das e-VOA gilt keine 72-Stunden-Grenze; es kann bis zu 90 Tage vor der Ankunft beantragt werden. Wenn Sie eines brauchen, können Sie es jetzt bestellen und die Erinnerung nur für die Einreisekarte einrichten."
+      },
+      "government": {
+        "q": "Sind Sie die indonesische Regierung?",
+        "a": "Nein. Wir sind ein privates Assistenzunternehmen und weder mit der Regierung Indonesiens noch mit der Generaldirektion für Einwanderung noch mit einer Regierungswebsite verbunden."
+      }
+    }
+  },
+  "Success": {
+    "metaTitle": "Bestellung eingegangen",
+    "title": "Vielen Dank – wir haben Ihre Angaben",
+    "order": "Bestellung <strong>{id}</strong> ({product}). Eine Bestätigung geht an <strong>{email}</strong>.",
+    "arrivalCardNext": "Der QR-Code Ihrer Einreisekarte folgt innerhalb von {hours} Stunden und frühestens 72 Stunden vor Ihrer Ankunft am {date}, weil das offizielle System Einreichungen nur in diesem Zeitfenster annimmt.",
+    "evoaNext": "Wir prüfen und reichen Ihr e-VOA innerhalb von {hours} Stunden ein; die Genehmigung folgt in der Regel am selben Tag, spätestens nach 2 Werktagen.",
+    "confirming": "Ihre Zahlung wird bestätigt. Sie erhalten in Kürze eine E-Mail.",
+    "devMode": "Entwicklungsmodus: Zahlungsanbieter nicht konfiguriert, Bestellung als bezahlt gespeichert.",
+    "nextTitle": "Wie es weitergeht",
+    "next1": "Ein Teammitglied prüft jedes Feld anhand Ihrer Passdaten{evoa, select, yes { sowie Ihren Passscan und Ihr Foto für das e-VOA} other {}}.",
+    "next2": "Wir reichen die Karte auf dem offiziellen Portal ein und geben Ihre E-Mail-Adresse an, damit der QR-Code auch vom Regierungssystem bei Ihnen ankommt.",
+    "next3": "Sie erhalten den QR-Code (PDF und Bild) sowie eine Flughafen-Checkliste per E-Mail.",
+    "next4": "Zeigen Sie den QR-Code zusammen mit Ihrem Reisepass bei der Einwanderung und beim Zoll vor.",
+    "cta": "Flughafen-Checkliste lesen"
+  },
+  "Evoa": {
+    "metaTitle": "Hilfe beim e-VOA-Antrag für Indonesien – Visum bei Ankunft online",
+    "metaDescription": "Wir bereiten Ihr e-VOA für Indonesien (elektronisches Visum bei Ankunft) vor und reichen es ein: 30 Tage, einmal verlängerbar. Von Menschen geprüft, Visumgebühr einzeln ausgewiesen, Zustellung per E-Mail.",
+    "jsonLdName": "Hilfe beim e-VOA-Antrag für Indonesien",
+    "badge": "Elektronisches Visum bei Ankunft · {days} Tage · einmal verlängerbar",
+    "title": "Ihr e-VOA für Indonesien, vorbereitet und geprüft, bevor Sie fliegen.",
+    "lead": "Sparen Sie sich die Schlange am Visa-on-Arrival-Schalter. Wir prüfen Ihren Reisepass und Ihr Foto, reichen den Antrag für das elektronische Visum bei Ankunft ein und senden Ihnen das genehmigte e-VOA per E-Mail.",
+    "ctaStart": "e-VOA starten – {price}",
+    "ctaBundle": "Paket e-VOA + Einreisekarte",
+    "priceTitle": "Preis pro Reisendem, aufgeschlüsselt",
+    "governmentFee": "Staatliche e-VOA-Gebühr ({idr} IDR pro Reisendem, in USD)",
+    "serviceFirst": "Unsere Servicegebühr, erster Reisender",
+    "serviceAdditional": "Unsere Servicegebühr, jeder weitere Reisende",
+    "bundle": "Paket mit Hilfe bei der Einreisekarte",
+    "bundleSave": "{price} pro Reisendem sparen",
+    "express": "Express, geprüft innerhalb von {hours} Std. (optional)",
+    "plus": "+{price}",
+    "totalFirst": "Gesamt erster Reisender: {price}",
+    "refundNote": "Die Servicegebühr wird vollständig erstattet, wenn Ihre Staatsangehörigkeit nicht berechtigt ist oder wir nicht einreichen können. Die Visumgebühr ist nicht erstattbar, sobald der Antrag bei den Behörden eingereicht wurde.",
+    "eligibleTitle": "Bin ich berechtigt?",
+    "eligibleText": "Der Reisepass muss ab dem Einreisedatum noch mindestens {months} Monate gültig sein. Sie brauchen ein Rück- oder Weiterreiseticket.",
+    "howTitle": "So funktioniert es",
+    "steps": {
+      "check": {
+        "t": "Berechtigung prüfen",
+        "d": "Geben Sie unten Ihre Staatsangehörigkeit ein. ASEAN-Staatsangehörige sind visumfrei; die meisten anderen Reisenden können das e-VOA nutzen."
+      },
+      "send": {
+        "t": "Reisepass und Foto senden",
+        "d": "Laden Sie vom Smartphone ein Foto Ihrer Passdatenseite und ein aktuelles Passfoto hoch."
+      },
+      "prepare": {
+        "t": "Wir bereiten vor und prüfen",
+        "d": "Ein Teammitglied prüft die Passgültigkeit (mindestens 6 Monate), die Fotoqualität und jedes Feld und reicht dann den Antrag ein."
+      },
+      "receive": {
+        "t": "e-VOA erhalten",
+        "d": "In der Regel am selben Tag, spätestens nach 2 Werktagen. Ausdrucken oder bei der Einwanderung auf dem Smartphone vorzeigen. Kombinieren Sie es mit dem QR-Code Ihrer Einreisekarte."
+      }
+    },
+    "factsTitle": "Fakten zum e-VOA",
+    "facts": {
+      "stay": "Aufenthalt: {days} Tage ab Einreise, einmal um weitere {extraDays} Tage bei einer Einwanderungsbehörde in Indonesien verlängerbar.",
+      "purposes": "Zwecke: Tourismus, Familienbesuche, Geschäftstreffen und Einkauf, Transit, dienstliche Aufgaben. Nicht gültig für Erwerbstätigkeit oder journalistische Tätigkeit.",
+      "window": "Beantragung bis etwa {days} Tage vor der Reise. Die Bearbeitung dauert in der Regel {processing}.",
+      "documents": "Dokumente: Passdatenseite (mindestens 6 Monate gültig), aktuelles Passfoto, Rück- oder Weiterreiseticket, E-Mail-Adresse.",
+      "entry": "Einreise über jeden internationalen Flughafen, Seehafen oder Grenzübergang, der Visum bei Ankunft akzeptiert. Sie brauchen weiterhin den QR-Code der Einreisekarte."
+    },
+    "typicalProcessing": "vom selben Tag bis zu 2 Werktagen",
+    "eligibility": {
+      "nationality": "Staatsangehörigkeit (Land des Reisepasses)",
+      "select": "Bitte wählen…",
+      "visaFree": "ASEAN-Staatsangehörige reisen 30 Tage visumfrei nach Indonesien ein. Sie brauchen kein e-VOA, nur die <link>Einreisekarte</link>.",
+      "eligible": "Berechtigt für das e-VOA. <link>Starten Sie Ihren Antrag</link>.",
+      "check": "Für Ihre Staatsangehörigkeit ist möglicherweise ein vor der Reise ausgestelltes Visum statt eines e-VOA nötig. <link>Fragen Sie uns</link>, wir bestätigen es innerhalb weniger Stunden, unverbindlich."
+    }
+  },
+  "Pricing": {
+    "metaTitle": "Preise",
+    "metaDescription": "Ein transparenter Preis für die Hilfe bei der Einreisekarte für Indonesien. Keine versteckten Gebühren.",
+    "title": "Preise",
+    "arrivalCardTitle": "Hilfe bei der Einreisekarte",
+    "intro": "Sie sehen den Gesamtpreis, bevor Sie persönliche Daten eingeben. Wir sind ein privater Assistenzdienst, nicht mit einer Regierungswebsite verbunden.",
+    "examples": "Beispiele",
+    "booking": "Buchung",
+    "standard": "Standard (unter {hours} Std.)",
+    "express": "Express (unter {hours} Std.)",
+    "travelers": "{count, plural, one {# Reisender} other {# Reisende}}",
+    "evoaTitle": "Hilfe beim e-VOA (Visum bei Ankunft)",
+    "perTraveler": "Pro Reisendem",
+    "amount": "Betrag",
+    "governmentFee": "Staatliche e-VOA-Gebühr ({idr} IDR pro Reisendem, in USD)",
+    "serviceFirst": "Servicegebühr, erster Reisender",
+    "serviceAdditional": "Servicegebühr, jeder weitere Reisende",
+    "bundleDiscount": "Paketrabatt bei Bestellung zusammen mit der Hilfe bei der Einreisekarte",
+    "minus": "−{price}",
+    "plus": "+{price}",
+    "expressEvoa": "Express (optional, geprüft innerhalb von {hours} Std.)",
+    "evoaOnly": "Nur e-VOA",
+    "evoaBundle": "Paket e-VOA + Einreisekarte",
+    "visaFeeNote": "Die Visumgebühr wird bei der Einreichung des Antrags bei den indonesischen Behörden in Ihrem Namen bezahlt und ist ab diesem Zeitpunkt nicht erstattbar. Details auf der <link>e-VOA-Seite</link>.",
+    "includedTitle": "Was enthalten ist",
+    "included": {
+      "form": "Geführtes mehrsprachiges Formular mit Auslesen des Passfotos.",
+      "review": "Manuelle Prüfung jedes Feldes durch ein geschultes Teammitglied.",
+      "submission": "Einreichung auf dem offiziellen Portal und Zustellung Ihres QR-Codes per E-Mail.",
+      "checklist": "Flughafen-Checkliste, Übersicht der Zollfreimengen und Anleitung zur IMEI-Registrierung.",
+      "support": "Support, bis Sie die Einwanderungskontrolle passiert haben."
+    },
+    "refundsTitle": "Erstattungen",
+    "refunds": "Volle Erstattung, wenn Ihre Karte nicht mindestens 6 Stunden vor Ihrer geplanten Ankunft zugestellt wird oder wenn Sie stornieren, bevor wir mit der Bearbeitung beginnen. Siehe <link>Erstattungsrichtlinie</link>."
+  },
+  "Guide": {
+    "metaTitle": "Leitfaden Einreisekarte Indonesien 2026: das All-Indonesia-Formular Schritt für Schritt ausfüllen",
+    "metaDescription": "Vollständiger Leitfaden zur All Indonesia Arrival Card: wer sie braucht, das 72-Stunden-Fenster, jeder Schritt auf dem offiziellen Portal und in der App, Anmeldung für Familien und Gruppen, Gesundheits- und Zollfragen, der QR-Code, bekannte App-Probleme und ihre Lösungen sowie häufige Fehler.",
+    "howToName": "So füllen Sie die All Indonesia Arrival Card auf dem offiziellen Portal aus",
+    "howToDescription": "Schritt-für-Schritt-Anleitung für die digitale Einreisekarte Indonesiens, vom Öffnen des offiziellen Portals bis zum Speichern des QR-Codes.",
+    "kicker": "Leitfaden, aktualisiert im September 2026",
+    "title": "Leitfaden Einreisekarte Indonesien: das All-Indonesia-Formular Schritt für Schritt ausfüllen",
+    "intro1": "Die All Indonesia Arrival Card ist das digitale Formular, das jeder Reisende vor der Einreise nach Indonesien ausfüllt. Sie hat die Einreisekarte aus Papier, die elektronische Zollerklärung (e-CD) und das Gesundheitsformular SATUSEHAT durch eine einzige Einreichung ersetzt, die einen QR-Code erzeugt. Betrieben wird sie von der Generaldirektion für Einwanderung.",
+    "intro2": "Sie wurde am 1. September 2025 in Jakarta (CGK), Bali (DPS), Surabaya (SUB) und an den Fährterminals von Batam verpflichtend und am 1. Oktober 2025 an jedem internationalen Flughafen, Seehafen und Grenzübergang. Sie gilt für alle Nationalitäten, für heimkehrende indonesische Staatsbürger sowie für Kinder und Kleinkinder. Sie ist kein Visum. Sie brauchen weiterhin eine visumfreie Einreise, ein Visum bei Ankunft oder ein anderes Visum.",
+    "officialApps": "Offizielle Apps: <play>All Indonesia bei Google Play</play> und <store>All Indonesia im App Store</store>, beide veröffentlicht von der Direktorat Jenderal Imigrasi.",
+    "tocLabel": "Inhalt",
+    "tocTitle": "Auf dieser Seite",
+    "toc": {
+      "before": "Bevor Sie beginnen",
+      "portal": "Schritt für Schritt auf dem offiziellen Portal",
+      "app": "Schritt für Schritt in der App",
+      "family": "Anmeldung für eine Familie oder Gruppe",
+      "healthCustoms": "Gesundheits- und Zollabschnitte erklärt",
+      "after": "Nach der Einreichung",
+      "problems": "Probleme mit App und Portal, und Lösungen",
+      "mistakes": "Häufige Fehler",
+      "faq": "Häufig gestellte Fragen",
+      "sources": "Quellen"
+    },
+    "before": {
+      "intro": "Fünfzehn Minuten reichen, wenn alles auf dem Tisch liegt.",
+      "needTitle": "Was Sie brauchen",
+      "need": {
+        "passport": "Reisepass, aufgeschlagen auf der Fotoseite.",
+        "flight": "Flug- oder Fährnummer, Datum und der Flughafen oder Hafen, an dem Sie zuerst die Einwanderungskontrolle passieren.",
+        "departure": "Abreisedatum aus Indonesien, auch ungefähr, und Ihre Visumart (visumfrei, Visum bei Ankunft, e-VOA oder andere).",
+        "accommodation": "Name und Adresse Ihrer ersten Unterkunft.",
+        "email": "Eine E-Mail-Adresse, die Sie auf dem Smartphone öffnen können. Dorthin gehen der Bestätigungscode und der QR-Code.",
+        "countries": "Die Länder, die Sie in den letzten 21 Tagen besucht haben.",
+        "goods": "Was Sie mitführen: Bargeld, Alkohol, Tabak, Geschenke, Lebensmittel, und ob Sie ein Telefon registrieren möchten.",
+        "nik": "Indonesische Staatsbürger: Ihre NIK."
+      },
+      "timingTitle": "Zeitpunkt: das 72-Stunden-Fenster",
+      "timing": "Das Portal nimmt eine Karte nur an, wenn das Ankunftsdatum innerhalb der nächsten 72 Stunden liegt. Wer früher einreicht, wird abgewiesen, weil die Karte an eine bestimmte Ankunft gebunden ist und die Daten für Einwanderungs- und Gesundheitsbehörden aktuell sein müssen. Die meisten reichen ein bis zwei Tage vor der Landung ein. Verschieben Sie es nicht auf den Flughafen: Manche Fluggesellschaften verlangen den QR-Code beim Check-in, und das Flughafen-WLAN ist langsam. Fliegen Sie erst in mehr als drei Tagen? <link>Richten Sie eine kostenlose Erinnerung ein</link>, und wir schreiben Ihnen, wenn Ihr Zeitfenster öffnet.",
+      "deviceTitle": "Hinweise zu Gerät und E-Mail",
+      "device": {
+        "connection": "Nutzen Sie eine stabile Verbindung. Ein Verbindungsabbruch während der Einreichung ist der häufigste Grund, warum kein QR-Code erscheint.",
+        "personalEmail": "Bevorzugen Sie eine private E-Mail-Adresse gegenüber einer beruflichen mit strenger Filterung.",
+        "oneCard": "Ein Reisender, eine Karte. Sie melden mehrere Personen an? Erledigen Sie sie nacheinander, mit den Reisepässen vor sich."
+      }
+    },
+    "portalIntro": "Das Webportal unter <link>allindonesia.imigrasi.go.id</link> ist auf Indonesisch, Englisch und Mandarin verfügbar und erfordert kein Konto. So läuft der Ablauf, wie ihn Einwanderungsbehörden und Reisende 2025 und 2026 dokumentiert haben. Bildschirmnamen ändern sich von Zeit zu Zeit; die Reihenfolge der Abschnitte nicht.",
+    "portalSteps": {
+      "open": {
+        "t": "Offizielles Portal öffnen und Kategorie wählen",
+        "d": "Gehen Sie auf allindonesia.imigrasi.go.id, stellen Sie bei Bedarf die Sprache auf Englisch um und wählen Sie den Dienst für die Einreisekarte. Wählen Sie dann ausländischer Besucher oder indonesischer Staatsbürger. Indonesische Staatsbürger geben zusätzlich ihre NIK (nationale Ausweisnummer) ein."
+      },
+      "email": {
+        "t": "E-Mail-Adresse bestätigen",
+        "d": "Geben Sie die E-Mail-Adresse ein, an die der QR-Code gehen soll. Das Portal sendet einen Bestätigungscode dorthin (prüfen Sie es im Portal, der Ablauf ändert sich). Kommt innerhalb weniger Minuten nichts an, sehen Sie im Spam-Ordner nach, bevor Sie einen neuen Code anfordern."
+      },
+      "personal": {
+        "t": "Persönliche Daten und Passdaten eingeben",
+        "d": "Scannen Sie die maschinenlesbare Zone unten auf der Passfotoseite mit der Kamera oder tippen Sie die Daten ein. Prüfen Sie jedes Feld: vollständiger Name wie gedruckt, Staatsangehörigkeit, Passnummer, Geburtsdatum, Geschlecht, Ablaufdatum und eine Telefonnummer."
+      },
+      "travel": {
+        "t": "Reisedaten eingeben",
+        "d": "Ankunftsdatum in Indonesien (das lokale Datum, nicht Ihr Abflugdatum), Verkehrsmittel, Flug- oder Schiffsnummer, Einreiseort, geplantes Abreisedatum, Reisezweck, Visumart und Ihre Adresse in Indonesien. Ein Hotelname mit Stadt wird akzeptiert."
+      },
+      "health": {
+        "t": "Gesundheitserklärung beantworten",
+        "d": "Geben Sie an, ob Sie derzeit Symptome wie Fieber, Husten oder Atembeschwerden haben, und listen Sie die in den letzten 21 Tagen besuchten Länder auf. Ein ehrliches Ja führt nicht zur Einreiseverweigerung; es kann eine kurze Kontrolle bei der Ankunft bedeuten."
+      },
+      "customs": {
+        "t": "Zoll- und Quarantäneerklärung beantworten",
+        "d": "Melden Sie Bargeld ab 100 Millionen IDR, Waren über der Freimenge von 500 USD, Alkohol und Tabak über den Grenzwerten, Handelswaren, Tiere, Pflanzen oder frische Lebensmittel sowie die Anzahl Ihrer Gepäckstücke. Beantworten Sie die IMEI-Frage nur mit Ja, wenn Sie ein Telefon für die Nutzung über 90 Tage hinaus registrieren möchten."
+      },
+      "review": {
+        "t": "Jedes Feld prüfen und einreichen",
+        "d": "Vergleichen Sie Name und Passnummer auf der Übersichtsseite mit dem Reisepass selbst. Prüfen Sie Ankunftsdatum und Einreiseort. Reichen Sie einmal ein."
+      },
+      "save": {
+        "t": "QR-Code speichern",
+        "d": "Die Bestätigung mit dem QR-Code erscheint auf dem Bildschirm und wird Ihnen per E-Mail gesendet. Laden Sie sie herunter, machen Sie einen Screenshot im Vollbild und drucken Sie nach Möglichkeit eine Kopie."
+      }
+    },
+    "appIntro": "Die App stellt dieselben Fragen. Der Unterschied: Sie braucht ein Konto und bewahrt Ihre Karten an einem Ort auf.",
+    "appSteps": {
+      "install": {
+        "t": "Offizielle App installieren",
+        "d": "Suchen Sie bei Google Play oder im App Store nach All Indonesia von Direktorat Jenderal Imigrasi oder nutzen Sie die Links oben. Ignorieren Sie ähnlich aussehende Apps."
+      },
+      "account": {
+        "t": "Konto anlegen",
+        "d": "Registrieren Sie sich mit Ihren Daten, einer E-Mail-Adresse und einem Passwort und geben Sie dann den Einmalcode ein, der an diese E-Mail gesendet wird. Erledigen Sie das zu Hause, bevor das 72-Stunden-Fenster öffnet."
+      },
+      "start": {
+        "t": "Einreisekarte beginnen",
+        "d": "Melden Sie sich an, wählen Sie den Dienst für die Einreisekarte und Ihre Kategorie. Scannen Sie den Reisepass mit der Kamera oder tippen Sie die Daten ein."
+      },
+      "sections": {
+        "t": "Dieselben Abschnitte wie im Web ausfüllen",
+        "d": "Reisedaten, Adresse in Indonesien, Gesundheitserklärung, Zoll und Quarantäne. Die Fragen sind identisch mit dem Portal."
+      },
+      "submit": {
+        "t": "Einreichen und den QR-Code in der App behalten",
+        "d": "Der QR-Code wird in der App gespeichert und Ihnen per E-Mail gesendet. Machen Sie als Sicherung einen Screenshot, damit Sie am Flughafen nicht auf eine Anmeldung angewiesen sind."
+      }
+    },
+    "appOrWebTitle": "App oder Website?",
+    "appOrWeb": {
+      "web": "Website: eine einmalige Reise, ein größerer Bildschirm oder wenn die App abstürzt. Keine Registrierung.",
+      "app": "App: häufige Reisen, Gruppenanmeldung (Reiseführer berichten von bis zu zehn Reisenden pro Gruppeneinreichung; prüfen Sie das aktuelle Limit in der App) oder den QR-Code griffbereit haben, ohne die E-Mail zu öffnen. Sie bietet außerdem mehr Sprachen, darunter Japanisch, Koreanisch, Russisch und Arabisch."
+    },
+    "family1": "Das System ist auf eine Karte pro Person ausgelegt. Jeder Reisende, auch ein Baby mit eigenem Reisepass, muss eine Karte auf den eigenen Namen haben. Ein Elternteil oder Gruppenleiter kann alle ausfüllen. Die App hat eine Gruppenoption, die mehrere Reisende in einer Sitzung aufnimmt.",
+    "family2": "Eine Warnung. Reisende im Bali-Forum berichten, dass eine Gruppeneinreichung nur für den Leiter einen QR-Code lieferte, während die anderen Mitglieder eine Einreisekartennummer, aber keinen Code erhielten. Ob Fehler oder Absicht, der sichere Weg ist derselbe: Prüfen Sie nach der Einreichung, dass jede Person ihren eigenen QR-Code hat. Falls nicht, suchen Sie sie auf der <link>Abrufseite</link> oder reichen Sie für diese Person eine einzelne Karte ein.",
+    "familyTipsTitle": "Tipps, wenn Sie mehrere nacheinander ausfüllen",
+    "familyTips": {
+      "order": "Legen Sie die Reisepässe in der Reihenfolge bereit, in der Sie sie eingeben, und haken Sie jeden ab.",
+      "sameEmail": "Verwenden Sie dieselbe E-Mail-Adresse für alle Karten und benennen Sie dann jede Datei mit dem Namen des Reisenden.",
+      "noCopy": "Flug, Hafen und Adresse sind für alle gleich; kopieren Sie niemals eine Passnummer von einer Karte in die nächste.",
+      "child": "Bei einem Kind sind Reisezweck und Adresse die des begleitenden Erwachsenen."
+    },
+    "healthTitle": "Gesundheitserklärung",
+    "health": "Zwei Dinge werden abgefragt: aktuelle Symptome und Reiseverlauf. Antworten Sie bei Symptomen mit Ja, wenn Sie Fieber, Husten, Atembeschwerden oder ähnliche Anzeichen einer Infektion haben. Listen Sie dann die in den letzten 21 Tagen besuchten Länder auf, die Inkubationszeit, die das Gesundheitsministerium für die überwachten Krankheiten ansetzt. Ein Ja kann eine Temperaturmessung oder ein paar Fragen bei der Ankunft bedeuten. Ein falsches Nein ist eine Straftat.",
+    "customsTitle": "Zollerklärung",
+    "customsIntro": "Antworten Sie mit Ja, wenn einer dieser Punkte auf Sie oder die Familie zutrifft, für die Sie die Erklärung abgeben:",
+    "customsYes": {
+      "cash": "Bargeld, Schecks oder andere Inhaberpapiere im Wert von 100 Millionen IDR oder mehr, in beliebiger Währung.",
+      "goods": "Persönliche Waren im Gesamtwert von mehr als 500 USD oder mehr als 1 Liter Alkohol, 200 Zigaretten, 25 Zigarren oder 100 Gramm Tabak.",
+      "commercial": "Waren zum Verkauf oder für ein Unternehmen, Muster eingeschlossen.",
+      "prohibited": "Betäubungsmittel, Waffen, Munition oder Pornografie. Diese sind grundsätzlich verboten."
+    },
+    "customsBags": "Sie geben außerdem an, wie viele Gepäckstücke Sie haben. Alle Freimengen und einen schnellen Rechner finden Sie auf unserer <link>Zollseite</link>.",
+    "quarantineTitle": "Quarantäneerklärung",
+    "quarantine": "Antworten Sie mit Ja, wenn Sie lebende Tiere, tierische Produkte, Pflanzen, Samen, Obst, Gemüse oder andere frische Lebensmittel mitführen. Manche brauchen ein Gesundheits- oder Pflanzengesundheitszeugnis; die meisten werden kontrolliert oder beschlagnahmt. Versiegelte verpackte Snacks sind in der Regel unproblematisch, aber antworten Sie danach, was Sie tatsächlich mitführen.",
+    "imeiTitle": "IMEI-Registrierung",
+    "imei": "Ein im Ausland gekauftes Telefon funktioniert bis zu 90 Tage ohne Registrierung mit einer indonesischen SIM-Karte. Bleiben Sie länger? Beantworten Sie die IMEI-Frage mit Ja und zeigen Sie dem Zollbeamten den QR-Code, der die Registrierung abschließt. Üblich sind höchstens zwei Geräte pro Reisendem, und über der Freimenge können Steuern anfallen. Bei kurzen Besuchen ist nichts zu tun.",
+    "after": {
+      "qrEmailTitle": "Die QR-E-Mail",
+      "qrEmail": "Die Bestätigung kommt innerhalb von Minuten. Speichern Sie den Anhang, machen Sie einen Screenshot des vollständigen Codes und drucken Sie ihn nach Möglichkeit aus. Bewahren Sie ihn in einem Album zusammen mit Ihrer Passfotoseite auf.",
+      "lostTitle": "QR-Code verloren",
+      "lost": "Nutzen Sie die <link>Abrufseite auf dem offiziellen Portal</link>. Sie sucht Ihre Einreichung anhand Ihrer Passdaten und E-Mail-Adresse (prüfen Sie es im Portal, die Felder können sich ändern) und lässt Sie die Karte erneut herunterladen. In der App bleibt die Karte in Ihrem Konto.",
+      "airlineTitle": "Check-in bei der Fluggesellschaft",
+      "airline": "Die Karte ist eine indonesische Vorschrift, keine der Fluggesellschaft, aber das Bodenpersonal prüft sie auf vielen Strecken, bevor es eine Bordkarte ausstellt. Halten Sie den QR-Code am Schalter und am Gate geöffnet bereit.",
+      "immigrationTitle": "Einwanderung",
+      "immigration": "An den großen Flughäfen gehen Sie zu einem Autogate, wenn Sie einen biometrischen Reisepass und ein Visum oder eine Befreiung haben, die das Gate unterstützt. Legen Sie den Pass auf das Lesegerät, schauen Sie in die Kamera, und das System prüft, ob eine gültige Einreisekarte für diesen Pass vorliegt. Kann das Gate Sie nicht zuordnen, gehen Sie zu einem Schalter und zeigen Sie den QR-Code mit Ihrem Pass vor. Das Visum bei Ankunft wird vor der Einwanderung bezahlt; die Karte ersetzt es nicht.",
+      "customsTitle": "Zoll",
+      "customs": "Nach der Gepäckausgabe scannen Sie den QR-Code am Zollterminal. Nichts angemeldet und keine Stichprobe: grüner Ausgang. Etwas angemeldet: roter Ausgang, wo ein Beamter kontrolliert oder Abgaben festsetzt. Bewahren Sie Belege für teure Gegenstände auf."
+    },
+    "problemCol": "Problem",
+    "fixCol": "Was zu tun ist",
+    "problems": {
+      "noEmail": {
+        "p": "Bestätigungscode oder QR-E-Mail kommt nie an",
+        "f": "Prüfen Sie Spam und Werbung. Warten Sie fünf Minuten. Vergewissern Sie sich, dass die Adresse keinen Tippfehler hat. Fordern Sie einmal einen neuen Code an. Wird sie von einer beruflichen Adresse gefiltert, nutzen Sie eine private."
+      },
+      "appCloses": {
+        "p": "App schließt sich beim Drücken auf Weiter",
+        "f": "Aktualisieren Sie die App, starten Sie das Telefon neu und versuchen Sie es erneut. Bleibt es dabei, nutzen Sie das Webportal; es erzeugt denselben QR-Code."
+      },
+      "loginLoop": {
+        "p": "App springt immer wieder zum Anmeldebildschirm zurück",
+        "f": "Abmelden, App-Cache leeren oder neu installieren, erneut anmelden. Oder zum Webportal wechseln."
+      },
+      "scanFails": {
+        "p": "Passscan oder Foto-Upload schlägt fehl",
+        "f": "Legen Sie den Pass flach bei gutem Licht ohne Spiegelungen hin. Schlägt es weiterhin fehl, tippen Sie die Daten von Hand ein und prüfen Sie sie zweimal."
+      },
+      "tooEarly": {
+        "p": "Einreichung als zu früh abgelehnt",
+        "f": "Das Formular akzeptiert nur ein Ankunftsdatum innerhalb der nächsten 72 Stunden. Kommen Sie zurück, wenn das Zeitfenster öffnet."
+      },
+      "slow": {
+        "p": "Portal langsam oder Zeitüberschreitung",
+        "f": "Versuchen Sie es früh morgens oder spät abends nach indonesischer Zeit. Reichen Sie nicht blind erneut ein; prüfen Sie auf der Abrufseite, ob der erste Versuch durchgegangen ist."
+      },
+      "wrongDate": {
+        "p": "QR-Code zeigt das falsche Ankunftsdatum",
+        "f": "Nach Nachtflügen gemeldet: Die Karte zeigt den Tag vor dem eingegebenen Datum. Reichen Sie eine neue Karte mit dem richtigen lokalen Datum ein und behalten Sie diese."
+      },
+      "twice": {
+        "p": "Sie haben zweimal eingereicht",
+        "f": "Behalten Sie die Kopie mit den richtigen Angaben und zeigen Sie nur diese. Duplikate führen laut Berichten nicht zu Ablehnungen."
+      },
+      "airline": {
+        "p": "Fluggesellschaft verlangt den QR-Code beim Check-in",
+        "f": "Häufig auf Flügen aus Singapur, Australien und den Golfstaaten. Öffnen Sie den QR-Code auf dem Smartphone, bevor Sie an den Schalter gehen."
+      },
+      "oneQr": {
+        "p": "Für eine Gruppe kam nur ein QR-Code an",
+        "f": "Suchen Sie jeden Reisenden mit seinen Passdaten auf der Abrufseite. Hat jemand keine Karte, reichen Sie für diese Person eine einzelne ein."
+      }
+    },
+    "mistakes": {
+      "name": {
+        "m": "Name stimmt nicht mit dem Reisepass überein",
+        "c": "Die Karte wird markiert, und Sie werden an einen manuellen Schalter geschickt. Übernehmen Sie den Namen aus der maschinenlesbaren Zone, alle Vornamen eingeschlossen, ohne Titel oder Akzente."
+      },
+      "passportNumber": {
+        "m": "Passnummer mit 0 statt O oder 1 statt I eingegeben",
+        "c": "Das Autogate kann Sie nicht zuordnen. Lesen Sie die Nummer aus der maschinenlesbaren Zone ab und prüfen Sie jedes Zeichen."
+      },
+      "date": {
+        "m": "Falsches Ankunftsdatum",
+        "c": "Die Karte ist am Tag Ihrer Landung möglicherweise nicht gültig. Verwenden Sie das lokale Ankunftsdatum in Indonesien; bei einem Nachtflug ist das der Tag nach dem Abflug."
+      },
+      "port": {
+        "m": "Falscher Einreiseort",
+        "c": "Beamte stellen Fragen, und das Zollterminal findet Sie möglicherweise nicht. Wählen Sie den Flughafen oder Hafen, an dem Sie zuerst die Einwanderungskontrolle passieren, nicht Ihr Endziel nach einem Inlandsanschluss."
+      },
+      "unofficial": {
+        "m": "Nutzung einer inoffiziellen kostenpflichtigen Seite, die offiziell aussieht",
+        "c": "Sie bezahlen für ein kostenloses Formular und geben Ihre Passdaten an Fremde; oft folgen gefälschte E-Mails, die mehr Geld verlangen. Tippen Sie allindonesia.imigrasi.go.id selbst ein und nutzen Sie nur die offiziellen Apps."
+      },
+      "customs": {
+        "m": "Den Zollteil vergessen",
+        "c": "Nicht angemeldetes Bargeld oder Waren können mit Bußgeld belegt oder beschlagnahmt werden. Lesen Sie die Zollfragen vor der Reise und prüfen Sie die Freimengen auf unserer Zollseite."
+      },
+      "oneQr": {
+        "m": "Ein QR-Code für die ganze Familie",
+        "c": "Jeder Reisende muss einer Karte zugeordnet sein. Stellen Sie sicher, dass jede Person, auch Kleinkinder, eine Karte auf den eigenen Namen und einen eigenen QR-Code hat."
+      },
+      "screenshot": {
+        "m": "Screenshot abgeschnitten oder zu klein zum Scannen",
+        "c": "Das Terminal kann ihn nicht lesen, und Sie stehen erneut an. Behalten Sie die Originaldatei und einen Screenshot, der den ganzen Code zeigt, mit hoher Bildschirmhelligkeit."
+      },
+      "email": {
+        "m": "E-Mail-Adresse mit Tippfehler",
+        "c": "Kein Bestätigungscode und kein QR-Code. Geben Sie die Adresse zweimal ein und prüfen Sie sie, bevor Sie fortfahren."
+      }
+    },
+    "faqs": {
+      "visa": {
+        "q": "Ist die All Indonesia Arrival Card ein Visum?",
+        "a": "Nein. Sie ist eine Erklärung gegenüber Einwanderung, Zoll, Gesundheit und Quarantäne. Je nach Staatsangehörigkeit brauchen Sie weiterhin eine visumfreie Einreise, ein Visum bei Ankunft, ein e-VOA oder ein anderes Visum."
+      },
+      "cost": {
+        "q": "Kostet sie etwas?",
+        "a": "Nein. Die Karte ist auf dem offiziellen Portal und in der offiziellen App kostenlos. Jede Seite, die für die Karte selbst Geld verlangt, ist inoffiziell. Unsere Gebühr bezahlt die Vorbereitung, Prüfung und Zustellung in Ihrem Namen."
+      },
+      "when": {
+        "q": "Wann kann ich sie einreichen?",
+        "a": "Innerhalb der 72 Stunden vor Ihrem Ankunftsdatum in Indonesien. Frühere Einreichungen werden abgelehnt. Die meisten Reisenden reichen 24 bis 48 Stunden vor der Landung ein."
+      },
+      "children": {
+        "q": "Brauchen Kinder und Kleinkinder eine?",
+        "a": "Ja. Jeder Reisende mit Reisepass braucht eine Karte, unabhängig vom Alter. Ein Elternteil kann sie für sie ausfüllen."
+      },
+      "citizens": {
+        "q": "Brauchen indonesische Staatsbürger sie?",
+        "a": "Ja. Aus dem Ausland zurückkehrende Staatsbürger füllen dieselbe Karte aus, wählen die Kategorie indonesischer Staatsbürger und geben ihre NIK ein."
+      },
+      "transit": {
+        "q": "Ich bin nur im Transit. Brauche ich sie?",
+        "a": "Wenn Sie im internationalen Transitbereich bleiben und die Einwanderungskontrolle nicht passieren, nein. Wenn Sie die Einwanderungskontrolle passieren, auch nur für eine Nacht, ja."
+      },
+      "print": {
+        "q": "Muss ich den QR-Code ausdrucken?",
+        "a": "Nein. Eine digitale Kopie auf dem Smartphone wird akzeptiert. Ein Ausdruck ist eine nützliche Sicherung, falls Akku oder Empfang ausfallen."
+      },
+      "lost": {
+        "q": "Ich habe den QR-Code verloren. Was nun?",
+        "a": "Nutzen Sie die Abrufseite auf dem offiziellen Portal mit Ihren Passdaten, um ihn erneut herunterzuladen, oder öffnen Sie die App, in der er gespeichert ist."
+      },
+      "onArrival": {
+        "q": "Kann ich sie bei der Ankunft ausfüllen?",
+        "a": "In der Praxis ja, auf dem Smartphone in der Ankunftshalle, aber es ist langsam, und manche Fluggesellschaften verlangen sie vor dem Boarding. Erledigen Sie es vor dem Abflug."
+      },
+      "airports": {
+        "q": "Welche Flughäfen und Häfen nutzen sie?",
+        "a": "Seit dem 1. Oktober 2025 alle internationalen Flughäfen, darunter Jakarta, Bali, Surabaya, Medan, Makassar, Manado und Labuan Bajo, sowie internationale Seehäfen wie die Fährterminals von Batam und Bintan und Benoa und Landgrenzen wie Motaain."
+      },
+      "appOrWeb": {
+        "q": "Soll ich die App oder die Website nutzen?",
+        "a": "Beides geht. Die Website braucht kein Konto und funktioniert auf jedem Gerät. Die App speichert den QR-Code und eignet sich für wiederholte Reisen und Gruppen, erfordert aber eine Registrierung und hatte Abstürze."
+      },
+      "airport": {
+        "q": "Was passiert am Flughafen?",
+        "a": "Bei der Einwanderung scannen Sie Ihren Pass an einem Autogate oder geben ihn einem Beamten; das System findet Ihre Karte. Nach der Gepäckausgabe scannen Sie den QR-Code am Zollterminal und nehmen den grünen oder roten Ausgang."
+      }
+    },
+    "sourcesIntro": "Seiten, auf die wir uns gestützt haben, alle geprüft am 23. September 2026. Regeln ändern sich; das offizielle Portal hat immer Vorrang vor dieser Seite.",
+    "sources": {
+      "portal": "<portal>Offizielles All-Indonesia-Portal</portal>, sein <help>Hilfezentrum</help> und die <retrieve>Abrufseite</retrieve>, Generaldirektion für Einwanderung.",
+      "apps": "<play>All Indonesia bei Google Play</play> und <store>im App Store</store>, Einträge und Nutzerbewertungen.",
+      "cirebon": "<link>All Indonesia (Indonesia Arrival Card)</link>, Einwanderungsbehörde Cirebon.",
+      "karawang": "<link>So registrieren Sie sich in der All-Indonesia-App</link>, Einwanderungsbehörde Karawang.",
+      "woah": "<link>Leitfaden All Indonesia Arrival Card (PDF)</link>, WOAH Asien-Pazifik, September 2025.",
+      "wikipedia": "<link>All Indonesia Arrival Card</link>, Wikipedia, Zeitplan der Einführung und Abschnitte des Formulars.",
+      "autogate": "<link>Autogate-System an internationalen Flughäfen</link>, Wonderful Indonesia.",
+      "customs": "<link>Generaldirektion für Zoll und Verbrauchsteuern</link>, Freimengen und Bargeldregel.",
+      "tripadvisor": "Tripadvisor-Bali-Forum: <a>All Indonesia arrival card</a>, <b>falsches Datum auf der Karte</b>, <c>nur ein QR-Code für eine Gruppe</c>.",
+      "guides": "Reiseführer zum Gegenprüfen des Ablaufs: <wego>Wego</wego>, <wbtb>Welcome Back to Bali</wbtb>, <bali>bali.com</bali>, <emerhub>Emerhub</emerhub>, <tsl>TheSmartLocal</tsl>, <zoom>Zoom Travel</zoom>."
+    },
+    "ctaTitle": "Lieber vorbereiten und prüfen lassen?",
+    "ctaText": "Unser Team bereitet Ihre Karte aus einem kurzen geführten Formular vor, prüft jedes Feld anhand Ihres Reisepasses, reicht sie innerhalb des 72-Stunden-Fensters ein und sendet den QR-Code per E-Mail. Ab {price} pro Reisendem. Nützlich für Familien, Gruppen oder wenn Sie sich lieber nicht mit dem Portal befassen möchten.",
+    "cta": "Assistenzdienst nutzen",
+    "ctaReminder": "Fliegen Sie erst in mehr als 3 Tagen? <link>Richten Sie eine Erinnerung ein</link>, und wir sagen Ihnen, wann das Zeitfenster öffnet."
+  },
+  "Customs": {
+    "metaTitle": "Zollfreimengen Indonesien 2026: zollfreie Grenzen, Bargeld, IMEI",
+    "metaDescription": "Was Sie bei der Einreise nach Indonesien anmelden müssen: Freimenge von 500 USD für persönliche Waren, Grenzen für Alkohol und Tabak, Bargeldregel 100 Millionen IDR, IMEI-Registrierung des Telefons.",
+    "title": "Zollfreimengen Indonesien und was anzumelden ist",
+    "intro": "Zusammenfassung der Regeln, die Bea Cukai (der indonesische Zoll) für ankommende Passagiere anwendet. Prüfen Sie die aktuellen Zahlen immer auf der <link>offiziellen Zollwebsite</link>.",
+    "colItem": "Position",
+    "colAllowance": "Freimenge pro erwachsenem Passagier",
+    "colExceeded": "Bei Überschreitung",
+    "rows": {
+      "goods": {
+        "item": "Persönliche Waren (nicht gewerblich)",
+        "allowance": "Gesamtwert 500 USD",
+        "exceeded": "Einfuhrzoll und Steuern auf den Mehrwert"
+      },
+      "alcohol": {
+        "item": "Alkoholische Getränke",
+        "allowance": "1 Liter",
+        "exceeded": "Der Überschuss wird beschlagnahmt und vernichtet"
+      },
+      "tobacco": {
+        "item": "Tabak",
+        "allowance": "200 Zigaretten oder 25 Zigarren oder 100 g Tabak",
+        "exceeded": "Der Überschuss wird beschlagnahmt und vernichtet"
+      },
+      "cash": {
+        "item": "Bargeld und Inhaberpapiere",
+        "allowance": "Unter 100.000.000 IDR (oder Gegenwert)",
+        "exceeded": "Muss angemeldet werden; Strafen bei Nichtanmeldung"
+      },
+      "phones": {
+        "item": "Mobiltelefone",
+        "allowance": "Max. 2 Geräte; IMEI-Registrierung nötig, um eine indonesische SIM länger als 90 Tage zu nutzen",
+        "exceeded": "Registrierung beim Zoll bei der Ankunft; über der Freimenge können Steuern anfallen"
+      },
+      "bio": {
+        "item": "Tiere, Pflanzen, frische Lebensmittel",
+        "allowance": "Erfordert Quarantäneerklärung und Genehmigungen",
+        "exceeded": "Beschlagnahmung; Bußgelder möglich"
+      },
+      "prohibited": {
+        "item": "Drogen, Waffen, Pornografie",
+        "allowance": "Verboten",
+        "exceeded": "Strafverfolgung"
+      }
+    },
+    "quickCheck": "Schnellcheck: Muss ich etwas anmelden?",
+    "calculator": {
+      "goods": "Wert der im Ausland gekauften Waren (USD)",
+      "alcohol": "Alkohol (Liter)",
+      "cigarettes": "Zigaretten (Stück)",
+      "cash": "Mitgeführtes Bargeld (Gegenwert in IDR)",
+      "phones": "Mitgeführte Mobiltelefone",
+      "bio": "Ich führe Tiere, Pflanzen, Samen oder frische Lebensmittel mit",
+      "flagGoods": "Persönliche Waren über der Freimenge von 500 USD: Zoll fällt auf etwa {excess} USD an.",
+      "flagAlcohol": "Alkohol über 1 Liter: Der Überschuss wird beschlagnahmt.",
+      "flagCigarettes": "Mehr als 200 Zigaretten: Der Überschuss wird beschlagnahmt.",
+      "flagCash": "Bargeld ab 100 Millionen IDR muss auf der Einreisekarte angemeldet werden.",
+      "flagPhones": "Mehr als 2 Telefone überschreiten die Freimenge für Passagiere; es werden Steuern festgesetzt.",
+      "flagBio": "Tiere, Pflanzen oder frische Lebensmittel müssen zur Quarantänekontrolle angemeldet werden.",
+      "nothing": "Nach diesen Angaben nichts anzumelden. Beantworten Sie die Zollfragen auf der Einreisekarte mit „Nein“.",
+      "indicative": "Nur zur Orientierung. Die endgültige Entscheidung treffen die Zollbeamten."
+    }
+  },
+  "News": {
+    "metaTitle": "Amtliche Meldungen zu Einwanderung und Zoll, zusammengefasst",
+    "metaDescription": "Verständliche Zusammenfassungen der Bekanntmachungen der indonesischen Generaldirektionen für Einwanderung und Zoll, mit Links zur Originalquelle.",
+    "title": "Amtliche Meldungen, für Reisende zusammengefasst",
+    "intro": "Kurze Zusammenfassungen der Bekanntmachungen der indonesischen Einwanderungs- und Zollbehörden. Jeder Eintrag verlinkt auf das Original. Wir sind nicht die Quelle und sprechen nicht für diese Behörden.",
+    "keyRules": "Geltende Kernregeln",
+    "evergreen": {
+      "arrivalCard": {
+        "title": "Die All Indonesia Arrival Card ist an allen internationalen Einreiseorten Pflicht",
+        "text": "Seit dem 1. Oktober 2025 muss jeder international Einreisende die digitale Einreisekarte innerhalb von 72 Stunden vor der Ankunft einreichen und den QR-Code zusammen mit dem Reisepass vorzeigen."
+      },
+      "cash": {
+        "title": "Bargeld ab 100 Millionen IDR muss angemeldet werden",
+        "text": "Wer 100.000.000 IDR oder mehr (oder den Gegenwert in Fremdwährung) nach Indonesien ein- oder ausführt, muss dies beim Zoll anmelden."
+      }
+    },
+    "latest": "Neueste Bekanntmachungen",
+    "empty": "Der Feed wird zweimal pro Woche von den offiziellen Websites aktualisiert. Noch keine Einträge.",
+    "sources": {
+      "imigrasi": "Ditjen Imigrasi",
+      "beacukai": "Bea Cukai",
+      "other": "Offizielle Quelle"
+    }
+  },
+  "Faq": {
+    "metaTitle": "FAQ – Einreisekarte Indonesien",
+    "metaDescription": "Antworten zur All Indonesia Arrival Card: wer sie braucht, die 72-Stunden-Regel, der QR-Code, Zoll und unser Assistenzdienst.",
+    "title": "Häufig gestellte Fragen",
+    "items": {
+      "fee": {
+        "q": "Was deckt die Gebühr ab?",
+        "a": "Geführte Datenerfassung, manuelle Prüfung jedes Feldes, Einreichung Ihrer Einreisekarte, Zustellung des QR-Codes per E-Mail und Support, bis Sie die Einwanderungskontrolle passiert haben."
+      },
+      "who": {
+        "q": "Wer muss sie ausfüllen?",
+        "a": "Alle international nach Indonesien Einreisenden auf dem Luft-, See- oder Landweg, einschließlich indonesischer Staatsbürger und Kinder. Jeder Reisende braucht eine eigene Karte."
+      },
+      "when": {
+        "q": "Wann muss sie eingereicht werden?",
+        "a": "Innerhalb von 72 Stunden (3 Tagen) vor Ihrer geplanten Ankunft. Eine Einreichung früher als 72 Stunden wird vom System nicht angenommen, deshalb planen wir Ihre Einreichung innerhalb dieses Zeitfensters."
+      },
+      "receive": {
+        "q": "Was erhalte ich?",
+        "a": "Einen QR-Code, den Sie bei der Ankunft zusammen mit Ihrem Reisepass bei der Einwanderung und beim Zoll vorzeigen. Wir senden ihn per E-Mail als PDF und als Bild."
+      },
+      "visa": {
+        "q": "Ersetzt die Einreisekarte ein Visum?",
+        "a": "Nein. Sie ist eine Einreiseerklärung (Einwanderung, Zoll und Gesundheit in einem Formular). Sie brauchen weiterhin eine visumfreie Einreise, ein Visum bei Ankunft, ein e-VOA oder ein anderes Visum, je nachdem, was zutrifft. Wir können auch das e-VOA für Sie vorbereiten."
+      },
+      "evoa": {
+        "q": "Was ist das e-VOA und wer kann es nutzen?",
+        "a": "Das elektronische Visum bei Ankunft ist ein 30-Tage-Visum, einmal um 30 Tage verlängerbar, verfügbar für rund 97 Nationalitäten für Tourismus, Familienbesuche, Geschäftstreffen und Transit. ASEAN-Staatsangehörige brauchen es nicht. Ihr Reisepass muss noch mindestens 6 Monate gültig sein."
+      },
+      "evoaPrice": {
+        "q": "Wie setzt sich der e-VOA-Preis zusammen?",
+        "a": "Die staatliche e-VOA-Gebühr von 500.000 IDR (etwa 31 USD) wird getrennt von unserer Servicegebühr ausgewiesen. Die staatliche Gebühr ist nicht erstattbar, sobald der Antrag eingereicht wurde; unsere Servicegebühr wird erstattet, wenn Sie nicht berechtigt sind oder wir nicht einreichen können."
+      },
+      "evoaTime": {
+        "q": "Wie lange dauert das e-VOA?",
+        "a": "In der Regel am selben Tag, spätestens 2 Werktage nach unserer Einreichung. Beantragen Sie es sicherheitshalber mindestens 5 Tage vor der Reise; die Express-Option priorisiert Prüfung und Einreichung."
+      },
+      "airports": {
+        "q": "Welche Flughäfen und Häfen nutzen sie?",
+        "a": "Alle wichtigen internationalen Einreiseorte, darunter Jakarta (CGK), Bali (DPS), Surabaya (SUB), Medan (KNO), Makassar (UPG) sowie die Fährterminals von Batam und Tanjung Pinang. Manche Fluggesellschaften verlangen den QR-Code vor dem Boarding."
+      },
+      "mistake": {
+        "q": "Was, wenn ich einen Fehler mache?",
+        "a": "Angaben wie die Passnummer müssen exakt übereinstimmen. Das ist der Hauptgrund, warum Menschen unseren Service nutzen: Eine Person prüft jedes Feld vor der Einreichung."
+      },
+      "safety": {
+        "q": "Sind meine Passdaten sicher?",
+        "a": "Die Daten werden verschlüsselt, nur zur Vorbereitung Ihrer Karte verwendet, niemals verkauft und 30 Tage nach Ihrem Ankunftsdatum gelöscht. Siehe unsere Datenschutzerklärung."
+      },
+      "refund": {
+        "q": "Kann ich eine Erstattung erhalten?",
+        "a": "Ja, in voller Höhe, wenn wir nicht mindestens 6 Stunden vor Ihrer Ankunftszeit liefern oder wenn Sie stornieren, bevor die Bearbeitung beginnt."
+      },
+      "government": {
+        "q": "Sind Sie die indonesische Regierung?",
+        "a": "Nein. Wir sind ein privates Assistenzunternehmen und weder mit der Regierung Indonesiens noch mit der Generaldirektion für Einwanderung noch mit einer Regierungswebsite verbunden."
+      },
+      "diy": {
+        "q": "Kann ich die Einreisekarte ohne Ihren Service ausfüllen?",
+        "a": "Ja. Die All Indonesia Arrival Card kann kostenlos auf dem offiziellen Regierungsportal allindonesia.imigrasi.go.id ausgefüllt werden. Unsere Gebühr gilt nur für das Vorbereiten, Prüfen und Zustellen in Ihrem Auftrag."
+      }
+    }
+  },
+  "Contact": {
+    "metaTitle": "Kontakt & Support",
+    "title": "Kontakt & Support",
+    "hours": "Supportzeiten: 07:00–23:00 Uhr Jakarta-Zeit (UTC+7), täglich. Übliche Antwortzeit bei bezahlten Bestellungen unter 15 Minuten.",
+    "email": "E-Mail",
+    "orderQuestions": "Fragen zur Bestellung",
+    "orderQuestionsText": "Antworten Sie auf Ihre Bestätigungs-E-Mail mit Ihrer Bestellnummer, und wir antworten während der Supportzeiten innerhalb von 15 Minuten."
+  },
+  "Legal": {
+    "operatorContact": "{company}, {address}. {reg}. Kontakt: <mail>{email}</mail>.",
+    "disclosure": {
+      "metaTitle": "Hinweis zur Nichtzugehörigkeit",
+      "title": "Hinweis zur Nichtzugehörigkeit",
+      "meaningTitle": "Was das für Sie bedeutet",
+      "meaning1": "Unsere Gebühr gilt für eine Dienstleistung: geführte Datenerfassung, manuelle Prüfung, Einreichung in Ihrem Namen, Zustellung und Support.",
+      "meaning2": "Wir stellen keine Visa, Einreisekarten oder sonstige amtlichen Dokumente aus. Der QR-Code, den Sie erhalten, wird vom indonesischen Regierungssystem erzeugt.",
+      "meaning3": "Wir verwenden keine Regierungslogos, -embleme oder -namen in unserer Marke und werden von keiner indonesischen Behörde unterstützt.",
+      "operatorTitle": "Betreiber"
+    },
+    "privacy": {
+      "metaTitle": "Datenschutzerklärung",
+      "title": "Datenschutzerklärung",
+      "template": "Vorlage zur rechtlichen Prüfung vor dem Start. Zuletzt aktualisiert: {date}.",
+      "controllerTitle": "Verantwortlicher",
+      "collectTitle": "Daten, die wir erheben",
+      "collect1": "Identitäts- und Passdaten jedes Reisenden (Name, Geburtsdatum, Geschlecht, Staatsangehörigkeit, Passnummer und Daten) sowie bei e-VOA-Bestellungen ein Scan der Passdatenseite und ein Passfoto.",
+      "collect2": "Reisedaten (Daten, Flug, Einreiseort, Unterkunft) sowie die von Ihnen abgegebenen Gesundheits- und Zollerklärungen.",
+      "collect3": "Kontaktdaten (E-Mail, Telefon) und Bestellunterlagen. Kartendaten werden von unserem Zahlungsanbieter verarbeitet und niemals von uns gespeichert.",
+      "purposeTitle": "Zweck und Rechtsgrundlage",
+      "purpose": "Zur Erfüllung des Vertrags, den Sie mit uns schließen: Vorbereitung und Einreichung Ihrer Einreisekarte und Zustellung des Ergebnisses. Außerdem zur Erfüllung gesetzlicher Pflichten (Buchführung, Betrugsprävention) und, mit Ihrer Einwilligung, zum Versand von Service-Erinnerungen.",
+      "sharingTitle": "Weitergabe",
+      "sharing": "Ihre Daten werden in das offizielle indonesische Regierungsportal eingegeben, um Ihre Einreisekarte einzureichen. Sie werden außerdem von unseren Hosting-, Datenbank-, E-Mail- und Messaging-Anbietern im Rahmen von Auftragsverarbeitungsverträgen verarbeitet. Wir verkaufen niemals personenbezogene Daten.",
+      "transfersTitle": "Internationale Übermittlungen",
+      "transfers": "Die Daten werden in Singapur gespeichert und von unserem Team in Hongkong und Indonesien verarbeitet. Übermittlungen sind durch vertragliche Garantien geschützt, die den Standards des indonesischen Datenschutzgesetzes und der DSGVO entsprechen.",
+      "retentionTitle": "Aufbewahrung",
+      "retention": "Pass- und Erklärungsdaten, einschließlich hochgeladener Passscans und Fotos, werden 30 Tage nach Ihrem Ankunftsdatum gelöscht. Bestell- und Zahlungsunterlagen werden, wie buchhalterisch vorgeschrieben, 7 Jahre ohne Passdaten aufbewahrt.",
+      "rightsTitle": "Ihre Rechte",
+      "rights": "Sie können Auskunft, Berichtigung, Löschung oder eine Kopie Ihrer Daten verlangen, Ihre Einwilligung widerrufen und eine Beschwerde bei einer Aufsichtsbehörde einreichen. Schreiben Sie an <mail>{email}</mail>. Wir antworten innerhalb von 3 Werktagen.",
+      "securityTitle": "Sicherheit",
+      "security": "Verschlüsselung bei der Übertragung und im Ruhezustand, rollenbasierter Zugriff für unser Team, Prüfprotokolle und Benachrichtigung der Betroffenen und Behörden bei Datenpannen innerhalb der gesetzlichen Frist (3×24 Stunden nach indonesischem Recht).",
+      "cookiesTitle": "Cookies",
+      "cookies": "Wir verwenden nur unbedingt notwendige Cookies und datenschutzfreundliche Analysen ohne seitenübergreifendes Tracking."
+    },
+    "refunds": {
+      "metaTitle": "Erstattungsrichtlinie",
+      "title": "Erstattungsrichtlinie",
+      "updated": "Zuletzt aktualisiert: {date}.",
+      "items": {
+        "deadline": "<strong>Verpasste Frist:</strong> automatische volle Erstattung, wenn Ihr QR-Code nicht mindestens 6 Stunden vor Ihrer geplanten Ankunft zugestellt wird.",
+        "cancelBefore": "<strong>Stornierung vor der Bearbeitung:</strong> volle Erstattung, wenn Sie stornieren, bevor ein Teammitglied mit Ihrer Bestellung begonnen hat. Schreiben Sie uns eine E-Mail mit Ihrer Bestellnummer.",
+        "cancelAfter": "<strong>Stornierung nach Beginn der Bearbeitung:</strong> 50 % Erstattung, wenn die Karte noch nicht eingereicht wurde; keine Erstattung, sobald der QR-Code zugestellt wurde.",
+        "noLongerNeeded": "<strong>Sie brauchen den Service nicht mehr:</strong> volle Erstattung, wenn Sie uns vor der Einreichung Bescheid geben.",
+        "tooEarly": "<strong>Zu früh bestellt:</strong> Für Einreisekarten nehmen wir mehr als {hours} Stunden vor der Ankunft keine Zahlung entgegen. Rutscht dennoch eine Zahlung durch, halten wir die Bestellung zurück und bearbeiten sie, wenn das Zeitfenster öffnet, oder erstatten auf Wunsch vor Beginn vollständig.",
+        "evoaFee": "<strong>e-VOA-Visumgebühr:</strong> nicht erstattbar, sobald der Antrag bei den indonesischen Behörden eingereicht wurde. Volle Erstattung, wenn wir ihn noch nicht eingereicht haben.",
+        "evoaRefused": "<strong>e-VOA nicht berechtigt oder abgelehnt:</strong> volle Erstattung unserer Servicegebühr; die Visumgebühr wird nur erstattet, wenn noch nicht eingereicht.",
+        "ourError": "<strong>Unser Fehler:</strong> volle Erstattung plus kostenlose erneute Einreichung, wenn ein Fehler auf unserer Seite zur Ablehnung der Karte führt."
+      },
+      "timing": "Erstattungen gehen innerhalb von 5–10 Werktagen auf die ursprüngliche Karte zurück.",
+      "disputes": "Wenn etwas schiefgeht, kontaktieren Sie uns unter <mail>{email}</mail>, bevor Sie eine Reklamation bei Ihrer Bank eröffnen. Wir antworten innerhalb eines Werktages und lösen fast jeden Fall mit einer Erstattung oder einer erneuten Einreichung. Einer Rückbuchung, die ohne vorherige Kontaktaufnahme eröffnet wird, können wir mit der Bestellunterlage, der Zustell-E-Mail und den <terms>Nutzungsbedingungen</terms> widersprechen."
+    },
+    "terms": {
+      "metaTitle": "Nutzungsbedingungen",
+      "title": "Nutzungsbedingungen",
+      "template": "Vorlage zur Prüfung durch einen Rechtsanwalt in Hongkong vor dem Start. Zuletzt aktualisiert: {date}.",
+      "s1Title": "1. Parteien und Leistung",
+      "s1": "Diese Bedingungen regeln den Assistenzdienst (die „Leistung“), den {company} („wir“, „uns“), {jurisdiction} ({reg}) mit eingetragenem Sitz in {address}, gegenüber der Person erbringt, die eine Bestellung aufgibt („Sie“). Die Leistung besteht darin, Ihre Angaben über unser geführtes Formular zu erfassen, sie zu prüfen, die Einreisekarte für Indonesien in Ihrem Namen auf dem offiziellen Regierungsportal einzureichen und Ihnen den daraus resultierenden QR-Code zuzustellen.",
+      "s2Title": "2. Keine staatliche Leistung",
+      "s2": "Wir sind weder mit der Regierung Indonesiens verbunden noch von ihr unterstützt oder in ihrem Auftrag tätig, und diese Website ist keine Regierungswebsite. Sie bezahlen ausschließlich für unsere Hilfe. Wir garantieren keine Einreise nach Indonesien; diese liegt im alleinigen Ermessen der indonesischen Behörden.",
+      "s3Title": "3. Preis und Zahlung",
+      "s3": "Der Preis wird angezeigt, bevor Sie persönliche Daten eingeben, und erneut beim Bezahlen. Die Zahlung erfolgt per Karte über unseren Zahlungsanbieter. Die Abbuchung erscheint auf Ihrer Abrechnung unter unserer Firmenbezeichnung, niemals als staatliche Gebühr.",
+      "s4Title": "4. Ihre Pflichten",
+      "s4": "Sie müssen zutreffende Angaben machen und berechtigt sein, die Daten der anderen Reisenden Ihrer Buchung anzugeben. Sie bleiben für die Richtigkeit der in Ihrem Namen abgegebenen Erklärungen (Zoll, Gesundheit, Einwanderung) verantwortlich.",
+      "s5Title": "5. Zustellung und Erstattungen",
+      "s5a": "Die Standardzustellung erfolgt innerhalb von {acStandard} Stunden für Einreisekarten und innerhalb von {evStandard} Stunden für die e-VOA-Prüfung; die Expresszustellung innerhalb von {acExpress} Stunden für Einreisekarten und innerhalb von {evExpress} Stunden für die e-VOA-Prüfung.",
+      "s5b": "Die Standard- und Express-Zustellzeiten laufen ab dem späteren der folgenden Zeitpunkte: (a) Bestätigung Ihrer Zahlung, (b) Eingang aller benötigten Angaben und Dokumente und (c) bei Einreisekarten die Öffnung des offiziellen {window}-Stunden-Fensters. Express ({acExpress} Stunden für Einreisekarten, {evExpress} Stunden für die e-VOA-Prüfung) gilt für unsere Vorbereitung und Einreichung; die Bearbeitungszeit der Behörden für das e-VOA liegt außerhalb unserer Kontrolle.",
+      "s5c": "Wenn wir den QR-Code Ihrer Einreisekarte nicht mindestens 6 Stunden vor Ihrer geplanten Ankunft zustellen, erhalten Sie eine volle Erstattung. Siehe <link>Erstattungsrichtlinie</link>.",
+      "s6Title": "6. Zu früh aufgegebene Bestellungen",
+      "s6a": "Das offizielle Portal nimmt Einreisekarten nur innerhalb von {window} Stunden vor der Ankunft an. Unser Bestellformular nimmt für die Hilfe bei der Einreisekarte keine Zahlung entgegen, bevor dieses Zeitfenster öffnet; stattdessen bietet es eine kostenlose Erinnerung, und wir schreiben Ihnen, wenn das Zeitfenster öffnet.",
+      "s6b": "Wird dennoch eine Bestellung außerhalb des Zeitfensters angenommen (zum Beispiel ein Paket, dessen e-VOA-Teil sofort bearbeitet wird), wird der Einreisekarten-Teil vorbereitet, sobald das Zeitfenster öffnet, und die Zustellzeiten aus Abschnitt 5 laufen ab diesem Zeitpunkt.",
+      "s6c": "Wenn Sie Ihr Ankunftsdatum ändern, müssen Sie uns das vor der Einreichung mitteilen. Wird eine Karte für ein Datum eingereicht, das Sie später ändern, ist eine neue Einreichung eine neue Bestellung.",
+      "s7Title": "7. Datenschutz",
+      "s7": "Wir verarbeiten personenbezogene Daten wie in der <link>Datenschutzerklärung</link> beschrieben, einschließlich der Anforderungen des indonesischen Gesetzes Nr. 27 von 2022 zum Schutz personenbezogener Daten, der Hong Kong Personal Data (Privacy) Ordinance und, soweit anwendbar, der DSGVO.",
+      "s8Title": "8. Haftung",
+      "s8": "Unsere Gesamthaftung für jeden Anspruch ist auf den Betrag begrenzt, den Sie für die Leistung bezahlt haben. Wir haften nicht für Einreiseverweigerung, Entscheidungen von Fluggesellschaften, Änderungen staatlicher Vorschriften oder Ausfälle des offiziellen Portals, außer wenn diese durch unsere Fahrlässigkeit verursacht wurden.",
+      "s9Title": "9. Streitigkeiten und Rückbuchungen",
+      "s9": "Wenn etwas schiefgeht, kontaktieren Sie uns unter <mail>{email}</mail>, bevor Sie eine Reklamation bei Ihrer Bank eröffnen. Wir antworten innerhalb eines Werktages und lösen fast jeden Fall mit einer Erstattung oder einer erneuten Einreichung. Einer Rückbuchung, die ohne vorherige Kontaktaufnahme eröffnet wird, können wir mit der Bestellunterlage, der Zustell-E-Mail und dieser Vereinbarung widersprechen.",
+      "s10Title": "10. Anwendbares Recht",
+      "s10": "Diese Bedingungen unterliegen dem Recht der Sonderverwaltungszone Hongkong. Für Streitigkeiten gilt die nicht ausschließliche Zuständigkeit der Gerichte von Hongkong. Verbraucher behalten alle zwingenden Schutzrechte ihres Wohnsitzlandes."
+    }
+  },
+  "NotFound": {
+    "title": "Seite nicht gefunden",
+    "text": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
+    "cta": "Zurück zur Startseite"
+  },
+  "Email": {
+    "greeting": "Guten Tag {name},",
+    "hello": "Guten Tag,",
+    "questions": "Fragen? Antworten Sie auf diese E-Mail oder schreiben Sie an {email}.",
+    "notAffiliated": "{company} ist ein privater Assistenzdienst und nicht mit einer Regierungswebsite verbunden.",
+    "stopEmails": "Diese E-Mails beenden",
+    "noLongerTravelling": "Sie reisen nicht mehr?",
+    "products": {
+      "arrival_card": "Hilfe bei der Einreisekarte",
+      "evoa": "Hilfe beim e-VOA (Visum bei Ankunft)",
+      "bundle": "Paket e-VOA + Einreisekarte"
+    },
+    "confirmation": {
+      "subject": "Wir haben Ihre Bestellung {id} erhalten ({product})",
+      "received": "Vielen Dank. Wir haben Ihre Bestellung und Ihre Zahlung von {amount} für {count, plural, one {# Reisenden} other {# Reisende}} erhalten.",
+      "arrivalCard": "Einreisekarte: Ein Teammitglied prüft Ihre Angaben und reicht die Karte innerhalb des 72-Stunden-Fensters vor Ihrer Ankunft am {date} ein. Sie erhalten den QR-Code per E-Mail.",
+      "evoa": "e-VOA: Wir prüfen Ihren Passscan und Ihr Foto und reichen den Antrag innerhalb von {hours} Stunden ein. Die Genehmigung durch die Behörden folgt in der Regel am selben Tag, spätestens nach 2 Werktagen."
+    },
+    "delivery": {
+      "subject": "Ihr {what} für Indonesien – {familyName}, {givenNames} – Ankunft {date}",
+      "whatBoth": "QR-Code der Einreisekarte und e-VOA",
+      "whatArrivalCard": "QR-Code der Einreisekarte",
+      "whatEvoa": "e-VOA",
+      "attached": "{count, plural, one {Ihr {what} ist dieser E-Mail als Anhang beigefügt.} other {Ihre Dokumente ({what}) sind dieser E-Mail als Anhang beigefügt.}}",
+      "arrivalCard": "Am Flughafen: Zeigen Sie den QR-Code (auf dem Smartphone oder ausgedruckt) zusammen mit Ihrem Reisepass bei der Einwanderung und erneut beim Zoll vor. Ein QR-Code pro Reisendem.",
+      "evoa": "Drucken Sie das e-VOA aus oder behalten Sie es auf dem Smartphone und zeigen Sie es bei der Einwanderung zusammen mit Ihrem Reisepass und Ihrem Rückflugticket vor. Es ist 30 Tage gültig und kann in Indonesien einmal verlängert werden.",
+      "check": "Bitte prüfen Sie, dass Namen, Passnummern und Daten exakt mit Ihren Reisepässen übereinstimmen, und sagen Sie uns sofort Bescheid, falls etwas nicht stimmt.",
+      "questions": "Gute Reise. Fragen: Antworten Sie auf diese E-Mail oder schreiben Sie an {email}."
+    },
+    "review": {
+      "subject": "Wie war Ihre Ankunft in Indonesien?",
+      "trustpilot": "Bewerten Sie uns auf Trustpilot",
+      "google": "Bewerten Sie uns auf Google",
+      "whatBoth": "Einreisekarte und e-VOA",
+      "whatArrivalCard": "Einreisekarte",
+      "whatEvoa": "e-VOA",
+      "thanks": "Vielen Dank für Ihr Vertrauen bei Ihrer {what}. Wir hoffen, Ihre Ankunft in Indonesien am {date} ist reibungslos verlaufen.",
+      "wrong": "Falls etwas schiefgelaufen ist, antworten Sie zuerst auf diese E-Mail, damit wir es in Ordnung bringen können.",
+      "ask": "Wenn alles gut gelaufen ist: Würden Sie sich eine Minute Zeit nehmen und uns eine kurze Bewertung hinterlassen? Sie hilft anderen Reisenden, einen vertrauenswürdigen Service zu finden, und bedeutet unserem kleinen Team viel."
+    },
+    "windowOpen": {
+      "subject": "Einreisekarte Indonesien: Ihr Zeitfenster für die Einreichung ist geöffnet (Ankunft {date})",
+      "open": "Sie haben uns gebeten, Ihnen mitzuteilen, wann die Einreisekarte für Ihre Ankunft in Indonesien am {date} eingereicht werden kann. Der Moment ist gekommen: Das offizielle Portal nimmt jetzt Einreichungen für Ihr Datum an.",
+      "assist": "Wenn wir die Karte für {count, plural, one {# Reisenden} other {# Reisende}} vorbereiten und prüfen sollen, öffnen Sie den Link unten. Ihr Ankunftsdatum und Ihre E-Mail-Adresse sind bereits eingetragen.",
+      "start": "Öffnen Sie den Link unten, um Ihren Antrag zu starten. Ihr Ankunftsdatum und Ihre E-Mail-Adresse sind bereits eingetragen.",
+      "diy": "Wenn Sie es lieber selbst machen möchten, erklärt der Leitfaden auf unserer Website jedes Feld.",
+      "startLabel": "Starten",
+      "cta": "Meinen Antrag starten"
+    },
+    "headsUp": {
+      "subject": "Morgen öffnet Ihr Zeitfenster für die Einreisekarte Indonesien (Ankunft {date})",
+      "note": "Ein kurzer Hinweis: Das offizielle Portal nimmt die Einreisekarte für Ihre Ankunft am {date} ab {opens} (Jakarta-Zeit) an. Wir schreiben Ihnen zu diesem Zeitpunkt erneut.",
+      "nothing": "Vorerst gibt es nichts zu tun. Wenn Sie möchten, halten Sie Ihren Reisepass und die Angaben zu Ihrer Unterkunft bereit, dann dauert es zwei Minuten.",
+      "pageLabel": "Unsere Seite",
+      "cta": "Sehen, was wir benötigen"
+    }
+  },
+  "Countries": {
+    "AE": "Vereinigte Arabische Emirate",
+    "AL": "Albanien",
+    "AM": "Armenien",
+    "AR": "Argentinien",
+    "AT": "Österreich",
+    "AU": "Australien",
+    "AZ": "Aserbaidschan",
+    "BA": "Bosnien und Herzegowina",
+    "BD": "Bangladesch",
+    "BE": "Belgien",
+    "BG": "Bulgarien",
+    "BH": "Bahrain",
+    "BN": "Brunei",
+    "BR": "Brasilien",
+    "BY": "Belarus",
+    "CA": "Kanada",
+    "CH": "Schweiz",
+    "CL": "Chile",
+    "CN": "China",
+    "CO": "Kolumbien",
+    "CR": "Costa Rica",
+    "CY": "Zypern",
+    "CZ": "Tschechien",
+    "DE": "Deutschland",
+    "DK": "Dänemark",
+    "DO": "Dominikanische Republik",
+    "DZ": "Algerien",
+    "EC": "Ecuador",
+    "EE": "Estland",
+    "EG": "Ägypten",
+    "ES": "Spanien",
+    "ET": "Äthiopien",
+    "FI": "Finnland",
+    "FJ": "Fidschi",
+    "FR": "Frankreich",
+    "GB": "Vereinigtes Königreich",
+    "GE": "Georgien",
+    "GH": "Ghana",
+    "GR": "Griechenland",
+    "HK": "Hongkong SAR",
+    "HR": "Kroatien",
+    "HU": "Ungarn",
+    "ID": "Indonesien",
+    "IE": "Irland",
+    "IL": "Israel",
+    "IN": "Indien",
+    "IQ": "Irak",
+    "IR": "Iran",
+    "IS": "Island",
+    "IT": "Italien",
+    "JO": "Jordanien",
+    "JP": "Japan",
+    "KE": "Kenia",
+    "KH": "Kambodscha",
+    "KR": "Südkorea",
+    "KW": "Kuwait",
+    "KZ": "Kasachstan",
+    "LA": "Laos",
+    "LB": "Libanon",
+    "LK": "Sri Lanka",
+    "LT": "Litauen",
+    "LU": "Luxemburg",
+    "LV": "Lettland",
+    "MA": "Marokko",
+    "MD": "Moldau",
+    "ME": "Montenegro",
+    "MK": "Nordmazedonien",
+    "MM": "Myanmar",
+    "MN": "Mongolei",
+    "MO": "Macau SAR",
+    "MT": "Malta",
+    "MV": "Malediven",
+    "MX": "Mexiko",
+    "MY": "Malaysia",
+    "NG": "Nigeria",
+    "NL": "Niederlande",
+    "NO": "Norwegen",
+    "NP": "Nepal",
+    "NZ": "Neuseeland",
+    "OM": "Oman",
+    "PA": "Panama",
+    "PE": "Peru",
+    "PG": "Papua-Neuguinea",
+    "PH": "Philippinen",
+    "PK": "Pakistan",
+    "PL": "Polen",
+    "PT": "Portugal",
+    "QA": "Katar",
+    "RO": "Rumänien",
+    "RS": "Serbien",
+    "RU": "Russland",
+    "SA": "Saudi-Arabien",
+    "SE": "Schweden",
+    "SG": "Singapur",
+    "SI": "Slowenien",
+    "SK": "Slowakei",
+    "TH": "Thailand",
+    "TL": "Timor-Leste",
+    "TN": "Tunesien",
+    "TR": "Türkei",
+    "TW": "Taiwan",
+    "TZ": "Tansania",
+    "UA": "Ukraine",
+    "UG": "Uganda",
+    "US": "Vereinigte Staaten",
+    "UY": "Uruguay",
+    "UZ": "Usbekistan",
+    "VE": "Venezuela",
+    "VN": "Vietnam",
+    "ZA": "Südafrika"
+  }
+}

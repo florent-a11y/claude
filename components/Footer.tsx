@@ -1,11 +1,14 @@
-import Link from "next/link";
-import { site, DISCLOSURE } from "@/lib/config";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { site } from "@/lib/config";
 
-export function Footer() {
+export async function Footer() {
+  const t = await getTranslations("Footer");
+  const td = await getTranslations("Disclosure");
   return (
     <footer className="mt-16 border-t border-slate-200 bg-slate-50">
       <div className="mx-auto max-w-6xl px-4 py-10 text-sm text-ink-500">
-        <p className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-900">{DISCLOSURE}</p>
+        <p className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-900">{td("full")}</p>
         <div className="grid gap-8 md:grid-cols-4">
           <div>
             <p className="font-semibold text-ink-900">{site.company}</p>
@@ -14,35 +17,35 @@ export function Footer() {
             <p className="mt-2"><a className="underline" href={`mailto:${site.supportEmail}`}>{site.supportEmail}</a></p>
           </div>
           <div>
-            <p className="font-semibold text-ink-900">Service</p>
+            <p className="font-semibold text-ink-900">{t("service")}</p>
             <ul className="mt-2 space-y-1">
-              <li><Link href="/apply">Arrival card assistance</Link></li>
-              <li><Link href="/reminder">72-hour window reminder</Link></li>
-              <li><Link href="/evoa">e-VOA visa assistance</Link></li>
-              <li><Link href="/pricing">Pricing</Link></li>
-              <li><Link href="/faq">FAQ</Link></li>
-              <li><Link href="/contact">Contact & support</Link></li>
+              <li><Link href="/apply">{t("arrivalCard")}</Link></li>
+              <li><Link href="/reminder">{t("reminder")}</Link></li>
+              <li><Link href="/evoa">{t("evoa")}</Link></li>
+              <li><Link href="/pricing">{t("pricing")}</Link></li>
+              <li><Link href="/faq">{t("faq")}</Link></li>
+              <li><Link href="/contact">{t("contact")}</Link></li>
             </ul>
           </div>
           <div>
-            <p className="font-semibold text-ink-900">Resources</p>
+            <p className="font-semibold text-ink-900">{t("resources")}</p>
             <ul className="mt-2 space-y-1">
-              <li><Link href="/guide">How the arrival card works</Link></li>
-              <li><Link href="/customs">Customs allowances</Link></li>
-              <li><Link href="/news">Official news summaries</Link></li>
+              <li><Link href="/guide">{t("guide")}</Link></li>
+              <li><Link href="/customs">{t("customs")}</Link></li>
+              <li><Link href="/news">{t("news")}</Link></li>
             </ul>
           </div>
           <div>
-            <p className="font-semibold text-ink-900">Legal</p>
+            <p className="font-semibold text-ink-900">{t("legal")}</p>
             <ul className="mt-2 space-y-1">
-              <li><Link href="/legal/disclosure">Non-affiliation disclosure</Link></li>
-              <li><Link href="/legal/terms">Terms of service</Link></li>
-              <li><Link href="/legal/privacy">Privacy policy</Link></li>
-              <li><Link href="/legal/refunds">Refund policy</Link></li>
+              <li><Link href="/legal/disclosure">{t("disclosure")}</Link></li>
+              <li><Link href="/legal/terms">{t("terms")}</Link></li>
+              <li><Link href="/legal/privacy">{t("privacy")}</Link></li>
+              <li><Link href="/legal/refunds">{t("refunds")}</Link></li>
             </ul>
           </div>
         </div>
-        <p className="mt-8">© {new Date().getFullYear()} {site.company}. All rights reserved.</p>
+        <p className="mt-8">{t("rights", { year: new Date().getFullYear(), company: site.company })}</p>
       </div>
     </footer>
   );

@@ -1,10 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
+import { Link, usePathname } from "@/i18n/navigation";
+import { LocaleSwitcher } from "./LocaleSwitcher";
 
 export function MobileMenu({ items }: { items: Array<{ href: string; label: string }> }) {
+  const t = useTranslations("Header");
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -21,12 +23,12 @@ export function MobileMenu({ items }: { items: Array<{ href: string; label: stri
 
   return (
     <div className="lg:hidden">
-      <button type="button" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} aria-controls="mobile-nav" className="grid h-10 w-10 place-items-center rounded-lg text-ink-700 hover:bg-brand-50" onClick={() => setOpen(!open)}>
+      <button type="button" aria-label={open ? t("closeMenu") : t("openMenu")} aria-expanded={open} aria-controls="mobile-nav" className="grid h-10 w-10 place-items-center rounded-lg text-ink-700 hover:bg-brand-50" onClick={() => setOpen(!open)}>
         {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </button>
       {open && (
         <div className="absolute inset-x-0 top-full z-50 h-screen bg-black/30" onClick={() => setOpen(false)}>
-          <nav id="mobile-nav" aria-label="Mobile" className="max-h-[calc(100vh-4rem)] overflow-y-auto border-b border-slate-200 bg-white px-4 pb-6 pt-2 shadow-lg" onClick={(e) => e.stopPropagation()}>
+          <nav id="mobile-nav" aria-label={t("mobileNav")} className="max-h-[calc(100vh-4rem)] overflow-y-auto border-b border-slate-200 bg-white px-4 pb-6 pt-2 shadow-lg" onClick={(e) => e.stopPropagation()}>
             <ul className="divide-y divide-slate-100">
               {items.map((n) => (
                 <li key={n.href}>
@@ -34,7 +36,11 @@ export function MobileMenu({ items }: { items: Array<{ href: string; label: stri
                 </li>
               ))}
             </ul>
-            <Link href="/apply" onClick={() => setOpen(false)} className="btn-primary mt-4 w-full">Start my application</Link>
+            <div className="mt-4 flex items-center justify-between gap-3 border-t border-slate-100 pt-4">
+              <span className="text-sm font-medium text-ink-700">{t("language")}</span>
+              <LocaleSwitcher />
+            </div>
+            <Link href="/apply" onClick={() => setOpen(false)} className="btn-primary mt-4 w-full">{t("startMobile")}</Link>
           </nav>
         </div>
       )}

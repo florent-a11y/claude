@@ -33,6 +33,7 @@ export function quote(travelers: number, express: boolean, product: Product = "a
   return { product, travelers: n, serviceFee, governmentFee, extra, total: serviceFee + governmentFee + extra, currency: PRICING.currency };
 }
 
-export function money(cents: number, currency: string = PRICING.currency) {
-  return new Intl.NumberFormat("en-US", { style: "currency", currency }).format(cents / 100);
+/** Formats a cent amount with Intl. `locale` is a BCP 47 tag; ops tooling keeps the en-US default. */
+export function money(cents: number, currency: string = PRICING.currency, locale: string = "en-US") {
+  return new Intl.NumberFormat(locale, { style: "currency", currency }).format(cents / 100);
 }

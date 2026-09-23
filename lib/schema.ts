@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { todayJakarta } from "./window";
+import { LOCALES } from "@/i18n/routing";
 
 const date = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD");
 
@@ -61,6 +62,8 @@ export const contactSchema = z.object({
   express: z.boolean(),
   acceptTerms: z.literal(true, { message: "You must accept the terms" }),
   acknowledgeNotGov: z.literal(true, { message: "Please confirm you understand this is not a government website" }),
+  /** Language the customer used on the site; customer emails are sent in it. */
+  locale: z.enum(LOCALES).default("en"),
 });
 
 export const orderInputSchema = z.object({
@@ -85,7 +88,7 @@ export const reminderInputSchema = z.object({
   travelers: z.coerce.number().int().min(1).max(10).default(1),
   nationality: z.string().trim().toUpperCase().length(2).optional().or(z.literal("")),
   productInterest: productSchema.default("arrival_card"),
-  locale: z.string().max(10).default("en"),
+  locale: z.enum(LOCALES).default("en"),
   source: z.string().trim().max(60).optional().or(z.literal("")),
   consent: z.literal(true, { message: "Please agree to receive the reminder email" }),
   /** Honeypot: real users never see or fill this field. */

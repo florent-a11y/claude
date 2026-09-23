@@ -41,10 +41,11 @@ export function todayJakarta(now = Date.now()) {
   return new Date(now + 7 * 3.6e6).toISOString().slice(0, 10);
 }
 
-/** Human date such as "Monday 5 October 2026, 08:00". Uses the caller's time zone unless one is given. */
-export function formatWindowOpens(arrivalDate: string, timeZone?: string) {
+/** Human date such as "Monday 5 October 2026, 08:00". Uses the caller's time zone unless one is given;
+ *  `locale` is a BCP 47 tag (ops tooling and reminder emails keep en-GB). */
+export function formatWindowOpens(arrivalDate: string, timeZone?: string, locale: string = "en-GB") {
   const d = windowOpensAt(arrivalDate);
   const opts: Intl.DateTimeFormatOptions = { weekday: "long", day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" };
   if (timeZone) opts.timeZone = timeZone;
-  return new Intl.DateTimeFormat("en-GB", opts).format(d);
+  return new Intl.DateTimeFormat(locale, opts).format(d);
 }
