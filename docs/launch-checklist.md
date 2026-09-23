@@ -73,5 +73,5 @@ Set `NEXT_PUBLIC_SITE_URL` to the final `https://www.` URL and redirect the apex
 - [ ] Mobile navigation menu (the phone header shows only the CTA today).
 - [ ] Passport photo OCR (MRZ): planned, not implemented; the form is manual entry today.
 - [ ] Translations (ZH, KO, JA, DE, FR, RU): planned; the site is English-only today.
-- [ ] e-VOA: company card on the official e-visa portal for paying the IDR 500,000 government fee. The site charges a visa fee of IDR 800,000 (USD 49) per traveler; check the IDR/USD rate monthly and adjust `PRICING.evoa.governmentFee` if it drifts more than 5%.
+- [ ] e-VOA: company card on the official e-visa portal for paying the IDR 500,000 government fee. The site shows it as USD 31 per traveler; check the IDR/USD rate monthly and adjust `PRICING.evoa.governmentFee` if it drifts more than 5%.
 - [ ] e-VOA: verify the eligible-nationality list in `lib/evoa.ts` against the official list before launch.

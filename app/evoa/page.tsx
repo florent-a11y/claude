@@ -42,7 +42,7 @@ export default function Evoa() {
           <div className="card border-brand-100">
             <p className="text-sm font-semibold uppercase tracking-wide text-brand-600">Price per traveler, itemized</p>
             <ul className="mt-4 divide-y divide-slate-100 text-ink-700">
-              <li className="flex justify-between py-3"><span>Visa fee (IDR {EVOA.visaFeeIdr.toLocaleString("en-US")}: includes the IDR {EVOA.governmentFeeIdr.toLocaleString("en-US")} government e-VOA fee plus card and currency charges)</span><strong>{money(PRICING.evoa.governmentFee)}</strong></li>
+              <li className="flex justify-between py-3"><span>Government e-VOA fee (IDR {EVOA.governmentFeeIdr.toLocaleString("en-US")} per traveler, in USD)</span><strong>{money(PRICING.evoa.governmentFee)}</strong></li>
               <li className="flex justify-between py-3"><span>Our service fee, first traveler</span><strong>{money(PRICING.evoa.first)}</strong></li>
               <li className="flex justify-between py-3"><span>Our service fee, each additional traveler</span><strong>{money(PRICING.evoa.additional)}</strong></li>
               <li className="flex justify-between py-3"><span>Bundle with arrival card assistance</span><strong className="text-brand-600">save {money(PRICING.bundleDiscount)} per traveler</strong></li>

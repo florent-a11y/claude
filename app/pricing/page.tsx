@@ -27,7 +27,7 @@ export default function Pricing() {
         <table>
           <thead><tr><th>Per traveler</th><th>Amount</th></tr></thead>
           <tbody>
-            <tr><td>Visa fee (IDR 800,000: includes the IDR 500,000 government e-VOA fee plus card and currency charges)</td><td>{money(PRICING.evoa.governmentFee)}</td></tr>
+            <tr><td>Government e-VOA fee (IDR 500,000 per traveler, in USD)</td><td>{money(PRICING.evoa.governmentFee)}</td></tr>
             <tr><td>Service fee, first traveler</td><td>{money(PRICING.evoa.first)}</td></tr>
             <tr><td>Service fee, each additional traveler</td><td>{money(PRICING.evoa.additional)}</td></tr>
             <tr><td>Bundle discount when ordered with arrival card assistance</td><td>−{money(PRICING.bundleDiscount)}</td></tr>
