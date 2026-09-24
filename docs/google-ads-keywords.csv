@@ -1,0 +1,1978 @@
+﻿Campaign,Campaign Type,Campaign Status,Budget,Bid Strategy Type,Ad Group,Ad Group Status,Max CPC,Keyword,Criterion Type,Status,Labels
+EN-Transactional,Search,Paused,20.70,Maximize clicks,,,,,,,mode-A-authorized-only
+EN-Transactional,,,,,arrival-card-generic,Enabled,1.80,,,,mode-A-authorized-only
+EN-Transactional,,,,,arrival-card-generic,,,indonesia arrival card,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,arrival-card-generic,,,indonesia arrival card,Exact,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,arrival-card-generic,,,indonesia arrival card online,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,arrival-card-generic,,,indonesia arrival card online,Exact,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,arrival-card-generic,,,indonesia digital arrival card,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,arrival-card-generic,,,indonesia digital arrival card,Exact,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,arrival-card-generic,,,arrival card indonesia,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,arrival-card-generic,,,indonesian arrival card,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,arrival-card-generic,,,e arrival card indonesia,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,arrival-card-generic,,,indonesia arrival card assistance,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,arrival-card-generic,,,indonesia entry card,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,arrival-card-generic,,,indonesia arrival card help,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,bali-arrival-card,Enabled,1.80,,,,mode-A-authorized-only
+EN-Transactional,,,,,bali-arrival-card,,,bali arrival card,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,bali-arrival-card,,,bali arrival card,Exact,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,bali-arrival-card,,,bali arrival card online,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,bali-arrival-card,,,bali arrival card online,Exact,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,bali-arrival-card,,,arrival card bali,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,bali-arrival-card,,,arrival card bali,Exact,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,bali-arrival-card,,,bali digital arrival card,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,bali-arrival-card,,,bali entry card,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,bali-arrival-card,,,bali arrival form,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,bali-arrival-card,,,jakarta arrival card,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,bali-arrival-card,,,lombok arrival card,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,evoa,Enabled,1.80,,,,mode-A-authorized-only
+EN-Transactional,,,,,evoa,,,indonesia evoa,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,evoa,,,indonesia evoa,Exact,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,evoa,,,indonesia e voa,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,evoa,,,indonesia e voa,Exact,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,evoa,,,indonesia visa on arrival online,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,evoa,,,indonesia visa on arrival online,Exact,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,evoa,,,bali evoa,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,evoa,,,indonesia electronic visa on arrival,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,evoa,,,evoa indonesia application,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,evoa,,,bali visa on arrival online,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,evoa,,,indonesia e-voa assistance,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,family-children,Enabled,1.80,,,,mode-A-authorized-only
+EN-Transactional,,,,,family-children,,,indonesia arrival card for children,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,family-children,,,indonesia arrival card for children,Exact,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,family-children,,,bali arrival card family,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,family-children,,,bali arrival card family,Exact,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,family-children,,,indonesia arrival card for infants,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,family-children,,,indonesia arrival card for infants,Exact,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,family-children,,,arrival card indonesia group,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,family-children,,,indonesia arrival card baby,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,family-children,,,arrival card indonesia per person,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,family-children,,,all indonesia arrival card family,Phrase,Enabled,mode-A-authorized-only
+EN-Transactional,,,,,,,,free,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,official,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,government,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,gov,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,go.id,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,imigrasi,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,ditjen imigrasi,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,direktorat jenderal imigrasi,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,bea cukai,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,beacukai,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,satusehat,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,kemenimipas,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,kemenkumham,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,molina,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,login,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,log in,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,sign in,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,scam,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,fake,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,fraud,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,legit,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,download,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,apk,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,app store,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,play store,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,ios,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,android,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,visa exemption,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,visa free,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,visa-free,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,exemption list,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,jobs,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,job,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,career,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,vacancy,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,salary,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,internship,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,kitas,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,kitap,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,work permit,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,student visa,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,second home,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,golden visa,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,b211,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,c1 visa,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,extension,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,overstay,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,deportation,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,reddit,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,tripadvisor,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,news,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,meaning,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,pdf,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,sample,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,template,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,example,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,embassy,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,consulate,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,refund,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,chargeback,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,trustpilot,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,review,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,indonesia-portal,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,indonesia portal,Negative Phrase,Enabled,negative-shared
+EN-Transactional,,,,,,,,indonesia-arrival.com,Negative Phrase,Enabled,negative-shared
+EN-Informational,Search,Paused,13.80,Maximize clicks,,,,,,,mode-B-informational
+EN-Informational,,,,,how-to-fill,Enabled,0.90,,,,mode-B-informational
+EN-Informational,,,,,how-to-fill,,,how to fill indonesia arrival card,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,how-to-fill,,,how to fill indonesia arrival card,Exact,Enabled,mode-B-informational
+EN-Informational,,,,,how-to-fill,,,how to complete all indonesia arrival card,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,how-to-fill,,,how to complete all indonesia arrival card,Exact,Enabled,mode-B-informational
+EN-Informational,,,,,how-to-fill,,,indonesia arrival card guide,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,how-to-fill,,,indonesia arrival card guide,Exact,Enabled,mode-B-informational
+EN-Informational,,,,,how-to-fill,,,when to fill indonesia arrival card,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,how-to-fill,,,indonesia arrival card 72 hours,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,how-to-fill,,,indonesia arrival card how many days before,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,how-to-fill,,,bali arrival card when to apply,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,how-to-fill,,,indonesia arrival card step by step,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,app-problems,Enabled,0.90,,,,mode-B-informational
+EN-Informational,,,,,app-problems,,,all indonesia app not working,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,app-problems,,,all indonesia app not working,Exact,Enabled,mode-B-informational
+EN-Informational,,,,,app-problems,,,all indonesia app problems,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,app-problems,,,all indonesia app problems,Exact,Enabled,mode-B-informational
+EN-Informational,,,,,app-problems,,,all indonesia arrival card not received,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,app-problems,,,all indonesia arrival card not received,Exact,Enabled,mode-B-informational
+EN-Informational,,,,,app-problems,,,all indonesia qr code not received,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,app-problems,,,arrival card indonesia error,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,app-problems,,,all indonesia app crash,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,app-problems,,,arrival card indonesia wrong date,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,app-problems,,,retrieve arrival card indonesia,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,customs-declaration,Enabled,0.90,,,,mode-B-informational
+EN-Informational,,,,,customs-declaration,,,indonesia customs declaration,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,customs-declaration,,,indonesia customs declaration,Exact,Enabled,mode-B-informational
+EN-Informational,,,,,customs-declaration,,,bali customs declaration,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,customs-declaration,,,bali customs declaration,Exact,Enabled,mode-B-informational
+EN-Informational,,,,,customs-declaration,,,indonesia customs declaration form,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,customs-declaration,,,indonesia customs declaration form,Exact,Enabled,mode-B-informational
+EN-Informational,,,,,customs-declaration,,,indonesia e-cd,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,customs-declaration,,,indonesia customs form online,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,customs-declaration,,,bali customs form,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,customs-declaration,,,indonesia customs allowance,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,customs-declaration,,,imei registration indonesia tourist,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,transit,Enabled,0.90,,,,mode-B-informational
+EN-Informational,,,,,transit,,,indonesia arrival card transit,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,transit,,,indonesia arrival card transit,Exact,Enabled,mode-B-informational
+EN-Informational,,,,,transit,,,bali transit arrival card,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,transit,,,bali transit arrival card,Exact,Enabled,mode-B-informational
+EN-Informational,,,,,transit,,,do i need arrival card transit indonesia,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,transit,,,do i need arrival card transit indonesia,Exact,Enabled,mode-B-informational
+EN-Informational,,,,,transit,,,jakarta transit arrival card,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,transit,,,indonesia layover arrival card,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,transit,,,arrival card indonesia cruise,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,transit,,,indonesia arrival card ferry batam,Phrase,Enabled,mode-B-informational
+EN-Informational,,,,,,,,free,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,official,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,government,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,gov,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,go.id,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,imigrasi,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,ditjen imigrasi,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,direktorat jenderal imigrasi,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,bea cukai,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,beacukai,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,satusehat,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,kemenimipas,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,kemenkumham,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,molina,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,login,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,log in,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,sign in,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,scam,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,fake,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,fraud,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,legit,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,download,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,apk,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,app store,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,play store,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,ios,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,android,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,visa exemption,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,visa free,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,visa-free,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,exemption list,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,jobs,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,job,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,career,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,vacancy,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,salary,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,internship,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,kitas,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,kitap,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,work permit,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,student visa,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,second home,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,golden visa,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,b211,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,c1 visa,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,extension,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,overstay,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,deportation,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,reddit,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,tripadvisor,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,news,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,meaning,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,pdf,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,sample,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,template,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,example,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,embassy,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,consulate,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,refund,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,chargeback,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,trustpilot,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,review,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,indonesia-portal,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,indonesia portal,Negative Phrase,Enabled,negative-shared
+EN-Informational,,,,,,,,indonesia-arrival.com,Negative Phrase,Enabled,negative-shared
+DE-Transactional,Search,Paused,8.30,Maximize clicks,,,,,,,mode-A-authorized-only
+DE-Transactional,,,,,arrival-card-generic,Enabled,1.40,,,,mode-A-authorized-only
+DE-Transactional,,,,,arrival-card-generic,,,einreisekarte indonesien,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,arrival-card-generic,,,einreisekarte indonesien,Exact,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,arrival-card-generic,,,indonesien einreisekarte online,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,arrival-card-generic,,,indonesien einreisekarte online,Exact,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,arrival-card-generic,,,arrival card indonesien,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,arrival-card-generic,,,arrival card indonesien,Exact,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,arrival-card-generic,,,indonesien arrival card ausfüllen,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,arrival-card-generic,,,digitale einreisekarte indonesien,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,arrival-card-generic,,,einreiseformular indonesien,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,arrival-card-generic,,,einreisekarte indonesien hilfe,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,arrival-card-generic,,,einreisekarte indonesien beantragen,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,bali-arrival-card,Enabled,1.40,,,,mode-A-authorized-only
+DE-Transactional,,,,,bali-arrival-card,,,einreisekarte bali,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,bali-arrival-card,,,einreisekarte bali,Exact,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,bali-arrival-card,,,bali arrival card,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,bali-arrival-card,,,bali arrival card,Exact,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,bali-arrival-card,,,bali einreisekarte online,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,bali-arrival-card,,,bali einreisekarte online,Exact,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,bali-arrival-card,,,bali einreiseformular,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,bali-arrival-card,,,arrival card bali ausfüllen,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,bali-arrival-card,,,einreisekarte bali beantragen,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,bali-arrival-card,,,jakarta einreisekarte,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,evoa,Enabled,1.40,,,,mode-A-authorized-only
+DE-Transactional,,,,,evoa,,,evoa indonesien,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,evoa,,,evoa indonesien,Exact,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,evoa,,,e-voa indonesien beantragen,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,evoa,,,e-voa indonesien beantragen,Exact,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,evoa,,,visa on arrival indonesien online,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,evoa,,,visa on arrival indonesien online,Exact,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,evoa,,,bali visa on arrival online,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,evoa,,,indonesien e visa on arrival,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,evoa,,,bali evoa beantragen,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,evoa,,,indonesien visum online beantragen tourist,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,family-children,Enabled,1.40,,,,mode-A-authorized-only
+DE-Transactional,,,,,family-children,,,einreisekarte indonesien kinder,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,family-children,,,einreisekarte indonesien kinder,Exact,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,family-children,,,bali einreisekarte familie,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,family-children,,,bali einreisekarte familie,Exact,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,family-children,,,einreisekarte indonesien baby,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,family-children,,,einreisekarte indonesien baby,Exact,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,family-children,,,arrival card indonesien pro person,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,family-children,,,einreisekarte indonesien für kinder ausfüllen,Phrase,Enabled,mode-A-authorized-only
+DE-Transactional,,,,,,,,free,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,official,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,government,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,gov,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,go.id,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,imigrasi,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,ditjen imigrasi,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,direktorat jenderal imigrasi,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,bea cukai,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,beacukai,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,satusehat,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,kemenimipas,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,kemenkumham,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,molina,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,login,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,log in,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,sign in,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,scam,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,fake,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,fraud,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,legit,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,download,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,apk,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,app store,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,play store,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,ios,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,android,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,visa exemption,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,visa free,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,visa-free,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,exemption list,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,jobs,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,job,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,career,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,vacancy,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,salary,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,internship,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,kitas,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,kitap,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,work permit,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,student visa,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,second home,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,golden visa,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,b211,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,c1 visa,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,extension,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,overstay,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,deportation,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,reddit,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,tripadvisor,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,news,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,meaning,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,pdf,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,sample,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,template,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,example,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,embassy,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,consulate,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,refund,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,chargeback,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,trustpilot,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,review,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,indonesia-portal,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,indonesia portal,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,indonesia-arrival.com,Negative Phrase,Enabled,negative-shared
+DE-Transactional,,,,,,,,kostenlos,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,gratis,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,offiziell,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,offizielle,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,regierung,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,behörde,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,botschaft,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,konsulat,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,betrug,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,abzocke,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,seriös,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,erfahrungen,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,anmelden,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,einloggen,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,herunterladen,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,visumfrei,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,jobs,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,stellen,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,gehalt,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,verlängerung,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,arbeitsvisum,Negative Phrase,Enabled,negative-local
+DE-Transactional,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-local
+DE-Informational,Search,Paused,5.50,Maximize clicks,,,,,,,mode-B-informational
+DE-Informational,,,,,how-to-fill,Enabled,0.70,,,,mode-B-informational
+DE-Informational,,,,,how-to-fill,,,einreisekarte indonesien ausfüllen anleitung,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,how-to-fill,,,einreisekarte indonesien ausfüllen anleitung,Exact,Enabled,mode-B-informational
+DE-Informational,,,,,how-to-fill,,,wann einreisekarte indonesien ausfüllen,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,how-to-fill,,,wann einreisekarte indonesien ausfüllen,Exact,Enabled,mode-B-informational
+DE-Informational,,,,,how-to-fill,,,einreisekarte indonesien 72 stunden,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,how-to-fill,,,einreisekarte indonesien 72 stunden,Exact,Enabled,mode-B-informational
+DE-Informational,,,,,how-to-fill,,,indonesien einreisekarte wie lange vorher,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,how-to-fill,,,bali einreisekarte wann ausfüllen,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,how-to-fill,,,einreisekarte indonesien schritt für schritt,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,app-problems,Enabled,0.70,,,,mode-B-informational
+DE-Informational,,,,,app-problems,,,all indonesia app funktioniert nicht,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,app-problems,,,all indonesia app funktioniert nicht,Exact,Enabled,mode-B-informational
+DE-Informational,,,,,app-problems,,,all indonesia app probleme,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,app-problems,,,all indonesia app probleme,Exact,Enabled,mode-B-informational
+DE-Informational,,,,,app-problems,,,all indonesia qr code nicht erhalten,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,app-problems,,,all indonesia qr code nicht erhalten,Exact,Enabled,mode-B-informational
+DE-Informational,,,,,app-problems,,,einreisekarte indonesien keine email,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,app-problems,,,all indonesia app fehler,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,app-problems,,,arrival card indonesien falsches datum,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,customs-declaration,Enabled,0.70,,,,mode-B-informational
+DE-Informational,,,,,customs-declaration,,,zollerklärung indonesien,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,customs-declaration,,,zollerklärung indonesien,Exact,Enabled,mode-B-informational
+DE-Informational,,,,,customs-declaration,,,zollerklärung bali,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,customs-declaration,,,zollerklärung bali,Exact,Enabled,mode-B-informational
+DE-Informational,,,,,customs-declaration,,,indonesien zoll formular,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,customs-declaration,,,indonesien zoll formular,Exact,Enabled,mode-B-informational
+DE-Informational,,,,,customs-declaration,,,bali zollerklärung online,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,customs-declaration,,,indonesien zollbestimmungen einreise,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,customs-declaration,,,e-cd indonesien,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,transit,Enabled,0.70,,,,mode-B-informational
+DE-Informational,,,,,transit,,,einreisekarte indonesien transit,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,transit,,,einreisekarte indonesien transit,Exact,Enabled,mode-B-informational
+DE-Informational,,,,,transit,,,bali transit einreisekarte,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,transit,,,bali transit einreisekarte,Exact,Enabled,mode-B-informational
+DE-Informational,,,,,transit,,,indonesien zwischenlandung einreisekarte,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,transit,,,indonesien zwischenlandung einreisekarte,Exact,Enabled,mode-B-informational
+DE-Informational,,,,,transit,,,einreisekarte indonesien kreuzfahrt,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,transit,,,indonesien einreisekarte fähre,Phrase,Enabled,mode-B-informational
+DE-Informational,,,,,,,,free,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,official,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,government,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,gov,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,go.id,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,imigrasi,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,ditjen imigrasi,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,direktorat jenderal imigrasi,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,bea cukai,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,beacukai,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,satusehat,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,kemenimipas,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,kemenkumham,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,molina,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,login,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,log in,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,sign in,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,scam,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,fake,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,fraud,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,legit,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,download,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,apk,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,app store,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,play store,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,ios,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,android,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,visa exemption,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,visa free,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,visa-free,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,exemption list,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,jobs,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,job,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,career,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,vacancy,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,salary,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,internship,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,kitas,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,kitap,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,work permit,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,student visa,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,second home,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,golden visa,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,b211,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,c1 visa,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,extension,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,overstay,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,deportation,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,reddit,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,tripadvisor,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,news,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,meaning,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,pdf,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,sample,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,template,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,example,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,embassy,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,consulate,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,refund,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,chargeback,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,trustpilot,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,review,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,indonesia-portal,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,indonesia portal,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,indonesia-arrival.com,Negative Phrase,Enabled,negative-shared
+DE-Informational,,,,,,,,kostenlos,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,gratis,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,offiziell,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,offizielle,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,regierung,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,behörde,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,botschaft,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,konsulat,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,betrug,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,abzocke,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,seriös,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,erfahrungen,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,anmelden,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,einloggen,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,herunterladen,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,visumfrei,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,jobs,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,stellen,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,gehalt,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,verlängerung,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,arbeitsvisum,Negative Phrase,Enabled,negative-local
+DE-Informational,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-local
+ZH-Transactional,Search,Paused,5.90,Maximize clicks,,,,,,,mode-A-authorized-only
+ZH-Transactional,,,,,arrival-card-generic,Enabled,1.00,,,,mode-A-authorized-only
+ZH-Transactional,,,,,arrival-card-generic,,,印尼入境卡,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,arrival-card-generic,,,印尼入境卡,Exact,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,arrival-card-generic,,,印尼入境卡 線上,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,arrival-card-generic,,,印尼入境卡 線上,Exact,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,arrival-card-generic,,,印尼電子入境卡,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,arrival-card-generic,,,印尼電子入境卡,Exact,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,arrival-card-generic,,,印尼 arrival card,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,arrival-card-generic,,,印尼入境卡 申請,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,arrival-card-generic,,,印尼入境卡 填寫,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,arrival-card-generic,,,印尼入境卡 代辦,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,arrival-card-generic,,,印尼入境卡 教學,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,bali-arrival-card,Enabled,1.00,,,,mode-A-authorized-only
+ZH-Transactional,,,,,bali-arrival-card,,,峇里島入境卡,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,bali-arrival-card,,,峇里島入境卡,Exact,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,bali-arrival-card,,,峇里島 入境卡 申請,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,bali-arrival-card,,,峇里島 入境卡 申請,Exact,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,bali-arrival-card,,,巴里島入境卡,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,bali-arrival-card,,,巴里島入境卡,Exact,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,bali-arrival-card,,,峇里島 電子入境卡,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,bali-arrival-card,,,雅加達 入境卡,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,bali-arrival-card,,,峇里島 入境 表格,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,evoa,Enabled,1.00,,,,mode-A-authorized-only
+ZH-Transactional,,,,,evoa,,,印尼 evoa,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,evoa,,,印尼 evoa,Exact,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,evoa,,,印尼 落地簽 線上,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,evoa,,,印尼 落地簽 線上,Exact,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,evoa,,,印尼 電子落地簽,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,evoa,,,印尼 電子落地簽,Exact,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,evoa,,,峇里島 落地簽 線上申請,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,evoa,,,印尼 e-voa 申請,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,evoa,,,峇里島 evoa,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,evoa,,,印尼 簽證 線上申請,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,family-children,Enabled,1.00,,,,mode-A-authorized-only
+ZH-Transactional,,,,,family-children,,,印尼入境卡 小孩,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,family-children,,,印尼入境卡 小孩,Exact,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,family-children,,,印尼入境卡 嬰兒,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,family-children,,,印尼入境卡 嬰兒,Exact,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,family-children,,,峇里島入境卡 家庭,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,family-children,,,峇里島入境卡 家庭,Exact,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,family-children,,,印尼入境卡 每人,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,family-children,,,印尼入境卡 團體,Phrase,Enabled,mode-A-authorized-only
+ZH-Transactional,,,,,,,,free,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,official,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,government,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,gov,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,go.id,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,imigrasi,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,ditjen imigrasi,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,direktorat jenderal imigrasi,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,bea cukai,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,beacukai,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,satusehat,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,kemenimipas,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,kemenkumham,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,molina,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,login,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,log in,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,sign in,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,scam,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,fake,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,fraud,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,legit,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,download,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,apk,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,app store,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,play store,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,ios,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,android,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,visa exemption,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,visa free,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,visa-free,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,exemption list,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,jobs,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,job,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,career,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,vacancy,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,salary,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,internship,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,kitas,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,kitap,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,work permit,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,student visa,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,second home,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,golden visa,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,b211,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,c1 visa,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,extension,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,overstay,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,deportation,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,reddit,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,tripadvisor,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,news,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,meaning,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,pdf,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,sample,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,template,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,example,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,embassy,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,consulate,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,refund,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,chargeback,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,trustpilot,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,review,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,indonesia-portal,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,indonesia portal,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,indonesia-arrival.com,Negative Phrase,Enabled,negative-shared
+ZH-Transactional,,,,,,,,免費,Negative Phrase,Enabled,negative-local
+ZH-Transactional,,,,,,,,免费,Negative Phrase,Enabled,negative-local
+ZH-Transactional,,,,,,,,官方,Negative Phrase,Enabled,negative-local
+ZH-Transactional,,,,,,,,官網,Negative Phrase,Enabled,negative-local
+ZH-Transactional,,,,,,,,政府,Negative Phrase,Enabled,negative-local
+ZH-Transactional,,,,,,,,移民局,Negative Phrase,Enabled,negative-local
+ZH-Transactional,,,,,,,,大使館,Negative Phrase,Enabled,negative-local
+ZH-Transactional,,,,,,,,辦事處,Negative Phrase,Enabled,negative-local
+ZH-Transactional,,,,,,,,詐騙,Negative Phrase,Enabled,negative-local
+ZH-Transactional,,,,,,,,騙,Negative Phrase,Enabled,negative-local
+ZH-Transactional,,,,,,,,評價,Negative Phrase,Enabled,negative-local
+ZH-Transactional,,,,,,,,登入,Negative Phrase,Enabled,negative-local
+ZH-Transactional,,,,,,,,下載,Negative Phrase,Enabled,negative-local
+ZH-Transactional,,,,,,,,免簽,Negative Phrase,Enabled,negative-local
+ZH-Transactional,,,,,,,,工作,Negative Phrase,Enabled,negative-local
+ZH-Transactional,,,,,,,,薪水,Negative Phrase,Enabled,negative-local
+ZH-Transactional,,,,,,,,延簽,Negative Phrase,Enabled,negative-local
+ZH-Transactional,,,,,,,,工作簽證,Negative Phrase,Enabled,negative-local
+ZH-Transactional,,,,,,,,維基,Negative Phrase,Enabled,negative-local
+ZH-Informational,Search,Paused,3.90,Maximize clicks,,,,,,,mode-B-informational
+ZH-Informational,,,,,how-to-fill,Enabled,0.50,,,,mode-B-informational
+ZH-Informational,,,,,how-to-fill,,,印尼入境卡 怎麼填,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,how-to-fill,,,印尼入境卡 怎麼填,Exact,Enabled,mode-B-informational
+ZH-Informational,,,,,how-to-fill,,,印尼入境卡 何時填,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,how-to-fill,,,印尼入境卡 何時填,Exact,Enabled,mode-B-informational
+ZH-Informational,,,,,how-to-fill,,,印尼入境卡 72小時,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,how-to-fill,,,印尼入境卡 72小時,Exact,Enabled,mode-B-informational
+ZH-Informational,,,,,how-to-fill,,,印尼入境卡 幾天前,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,how-to-fill,,,峇里島入境卡 什麼時候填,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,how-to-fill,,,印尼入境卡 步驟,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,app-problems,Enabled,0.50,,,,mode-B-informational
+ZH-Informational,,,,,app-problems,,,all indonesia app 無法使用,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,app-problems,,,all indonesia app 無法使用,Exact,Enabled,mode-B-informational
+ZH-Informational,,,,,app-problems,,,all indonesia 問題,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,app-problems,,,all indonesia 問題,Exact,Enabled,mode-B-informational
+ZH-Informational,,,,,app-problems,,,all indonesia 收不到 qr code,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,app-problems,,,all indonesia 收不到 qr code,Exact,Enabled,mode-B-informational
+ZH-Informational,,,,,app-problems,,,印尼入境卡 沒收到 email,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,app-problems,,,all indonesia 閃退,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,app-problems,,,印尼入境卡 日期 錯誤,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,customs-declaration,Enabled,0.50,,,,mode-B-informational
+ZH-Informational,,,,,customs-declaration,,,印尼 海關申報,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,customs-declaration,,,印尼 海關申報,Exact,Enabled,mode-B-informational
+ZH-Informational,,,,,customs-declaration,,,峇里島 海關申報,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,customs-declaration,,,峇里島 海關申報,Exact,Enabled,mode-B-informational
+ZH-Informational,,,,,customs-declaration,,,印尼 海關 申報單,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,customs-declaration,,,印尼 海關 申報單,Exact,Enabled,mode-B-informational
+ZH-Informational,,,,,customs-declaration,,,印尼 入境 海關 規定,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,customs-declaration,,,印尼 電子海關申報,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,customs-declaration,,,印尼 免稅額 入境,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,transit,Enabled,0.50,,,,mode-B-informational
+ZH-Informational,,,,,transit,,,印尼入境卡 轉機,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,transit,,,印尼入境卡 轉機,Exact,Enabled,mode-B-informational
+ZH-Informational,,,,,transit,,,峇里島 轉機 入境卡,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,transit,,,峇里島 轉機 入境卡,Exact,Enabled,mode-B-informational
+ZH-Informational,,,,,transit,,,雅加達 轉機 入境卡,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,transit,,,雅加達 轉機 入境卡,Exact,Enabled,mode-B-informational
+ZH-Informational,,,,,transit,,,印尼入境卡 郵輪,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,transit,,,印尼入境卡 巴淡 渡輪,Phrase,Enabled,mode-B-informational
+ZH-Informational,,,,,,,,free,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,official,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,government,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,gov,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,go.id,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,imigrasi,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,ditjen imigrasi,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,direktorat jenderal imigrasi,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,bea cukai,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,beacukai,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,satusehat,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,kemenimipas,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,kemenkumham,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,molina,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,login,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,log in,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,sign in,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,scam,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,fake,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,fraud,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,legit,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,download,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,apk,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,app store,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,play store,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,ios,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,android,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,visa exemption,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,visa free,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,visa-free,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,exemption list,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,jobs,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,job,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,career,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,vacancy,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,salary,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,internship,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,kitas,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,kitap,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,work permit,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,student visa,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,second home,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,golden visa,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,b211,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,c1 visa,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,extension,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,overstay,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,deportation,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,reddit,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,tripadvisor,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,news,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,meaning,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,pdf,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,sample,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,template,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,example,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,embassy,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,consulate,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,refund,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,chargeback,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,trustpilot,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,review,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,indonesia-portal,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,indonesia portal,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,indonesia-arrival.com,Negative Phrase,Enabled,negative-shared
+ZH-Informational,,,,,,,,免費,Negative Phrase,Enabled,negative-local
+ZH-Informational,,,,,,,,免费,Negative Phrase,Enabled,negative-local
+ZH-Informational,,,,,,,,官方,Negative Phrase,Enabled,negative-local
+ZH-Informational,,,,,,,,官網,Negative Phrase,Enabled,negative-local
+ZH-Informational,,,,,,,,政府,Negative Phrase,Enabled,negative-local
+ZH-Informational,,,,,,,,移民局,Negative Phrase,Enabled,negative-local
+ZH-Informational,,,,,,,,大使館,Negative Phrase,Enabled,negative-local
+ZH-Informational,,,,,,,,辦事處,Negative Phrase,Enabled,negative-local
+ZH-Informational,,,,,,,,詐騙,Negative Phrase,Enabled,negative-local
+ZH-Informational,,,,,,,,騙,Negative Phrase,Enabled,negative-local
+ZH-Informational,,,,,,,,評價,Negative Phrase,Enabled,negative-local
+ZH-Informational,,,,,,,,登入,Negative Phrase,Enabled,negative-local
+ZH-Informational,,,,,,,,下載,Negative Phrase,Enabled,negative-local
+ZH-Informational,,,,,,,,免簽,Negative Phrase,Enabled,negative-local
+ZH-Informational,,,,,,,,工作,Negative Phrase,Enabled,negative-local
+ZH-Informational,,,,,,,,薪水,Negative Phrase,Enabled,negative-local
+ZH-Informational,,,,,,,,延簽,Negative Phrase,Enabled,negative-local
+ZH-Informational,,,,,,,,工作簽證,Negative Phrase,Enabled,negative-local
+ZH-Informational,,,,,,,,維基,Negative Phrase,Enabled,negative-local
+FR-Transactional,Search,Paused,4.70,Maximize clicks,,,,,,,mode-A-authorized-only
+FR-Transactional,,,,,arrival-card-generic,Enabled,1.10,,,,mode-A-authorized-only
+FR-Transactional,,,,,arrival-card-generic,,,carte d'arrivée indonésie,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,arrival-card-generic,,,carte d'arrivée indonésie,Exact,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,arrival-card-generic,,,carte d arrivee indonesie en ligne,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,arrival-card-generic,,,carte d arrivee indonesie en ligne,Exact,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,arrival-card-generic,,,arrival card indonésie,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,arrival-card-generic,,,arrival card indonésie,Exact,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,arrival-card-generic,,,formulaire d'arrivée indonésie,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,arrival-card-generic,,,carte d'arrivée indonésie remplir,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,arrival-card-generic,,,e-arrival card indonésie,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,arrival-card-generic,,,carte d'entrée indonésie,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,arrival-card-generic,,,aide carte d'arrivée indonésie,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,bali-arrival-card,Enabled,1.10,,,,mode-A-authorized-only
+FR-Transactional,,,,,bali-arrival-card,,,carte d'arrivée bali,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,bali-arrival-card,,,carte d'arrivée bali,Exact,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,bali-arrival-card,,,bali arrival card,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,bali-arrival-card,,,bali arrival card,Exact,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,bali-arrival-card,,,formulaire arrivée bali,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,bali-arrival-card,,,formulaire arrivée bali,Exact,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,bali-arrival-card,,,carte d arrivee bali en ligne,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,bali-arrival-card,,,carte d'arrivée bali remplir,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,bali-arrival-card,,,carte d'arrivée jakarta,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,evoa,Enabled,1.10,,,,mode-A-authorized-only
+FR-Transactional,,,,,evoa,,,evoa indonésie,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,evoa,,,evoa indonésie,Exact,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,evoa,,,e-voa indonésie demande,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,evoa,,,e-voa indonésie demande,Exact,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,evoa,,,visa à l'arrivée indonésie en ligne,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,evoa,,,visa à l'arrivée indonésie en ligne,Exact,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,evoa,,,visa bali en ligne,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,evoa,,,e visa on arrival indonésie,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,evoa,,,evoa bali,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,evoa,,,visa indonésie en ligne tourisme,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,family-children,Enabled,1.10,,,,mode-A-authorized-only
+FR-Transactional,,,,,family-children,,,carte d'arrivée indonésie enfant,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,family-children,,,carte d'arrivée indonésie enfant,Exact,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,family-children,,,carte d'arrivée bali famille,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,family-children,,,carte d'arrivée bali famille,Exact,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,family-children,,,carte d'arrivée indonésie bébé,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,family-children,,,carte d'arrivée indonésie bébé,Exact,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,family-children,,,carte d'arrivée indonésie par personne,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,family-children,,,all indonesia enfants,Phrase,Enabled,mode-A-authorized-only
+FR-Transactional,,,,,,,,free,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,official,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,government,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,gov,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,go.id,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,imigrasi,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,ditjen imigrasi,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,direktorat jenderal imigrasi,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,bea cukai,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,beacukai,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,satusehat,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,kemenimipas,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,kemenkumham,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,molina,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,login,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,log in,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,sign in,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,scam,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,fake,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,fraud,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,legit,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,download,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,apk,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,app store,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,play store,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,ios,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,android,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,visa exemption,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,visa free,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,visa-free,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,exemption list,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,jobs,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,job,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,career,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,vacancy,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,salary,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,internship,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,kitas,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,kitap,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,work permit,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,student visa,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,second home,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,golden visa,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,b211,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,c1 visa,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,extension,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,overstay,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,deportation,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,reddit,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,tripadvisor,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,news,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,meaning,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,pdf,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,sample,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,template,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,example,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,embassy,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,consulate,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,refund,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,chargeback,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,trustpilot,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,review,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,indonesia-portal,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,indonesia portal,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,indonesia-arrival.com,Negative Phrase,Enabled,negative-shared
+FR-Transactional,,,,,,,,gratuit,Negative Phrase,Enabled,negative-local
+FR-Transactional,,,,,,,,gratuite,Negative Phrase,Enabled,negative-local
+FR-Transactional,,,,,,,,officiel,Negative Phrase,Enabled,negative-local
+FR-Transactional,,,,,,,,officielle,Negative Phrase,Enabled,negative-local
+FR-Transactional,,,,,,,,gouvernement,Negative Phrase,Enabled,negative-local
+FR-Transactional,,,,,,,,ambassade,Negative Phrase,Enabled,negative-local
+FR-Transactional,,,,,,,,consulat,Negative Phrase,Enabled,negative-local
+FR-Transactional,,,,,,,,arnaque,Negative Phrase,Enabled,negative-local
+FR-Transactional,,,,,,,,avis,Negative Phrase,Enabled,negative-local
+FR-Transactional,,,,,,,,connexion,Negative Phrase,Enabled,negative-local
+FR-Transactional,,,,,,,,se connecter,Negative Phrase,Enabled,negative-local
+FR-Transactional,,,,,,,,télécharger,Negative Phrase,Enabled,negative-local
+FR-Transactional,,,,,,,,sans visa,Negative Phrase,Enabled,negative-local
+FR-Transactional,,,,,,,,emploi,Negative Phrase,Enabled,negative-local
+FR-Transactional,,,,,,,,salaire,Negative Phrase,Enabled,negative-local
+FR-Transactional,,,,,,,,prolongation,Negative Phrase,Enabled,negative-local
+FR-Transactional,,,,,,,,visa de travail,Negative Phrase,Enabled,negative-local
+FR-Transactional,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-local
+FR-Informational,Search,Paused,3.20,Maximize clicks,,,,,,,mode-B-informational
+FR-Informational,,,,,how-to-fill,Enabled,0.60,,,,mode-B-informational
+FR-Informational,,,,,how-to-fill,,,comment remplir carte d'arrivée indonésie,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,how-to-fill,,,comment remplir carte d'arrivée indonésie,Exact,Enabled,mode-B-informational
+FR-Informational,,,,,how-to-fill,,,quand remplir carte d'arrivée indonésie,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,how-to-fill,,,quand remplir carte d'arrivée indonésie,Exact,Enabled,mode-B-informational
+FR-Informational,,,,,how-to-fill,,,carte d'arrivée indonésie 72 heures,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,how-to-fill,,,carte d'arrivée indonésie 72 heures,Exact,Enabled,mode-B-informational
+FR-Informational,,,,,how-to-fill,,,carte d'arrivée indonésie combien de jours avant,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,how-to-fill,,,carte d'arrivée bali quand,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,how-to-fill,,,guide carte d'arrivée indonésie,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,app-problems,Enabled,0.60,,,,mode-B-informational
+FR-Informational,,,,,app-problems,,,application all indonesia ne fonctionne pas,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,app-problems,,,application all indonesia ne fonctionne pas,Exact,Enabled,mode-B-informational
+FR-Informational,,,,,app-problems,,,all indonesia problème,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,app-problems,,,all indonesia problème,Exact,Enabled,mode-B-informational
+FR-Informational,,,,,app-problems,,,all indonesia qr code non reçu,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,app-problems,,,all indonesia qr code non reçu,Exact,Enabled,mode-B-informational
+FR-Informational,,,,,app-problems,,,carte d'arrivée indonésie pas de mail,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,app-problems,,,all indonesia bug,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,app-problems,,,carte d'arrivée indonésie erreur date,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,customs-declaration,Enabled,0.60,,,,mode-B-informational
+FR-Informational,,,,,customs-declaration,,,déclaration douane indonésie,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,customs-declaration,,,déclaration douane indonésie,Exact,Enabled,mode-B-informational
+FR-Informational,,,,,customs-declaration,,,déclaration douanière bali,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,customs-declaration,,,déclaration douanière bali,Exact,Enabled,mode-B-informational
+FR-Informational,,,,,customs-declaration,,,formulaire douane indonésie,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,customs-declaration,,,formulaire douane indonésie,Exact,Enabled,mode-B-informational
+FR-Informational,,,,,customs-declaration,,,douane indonésie franchise,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,customs-declaration,,,e-cd indonésie,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,customs-declaration,,,déclaration de douane indonésie en ligne,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,transit,Enabled,0.60,,,,mode-B-informational
+FR-Informational,,,,,transit,,,carte d'arrivée indonésie transit,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,transit,,,carte d'arrivée indonésie transit,Exact,Enabled,mode-B-informational
+FR-Informational,,,,,transit,,,escale bali carte d'arrivée,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,transit,,,escale bali carte d'arrivée,Exact,Enabled,mode-B-informational
+FR-Informational,,,,,transit,,,transit jakarta carte d'arrivée,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,transit,,,transit jakarta carte d'arrivée,Exact,Enabled,mode-B-informational
+FR-Informational,,,,,transit,,,carte d'arrivée indonésie croisière,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,transit,,,carte d'arrivée indonésie ferry,Phrase,Enabled,mode-B-informational
+FR-Informational,,,,,,,,free,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,official,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,government,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,gov,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,go.id,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,imigrasi,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,ditjen imigrasi,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,direktorat jenderal imigrasi,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,bea cukai,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,beacukai,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,satusehat,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,kemenimipas,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,kemenkumham,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,molina,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,login,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,log in,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,sign in,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,scam,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,fake,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,fraud,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,legit,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,download,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,apk,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,app store,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,play store,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,ios,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,android,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,visa exemption,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,visa free,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,visa-free,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,exemption list,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,jobs,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,job,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,career,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,vacancy,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,salary,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,internship,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,kitas,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,kitap,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,work permit,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,student visa,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,second home,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,golden visa,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,b211,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,c1 visa,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,extension,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,overstay,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,deportation,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,reddit,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,tripadvisor,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,news,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,meaning,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,pdf,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,sample,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,template,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,example,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,embassy,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,consulate,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,refund,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,chargeback,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,trustpilot,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,review,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,indonesia-portal,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,indonesia portal,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,indonesia-arrival.com,Negative Phrase,Enabled,negative-shared
+FR-Informational,,,,,,,,gratuit,Negative Phrase,Enabled,negative-local
+FR-Informational,,,,,,,,gratuite,Negative Phrase,Enabled,negative-local
+FR-Informational,,,,,,,,officiel,Negative Phrase,Enabled,negative-local
+FR-Informational,,,,,,,,officielle,Negative Phrase,Enabled,negative-local
+FR-Informational,,,,,,,,gouvernement,Negative Phrase,Enabled,negative-local
+FR-Informational,,,,,,,,ambassade,Negative Phrase,Enabled,negative-local
+FR-Informational,,,,,,,,consulat,Negative Phrase,Enabled,negative-local
+FR-Informational,,,,,,,,arnaque,Negative Phrase,Enabled,negative-local
+FR-Informational,,,,,,,,avis,Negative Phrase,Enabled,negative-local
+FR-Informational,,,,,,,,connexion,Negative Phrase,Enabled,negative-local
+FR-Informational,,,,,,,,se connecter,Negative Phrase,Enabled,negative-local
+FR-Informational,,,,,,,,télécharger,Negative Phrase,Enabled,negative-local
+FR-Informational,,,,,,,,sans visa,Negative Phrase,Enabled,negative-local
+FR-Informational,,,,,,,,emploi,Negative Phrase,Enabled,negative-local
+FR-Informational,,,,,,,,salaire,Negative Phrase,Enabled,negative-local
+FR-Informational,,,,,,,,prolongation,Negative Phrase,Enabled,negative-local
+FR-Informational,,,,,,,,visa de travail,Negative Phrase,Enabled,negative-local
+FR-Informational,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-local
+ES-Transactional,Search,Paused,4.10,Maximize clicks,,,,,,,mode-A-authorized-only
+ES-Transactional,,,,,arrival-card-generic,Enabled,0.90,,,,mode-A-authorized-only
+ES-Transactional,,,,,arrival-card-generic,,,tarjeta de llegada indonesia,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,arrival-card-generic,,,tarjeta de llegada indonesia,Exact,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,arrival-card-generic,,,tarjeta de llegada indonesia online,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,arrival-card-generic,,,tarjeta de llegada indonesia online,Exact,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,arrival-card-generic,,,arrival card indonesia,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,arrival-card-generic,,,arrival card indonesia,Exact,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,arrival-card-generic,,,formulario de llegada indonesia,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,arrival-card-generic,,,tarjeta de entrada indonesia,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,arrival-card-generic,,,rellenar tarjeta de llegada indonesia,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,arrival-card-generic,,,tarjeta llegada indonesia ayuda,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,arrival-card-generic,,,e-arrival card indonesia,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,bali-arrival-card,Enabled,0.90,,,,mode-A-authorized-only
+ES-Transactional,,,,,bali-arrival-card,,,tarjeta de llegada bali,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,bali-arrival-card,,,tarjeta de llegada bali,Exact,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,bali-arrival-card,,,bali arrival card,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,bali-arrival-card,,,bali arrival card,Exact,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,bali-arrival-card,,,formulario de llegada bali,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,bali-arrival-card,,,formulario de llegada bali,Exact,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,bali-arrival-card,,,tarjeta de entrada bali,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,bali-arrival-card,,,tarjeta de llegada bali online,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,bali-arrival-card,,,tarjeta de llegada yakarta,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,evoa,Enabled,0.90,,,,mode-A-authorized-only
+ES-Transactional,,,,,evoa,,,evoa indonesia,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,evoa,,,evoa indonesia,Exact,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,evoa,,,e-voa indonesia solicitar,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,evoa,,,e-voa indonesia solicitar,Exact,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,evoa,,,visado a la llegada indonesia online,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,evoa,,,visado a la llegada indonesia online,Exact,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,evoa,,,visa bali online,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,evoa,,,e visa on arrival indonesia,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,evoa,,,evoa bali,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,evoa,,,visado indonesia online turismo,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,family-children,Enabled,0.90,,,,mode-A-authorized-only
+ES-Transactional,,,,,family-children,,,tarjeta de llegada indonesia niños,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,family-children,,,tarjeta de llegada indonesia niños,Exact,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,family-children,,,tarjeta de llegada bali familia,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,family-children,,,tarjeta de llegada bali familia,Exact,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,family-children,,,tarjeta de llegada indonesia bebé,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,family-children,,,tarjeta de llegada indonesia bebé,Exact,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,family-children,,,tarjeta de llegada indonesia por persona,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,family-children,,,all indonesia niños,Phrase,Enabled,mode-A-authorized-only
+ES-Transactional,,,,,,,,free,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,official,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,government,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,gov,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,go.id,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,imigrasi,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,ditjen imigrasi,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,direktorat jenderal imigrasi,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,bea cukai,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,beacukai,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,satusehat,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,kemenimipas,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,kemenkumham,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,molina,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,login,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,log in,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,sign in,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,scam,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,fake,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,fraud,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,legit,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,download,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,apk,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,app store,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,play store,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,ios,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,android,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,visa exemption,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,visa free,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,visa-free,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,exemption list,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,jobs,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,job,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,career,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,vacancy,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,salary,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,internship,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,kitas,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,kitap,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,work permit,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,student visa,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,second home,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,golden visa,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,b211,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,c1 visa,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,extension,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,overstay,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,deportation,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,reddit,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,tripadvisor,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,news,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,meaning,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,pdf,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,sample,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,template,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,example,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,embassy,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,consulate,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,refund,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,chargeback,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,trustpilot,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,review,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,indonesia-portal,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,indonesia portal,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,indonesia-arrival.com,Negative Phrase,Enabled,negative-shared
+ES-Transactional,,,,,,,,gratis,Negative Phrase,Enabled,negative-local
+ES-Transactional,,,,,,,,gratuita,Negative Phrase,Enabled,negative-local
+ES-Transactional,,,,,,,,oficial,Negative Phrase,Enabled,negative-local
+ES-Transactional,,,,,,,,gobierno,Negative Phrase,Enabled,negative-local
+ES-Transactional,,,,,,,,embajada,Negative Phrase,Enabled,negative-local
+ES-Transactional,,,,,,,,consulado,Negative Phrase,Enabled,negative-local
+ES-Transactional,,,,,,,,estafa,Negative Phrase,Enabled,negative-local
+ES-Transactional,,,,,,,,opiniones,Negative Phrase,Enabled,negative-local
+ES-Transactional,,,,,,,,iniciar sesión,Negative Phrase,Enabled,negative-local
+ES-Transactional,,,,,,,,descargar,Negative Phrase,Enabled,negative-local
+ES-Transactional,,,,,,,,sin visado,Negative Phrase,Enabled,negative-local
+ES-Transactional,,,,,,,,empleo,Negative Phrase,Enabled,negative-local
+ES-Transactional,,,,,,,,trabajo,Negative Phrase,Enabled,negative-local
+ES-Transactional,,,,,,,,salario,Negative Phrase,Enabled,negative-local
+ES-Transactional,,,,,,,,prórroga,Negative Phrase,Enabled,negative-local
+ES-Transactional,,,,,,,,visado de trabajo,Negative Phrase,Enabled,negative-local
+ES-Transactional,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-local
+ES-Informational,Search,Paused,2.80,Maximize clicks,,,,,,,mode-B-informational
+ES-Informational,,,,,how-to-fill,Enabled,0.50,,,,mode-B-informational
+ES-Informational,,,,,how-to-fill,,,cómo rellenar tarjeta de llegada indonesia,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,how-to-fill,,,cómo rellenar tarjeta de llegada indonesia,Exact,Enabled,mode-B-informational
+ES-Informational,,,,,how-to-fill,,,cuándo rellenar tarjeta de llegada indonesia,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,how-to-fill,,,cuándo rellenar tarjeta de llegada indonesia,Exact,Enabled,mode-B-informational
+ES-Informational,,,,,how-to-fill,,,tarjeta de llegada indonesia 72 horas,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,how-to-fill,,,tarjeta de llegada indonesia 72 horas,Exact,Enabled,mode-B-informational
+ES-Informational,,,,,how-to-fill,,,tarjeta de llegada indonesia cuántos días antes,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,how-to-fill,,,tarjeta de llegada bali cuándo,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,how-to-fill,,,guía tarjeta de llegada indonesia,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,app-problems,Enabled,0.50,,,,mode-B-informational
+ES-Informational,,,,,app-problems,,,all indonesia app no funciona,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,app-problems,,,all indonesia app no funciona,Exact,Enabled,mode-B-informational
+ES-Informational,,,,,app-problems,,,all indonesia problemas,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,app-problems,,,all indonesia problemas,Exact,Enabled,mode-B-informational
+ES-Informational,,,,,app-problems,,,all indonesia código qr no llega,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,app-problems,,,all indonesia código qr no llega,Exact,Enabled,mode-B-informational
+ES-Informational,,,,,app-problems,,,tarjeta de llegada indonesia no recibo correo,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,app-problems,,,all indonesia error,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,app-problems,,,tarjeta de llegada indonesia fecha incorrecta,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,customs-declaration,Enabled,0.50,,,,mode-B-informational
+ES-Informational,,,,,customs-declaration,,,declaración de aduana indonesia,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,customs-declaration,,,declaración de aduana indonesia,Exact,Enabled,mode-B-informational
+ES-Informational,,,,,customs-declaration,,,declaración aduanera bali,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,customs-declaration,,,declaración aduanera bali,Exact,Enabled,mode-B-informational
+ES-Informational,,,,,customs-declaration,,,formulario aduana indonesia,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,customs-declaration,,,formulario aduana indonesia,Exact,Enabled,mode-B-informational
+ES-Informational,,,,,customs-declaration,,,aduana indonesia límites,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,customs-declaration,,,e-cd indonesia,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,customs-declaration,,,declaración de aduanas indonesia online,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,transit,Enabled,0.50,,,,mode-B-informational
+ES-Informational,,,,,transit,,,tarjeta de llegada indonesia tránsito,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,transit,,,tarjeta de llegada indonesia tránsito,Exact,Enabled,mode-B-informational
+ES-Informational,,,,,transit,,,escala bali tarjeta de llegada,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,transit,,,escala bali tarjeta de llegada,Exact,Enabled,mode-B-informational
+ES-Informational,,,,,transit,,,tránsito yakarta tarjeta de llegada,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,transit,,,tránsito yakarta tarjeta de llegada,Exact,Enabled,mode-B-informational
+ES-Informational,,,,,transit,,,tarjeta de llegada indonesia crucero,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,transit,,,tarjeta de llegada indonesia ferry,Phrase,Enabled,mode-B-informational
+ES-Informational,,,,,,,,free,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,official,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,government,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,gov,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,go.id,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,imigrasi,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,ditjen imigrasi,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,direktorat jenderal imigrasi,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,bea cukai,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,beacukai,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,satusehat,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,kemenimipas,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,kemenkumham,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,molina,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,login,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,log in,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,sign in,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,scam,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,fake,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,fraud,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,legit,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,download,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,apk,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,app store,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,play store,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,ios,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,android,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,visa exemption,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,visa free,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,visa-free,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,exemption list,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,jobs,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,job,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,career,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,vacancy,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,salary,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,internship,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,kitas,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,kitap,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,work permit,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,student visa,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,second home,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,golden visa,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,b211,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,c1 visa,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,extension,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,overstay,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,deportation,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,reddit,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,tripadvisor,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,news,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,meaning,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,pdf,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,sample,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,template,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,example,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,embassy,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,consulate,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,refund,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,chargeback,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,trustpilot,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,review,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,indonesia-portal,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,indonesia portal,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,indonesia-arrival.com,Negative Phrase,Enabled,negative-shared
+ES-Informational,,,,,,,,gratis,Negative Phrase,Enabled,negative-local
+ES-Informational,,,,,,,,gratuita,Negative Phrase,Enabled,negative-local
+ES-Informational,,,,,,,,oficial,Negative Phrase,Enabled,negative-local
+ES-Informational,,,,,,,,gobierno,Negative Phrase,Enabled,negative-local
+ES-Informational,,,,,,,,embajada,Negative Phrase,Enabled,negative-local
+ES-Informational,,,,,,,,consulado,Negative Phrase,Enabled,negative-local
+ES-Informational,,,,,,,,estafa,Negative Phrase,Enabled,negative-local
+ES-Informational,,,,,,,,opiniones,Negative Phrase,Enabled,negative-local
+ES-Informational,,,,,,,,iniciar sesión,Negative Phrase,Enabled,negative-local
+ES-Informational,,,,,,,,descargar,Negative Phrase,Enabled,negative-local
+ES-Informational,,,,,,,,sin visado,Negative Phrase,Enabled,negative-local
+ES-Informational,,,,,,,,empleo,Negative Phrase,Enabled,negative-local
+ES-Informational,,,,,,,,trabajo,Negative Phrase,Enabled,negative-local
+ES-Informational,,,,,,,,salario,Negative Phrase,Enabled,negative-local
+ES-Informational,,,,,,,,prórroga,Negative Phrase,Enabled,negative-local
+ES-Informational,,,,,,,,visado de trabajo,Negative Phrase,Enabled,negative-local
+ES-Informational,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-local
+JA-Transactional,Search,Paused,4.70,Maximize clicks,,,,,,,mode-A-authorized-only
+JA-Transactional,,,,,arrival-card-generic,Enabled,1.20,,,,mode-A-authorized-only
+JA-Transactional,,,,,arrival-card-generic,,,インドネシア 入国カード,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,arrival-card-generic,,,インドネシア 入国カード,Exact,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,arrival-card-generic,,,インドネシア 入国カード オンライン,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,arrival-card-generic,,,インドネシア 入国カード オンライン,Exact,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,arrival-card-generic,,,インドネシア アライバルカード,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,arrival-card-generic,,,インドネシア アライバルカード,Exact,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,arrival-card-generic,,,インドネシア 電子入国カード,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,arrival-card-generic,,,インドネシア 入国カード 申請,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,arrival-card-generic,,,インドネシア 入国カード 代行,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,arrival-card-generic,,,インドネシア 入国 申告,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,arrival-card-generic,,,インドネシア 入国カード 必要,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,bali-arrival-card,Enabled,1.20,,,,mode-A-authorized-only
+JA-Transactional,,,,,bali-arrival-card,,,バリ島 入国カード,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,bali-arrival-card,,,バリ島 入国カード,Exact,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,bali-arrival-card,,,バリ 入国カード 申請,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,bali-arrival-card,,,バリ 入国カード 申請,Exact,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,bali-arrival-card,,,バリ島 アライバルカード,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,bali-arrival-card,,,バリ島 アライバルカード,Exact,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,bali-arrival-card,,,バリ島 電子入国カード,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,bali-arrival-card,,,ジャカルタ 入国カード,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,bali-arrival-card,,,バリ島 入国 手続き オンライン,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,evoa,Enabled,1.20,,,,mode-A-authorized-only
+JA-Transactional,,,,,evoa,,,インドネシア evoa,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,evoa,,,インドネシア evoa,Exact,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,evoa,,,インドネシア e-voa 申請,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,evoa,,,インドネシア e-voa 申請,Exact,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,evoa,,,インドネシア 到着ビザ オンライン,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,evoa,,,インドネシア 到着ビザ オンライン,Exact,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,evoa,,,バリ島 ビザ オンライン,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,evoa,,,インドネシア 電子到着ビザ,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,evoa,,,バリ島 evoa,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,evoa,,,インドネシア ビザ 申請 観光,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,family-children,Enabled,1.20,,,,mode-A-authorized-only
+JA-Transactional,,,,,family-children,,,インドネシア 入国カード 子供,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,family-children,,,インドネシア 入国カード 子供,Exact,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,family-children,,,インドネシア 入国カード 赤ちゃん,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,family-children,,,インドネシア 入国カード 赤ちゃん,Exact,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,family-children,,,バリ島 入国カード 家族,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,family-children,,,バリ島 入国カード 家族,Exact,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,family-children,,,インドネシア 入国カード 一人ずつ,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,family-children,,,all indonesia 家族,Phrase,Enabled,mode-A-authorized-only
+JA-Transactional,,,,,,,,free,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,official,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,government,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,gov,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,go.id,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,imigrasi,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,ditjen imigrasi,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,direktorat jenderal imigrasi,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,bea cukai,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,beacukai,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,satusehat,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,kemenimipas,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,kemenkumham,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,molina,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,login,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,log in,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,sign in,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,scam,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,fake,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,fraud,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,legit,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,download,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,apk,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,app store,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,play store,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,ios,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,android,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,visa exemption,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,visa free,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,visa-free,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,exemption list,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,jobs,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,job,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,career,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,vacancy,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,salary,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,internship,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,kitas,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,kitap,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,work permit,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,student visa,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,second home,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,golden visa,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,b211,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,c1 visa,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,extension,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,overstay,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,deportation,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,reddit,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,tripadvisor,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,news,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,meaning,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,pdf,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,sample,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,template,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,example,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,embassy,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,consulate,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,refund,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,chargeback,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,trustpilot,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,review,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,indonesia-portal,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,indonesia portal,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,indonesia-arrival.com,Negative Phrase,Enabled,negative-shared
+JA-Transactional,,,,,,,,無料,Negative Phrase,Enabled,negative-local
+JA-Transactional,,,,,,,,公式,Negative Phrase,Enabled,negative-local
+JA-Transactional,,,,,,,,政府,Negative Phrase,Enabled,negative-local
+JA-Transactional,,,,,,,,大使館,Negative Phrase,Enabled,negative-local
+JA-Transactional,,,,,,,,領事館,Negative Phrase,Enabled,negative-local
+JA-Transactional,,,,,,,,詐欺,Negative Phrase,Enabled,negative-local
+JA-Transactional,,,,,,,,口コミ,Negative Phrase,Enabled,negative-local
+JA-Transactional,,,,,,,,評判,Negative Phrase,Enabled,negative-local
+JA-Transactional,,,,,,,,ログイン,Negative Phrase,Enabled,negative-local
+JA-Transactional,,,,,,,,ダウンロード,Negative Phrase,Enabled,negative-local
+JA-Transactional,,,,,,,,ビザ免除,Negative Phrase,Enabled,negative-local
+JA-Transactional,,,,,,,,求人,Negative Phrase,Enabled,negative-local
+JA-Transactional,,,,,,,,仕事,Negative Phrase,Enabled,negative-local
+JA-Transactional,,,,,,,,給料,Negative Phrase,Enabled,negative-local
+JA-Transactional,,,,,,,,延長,Negative Phrase,Enabled,negative-local
+JA-Transactional,,,,,,,,就労ビザ,Negative Phrase,Enabled,negative-local
+JA-Transactional,,,,,,,,ウィキペディア,Negative Phrase,Enabled,negative-local
+JA-Informational,Search,Paused,3.20,Maximize clicks,,,,,,,mode-B-informational
+JA-Informational,,,,,how-to-fill,Enabled,0.60,,,,mode-B-informational
+JA-Informational,,,,,how-to-fill,,,インドネシア 入国カード 書き方,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,how-to-fill,,,インドネシア 入国カード 書き方,Exact,Enabled,mode-B-informational
+JA-Informational,,,,,how-to-fill,,,インドネシア 入国カード いつ,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,how-to-fill,,,インドネシア 入国カード いつ,Exact,Enabled,mode-B-informational
+JA-Informational,,,,,how-to-fill,,,インドネシア 入国カード 72時間,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,how-to-fill,,,インドネシア 入国カード 72時間,Exact,Enabled,mode-B-informational
+JA-Informational,,,,,how-to-fill,,,インドネシア 入国カード 何日前,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,how-to-fill,,,バリ島 入国カード いつから,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,how-to-fill,,,インドネシア 入国カード 手順,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,app-problems,Enabled,0.60,,,,mode-B-informational
+JA-Informational,,,,,app-problems,,,all indonesia アプリ 使えない,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,app-problems,,,all indonesia アプリ 使えない,Exact,Enabled,mode-B-informational
+JA-Informational,,,,,app-problems,,,all indonesia 不具合,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,app-problems,,,all indonesia 不具合,Exact,Enabled,mode-B-informational
+JA-Informational,,,,,app-problems,,,all indonesia qrコード 届かない,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,app-problems,,,all indonesia qrコード 届かない,Exact,Enabled,mode-B-informational
+JA-Informational,,,,,app-problems,,,インドネシア 入国カード メール 届かない,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,app-problems,,,all indonesia エラー,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,app-problems,,,インドネシア 入国カード 日付 間違い,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,customs-declaration,Enabled,0.60,,,,mode-B-informational
+JA-Informational,,,,,customs-declaration,,,インドネシア 税関申告,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,customs-declaration,,,インドネシア 税関申告,Exact,Enabled,mode-B-informational
+JA-Informational,,,,,customs-declaration,,,バリ島 税関申告,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,customs-declaration,,,バリ島 税関申告,Exact,Enabled,mode-B-informational
+JA-Informational,,,,,customs-declaration,,,インドネシア 税関 申告書,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,customs-declaration,,,インドネシア 税関 申告書,Exact,Enabled,mode-B-informational
+JA-Informational,,,,,customs-declaration,,,インドネシア 入国 税関 免税範囲,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,customs-declaration,,,インドネシア 電子税関申告,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,customs-declaration,,,インドネシア 税関 オンライン,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,transit,Enabled,0.60,,,,mode-B-informational
+JA-Informational,,,,,transit,,,インドネシア 入国カード 乗り継ぎ,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,transit,,,インドネシア 入国カード 乗り継ぎ,Exact,Enabled,mode-B-informational
+JA-Informational,,,,,transit,,,バリ島 乗り継ぎ 入国カード,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,transit,,,バリ島 乗り継ぎ 入国カード,Exact,Enabled,mode-B-informational
+JA-Informational,,,,,transit,,,ジャカルタ 乗り継ぎ 入国カード,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,transit,,,ジャカルタ 乗り継ぎ 入国カード,Exact,Enabled,mode-B-informational
+JA-Informational,,,,,transit,,,インドネシア 入国カード クルーズ,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,transit,,,インドネシア 入国カード フェリー,Phrase,Enabled,mode-B-informational
+JA-Informational,,,,,,,,free,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,official,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,government,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,gov,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,go.id,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,imigrasi,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,ditjen imigrasi,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,direktorat jenderal imigrasi,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,bea cukai,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,beacukai,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,satusehat,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,kemenimipas,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,kemenkumham,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,molina,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,login,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,log in,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,sign in,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,scam,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,fake,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,fraud,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,legit,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,download,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,apk,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,app store,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,play store,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,ios,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,android,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,visa exemption,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,visa free,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,visa-free,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,exemption list,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,jobs,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,job,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,career,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,vacancy,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,salary,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,internship,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,kitas,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,kitap,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,work permit,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,student visa,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,second home,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,golden visa,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,b211,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,c1 visa,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,extension,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,overstay,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,deportation,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,reddit,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,tripadvisor,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,news,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,meaning,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,pdf,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,sample,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,template,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,example,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,embassy,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,consulate,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,refund,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,chargeback,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,trustpilot,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,review,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,indonesia-portal,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,indonesia portal,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,indonesia-arrival.com,Negative Phrase,Enabled,negative-shared
+JA-Informational,,,,,,,,無料,Negative Phrase,Enabled,negative-local
+JA-Informational,,,,,,,,公式,Negative Phrase,Enabled,negative-local
+JA-Informational,,,,,,,,政府,Negative Phrase,Enabled,negative-local
+JA-Informational,,,,,,,,大使館,Negative Phrase,Enabled,negative-local
+JA-Informational,,,,,,,,領事館,Negative Phrase,Enabled,negative-local
+JA-Informational,,,,,,,,詐欺,Negative Phrase,Enabled,negative-local
+JA-Informational,,,,,,,,口コミ,Negative Phrase,Enabled,negative-local
+JA-Informational,,,,,,,,評判,Negative Phrase,Enabled,negative-local
+JA-Informational,,,,,,,,ログイン,Negative Phrase,Enabled,negative-local
+JA-Informational,,,,,,,,ダウンロード,Negative Phrase,Enabled,negative-local
+JA-Informational,,,,,,,,ビザ免除,Negative Phrase,Enabled,negative-local
+JA-Informational,,,,,,,,求人,Negative Phrase,Enabled,negative-local
+JA-Informational,,,,,,,,仕事,Negative Phrase,Enabled,negative-local
+JA-Informational,,,,,,,,給料,Negative Phrase,Enabled,negative-local
+JA-Informational,,,,,,,,延長,Negative Phrase,Enabled,negative-local
+JA-Informational,,,,,,,,就労ビザ,Negative Phrase,Enabled,negative-local
+JA-Informational,,,,,,,,ウィキペディア,Negative Phrase,Enabled,negative-local
+KO-Transactional,Search,Paused,4.70,Maximize clicks,,,,,,,mode-A-authorized-only
+KO-Transactional,,,,,arrival-card-generic,Enabled,1.10,,,,mode-A-authorized-only
+KO-Transactional,,,,,arrival-card-generic,,,인도네시아 입국카드,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,arrival-card-generic,,,인도네시아 입국카드,Exact,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,arrival-card-generic,,,인도네시아 입국카드 온라인,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,arrival-card-generic,,,인도네시아 입국카드 온라인,Exact,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,arrival-card-generic,,,인도네시아 어라이벌카드,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,arrival-card-generic,,,인도네시아 어라이벌카드,Exact,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,arrival-card-generic,,,인도네시아 전자입국카드,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,arrival-card-generic,,,인도네시아 입국카드 신청,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,arrival-card-generic,,,인도네시아 입국카드 작성,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,arrival-card-generic,,,인도네시아 입국카드 대행,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,arrival-card-generic,,,인도네시아 입국신고서,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,bali-arrival-card,Enabled,1.10,,,,mode-A-authorized-only
+KO-Transactional,,,,,bali-arrival-card,,,발리 입국카드,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,bali-arrival-card,,,발리 입국카드,Exact,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,bali-arrival-card,,,발리 입국카드 신청,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,bali-arrival-card,,,발리 입국카드 신청,Exact,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,bali-arrival-card,,,발리 어라이벌카드,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,bali-arrival-card,,,발리 어라이벌카드,Exact,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,bali-arrival-card,,,발리 전자입국카드,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,bali-arrival-card,,,자카르타 입국카드,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,bali-arrival-card,,,발리 입국 신고서 온라인,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,evoa,Enabled,1.10,,,,mode-A-authorized-only
+KO-Transactional,,,,,evoa,,,인도네시아 evoa,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,evoa,,,인도네시아 evoa,Exact,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,evoa,,,인도네시아 e-voa 신청,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,evoa,,,인도네시아 e-voa 신청,Exact,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,evoa,,,인도네시아 도착비자 온라인,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,evoa,,,인도네시아 도착비자 온라인,Exact,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,evoa,,,발리 비자 온라인,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,evoa,,,인도네시아 전자도착비자,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,evoa,,,발리 evoa,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,evoa,,,인도네시아 비자 신청 관광,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,family-children,Enabled,1.10,,,,mode-A-authorized-only
+KO-Transactional,,,,,family-children,,,인도네시아 입국카드 아이,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,family-children,,,인도네시아 입국카드 아이,Exact,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,family-children,,,인도네시아 입국카드 아기,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,family-children,,,인도네시아 입국카드 아기,Exact,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,family-children,,,발리 입국카드 가족,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,family-children,,,발리 입국카드 가족,Exact,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,family-children,,,인도네시아 입국카드 1인당,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,family-children,,,all indonesia 가족,Phrase,Enabled,mode-A-authorized-only
+KO-Transactional,,,,,,,,free,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,official,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,government,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,gov,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,go.id,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,imigrasi,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,ditjen imigrasi,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,direktorat jenderal imigrasi,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,bea cukai,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,beacukai,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,satusehat,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,kemenimipas,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,kemenkumham,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,molina,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,login,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,log in,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,sign in,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,scam,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,fake,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,fraud,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,legit,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,download,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,apk,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,app store,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,play store,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,ios,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,android,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,visa exemption,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,visa free,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,visa-free,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,exemption list,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,jobs,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,job,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,career,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,vacancy,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,salary,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,internship,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,kitas,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,kitap,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,work permit,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,student visa,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,second home,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,golden visa,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,b211,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,c1 visa,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,extension,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,overstay,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,deportation,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,reddit,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,tripadvisor,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,news,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,meaning,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,pdf,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,sample,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,template,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,example,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,embassy,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,consulate,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,refund,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,chargeback,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,trustpilot,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,review,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,indonesia-portal,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,indonesia portal,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,indonesia-arrival.com,Negative Phrase,Enabled,negative-shared
+KO-Transactional,,,,,,,,무료,Negative Phrase,Enabled,negative-local
+KO-Transactional,,,,,,,,공식,Negative Phrase,Enabled,negative-local
+KO-Transactional,,,,,,,,정부,Negative Phrase,Enabled,negative-local
+KO-Transactional,,,,,,,,대사관,Negative Phrase,Enabled,negative-local
+KO-Transactional,,,,,,,,영사관,Negative Phrase,Enabled,negative-local
+KO-Transactional,,,,,,,,사기,Negative Phrase,Enabled,negative-local
+KO-Transactional,,,,,,,,후기,Negative Phrase,Enabled,negative-local
+KO-Transactional,,,,,,,,로그인,Negative Phrase,Enabled,negative-local
+KO-Transactional,,,,,,,,다운로드,Negative Phrase,Enabled,negative-local
+KO-Transactional,,,,,,,,무비자,Negative Phrase,Enabled,negative-local
+KO-Transactional,,,,,,,,채용,Negative Phrase,Enabled,negative-local
+KO-Transactional,,,,,,,,취업,Negative Phrase,Enabled,negative-local
+KO-Transactional,,,,,,,,구인,Negative Phrase,Enabled,negative-local
+KO-Transactional,,,,,,,,연장,Negative Phrase,Enabled,negative-local
+KO-Transactional,,,,,,,,취업비자,Negative Phrase,Enabled,negative-local
+KO-Transactional,,,,,,,,위키,Negative Phrase,Enabled,negative-local
+KO-Informational,Search,Paused,3.20,Maximize clicks,,,,,,,mode-B-informational
+KO-Informational,,,,,how-to-fill,Enabled,0.60,,,,mode-B-informational
+KO-Informational,,,,,how-to-fill,,,인도네시아 입국카드 작성법,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,how-to-fill,,,인도네시아 입국카드 작성법,Exact,Enabled,mode-B-informational
+KO-Informational,,,,,how-to-fill,,,인도네시아 입국카드 언제,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,how-to-fill,,,인도네시아 입국카드 언제,Exact,Enabled,mode-B-informational
+KO-Informational,,,,,how-to-fill,,,인도네시아 입국카드 72시간,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,how-to-fill,,,인도네시아 입국카드 72시간,Exact,Enabled,mode-B-informational
+KO-Informational,,,,,how-to-fill,,,인도네시아 입국카드 며칠 전,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,how-to-fill,,,발리 입국카드 언제부터,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,how-to-fill,,,인도네시아 입국카드 절차,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,app-problems,Enabled,0.60,,,,mode-B-informational
+KO-Informational,,,,,app-problems,,,all indonesia 앱 안됨,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,app-problems,,,all indonesia 앱 안됨,Exact,Enabled,mode-B-informational
+KO-Informational,,,,,app-problems,,,all indonesia 오류,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,app-problems,,,all indonesia 오류,Exact,Enabled,mode-B-informational
+KO-Informational,,,,,app-problems,,,all indonesia qr코드 안옴,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,app-problems,,,all indonesia qr코드 안옴,Exact,Enabled,mode-B-informational
+KO-Informational,,,,,app-problems,,,인도네시아 입국카드 메일 안옴,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,app-problems,,,all indonesia 앱 튕김,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,app-problems,,,인도네시아 입국카드 날짜 잘못,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,customs-declaration,Enabled,0.60,,,,mode-B-informational
+KO-Informational,,,,,customs-declaration,,,인도네시아 세관신고,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,customs-declaration,,,인도네시아 세관신고,Exact,Enabled,mode-B-informational
+KO-Informational,,,,,customs-declaration,,,발리 세관신고,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,customs-declaration,,,발리 세관신고,Exact,Enabled,mode-B-informational
+KO-Informational,,,,,customs-declaration,,,인도네시아 세관 신고서,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,customs-declaration,,,인도네시아 세관 신고서,Exact,Enabled,mode-B-informational
+KO-Informational,,,,,customs-declaration,,,인도네시아 입국 면세 한도,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,customs-declaration,,,인도네시아 전자세관신고,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,customs-declaration,,,인도네시아 세관 온라인,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,transit,Enabled,0.60,,,,mode-B-informational
+KO-Informational,,,,,transit,,,인도네시아 입국카드 환승,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,transit,,,인도네시아 입국카드 환승,Exact,Enabled,mode-B-informational
+KO-Informational,,,,,transit,,,발리 환승 입국카드,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,transit,,,발리 환승 입국카드,Exact,Enabled,mode-B-informational
+KO-Informational,,,,,transit,,,자카르타 환승 입국카드,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,transit,,,자카르타 환승 입국카드,Exact,Enabled,mode-B-informational
+KO-Informational,,,,,transit,,,인도네시아 입국카드 크루즈,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,transit,,,인도네시아 입국카드 페리,Phrase,Enabled,mode-B-informational
+KO-Informational,,,,,,,,free,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,official,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,government,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,gov,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,go.id,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,imigrasi,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,ditjen imigrasi,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,direktorat jenderal imigrasi,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,bea cukai,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,beacukai,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,satusehat,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,kemenimipas,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,kemenkumham,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,molina,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,login,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,log in,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,sign in,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,scam,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,fake,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,fraud,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,legit,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,download,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,apk,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,app store,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,play store,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,ios,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,android,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,visa exemption,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,visa free,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,visa-free,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,exemption list,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,jobs,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,job,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,career,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,vacancy,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,salary,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,internship,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,kitas,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,kitap,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,work permit,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,student visa,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,second home,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,golden visa,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,b211,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,c1 visa,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,extension,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,overstay,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,deportation,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,reddit,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,tripadvisor,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,news,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,meaning,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,pdf,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,sample,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,template,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,example,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,embassy,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,consulate,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,refund,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,chargeback,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,trustpilot,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,review,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,indonesia-portal,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,indonesia portal,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,indonesia-arrival.com,Negative Phrase,Enabled,negative-shared
+KO-Informational,,,,,,,,무료,Negative Phrase,Enabled,negative-local
+KO-Informational,,,,,,,,공식,Negative Phrase,Enabled,negative-local
+KO-Informational,,,,,,,,정부,Negative Phrase,Enabled,negative-local
+KO-Informational,,,,,,,,대사관,Negative Phrase,Enabled,negative-local
+KO-Informational,,,,,,,,영사관,Negative Phrase,Enabled,negative-local
+KO-Informational,,,,,,,,사기,Negative Phrase,Enabled,negative-local
+KO-Informational,,,,,,,,후기,Negative Phrase,Enabled,negative-local
+KO-Informational,,,,,,,,로그인,Negative Phrase,Enabled,negative-local
+KO-Informational,,,,,,,,다운로드,Negative Phrase,Enabled,negative-local
+KO-Informational,,,,,,,,무비자,Negative Phrase,Enabled,negative-local
+KO-Informational,,,,,,,,채용,Negative Phrase,Enabled,negative-local
+KO-Informational,,,,,,,,취업,Negative Phrase,Enabled,negative-local
+KO-Informational,,,,,,,,구인,Negative Phrase,Enabled,negative-local
+KO-Informational,,,,,,,,연장,Negative Phrase,Enabled,negative-local
+KO-Informational,,,,,,,,취업비자,Negative Phrase,Enabled,negative-local
+KO-Informational,,,,,,,,위키,Negative Phrase,Enabled,negative-local
+ID-Transactional,Search,Paused,3.00,Maximize clicks,,,,,,,mode-A-authorized-only
+ID-Transactional,,,,,arrival-card-generic,Enabled,0.15,,,,mode-A-authorized-only
+ID-Transactional,,,,,arrival-card-generic,,,kartu kedatangan indonesia,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,arrival-card-generic,,,kartu kedatangan indonesia,Exact,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,arrival-card-generic,,,kartu kedatangan all indonesia,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,arrival-card-generic,,,kartu kedatangan all indonesia,Exact,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,arrival-card-generic,,,all indonesia arrival card wni,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,arrival-card-generic,,,all indonesia arrival card wni,Exact,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,arrival-card-generic,,,cara isi kartu kedatangan,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,arrival-card-generic,,,kartu kedatangan online,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,arrival-card-generic,,,arrival card indonesia wni,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,arrival-card-generic,,,kartu kedatangan digital,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,arrival-card-generic,,,bantuan kartu kedatangan,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,arrival-card-generic,,,arrival card untuk wna,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,bali-arrival-card,Enabled,0.15,,,,mode-A-authorized-only
+ID-Transactional,,,,,bali-arrival-card,,,kartu kedatangan bali,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,bali-arrival-card,,,kartu kedatangan bali,Exact,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,bali-arrival-card,,,arrival card bali wni,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,bali-arrival-card,,,arrival card bali wni,Exact,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,bali-arrival-card,,,kartu kedatangan bandara ngurah rai,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,bali-arrival-card,,,kartu kedatangan bandara ngurah rai,Exact,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,bali-arrival-card,,,kartu kedatangan jakarta,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,bali-arrival-card,,,kartu kedatangan soekarno hatta,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,bali-arrival-card,,,kartu kedatangan surabaya,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,family-children,Enabled,0.15,,,,mode-A-authorized-only
+ID-Transactional,,,,,family-children,,,kartu kedatangan anak,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,family-children,,,kartu kedatangan anak,Exact,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,family-children,,,kartu kedatangan bayi,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,family-children,,,kartu kedatangan bayi,Exact,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,family-children,,,all indonesia keluarga,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,family-children,,,all indonesia keluarga,Exact,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,family-children,,,kartu kedatangan per orang,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,family-children,,,kartu kedatangan rombongan,Phrase,Enabled,mode-A-authorized-only
+ID-Transactional,,,,,,,,free,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,official,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,government,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,gov,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,go.id,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,imigrasi,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,ditjen imigrasi,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,direktorat jenderal imigrasi,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,bea cukai,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,beacukai,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,satusehat,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,kemenimipas,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,kemenkumham,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,molina,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,login,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,log in,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,sign in,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,scam,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,fake,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,fraud,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,legit,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,download,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,apk,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,app store,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,play store,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,ios,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,android,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,visa exemption,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,visa free,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,visa-free,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,exemption list,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,jobs,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,job,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,career,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,vacancy,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,salary,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,internship,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,kitas,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,kitap,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,work permit,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,student visa,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,second home,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,golden visa,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,b211,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,c1 visa,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,extension,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,overstay,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,deportation,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,reddit,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,tripadvisor,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,news,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,meaning,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,pdf,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,sample,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,template,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,example,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,embassy,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,consulate,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,refund,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,chargeback,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,trustpilot,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,review,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,indonesia-portal,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,indonesia portal,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,indonesia-arrival.com,Negative Phrase,Enabled,negative-shared
+ID-Transactional,,,,,,,,gratis,Negative Phrase,Enabled,negative-local
+ID-Transactional,,,,,,,,resmi,Negative Phrase,Enabled,negative-local
+ID-Transactional,,,,,,,,pemerintah,Negative Phrase,Enabled,negative-local
+ID-Transactional,,,,,,,,kedutaan,Negative Phrase,Enabled,negative-local
+ID-Transactional,,,,,,,,penipuan,Negative Phrase,Enabled,negative-local
+ID-Transactional,,,,,,,,penipu,Negative Phrase,Enabled,negative-local
+ID-Transactional,,,,,,,,masuk akun,Negative Phrase,Enabled,negative-local
+ID-Transactional,,,,,,,,unduh,Negative Phrase,Enabled,negative-local
+ID-Transactional,,,,,,,,bebas visa,Negative Phrase,Enabled,negative-local
+ID-Transactional,,,,,,,,lowongan,Negative Phrase,Enabled,negative-local
+ID-Transactional,,,,,,,,loker,Negative Phrase,Enabled,negative-local
+ID-Transactional,,,,,,,,gaji,Negative Phrase,Enabled,negative-local
+ID-Transactional,,,,,,,,perpanjangan,Negative Phrase,Enabled,negative-local
+ID-Transactional,,,,,,,,kitas,Negative Phrase,Enabled,negative-local
+ID-Transactional,,,,,,,,kitap,Negative Phrase,Enabled,negative-local
+ID-Transactional,,,,,,,,izin kerja,Negative Phrase,Enabled,negative-local
+ID-Transactional,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-local
+ID-Informational,Search,Paused,2.00,Maximize clicks,,,,,,,mode-B-informational
+ID-Informational,,,,,how-to-fill,Enabled,0.08,,,,mode-B-informational
+ID-Informational,,,,,how-to-fill,,,cara mengisi kartu kedatangan all indonesia,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,how-to-fill,,,cara mengisi kartu kedatangan all indonesia,Exact,Enabled,mode-B-informational
+ID-Informational,,,,,how-to-fill,,,kapan isi kartu kedatangan,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,how-to-fill,,,kapan isi kartu kedatangan,Exact,Enabled,mode-B-informational
+ID-Informational,,,,,how-to-fill,,,kartu kedatangan 72 jam,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,how-to-fill,,,kartu kedatangan 72 jam,Exact,Enabled,mode-B-informational
+ID-Informational,,,,,how-to-fill,,,kartu kedatangan berapa hari sebelum,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,how-to-fill,,,panduan all indonesia arrival card,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,how-to-fill,,,cara mengisi all indonesia,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,app-problems,Enabled,0.08,,,,mode-B-informational
+ID-Informational,,,,,app-problems,,,aplikasi all indonesia tidak bisa,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,app-problems,,,aplikasi all indonesia tidak bisa,Exact,Enabled,mode-B-informational
+ID-Informational,,,,,app-problems,,,all indonesia error,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,app-problems,,,all indonesia error,Exact,Enabled,mode-B-informational
+ID-Informational,,,,,app-problems,,,all indonesia qr code tidak muncul,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,app-problems,,,all indonesia qr code tidak muncul,Exact,Enabled,mode-B-informational
+ID-Informational,,,,,app-problems,,,kartu kedatangan email tidak masuk,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,app-problems,,,all indonesia gagal daftar,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,app-problems,,,all indonesia gagal verifikasi email,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,customs-declaration,Enabled,0.08,,,,mode-B-informational
+ID-Informational,,,,,customs-declaration,,,deklarasi bea cukai kedatangan,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,customs-declaration,,,deklarasi bea cukai kedatangan,Exact,Enabled,mode-B-informational
+ID-Informational,,,,,customs-declaration,,,customs declaration indonesia online,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,customs-declaration,,,customs declaration indonesia online,Exact,Enabled,mode-B-informational
+ID-Informational,,,,,customs-declaration,,,e-cd bea cukai,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,customs-declaration,,,e-cd bea cukai,Exact,Enabled,mode-B-informational
+ID-Informational,,,,,customs-declaration,,,bawaan penumpang bea cukai batas,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,customs-declaration,,,registrasi imei bea cukai turis,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,customs-declaration,,,deklarasi pabean kedatangan,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,transit,Enabled,0.08,,,,mode-B-informational
+ID-Informational,,,,,transit,,,kartu kedatangan transit,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,transit,,,kartu kedatangan transit,Exact,Enabled,mode-B-informational
+ID-Informational,,,,,transit,,,transit jakarta kartu kedatangan,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,transit,,,transit jakarta kartu kedatangan,Exact,Enabled,mode-B-informational
+ID-Informational,,,,,transit,,,kartu kedatangan kapal pesiar,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,transit,,,kartu kedatangan kapal pesiar,Exact,Enabled,mode-B-informational
+ID-Informational,,,,,transit,,,kartu kedatangan feri batam,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,transit,,,kartu kedatangan pelabuhan,Phrase,Enabled,mode-B-informational
+ID-Informational,,,,,,,,free,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,official,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,government,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,gov,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,go.id,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,imigrasi,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,ditjen imigrasi,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,direktorat jenderal imigrasi,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,bea cukai,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,beacukai,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,satusehat,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,kemenimipas,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,kemenkumham,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,molina,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,login,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,log in,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,sign in,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,scam,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,fake,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,fraud,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,legit,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,download,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,apk,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,app store,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,play store,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,ios,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,android,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,visa exemption,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,visa free,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,visa-free,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,exemption list,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,jobs,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,job,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,career,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,vacancy,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,salary,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,internship,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,kitas,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,kitap,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,work permit,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,student visa,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,second home,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,golden visa,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,b211,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,c1 visa,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,extension,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,overstay,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,deportation,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,reddit,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,tripadvisor,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,news,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,meaning,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,pdf,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,sample,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,template,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,example,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,embassy,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,consulate,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,refund,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,chargeback,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,trustpilot,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,review,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,indonesia-portal,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,indonesia portal,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,indonesia-arrival.com,Negative Phrase,Enabled,negative-shared
+ID-Informational,,,,,,,,gratis,Negative Phrase,Enabled,negative-local
+ID-Informational,,,,,,,,resmi,Negative Phrase,Enabled,negative-local
+ID-Informational,,,,,,,,pemerintah,Negative Phrase,Enabled,negative-local
+ID-Informational,,,,,,,,kedutaan,Negative Phrase,Enabled,negative-local
+ID-Informational,,,,,,,,penipuan,Negative Phrase,Enabled,negative-local
+ID-Informational,,,,,,,,penipu,Negative Phrase,Enabled,negative-local
+ID-Informational,,,,,,,,masuk akun,Negative Phrase,Enabled,negative-local
+ID-Informational,,,,,,,,unduh,Negative Phrase,Enabled,negative-local
+ID-Informational,,,,,,,,bebas visa,Negative Phrase,Enabled,negative-local
+ID-Informational,,,,,,,,lowongan,Negative Phrase,Enabled,negative-local
+ID-Informational,,,,,,,,loker,Negative Phrase,Enabled,negative-local
+ID-Informational,,,,,,,,gaji,Negative Phrase,Enabled,negative-local
+ID-Informational,,,,,,,,perpanjangan,Negative Phrase,Enabled,negative-local
+ID-Informational,,,,,,,,kitas,Negative Phrase,Enabled,negative-local
+ID-Informational,,,,,,,,kitap,Negative Phrase,Enabled,negative-local
+ID-Informational,,,,,,,,izin kerja,Negative Phrase,Enabled,negative-local
+ID-Informational,,,,,,,,wikipedia,Negative Phrase,Enabled,negative-local
