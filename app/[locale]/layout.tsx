@@ -9,7 +9,7 @@ import { DisclosureBar } from "@/components/Disclosure";
 import { Analytics } from "@/components/Analytics";
 import { site } from "@/lib/config";
 import { routing } from "@/i18n/routing";
-import { alternatesFor } from "@/i18n/seo";
+import { alternatesFor, socialFor } from "@/i18n/seo";
 
 type Props = { children: React.ReactNode; params: Promise<{ locale: string }> };
 
@@ -24,12 +24,13 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Omit<Props, "children">): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });
+  const title = t("defaultTitle", { siteName: site.name });
+  const description = t("description");
   return {
     metadataBase: new URL(site.url),
-    title: { default: t("defaultTitle", { siteName: site.name }), template: t("titleTemplate", { shortName: site.shortName }) },
-    description: t("description"),
-    openGraph: { type: "website", siteName: site.name, url: site.url, locale },
-    robots: { index: true, follow: true },
+    title: { default: title, template: t("titleTemplate", { shortName: site.shortName }) },
+    description,
+    ...socialFor(locale, "/", { title, description }),
     alternates: alternatesFor(locale, "/"),
   };
 }

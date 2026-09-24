@@ -141,7 +141,7 @@
   },
   "Apply": {
     "metaTitle": "申请 – 印度尼西亚入境卡协助",
-    "metaDescription": "印度尼西亚入境卡引导式表格。价格透明，提前显示。人工核对，通过邮件送达。",
+    "metaDescription": "印度尼西亚入境卡引导式表格：价格透明、提前显示，人工核对后通过邮件送达。与印尼政府无关联的私营协助服务。",
     "titleArrivalCard": "入境卡协助",
     "titleEvoa": "e-VOA 协助",
     "titleBundle": "e-VOA + 入境卡",
@@ -473,7 +473,7 @@
   },
   "Pricing": {
     "metaTitle": "价格",
-    "metaDescription": "印度尼西亚入境卡协助，一个透明的价格。没有隐藏费用。",
+    "metaDescription": "印度尼西亚入境卡协助，一个透明的价格，没有隐藏费用。每位额外旅客的价格、加急选项以及 e-VOA 费用一览。",
     "title": "价格",
     "arrivalCardTitle": "入境卡协助",
     "intro": "在输入任何个人资料之前，您就能看到总价。我们是私营协助服务，与任何政府网站均无关联。",
@@ -514,7 +514,7 @@
     "kicker": "指南，2026 年 9 月更新",
     "title": "印尼入境卡指南：如何逐步填写 All Indonesia 表格",
     "intro1": "All Indonesia 入境卡是每位旅客在进入印度尼西亚之前填写的电子表格。它以一次提交、一个二维码取代了纸质入境卡、电子海关申报（e-CD）和 SATUSEHAT 健康表。由移民总局运营。",
-    "intro2": "2025 年 9 月 1 日起在雅加达（CGK）、巴厘岛（DPS）、泗水（SUB）和巴淡岛渡轮码头强制实施，2025 年 10 月 1 日起在所有国际机场、海港和陆路边境实施。适用于所有国籍、回国的印度尼西亚公民以及儿童和婴儿。它不是签证。您仍需要免签入境、落地签或其他签证。",
+    "intro2": "该卡于 2025 年分阶段推行，先在雅加达（CGK）、巴厘岛（DPS）、泗水（SUB）和巴淡岛渡轮码头实施，自 2025 年 10 月 1 日起在所有国际机场、海港和陆路边境强制实施。适用于所有国籍、回国的印度尼西亚公民以及儿童和婴儿。它不是签证。您仍需要免签入境、落地签或其他签证。",
     "officialApps": "官方应用：<play>Google Play 上的 All Indonesia</play> 和 <store>App Store 上的 All Indonesia</store>，均由 Direktorat Jenderal Imigrasi 发布。",
     "tocLabel": "目录",
     "tocTitle": "本页内容",
@@ -789,7 +789,7 @@
       "apps": "<play>Google Play 上的 All Indonesia</play> 和 <store>App Store 上的 All Indonesia</store>，应用信息和用户评价。",
       "cirebon": "<link>All Indonesia（印度尼西亚入境卡）</link>，井里汶移民局。",
       "karawang": "<link>如何在 All Indonesia 应用中注册</link>，卡拉旺移民局。",
-      "woah": "<link>All Indonesia 入境卡指南（PDF）</link>，世界动物卫生组织亚太区，2025 年 9 月。",
+      "woah": "<link>All Indonesia 入境卡指南（PDF）</link>，世界动物卫生组织亚太区，2025 年。",
       "wikipedia": "<link>All Indonesia Arrival Card</link>，维基百科，推行时间表和表格各部分。",
       "autogate": "<link>国际机场的自助通关系统</link>，Wonderful Indonesia。",
       "customs": "<link>海关与消费税总局</link>，免税额度和现金规则。",
@@ -866,7 +866,7 @@
   },
   "News": {
     "metaTitle": "官方移民与海关动态摘要",
-    "metaDescription": "印度尼西亚移民总局和海关公告的通俗摘要，附原始来源链接。",
+    "metaDescription": "印度尼西亚移民总局和海关公告的通俗摘要，附原始来源链接。定期更新，帮助您在出行前了解最新入境规定。",
     "title": "官方动态，为旅客整理的摘要",
     "intro": "印度尼西亚移民和海关部门发布公告的简短摘要。每条均链接至原文。我们不是信息来源，也不代表这些部门发言。",
     "keyRules": "现行主要规则",
@@ -953,6 +953,7 @@
   },
   "Contact": {
     "metaTitle": "联系与支持",
+    "metaDescription": "印度尼西亚入境卡和 e-VOA 订单的邮件支持，每天 07:00–23:00（雅加达时间）。由香港 Bulan Juli Limited 运营。",
     "title": "联系与支持",
     "hours": "支持时间：雅加达时间（UTC+7）每天 07:00–23:00。已付款订单通常在 15 分钟内答复。",
     "email": "电子邮箱",
@@ -963,6 +964,7 @@
     "operatorContact": "{company}，{address}。{reg}。联系方式：<mail>{email}</mail>。",
     "disclosure": {
       "metaTitle": "无关联声明",
+      "metaDescription": "Arrival Card Assist 是私营协助服务，与印度尼西亚政府或移民总局无任何关联，也未获其认可。",
       "title": "无关联声明",
       "meaningTitle": "这对您意味着什么",
       "meaning1": "我们的费用是服务费：引导式资料收集、人工核对、代您提交、送达和支持。",
@@ -972,6 +974,7 @@
     },
     "privacy": {
       "metaTitle": "隐私政策",
+      "metaDescription": "Arrival Card Assist 如何收集、使用、存储和删除您的护照与行程数据，以及您根据香港和印度尼西亚法律享有的权利。",
       "title": "隐私政策",
       "template": "上线前供法律审核的模板。最后更新：{date}。",
       "controllerTitle": "数据控制者",
@@ -996,6 +999,7 @@
     },
     "refunds": {
       "metaTitle": "退款政策",
+      "metaDescription": "入境卡和 e-VOA 协助订单何时可获得全额或部分退款，包括取消订单以及我们自身失误的情况。",
       "title": "退款政策",
       "updated": "最后更新：{date}。",
       "items": {
@@ -1013,6 +1017,7 @@
     },
     "terms": {
       "metaTitle": "服务条款",
+      "metaDescription": "Arrival Card Assist 服务条款：我们提供的服务、价格、交付时限、退款、责任及适用法律。",
       "title": "服务条款",
       "template": "上线前供香港律师审核的模板。最后更新：{date}。",
       "s1Title": "1. 双方与服务",

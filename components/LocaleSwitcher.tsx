@@ -4,7 +4,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { LOCALE_LABELS, routing, type AppLocale } from "@/i18n/routing";
 
-/** Language <select>: switches the current path to the chosen locale, keeping the query string. */
+/** Language <select>: switches the current path to the chosen locale, keeping the query string.
+ *  `className` replaces the default `inline-flex` display so callers can hide it per breakpoint. */
 export function LocaleSwitcher({ className = "" }: { className?: string }) {
   const locale = useLocale();
   const t = useTranslations("Header");
@@ -19,7 +20,7 @@ export function LocaleSwitcher({ className = "" }: { className?: string }) {
   }
 
   return (
-    <label className={`inline-flex items-center gap-1 text-sm text-ink-700 ${className}`}>
+    <label className={`items-center gap-1 text-sm text-ink-700 ${className || "inline-flex"}`}>
       <span className="sr-only">{t("language")}</span>
       <select
         aria-label={t("language")}

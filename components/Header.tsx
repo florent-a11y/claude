@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { Plane } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/lib/config";
 import { MobileMenu } from "./MobileMenu";
@@ -24,12 +25,12 @@ export async function Header() {
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
         <Link href="/" className="flex items-center gap-2 font-bold text-brand-700">
-          <span aria-hidden className="grid h-8 w-8 place-items-center rounded-lg bg-brand-500 text-white">✈</span>
-          <span>{site.shortName}</span>
+          <span aria-hidden className="grid h-8 w-8 place-items-center rounded-lg bg-brand-500 text-white"><Plane className="h-5 w-5" strokeWidth={2.2} /></span>
+          <span className="whitespace-nowrap">{site.shortName}</span>
         </Link>
         <nav aria-label={t("mainNav")} className="hidden items-center gap-4 text-sm font-medium text-ink-700 lg:flex">
           {items.slice(0, 8).map((n, i) => (
-            <Link key={n.href} href={n.href} className={`whitespace-nowrap hover:text-brand-600${i >= 5 ? " hidden xl:inline" : ""}`}>{n.label}</Link>
+            <Link key={n.href} href={n.href} className={`whitespace-nowrap hover:text-brand-600${i >= 6 ? " hidden 2xl:inline" : i >= 5 ? " hidden xl:inline" : ""}`}>{n.label}</Link>
           ))}
         </nav>
         <div className="flex items-center gap-2">

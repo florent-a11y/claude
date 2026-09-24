@@ -10,7 +10,7 @@ const LAST_UPDATED = "2026-09-23";
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Legal.privacy" });
-  return pageMetadata(locale, "/legal/privacy", { title: t("metaTitle") });
+  return pageMetadata(locale, "/legal/privacy", { title: t("metaTitle"), description: t("metaDescription") });
 }
 
 export default async function Page({ params }: Props) {
