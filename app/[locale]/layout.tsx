@@ -7,6 +7,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { DisclosureBar } from "@/components/Disclosure";
 import { Analytics } from "@/components/Analytics";
+import { ConsentBanner } from "@/components/ConsentBanner";
 import { site } from "@/lib/config";
 import { routing } from "@/i18n/routing";
 import { alternatesFor } from "@/i18n/seo";
@@ -15,7 +16,7 @@ type Props = { children: React.ReactNode; params: Promise<{ locale: string }> };
 
 /** Namespaces used by client components (forms, menus, calculators). Long-form server-rendered
  *  content (guide, legal, FAQ…) stays on the server and is not serialized into every page. */
-const CLIENT_NAMESPACES = ["Common", "Header", "Products", "Apply", "Validation", "Options", "ReminderForm", "Evoa", "Customs", "NotFound", "Countries"] as const;
+const CLIENT_NAMESPACES = ["Common", "Header", "Products", "Apply", "Validation", "Options", "ReminderForm", "Evoa", "Customs", "NotFound", "Countries", "Consent"] as const;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -49,6 +50,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           <main className="flex-1">{children}</main>
           <Footer />
           <Analytics />
+          <ConsentBanner />
         </NextIntlClientProvider>
       </body>
     </html>

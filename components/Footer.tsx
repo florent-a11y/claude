@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/lib/config";
+import { CookieSettingsLink } from "@/components/ConsentBanner";
 
 export async function Footer() {
   const t = await getTranslations("Footer");
@@ -42,6 +43,7 @@ export async function Footer() {
               <li><Link href="/legal/terms">{t("terms")}</Link></li>
               <li><Link href="/legal/privacy">{t("privacy")}</Link></li>
               <li><Link href="/legal/refunds">{t("refunds")}</Link></li>
+              <li><CookieSettingsLink label={t("cookieSettings")} /></li>
             </ul>
           </div>
         </div>

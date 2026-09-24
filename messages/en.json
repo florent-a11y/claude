@@ -56,7 +56,15 @@
     "terms": "Terms of service",
     "privacy": "Privacy policy",
     "refunds": "Refund policy",
-    "rights": "© {year} {company}. All rights reserved."
+    "rights": "© {year} {company}. All rights reserved.",
+    "cookieSettings": "Cookie settings"
+  },
+  "Consent": {
+    "label": "Cookie consent",
+    "text": "We use cookies for analytics and advertising measurement. You can accept or refuse; the site works either way.",
+    "privacy": "Privacy policy",
+    "accept": "Accept",
+    "refuse": "Refuse"
   },
   "PriceCard": {
     "title": "Transparent price, shown before you type anything",

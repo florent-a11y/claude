@@ -56,7 +56,15 @@
     "terms": "Términos del servicio",
     "privacy": "Política de privacidad",
     "refunds": "Política de reembolsos",
-    "rights": "© {year} {company}. Todos los derechos reservados."
+    "rights": "© {year} {company}. Todos los derechos reservados.",
+    "cookieSettings": "Configuración de cookies"
+  },
+  "Consent": {
+    "label": "Consentimiento de cookies",
+    "text": "Usamos cookies para análisis y medición publicitaria. Puede aceptar o rechazar; el sitio funciona igual.",
+    "privacy": "Política de privacidad",
+    "accept": "Aceptar",
+    "refuse": "Rechazar"
   },
   "PriceCard": {
     "title": "Precio transparente, visible antes de escribir cualquier dato",

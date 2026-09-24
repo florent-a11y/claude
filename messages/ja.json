@@ -56,7 +56,15 @@
     "terms": "利用規約",
     "privacy": "プライバシーポリシー",
     "refunds": "返金ポリシー",
-    "rights": "© {year} {company}。無断複製・転載を禁じます。"
+    "rights": "© {year} {company}。無断複製・転載を禁じます。",
+    "cookieSettings": "Cookie 設定"
+  },
+  "Consent": {
+    "label": "Cookie の同意",
+    "text": "アクセス解析と広告効果測定のために Cookie を使用しています。同意も拒否も選べ、どちらでもサイトは利用できます。",
+    "privacy": "プライバシーポリシー",
+    "accept": "同意する",
+    "refuse": "拒否する"
   },
   "PriceCard": {
     "title": "入力前に表示される明朗な料金",

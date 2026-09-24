@@ -56,7 +56,15 @@
     "terms": "Nutzungsbedingungen",
     "privacy": "Datenschutzerklärung",
     "refunds": "Erstattungsrichtlinie",
-    "rights": "© {year} {company}. Alle Rechte vorbehalten."
+    "rights": "© {year} {company}. Alle Rechte vorbehalten.",
+    "cookieSettings": "Cookie-Einstellungen"
+  },
+  "Consent": {
+    "label": "Cookie-Einwilligung",
+    "text": "Wir nutzen Cookies für Analyse und Werbemessung. Annehmen oder ablehnen – die Website funktioniert in beiden Fällen.",
+    "privacy": "Datenschutzerklärung",
+    "accept": "Annehmen",
+    "refuse": "Ablehnen"
   },
   "PriceCard": {
     "title": "Transparenter Preis, angezeigt bevor Sie etwas eingeben",

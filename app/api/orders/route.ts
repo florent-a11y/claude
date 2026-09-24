@@ -9,17 +9,20 @@ import { onOrderPaid } from "@/lib/notify";
 import { sendPurchaseEvents } from "@/lib/tracking";
 import { hoursUntilArrival, isWindowGated, WINDOW_HOURS, windowState } from "@/lib/window";
 import { clientIp, createRateLimiter } from "@/lib/rate-limit";
+import { consentFromCookieHeader } from "@/lib/consent";
 
 export const runtime = "nodejs";
 
 /** Best-effort in-memory rate limit: max 20 order attempts per IP per hour (each creates a payment intent). */
 const rateLimited = createRateLimiter({ limit: 20, windowMs: 3.6e6 });
 
-/** Server-side attribution fields (for Meta CAPI / GA4 matching); the client cannot spoof these. */
-function requestAttribution(req: Request) {
+/** Server-side attribution fields (for Meta CAPI / GA4 matching); the client cannot spoof these. The cookie-consent
+ *  decision comes from the `consent` cookie when present, otherwise from the body, otherwise "unknown". */
+function requestAttribution(req: Request, bodyConsent?: "granted" | "denied" | "unknown") {
   const ip = (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || req.headers.get("x-real-ip") || "";
   const userAgent = (req.headers.get("user-agent") ?? "").slice(0, 200);
-  return { ...(ip ? { ip: ip.slice(0, 200) } : {}), ...(userAgent ? { userAgent } : {}) };
+  const consent = consentFromCookieHeader(req.headers.get("cookie")) ?? bodyConsent ?? "unknown";
+  return { consent, ...(ip ? { ip: ip.slice(0, 200) } : {}), ...(userAgent ? { userAgent } : {}) };
 }
 
 /** Best effort: mark the matching reminder (same email + arrival date) as converted. Never fails the order. */
@@ -68,7 +71,7 @@ export async function POST(req: Request) {
     amountCents: q.total,
     governmentFeeCents: q.governmentFee,
     currency: q.currency,
-    attribution: { ...input.attribution, ...requestAttribution(req) },
+    attribution: { ...input.attribution, ...requestAttribution(req, input.attribution?.consent) },
   };
 
   if (!airwallexConfigured()) {
