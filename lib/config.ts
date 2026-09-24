@@ -17,7 +17,7 @@ export const site = {
     addressRegion: "Hong Kong",
     addressCountry: "HK",
   },
-  supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "support@example.com",
+  supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "info@allindonesia-arrivalcard.com",
   officialPortal: "https://allindonesia.imigrasi.go.id/",
   officialRetrieve: "https://allindonesia.imigrasi.go.id/arrival-card-submission/retrieve",
   description:

@@ -24,7 +24,7 @@ There must be exactly one SPF TXT record on `@`.
 ## 3. DMARC
 TXT record, name `_dmarc`, value:
 ```
-v=DMARC1; p=quarantine; rua=mailto:dmarc@allindonesia-arrivalcard.com; adkim=s; aspf=r; pct=100
+v=DMARC1; p=quarantine; rua=mailto:info@allindonesia-arrivalcard.com; adkim=s; aspf=r; pct=100
 ```
 Start with `p=quarantine`; move to `p=reject` after two weeks of clean reports. Create the `dmarc@` mailbox or forward it, otherwise the reports bounce.
 
