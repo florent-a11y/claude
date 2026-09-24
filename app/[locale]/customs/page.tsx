@@ -1,3 +1,4 @@
+import { OfficialNote } from "@/components/OfficialNote";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { pageMetadata } from "@/i18n/seo";
@@ -20,6 +21,7 @@ export default async function Customs({ params }: Props) {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
       <h1 className="text-3xl font-bold">{t("title")}</h1>
+      <OfficialNote className="mt-2 text-sm text-ink-500" />
       <p className="mt-3 text-ink-700">{t.rich("intro", { link: (chunks) => <a className="underline" href="https://www.beacukai.go.id/" target="_blank" rel="noopener nofollow">{chunks}</a> })}</p>
       <div className="prose-basic mt-6">
         <table>

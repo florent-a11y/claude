@@ -1,3 +1,4 @@
+import { OfficialNote } from "@/components/OfficialNote";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
@@ -45,6 +46,7 @@ export default async function Evoa({ params }: Props) {
           <div>
             <p className="mb-3 inline-block rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-700 ring-1 ring-brand-100">{t("badge", { days: EVOA.validityDays })}</p>
             <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{t("title")}</h1>
+      <OfficialNote className="mt-2 text-sm text-ink-500" />
             <p className="mt-5 text-lg text-ink-700">{t("lead")}</p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link href={{ pathname: "/apply", query: { product: "evoa" } }} className="btn-primary">{t("ctaStart", { price: m(q.first) })}</Link>

@@ -1,3 +1,4 @@
+import { OfficialNote } from "@/components/OfficialNote";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
@@ -25,6 +26,7 @@ export default async function Pricing({ params }: Props) {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
       <h1 className="text-3xl font-bold">{t("title")}</h1>
+      <OfficialNote className="mt-2 text-sm text-ink-500" />
       <h2 className="mt-8 text-xl font-bold">{t("arrivalCardTitle")}</h2>
       <p className="mt-2 text-ink-700">{t("intro")}</p>
       <div className="mt-8"><PriceCard /></div>

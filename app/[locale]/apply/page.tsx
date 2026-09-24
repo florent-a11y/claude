@@ -1,3 +1,4 @@
+import { OfficialNote } from "@/components/OfficialNote";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ApplyForm } from "./ApplyForm";
@@ -25,6 +26,7 @@ export default async function Apply({ params, searchParams }: Props) {
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
       <h1 className="text-3xl font-bold">{initialProduct === "arrival_card" ? t("titleArrivalCard") : initialProduct === "evoa" ? t("titleEvoa") : t("titleBundle")}</h1>
+      <OfficialNote className="mt-2 text-sm text-ink-500" />
       <p className="mt-2 text-sm text-ink-500">{td("full")}</p>
       {failed && <p className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">{t("paymentFailed")}</p>}
       {initialArrival && <p className="mt-4 rounded-lg border border-brand-100 bg-brand-50 p-3 text-sm text-ink-700">{t("welcomeBack", { date: initialArrival, withEmail: initialEmail ? "yes" : "no" })}</p>}
