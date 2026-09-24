@@ -8,8 +8,12 @@ import { site } from "@/lib/config";
 import { onOrderPaid } from "@/lib/notify";
 import { sendPurchaseEvents } from "@/lib/tracking";
 import { hoursUntilArrival, isWindowGated, WINDOW_HOURS, windowState } from "@/lib/window";
+import { clientIp, createRateLimiter } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
+
+/** Best-effort in-memory rate limit: max 20 order attempts per IP per hour (each creates a payment intent). */
+const rateLimited = createRateLimiter({ limit: 20, windowMs: 3.6e6 });
 
 /** Server-side attribution fields (for Meta CAPI / GA4 matching); the client cannot spoof these. */
 function requestAttribution(req: Request) {
@@ -29,6 +33,8 @@ async function linkReminder(order: Order) {
 }
 
 export async function POST(req: Request) {
+  if (rateLimited(clientIp(req))) return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 });
+
   let body: unknown;
   try { body = await req.json(); } catch { return NextResponse.json({ error: "Invalid JSON" }, { status: 400 }); }
 
@@ -77,13 +83,20 @@ export async function POST(req: Request) {
     return NextResponse.json({ orderId: order.id, redirectUrl: `${site.url}/apply/success?order=${order.id}&dev=1` });
   }
 
-  const intent = await createPaymentIntent({
-    orderId: order.id,
-    amountCents: order.amountCents,
-    currency: order.currency,
-    email: order.contact.email,
-    returnUrl: `${site.url}/apply/success?order=${order.id}`,
-  });
+  let intent;
+  try {
+    intent = await createPaymentIntent({
+      orderId: order.id,
+      amountCents: order.amountCents,
+      currency: order.currency,
+      email: order.contact.email,
+      returnUrl: `${site.url}/apply/success?order=${order.id}`,
+    });
+  } catch (e) {
+    // Provider errors stay in the server log; the customer only learns that checkout is unavailable.
+    console.error("[orders] payment intent failed", (e as Error).message);
+    return NextResponse.json({ error: "Payment service is temporarily unavailable. Please try again in a few minutes." }, { status: 502 });
+  }
   order.airwallexIntentId = intent.id;
   await saveOrder(order);
   await linkReminder(order);

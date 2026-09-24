@@ -86,12 +86,22 @@ export async function retrievePaymentIntent(id: string): Promise<PaymentIntent> 
   return (await res.json()) as PaymentIntent;
 }
 
-/** Verify webhook: signature = HMAC_SHA256(secret, timestamp + rawBody). */
-export function verifyWebhook(rawBody: string, timestamp: string | null, signature: string | null): boolean {
+/** Replay window: a webhook whose x-timestamp is further than this from now is rejected even with a valid signature. */
+export const WEBHOOK_MAX_AGE_MS = 5 * 60 * 1000;
+
+/**
+ * Verify webhook: signature = HMAC_SHA256(secret, timestamp + rawBody), constant-time compare, and the
+ * timestamp (epoch seconds or milliseconds) must be within 5 minutes of now (replay protection).
+ */
+export function verifyWebhook(rawBody: string, timestamp: string | null, signature: string | null, now = Date.now()): boolean {
   const secret = process.env.AIRWALLEX_WEBHOOK_SECRET;
   if (!secret || !timestamp || !signature) return false;
+  if (!/^\d{10,13}$/.test(timestamp)) return false;
+  const ts = Number(timestamp);
+  const tsMs = timestamp.length <= 10 ? ts * 1000 : ts;
+  if (Math.abs(now - tsMs) > WEBHOOK_MAX_AGE_MS) return false;
   const expected = createHmac("sha256", secret).update(timestamp + rawBody).digest("hex");
   const a = Buffer.from(expected);
-  const b = Buffer.from(signature);
+  const b = Buffer.from(signature.trim().toLowerCase());
   return a.length === b.length && timingSafeEqual(a, b);
 }

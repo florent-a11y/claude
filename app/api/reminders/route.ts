@@ -3,24 +3,15 @@ import { randomBytes, randomUUID } from "node:crypto";
 import { reminderInputSchema, type Reminder } from "@/lib/schema";
 import { findReminder, saveReminder } from "@/lib/store";
 import { hoursUntilArrival } from "@/lib/window";
+import { clientIp, createRateLimiter } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 
 /** Best-effort in-memory rate limit: max 20 sign-ups per IP per hour (resets when the instance restarts). */
-const LIMIT = 20;
-const WINDOW_MS = 3.6e6;
-const hits = new Map<string, { count: number; resetAt: number }>();
-function rateLimited(ip: string) {
-  const now = Date.now();
-  const cur = hits.get(ip);
-  if (!cur || cur.resetAt < now) { hits.set(ip, { count: 1, resetAt: now + WINDOW_MS }); return false; }
-  cur.count += 1;
-  if (hits.size > 5000) for (const [k, v] of hits) if (v.resetAt < now) hits.delete(k);
-  return cur.count > LIMIT;
-}
+const rateLimited = createRateLimiter({ limit: 20, windowMs: 3.6e6 });
 
 export async function POST(req: Request) {
-  const ip = (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || req.headers.get("x-real-ip") || "unknown";
+  const ip = clientIp(req);
   if (rateLimited(ip)) return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 });
 
   let body: unknown;

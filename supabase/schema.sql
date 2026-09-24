@@ -62,13 +62,18 @@ alter table public.news_items enable row level security;
 alter table public.reminders enable row level security;
 -- No policies for anon/authenticated: only the service role (server) can read/write.
 
--- PDP Law retention: hard-delete passport data 30 days after the arrival date.
--- Schedule with pg_cron (Supabase > Database > Extensions > pg_cron):
--- select cron.schedule('purge-orders', '0 3 * * *', $$
+-- PDP Law retention (data minimisation), one nightly pg_cron job (Supabase > Database > Extensions > pg_cron):
+--   * orders: hard-delete passport data (whole row incl. payload, attribution ip/user agent) 30 days after arrival;
+--     orders that never got a payment or arrival (abandoned checkouts) go 30 days after creation;
+--   * documents: uploaded passport scans/photos in the private bucket, 45 days after upload (uploads happen up to
+--     ~30 days before an arrival and the order row is gone 30 days after it, so nothing is kept longer than the order);
+--   * reminders: email + arrival date + attribution, 60 days after the arrival date they were set for.
+-- select cron.schedule('purge-personal-data', '0 3 * * *', $$
 --   delete from public.orders
---   where (payload->'travel'->>'arrivalDate')::date < now() - interval '30 days';
---   -- also purge uploaded documents older than 30 days:
+--   where (payload->'travel'->>'arrivalDate')::date < now() - interval '30 days'
+--      or (status in ('pending_payment','cancelled') and created_at < now() - interval '30 days');
 --   delete from storage.objects where bucket_id = 'documents' and created_at < now() - interval '45 days';
+--   delete from public.reminders where arrival_date < now() - interval '60 days';
 -- $$);
 
 -- Migration if the table already exists with the old status list:

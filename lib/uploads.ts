@@ -7,11 +7,18 @@ import { randomUUID } from "node:crypto";
 /**
  * Document storage for e-VOA (passport scan, photo). Supabase Storage bucket "documents" (private)
  * when configured, otherwise local ./data/uploads (dev only). Files are named by random id so the
- * id alone never reveals whose document it is.
+ * id alone never reveals whose document it is. The browser-supplied name and MIME type are never used:
+ * the type comes from the file's magic bytes and the name from the random id.
  */
 export const BUCKET = "documents";
 export const MAX_BYTES = 8 * 1024 * 1024;
-export const ALLOWED = new Set(["image/jpeg", "image/png", "image/webp", "application/pdf"]);
+export type DocumentType = "image/jpeg" | "image/png" | "image/webp" | "application/pdf";
+export const ALLOWED = new Set<string>(["image/jpeg", "image/png", "image/webp", "application/pdf"]);
+
+/** Thrown by storeDocument; `status` is the HTTP status the route should answer with (413 too large, 422 not a valid file). */
+export class UploadError extends Error {
+  constructor(message: string, public readonly status: 413 | 422) { super(message); }
+}
 
 function sb() {
   const url = process.env.SUPABASE_URL;
@@ -19,23 +26,38 @@ function sb() {
   return url && key ? createClient(url, key, { auth: { persistSession: false } }) : null;
 }
 
-const ext: Record<string, string> = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "application/pdf": "pdf" };
+const ext: Record<DocumentType, string> = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "application/pdf": "pdf" };
 
-export async function storeDocument(file: File): Promise<{ id: string }> {
-  if (!ALLOWED.has(file.type)) throw new Error("Only JPG, PNG, WEBP or PDF files are accepted");
-  if (file.size > MAX_BYTES) throw new Error("File larger than 8 MB");
-  const id = `${randomUUID()}.${ext[file.type]}`;
+/** Content type from magic bytes; null when the bytes are not a JPEG, PNG, WEBP or PDF. */
+export function sniffType(bytes: Uint8Array): DocumentType | null {
+  if (bytes.length < 12) return null;
+  if (bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) return "image/jpeg";
+  if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47 && bytes[4] === 0x0d && bytes[5] === 0x0a && bytes[6] === 0x1a && bytes[7] === 0x0a) return "image/png";
+  const ascii = (from: number, to: number) => String.fromCharCode(...bytes.subarray(from, to));
+  if (ascii(0, 4) === "RIFF" && ascii(8, 12) === "WEBP") return "image/webp";
+  // The PDF header must appear in the first 1024 bytes (ISO 32000-1 allows leading junk).
+  if (Buffer.from(bytes.subarray(0, 1024)).indexOf("%PDF-") >= 0) return "application/pdf";
+  return null;
+}
+
+export async function storeDocument(file: File): Promise<{ id: string; contentType: DocumentType }> {
+  if (file.size > MAX_BYTES) throw new UploadError("File larger than 8 MB", 413);
+  if (file.size === 0) throw new UploadError("Empty file", 422);
   const bytes = Buffer.from(await file.arrayBuffer());
+  if (bytes.length > MAX_BYTES) throw new UploadError("File larger than 8 MB", 413);
+  const contentType = sniffType(bytes);
+  if (!contentType) throw new UploadError("Only JPG, PNG, WEBP or PDF files are accepted", 422);
+  const id = `${randomUUID()}.${ext[contentType]}`;
   const client = sb();
   if (client) {
-    const { error } = await client.storage.from(BUCKET).upload(id, bytes, { contentType: file.type, upsert: false });
+    const { error } = await client.storage.from(BUCKET).upload(id, bytes, { contentType, upsert: false });
     if (error) throw new Error(`upload: ${error.message}`);
-    return { id };
+    return { id, contentType };
   }
   const dir = path.join(process.cwd(), "data", "uploads");
   await fs.mkdir(dir, { recursive: true });
   await fs.writeFile(path.join(dir, id), bytes);
-  return { id };
+  return { id, contentType };
 }
 
 /** Returns a short-lived URL (Supabase) or the raw bytes (local dev) for the ops console. */

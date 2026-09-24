@@ -87,7 +87,7 @@ export async function notifyOpsNewOrder(order: Order) {
     "", `Open in ops console: ${url}`,
   ].filter((l) => l !== undefined);
   const text = lines.join("\n");
-  const html = `<div style="font-family:system-ui;font-size:15px;line-height:1.5">${lines.map((l) => l ? `<p>${esc(l)}</p>` : "").join("")}<p><a href="${url}" style="background:#0f7a5f;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none">Open order</a></p></div>`;
+  const html = `<div style="font-family:system-ui;font-size:15px;line-height:1.5">${lines.map((l) => l ? `<p>${esc(l)}</p>` : "").join("")}<p><a href="${esc(url)}" style="background:#0f7a5f;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none">Open order</a></p></div>`;
   return send(to, subject, html, text);
 }
 
@@ -159,8 +159,8 @@ export async function sendReviewRequest(order: Order) {
 
 function reminderHtml(lines: string[], button: { href: string; label: string }, unsubscribe: string, footer: { text: string; link: string }) {
   return `<div style="font-family:system-ui;font-size:15px;line-height:1.5">${lines.map((l) => `<p>${esc(l)}</p>`).join("")}` +
-    `<p><a href="${button.href}" style="background:#e8632b;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none">${esc(button.label)}</a></p>` +
-    `<p style="font-size:12px;color:#5f6f69">${esc(footer.text)} <a href="${unsubscribe}">${esc(footer.link)}</a>.</p></div>`;
+    `<p><a href="${esc(button.href)}" style="background:#e8632b;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none">${esc(button.label)}</a></p>` +
+    `<p style="font-size:12px;color:#5f6f69">${esc(footer.text)} <a href="${esc(unsubscribe)}">${esc(footer.link)}</a>.</p></div>`;
 }
 
 /** Sent once the official 72-hour window for the reminder's arrival date is open. */

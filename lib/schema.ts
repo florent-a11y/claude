@@ -172,7 +172,14 @@ export const STATUS_LABELS: Record<OrderStatus, string> = {
 /** Statuses that still need work from the team. */
 export const OPEN_STATUSES: OrderStatus[] = ["paid", "acknowledged", "in_progress", "submitted"];
 
-export interface Activity { at: string; by: string; action: string; note?: string }
+export interface Activity {
+  at: string;
+  by: string;
+  action: string;
+  note?: string;
+  /** Payment-provider event id that produced this entry; used to ignore webhook redeliveries. */
+  eventId?: string;
+}
 
 export interface Order extends OrderInput {
   id: string;

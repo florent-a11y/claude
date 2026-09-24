@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getOrder, updateOrder } from "@/lib/store";
-import { storeDocument, ALLOWED, MAX_BYTES } from "@/lib/uploads";
+import { storeDocument, MAX_BYTES, UploadError } from "@/lib/uploads";
 import { sendDeliveryEmail, emailConfigured, type Attachment } from "@/lib/email";
 import { onOrderUpdated } from "@/lib/notify";
 
@@ -9,6 +9,17 @@ export const runtime = "nodejs";
 function actor(req: Request) {
   const h = req.headers.get("authorization") ?? "";
   return h.startsWith("Basic ") ? Buffer.from(h.slice(6), "base64").toString().split(":")[0] || "ops" : "ops";
+}
+
+const EXT: Record<string, string> = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "application/pdf": "pdf" };
+/** Browser-supplied file name reduced to a safe display form (no paths, control characters or over-long names). */
+function safeName(name: string) {
+  return name.replace(/^.*[\\/]/, "").replace(/[^\w.\- ()]/g, "_").slice(0, 80) || "file";
+}
+/** Attachment name for the customer email: sanitized base name with the extension of the sniffed type. */
+function attachmentName(name: string, contentType: string) {
+  const base = safeName(name).replace(/\.[^.]*$/, "") || "document";
+  return `${base}.${EXT[contentType] ?? "bin"}`;
 }
 
 /** multipart: files[] (QR PDF/images, e-VOA PDF), message (optional). Emails the customer, stores copies, marks delivered. */
@@ -22,15 +33,23 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
   const message = String(form.get("message") ?? "").slice(0, 2000);
   if (files.length === 0) return NextResponse.json({ error: "Attach at least one file (QR code PDF or image)" }, { status: 422 });
   for (const f of files) {
-    if (!ALLOWED.has(f.type)) return NextResponse.json({ error: `${f.name}: only JPG, PNG, WEBP or PDF` }, { status: 422 });
-    if (f.size > MAX_BYTES) return NextResponse.json({ error: `${f.name}: larger than 8 MB` }, { status: 422 });
+    if (f.size > MAX_BYTES) return NextResponse.json({ error: `${safeName(f.name)}: larger than 8 MB` }, { status: 413 });
   }
 
+  // Store first (validates the real content type from magic bytes, never the browser's file.type), then attach.
   const attachments: Attachment[] = [];
   const stored: string[] = [];
   for (const f of files) {
-    attachments.push({ filename: f.name, content: Buffer.from(await f.arrayBuffer()), contentType: f.type });
-    stored.push((await storeDocument(f)).id);
+    let contentType: string;
+    let id: string;
+    try {
+      ({ id, contentType } = await storeDocument(f));
+    } catch (e) {
+      if (e instanceof UploadError) return NextResponse.json({ error: `${safeName(f.name)}: ${e.message}` }, { status: e.status });
+      throw e;
+    }
+    stored.push(id);
+    attachments.push({ filename: attachmentName(f.name, contentType), content: Buffer.from(await f.arrayBuffer()), contentType });
   }
 
   let emailed = false;
