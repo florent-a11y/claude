@@ -56,7 +56,15 @@
     "terms": "Conditions générales",
     "privacy": "Politique de confidentialité",
     "refunds": "Politique de remboursement",
-    "rights": "© {year} {company}. Tous droits réservés."
+    "rights": "© {year} {company}. Tous droits réservés.",
+    "cookieSettings": "Paramètres des cookies"
+  },
+  "Consent": {
+    "label": "Consentement aux cookies",
+    "text": "Nous utilisons des cookies pour l’analyse et la publicité. Acceptez ou refusez, le site fonctionne dans les deux cas.",
+    "privacy": "Politique de confidentialité",
+    "accept": "Accepter",
+    "refuse": "Refuser"
   },
   "PriceCard": {
     "title": "Prix transparent, affiché avant toute saisie",

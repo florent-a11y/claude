@@ -16,7 +16,8 @@ function phoneDigits(v: string | undefined) {
   const d = (v ?? "").replace(/\D/g, "").replace(/^00+/, "");
   return d.length >= 6 ? d : "";
 }
-/** GA4 Measurement Protocol needs a client_id; when the browser cookie was not captured, derive a stable one from the order id. */
+/** GA4 Measurement Protocol needs a client_id; without consent (or when the `_ga` cookie was not captured) derive a
+ *  stable, non-identifying one from a hash of the order id so revenue is still counted. */
 function fallbackClientId(orderId: string) {
   const h = sha256(`ga-client:${orderId}`);
   return `${parseInt(h.slice(0, 8), 16)}.${parseInt(h.slice(8, 16), 16)}`;
@@ -66,6 +67,8 @@ async function sendGa4Purchase(order: Order): Promise<Outcome> {
   const apiSecret = process.env.GA_API_SECRET;
   if (!measurementId || !apiSecret) return "skipped";
   const a = order.attribution ?? {};
+  // Only an explicit "granted" counts; "denied" and "unknown" (no banner decision) are treated the same.
+  const consented = a.consent === "granted";
   const value = order.amountCents / 100;
   const travelers = order.travelers.length;
   const params: Record<string, unknown> = {
@@ -80,11 +83,13 @@ async function sendGa4Purchase(order: Order): Promise<Outcome> {
   if (a.utmSource) params.source = a.utmSource;
   if (a.utmMedium) params.medium = a.utmMedium;
   if (a.utmCampaign) params.campaign = a.utmCampaign;
-  if (a.gclid) params.gclid = a.gclid;
+  // The click id and the browser client id identify the visitor: sent only with consent (docs/tracking.md, "Consent").
+  if (consented && a.gclid) params.gclid = a.gclid;
   const body = {
-    client_id: a.gaClientId || fallbackClientId(order.id),
+    client_id: (consented && a.gaClientId) || fallbackClientId(order.id),
     timestamp_micros: Date.parse(order.paidAt ?? order.createdAt) * 1000,
-    non_personalized_ads: false,
+    non_personalized_ads: !consented,
+    consent: { ad_user_data: consented ? "GRANTED" : "DENIED", ad_personalization: consented ? "GRANTED" : "DENIED" },
     events: [{ name: "purchase", params }],
   };
   const url = `https://www.google-analytics.com/mp/collect?measurement_id=${encodeURIComponent(measurementId)}&api_secret=${encodeURIComponent(apiSecret)}`;
@@ -98,6 +103,11 @@ async function sendMetaPurchase(order: Order): Promise<Outcome> {
   const token = process.env.META_CAPI_ACCESS_TOKEN;
   if (!pixelId || !token) return "skipped";
   const a = order.attribution ?? {};
+  // Meta events carry hashed personal data and cookie ids: never sent without an explicit consent decision.
+  if (a.consent !== "granted") {
+    console.log(`[tracking] Meta CAPI skipped for order ${order.id}: consent ${a.consent ?? "unknown"}`);
+    return "skipped";
+  }
   const lead = order.travelers[0];
   const value = order.amountCents / 100;
 

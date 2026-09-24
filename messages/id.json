@@ -56,7 +56,15 @@
     "terms": "Ketentuan layanan",
     "privacy": "Kebijakan privasi",
     "refunds": "Kebijakan pengembalian dana",
-    "rights": "© {year} {company}. Hak cipta dilindungi undang-undang."
+    "rights": "© {year} {company}. Hak cipta dilindungi undang-undang.",
+    "cookieSettings": "Pengaturan cookie"
+  },
+  "Consent": {
+    "label": "Persetujuan cookie",
+    "text": "Kami memakai cookie untuk analitik dan pengukuran iklan. Terima atau tolak; situs tetap berfungsi.",
+    "privacy": "Kebijakan privasi",
+    "accept": "Terima",
+    "refuse": "Tolak"
   },
   "PriceCard": {
     "title": "Harga transparan, ditampilkan sebelum Anda mengetik apa pun",

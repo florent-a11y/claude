@@ -3,6 +3,7 @@ import { randomBytes, randomUUID } from "node:crypto";
 import { reminderInputSchema, type Reminder } from "@/lib/schema";
 import { findReminder, saveReminder } from "@/lib/store";
 import { hoursUntilArrival } from "@/lib/window";
+import { consentFromCookieHeader } from "@/lib/consent";
 
 export const runtime = "nodejs";
 
@@ -58,6 +59,9 @@ export async function POST(req: Request) {
     attribution: {
       ...existing?.attribution,
       ...input.attribution,
+      // Cookie-consent decision: the `consent` cookie wins over the body; a repeat sign-up refreshes it, and a
+      // request without any decision keeps the one already stored.
+      consent: consentFromCookieHeader(req.headers.get("cookie")) ?? input.attribution?.consent ?? existing?.attribution?.consent ?? "unknown",
       ...(ip !== "unknown" ? { ip: ip.slice(0, 200) } : {}),
       ...(req.headers.get("user-agent") ? { userAgent: req.headers.get("user-agent")!.slice(0, 200) } : {}),
     },

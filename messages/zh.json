@@ -56,7 +56,15 @@
     "terms": "服务条款",
     "privacy": "隐私政策",
     "refunds": "退款政策",
-    "rights": "© {year} {company}。保留所有权利。"
+    "rights": "© {year} {company}。保留所有权利。",
+    "cookieSettings": "Cookie 设置"
+  },
+  "Consent": {
+    "label": "Cookie 同意",
+    "text": "我们使用 Cookie 进行分析和广告效果衡量。您可以接受或拒绝，网站在两种情况下均可正常使用。",
+    "privacy": "隐私政策",
+    "accept": "接受",
+    "refuse": "拒绝"
   },
   "PriceCard": {
     "title": "价格透明，在您输入任何信息之前即已显示",

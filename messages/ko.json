@@ -56,7 +56,15 @@
     "terms": "이용약관",
     "privacy": "개인정보 처리방침",
     "refunds": "환불 정책",
-    "rights": "© {year} {company}. All rights reserved."
+    "rights": "© {year} {company}. All rights reserved.",
+    "cookieSettings": "쿠키 설정"
+  },
+  "Consent": {
+    "label": "쿠키 동의",
+    "text": "분석과 광고 측정에 쿠키를 사용합니다. 수락하거나 거부해도 사이트는 정상 작동합니다.",
+    "privacy": "개인정보 처리방침",
+    "accept": "수락",
+    "refuse": "거부"
   },
   "PriceCard": {
     "title": "입력 전에 먼저 확인하는 투명한 가격",

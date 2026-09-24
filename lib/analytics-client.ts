@@ -3,8 +3,11 @@
  * and only touches `window` inside functions, so the server can import the pure helpers
  * (`purchaseEventId`) and client components can import the rest.
  */
+import { readConsent, type ConsentState } from "./consent";
 
 export interface Attribution {
+  /** Cookie-consent decision at the time of the order / reminder; the server only sends identified events when "granted". */
+  consent?: ConsentState;
   gaClientId?: string;
   fbp?: string;
   fbc?: string;
@@ -138,7 +141,7 @@ export function rememberFirstTouch(): FirstTouch | null {
 export function getAttribution(): Attribution {
   const w = win();
   if (!w) return {};
-  const out: Attribution = {};
+  const out: Attribution = { consent: readConsent() };
   try {
     const touch = rememberFirstTouch() ?? currentTouch();
     const ga = cookie("_ga"); // GA1.1.<client>.<timestamp> → <client>.<timestamp>

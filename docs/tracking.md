@@ -75,6 +75,34 @@ cookies / analytics section – not done by this change:
 > the advertising platforms can attribute the purchase to an ad, and you can opt out through the settings of those
 > platforms or by using a browser that blocks their scripts.
 
-If the site later serves EU/UK visitors with a consent banner, gate `components/Analytics.tsx` on consent and forward the
-consent state with `gtag('consent', ...)`; the server-side events should then only be sent for orders whose
-`attribution` carries a consent flag.
+## Consent
+
+The site shows a cookie banner to every visitor (`components/ConsentBanner.tsx`; no geo-detection, which is the
+simplest option that is compliant for EU/UK visitors). Until the visitor decides, nothing is requested from Google or
+Meta. The decision is stored in `localStorage` under `consent` (`{"analytics": true|false, "at": ISO}`) and mirrored in
+a first-party cookie `consent=granted|denied` (1 year, `SameSite=Lax`) so the API routes can read it. The footer link
+"Cookie settings" reopens the banner.
+
+**Browser** (`components/Analytics.tsx`): Google Consent Mode v2, "basic" implementation. gtag.js and the Meta pixel
+are injected from an effect only once consent is `granted`: on page load when a decision is already stored, or at the
+moment the visitor clicks Accept, without a reload. Before the `config` call the code pushes
+`gtag('consent','default', { ad_storage, analytics_storage, ad_user_data, ad_personalization: 'denied' })`, then
+`gtag('consent','update', { … 'granted' })`. Refusing after the tags were loaded (via "Cookie settings") sends
+`gtag('consent','update', all denied)` and `fbq('consent','revoke')` for the rest of the session; the scripts are not
+unloaded until the next navigation. Client-side `page_view` events are only sent while consent is granted.
+
+**Server** (`lib/tracking.ts`): `getAttribution()` adds `consent: "granted" | "denied" | "unknown"` to the payload of
+every order and reminder; the API routes prefer the `consent` cookie over the body value and store the result in
+`attribution.consent` (`"unknown"` when the visitor never decided). Only an explicit `"granted"` counts; `"denied"` and
+`"unknown"` are treated the same:
+
+| Consent | Meta Conversions API | GA4 Measurement Protocol |
+|---|---|---|
+| `granted` | `Purchase` with hashed email/phone/name/nationality, IP, user agent, `_fbp`/`_fbc` | `purchase` with the browser `client_id` (from `_ga`), `gclid`, UTMs, `consent: GRANTED` |
+| `denied` / `unknown` | **skipped** (logged as `Meta CAPI skipped … consent denied`) | `purchase` still sent so revenue is counted, but with **no user identifiers**: `client_id` is derived from a SHA-256 hash of the order id (not linkable to the visitor or to any cookie), no `gclid`, `non_personalized_ads: true`, `consent: { ad_user_data: DENIED, ad_personalization: DENIED }`. UTM campaign parameters are kept (they describe the campaign, not the person). |
+
+The consequence for reporting: revenue in GA4 is complete either way, but a purchase without consent shows up as a new
+"user" with no session history and cannot be attributed to a Google Ads click, and Meta only sees purchases from
+visitors who accepted (the pixel is also absent for the others, so nothing is lost to deduplication).
+
+The privacy policy should mention the banner and the choice; see the paragraph above.

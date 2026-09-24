@@ -72,6 +72,8 @@ export const contactSchema = z.object({
  */
 const attr = z.string().trim().max(200);
 export const attributionSchema = z.object({
+  /** Cookie-consent decision in the browser ("granted" | "denied" | "unknown"); the API routes prefer the `consent` cookie. */
+  consent: z.enum(["granted", "denied", "unknown"]),
   gaClientId: attr,
   fbp: attr,
   fbc: attr,
