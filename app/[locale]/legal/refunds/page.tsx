@@ -13,7 +13,7 @@ const ITEMS = ["deadline", "cancelBefore", "cancelAfter", "noLongerNeeded", "too
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Legal.refunds" });
-  return pageMetadata(locale, "/legal/refunds", { title: t("metaTitle") });
+  return pageMetadata(locale, "/legal/refunds", { title: t("metaTitle"), description: t("metaDescription") });
 }
 
 export default async function Page({ params }: Props) {

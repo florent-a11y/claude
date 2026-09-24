@@ -2,6 +2,13 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 
+/** Declared outside the calculator so React keeps the same element type (and the input's focus) across re-renders. */
+function Field({ label, value, set, step = 1 }: { label: string; value: number; set: (v: number) => void; step?: number }) {
+  return (
+    <label className="block"><span className="label">{label}</span><input className="input" type="number" min={0} step={step} value={value} onChange={(e) => set(Number(e.target.value))} /></label>
+  );
+}
+
 export function CustomsCalculator() {
   const t = useTranslations("Customs.calculator");
   const [goods, setGoods] = useState(0);
@@ -18,10 +25,6 @@ export function CustomsCalculator() {
   if (cashIdr >= 100_000_000) flags.push(t("flagCash"));
   if (phones > 2) flags.push(t("flagPhones"));
   if (bio) flags.push(t("flagBio"));
-
-  const Field = ({ label, value, set, step = 1 }: { label: string; value: number; set: (v: number) => void; step?: number }) => (
-    <label className="block"><span className="label">{label}</span><input className="input" type="number" min={0} step={step} value={value} onChange={(e) => set(Number(e.target.value))} /></label>
-  );
 
   return (
     <div className="card mt-4 grid gap-4 md:grid-cols-2">

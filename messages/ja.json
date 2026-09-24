@@ -481,7 +481,7 @@
   },
   "Pricing": {
     "metaTitle": "料金",
-    "metaDescription": "インドネシア入国カード申請サポートの明朗な料金。隠れた費用はありません。",
+    "metaDescription": "インドネシア入国カード申請サポートの明朗な料金。隠れた費用はありません。追加の旅行者、特急オプション、e-VOAの料金も一覧で確認できます。",
     "title": "料金",
     "arrivalCardTitle": "入国カード申請サポート",
     "intro": "個人情報を入力する前に合計金額をご確認いただけます。当社は民間のサポートサービスであり、いかなる政府ウェブサイトとも提携していません。",
@@ -515,14 +515,14 @@
     "refunds": "予定到着時刻の6時間前までにカードをお届けできなかった場合、または処理開始前にキャンセルされた場合は全額返金いたします。<link>返金ポリシー</link>をご覧ください。"
   },
   "Guide": {
-    "metaTitle": "インドネシア入国カードガイド2026：All Indonesiaフォームの記入方法をステップごとに解説",
+    "metaTitle": "インドネシア入国カードガイド2026：記入方法をステップ解説",
     "metaDescription": "All Indonesia 入国カード（Arrival Card）の完全ガイド：誰に必要か、72時間の受付期間、公式ポータルとアプリでの各ステップ、家族・グループでの申請、健康・税関の質問、QRコード、既知のアプリの問題と対処法、よくある間違い。",
     "howToName": "公式ポータルでAll Indonesia 入国カードを記入する方法",
     "howToDescription": "インドネシアのデジタル入国カードについて、公式ポータルを開くところからQRコードを保存するまでのステップごとの手順。",
     "kicker": "ガイド、2026年9月更新",
     "title": "インドネシア入国カードガイド：All Indonesiaフォームの記入方法をステップごとに解説",
     "intro1": "All Indonesia 入国カード（Arrival Card）は、すべての旅行者がインドネシア入国前に記入するデジタルフォームです。紙の入国カード、電子税関申告（e-CD）、SATUSEHAT健康フォームに代わり、1回の提出で1つのQRコードが発行されます。運営は入国管理総局です。",
-    "intro2": "2025年9月1日にジャカルタ（CGK）、バリ（DPS）、スラバヤ（SUB）、バタムのフェリーターミナルで義務化され、2025年10月1日からはすべての国際空港、港、陸路国境で義務化されました。すべての国籍の旅行者、帰国するインドネシア国民、子どもや乳幼児にも適用されます。ビザではありません。ビザ免除、到着ビザ、またはその他のビザは別途必要です。",
+    "intro2": "2025年に段階的に導入され、まずジャカルタ（CGK）、バリ（DPS）、スラバヤ（SUB）、バタムのフェリーターミナルで、2025年10月1日からはすべての国際空港、港、陸路国境で義務化されました。すべての国籍の旅行者、帰国するインドネシア国民、子どもや乳幼児にも適用されます。ビザではありません。ビザ免除、到着ビザ、またはその他のビザは別途必要です。",
     "officialApps": "公式アプリ：<play>Google PlayのAll Indonesia</play>と<store>App StoreのAll Indonesia</store>。いずれもDirektorat Jenderal Imigrasiが公開しています。",
     "tocLabel": "目次",
     "tocTitle": "このページの内容",
@@ -797,7 +797,7 @@
       "apps": "<play>Google PlayのAll Indonesia</play>と<store>App StoreのAll Indonesia</store>、アプリ情報とユーザーレビュー。",
       "cirebon": "<link>All Indonesia（インドネシア入国カード）</link>、チルボン入国管理事務所。",
       "karawang": "<link>All Indonesiaアプリでの登録方法</link>、カラワン入国管理事務所。",
-      "woah": "<link>All Indonesia 入国カードガイド（PDF）</link>、WOAHアジア太平洋、2025年9月。",
+      "woah": "<link>All Indonesia 入国カードガイド（PDF）</link>、WOAHアジア太平洋、2025年。",
       "wikipedia": "<link>All Indonesia Arrival Card</link>、Wikipedia、導入の経緯とフォームの各セクション。",
       "autogate": "<link>国際空港の自動化ゲートシステム</link>、Wonderful Indonesia。",
       "customs": "<link>税関総局</link>、免税範囲と現金の規則。",
@@ -874,7 +874,7 @@
   },
   "News": {
     "metaTitle": "入国管理・税関の公式ニュースの要約",
-    "metaDescription": "インドネシア入国管理総局と税関の発表をわかりやすく要約し、原文へのリンクを掲載しています。",
+    "metaDescription": "インドネシア入国管理総局と税関の発表をわかりやすく要約し、原文へのリンクを掲載しています。出発前に最新の入国ルールを確認できます。",
     "title": "旅行者向けに要約した公式ニュース",
     "intro": "インドネシアの入国管理当局と税関当局が公表した発表の短い要約です。各項目は原文にリンクしています。当社は情報源ではなく、これらの当局を代弁するものでもありません。",
     "keyRules": "現在有効な主な規則",
@@ -961,6 +961,7 @@
   },
   "Contact": {
     "metaTitle": "お問い合わせ・サポート",
+    "metaDescription": "インドネシア入国カードとe-VOAのご注文に関するメールサポート。毎日7:00〜23:00（ジャカルタ時間）。運営：Bulan Juli Limited（香港）。",
     "title": "お問い合わせ・サポート",
     "hours": "サポート時間：ジャカルタ時間（UTC+7）07:00–23:00、年中無休。有料のご注文については通常15分以内に回答します。",
     "email": "メール",
@@ -971,6 +972,7 @@
     "operatorContact": "{company}、{address}。{reg}。連絡先：<mail>{email}</mail>。",
     "disclosure": {
       "metaTitle": "非提携に関する開示",
+      "metaDescription": "Arrival Card Assistは民間のサポートサービスであり、インドネシア政府や入国管理総局とは提携しておらず、その承認も受けていません。",
       "title": "非提携に関する開示",
       "meaningTitle": "お客様にとっての意味",
       "meaning1": "当社の料金はサービスに対するものです。ガイド付きのデータ収集、手作業での確認、お客様に代わっての提出、お届け、サポートです。",
@@ -980,6 +982,7 @@
     },
     "privacy": {
       "metaTitle": "プライバシーポリシー",
+      "metaDescription": "Arrival Card Assistがパスポート情報や旅行情報をどのように収集・利用・保管・削除するか、および香港法とインドネシア法に基づくお客様の権利。",
       "title": "プライバシーポリシー",
       "template": "公開前に法務レビューを受けるためのテンプレートです。最終更新日：{date}。",
       "controllerTitle": "管理者",
@@ -1004,6 +1007,7 @@
     },
     "refunds": {
       "metaTitle": "返金ポリシー",
+      "metaDescription": "入国カードおよびe-VOAサポートのご注文で全額または一部返金を受けられる条件。キャンセルや当社の過失の場合を含みます。",
       "title": "返金ポリシー",
       "updated": "最終更新日：{date}。",
       "items": {
@@ -1021,6 +1025,7 @@
     },
     "terms": {
       "metaTitle": "利用規約",
+      "metaDescription": "Arrival Card Assistの利用規約：サービス内容、料金、お届けまでの時間、返金、責任、準拠法について。",
       "title": "利用規約",
       "template": "公開前に香港の弁護士によるレビューを受けるためのテンプレートです。最終更新日：{date}。",
       "s1Title": "1. 当事者とサービス",

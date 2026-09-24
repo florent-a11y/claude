@@ -8,9 +8,9 @@
     "siteDescription": "Servicio de asistencia privado para la tarjeta de llegada digital de Indonesia (All Indonesia). Precio transparente, revisión por una persona, entrega por correo electrónico. Sin vinculación con el Gobierno de Indonesia."
   },
   "Metadata": {
-    "defaultTitle": "{siteName} – Ayuda con la tarjeta de llegada de Indonesia, revisada por una persona",
+    "defaultTitle": "{siteName} – Ayuda tarjeta de llegada Indonesia",
     "titleTemplate": "%s | {shortName}",
-    "description": "Servicio de asistencia privado para la tarjeta de llegada digital de Indonesia (All Indonesia). Precio transparente, revisión por una persona, entrega por correo electrónico. Sin vinculación con el Gobierno de Indonesia."
+    "description": "Asistencia privada para la tarjeta de llegada All Indonesia: precio transparente, revisión humana, entrega por correo. Sin vínculo con el Gobierno de Indonesia."
   },
   "Disclosure": {
     "bar": "Servicio de asistencia privado, <strong>sin vinculación con ningún sitio web gubernamental</strong>. Nuestra tarifa cubre la preparación, la revisión y el soporte.",
@@ -148,7 +148,7 @@
     "faqCta": "Preguntas frecuentes"
   },
   "Apply": {
-    "metaTitle": "Solicitar – Asistencia con la tarjeta de llegada de Indonesia",
+    "metaTitle": "Solicitar – Tarjeta de llegada Indonesia",
     "metaDescription": "Formulario guiado para la tarjeta de llegada de Indonesia. Precio transparente desde el principio. Revisión por una persona, entrega por correo electrónico.",
     "titleArrivalCard": "Asistencia con la tarjeta de llegada",
     "titleEvoa": "Asistencia con la e-VOA",
@@ -349,8 +349,8 @@
     "doneText": "Le escribiremos el <strong>{when}</strong> (su hora local), cuando se abra la ventana, {hours} h antes de la llegada. No cobramos antes de ese momento."
   },
   "Reminder": {
-    "metaTitle": "Tarjeta de llegada de Indonesia: le avisamos cuándo solicitarla",
-    "metaDescription": "El portal oficial solo acepta la tarjeta de llegada All Indonesia dentro de las 72 horas previas a la llegada. Déjenos su fecha de llegada y le escribiremos en cuanto se abra su ventana. Recordatorio gratuito, sin pago ahora.",
+    "metaTitle": "Indonesia: cuándo pedir la tarjeta de llegada",
+    "metaDescription": "El portal oficial solo acepta la tarjeta de llegada 72 horas antes de llegar. Déjenos su fecha y le escribimos en cuanto se abra su ventana. Gratis.",
     "badge": "Recordatorio gratuito, sin pago ahora",
     "title": "Tarjeta de llegada de Indonesia: le avisamos cuándo solicitarla",
     "lead": "El portal oficial solo acepta la tarjeta de llegada dentro de las 72 horas previas a su aterrizaje. Si la solicita antes, se rechaza. Déjenos su fecha de llegada y le escribiremos en cuanto se abra su ventana.",
@@ -423,8 +423,8 @@
     "cta": "Leer la lista de verificación para el aeropuerto"
   },
   "Evoa": {
-    "metaTitle": "Asistencia con la solicitud de e-VOA para Indonesia – visa a la llegada en línea",
-    "metaDescription": "Preparamos y presentamos su e-VOA de Indonesia (visa electrónica a la llegada): 30 días, prorrogable una vez. Revisión por una persona, tasa de visa detallada, entrega por correo electrónico.",
+    "metaTitle": "e-VOA Indonesia: ayuda con la solicitud",
+    "metaDescription": "Preparamos y presentamos su e-VOA de Indonesia (visa a la llegada): 30 días, prorrogable una vez. Revisión humana, tasa de visa detallada, entrega por correo.",
     "jsonLdName": "Asistencia con la solicitud de e-VOA para Indonesia",
     "badge": "Visa electrónica a la llegada · {days} días · prorrogable una vez",
     "title": "Su e-VOA de Indonesia, preparada y revisada antes de volar.",
@@ -480,7 +480,7 @@
     }
   },
   "Pricing": {
-    "metaTitle": "Precios",
+    "metaTitle": "Precios – Tarjeta de llegada Indonesia",
     "metaDescription": "Un precio transparente para la asistencia con la tarjeta de llegada de Indonesia. Sin cargos ocultos.",
     "title": "Precios",
     "arrivalCardTitle": "Asistencia con la tarjeta de llegada",
@@ -515,14 +515,14 @@
     "refunds": "Reembolso completo si su tarjeta no se entrega al menos 6 horas antes de su llegada programada, o si cancela antes de que empecemos a procesarla. Consulte la <link>política de reembolsos</link>."
   },
   "Guide": {
-    "metaTitle": "Guía de la tarjeta de llegada de Indonesia 2026: cómo completar el formulario All Indonesia paso a paso",
-    "metaDescription": "Guía completa de la tarjeta de llegada All Indonesia: quién la necesita, la ventana de 72 horas, cada paso en el portal oficial y en la aplicación, trámite para familias y grupos, preguntas de salud y de aduanas, el código QR, problemas conocidos de la aplicación y sus soluciones, y errores frecuentes.",
+    "metaTitle": "Guía tarjeta de llegada Indonesia 2026",
+    "metaDescription": "Guía de la tarjeta de llegada All Indonesia: quién la necesita, la ventana de 72 horas, cada paso en el portal y la aplicación, familias, aduanas y código QR.",
     "howToName": "Cómo completar la tarjeta de llegada All Indonesia en el portal oficial",
     "howToDescription": "Instrucciones paso a paso para la tarjeta de llegada digital de Indonesia, desde abrir el portal oficial hasta guardar el código QR.",
     "kicker": "Guía, actualizada en septiembre de 2026",
     "title": "Guía de la tarjeta de llegada de Indonesia: cómo completar el formulario All Indonesia paso a paso",
     "intro1": "La tarjeta de llegada All Indonesia es el formulario digital que todo viajero completa antes de entrar en Indonesia. Sustituyó a la tarjeta de inmigración en papel, la declaración electrónica de aduanas (e-CD) y el formulario de salud SATUSEHAT por un único envío que genera un solo código QR. La gestiona la Dirección General de Inmigración.",
-    "intro2": "Pasó a ser obligatoria el 1 de septiembre de 2025 en Yakarta (CGK), Bali (DPS), Surabaya (SUB) y las terminales de ferris de Batam, y el 1 de octubre de 2025 en todos los aeropuertos internacionales, puertos marítimos y fronteras terrestres. Se aplica a todas las nacionalidades, a los ciudadanos indonesios que regresan al país y a los niños y bebés. No es una visa. Sigue necesitando entrada sin visa, visa a la llegada u otra visa.",
+    "intro2": "Se implantó de forma gradual en 2025, primero en Yakarta (CGK), Bali (DPS), Surabaya (SUB) y las terminales de ferris de Batam; desde el 1 de octubre de 2025 es obligatoria en todos los aeropuertos internacionales, puertos marítimos y fronteras terrestres. Se aplica a todas las nacionalidades, a los ciudadanos indonesios que regresan al país y a los niños y bebés. No es una visa. Sigue necesitando entrada sin visa, visa a la llegada u otra visa.",
     "officialApps": "Aplicaciones oficiales: <play>All Indonesia en Google Play</play> y <store>All Indonesia en el App Store</store>, ambas publicadas por Direktorat Jenderal Imigrasi.",
     "tocLabel": "Contenido",
     "tocTitle": "En esta página",
@@ -797,7 +797,7 @@
       "apps": "<play>All Indonesia en Google Play</play> y <store>en el App Store</store>, fichas y reseñas de usuarios.",
       "cirebon": "<link>All Indonesia (Indonesia Arrival Card)</link>, Oficina de Inmigración de Cirebon.",
       "karawang": "<link>Cómo registrarse en la aplicación All Indonesia</link>, Oficina de Inmigración de Karawang.",
-      "woah": "<link>Guía de la All Indonesia Arrival Card (PDF)</link>, WOAH Asia-Pacífico, septiembre de 2025.",
+      "woah": "<link>Guía de la All Indonesia Arrival Card (PDF)</link>, WOAH Asia-Pacífico, 2025.",
       "wikipedia": "<link>All Indonesia Arrival Card</link>, Wikipedia, cronología de la implantación y secciones del formulario.",
       "autogate": "<link>Sistema de puertas automáticas en los aeropuertos internacionales</link>, Wonderful Indonesia.",
       "customs": "<link>Dirección General de Aduanas e Impuestos Especiales</link>, franquicias y la norma sobre el efectivo.",
@@ -810,8 +810,8 @@
     "ctaReminder": "¿Vuela dentro de más de 3 días? <link>Cree un recordatorio</link> y le avisamos cuando se abra la ventana."
   },
   "Customs": {
-    "metaTitle": "Franquicias aduaneras de Indonesia 2026: límites libres de impuestos, efectivo, IMEI",
-    "metaDescription": "Qué debe declarar al entrar en Indonesia: franquicia de USD 500 para bienes personales, límites de alcohol y tabaco, norma de los 100 millones de IDR en efectivo, registro del IMEI del teléfono.",
+    "metaTitle": "Franquicias aduaneras Indonesia 2026",
+    "metaDescription": "Qué debe declarar al entrar en Indonesia: franquicia de USD 500, límites de alcohol y tabaco, norma de 100 millones de IDR en efectivo, registro del IMEI.",
     "title": "Franquicias aduaneras de Indonesia y qué declarar",
     "intro": "Resumen de las normas que aplica Bea Cukai (Aduanas de Indonesia) a los pasajeros que llegan. Consulte siempre el <link>sitio oficial de aduanas</link> para conocer las cifras más recientes.",
     "colItem": "Artículo",
@@ -873,7 +873,7 @@
     }
   },
   "News": {
-    "metaTitle": "Noticias oficiales de inmigración y aduanas, resumidas",
+    "metaTitle": "Noticias oficiales de inmigración y aduanas",
     "metaDescription": "Resúmenes en lenguaje sencillo de los anuncios de la Dirección General de Inmigración y de Aduanas de Indonesia, con enlaces a la fuente original.",
     "title": "Noticias oficiales, resumidas para viajeros",
     "intro": "Breves resúmenes de los anuncios publicados por las autoridades indonesias de inmigración y aduanas. Cada entrada enlaza al original. No somos la fuente ni hablamos en nombre de estas autoridades.",
@@ -897,7 +897,7 @@
     }
   },
   "Faq": {
-    "metaTitle": "Preguntas frecuentes – Tarjeta de llegada de Indonesia",
+    "metaTitle": "FAQ – Tarjeta de llegada Indonesia",
     "metaDescription": "Respuestas sobre la tarjeta de llegada All Indonesia: quién la necesita, la regla de las 72 horas, el código QR, aduanas y nuestro servicio de asistencia.",
     "title": "Preguntas frecuentes",
     "items": {
@@ -961,6 +961,7 @@
   },
   "Contact": {
     "metaTitle": "Contacto y soporte",
+    "metaDescription": "Soporte por correo para pedidos de tarjeta de llegada y e-VOA de Indonesia, todos los días de 7:00 a 23:00, hora de Yakarta. Bulan Juli Limited, Hong Kong.",
     "title": "Contacto y soporte",
     "hours": "Horario de soporte: de 07:00 a 23:00, hora de Yakarta (UTC+7), todos los días. Tiempo de respuesta habitual inferior a 15 minutos para pedidos pagados.",
     "email": "Correo electrónico",
@@ -971,6 +972,7 @@
     "operatorContact": "{company}, {address}. {reg}. Contacto: <mail>{email}</mail>.",
     "disclosure": {
       "metaTitle": "Aviso de no vinculación",
+      "metaDescription": "Arrival Card Assist es un servicio de asistencia privado, sin vinculación con el Gobierno de Indonesia ni con la Dirección General de Inmigración.",
       "title": "Aviso de no vinculación",
       "meaningTitle": "Qué significa esto para usted",
       "meaning1": "Nuestra tarifa corresponde a un servicio: recogida guiada de datos, verificación manual, envío en su nombre, entrega y soporte.",
@@ -980,6 +982,7 @@
     },
     "privacy": {
       "metaTitle": "Política de privacidad",
+      "metaDescription": "Cómo Arrival Card Assist recopila, usa, conserva y elimina sus datos de pasaporte y de viaje, y sus derechos según la ley de Hong Kong e Indonesia.",
       "title": "Política de privacidad",
       "template": "Plantilla para revisión legal antes del lanzamiento. Última actualización: {date}.",
       "controllerTitle": "Responsable del tratamiento",
@@ -1004,6 +1007,7 @@
     },
     "refunds": {
       "metaTitle": "Política de reembolsos",
+      "metaDescription": "Cuándo recibe un reembolso total o parcial por pedidos de tarjeta de llegada y e-VOA, incluidas las cancelaciones y nuestros propios errores.",
       "title": "Política de reembolsos",
       "updated": "Última actualización: {date}.",
       "items": {
@@ -1021,6 +1025,7 @@
     },
     "terms": {
       "metaTitle": "Términos del servicio",
+      "metaDescription": "Términos del servicio de Arrival Card Assist: qué hacemos, precios, plazos de entrega, reembolsos, responsabilidad y ley aplicable.",
       "title": "Términos del servicio",
       "template": "Plantilla para revisión por un abogado de Hong Kong antes del lanzamiento. Última actualización: {date}.",
       "s1Title": "1. Partes y servicio",

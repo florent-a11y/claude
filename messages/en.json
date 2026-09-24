@@ -8,9 +8,9 @@
     "siteDescription": "Private assistance service for the Indonesia (All Indonesia) digital arrival card. Transparent price, human-checked, delivered by email. Not affiliated with the Government of Indonesia."
   },
   "Metadata": {
-    "defaultTitle": "{siteName} – Indonesia arrival card help, human-checked",
+    "defaultTitle": "{siteName} – Indonesia arrival card help",
     "titleTemplate": "%s | {shortName}",
-    "description": "Private assistance service for the Indonesia (All Indonesia) digital arrival card. Transparent price, human-checked, delivered by email. Not affiliated with the Government of Indonesia."
+    "description": "Private assistance for the Indonesia (All Indonesia) arrival card: transparent price, human-checked, delivered by email. Not a government website."
   },
   "Disclosure": {
     "bar": "Private assistance service, <strong>not affiliated with any government website</strong>. Our fee covers preparation, checking and support.",
@@ -148,7 +148,7 @@
     "faqCta": "FAQ"
   },
   "Apply": {
-    "metaTitle": "Apply – Indonesia arrival card assistance",
+    "metaTitle": "Apply – Indonesia arrival card",
     "metaDescription": "Guided form for the Indonesia arrival card. Transparent price shown first. Human-checked, delivered by email.",
     "titleArrivalCard": "Arrival card assistance",
     "titleEvoa": "e-VOA assistance",
@@ -349,8 +349,8 @@
     "doneText": "We will email you on <strong>{when}</strong> (your local time) when the window opens, {hours} h before arrival. We do not take payment before then."
   },
   "Reminder": {
-    "metaTitle": "Indonesia arrival card: we tell you when to apply",
-    "metaDescription": "The official portal only accepts the All Indonesia arrival card within 72 hours before arrival. Leave your arrival date and we email you the moment your window opens. Free reminder, no payment now.",
+    "metaTitle": "Indonesia arrival card: when to apply",
+    "metaDescription": "The official portal only accepts the arrival card within 72 hours before arrival. Leave your date and we email you the moment your window opens. Free.",
     "badge": "Free reminder, no payment now",
     "title": "Indonesia arrival card: we tell you when to apply",
     "lead": "The official portal only accepts the arrival card within 72 hours before you land. Apply earlier and it is rejected. Leave your arrival date and we email you the moment your window opens.",
@@ -423,7 +423,7 @@
     "cta": "Read the airport checklist"
   },
   "Evoa": {
-    "metaTitle": "Indonesia e-VOA application assistance – visa on arrival online",
+    "metaTitle": "Indonesia e-VOA (visa on arrival) help",
     "metaDescription": "We prepare and submit your Indonesia e-VOA (electronic visa on arrival): 30 days, extendable once. Human-checked, visa fee itemized, delivered by email.",
     "jsonLdName": "Indonesia e-VOA application assistance",
     "badge": "Electronic Visa on Arrival · {days} days · extendable once",
@@ -480,7 +480,7 @@
     }
   },
   "Pricing": {
-    "metaTitle": "Pricing",
+    "metaTitle": "Pricing – Indonesia arrival card",
     "metaDescription": "One transparent price for Indonesia arrival card assistance. No hidden fees.",
     "title": "Pricing",
     "arrivalCardTitle": "Arrival card assistance",
@@ -515,14 +515,14 @@
     "refunds": "Full refund if your card is not delivered at least 6 hours before your scheduled arrival, or if you cancel before we start processing. See the <link>refund policy</link>."
   },
   "Guide": {
-    "metaTitle": "Indonesia arrival card guide 2026: how to fill the All Indonesia form, step by step",
-    "metaDescription": "Complete guide to the All Indonesia arrival card: who needs it, the 72-hour window, every step on the official portal and in the app, family and group filing, health and customs questions, the QR code, known app problems and their fixes, and common mistakes.",
+    "metaTitle": "Indonesia arrival card guide 2026",
+    "metaDescription": "Complete guide to the All Indonesia arrival card: who needs it, the 72-hour window, every step on the portal and app, families, customs and QR problems.",
     "howToName": "How to fill the All Indonesia arrival card on the official portal",
     "howToDescription": "Step-by-step instructions for the Indonesia digital arrival card, from opening the official portal to saving the QR code.",
     "kicker": "Guide, updated September 2026",
     "title": "Indonesia arrival card guide: how to fill the All Indonesia form, step by step",
     "intro1": "The All Indonesia arrival card is the digital form every traveler completes before entering Indonesia. It replaced the paper immigration card, the electronic customs declaration (e-CD) and the SATUSEHAT health form with one submission that produces one QR code. It is run by the Directorate General of Immigration.",
-    "intro2": "It became mandatory on 1 September 2025 at Jakarta (CGK), Bali (DPS), Surabaya (SUB) and the Batam ferry terminals, and on 1 October 2025 at every international airport, seaport and land border. It applies to all nationalities, to Indonesian citizens coming home, and to children and infants. It is not a visa. You still need visa-free entry, a visa on arrival or another visa.",
+    "intro2": "It was phased in during 2025, first at Jakarta (CGK), Bali (DPS), Surabaya (SUB) and the Batam ferry terminals; since 1 October 2025 it is required at every international airport, seaport and land border. It applies to all nationalities, to Indonesian citizens coming home, and to children and infants. It is not a visa. You still need visa-free entry, a visa on arrival or another visa.",
     "officialApps": "Official apps: <play>All Indonesia on Google Play</play> and <store>All Indonesia on the App Store</store>, both published by Direktorat Jenderal Imigrasi.",
     "tocLabel": "Contents",
     "tocTitle": "On this page",
@@ -797,7 +797,7 @@
       "apps": "<play>All Indonesia on Google Play</play> and <store>on the App Store</store>, listings and user reviews.",
       "cirebon": "<link>All Indonesia (Indonesia Arrival Card)</link>, Cirebon Immigration Office.",
       "karawang": "<link>How to register in the All Indonesia app</link>, Karawang Immigration Office.",
-      "woah": "<link>All Indonesia Arrival Card guide (PDF)</link>, WOAH Asia-Pacific, September 2025.",
+      "woah": "<link>All Indonesia Arrival Card guide (PDF)</link>, WOAH Asia-Pacific, 2025.",
       "wikipedia": "<link>All Indonesia Arrival Card</link>, Wikipedia, rollout timeline and sections of the form.",
       "autogate": "<link>Autogate system at international airports</link>, Wonderful Indonesia.",
       "customs": "<link>Directorate General of Customs and Excise</link>, allowances and the cash rule.",
@@ -810,7 +810,7 @@
     "ctaReminder": "Flying in more than 3 days? <link>Set a reminder</link> and we tell you when the window opens."
   },
   "Customs": {
-    "metaTitle": "Indonesia customs allowances 2026: duty-free limits, cash, IMEI",
+    "metaTitle": "Indonesia customs allowances 2026",
     "metaDescription": "What you must declare when entering Indonesia: USD 500 personal goods allowance, alcohol and tobacco limits, IDR 100 million cash rule, phone IMEI registration.",
     "title": "Indonesia customs allowances and what to declare",
     "intro": "Summary of the rules applied by Bea Cukai (Indonesian Customs) for arriving passengers. Always check the <link>official customs site</link> for the latest figures.",
@@ -873,7 +873,7 @@
     }
   },
   "News": {
-    "metaTitle": "Official immigration and customs news, summarized",
+    "metaTitle": "Official immigration and customs news",
     "metaDescription": "Plain-English summaries of announcements from Indonesia's Directorate General of Immigration and Customs, with links to the original source.",
     "title": "Official news, summarized for travelers",
     "intro": "Short English summaries of announcements published by the Indonesian immigration and customs authorities. Each item links to the original. We are not the source and do not speak for these authorities.",
@@ -961,6 +961,7 @@
   },
   "Contact": {
     "metaTitle": "Contact & support",
+    "metaDescription": "Email support for Indonesia arrival card and e-VOA orders, 07:00–23:00 Jakarta time, every day. Operated by Bulan Juli Limited, Hong Kong.",
     "title": "Contact & support",
     "hours": "Support hours: 07:00–23:00 Jakarta time (UTC+7), every day. Typical response time under 15 minutes for paid orders.",
     "email": "Email",
@@ -971,6 +972,7 @@
     "operatorContact": "{company}, {address}. {reg}. Contact: <mail>{email}</mail>.",
     "disclosure": {
       "metaTitle": "Non-affiliation disclosure",
+      "metaDescription": "Arrival Card Assist is a private assistance service and is not affiliated with the Government of Indonesia or the Directorate General of Immigration.",
       "title": "Non-affiliation disclosure",
       "meaningTitle": "What this means for you",
       "meaning1": "Our fee is for a service: guided data collection, manual verification, submission on your behalf, delivery and support.",
@@ -980,6 +982,7 @@
     },
     "privacy": {
       "metaTitle": "Privacy policy",
+      "metaDescription": "How Arrival Card Assist collects, uses, stores and deletes your passport and travel data, and your rights under Hong Kong and Indonesian law.",
       "title": "Privacy policy",
       "template": "Template for legal review before launch. Last updated: {date}.",
       "controllerTitle": "Controller",
@@ -1004,6 +1007,7 @@
     },
     "refunds": {
       "metaTitle": "Refund policy",
+      "metaDescription": "When you get a full or partial refund for arrival card and e-VOA assistance orders, including cancellations and our own errors.",
       "title": "Refund policy",
       "updated": "Last updated: {date}.",
       "items": {
@@ -1021,6 +1025,7 @@
     },
     "terms": {
       "metaTitle": "Terms of service",
+      "metaDescription": "Terms of service for Arrival Card Assist: what we do, prices, delivery times, refunds, liability and governing law.",
       "title": "Terms of service",
       "template": "Template for review by a Hong Kong solicitor before launch. Last updated: {date}.",
       "s1Title": "1. Parties and service",
