@@ -44,11 +44,25 @@ const securityHeaders = [
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
 ];
 
+/**
+ * Cache policy for the static images in public/ (Next's default there is `max-age=0`, so every visit revalidates).
+ * - Hero photo variants: one year, immutable. They never change under the same name (a new picture gets new file
+ *   names; see components/HeroBackdrop.tsx), so repeat visits and the pages that share the photo skip the request.
+ * - og.png: referenced without a hash and re-rendered under the same name, so a week with stale-while-revalidate
+ *   keeps social scrapers fresh without a one-year pin at the CDN.
+ */
+const HERO_ASSETS = "/:asset(hero\\.jpg|hero-1200\\.jpg|hero\\.webp|hero-1200\\.webp)";
+const SHARE_IMAGE = "/og.png";
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   async headers() {
-    return [{ source: "/(.*)", headers: securityHeaders }];
+    return [
+      { source: "/(.*)", headers: securityHeaders },
+      { source: HERO_ASSETS, headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }] },
+      { source: SHARE_IMAGE, headers: [{ key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" }] },
+    ];
   },
 };
 

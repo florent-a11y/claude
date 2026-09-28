@@ -2,6 +2,10 @@ import { z } from "zod";
 import { todayJakarta } from "./window";
 import { LOCALES } from "@/i18n/routing";
 
+/** zod 4 probes `Function("")` once to decide whether it may JIT-compile object schemas. Under the site's CSP
+ *  (no 'unsafe-eval') that probe is a reported violation on every page that loads the form; `jitless` skips it. */
+z.config({ jitless: true });
+
 const date = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD");
 
 export const travelerSchema = z.object({

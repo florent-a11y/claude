@@ -47,6 +47,8 @@ export function Logo({ variant = "full", size = 36, className = "" }: { variant?
       <LogoMark size={size} className="shrink-0" />
       <span className="flex flex-col whitespace-nowrap leading-none">
         <span className="font-semibold uppercase tracking-[0.18em] text-ink-500" style={{ fontSize: Math.round(size * 0.27) }}>Indonesia</span>
+        {/* whitespace between the two lines so the text content reads "Indonesia Arrival Card Assist" (matches the header link's aria-label); a flex column never renders it */}
+        {" "}
         <span className="mt-0.5 font-semibold tracking-tight text-brand-700" style={{ fontSize }}>
           Arrival Card <span className="text-accent-500">Assist</span>
         </span>
