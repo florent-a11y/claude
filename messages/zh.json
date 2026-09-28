@@ -60,7 +60,8 @@
     "privacy": "隐私政策",
     "refunds": "退款政策",
     "rights": "© {year} {company}。保留所有权利。",
-    "cookieSettings": "Cookie 设置"
+    "cookieSettings": "Cookie 设置",
+    "photoCredit": "首页照片：乌鲁瓦图的克差舞者，Wikimedia Commons，CC BY-SA 2.0"
   },
   "Consent": {
     "label": "Cookie 同意",
@@ -975,7 +976,7 @@
     "operatorContact": "{company}，{address}。{reg}。联系方式：<mail>{email}</mail>。",
     "disclosure": {
       "metaTitle": "无关联声明",
-      "metaDescription": "Arrival Card Assist 是私营协助服务，与印度尼西亚政府或移民总局无任何关联，也未获其认可。",
+      "metaDescription": "Indonesia Arrival Card Assist 是私营协助服务，与印度尼西亚政府或移民总局无任何关联，也未获其认可。",
       "title": "无关联声明",
       "meaningTitle": "这对您意味着什么",
       "meaning1": "我们的费用是服务费：引导式资料收集、人工核对、代您提交、送达和支持。",
@@ -985,7 +986,7 @@
     },
     "privacy": {
       "metaTitle": "隐私政策",
-      "metaDescription": "Arrival Card Assist 如何收集、使用、存储和删除您的护照与行程数据，以及您根据香港和印度尼西亚法律享有的权利。",
+      "metaDescription": "Indonesia Arrival Card Assist 如何收集、使用、存储和删除您的护照与行程数据，以及您根据香港和印度尼西亚法律享有的权利。",
       "title": "隐私政策",
       "template": "最后更新：{date}。",
       "controllerTitle": "数据控制者",
@@ -1028,7 +1029,7 @@
     },
     "terms": {
       "metaTitle": "服务条款",
-      "metaDescription": "Arrival Card Assist 服务条款：我们提供的服务、价格、交付时限、退款、责任及适用法律。",
+      "metaDescription": "Indonesia Arrival Card Assist 服务条款：我们提供的服务、价格、交付时限、退款、责任及适用法律。",
       "title": "服务条款",
       "template": "最后更新：{date}。",
       "s1Title": "1. 双方与服务",

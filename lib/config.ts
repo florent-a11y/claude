@@ -1,6 +1,6 @@
 export const site = {
-  name: "Arrival Card Assist",
-  shortName: "Arrival Card Assist",
+  name: "Indonesia Arrival Card Assist",
+  shortName: "Indonesia Arrival Card Assist",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   company: process.env.NEXT_PUBLIC_COMPANY_NAME ?? "Bulan Juli Limited",
   companyReg:

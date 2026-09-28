@@ -8,7 +8,7 @@ Do this before the first order. Without it the QR delivery email lands in spam t
    - **DKIM**: TXT, name `resend._domainkey`, value = the long `p=…` key Resend shows.
    - **SPF for the sending subdomain**: Resend uses a `send` subdomain by default: MX `send` → `feedback-smtp.<region>.amazonses.com` priority 10, and TXT `send` → `v=spf1 include:amazonses.com ~all`. Copy exactly what Resend shows; the region part differs.
 3. Click Verify in Resend. Status must be "Verified" for all records.
-4. Set `EMAIL_FROM="Arrival Card Assist <no-reply@allindonesia-arrivalcard.com>"` and `RESEND_API_KEY` in Vercel, redeploy.
+4. Set `EMAIL_FROM="Indonesia Arrival Card Assist <no-reply@allindonesia-arrivalcard.com>"` and `RESEND_API_KEY` in Vercel, redeploy.
 
 ## 2. SPF on the root domain
 If nothing else sends mail from the root domain, add a TXT record on `@`:

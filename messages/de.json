@@ -60,7 +60,8 @@
     "privacy": "Datenschutzerklärung",
     "refunds": "Erstattungsrichtlinie",
     "rights": "© {year} {company}. Alle Rechte vorbehalten.",
-    "cookieSettings": "Cookie-Einstellungen"
+    "cookieSettings": "Cookie-Einstellungen",
+    "photoCredit": "Titelfoto: Kecak-Tänzer in Uluwatu, Wikimedia Commons, CC BY-SA 2.0"
   },
   "Consent": {
     "label": "Cookie-Einwilligung",
@@ -975,7 +976,7 @@
     "operatorContact": "{company}, {address}. {reg}. Kontakt: <mail>{email}</mail>.",
     "disclosure": {
       "metaTitle": "Hinweis zur Nichtzugehörigkeit",
-      "metaDescription": "Arrival Card Assist ist ein privater Assistenzdienst und nicht mit der Regierung Indonesiens oder der Generaldirektion für Einwanderung verbunden.",
+      "metaDescription": "Indonesia Arrival Card Assist ist ein privater Assistenzdienst und nicht mit der Regierung Indonesiens oder der Generaldirektion für Einwanderung verbunden.",
       "title": "Hinweis zur Nichtzugehörigkeit",
       "meaningTitle": "Was das für Sie bedeutet",
       "meaning1": "Unsere Gebühr gilt für eine Dienstleistung: geführte Datenerfassung, manuelle Prüfung, Einreichung in Ihrem Namen, Zustellung und Support.",
@@ -985,7 +986,7 @@
     },
     "privacy": {
       "metaTitle": "Datenschutzerklärung",
-      "metaDescription": "Wie Arrival Card Assist Ihre Pass- und Reisedaten erhebt, nutzt, speichert und löscht, und welche Rechte Sie nach dem Recht Hongkongs und Indonesiens haben.",
+      "metaDescription": "Wie Indonesia Arrival Card Assist Ihre Pass- und Reisedaten erhebt, nutzt, speichert und löscht, und welche Rechte Sie nach dem Recht Hongkongs und Indonesiens haben.",
       "title": "Datenschutzerklärung",
       "template": "Zuletzt aktualisiert: {date}.",
       "controllerTitle": "Verantwortlicher",
@@ -1028,7 +1029,7 @@
     },
     "terms": {
       "metaTitle": "Nutzungsbedingungen",
-      "metaDescription": "Nutzungsbedingungen von Arrival Card Assist: Leistungen, Preise, Bearbeitungszeiten, Erstattungen, Haftung und anwendbares Recht.",
+      "metaDescription": "Nutzungsbedingungen von Indonesia Arrival Card Assist: Leistungen, Preise, Bearbeitungszeiten, Erstattungen, Haftung und anwendbares Recht.",
       "title": "Nutzungsbedingungen",
       "template": "Zuletzt aktualisiert: {date}.",
       "s1Title": "1. Parteien und Leistung",

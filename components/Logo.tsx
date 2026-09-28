@@ -45,8 +45,11 @@ export function Logo({ variant = "full", size = 36, className = "" }: { variant?
   return (
     <span className={`inline-flex items-center gap-2.5 ${className}`}>
       <LogoMark size={size} className="shrink-0" />
-      <span className="whitespace-nowrap font-semibold leading-none tracking-tight text-brand-700" style={{ fontSize }}>
-        Arrival Card <span className="text-accent-500">Assist</span>
+      <span className="flex flex-col whitespace-nowrap leading-none">
+        <span className="font-semibold uppercase tracking-[0.18em] text-ink-500" style={{ fontSize: Math.round(size * 0.27) }}>Indonesia</span>
+        <span className="mt-0.5 font-semibold tracking-tight text-brand-700" style={{ fontSize }}>
+          Arrival Card <span className="text-accent-500">Assist</span>
+        </span>
       </span>
     </span>
   );

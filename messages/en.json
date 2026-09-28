@@ -60,7 +60,8 @@
     "privacy": "Privacy policy",
     "refunds": "Refund policy",
     "rights": "© {year} {company}. All rights reserved.",
-    "cookieSettings": "Cookie settings"
+    "cookieSettings": "Cookie settings",
+    "photoCredit": "Hero photo: Kecak dancers at Uluwatu, Wikimedia Commons, CC BY-SA 2.0"
   },
   "Consent": {
     "label": "Cookie consent",
@@ -975,7 +976,7 @@
     "operatorContact": "{company}, {address}. {reg}. Contact: <mail>{email}</mail>.",
     "disclosure": {
       "metaTitle": "Non-affiliation disclosure",
-      "metaDescription": "Arrival Card Assist is a private assistance service and is not affiliated with the Government of Indonesia or the Directorate General of Immigration.",
+      "metaDescription": "Indonesia Arrival Card Assist is a private assistance service and is not affiliated with the Government of Indonesia or the Directorate General of Immigration.",
       "title": "Non-affiliation disclosure",
       "meaningTitle": "What this means for you",
       "meaning1": "Our fee is for a service: guided data collection, manual verification, submission on your behalf, delivery and support.",
@@ -985,7 +986,7 @@
     },
     "privacy": {
       "metaTitle": "Privacy policy",
-      "metaDescription": "How Arrival Card Assist collects, uses, stores and deletes your passport and travel data, and your rights under Hong Kong and Indonesian law.",
+      "metaDescription": "How Indonesia Arrival Card Assist collects, uses, stores and deletes your passport and travel data, and your rights under Hong Kong and Indonesian law.",
       "title": "Privacy policy",
       "template": "Last updated: {date}.",
       "controllerTitle": "Controller",
@@ -1028,7 +1029,7 @@
     },
     "terms": {
       "metaTitle": "Terms of service",
-      "metaDescription": "Terms of service for Arrival Card Assist: what we do, prices, delivery times, refunds, liability and governing law.",
+      "metaDescription": "Terms of service for Indonesia Arrival Card Assist: what we do, prices, delivery times, refunds, liability and governing law.",
       "title": "Terms of service",
       "template": "Last updated: {date}.",
       "s1Title": "1. Parties and service",

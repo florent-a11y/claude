@@ -60,7 +60,8 @@
     "privacy": "プライバシーポリシー",
     "refunds": "返金ポリシー",
     "rights": "© {year} {company}。無断複製・転載を禁じます。",
-    "cookieSettings": "Cookie 設定"
+    "cookieSettings": "Cookie 設定",
+    "photoCredit": "トップ写真：ウルワツのケチャダンサー、Wikimedia Commons、CC BY-SA 2.0"
   },
   "Consent": {
     "label": "Cookie の同意",
@@ -975,7 +976,7 @@
     "operatorContact": "{company}、{address}。{reg}。連絡先：<mail>{email}</mail>。",
     "disclosure": {
       "metaTitle": "非提携に関する開示",
-      "metaDescription": "Arrival Card Assistは民間のサポートサービスであり、インドネシア政府や入国管理総局とは提携しておらず、その承認も受けていません。",
+      "metaDescription": "Indonesia Arrival Card Assistは民間のサポートサービスであり、インドネシア政府や入国管理総局とは提携しておらず、その承認も受けていません。",
       "title": "非提携に関する開示",
       "meaningTitle": "お客様にとっての意味",
       "meaning1": "当社の料金はサービスに対するものです。ガイド付きのデータ収集、手作業での確認、お客様に代わっての提出、お届け、サポートです。",
@@ -985,7 +986,7 @@
     },
     "privacy": {
       "metaTitle": "プライバシーポリシー",
-      "metaDescription": "Arrival Card Assistがパスポート情報や旅行情報をどのように収集・利用・保管・削除するか、および香港法とインドネシア法に基づくお客様の権利。",
+      "metaDescription": "Indonesia Arrival Card Assistがパスポート情報や旅行情報をどのように収集・利用・保管・削除するか、および香港法とインドネシア法に基づくお客様の権利。",
       "title": "プライバシーポリシー",
       "template": "最終更新日：{date}",
       "controllerTitle": "管理者",
@@ -1028,7 +1029,7 @@
     },
     "terms": {
       "metaTitle": "利用規約",
-      "metaDescription": "Arrival Card Assistの利用規約：サービス内容、料金、お届けまでの時間、返金、責任、準拠法について。",
+      "metaDescription": "Indonesia Arrival Card Assistの利用規約：サービス内容、料金、お届けまでの時間、返金、責任、準拠法について。",
       "title": "利用規約",
       "template": "最終更新日：{date}",
       "s1Title": "1. 当事者とサービス",

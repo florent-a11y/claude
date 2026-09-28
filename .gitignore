@@ -9,3 +9,5 @@ out
 next-env.d.ts
 data/
 .claude/
+public/hero.jpg
+public/hero.meta.json

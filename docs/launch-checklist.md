@@ -60,7 +60,7 @@ at `/admin/reminders`. If Supabase was set up before this change, run the `remin
 
 ## 4c. Brand
 
-Domain: allindonesia-arrivalcard.com. Visible brand everywhere (logo, titles, emails, ads): **Arrival Card Assist**.
+Domain: allindonesia-arrivalcard.com. Visible brand everywhere (logo, titles, emails, ads): **Indonesia Arrival Card Assist**.
 "All Indonesia" is only ever used descriptively for the government's arrival card, never as our name.
 
 ## 5. Ops

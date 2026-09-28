@@ -29,7 +29,7 @@ export async function Header() {
         </Link>
         <nav aria-label={t("mainNav")} className="hidden items-center gap-4 text-sm font-medium text-ink-700 lg:flex">
           {items.slice(0, 8).map((n, i) => (
-            <Link key={n.href} href={n.href} className={`whitespace-nowrap hover:text-brand-600${i >= 6 ? " hidden 2xl:inline" : i >= 5 ? " hidden xl:inline" : ""}`}>{n.label}</Link>
+            <Link key={n.href} href={n.href} className={`whitespace-nowrap hover:text-brand-600${i >= 6 ? " hidden 2xl:inline" : i >= 4 ? " hidden xl:inline" : ""}`}>{n.label}</Link>
           ))}
         </nav>
         <div className="flex items-center gap-2">

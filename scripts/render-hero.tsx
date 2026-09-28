@@ -75,7 +75,7 @@ async function main() {
   </style></head><body>
     <div class="bg">${scene}</div><div class="top"></div><div class="fade"></div>
     <div class="panel">
-      <div class="logo">${mark}<div class="word">Arrival Card <b>Assist</b></div></div>
+      <div class="logo">${mark}<div class="word"><div style="font-size:18px;letter-spacing:.18em;text-transform:uppercase;color:#5f6f69;font-weight:600;margin-bottom:4px">Indonesia</div>Arrival Card <b>Assist</b></div></div>
       <h1>${TAGLINE}</h1>
       <p>${SUB}</p>
     </div>

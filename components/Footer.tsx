@@ -3,6 +3,12 @@ import { Link } from "@/i18n/navigation";
 import { site } from "@/lib/config";
 import { CookieSettingsLink } from "@/components/ConsentBanner";
 import { Logo } from "@/components/Logo";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+
+function heroMeta(): { source?: string; url?: string } {
+  try { return JSON.parse(readFileSync(join(process.cwd(), "public", "hero.meta.json"), "utf8")); } catch { return {}; }
+}
 
 export async function Footer() {
   const t = await getTranslations("Footer");
@@ -50,6 +56,7 @@ export async function Footer() {
           </div>
         </div>
         <p className="mt-8">{t("rights", { year: new Date().getFullYear(), company: site.company })}</p>
+        {heroMeta().source === "commons" && <p className="mt-2 text-xs"><a className="underline" href={heroMeta().url} target="_blank" rel="noopener nofollow">{t("photoCredit")}</a></p>}
       </div>
     </footer>
   );

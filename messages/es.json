@@ -60,7 +60,8 @@
     "privacy": "Política de privacidad",
     "refunds": "Política de reembolsos",
     "rights": "© {year} {company}. Todos los derechos reservados.",
-    "cookieSettings": "Configuración de cookies"
+    "cookieSettings": "Configuración de cookies",
+    "photoCredit": "Foto de portada: bailarines de Kecak en Uluwatu, Wikimedia Commons, CC BY-SA 2.0"
   },
   "Consent": {
     "label": "Consentimiento de cookies",
@@ -975,7 +976,7 @@
     "operatorContact": "{company}, {address}. {reg}. Contacto: <mail>{email}</mail>.",
     "disclosure": {
       "metaTitle": "Aviso de no vinculación",
-      "metaDescription": "Arrival Card Assist es un servicio de asistencia privado, sin vinculación con el Gobierno de Indonesia ni con la Dirección General de Inmigración.",
+      "metaDescription": "Indonesia Arrival Card Assist es un servicio de asistencia privado, sin vinculación con el Gobierno de Indonesia ni con la Dirección General de Inmigración.",
       "title": "Aviso de no vinculación",
       "meaningTitle": "Qué significa esto para usted",
       "meaning1": "Nuestra tarifa corresponde a un servicio: recogida guiada de datos, verificación manual, envío en su nombre, entrega y soporte.",
@@ -985,7 +986,7 @@
     },
     "privacy": {
       "metaTitle": "Política de privacidad",
-      "metaDescription": "Cómo Arrival Card Assist recopila, usa, conserva y elimina sus datos de pasaporte y de viaje, y sus derechos según la ley de Hong Kong e Indonesia.",
+      "metaDescription": "Cómo Indonesia Arrival Card Assist recopila, usa, conserva y elimina sus datos de pasaporte y de viaje, y sus derechos según la ley de Hong Kong e Indonesia.",
       "title": "Política de privacidad",
       "template": "Última actualización: {date}.",
       "controllerTitle": "Responsable del tratamiento",
@@ -1028,7 +1029,7 @@
     },
     "terms": {
       "metaTitle": "Términos del servicio",
-      "metaDescription": "Términos del servicio de Arrival Card Assist: qué hacemos, precios, plazos de entrega, reembolsos, responsabilidad y ley aplicable.",
+      "metaDescription": "Términos del servicio de Indonesia Arrival Card Assist: qué hacemos, precios, plazos de entrega, reembolsos, responsabilidad y ley aplicable.",
       "title": "Términos del servicio",
       "template": "Última actualización: {date}.",
       "s1Title": "1. Partes y servicio",

@@ -60,7 +60,8 @@
     "privacy": "개인정보 처리방침",
     "refunds": "환불 정책",
     "rights": "© {year} {company}. 모든 권리 보유.",
-    "cookieSettings": "쿠키 설정"
+    "cookieSettings": "쿠키 설정",
+    "photoCredit": "메인 사진: 울루와투의 케착 무용수, Wikimedia Commons, CC BY-SA 2.0"
   },
   "Consent": {
     "label": "쿠키 동의",
@@ -975,7 +976,7 @@
     "operatorContact": "{company}, {address}. {reg}. 연락처: <mail>{email}</mail>.",
     "disclosure": {
       "metaTitle": "비제휴 고지",
-      "metaDescription": "Arrival Card Assist는 민간 지원 서비스로, 인도네시아 정부나 이민총국과 제휴 관계가 없으며 승인을 받은 것도 아닙니다.",
+      "metaDescription": "Indonesia Arrival Card Assist는 민간 지원 서비스로, 인도네시아 정부나 이민총국과 제휴 관계가 없으며 승인을 받은 것도 아닙니다.",
       "title": "비제휴 고지",
       "meaningTitle": "고객님께 의미하는 바",
       "meaning1": "저희 수수료는 서비스에 대한 비용입니다: 안내형 정보 수집, 수동 검수, 대리 제출, 전달 및 지원.",
@@ -985,7 +986,7 @@
     },
     "privacy": {
       "metaTitle": "개인정보 처리방침",
-      "metaDescription": "Arrival Card Assist가 여권 및 여행 정보를 수집, 이용, 보관, 삭제하는 방법과 홍콩 및 인도네시아 법률에 따른 고객의 권리.",
+      "metaDescription": "Indonesia Arrival Card Assist가 여권 및 여행 정보를 수집, 이용, 보관, 삭제하는 방법과 홍콩 및 인도네시아 법률에 따른 고객의 권리.",
       "title": "개인정보 처리방침",
       "template": "최종 업데이트: {date}.",
       "controllerTitle": "개인정보 처리자",
@@ -1028,7 +1029,7 @@
     },
     "terms": {
       "metaTitle": "이용약관",
-      "metaDescription": "Arrival Card Assist 이용약관: 서비스 내용, 가격, 처리 시간, 환불, 책임 및 준거법.",
+      "metaDescription": "Indonesia Arrival Card Assist 이용약관: 서비스 내용, 가격, 처리 시간, 환불, 책임 및 준거법.",
       "title": "이용약관",
       "template": "최종 업데이트: {date}.",
       "s1Title": "1. 당사자 및 서비스",
