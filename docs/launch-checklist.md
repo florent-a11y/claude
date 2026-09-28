@@ -37,7 +37,7 @@ Note: the name contains "allindonesia", the government programme's brand; keep a
 ## 3. Airwallex setup (HK entity)
 
 1. Airwallex dashboard → Developer → API keys → create a key with Payment Acceptance scope. Put `AIRWALLEX_CLIENT_ID` / `AIRWALLEX_API_KEY` in Vercel. Start with `AIRWALLEX_ENV=demo` and demo keys.
-2. Developer → Webhooks → add `https://<domain>/api/webhooks/airwallex` for `payment_intent.succeeded`, `payment_intent.cancelled`, `refund.succeeded`. Copy the secret to `AIRWALLEX_WEBHOOK_SECRET`.
+2. Developer → Webhooks → add `https://<domain>/api/webhooks/airwallex` for `payment_intent.succeeded`, `payment_intent.cancelled`, `refund.settled`, `refund.failed`, `payment_dispute.requires_response`. Copy the secret to `AIRWALLEX_WEBHOOK_SECRET`.
 3. Payment Acceptance → Settings → statement descriptor: your brand + "ASSIST". Never "Indonesia Immigration".
 4. Enable 3D Secure "always" for the first 3 months; relax to risk-based later.
 5. Tell Airwallex compliance in writing what you sell (travel-assistance service, government form is free, disclosure on site) and attach the disclosure page URL. This pre-empts an RFI freeze.

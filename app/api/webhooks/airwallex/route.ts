@@ -43,8 +43,16 @@ export async function POST(req: Request) {
   } else if (name === "payment_intent.cancelled" && order.status === "pending_payment") {
     const o = await updateOrder(order.id, { status: "cancelled", activity: [...activity, entry("payment cancelled")] });
     if (o) await onOrderUpdated(o);
-  } else if (name.startsWith("refund.") && name.endsWith("succeeded") && order.status !== "refunded") {
-    const o = await updateOrder(order.id, { status: "refunded", activity: [...activity, entry("refund succeeded")] });
+  } else if ((name === "refund.settled" || name === "refund.succeeded") && order.status !== "refunded") {
+    // Airwallex refund lifecycle: refund.received → refund.accepted → refund.settled (final) | refund.failed
+    const o = await updateOrder(order.id, { status: "refunded", activity: [...activity, entry("refund settled")] });
+    if (o) await onOrderUpdated(o);
+  } else if (name === "refund.received" || name === "refund.accepted" || name === "refund.failed") {
+    const o = await updateOrder(order.id, { activity: [...activity, entry(name.replace(".", " "))] });
+    if (o) await onOrderUpdated(o);
+  } else if (name.startsWith("payment_dispute.")) {
+    // e.g. payment_dispute.requires_response, .accepted, .won, .lost — keep the status, record it for the ops team
+    const o = await updateOrder(order.id, { activity: [...activity, entry(`dispute: ${name.replace("payment_dispute.", "")}`)], opsNotes: order.opsNotes });
     if (o) await onOrderUpdated(o);
   }
   return NextResponse.json({ ok: true });
