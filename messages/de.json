@@ -11,9 +11,9 @@
     "year": "Jahr"
   },
   "Metadata": {
-    "defaultTitle": "{siteName} – Hilfe bei der Einreisekarte Indonesien",
+    "defaultTitle": "Einreisekarte Indonesien (All Indonesia) | {siteName}",
     "titleTemplate": "%s | {shortName}",
-    "description": "Privater Assistenzdienst für die Einreisekarte Indonesiens: transparenter Preis, von Menschen geprüft, Zustellung per E-Mail. Keine Behördenseite."
+    "description": "Private Hilfe bei der Einreisekarte Indonesien (All Indonesia): geführtes Formular, von einem Menschen geprüft, QR-Code per E-Mail. Keine Behördenseite."
   },
   "Disclosure": {
     "bar": "Privater Assistenzdienst, <strong>nicht mit einer Regierungswebsite verbunden</strong>. Unsere Gebühr deckt Vorbereitung, Prüfung und Support ab.",
@@ -152,8 +152,8 @@
     "faqCta": "FAQ"
   },
   "Apply": {
-    "metaTitle": "Beantragen – Einreisekarte Indonesien",
-    "metaDescription": "Geführtes Formular für die Einreisekarte Indonesiens. Transparenter Preis zuerst. Von Menschen geprüft, Zustellung per E-Mail.",
+    "metaTitle": "Einreisekarte Indonesien online beantragen",
+    "metaDescription": "Füllen Sie die Einreisekarte Indonesien online aus: Preis vorab sichtbar, jede Angabe von einem Menschen geprüft, QR-Code per E-Mail. Jetzt starten.",
     "titleArrivalCard": "Hilfe bei der Einreisekarte",
     "titleEvoa": "e-VOA-Hilfe",
     "titleBundle": "e-VOA + Einreisekarte",
@@ -353,8 +353,8 @@
     "doneText": "Wir schreiben Ihnen am <strong>{when}</strong> (Ihre Ortszeit), wenn das Zeitfenster öffnet, {hours} Stunden vor der Ankunft. Vorher nehmen wir keine Zahlung entgegen."
   },
   "Reminder": {
-    "metaTitle": "Einreisekarte Indonesien: wann beantragen?",
-    "metaDescription": "Das offizielle Portal nimmt die Einreisekarte nur 72 Stunden vor Ankunft an. Nennen Sie Ihr Datum, wir schreiben Ihnen, sobald das Fenster öffnet. Kostenlos.",
+    "metaTitle": "Einreisekarte Indonesien: 72-Stunden-Frist",
+    "metaDescription": "Die Einreisekarte Indonesien lässt sich nur 72 Stunden vor Ankunft einreichen. Nennen Sie Ihr Reisedatum, wir schreiben Ihnen, sobald Ihr Fenster öffnet.",
     "badge": "Kostenlose Erinnerung, keine Zahlung jetzt",
     "title": "Einreisekarte Indonesien: Wir sagen Ihnen, wann Sie beantragen können",
     "lead": "Das offizielle Portal nimmt die Einreisekarte nur innerhalb von 72 Stunden vor Ihrer Landung an. Wer früher beantragt, wird abgelehnt. Hinterlassen Sie Ihr Ankunftsdatum, und wir schreiben Ihnen in dem Moment, in dem Ihr Zeitfenster öffnet.",
@@ -427,8 +427,8 @@
     "cta": "Flughafen-Checkliste lesen"
   },
   "Evoa": {
-    "metaTitle": "e-VOA Indonesien: Hilfe beim Antrag",
-    "metaDescription": "Wir bereiten Ihr e-VOA für Indonesien (Visum bei Ankunft) vor und reichen es ein: 30 Tage, einmal verlängerbar. Von Menschen geprüft, Zustellung per E-Mail.",
+    "metaTitle": "e-VOA Indonesien online: Visum bei Ankunft",
+    "metaDescription": "e-VOA Indonesien (elektronisches Visum bei Ankunft) online mit unserer Hilfe beantragen: 30 Tage, einmal verlängerbar, von Menschen geprüft, per E-Mail.",
     "jsonLdName": "Hilfe beim e-VOA-Antrag für Indonesien",
     "badge": "Elektronisches Visum bei Ankunft · {days} Tage · einmal verlängerbar",
     "title": "Ihr e-VOA für Indonesien, vorbereitet und geprüft, bevor Sie fliegen.",
@@ -484,9 +484,9 @@
     }
   },
   "Pricing": {
-    "metaTitle": "Preise – Einreisekarte Indonesien",
-    "metaDescription": "Ein transparenter Preis für die Hilfe bei der Einreisekarte für Indonesien. Keine versteckten Gebühren.",
-    "title": "Preise",
+    "metaTitle": "Einreisekarte Indonesien: Preise & Gebühren",
+    "metaDescription": "Preis für die Hilfe bei der Einreisekarte Indonesien vor der ersten Eingabe: eine transparente Gebühr, weitere Reisende, Express-Option und e-VOA-Kosten.",
+    "title": "Preise für die Einreisekarte Indonesien",
     "arrivalCardTitle": "Hilfe bei der Einreisekarte",
     "intro": "Sie sehen den Gesamtpreis, bevor Sie persönliche Daten eingeben. Wir sind ein privater Assistenzdienst, nicht mit einer Regierungswebsite verbunden.",
     "examples": "Beispiele",
@@ -519,8 +519,8 @@
     "refunds": "Volle Erstattung, wenn Ihre Karte nicht mindestens 6 Stunden vor Ihrer geplanten Ankunft zugestellt wird oder wenn Sie stornieren, bevor wir mit der Bearbeitung beginnen. Siehe <link>Erstattungsrichtlinie</link>."
   },
   "Guide": {
-    "metaTitle": "Leitfaden Einreisekarte Indonesien 2026",
-    "metaDescription": "Leitfaden zur All Indonesia Arrival Card: wer sie braucht, das 72-Stunden-Fenster, jeder Schritt im Portal und in der App, Familien, Zoll und QR-Probleme.",
+    "metaTitle": "Einreisekarte Indonesien: Leitfaden 2026",
+    "metaDescription": "Schritt für Schritt durch die All Indonesia Arrival Card: wer sie braucht, das 72-Stunden-Fenster, jede Seite im Portal und in der App, Familien, Zoll, QR.",
     "howToName": "So füllen Sie die All Indonesia Arrival Card auf dem offiziellen Portal aus",
     "howToDescription": "Schritt-für-Schritt-Anleitung für die digitale Einreisekarte Indonesiens, vom Öffnen des offiziellen Portals bis zum Speichern des QR-Codes.",
     "kicker": "Leitfaden, aktualisiert im September 2026",
@@ -814,8 +814,8 @@
     "ctaReminder": "Fliegen Sie erst in mehr als 3 Tagen? <link>Richten Sie eine Erinnerung ein</link>, und wir sagen Ihnen, wann das Zeitfenster öffnet."
   },
   "Customs": {
-    "metaTitle": "Zollfreimengen Indonesien 2026",
-    "metaDescription": "Was Sie bei der Einreise nach Indonesien anmelden müssen: 500 USD Freimenge, Grenzen für Alkohol und Tabak, Bargeldregel 100 Mio. IDR, IMEI-Registrierung.",
+    "metaTitle": "Zollerklärung Indonesien: Freimengen 2026",
+    "metaDescription": "Zollerklärung Indonesien erklärt: 500 USD Freimenge, Grenzen für Alkohol und Tabak, Bargeldregel 100 Mio. IDR und IMEI-Registrierung des Handys.",
     "title": "Zollfreimengen Indonesien und was anzumelden ist",
     "intro": "Zusammenfassung der Regeln, die Bea Cukai (der indonesische Zoll) für ankommende Passagiere anwendet. Prüfen Sie die aktuellen Zahlen immer auf der <link>offiziellen Zollwebsite</link>.",
     "colItem": "Position",
@@ -877,9 +877,9 @@
     }
   },
   "News": {
-    "metaTitle": "Amtliche Meldungen zu Einwanderung und Zoll",
-    "metaDescription": "Verständliche Zusammenfassungen der Bekanntmachungen der indonesischen Generaldirektionen für Einwanderung und Zoll, mit Links zur Originalquelle.",
-    "title": "Amtliche Meldungen, für Reisende zusammengefasst",
+    "metaTitle": "Einreisekarte Indonesien & Einwanderung: News",
+    "metaDescription": "Aktuelle Meldungen zu Einreisekarte, Einwanderung und Zoll in Indonesien, verständlich zusammengefasst, mit Links zur Originalquelle. Vor der Reise lesen.",
+    "title": "Meldungen zu Einreisekarte und Einwanderung in Indonesien, für Reisende zusammengefasst",
     "intro": "Kurze Zusammenfassungen der Bekanntmachungen der indonesischen Einwanderungs- und Zollbehörden. Jeder Eintrag verlinkt auf das Original. Wir sind nicht die Quelle und sprechen nicht für diese Behörden.",
     "keyRules": "Geltende Kernregeln",
     "evergreen": {
@@ -901,9 +901,9 @@
     }
   },
   "Faq": {
-    "metaTitle": "FAQ – Einreisekarte Indonesien",
-    "metaDescription": "Antworten zur All Indonesia Arrival Card: wer sie braucht, die 72-Stunden-Regel, der QR-Code, Zoll und unser Assistenzdienst.",
-    "title": "Häufig gestellte Fragen",
+    "metaTitle": "Einreisekarte Indonesien FAQ: 72 Stunden, QR",
+    "metaDescription": "FAQ zur Einreisekarte Indonesien: wer die All Indonesia Arrival Card braucht, die 72-Stunden-Regel, der QR-Code bei der Einreise, Zoll und unsere Hilfe.",
+    "title": "FAQ zur Einreisekarte Indonesien",
     "items": {
       "fee": {
         "q": "Was deckt die Gebühr ab?",
@@ -964,8 +964,8 @@
     }
   },
   "Contact": {
-    "metaTitle": "Kontakt & Support",
-    "metaDescription": "E-Mail-Support für Bestellungen der Einreisekarte und des e-VOA für Indonesien, täglich 07:00–23:00 Uhr Jakarta-Zeit. Betreiber: Bulan Juli Limited, Hongkong.",
+    "metaTitle": "Kontakt & Support – Einreisekarte Indonesien",
+    "metaDescription": "Fragen zur Einreisekarte Indonesien oder e-VOA-Bestellung? E-Mail-Support auf Englisch, täglich 07:00–23:00 Uhr Jakarta-Zeit. Bulan Juli Limited, Hongkong.",
     "title": "Kontakt & Support",
     "hours": "Supportzeiten: 07:00–23:00 Uhr Jakarta-Zeit (UTC+7), täglich. Übliche Antwortzeit bei bezahlten Bestellungen unter 15 Minuten.",
     "email": "E-Mail",
@@ -986,7 +986,7 @@
     },
     "privacy": {
       "metaTitle": "Datenschutzerklärung",
-      "metaDescription": "Wie Indonesia Arrival Card Assist Ihre Pass- und Reisedaten erhebt, nutzt, speichert und löscht, und welche Rechte Sie nach dem Recht Hongkongs und Indonesiens haben.",
+      "metaDescription": "Wie Indonesia Arrival Card Assist Ihre Pass- und Reisedaten erhebt, nutzt, speichert und löscht, und Ihre Rechte nach dem Recht Hongkongs und Indonesiens.",
       "title": "Datenschutzerklärung",
       "template": "Zuletzt aktualisiert: {date}.",
       "controllerTitle": "Verantwortlicher",

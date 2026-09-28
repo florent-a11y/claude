@@ -11,9 +11,9 @@
     "year": "Year"
   },
   "Metadata": {
-    "defaultTitle": "{siteName} – Indonesia arrival card help",
+    "defaultTitle": "All Indonesia Arrival Card – Online Help | {siteName}",
     "titleTemplate": "%s | {shortName}",
-    "description": "Private assistance for the Indonesia (All Indonesia) arrival card: transparent price, human-checked, delivered by email. Not a government website."
+    "description": "Private help with the All Indonesia arrival card: guided form, every answer checked by a person, QR code by email before you land. Not a government site."
   },
   "Disclosure": {
     "bar": "Private assistance service, <strong>not affiliated with any government website</strong>. Our fee covers preparation, checking and support.",
@@ -152,8 +152,8 @@
     "faqCta": "FAQ"
   },
   "Apply": {
-    "metaTitle": "Apply – Indonesia arrival card",
-    "metaDescription": "Guided form for the Indonesia arrival card. Transparent price shown first. Human-checked, delivered by email.",
+    "metaTitle": "Apply for the Indonesia Arrival Card Online",
+    "metaDescription": "Complete your Indonesia arrival card online with a guided form: price shown first, every answer checked by a person, QR code delivered by email. Start now.",
     "titleArrivalCard": "Arrival card assistance",
     "titleEvoa": "e-VOA assistance",
     "titleBundle": "e-VOA + arrival card",
@@ -353,8 +353,8 @@
     "doneText": "We will email you on <strong>{when}</strong> (your local time) when the window opens, {hours} h before arrival. We do not take payment before then."
   },
   "Reminder": {
-    "metaTitle": "Indonesia arrival card: when to apply",
-    "metaDescription": "The official portal only accepts the arrival card within 72 hours before arrival. Leave your date and we email you the moment your window opens. Free.",
+    "metaTitle": "Indonesia Arrival Card: 72-Hour Reminder",
+    "metaDescription": "The All Indonesia arrival card can only be submitted within 72 hours of arrival. Leave your travel date and we email you the moment your window opens.",
     "badge": "Free reminder, no payment now",
     "title": "Indonesia arrival card: we tell you when to apply",
     "lead": "The official portal only accepts the arrival card within 72 hours before you land. Apply earlier and it is rejected. Leave your arrival date and we email you the moment your window opens.",
@@ -427,8 +427,8 @@
     "cta": "Read the airport checklist"
   },
   "Evoa": {
-    "metaTitle": "Indonesia e-VOA (visa on arrival) help",
-    "metaDescription": "We prepare and submit your Indonesia e-VOA (electronic visa on arrival): 30 days, extendable once. Human-checked, visa fee itemized, delivered by email.",
+    "metaTitle": "Indonesia e-VOA Online: Visa on Arrival Help",
+    "metaDescription": "Apply for the Indonesia e-VOA (electronic visa on arrival) online with our help: 30 days, extendable once, checked by a person and sent by email.",
     "jsonLdName": "Indonesia e-VOA application assistance",
     "badge": "Electronic Visa on Arrival · {days} days · extendable once",
     "title": "Your Indonesia e-VOA, prepared and checked before you fly.",
@@ -484,9 +484,9 @@
     }
   },
   "Pricing": {
-    "metaTitle": "Pricing – Indonesia arrival card",
-    "metaDescription": "One transparent price for Indonesia arrival card assistance. No hidden fees.",
-    "title": "Pricing",
+    "metaTitle": "Indonesia Arrival Card Pricing & Fees",
+    "metaDescription": "See the price of Indonesia arrival card assistance before you type anything: one transparent fee, extra travellers, express option and e-VOA costs.",
+    "title": "Indonesia arrival card pricing",
     "arrivalCardTitle": "Arrival card assistance",
     "intro": "You see the total before entering any personal data. We are a private assistance service, not affiliated with any government website.",
     "examples": "Examples",
@@ -519,8 +519,8 @@
     "refunds": "Full refund if your card is not delivered at least 6 hours before your scheduled arrival, or if you cancel before we start processing. See the <link>refund policy</link>."
   },
   "Guide": {
-    "metaTitle": "Indonesia arrival card guide 2026",
-    "metaDescription": "Complete guide to the All Indonesia arrival card: who needs it, the 72-hour window, every step on the portal and app, families, customs and QR problems.",
+    "metaTitle": "Indonesia Arrival Card Guide (All Indonesia)",
+    "metaDescription": "Step-by-step guide to the All Indonesia arrival card: who needs it, the 72-hour window, every portal and app screen, families, customs and QR problems.",
     "howToName": "How to fill the All Indonesia arrival card on the official portal",
     "howToDescription": "Step-by-step instructions for the Indonesia digital arrival card, from opening the official portal to saving the QR code.",
     "kicker": "Guide, updated September 2026",
@@ -814,8 +814,8 @@
     "ctaReminder": "Flying in more than 3 days? <link>Set a reminder</link> and we tell you when the window opens."
   },
   "Customs": {
-    "metaTitle": "Indonesia customs allowances 2026",
-    "metaDescription": "What you must declare when entering Indonesia: USD 500 personal goods allowance, alcohol and tobacco limits, IDR 100 million cash rule, phone IMEI registration.",
+    "metaTitle": "Indonesia Customs Declaration Guide 2026",
+    "metaDescription": "Indonesia customs declaration explained: USD 500 personal allowance, alcohol and tobacco limits, IDR 100 million cash rule and phone IMEI registration.",
     "title": "Indonesia customs allowances and what to declare",
     "intro": "Summary of the rules applied by Bea Cukai (Indonesian Customs) for arriving passengers. Always check the <link>official customs site</link> for the latest figures.",
     "colItem": "Item",
@@ -877,9 +877,9 @@
     }
   },
   "News": {
-    "metaTitle": "Official immigration and customs news",
-    "metaDescription": "Plain-English summaries of announcements from Indonesia's Directorate General of Immigration and Customs, with links to the original source.",
-    "title": "Official news, summarized for travelers",
+    "metaTitle": "Indonesia Arrival Card & Immigration News",
+    "metaDescription": "Indonesia arrival card, immigration and customs announcements summarized in plain English, with links to the original sources. Check before you travel.",
+    "title": "Indonesia arrival card and immigration news, summarized for travelers",
     "intro": "Short English summaries of announcements published by the Indonesian immigration and customs authorities. Each item links to the original. We are not the source and do not speak for these authorities.",
     "keyRules": "Key rules in force",
     "evergreen": {
@@ -901,9 +901,9 @@
     }
   },
   "Faq": {
-    "metaTitle": "FAQ – Indonesia arrival card",
-    "metaDescription": "Answers about the All Indonesia arrival card: who needs it, the 72-hour rule, the QR code, customs and our assistance service.",
-    "title": "Frequently asked questions",
+    "metaTitle": "Indonesia Arrival Card FAQ: 72 Hours, QR Code",
+    "metaDescription": "Indonesia arrival card FAQ: who needs the All Indonesia card, the 72-hour rule, the QR code at immigration, customs declaration and how our help works.",
+    "title": "Indonesia arrival card FAQ",
     "items": {
       "fee": {
         "q": "What does the fee cover?",
@@ -964,8 +964,8 @@
     }
   },
   "Contact": {
-    "metaTitle": "Contact & support",
-    "metaDescription": "Email support for Indonesia arrival card and e-VOA orders, 07:00–23:00 Jakarta time, every day. Operated by Bulan Juli Limited, Hong Kong.",
+    "metaTitle": "Contact & Support – Indonesia Arrival Card",
+    "metaDescription": "Questions about your Indonesia arrival card or e-VOA order? Email support in English, 07:00–23:00 Jakarta time, every day. Bulan Juli Limited, Hong Kong.",
     "title": "Contact & support",
     "hours": "Support hours: 07:00–23:00 Jakarta time (UTC+7), every day. Typical response time under 15 minutes for paid orders.",
     "email": "Email",

@@ -11,9 +11,9 @@
     "year": "Tahun"
   },
   "Metadata": {
-    "defaultTitle": "{siteName} – Bantuan kartu kedatangan Indonesia",
+    "defaultTitle": "Kartu Kedatangan All Indonesia Online | {siteName}",
     "titleTemplate": "%s | {shortName}",
-    "description": "Bantuan swasta untuk Kartu Kedatangan All Indonesia: harga transparan, diperiksa manusia, dikirim lewat email. Tidak berafiliasi dengan Pemerintah Indonesia."
+    "description": "Bantuan swasta untuk kartu kedatangan All Indonesia: formulir terpandu, diperiksa manusia, kode QR lewat email sebelum mendarat. Bukan situs pemerintah."
   },
   "Disclosure": {
     "bar": "Layanan bantuan swasta, <strong>tidak berafiliasi dengan situs web pemerintah mana pun</strong>. Biaya kami mencakup penyiapan, pemeriksaan, dan dukungan.",
@@ -152,8 +152,8 @@
     "faqCta": "FAQ"
   },
   "Apply": {
-    "metaTitle": "Ajukan – Kartu kedatangan Indonesia",
-    "metaDescription": "Formulir terpandu untuk kartu kedatangan Indonesia. Harga transparan ditampilkan lebih dulu. Diperiksa oleh manusia, dikirim melalui email.",
+    "metaTitle": "Ajukan Kartu Kedatangan All Indonesia Online",
+    "metaDescription": "Isi kartu kedatangan All Indonesia secara online dengan formulir terpandu: harga tampil lebih dulu, setiap jawaban diperiksa manusia, kode QR lewat email.",
     "titleArrivalCard": "Bantuan kartu kedatangan",
     "titleEvoa": "Bantuan e-VOA",
     "titleBundle": "e-VOA + kartu kedatangan",
@@ -353,8 +353,8 @@
     "doneText": "Kami akan mengirim email kepada Anda pada <strong>{when}</strong> (waktu setempat Anda) saat jendela waktu terbuka, {hours} jam sebelum kedatangan. Kami tidak menerima pembayaran sebelum itu."
   },
   "Reminder": {
-    "metaTitle": "Kartu kedatangan Indonesia: kapan mengajukan",
-    "metaDescription": "Portal resmi hanya menerima kartu kedatangan dalam 72 jam sebelum kedatangan. Tinggalkan tanggal Anda, kami mengirim email begitu jendela waktu terbuka. Gratis.",
+    "metaTitle": "Kartu Kedatangan All Indonesia: Aturan 72 Jam",
+    "metaDescription": "Kartu kedatangan All Indonesia hanya bisa diajukan 72 jam sebelum tiba. Tinggalkan tanggal perjalanan Anda, kami kirim email begitu jendela waktu terbuka.",
     "badge": "Pengingat gratis, tanpa pembayaran sekarang",
     "title": "Kartu kedatangan Indonesia: kami memberi tahu kapan harus mengajukan",
     "lead": "Portal resmi hanya menerima kartu kedatangan dalam 72 jam sebelum Anda mendarat. Ajukan lebih awal dan permohonan ditolak. Tinggalkan tanggal kedatangan Anda dan kami mengirim email begitu jendela waktu Anda terbuka.",
@@ -427,8 +427,8 @@
     "cta": "Baca daftar periksa bandara"
   },
   "Evoa": {
-    "metaTitle": "e-VOA Indonesia: bantuan permohonan",
-    "metaDescription": "Kami menyiapkan dan mengajukan e-VOA Indonesia (visa on arrival): 30 hari, bisa diperpanjang sekali. Diperiksa manusia, biaya visa dirinci, dikirim lewat email.",
+    "metaTitle": "e-VOA Indonesia Online: Visa on Arrival",
+    "metaDescription": "Ajukan e-VOA Indonesia (visa on arrival elektronik) online dengan bantuan kami: 30 hari, bisa diperpanjang sekali, diperiksa manusia, dikirim lewat email.",
     "jsonLdName": "Bantuan permohonan e-VOA Indonesia",
     "badge": "Visa on Arrival elektronik · {days} hari · dapat diperpanjang satu kali",
     "title": "e-VOA Indonesia Anda, disiapkan dan diperiksa sebelum Anda terbang.",
@@ -484,9 +484,9 @@
     }
   },
   "Pricing": {
-    "metaTitle": "Harga – Kartu kedatangan Indonesia",
-    "metaDescription": "Satu harga transparan untuk bantuan kartu kedatangan Indonesia. Tanpa biaya tersembunyi.",
-    "title": "Harga",
+    "metaTitle": "Harga Bantuan Kartu Kedatangan Indonesia",
+    "metaDescription": "Lihat harga bantuan kartu kedatangan Indonesia sebelum mengetik apa pun: satu biaya transparan, penumpang tambahan, opsi ekspres, dan biaya e-VOA.",
+    "title": "Harga bantuan kartu kedatangan Indonesia",
     "arrivalCardTitle": "Bantuan kartu kedatangan",
     "intro": "Anda melihat totalnya sebelum memasukkan data pribadi apa pun. Kami adalah layanan bantuan swasta, tidak berafiliasi dengan situs web pemerintah mana pun.",
     "examples": "Contoh",
@@ -519,8 +519,8 @@
     "refunds": "Pengembalian dana penuh jika kartu Anda tidak dikirim paling lambat 6 jam sebelum jadwal kedatangan Anda, atau jika Anda membatalkan sebelum kami mulai memproses. Lihat <link>kebijakan pengembalian dana</link>."
   },
   "Guide": {
-    "metaTitle": "Panduan kartu kedatangan Indonesia 2026",
-    "metaDescription": "Panduan Kartu Kedatangan All Indonesia: siapa yang membutuhkannya, jendela 72 jam, setiap langkah di portal dan aplikasi, keluarga, bea cukai, dan masalah QR.",
+    "metaTitle": "Panduan Kartu Kedatangan All Indonesia 2026",
+    "metaDescription": "Panduan langkah demi langkah kartu kedatangan All Indonesia: siapa yang perlu, jendela 72 jam, setiap layar portal dan aplikasi, keluarga, dan bea cukai.",
     "howToName": "Cara mengisi Kartu Kedatangan All Indonesia di portal resmi",
     "howToDescription": "Petunjuk langkah demi langkah untuk kartu kedatangan digital Indonesia, dari membuka portal resmi hingga menyimpan kode QR.",
     "kicker": "Panduan, diperbarui September 2026",
@@ -814,8 +814,8 @@
     "ctaReminder": "Tiba lebih dari 3 hari lagi? <link>Atur pengingat</link> dan kami memberi tahu saat jendela waktu terbuka."
   },
   "Customs": {
-    "metaTitle": "Batas bebas bea Indonesia 2026",
-    "metaDescription": "Yang harus dideklarasikan saat masuk Indonesia: batas bebas bea USD 500, batas alkohol dan tembakau, aturan uang tunai Rp100 juta, registrasi IMEI ponsel.",
+    "metaTitle": "Deklarasi Bea Cukai Indonesia: Batas 2026",
+    "metaDescription": "Deklarasi bea cukai Indonesia dijelaskan: batas bebas bea USD 500, batas alkohol dan tembakau, aturan uang tunai Rp100 juta, dan registrasi IMEI ponsel.",
     "title": "Batas bebas bea Indonesia dan apa yang harus dideklarasikan",
     "intro": "Ringkasan aturan yang diterapkan Bea Cukai untuk penumpang yang tiba. Selalu periksa <link>situs resmi bea cukai</link> untuk angka terbaru.",
     "colItem": "Barang",
@@ -877,9 +877,9 @@
     }
   },
   "News": {
-    "metaTitle": "Berita resmi imigrasi dan bea cukai",
-    "metaDescription": "Ringkasan dalam bahasa sederhana atas pengumuman Direktorat Jenderal Imigrasi dan Bea Cukai Indonesia, dengan tautan ke sumber aslinya.",
-    "title": "Berita resmi, diringkas untuk Anda",
+    "metaTitle": "Berita Kartu Kedatangan & Imigrasi Indonesia",
+    "metaDescription": "Pengumuman terbaru soal kartu kedatangan, imigrasi, dan bea cukai Indonesia, diringkas sederhana dengan tautan ke sumber asli. Cek sebelum berangkat.",
+    "title": "Berita kartu kedatangan dan imigrasi Indonesia, diringkas untuk Anda",
     "intro": "Ringkasan singkat pengumuman yang diterbitkan oleh otoritas imigrasi dan bea cukai Indonesia. Setiap butir tertaut ke sumber aslinya. Kami bukan sumbernya dan tidak berbicara atas nama otoritas tersebut.",
     "keyRules": "Aturan utama yang berlaku",
     "evergreen": {
@@ -901,9 +901,9 @@
     }
   },
   "Faq": {
-    "metaTitle": "FAQ – Kartu kedatangan Indonesia",
-    "metaDescription": "Jawaban seputar Kartu Kedatangan All Indonesia: siapa yang membutuhkannya, aturan 72 jam, kode QR, bea cukai, dan layanan bantuan kami.",
-    "title": "Pertanyaan yang sering diajukan",
+    "metaTitle": "FAQ Kartu Kedatangan Indonesia: 72 Jam, QR",
+    "metaDescription": "FAQ kartu kedatangan Indonesia: siapa yang perlu kartu All Indonesia, aturan 72 jam, kode QR di imigrasi, deklarasi bea cukai, dan cara kerja bantuan kami.",
+    "title": "FAQ kartu kedatangan Indonesia",
     "items": {
       "fee": {
         "q": "Apa yang tercakup dalam biaya?",
@@ -964,8 +964,8 @@
     }
   },
   "Contact": {
-    "metaTitle": "Kontak & dukungan",
-    "metaDescription": "Dukungan email untuk pesanan kartu kedatangan dan e-VOA Indonesia, setiap hari pukul 07.00–23.00 waktu Jakarta. Dioperasikan oleh Bulan Juli Limited, Hong Kong.",
+    "metaTitle": "Kontak – Kartu Kedatangan Indonesia",
+    "metaDescription": "Pertanyaan soal kartu kedatangan Indonesia atau pesanan e-VOA? Dukungan email dalam bahasa Inggris, setiap hari 07.00–23.00 WIB. Bulan Juli Limited, HK.",
     "title": "Kontak & dukungan",
     "hours": "Jam dukungan: 07.00–23.00 WIB (UTC+7), setiap hari. Waktu respons biasanya kurang dari 15 menit untuk pesanan berbayar.",
     "email": "Email",
@@ -986,7 +986,7 @@
     },
     "privacy": {
       "metaTitle": "Kebijakan privasi",
-      "metaDescription": "Cara Indonesia Arrival Card Assist mengumpulkan, memakai, menyimpan, dan menghapus data paspor dan perjalanan Anda, serta hak Anda di bawah hukum Hong Kong dan Indonesia.",
+      "metaDescription": "Cara Indonesia Arrival Card Assist menyimpan dan menghapus data paspor dan perjalanan Anda, serta hak Anda menurut hukum Hong Kong dan Indonesia.",
       "title": "Kebijakan privasi",
       "template": "Terakhir diperbarui: {date}.",
       "controllerTitle": "Pengendali data",

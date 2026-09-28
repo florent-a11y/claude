@@ -11,9 +11,9 @@
     "year": "年"
   },
   "Metadata": {
-    "defaultTitle": "{siteName} – 印尼入境卡协助，人工核对",
+    "defaultTitle": "印尼入境卡（All Indonesia）在线申请协助 | {siteName}",
     "titleTemplate": "%s | {shortName}",
-    "description": "印度尼西亚电子入境卡（All Indonesia Arrival Card）私营协助服务。价格透明，人工核对，通过电子邮件送达。与印度尼西亚政府无关联。"
+    "description": "印度尼西亚电子入境卡（All Indonesia Arrival Card）私营协助服务：引导式表格、人工核对、二维码通过邮件送达。价格透明，非政府网站。"
   },
   "Disclosure": {
     "bar": "私营协助服务，<strong>与任何政府网站均无关联</strong>。我们的费用用于资料准备、核对和客户支持。",
@@ -152,8 +152,8 @@
     "faqCta": "常见问题"
   },
   "Apply": {
-    "metaTitle": "申请 – 印度尼西亚入境卡协助",
-    "metaDescription": "印度尼西亚入境卡引导式表格：价格透明、提前显示，人工核对后通过邮件送达。与印尼政府无关联的私营协助服务。",
+    "metaTitle": "在线申请印尼入境卡（All Indonesia）",
+    "metaDescription": "通过引导式表格在线填写印尼入境卡：价格提前显示，每一项由专人核对，二维码通过邮件送达。现在开始。",
     "titleArrivalCard": "入境卡协助",
     "titleEvoa": "e-VOA 协助",
     "titleBundle": "e-VOA + 入境卡",
@@ -353,8 +353,8 @@
     "doneText": "我们将在 <strong>{when}</strong>（您的当地时间）窗口开放时，即抵达前 {hours} 小时，向您发送邮件。在此之前我们不会收款。"
   },
   "Reminder": {
-    "metaTitle": "印尼入境卡：我们告诉您何时申请",
-    "metaDescription": "官方门户仅在抵达前 72 小时内受理 All Indonesia 入境卡。留下您的抵达日期，窗口一开放我们即通过邮件通知您。免费提醒，现在无需付款。",
+    "metaTitle": "印尼入境卡 72 小时规则：何时申请",
+    "metaDescription": "All Indonesia 入境卡只能在抵达前 72 小时内提交。留下您的出行日期，申请窗口一开放我们就通过邮件提醒您。",
     "badge": "免费提醒，现在无需付款",
     "title": "印尼入境卡：我们告诉您何时申请",
     "lead": "官方门户仅在您落地前 72 小时内受理入境卡。提前申请会被拒绝。留下您的抵达日期，窗口一开放我们即通过邮件通知您。",
@@ -427,8 +427,8 @@
     "cta": "阅读机场清单"
   },
   "Evoa": {
-    "metaTitle": "印度尼西亚 e-VOA 申请协助 – 在线落地签",
-    "metaDescription": "我们为您准备并提交印度尼西亚 e-VOA（电子落地签）：30 天，可延期一次。人工核对，签证费单独列明，通过邮件送达。",
+    "metaTitle": "印尼 e-VOA 在线申请协助：电子落地签",
+    "metaDescription": "在我们的协助下在线申请印尼 e-VOA（电子落地签）：30 天，可延期一次。人工核对，签证费单独列明，通过邮件送达。",
     "jsonLdName": "印度尼西亚 e-VOA 申请协助",
     "badge": "电子落地签 · {days} 天 · 可延期一次",
     "title": "您的印尼 e-VOA，在您起飞前准备并核对完毕。",
@@ -484,9 +484,9 @@
     }
   },
   "Pricing": {
-    "metaTitle": "价格",
-    "metaDescription": "印度尼西亚入境卡协助，一个透明的价格，没有隐藏费用。每位额外旅客的价格、加急选项以及 e-VOA 费用一览。",
-    "title": "价格",
+    "metaTitle": "印尼入境卡协助价格与费用",
+    "metaDescription": "输入任何信息前先查看印尼入境卡协助价格：一个透明费用，额外旅客、加急选项和 e-VOA 费用一览。没有隐藏费用。",
+    "title": "印尼入境卡协助价格",
     "arrivalCardTitle": "入境卡协助",
     "intro": "在输入任何个人资料之前，您就能看到总价。我们是私营协助服务，与任何政府网站均无关联。",
     "examples": "示例",
@@ -519,8 +519,8 @@
     "refunds": "如果您的入境卡未能在计划抵达前至少 6 小时送达，或您在我们开始处理前取消，全额退款。请参阅<link>退款政策</link>。"
   },
   "Guide": {
-    "metaTitle": "2026 年印尼入境卡指南：如何逐步填写 All Indonesia 表格",
-    "metaDescription": "All Indonesia 入境卡完整指南：谁需要办理、72 小时窗口、官方门户和应用中的每一步、家庭和团体办理、健康与海关问题、二维码、已知应用问题及解决方法，以及常见错误。",
+    "metaTitle": "印尼入境卡指南 2026（All Indonesia）",
+    "metaDescription": "All Indonesia 入境卡逐步指南：谁需要办理、72 小时窗口、官方门户和应用的每个页面、家庭办理、海关申报及二维码问题。",
     "howToName": "如何在官方门户填写 All Indonesia 入境卡",
     "howToDescription": "印度尼西亚电子入境卡的分步说明，从打开官方门户到保存二维码。",
     "kicker": "指南，2026 年 9 月更新",
@@ -814,8 +814,8 @@
     "ctaReminder": "3 天后才出发？<link>设置提醒</link>，窗口开放时我们会通知您。"
   },
   "Customs": {
-    "metaTitle": "2026 年印尼海关免税额度：免税限额、现金、IMEI",
-    "metaDescription": "进入印度尼西亚时必须申报的内容：500 美元个人物品免税额度、酒类和烟草限量、1 亿印尼盾现金规则、手机 IMEI 登记。",
+    "metaTitle": "印尼海关申报指南 2026：免税额度、现金、IMEI",
+    "metaDescription": "印尼海关申报详解：500 美元个人物品免税额度、酒类和烟草限量、1 亿印尼盾现金规则、手机 IMEI 登记。出发前请核对。",
     "title": "印尼海关免税额度及需申报事项",
     "intro": "Bea Cukai（印度尼西亚海关）对入境旅客适用规则的摘要。请务必在<link>官方海关网站</link>核对最新数据。",
     "colItem": "项目",
@@ -877,9 +877,9 @@
     }
   },
   "News": {
-    "metaTitle": "官方移民与海关动态摘要",
-    "metaDescription": "印度尼西亚移民总局和海关公告的通俗摘要，附原始来源链接。定期更新，帮助您在出行前了解最新入境规定。",
-    "title": "官方动态，为旅客整理的摘要",
+    "metaTitle": "印尼入境卡与移民最新动态",
+    "metaDescription": "印尼入境卡、移民和海关的最新公告，用通俗语言摘要并附原始来源链接。出行前了解最新入境规定。",
+    "title": "印尼入境卡与移民动态，为旅客整理的摘要",
     "intro": "印度尼西亚移民和海关部门发布公告的简短摘要。每条均链接至原文。我们不是信息来源，也不代表这些部门发言。",
     "keyRules": "现行主要规则",
     "evergreen": {
@@ -901,9 +901,9 @@
     }
   },
   "Faq": {
-    "metaTitle": "常见问题 – 印尼入境卡",
-    "metaDescription": "关于 All Indonesia 入境卡的解答：谁需要办理、72 小时规则、二维码、海关以及我们的协助服务。",
-    "title": "常见问题",
+    "metaTitle": "印尼入境卡常见问题：72 小时、二维码",
+    "metaDescription": "印尼入境卡常见问题：谁需要办理 All Indonesia 入境卡、72 小时规则、入境时的二维码、海关申报以及我们的协助服务。",
+    "title": "印尼入境卡常见问题",
     "items": {
       "fee": {
         "q": "费用包含什么？",
@@ -964,8 +964,8 @@
     }
   },
   "Contact": {
-    "metaTitle": "联系与支持",
-    "metaDescription": "印度尼西亚入境卡和 e-VOA 订单的邮件支持，每天 07:00–23:00（雅加达时间）。由香港 Bulan Juli Limited 运营。",
+    "metaTitle": "联系与支持 – 印尼入境卡",
+    "metaDescription": "对您的印尼入境卡或 e-VOA 订单有疑问？英文邮件支持，每天 07:00–23:00（雅加达时间）。由香港 Bulan Juli Limited 运营。",
     "title": "联系与支持",
     "hours": "支持时间：雅加达时间（UTC+7）每天 07:00–23:00。已付款订单通常在 15 分钟内答复。",
     "email": "电子邮箱",
