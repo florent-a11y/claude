@@ -34,7 +34,11 @@ export async function Header() {
         </nav>
         <div className="flex items-center gap-2">
           <LocaleSwitcher className="hidden lg:inline-flex" />
-          <Link href="/apply" className="btn-primary hidden !px-4 !py-2 text-sm sm:inline-flex">{t("start")}</Link>
+          {/* Visible label stays the short "Start"; assistive tech and crawlers get the descriptive name (same string as the mobile menu). */}
+          <Link href="/apply" className="btn-primary hidden !px-4 !py-2 text-sm sm:inline-flex">
+            <span aria-hidden="true">{t("start")}</span>
+            <span className="sr-only">{t("startMobile")}</span>
+          </Link>
           <MobileMenu items={items} />
         </div>
       </div>
