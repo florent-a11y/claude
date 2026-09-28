@@ -5,7 +5,10 @@
     "readOriginal": "Original lesen ↗",
     "language": "Sprache",
     "notAffiliated": "Privater Assistenzdienst, nicht mit einer Regierungswebsite verbunden. <link>Lesen Sie unseren Hinweis</link>.",
-    "siteDescription": "Privater Assistenzdienst für die digitale Einreisekarte Indonesiens (All Indonesia Arrival Card). Transparenter Preis, von Menschen geprüft, Zustellung per E-Mail. Nicht mit der Regierung Indonesiens verbunden."
+    "siteDescription": "Privater Assistenzdienst für die digitale Einreisekarte Indonesiens (All Indonesia Arrival Card). Transparenter Preis, von Menschen geprüft, Zustellung per E-Mail. Nicht mit der Regierung Indonesiens verbunden.",
+    "day": "Tag",
+    "month": "Monat",
+    "year": "Jahr"
   },
   "Metadata": {
     "defaultTitle": "{siteName} – Hilfe bei der Einreisekarte Indonesien",

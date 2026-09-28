@@ -11,6 +11,7 @@ import { quote, money, PRICING, PRODUCT_LABELS } from "@/lib/pricing";
 import { EVOA_PURPOSES, eligibility } from "@/lib/evoa";
 import { hoursUntilArrival, isWindowGated, WINDOW_HOURS, windowState, type WindowState } from "@/lib/window";
 import { ReminderForm } from "@/components/ReminderForm";
+import { DateField } from "@/components/DateField";
 import { getAttribution, track } from "@/lib/analytics-client";
 
 const emptyTraveler: Traveler = { givenNames: "", familyName: "", gender: "M", dateOfBirth: "", nationality: "", passportNumber: "", passportIssued: "", passportExpiry: "" };
@@ -171,11 +172,11 @@ export function ApplyForm({ initialProduct = "arrival_card", initialArrival = ""
                 <label><span className="label">{t("traveler.familyName")}</span><input className="input" value={tr.familyName} onChange={(e) => setTravelers(travelers.map((x, j) => j === i ? { ...x, familyName: e.target.value.toUpperCase() } : x))} /><E k={`${i}.familyName`} /></label>
                 <label><span className="label">{t("traveler.givenNames")}</span><input className="input" value={tr.givenNames} onChange={(e) => setTravelers(travelers.map((x, j) => j === i ? { ...x, givenNames: e.target.value.toUpperCase() } : x))} /><E k={`${i}.givenNames`} /></label>
                 <label><span className="label">{t("traveler.gender")}</span><select className="input" value={tr.gender} onChange={(e) => setTravelers(travelers.map((x, j) => j === i ? { ...x, gender: e.target.value as Traveler["gender"] } : x))}><option value="M">{to("gender.M")}</option><option value="F">{to("gender.F")}</option><option value="X">{to("gender.X")}</option></select></label>
-                <label><span className="label">{t("traveler.dateOfBirth")}</span><input type="date" className="input" value={tr.dateOfBirth} onChange={(e) => setTravelers(travelers.map((x, j) => j === i ? { ...x, dateOfBirth: e.target.value } : x))} /><E k={`${i}.dateOfBirth`} /></label>
+                <label><span className="label">{t("traveler.dateOfBirth")}</span><DateField range="birth" value={tr.dateOfBirth} onChange={(v) => setTravelers(travelers.map((x, j) => j === i ? { ...x, dateOfBirth: v } : x))} /><E k={`${i}.dateOfBirth`} /></label>
                 <label><span className="label">{t("traveler.nationality")}</span><select className="input" value={tr.nationality} onChange={(e) => setTravelers(travelers.map((x, j) => j === i ? { ...x, nationality: e.target.value } : x))}><option value="">{t("select")}</option>{countries.map((c) => <option key={c.code} value={c.code}>{c.name}</option>)}</select><E k={`${i}.nationality`} /></label>
                 <label><span className="label">{t("traveler.passportNumber")}</span><input className="input font-mono" autoCapitalize="characters" value={tr.passportNumber} onChange={(e) => setTravelers(travelers.map((x, j) => j === i ? { ...x, passportNumber: e.target.value.toUpperCase().replace(/\s/g, "") } : x))} /><E k={`${i}.passportNumber`} /></label>
-                <label><span className="label">{t("traveler.passportIssued")}</span><input type="date" className="input" value={tr.passportIssued} onChange={(e) => setTravelers(travelers.map((x, j) => j === i ? { ...x, passportIssued: e.target.value } : x))} /><E k={`${i}.passportIssued`} /></label>
-                <label><span className="label">{t("traveler.passportExpiry")}</span><input type="date" className="input" value={tr.passportExpiry} onChange={(e) => setTravelers(travelers.map((x, j) => j === i ? { ...x, passportExpiry: e.target.value } : x))} /><E k={`${i}.passportExpiry`} /></label>
+                <label><span className="label">{t("traveler.passportIssued")}</span><DateField range="passportIssued" value={tr.passportIssued} onChange={(v) => setTravelers(travelers.map((x, j) => j === i ? { ...x, passportIssued: v } : x))} /><E k={`${i}.passportIssued`} /></label>
+                <label><span className="label">{t("traveler.passportExpiry")}</span><DateField range="passportExpiry" value={tr.passportExpiry} onChange={(v) => setTravelers(travelers.map((x, j) => j === i ? { ...x, passportExpiry: v } : x))} /><E k={`${i}.passportExpiry`} /></label>
               </div>
               {i > 0 && <button type="button" className="mt-3 text-sm text-red-600 underline" onClick={() => setTravelers(travelers.filter((_, j) => j !== i))}>{t("traveler.remove")}</button>}
             </fieldset>
@@ -192,8 +193,8 @@ export function ApplyForm({ initialProduct = "arrival_card", initialArrival = ""
 
       {step === 1 && (
         <div className="card mt-6 grid gap-4 md:grid-cols-2">
-          <label><span className="label">{t("travel.arrivalDate")}</span><input type="date" className="input" value={travel.arrivalDate} onChange={(e) => setTravel({ ...travel, arrivalDate: e.target.value })} /><E k="arrivalDate" /><p className="mt-1 text-xs text-ink-500">{t("travel.arrivalHint")}</p></label>
-          <label><span className="label">{t("travel.departureDate")}</span><input type="date" className="input" value={travel.departureDate} onChange={(e) => setTravel({ ...travel, departureDate: e.target.value })} /></label>
+          <label><span className="label">{t("travel.arrivalDate")}</span><DateField range="travel" value={travel.arrivalDate} onChange={(v) => setTravel({ ...travel, arrivalDate: v })} /><E k="arrivalDate" /><p className="mt-1 text-xs text-ink-500">{t("travel.arrivalHint")}</p></label>
+          <label><span className="label">{t("travel.departureDate")}</span><DateField range="travel" value={travel.departureDate ?? ""} onChange={(v) => setTravel({ ...travel, departureDate: v })} /></label>
           <label><span className="label">{t("travel.transportMode")}</span><select className="input" value={travel.transportMode} onChange={(e) => setTravel({ ...travel, transportMode: e.target.value as Travel["transportMode"] })}><option value="air">{to("transport.air")}</option><option value="sea">{to("transport.sea")}</option><option value="land">{to("transport.land")}</option></select></label>
           <label><span className="label">{t("travel.portOfEntry")}</span><select className="input" value={travel.portOfEntry} onChange={(e) => setTravel({ ...travel, portOfEntry: e.target.value })}>{PORTS_OF_ENTRY.map((p) => <option key={p.code} value={p.code}>{to(`ports.${p.key}`)}</option>)}</select></label>
           <label><span className="label">{t("travel.flightNumber")}</span><input className="input" placeholder={t("travel.flightPlaceholder")} value={travel.flightNumber} onChange={(e) => setTravel({ ...travel, flightNumber: e.target.value.toUpperCase() })} /></label>
@@ -225,7 +226,7 @@ export function ApplyForm({ initialProduct = "arrival_card", initialArrival = ""
           <p className="text-sm text-ink-700">{t("evoa.intro")}</p>
           {errors.documents && <p className="error">{errors.documents}</p>}
           <div className="grid gap-4 md:grid-cols-2">
-            <label><span className="label">{t("evoa.intendedEntryDate")}</span><input type="date" className="input" value={evoa.intendedEntryDate} onChange={(e) => setEvoa({ ...evoa, intendedEntryDate: e.target.value })} /><E k="intendedEntryDate" /></label>
+            <label><span className="label">{t("evoa.intendedEntryDate")}</span><DateField range="travel" value={evoa.intendedEntryDate} onChange={(v) => setEvoa({ ...evoa, intendedEntryDate: v })} /><E k="intendedEntryDate" /></label>
             <label><span className="label">{t("evoa.purpose")}</span><select className="input" value={evoa.purpose} onChange={(e) => setEvoa({ ...evoa, purpose: e.target.value as Evoa["purpose"] })}>{EVOA_PURPOSES.map((p) => <option key={p.value} value={p.value}>{to(`evoaPurposes.${p.value}`)}</option>)}</select></label>
           </div>
           <label className="flex items-start gap-3"><input type="checkbox" className="checkbox" checked={evoa.returnTicket} onChange={(e) => setEvoa({ ...evoa, returnTicket: e.target.checked })} /><span className="text-sm">{t("evoa.returnTicket")}</span></label>

@@ -5,7 +5,10 @@
     "readOriginal": "원문 읽기 ↗",
     "language": "언어",
     "notAffiliated": "민간 지원 서비스로, 어떠한 정부 웹사이트와도 제휴 관계가 없습니다. <link>고지 사항 읽기</link>.",
-    "siteDescription": "인도네시아 디지털 입국카드(All Indonesia 입국카드)를 위한 민간 지원 서비스입니다. 투명한 가격, 담당자 직접 검수, 이메일 전달. 인도네시아 정부와 제휴 관계가 없습니다."
+    "siteDescription": "인도네시아 디지털 입국카드(All Indonesia 입국카드)를 위한 민간 지원 서비스입니다. 투명한 가격, 담당자 직접 검수, 이메일 전달. 인도네시아 정부와 제휴 관계가 없습니다.",
+    "day": "일",
+    "month": "월",
+    "year": "년"
   },
   "Metadata": {
     "defaultTitle": "{siteName} – 인도네시아 입국카드 지원, 담당자 직접 검수",

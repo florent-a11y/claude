@@ -5,7 +5,10 @@
     "readOriginal": "Lire l'original ↗",
     "language": "Langue",
     "notAffiliated": "Service d'assistance privé, sans lien avec aucun site gouvernemental. <link>Lire notre avis de non-affiliation</link>.",
-    "siteDescription": "Service d'assistance privé pour la carte d'arrivée numérique de l'Indonésie (All Indonesia). Prix transparent, vérification humaine, envoi par e-mail. Sans lien avec le gouvernement indonésien."
+    "siteDescription": "Service d'assistance privé pour la carte d'arrivée numérique de l'Indonésie (All Indonesia). Prix transparent, vérification humaine, envoi par e-mail. Sans lien avec le gouvernement indonésien.",
+    "day": "Jour",
+    "month": "Mois",
+    "year": "Année"
   },
   "Metadata": {
     "defaultTitle": "{siteName} – Aide carte d'arrivée Indonésie",

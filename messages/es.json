@@ -5,7 +5,10 @@
     "readOriginal": "Leer el original ↗",
     "language": "Idioma",
     "notAffiliated": "Servicio de asistencia privado, sin vinculación con ningún sitio web gubernamental. <link>Lea nuestro aviso</link>.",
-    "siteDescription": "Servicio de asistencia privado para la tarjeta de llegada digital de Indonesia (All Indonesia). Precio transparente, revisión por una persona, entrega por correo electrónico. Sin vinculación con el Gobierno de Indonesia."
+    "siteDescription": "Servicio de asistencia privado para la tarjeta de llegada digital de Indonesia (All Indonesia). Precio transparente, revisión por una persona, entrega por correo electrónico. Sin vinculación con el Gobierno de Indonesia.",
+    "day": "Día",
+    "month": "Mes",
+    "year": "Año"
   },
   "Metadata": {
     "defaultTitle": "{siteName} – Ayuda tarjeta de llegada Indonesia",

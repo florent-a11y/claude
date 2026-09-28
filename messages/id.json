@@ -5,7 +5,10 @@
     "readOriginal": "Baca aslinya ↗",
     "language": "Bahasa",
     "notAffiliated": "Layanan bantuan swasta, tidak berafiliasi dengan situs web pemerintah mana pun. <link>Baca pernyataan kami</link>.",
-    "siteDescription": "Layanan bantuan swasta untuk kartu kedatangan digital Indonesia (Kartu Kedatangan All Indonesia). Harga transparan, diperiksa oleh manusia, dikirim melalui email. Tidak berafiliasi dengan Pemerintah Indonesia."
+    "siteDescription": "Layanan bantuan swasta untuk kartu kedatangan digital Indonesia (Kartu Kedatangan All Indonesia). Harga transparan, diperiksa oleh manusia, dikirim melalui email. Tidak berafiliasi dengan Pemerintah Indonesia.",
+    "day": "Tanggal",
+    "month": "Bulan",
+    "year": "Tahun"
   },
   "Metadata": {
     "defaultTitle": "{siteName} – Bantuan kartu kedatangan Indonesia",

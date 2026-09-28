@@ -5,7 +5,10 @@
     "readOriginal": "阅读原文 ↗",
     "language": "语言",
     "notAffiliated": "私营协助服务，与任何政府网站均无关联。<link>阅读我们的声明</link>。",
-    "siteDescription": "印度尼西亚电子入境卡（All Indonesia Arrival Card）私营协助服务。价格透明，人工核对，通过电子邮件送达。与印度尼西亚政府无关联。"
+    "siteDescription": "印度尼西亚电子入境卡（All Indonesia Arrival Card）私营协助服务。价格透明，人工核对，通过电子邮件送达。与印度尼西亚政府无关联。",
+    "day": "日",
+    "month": "月",
+    "year": "年"
   },
   "Metadata": {
     "defaultTitle": "{siteName} – 印尼入境卡协助，人工核对",

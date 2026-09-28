@@ -5,7 +5,10 @@
     "readOriginal": "原文を読む ↗",
     "language": "言語",
     "notAffiliated": "民間のサポートサービスであり、いかなる政府ウェブサイトとも提携していません。<link>免責事項を読む</link>。",
-    "siteDescription": "インドネシアのデジタル入国カード「All Indonesia 入国カード（Arrival Card）」の民間サポートサービスです。明朗な料金、担当者による確認、メールでのお届け。インドネシア政府とは提携していません。"
+    "siteDescription": "インドネシアのデジタル入国カード「All Indonesia 入国カード（Arrival Card）」の民間サポートサービスです。明朗な料金、担当者による確認、メールでのお届け。インドネシア政府とは提携していません。",
+    "day": "日",
+    "month": "月",
+    "year": "年"
   },
   "Metadata": {
     "defaultTitle": "{siteName} – インドネシア入国カードのサポート、担当者が確認",

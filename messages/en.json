@@ -5,7 +5,10 @@
     "readOriginal": "Read the original ↗",
     "language": "Language",
     "notAffiliated": "Private assistance service, not affiliated with any government website. <link>Read our disclosure</link>.",
-    "siteDescription": "Private assistance service for the Indonesia (All Indonesia) digital arrival card. Transparent price, human-checked, delivered by email. Not affiliated with the Government of Indonesia."
+    "siteDescription": "Private assistance service for the Indonesia (All Indonesia) digital arrival card. Transparent price, human-checked, delivered by email. Not affiliated with the Government of Indonesia.",
+    "day": "Day",
+    "month": "Month",
+    "year": "Year"
   },
   "Metadata": {
     "defaultTitle": "{siteName} – Indonesia arrival card help",

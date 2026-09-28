@@ -8,6 +8,7 @@ import { localizedCountries } from "@/lib/countries";
 import { type Product } from "@/lib/schema";
 import { formatWindowOpens, hoursUntilArrival, WINDOW_HOURS, windowState } from "@/lib/window";
 import { getAttribution, track } from "@/lib/analytics-client";
+import { DateField } from "@/components/DateField";
 
 export interface ReminderFormProps {
   initialArrival?: string;
@@ -98,7 +99,7 @@ export function ReminderForm({ initialArrival = "", initialEmail = "", initialTr
     <form onSubmit={submit} className={`relative ${compact ? "space-y-3" : "space-y-4"}`} noValidate>
       <div className={`grid gap-3 ${compact ? "sm:grid-cols-2" : "md:grid-cols-2"}`}>
         <label><span className="label">{t("email")}</span><input type="email" className="input" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value.trim())} />{errors.email && <p className="error">{errors.email}</p>}</label>
-        <label><span className="label">{t("arrivalDate")}</span><input type="date" className="input" required value={arrivalDate} onChange={(e) => setArrivalDate(e.target.value)} />{errors.arrivalDate && <p className="error">{errors.arrivalDate}</p>}</label>
+        <label><span className="label">{t("arrivalDate")}</span><DateField range="travel" required value={arrivalDate} onChange={setArrivalDate} />{errors.arrivalDate && <p className="error">{errors.arrivalDate}</p>}</label>
         <label><span className="label">{t("travelers")}</span><select className="input" value={travelers} onChange={(e) => setTravelers(Number(e.target.value))}>{Array.from({ length: 10 }, (_, i) => i + 1).map((n) => <option key={n} value={n}>{n}</option>)}</select></label>
         <label><span className="label">{t("nationality")}</span><select className="input" value={nationality} onChange={(e) => setNationality(e.target.value)}><option value="">{t("select")}</option>{countries.map((c) => <option key={c.code} value={c.code}>{c.name}</option>)}</select>{errors.nationality && <p className="error">{errors.nationality}</p>}</label>
       </div>
