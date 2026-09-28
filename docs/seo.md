@@ -9,7 +9,7 @@ Live site: https://allindonesia-arrivalcard.com. Eight locales: `en` (no prefix)
 | `<html lang>` | `app/[locale]/layout.tsx` | One per page, the page locale |
 | Canonical + hreflang | `i18n/seo.ts` (`pageMetadata`, `alternatesFor`) | Every public page: 1 self-canonical, 9 `hreflang` links (8 locales + `x-default` = English) |
 | Open Graph / Twitter | `i18n/seo.ts` (`socialFor`) | Per-page URL, `og:locale` + alternates, `public/og.png` (1200×630) |
-| Sitemap | `app/sitemap.ts` from `PUBLIC_PATHS` | 14 paths × 8 locales, each entry with its hreflang alternates |
+| Sitemap | `app/sitemap.ts` from `PUBLIC_PATHS` | 19 paths × 8 locales (including the five /info guides), each entry with its hreflang alternates |
 | robots.txt | `app/robots.ts` | `Disallow: /admin`, `/api`; points at `/sitemap.xml` |
 | noindex | `apply/success` (`pageMetadata` … `noindex`), `/admin` (layout metadata + `x-robots-tag` in `middleware.ts`), 404 (`[...rest]` → `notFound()`, Next adds `noindex` and a 404 status) | `apply/success` keeps a self-canonical but emits no hreflang. The 404 still carries the layout's home canonical/hreflang and Next's error shell has no `html lang`: Next ignores page metadata once `notFound()` is thrown, and crawlers drop every signal on a 404 response, so this is left as is |
 | Canonical host | `middleware.ts` | `www.` and other aliases → 308 to the apex over https |
@@ -33,16 +33,16 @@ After each deploy (or locally with `npm run build && npx next start -p 3131`):
    ```sh
    curl -s http://localhost:3131/de/pricing | grep -o '<link rel="canonical"[^>]*>' | wc -l   # 1
    curl -s http://localhost:3131/de/pricing | grep -o 'hreflang="[^"]*"' | wc -l               # 9
-   curl -s http://localhost:3131/sitemap.xml | grep -c '<loc>'                                # 112
+   curl -s http://localhost:3131/sitemap.xml | grep -c '<loc>'                                # 152
    curl -sI http://localhost:3131/admin | grep -i x-robots                                    # noindex, nofollow
    ```
-5. **Search Console → Sitemaps**: `https://allindonesia-arrivalcard.com/sitemap.xml` shows "Success" and 112 discovered URLs.
+5. **Search Console → Sitemaps**: `https://allindonesia-arrivalcard.com/sitemap.xml` shows "Success" and 152 discovered URLs.
 6. **Search Console → International targeting / Page indexing**: no "Alternate page with proper canonical tag" errors on the localized pages; `x-default` resolves to the English page.
 
 ## 3. User-side to-do (outside the code)
 
 - [x] Google Search Console: property verified, sitemap submitted.
-- [ ] **Bing Webmaster Tools**: sign in, choose "Import from Google Search Console" (verification, sitemap and URLs come across in one step). Re-check after a week that the sitemap shows 112 URLs.
+- [ ] **Bing Webmaster Tools**: sign in, choose "Import from Google Search Console" (verification, sitemap and URLs come across in one step). Re-check after a week that the sitemap shows 152 URLs.
 - [ ] **Google Business Profile** for Bulan Juli Limited (Hong Kong address in `lib/config.ts`, category "Travel agency" or "Visa and passport office", website = apex domain, support email). Keep name identical to the `Organization.legalName` in the JSON-LD.
 - [ ] **5–10 quality backlinks**, one at a time over 2–3 months: travel forums (TripAdvisor Bali/Indonesia forum, Reddit r/bali and r/indonesia only where self-promotion is allowed), expat blogs and newsletters (Bali/Jakarta expat sites), a Hong Kong company directory listing, and one or two travel-insurance or flight-comparison partners. Link to the guide or customs page rather than only the home page.
 - [ ] **Monitor queries** in Search Console → Performance, filter "Indonesia arrival card" / "All Indonesia arrival card" / "e-VOA Indonesia": track impressions, average position and CTR per locale monthly; improve the title/description of any page with CTR < 2 % at position < 10.
