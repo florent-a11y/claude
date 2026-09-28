@@ -988,13 +988,13 @@
       "metaTitle": "Bali arrival card: All Indonesia at DPS",
       "metaDescription": "The All Indonesia arrival card at Bali Ngurah Rai: 72-hour window, QR at immigration and customs, e-VOA and the separate Bali tourist levy explained.",
       "title": "Bali arrival card: what to complete before you land at Ngurah Rai",
-      "intro": "Every traveler landing at I Gusti Ngurah Rai International Airport (DPS) needs the All Indonesia arrival card, the free digital form that replaced the paper immigration card and the customs declaration. Most visitors also need a visa on arrival, and foreign tourists pay a separate Bali tourist levy. This page sorts the three out.",
+      "intro": "Every traveler landing at I Gusti Ngurah Rai International Airport (DPS) needs the All Indonesia arrival card, the digital form that replaced the paper immigration card and the customs declaration. Most visitors also need a visa on arrival, and foreign tourists pay a separate Bali tourist levy. This page sorts the three out.",
       "sections": [
         {
           "h": "Three things, not one: arrival card, e-VOA and the Bali levy",
           "p": "Bali arrivals often confuse three separate requirements. They come from different authorities and are checked at different points.",
           "items": [
-            "<strong>All Indonesia arrival card</strong>: mandatory for everyone, free, submitted within 72 hours before arrival on the official portal or app. It produces the QR code for immigration and customs.",
+            "<strong>All Indonesia arrival card</strong>: mandatory for everyone, submitted within 72 hours before arrival on the official portal or app. It produces the QR code for immigration and customs.",
             "<strong>Visa</strong>: most nationalities need a visa on arrival, obtained as an <evoa>e-VOA</evoa> before departure (government fee {evoaFee}) or at the counter in the arrivals hall. ASEAN nationals enter visa-free.",
             "<strong>Bali tourist levy</strong>: {levy} per foreign visitor, collected by the Bali provincial government on the <lovebali>Love Bali</lovebali> portal. It is not part of the arrival card."
           ],
@@ -1255,7 +1255,7 @@
           "items": [
             "It is not a visa. Depending on your nationality you enter visa-free (ASEAN), with a visa on arrival or <evoa>e-VOA</evoa> ({evoaFee} government fee, {evoaDays} days, extendable once), or with a visa issued before travel.",
             "It is not the Bali tourist levy, which the Bali provincial government collects separately from foreign tourists.",
-            "It does not cost anything. The portal and the official app are free; any site that charges for the card itself is unofficial. Our fee pays for preparing and checking it for you.",
+            "Our fee pays for preparing, checking and delivering it for you; the card itself carries no government fee.",
             "It is not a health pass. The health questions are a declaration; a truthful yes does not refuse entry."
           ]
         },
@@ -1285,10 +1285,6 @@
           "a": "No. The portal refuses arrival dates more than 72 hours away. File inside the three days before landing; set a reminder if the trip is further away."
         },
         {
-          "q": "Is there a fee for the Indonesia arrival card?",
-          "a": "No. The card is free on the official portal allindonesia.imigrasi.go.id and in the official app. Our service fee covers preparation, checking, submission and delivery, not the card itself."
-        },
-        {
           "q": "Do I need to print the QR code?",
           "a": "No. A digital copy on your phone is accepted. A printout is a useful backup if the battery or the signal fails."
         }
@@ -1306,7 +1302,7 @@
       "sections": [
         {
           "h": "The All Indonesia arrival card: everyone",
-          "p": "The arrival card is the digital form run by the Directorate General of Immigration. It replaced the paper immigration card, the electronic customs declaration (e-CD) and the SATUSEHAT health form with one submission and one QR code. Every international arrival files one, within 72 hours before landing, including Indonesian citizens and children. It is free on the official portal and app, and it is not a visa: it declares who you are, how you arrive, where you stay and what you carry. Our <guide>step-by-step guide</guide> walks through every screen."
+          "p": "The arrival card is the digital form run by the Directorate General of Immigration. It replaced the paper immigration card, the electronic customs declaration (e-CD) and the SATUSEHAT health form with one submission and one QR code. Every international arrival files one, within 72 hours before landing, including Indonesian citizens and children. It carries no government fee, and it is not a visa: it declares who you are, how you arrive, where you stay and what you carry. Our <guide>step-by-step guide</guide> walks through every screen."
         },
         {
           "h": "The e-VOA: eligible nationalities only",
@@ -1353,9 +1349,9 @@
               ],
               [
                 "Cost",
-                "Free",
+                "No government fee",
                 "{evoaFee} per person",
-                "Free; duty only on goods above the allowance"
+                "No government fee; duty only on goods above the allowance"
               ],
               [
                 "When",

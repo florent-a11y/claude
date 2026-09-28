@@ -988,13 +988,13 @@
       "metaTitle": "Carte d'arrivée Bali : All Indonesia à DPS",
       "metaDescription": "La carte d'arrivée All Indonesia à Ngurah Rai (Bali) : fenêtre de 72 heures, QR à l'immigration et à la douane, e-VOA et taxe touristique de Bali distincte.",
       "title": "Carte d'arrivée pour Bali : ce qu'il faut faire avant d'atterrir à Ngurah Rai",
-      "intro": "Tout voyageur qui atterrit à l'aéroport international I Gusti Ngurah Rai (DPS) doit avoir la carte d'arrivée All Indonesia, le formulaire numérique gratuit qui a remplacé la carte d'immigration papier et la déclaration en douane. La plupart des visiteurs ont aussi besoin d'un visa à l'arrivée, et les touristes étrangers paient une taxe touristique de Bali distincte. Cette page met les trois au clair.",
+      "intro": "Tout voyageur qui atterrit à l'aéroport international I Gusti Ngurah Rai (DPS) doit avoir la carte d'arrivée All Indonesia, le formulaire numérique qui a remplacé la carte d'immigration papier et la déclaration en douane. La plupart des visiteurs ont aussi besoin d'un visa à l'arrivée, et les touristes étrangers paient une taxe touristique de Bali distincte. Cette page met les trois au clair.",
       "sections": [
         {
           "h": "Trois choses, pas une : carte d'arrivée, e-VOA et taxe de Bali",
           "p": "Les voyageurs à destination de Bali confondent souvent trois obligations distinctes. Elles viennent d'autorités différentes et sont contrôlées à des endroits différents.",
           "items": [
-            "<strong>Carte d'arrivée All Indonesia</strong> : obligatoire pour tous, gratuite, déposée dans les 72 heures avant l'arrivée sur le portail officiel ou l'application. Elle produit le code QR pour l'immigration et la douane.",
+            "<strong>Carte d'arrivée All Indonesia</strong> : obligatoire pour tous, déposée dans les 72 heures avant l'arrivée sur le portail officiel ou l'application. Elle produit le code QR pour l'immigration et la douane.",
             "<strong>Visa</strong> : la plupart des nationalités ont besoin d'un visa à l'arrivée, obtenu avant le départ sous forme d’<evoa>e-VOA</evoa> (frais gouvernementaux {evoaFee}) ou au guichet dans le hall d'arrivée. Les ressortissants de l'ASEAN entrent sans visa.",
             "<strong>Taxe touristique de Bali</strong> : {levy} par visiteur étranger, perçue par le gouvernement provincial de Bali sur le portail <lovebali>Love Bali</lovebali>. Elle ne fait pas partie de la carte d'arrivée."
           ],
@@ -1255,7 +1255,7 @@
           "items": [
             "Ce n'est pas un visa. Selon votre nationalité, vous entrez sans visa (ASEAN), avec un visa à l'arrivée ou un <evoa>e-VOA</evoa> (frais gouvernementaux {evoaFee}, {evoaDays} jours, prolongeable une fois), ou avec un visa délivré avant le départ.",
             "Ce n'est pas la taxe touristique de Bali, que le gouvernement provincial de Bali perçoit séparément auprès des touristes étrangers.",
-            "Elle ne coûte rien. Le portail et l'application officielle sont gratuits ; tout site qui fait payer la carte elle-même est non officiel. Nos frais rémunèrent la préparation et la vérification pour vous.",
+            "Nos frais rémunèrent la préparation, la vérification et l'envoi pour vous ; la carte elle-même ne comporte aucun frais gouvernemental.",
             "Ce n'est pas un passe sanitaire. Les questions de santé sont une déclaration ; un oui sincère n'entraîne pas de refus d'entrée."
           ]
         },
@@ -1285,10 +1285,6 @@
           "a": "Non. Le portail refuse les dates d'arrivée à plus de 72 heures. Déposez-la dans les trois jours précédant l'atterrissage ; activez un rappel si le voyage est plus lointain."
         },
         {
-          "q": "La carte d'arrivée pour l'Indonésie est-elle payante ?",
-          "a": "Non. La carte est gratuite sur le portail officiel allindonesia.imigrasi.go.id et dans l'application officielle. Nos frais de service couvrent la préparation, la vérification, le dépôt et l'envoi, pas la carte elle-même."
-        },
-        {
           "q": "Dois-je imprimer le code QR ?",
           "a": "Non. Une copie numérique sur votre téléphone est acceptée. Une impression est une sauvegarde utile si la batterie ou le réseau vous lâche."
         }
@@ -1306,7 +1302,7 @@
       "sections": [
         {
           "h": "La carte d'arrivée All Indonesia : tout le monde",
-          "p": "La carte d'arrivée est le formulaire numérique géré par la Direction générale de l'immigration. Elle a remplacé la carte d'immigration papier, la déclaration électronique en douane (e-CD) et le formulaire de santé SATUSEHAT par un seul dépôt et un seul code QR. Chaque arrivée internationale en dépose une, dans les 72 heures avant l'atterrissage, citoyens indonésiens et enfants compris. Elle est gratuite sur le portail officiel et l'application, et ce n'est pas un visa : elle déclare qui vous êtes, comment vous arrivez, où vous logez et ce que vous transportez. Notre <guide>guide pas à pas</guide> parcourt chaque écran."
+          "p": "La carte d'arrivée est le formulaire numérique géré par la Direction générale de l'immigration. Elle a remplacé la carte d'immigration papier, la déclaration électronique en douane (e-CD) et le formulaire de santé SATUSEHAT par un seul dépôt et un seul code QR. Chaque arrivée internationale en dépose une, dans les 72 heures avant l'atterrissage, citoyens indonésiens et enfants compris. Elle ne comporte aucun frais gouvernemental, et ce n'est pas un visa : elle déclare qui vous êtes, comment vous arrivez, où vous logez et ce que vous transportez. Notre <guide>guide pas à pas</guide> parcourt chaque écran."
         },
         {
           "h": "L'e-VOA : nationalités éligibles seulement",
@@ -1353,9 +1349,9 @@
               ],
               [
                 "Coût",
-                "Gratuite",
+                "Aucun frais gouvernemental",
                 "{evoaFee} par personne",
-                "Gratuite ; droits uniquement sur les marchandises au-delà de la franchise"
+                "Aucun frais gouvernemental ; droits uniquement sur les marchandises au-delà de la franchise"
               ],
               [
                 "Quand",

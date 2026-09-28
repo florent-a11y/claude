@@ -988,13 +988,13 @@
       "metaTitle": "Kartu kedatangan Bali: All Indonesia di DPS",
       "metaDescription": "Cara kerja kartu kedatangan All Indonesia di Bandara Ngurah Rai, Bali: jendela 72 jam, QR di imigrasi dan bea cukai, e-VOA, serta pungutan wisatawan Bali yang terpisah.",
       "title": "Kartu kedatangan Bali: yang harus diselesaikan sebelum mendarat di Ngurah Rai",
-      "intro": "Setiap penumpang yang mendarat di Bandara Internasional I Gusti Ngurah Rai (DPS) memerlukan kartu kedatangan All Indonesia, formulir digital gratis yang menggantikan kartu imigrasi kertas dan deklarasi bea cukai. Sebagian besar pengunjung juga memerlukan visa saat kedatangan, dan wisatawan asing membayar pungutan wisatawan Bali yang terpisah. Halaman ini merapikan ketiganya.",
+      "intro": "Setiap penumpang yang mendarat di Bandara Internasional I Gusti Ngurah Rai (DPS) memerlukan kartu kedatangan All Indonesia, formulir digital yang menggantikan kartu imigrasi kertas dan deklarasi bea cukai. Sebagian besar pengunjung juga memerlukan visa saat kedatangan, dan wisatawan asing membayar pungutan wisatawan Bali yang terpisah. Halaman ini merapikan ketiganya.",
       "sections": [
         {
           "h": "Tiga hal, bukan satu: kartu kedatangan, e-VOA, dan pungutan Bali",
           "p": "Penumpang tujuan Bali sering mencampuradukkan tiga kewajiban yang berbeda. Ketiganya berasal dari instansi berbeda dan diperiksa di titik yang berbeda.",
           "items": [
-            "<strong>Kartu kedatangan All Indonesia</strong>: wajib bagi semua orang, gratis, diajukan dalam 72 jam sebelum kedatangan melalui portal atau aplikasi resmi. Menghasilkan kode QR untuk imigrasi dan bea cukai.",
+            "<strong>Kartu kedatangan All Indonesia</strong>: wajib bagi semua orang, diajukan dalam 72 jam sebelum kedatangan melalui portal atau aplikasi resmi. Menghasilkan kode QR untuk imigrasi dan bea cukai.",
             "<strong>Visa</strong>: sebagian besar kewarganegaraan memerlukan visa saat kedatangan, yang bisa diperoleh sebelum berangkat sebagai <evoa>e-VOA</evoa> (biaya pemerintah {evoaFee}) atau di loket di ruang kedatangan. Warga negara ASEAN masuk bebas visa.",
             "<strong>Pungutan wisatawan Bali</strong>: {levy} per pengunjung asing, dipungut oleh Pemerintah Provinsi Bali melalui portal <lovebali>Love Bali</lovebali>. Ini bukan bagian dari kartu kedatangan."
           ],
@@ -1255,7 +1255,7 @@
           "items": [
             "Bukan visa. Tergantung kewarganegaraan, Anda masuk bebas visa (ASEAN), dengan visa saat kedatangan atau <evoa>e-VOA</evoa> (biaya pemerintah {evoaFee}, {evoaDays} hari, dapat diperpanjang sekali), atau dengan visa yang diterbitkan sebelum bepergian.",
             "Bukan pungutan wisatawan Bali, yang dipungut secara terpisah oleh Pemerintah Provinsi Bali dari wisatawan asing.",
-            "Tidak berbayar. Portal dan aplikasi resmi gratis; situs mana pun yang memungut biaya untuk kartunya sendiri tidak resmi. Biaya kami untuk menyiapkan dan memeriksanya bagi Anda.",
+            "Biaya kami untuk menyiapkan, memeriksa, dan mengirimkannya bagi Anda; kartunya sendiri tidak dikenai biaya pemerintah.",
             "Bukan paspor kesehatan. Pertanyaan kesehatan adalah deklarasi; jawaban ya yang jujur tidak membuat Anda ditolak masuk."
           ]
         },
@@ -1285,10 +1285,6 @@
           "a": "Tidak. Portal menolak tanggal kedatangan yang lebih dari 72 jam lagi. Ajukan dalam tiga hari sebelum mendarat; pasang pengingat jika perjalanan masih lama."
         },
         {
-          "q": "Apakah kartu kedatangan Indonesia berbayar?",
-          "a": "Tidak. Kartu ini gratis di portal resmi allindonesia.imigrasi.go.id dan di aplikasi resmi. Biaya layanan kami mencakup persiapan, pemeriksaan, pengajuan, dan pengiriman, bukan kartunya."
-        },
-        {
           "q": "Apakah saya perlu mencetak kode QR?",
           "a": "Tidak. Salinan digital di ponsel diterima. Cetakan berguna sebagai cadangan jika baterai atau sinyal bermasalah."
         }
@@ -1306,7 +1302,7 @@
       "sections": [
         {
           "h": "Kartu kedatangan All Indonesia: semua orang",
-          "p": "Kartu kedatangan adalah formulir digital yang dikelola Direktorat Jenderal Imigrasi. Kartu ini menggantikan kartu imigrasi kertas, deklarasi bea cukai elektronik (e-CD), dan formulir kesehatan SATUSEHAT dengan satu pengajuan dan satu kode QR. Setiap kedatangan internasional mengajukan satu, dalam 72 jam sebelum mendarat, termasuk WNI dan anak-anak. Gratis di portal dan aplikasi resmi, dan bukan visa: kartu ini mendeklarasikan siapa Anda, bagaimana Anda tiba, di mana Anda menginap, dan apa yang Anda bawa. <guide>Panduan langkah demi langkah</guide> kami membahas setiap layar."
+          "p": "Kartu kedatangan adalah formulir digital yang dikelola Direktorat Jenderal Imigrasi. Kartu ini menggantikan kartu imigrasi kertas, deklarasi bea cukai elektronik (e-CD), dan formulir kesehatan SATUSEHAT dengan satu pengajuan dan satu kode QR. Setiap kedatangan internasional mengajukan satu, dalam 72 jam sebelum mendarat, termasuk WNI dan anak-anak. Tidak ada biaya pemerintah untuk kartu ini, dan bukan visa: kartu ini mendeklarasikan siapa Anda, bagaimana Anda tiba, di mana Anda menginap, dan apa yang Anda bawa. <guide>Panduan langkah demi langkah</guide> kami membahas setiap layar."
         },
         {
           "h": "e-VOA: hanya kewarganegaraan yang memenuhi syarat",
@@ -1353,9 +1349,9 @@
               ],
               [
                 "Biaya",
-                "Gratis",
+                "Tanpa biaya pemerintah",
                 "{evoaFee} per orang",
-                "Gratis; bea hanya untuk barang di atas batas pembebasan"
+                "Tanpa biaya pemerintah; bea hanya untuk barang di atas batas pembebasan"
               ],
               [
                 "Kapan",

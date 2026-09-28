@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { intlLocale, routing } from "@/i18n/routing";
 import { pageMetadata } from "@/i18n/seo";
 import { JsonLd } from "@/components/JsonLd";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { OfficialNote } from "@/components/OfficialNote";
 import { site } from "@/lib/config";
 import { EVOA } from "@/lib/evoa";
@@ -85,6 +86,7 @@ export default async function InfoPage({ params }: Props) {
         }}
       />
 
+      <Breadcrumbs path={`/info/${slug}`} label={tf(INFO_LABEL_KEYS[slug])} />
       <p className="text-sm font-semibold uppercase tracking-wide text-brand-700">{tc("kicker")}</p>
       <h1 className="mt-2 text-3xl font-bold md:text-4xl">{t("title")}</h1>
       <div className="prose-basic mt-6">

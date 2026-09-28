@@ -988,13 +988,13 @@
       "metaTitle": "Arrival Card Bali: All Indonesia am DPS",
       "metaDescription": "Die All Indonesia Arrival Card am Flughafen Ngurah Rai auf Bali: 72-Stunden-Fenster, QR-Code bei Einreise und Zoll, e-VOA und die separate Bali-Touristenabgabe.",
       "title": "Arrival Card für Bali: Was Sie vor der Landung in Ngurah Rai erledigen müssen",
-      "intro": "Jeder Reisende, der am I Gusti Ngurah Rai International Airport (DPS) landet, braucht die All Indonesia Arrival Card, das kostenlose digitale Formular, das die Einreisekarte aus Papier und die Zollerklärung ersetzt hat. Die meisten Besucher brauchen außerdem ein Visum bei Ankunft, und ausländische Touristen zahlen eine separate Bali-Touristenabgabe. Diese Seite bringt die drei Dinge in Ordnung.",
+      "intro": "Jeder Reisende, der am I Gusti Ngurah Rai International Airport (DPS) landet, braucht die All Indonesia Arrival Card, das digitale Formular, das die Einreisekarte aus Papier und die Zollerklärung ersetzt hat. Die meisten Besucher brauchen außerdem ein Visum bei Ankunft, und ausländische Touristen zahlen eine separate Bali-Touristenabgabe. Diese Seite bringt die drei Dinge in Ordnung.",
       "sections": [
         {
           "h": "Drei Dinge, nicht eines: Arrival Card, e-VOA und Bali-Abgabe",
           "p": "Bali-Reisende verwechseln oft drei getrennte Pflichten. Sie stammen von verschiedenen Behörden und werden an verschiedenen Stellen geprüft.",
           "items": [
-            "<strong>All Indonesia Arrival Card</strong>: Pflicht für alle, kostenlos, innerhalb von 72 Stunden vor der Ankunft im offiziellen Portal oder in der App eingereicht. Sie erzeugt den QR-Code für Einreise und Zoll.",
+            "<strong>All Indonesia Arrival Card</strong>: Pflicht für alle, innerhalb von 72 Stunden vor der Ankunft im offiziellen Portal oder in der App eingereicht. Sie erzeugt den QR-Code für Einreise und Zoll.",
             "<strong>Visum</strong>: Die meisten Nationalitäten brauchen ein Visum bei Ankunft, das vor dem Abflug als <evoa>e-VOA</evoa> (staatliche Gebühr {evoaFee}) oder am Schalter in der Ankunftshalle erhältlich ist. ASEAN-Staatsangehörige reisen visumfrei ein.",
             "<strong>Bali-Touristenabgabe</strong>: {levy} pro ausländischem Besucher, erhoben von der Provinzregierung Bali über das Portal <lovebali>Love Bali</lovebali>. Sie ist nicht Teil der Arrival Card."
           ],
@@ -1255,7 +1255,7 @@
           "items": [
             "Sie ist kein Visum. Je nach Nationalität reisen Sie visumfrei (ASEAN), mit Visum bei Ankunft oder <evoa>e-VOA</evoa> (staatliche Gebühr {evoaFee}, {evoaDays} Tage, einmal verlängerbar) oder mit einem vorab erteilten Visum ein.",
             "Sie ist nicht die Bali-Touristenabgabe, die die Provinzregierung Bali separat von ausländischen Touristen erhebt.",
-            "Sie kostet nichts. Portal und offizielle App sind kostenlos; jede Website, die für die Karte selbst Geld verlangt, ist inoffiziell. Unsere Gebühr bezahlt die Vorbereitung und Prüfung für Sie.",
+            "Unsere Gebühr bezahlt die Vorbereitung, Prüfung und Zustellung für Sie; für die Karte selbst erhebt die Behörde keine Gebühr.",
             "Sie ist kein Gesundheitspass. Die Gesundheitsfragen sind eine Erklärung; ein ehrliches Ja führt nicht zur Einreiseverweigerung."
           ]
         },
@@ -1285,10 +1285,6 @@
           "a": "Nein. Das Portal lehnt Ankunftsdaten ab, die mehr als 72 Stunden entfernt liegen. Reichen Sie innerhalb der drei Tage vor der Landung ein; richten Sie eine Erinnerung ein, wenn die Reise weiter entfernt ist."
         },
         {
-          "q": "Kostet die Indonesien Arrival Card eine Gebühr?",
-          "a": "Nein. Die Karte ist im offiziellen Portal allindonesia.imigrasi.go.id und in der offiziellen App kostenlos. Unsere Servicegebühr deckt Vorbereitung, Prüfung, Einreichung und Zustellung ab, nicht die Karte selbst."
-        },
-        {
           "q": "Muss ich den QR-Code ausdrucken?",
           "a": "Nein. Eine digitale Kopie auf dem Handy wird akzeptiert. Ein Ausdruck ist eine nützliche Reserve, falls Akku oder Empfang ausfallen."
         }
@@ -1306,7 +1302,7 @@
       "sections": [
         {
           "h": "Die All Indonesia Arrival Card: alle",
-          "p": "Die Arrival Card ist das digitale Formular der Generaldirektion für Einwanderung. Sie hat die Einreisekarte aus Papier, die elektronische Zollerklärung (e-CD) und das Gesundheitsformular SATUSEHAT durch eine Einreichung mit einem QR-Code ersetzt. Jede internationale Ankunft reicht eine ein, innerhalb von 72 Stunden vor der Landung, indonesische Staatsbürger und Kinder eingeschlossen. Sie ist im offiziellen Portal und in der App kostenlos und kein Visum: Sie erklärt, wer Sie sind, wie Sie ankommen, wo Sie wohnen und was Sie mitführen. Unsere <guide>Schritt-für-Schritt-Anleitung</guide> führt durch jeden Bildschirm."
+          "p": "Die Arrival Card ist das digitale Formular der Generaldirektion für Einwanderung. Sie hat die Einreisekarte aus Papier, die elektronische Zollerklärung (e-CD) und das Gesundheitsformular SATUSEHAT durch eine Einreichung mit einem QR-Code ersetzt. Jede internationale Ankunft reicht eine ein, innerhalb von 72 Stunden vor der Landung, indonesische Staatsbürger und Kinder eingeschlossen. Für sie fällt keine Behördengebühr an, und sie ist kein Visum: Sie erklärt, wer Sie sind, wie Sie ankommen, wo Sie wohnen und was Sie mitführen. Unsere <guide>Schritt-für-Schritt-Anleitung</guide> führt durch jeden Bildschirm."
         },
         {
           "h": "Das e-VOA: nur berechtigte Nationalitäten",
@@ -1353,9 +1349,9 @@
               ],
               [
                 "Kosten",
-                "Kostenlos",
+                "Keine Behördengebühr",
                 "{evoaFee} pro Person",
-                "Kostenlos; Abgaben nur auf Waren über der Freimenge"
+                "Keine Behördengebühr; Abgaben nur auf Waren über der Freimenge"
               ],
               [
                 "Wann",

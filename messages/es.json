@@ -988,13 +988,13 @@
       "metaTitle": "Tarjeta de llegada Bali: All Indonesia en DPS",
       "metaDescription": "La tarjeta de llegada All Indonesia en Ngurah Rai (Bali): ventana de 72 horas, QR en inmigración y aduana, e-VOA y la tasa turística de Bali, que es aparte.",
       "title": "Tarjeta de llegada para Bali: qué completar antes de aterrizar en Ngurah Rai",
-      "intro": "Todo viajero que aterriza en el aeropuerto internacional I Gusti Ngurah Rai (DPS) necesita la tarjeta de llegada All Indonesia, el formulario digital gratuito que sustituyó a la tarjeta de inmigración en papel y a la declaración de aduana. La mayoría de los visitantes también necesita un visado a la llegada, y los turistas extranjeros pagan una tasa turística de Bali aparte. Esta página pone en orden las tres cosas.",
+      "intro": "Todo viajero que aterriza en el aeropuerto internacional I Gusti Ngurah Rai (DPS) necesita la tarjeta de llegada All Indonesia, el formulario digital que sustituyó a la tarjeta de inmigración en papel y a la declaración de aduana. La mayoría de los visitantes también necesita un visado a la llegada, y los turistas extranjeros pagan una tasa turística de Bali aparte. Esta página pone en orden las tres cosas.",
       "sections": [
         {
           "h": "Tres cosas, no una: tarjeta de llegada, e-VOA y tasa de Bali",
           "p": "Quienes llegan a Bali suelen confundir tres obligaciones distintas. Proceden de autoridades diferentes y se comprueban en puntos diferentes.",
           "items": [
-            "<strong>Tarjeta de llegada All Indonesia</strong>: obligatoria para todos, gratuita, presentada dentro de las 72 horas previas a la llegada en el portal oficial o la app. Genera el código QR para inmigración y aduana.",
+            "<strong>Tarjeta de llegada All Indonesia</strong>: obligatoria para todos, presentada dentro de las 72 horas previas a la llegada en el portal oficial o la app. Genera el código QR para inmigración y aduana.",
             "<strong>Visado</strong>: la mayoría de las nacionalidades necesita un visado a la llegada, que se obtiene antes de salir como <evoa>e-VOA</evoa> (tasa oficial {evoaFee}) o en el mostrador de la sala de llegadas. Los ciudadanos de la ASEAN entran sin visado.",
             "<strong>Tasa turística de Bali</strong>: {levy} por visitante extranjero, recaudada por el gobierno provincial de Bali en el portal <lovebali>Love Bali</lovebali>. No forma parte de la tarjeta de llegada."
           ],
@@ -1255,7 +1255,7 @@
           "items": [
             "No es un visado. Según su nacionalidad, entra sin visado (ASEAN), con visado a la llegada o <evoa>e-VOA</evoa> (tasa oficial {evoaFee}, {evoaDays} días, prorrogable una vez), o con un visado expedido antes del viaje.",
             "No es la tasa turística de Bali, que el gobierno provincial de Bali cobra aparte a los turistas extranjeros.",
-            "No cuesta nada. El portal y la app oficial son gratuitos; cualquier sitio que cobre por la tarjeta en sí es no oficial. Nuestra tarifa paga la preparación y la revisión por usted.",
+            "Nuestra tarifa paga la preparación, la revisión y la entrega por usted; la tarjeta en sí no tiene tasa gubernamental.",
             "No es un pasaporte sanitario. Las preguntas de salud son una declaración; un sí sincero no supone la denegación de entrada."
           ]
         },
@@ -1285,10 +1285,6 @@
           "a": "No. El portal rechaza fechas de llegada a más de 72 horas. Preséntela dentro de los tres días previos al aterrizaje; active un recordatorio si el viaje está más lejos."
         },
         {
-          "q": "¿La tarjeta de llegada de Indonesia tiene algún coste?",
-          "a": "No. La tarjeta es gratuita en el portal oficial allindonesia.imigrasi.go.id y en la app oficial. Nuestra tarifa de servicio cubre la preparación, la revisión, la presentación y la entrega, no la tarjeta en sí."
-        },
-        {
           "q": "¿Tengo que imprimir el código QR?",
           "a": "No. Se acepta una copia digital en el móvil. Una copia impresa es un respaldo útil si falla la batería o la cobertura."
         }
@@ -1306,7 +1302,7 @@
       "sections": [
         {
           "h": "La tarjeta de llegada All Indonesia: todos",
-          "p": "La tarjeta de llegada es el formulario digital gestionado por la Dirección General de Inmigración. Sustituyó a la tarjeta de inmigración en papel, a la declaración electrónica de aduana (e-CD) y al formulario sanitario SATUSEHAT por un único envío y un único código QR. Toda llegada internacional presenta una, dentro de las 72 horas previas al aterrizaje, incluidos ciudadanos indonesios y niños. Es gratuita en el portal oficial y en la app, y no es un visado: declara quién es usted, cómo llega, dónde se aloja y qué lleva. Nuestra <guide>guía paso a paso</guide> recorre cada pantalla."
+          "p": "La tarjeta de llegada es el formulario digital gestionado por la Dirección General de Inmigración. Sustituyó a la tarjeta de inmigración en papel, a la declaración electrónica de aduana (e-CD) y al formulario sanitario SATUSEHAT por un único envío y un único código QR. Toda llegada internacional presenta una, dentro de las 72 horas previas al aterrizaje, incluidos ciudadanos indonesios y niños. No tiene tasa gubernamental, y no es un visado: declara quién es usted, cómo llega, dónde se aloja y qué lleva. Nuestra <guide>guía paso a paso</guide> recorre cada pantalla."
         },
         {
           "h": "El e-VOA: solo nacionalidades elegibles",
@@ -1353,9 +1349,9 @@
               ],
               [
                 "Coste",
-                "Gratuita",
+                "Sin tasa gubernamental",
                 "{evoaFee} por persona",
-                "Gratuita; derechos solo sobre mercancías por encima de la franquicia"
+                "Sin tasa gubernamental; derechos solo sobre mercancías por encima de la franquicia"
               ],
               [
                 "Cuándo",

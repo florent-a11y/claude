@@ -27,11 +27,14 @@ const LABELS: Record<PublicPath, { ns: "Header" | "Footer"; key: string }> = {
  * Discreet "Home › Page" trail above the h1 plus the matching BreadcrumbList JSON-LD (absolute, localized URLs).
  * Server component; render it once per public page except the home page.
  */
-export async function Breadcrumbs({ path, className = "mb-4" }: { path: PublicPath; className?: string }) {
+export async function Breadcrumbs({ path, label: given, className = "mb-4" }: { path: PublicPath | `/info/${string}`; label?: string; className?: string }) {
   const locale = await getLocale();
   const tb = await getTranslations("Breadcrumbs");
-  const { ns, key } = LABELS[path];
-  const label = (await getTranslations(ns))(key);
+  let label = given ?? "";
+  if (!label) {
+    const { ns, key } = LABELS[path as PublicPath];
+    label = (await getTranslations(ns))(key);
+  }
   const crumbs = [
     { href: "/", label: tb("home") },
     { href: path, label },
