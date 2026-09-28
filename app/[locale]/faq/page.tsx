@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { pageMetadata } from "@/i18n/seo";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
+import { INFO_LABEL_KEYS, INFO_SLUGS } from "@/lib/info";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -18,6 +20,7 @@ export default async function FAQ({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("Faq");
+  const tf = await getTranslations("Footer");
   const faqs = ITEMS.map((k) => ({ q: t(`items.${k}.q`), a: t(`items.${k}.a`) }));
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
@@ -32,6 +35,15 @@ export default async function FAQ({ params }: Props) {
           </details>
         ))}
       </div>
+      <nav aria-label={t("relatedTitle")} className="mt-10">
+        <p className="font-semibold">{t("relatedTitle")}</p>
+        <ul className="mt-2 grid gap-1 text-sm sm:grid-cols-2">
+          {INFO_SLUGS.map((slug) => (
+            <li key={slug}><Link className="underline underline-offset-2 hover:text-brand-700" href={`/info/${slug}`}>{tf(INFO_LABEL_KEYS[slug])}</Link></li>
+          ))}
+          <li><Link className="underline underline-offset-2 hover:text-brand-700" href="/guide">{tf("guide")}</Link></li>
+        </ul>
+      </nav>
     </div>
   );
 }

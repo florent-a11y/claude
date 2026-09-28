@@ -59,6 +59,12 @@
     "guide": "How the arrival card works",
     "customs": "Customs allowances",
     "news": "Official news summaries",
+    "guides": "Guides",
+    "infoBali": "Bali arrival card",
+    "infoJakarta": "Jakarta arrival card",
+    "infoFamilies": "Arrival card for families",
+    "infoRequirements": "Arrival card requirements",
+    "infoCompare": "Arrival card vs e-VOA vs customs",
     "disclosure": "Non-affiliation disclosure",
     "terms": "Terms of service",
     "privacy": "Privacy policy",
@@ -815,7 +821,8 @@
     "ctaTitle": "Prefer to have it prepared and checked?",
     "ctaText": "Our team prepares your card from a short guided form, checks every field against your passport, submits it inside the 72-hour window and emails the QR code. From {price} per traveler. Useful for families, groups, or if you would rather not deal with the portal.",
     "cta": "Use the assistance service",
-    "ctaReminder": "Flying in more than 3 days? <link>Set a reminder</link> and we tell you when the window opens."
+    "ctaReminder": "Flying in more than 3 days? <link>Set a reminder</link> and we tell you when the window opens.",
+    "relatedTitle": "Related guides"
   },
   "Customs": {
     "metaTitle": "Indonesia Customs Declaration Guide 2026",
@@ -964,6 +971,451 @@
       "diy": {
         "q": "Can I complete the arrival card without your service?",
         "a": "Yes. The All Indonesia arrival card can be completed free of charge on the official government portal allindonesia.imigrasi.go.id. Our fee is only for preparing, checking and delivering it for you."
+      }
+    },
+    "relatedTitle": "Related guides"
+  },
+  "Landing": {
+    "common": {
+      "kicker": "Travel guide, updated September 2026",
+      "questions": "Common questions",
+      "related": "Related guides",
+      "ctaApply": "Start my arrival card – from {price}",
+      "ctaGuide": "Read the free guide",
+      "ctaReminder": "Flying in more than three days? <link>Set a free reminder</link> for the 72-hour window."
+    },
+    "bali-arrival-card": {
+      "metaTitle": "Bali arrival card: All Indonesia at DPS",
+      "metaDescription": "The All Indonesia arrival card at Bali Ngurah Rai: 72-hour window, QR at immigration and customs, e-VOA and the separate Bali tourist levy explained.",
+      "title": "Bali arrival card: what to complete before you land at Ngurah Rai",
+      "intro": "Every traveler landing at I Gusti Ngurah Rai International Airport (DPS) needs the All Indonesia arrival card, the free digital form that replaced the paper immigration card and the customs declaration. Most visitors also need a visa on arrival, and foreign tourists pay a separate Bali tourist levy. This page sorts the three out.",
+      "sections": [
+        {
+          "h": "Three things, not one: arrival card, e-VOA and the Bali levy",
+          "p": "Bali arrivals often confuse three separate requirements. They come from different authorities and are checked at different points.",
+          "items": [
+            "<strong>All Indonesia arrival card</strong>: mandatory for everyone, free, submitted within 72 hours before arrival on the official portal or app. It produces the QR code for immigration and customs.",
+            "<strong>Visa</strong>: most nationalities need a visa on arrival, obtained as an <evoa>e-VOA</evoa> before departure (government fee {evoaFee}) or at the counter in the arrivals hall. ASEAN nationals enter visa-free.",
+            "<strong>Bali tourist levy</strong>: {levy} per foreign visitor, collected by the Bali provincial government on the <lovebali>Love Bali</lovebali> portal. It is not part of the arrival card."
+          ],
+          "after": "Paying the levy does not create an arrival card, and the arrival card does not ask about the levy. Treat them as separate tasks."
+        },
+        {
+          "h": "The 72-hour window for Bali flights",
+          "p": "The official portal accepts the arrival card only when your arrival date in Bali falls within the next 72 hours. If you fly from Europe with a connection in Doha, Singapore or Kuala Lumpur, the local arrival date in Bali is usually the day after you leave home, and that is the date to enter.",
+          "items": [
+            "Submit one or two days before landing, from home, with the passports in front of you; airport Wi-Fi and a twenty-minute form are a poor combination.",
+            "Enter Denpasar (DPS) as port of entry, even if you continue to Lombok or Labuan Bajo on a domestic flight.",
+            "Flying in more than three days from now? <reminder>Set a free reminder</reminder> and we email you when your window opens."
+          ]
+        },
+        {
+          "h": "At Ngurah Rai: where the QR code is checked",
+          "p": "Ngurah Rai has a fixed sequence after you leave the aircraft.",
+          "items": [
+            "<strong>Visa on arrival counters</strong> come first, before immigration. Travelers without an e-VOA pay here; e-VOA holders walk past.",
+            "<strong>Immigration</strong>: autogates are in use for biometric passports. The system checks that an arrival card exists for your passport number; if the gate cannot match you, or you travel with children, an officer scans the QR at a counter.",
+            "<strong>Customs</strong>, after baggage claim: scan the arrival card QR at the customs kiosk. Nothing to declare means the green channel; a declaration sends you to the red channel. There is no second form."
+          ],
+          "after": "Keep the QR as a downloaded file and a full-screen screenshot; airlines on flights from Australia, Singapore and the Gulf may ask for it at check-in."
+        },
+        {
+          "h": "The Bali tourist levy, explained separately",
+          "p": "Since February 2024 the Bali provincial government charges foreign tourists a one-off levy of {levy} per visit, used for culture and environment programmes. It is paid online at <lovebali>lovebali.baliprov.go.id</lovebali> by card, and a voucher with its own QR code is emailed to you; airport counters also take payment, but the queue is avoidable. The levy applies per person, whatever their age; holders of certain long-stay permits can apply for an exemption on the same portal. Officers may ask to see the voucher at the airport or at attractions."
+        },
+        {
+          "h": "Filing for a family arriving in Bali",
+          "p": "The arrival card is one card per person. A parent fills in one for each child and infant with a passport, using the same flight, hotel address and email. Before you fly, confirm that every traveler has their own QR; if a group submission returned only one code, look the others up on the <retrieve>retrieve page</retrieve>. Visa on arrival and the Bali levy are also charged per person. Our <guide>step-by-step guide</guide> covers family filing in detail."
+        },
+        {
+          "h": "Common Bali mistakes",
+          "p": "The errors that send people to the manual counter at DPS are always the same.",
+          "items": [
+            "Entering the departure date instead of the local arrival date in Bali.",
+            "Choosing the wrong port of entry after a domestic connection through Jakarta: the card must name the airport where you first clear immigration.",
+            "A passport number typed with 0 instead of O; the autogate cannot match it.",
+            "Forgetting the customs part: cash of IDR 100 million or more, more than one litre of alcohol or goods above USD 500 must be declared. See our <customs>customs page</customs>."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Do I need the arrival card for Bali if I already paid the Bali tourist levy?",
+          "a": "Yes. The levy is a provincial tourism charge; the arrival card is a national immigration, customs and health declaration. Both are needed, each with its own QR code."
+        },
+        {
+          "q": "Can I complete the Bali arrival card at the airport on arrival?",
+          "a": "In practice yes, on your phone in the arrivals hall, but it is slow and some airlines ask for the QR before boarding. Submit it within the 72 hours before you land, ideally from home."
+        },
+        {
+          "q": "Does the arrival card replace the visa on arrival in Bali?",
+          "a": "No. Most nationalities still need a visa on arrival, obtained as an e-VOA before departure or at the counter at Ngurah Rai. ASEAN nationals are visa-free. The arrival card is required in every case."
+        },
+        {
+          "q": "I arrive in Bali by domestic flight or by ferry from Lombok. Do I need it?",
+          "a": "Only your international entry point matters. If you first cleared immigration in Jakarta or elsewhere, the card names that airport and nothing more is needed in Bali. Only international arrivals into Bali, by air or by sea at Benoa, use Denpasar as port of entry."
+        }
+      ],
+      "cta": {
+        "title": "Arriving in Bali soon? We prepare and check your arrival card.",
+        "text": "Answer our guided questions; a person checks every field against your passport and submits inside the 72-hour window. Arrival card assistance from {price} per traveler; add the <evoa>e-VOA</evoa> if you need a visa on arrival."
+      }
+    },
+    "jakarta-arrival-card": {
+      "metaTitle": "Jakarta arrival card: Soekarno-Hatta guide",
+      "metaDescription": "The All Indonesia arrival card at Jakarta Soekarno-Hatta (CGK): 72-hour rule, autogates and the QR code, transit rules, business trips and connections.",
+      "title": "Jakarta arrival card: Soekarno-Hatta arrivals, autogates and transit",
+      "intro": "Soekarno-Hatta International Airport (CGK) is Indonesia's busiest entry point and one of the first airports where the All Indonesia arrival card was introduced in 2025. Every passenger who clears immigration there needs the card, whether they stay in Jakarta, connect to a domestic flight or come for a two-day meeting. Here is how it works at CGK.",
+      "sections": [
+        {
+          "h": "Who needs the card at Soekarno-Hatta",
+          "p": "The rule is the same as everywhere in Indonesia: every international arrival files an arrival card within 72 hours before landing, foreigners and Indonesian citizens alike, adults and children. What changes at Jakarta is how many people only pass through.",
+          "items": [
+            "Staying in Jakarta or connecting to a domestic flight: you clear immigration at CGK, so the card names Jakarta as port of entry.",
+            "International-to-international transit without leaving the transit area: no immigration, no card.",
+            "A stopover with a hotel outside the airport, even for one night: you pass immigration, so the card is required, plus a visa or exemption.",
+            "Indonesian citizens returning home: same card, Indonesian citizen category, NIK required."
+          ]
+        },
+        {
+          "h": "The 72-hour window and the arrival date",
+          "p": "The portal accepts a card only when the arrival date in Indonesia falls within the next 72 hours. Enter the local date you land in Jakarta, not the date you depart: on overnight flights from Europe, the Middle East and North America that is usually the next calendar day. Check the date on the summary screen before submitting. If your trip is more than three days away, <reminder>set a free reminder</reminder> and file when the window opens."
+        },
+        {
+          "h": "Autogates at CGK: how the QR is used",
+          "p": "The international arrival halls of Terminal 3 and Terminal 2 have autogates for passengers with biometric passports. The gate reads the passport chip, takes a photo and checks in the immigration system that a valid arrival card exists for that passport number. You usually do not scan the QR at the gate itself; the match happens in the background. That is why a passport number typed with a wrong character matters: the gate finds nothing and sends you to a counter.",
+          "items": [
+            "Have the passport and the QR ready anyway; if the gate rejects you, the officer scans the code.",
+            "Visa on arrival travelers pay at the VOA counters before immigration, or hold an <evoa>e-VOA</evoa> and go straight to the gates.",
+            "After baggage claim, scan the QR at the customs kiosk and take the green or red channel."
+          ]
+        },
+        {
+          "h": "Transit passengers: three cases",
+          "p": "Jakarta is a hub for Garuda Indonesia and several foreign carriers, so transit questions come up daily.",
+          "items": [
+            "<strong>Airside transit</strong> on a through ticket, bags checked to a destination abroad: you do not pass immigration and do not need the card.",
+            "<strong>International arrival, domestic onward flight</strong>: you clear immigration and customs at CGK, collect and re-check your bags, and need the card with Jakarta as port of entry. Allow at least three hours.",
+            "<strong>Separate tickets or a hotel overnight</strong>: you enter Indonesia. Card, visa and customs apply as for any visitor."
+          ]
+        },
+        {
+          "h": "Business travelers",
+          "p": "The arrival card is a declaration, not a visa, and it asks for a purpose of visit. Business meetings, conferences and purchasing are permitted on the visa on arrival and the e-VOA; paid work for an Indonesian company is not, and needs a visa arranged in advance. Frequent visitors can keep an account in the official app so that each new card takes a few minutes, but there is no multi-entry arrival card: the 72-hour rule applies to every trip.",
+          "items": [
+            "Use the hotel or office address where you will actually stay; a company name alone is not enough.",
+            "Company laptop and samples: personal effects are fine, but goods for sale or handover and cash of IDR 100 million or more must be declared. See our <customs>customs page</customs>.",
+            "An assistant can file on a traveler's behalf, but the QR must reach the traveler's phone before check-in."
+          ]
+        },
+        {
+          "h": "Domestic connections from Jakarta",
+          "p": "If you connect to Bali, Lombok or elsewhere, the port of entry on the card is Jakarta (CGK), because that is where immigration stamps you in. Entering the final destination instead is a common mistake: the customs kiosk in Jakarta may not find your card. The Bali tourist levy, if you continue to Bali, is a separate provincial charge paid online. Every screen of the form is explained in our <guide>step-by-step guide</guide>."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "I have a six-hour layover in Jakarta and stay in the transit area. Do I need the arrival card?",
+          "a": "No. The card is required only when you clear immigration. If you stay airside on a through ticket, nothing is needed. If you leave the airport, even briefly, it is."
+        },
+        {
+          "q": "Which terminal at Soekarno-Hatta has autogates?",
+          "a": "The international arrival halls of Terminal 3 and Terminal 2 have autogates for biometric passport holders; staffed counters remain for everyone else. Either way the arrival card must exist before you reach the line."
+        },
+        {
+          "q": "I fly Jakarta to Bali on a domestic flight. Which port of entry do I enter?",
+          "a": "Jakarta (CGK). The port of entry is where you first clear immigration, not your final destination."
+        },
+        {
+          "q": "Can I file the card for a colleague?",
+          "a": "Yes. Anyone can fill in a card for another traveler with their passport details. Each traveler needs their own card and QR code, and the file must be on the traveler's phone or printed."
+        }
+      ],
+      "cta": {
+        "title": "Landing at CGK this week? We prepare and check your arrival card.",
+        "text": "Guided questions, a person checks every field, submission inside the 72-hour window and the QR by email. From {price} per traveler; an <evoa>e-VOA</evoa> can be added for business or tourist trips."
+      }
+    },
+    "arrival-card-for-families": {
+      "metaTitle": "Indonesia arrival card for families and kids",
+      "metaDescription": "Filing the All Indonesia arrival card for children and infants: one card per person, group filing in one order, passports of minors, QR codes, mistakes.",
+      "title": "Indonesia arrival card for families: children, infants and group filing",
+      "intro": "The All Indonesia arrival card is issued per person, not per family. A couple with two children needs four cards and four QR codes, including one for a baby with a passport. That surprises many parents, and it causes most family problems at the immigration counter. Here is how to file for children and for a whole group.",
+      "sections": [
+        {
+          "h": "One card per person, whatever the age",
+          "p": "Indonesian immigration matches each arrival card to a passport number. A child with a passport is a separate traveler in the system, so they need their own card, with their own name, passport number and date of birth, and their own QR code. There is no dependant section on an adult's card and no family QR.",
+          "items": [
+            "Infants with their own passport: a card in the infant's name.",
+            "Children still listed in a parent's passport (a few countries issue these): the form is built around one passport per card, so check the official portal help centre for how to declare them.",
+            "Teenagers: identical to adults; purpose of visit and address are those of the accompanying parent."
+          ]
+        },
+        {
+          "h": "Which details go on a child's card",
+          "p": "Most fields are copied from the adult's card; only the identity block changes.",
+          "items": [
+            "Name exactly as in the machine-readable zone of the child's passport, all given names, no nicknames.",
+            "Passport number, nationality, date of birth and expiry date from the child's passport, not the parent's.",
+            "Flight number, arrival date, port of entry, departure date and accommodation address: the same as the parent's.",
+            "Email address: the parent's. All QR codes can go to one inbox.",
+            "Health declaration: answer for the child. Customs: in practice one adult declares the family's cash and goods; on the other cards, answer for what that traveler actually carries."
+          ]
+        },
+        {
+          "h": "Group filing: everyone in one order",
+          "p": "There are three ways to file several cards.",
+          "items": [
+            "<strong>Official portal, one after another</strong>: no account, the same questions each time. Line up the passports, fill the cards in the same order and tick each off.",
+            "<strong>Official app, group option</strong>: an account is needed and several travelers can be added in one session. Some travelers have reported a group submission returning a QR for the leader only; check each member on the <retrieve>retrieve page</retrieve> afterwards.",
+            "<strong>Our assistance</strong>: one order for the whole family, from {price} for the first traveler and {additional} for each additional person. A person prepares each card, checks every field and sends all QR codes in one email."
+          ],
+          "after": "Whichever way you choose, the outcome must be the same: one QR per person, each showing the right name and passport number."
+        },
+        {
+          "h": "Timing for families",
+          "p": "The 72-hour window applies to each card, and all cards for the same flight open at the same time. Filing four or five cards in a departure lounge is stressful; do it at home the day before, with the passports and the hotel booking on the table, or <reminder>set one reminder</reminder> for the family's arrival date. Children's passports also need six months of validity for the visa on arrival and the <evoa>e-VOA</evoa>, which children need as well, at the same government fee of {evoaFee} each."
+        },
+        {
+          "h": "At the airport with children",
+          "p": "Autogates are generally used by adults with biometric passports; families with young children are directed to staffed counters, where the officer scans each QR with each passport. Keep the codes together: one album on the parent's phone, named by traveler, plus printouts in the passport wallet. At the customs kiosk the officer may ask for each QR or only for the declaring adult's; have all of them ready."
+        },
+        {
+          "h": "Mistakes families make",
+          "p": "The same handful of errors comes up at every family counter.",
+          "items": [
+            "One card for the whole family, with only the parent's passport. The children have no card and the counter has to sort it out.",
+            "The parent's passport number copied into a child's card. Each card must carry that traveler's own number.",
+            "A nickname or a missing middle name for a child; the name must match the machine-readable zone.",
+            "Assuming a child does not need a visa. Visa on arrival, e-VOA and visa-free entry apply to children as to adults.",
+            "Losing one code among many. Rename the files with the traveler's name. More traps are listed in our <faq>FAQ</faq>."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Does my baby need an Indonesia arrival card?",
+          "a": "Yes, if the baby has a passport. Every traveler with a passport needs a card in their own name, whatever their age. A parent fills it in."
+        },
+        {
+          "q": "Can I use one email address for all the family's cards?",
+          "a": "Yes. The portal sends each QR to the email you enter, so one inbox for the whole family is the simplest option. Rename each file with the traveler's name."
+        },
+        {
+          "q": "Do children need a visa on arrival for Indonesia?",
+          "a": "Yes. The visa on arrival and the e-VOA apply per person, children included, at the same government fee. ASEAN nationals of any age are visa-free. The arrival card is required in all cases."
+        },
+        {
+          "q": "We received one QR code for the whole group. What now?",
+          "a": "Look each traveler up on the official retrieve page with their passport details. Anyone without a card should get an individual submission before you fly."
+        }
+      ],
+      "cta": {
+        "title": "Traveling as a family? One order, one QR per person.",
+        "text": "Send us the passports once and we prepare, check and submit every card inside the 72-hour window, then email all QR codes together. From {price} for the first traveler and {additional} for each additional family member."
+      }
+    },
+    "arrival-card-requirements": {
+      "metaTitle": "Indonesia arrival card requirements 2026",
+      "metaDescription": "Who must file the All Indonesia arrival card, the documents you need, the 72-hour rule in force since 1 October 2025 and what happens without it.",
+      "title": "Indonesia arrival card requirements: who must file, what you need, when",
+      "intro": "Since 1 October 2025 the All Indonesia arrival card is mandatory at every international airport, seaport and land border in Indonesia. It is a single digital declaration to immigration, customs, health and quarantine, submitted within 72 hours before arrival, and it produces one QR code per traveler. This page lists the requirements in one place.",
+      "sections": [
+        {
+          "h": "Who must file",
+          "p": "The card applies to all international arrivals, with no exemption by nationality, age or visa type.",
+          "items": [
+            "Foreign visitors of every nationality, whether visa-free, on a visa on arrival, an e-VOA or a visa issued in advance.",
+            "Indonesian citizens returning from abroad, in the Indonesian citizen category with their NIK.",
+            "Children and infants who hold a passport: one card each, filled in by a parent.",
+            "Arrivals by sea (Batam, Bintan, Benoa and other international ports) and by land (Motaain and other crossings), not only by air."
+          ],
+          "after": "The only people who do not file are transit passengers who stay in the international transit area and never pass immigration."
+        },
+        {
+          "h": "Documents and details to have ready",
+          "p": "The form takes about fifteen minutes if everything is on the table. You will need:",
+          "items": [
+            "Passport, open at the photo page. Name, passport number, date of birth, nationality and expiry date must be typed exactly as printed; the machine-readable zone is the safest source.",
+            "Flight, ferry or vessel number, the local arrival date in Indonesia and the airport or port where you first clear immigration.",
+            "Planned departure date (approximate is accepted) and your visa type: visa-free, visa on arrival, e-VOA or other.",
+            "Purpose of visit and the name and address of your first accommodation. A hotel name and city is accepted.",
+            "An email address you can open on your phone. The verification code and the QR code go there.",
+            "Countries visited in the previous 21 days, and whether you currently have symptoms such as fever or cough.",
+            "What you carry: cash, alcohol, tobacco, goods bought abroad, animals, plants or fresh food, and the number of bags. Indonesian citizens also enter their NIK."
+          ]
+        },
+        {
+          "h": "Timing: the 72-hour window",
+          "p": "The official portal accepts a card only when the arrival date lies within the next 72 hours. There is no early filing and no card that covers several trips. Most travelers submit 24 to 48 hours before landing. The arrival date is the local calendar date you land in Indonesia; on an overnight flight from Europe or North America that is the day after departure. Airlines on many routes check the QR at check-in, so do not plan to file at the destination airport. Flying later than that? <reminder>Set a free reminder</reminder>."
+        },
+        {
+          "h": "What the card is not",
+          "p": "The arrival card is a declaration. It does not by itself give you the right to enter Indonesia.",
+          "items": [
+            "It is not a visa. Depending on your nationality you enter visa-free (ASEAN), with a visa on arrival or <evoa>e-VOA</evoa> ({evoaFee} government fee, {evoaDays} days, extendable once), or with a visa issued before travel.",
+            "It is not the Bali tourist levy, which the Bali provincial government collects separately from foreign tourists.",
+            "It does not cost anything. The portal and the official app are free; any site that charges for the card itself is unofficial. Our fee pays for preparing and checking it for you.",
+            "It is not a health pass. The health questions are a declaration; a truthful yes does not refuse entry."
+          ]
+        },
+        {
+          "h": "What happens without it",
+          "p": "Immigration checks for a valid card when you present your passport, at the autogate or the counter. Without one you are not sent home, but you are sent aside to complete the form on your phone, on airport Wi-Fi, while your queue moves on. Some airlines refuse to check in passengers who cannot show the QR, particularly on flights from Singapore, Australia and the Gulf, which is the more serious risk. After baggage claim the customs kiosk needs the same QR.",
+          "after": "A card with wrong details is nearly as bad as no card: a name or passport number that does not match sends you to a manual counter, and a wrong arrival date may not be valid on the day. Submit a corrected card and show only that one."
+        },
+        {
+          "h": "Where the card is checked",
+          "p": "The QR is checked up to three times between check-in and the exit door.",
+          "items": [
+            "At airline check-in, on many routes, before the boarding pass is issued.",
+            "At immigration: autogates match the passport chip to the card automatically; counters scan the QR.",
+            "At the customs kiosk after baggage claim: green or red channel. What to declare is on our <customs>customs page</customs>."
+          ],
+          "after": "For a screen-by-screen walk through the form, see our <guide>complete guide</guide>."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Do Indonesian citizens need the arrival card?",
+          "a": "Yes. Citizens returning from abroad complete the same card, in the Indonesian citizen category, with their NIK."
+        },
+        {
+          "q": "Can I submit the card a week before my flight?",
+          "a": "No. The portal refuses arrival dates more than 72 hours away. File inside the three days before landing; set a reminder if the trip is further away."
+        },
+        {
+          "q": "Is there a fee for the Indonesia arrival card?",
+          "a": "No. The card is free on the official portal allindonesia.imigrasi.go.id and in the official app. Our service fee covers preparation, checking, submission and delivery, not the card itself."
+        },
+        {
+          "q": "Do I need to print the QR code?",
+          "a": "No. A digital copy on your phone is accepted. A printout is a useful backup if the battery or the signal fails."
+        }
+      ],
+      "cta": {
+        "title": "Have everything ready? We do the form for you.",
+        "text": "Guided questions, a person checks every field against your passport, submission inside the 72-hour window and the QR by email, with support until you have cleared immigration. From {price} per traveler."
+      }
+    },
+    "arrival-card-vs-evoa-vs-customs": {
+      "metaTitle": "Arrival card vs e-VOA vs customs: Indonesia",
+      "metaDescription": "What Indonesia travelers mix up: the All Indonesia arrival card (everyone), the e-VOA visa on arrival (eligible nationals, IDR 500,000) and customs.",
+      "title": "Arrival card, e-VOA and customs declaration: what each one is and who needs it",
+      "intro": "Travelers to Indonesia hear about an arrival card, a visa on arrival and a customs declaration, often from three different sources, and wonder whether they are the same thing. They are not. One is a declaration everyone files, one is a visa some nationalities need, and one used to be a separate form and is now a section of the first.",
+      "sections": [
+        {
+          "h": "The All Indonesia arrival card: everyone",
+          "p": "The arrival card is the digital form run by the Directorate General of Immigration. It replaced the paper immigration card, the electronic customs declaration (e-CD) and the SATUSEHAT health form with one submission and one QR code. Every international arrival files one, within 72 hours before landing, including Indonesian citizens and children. It is free on the official portal and app, and it is not a visa: it declares who you are, how you arrive, where you stay and what you carry. Our <guide>step-by-step guide</guide> walks through every screen."
+        },
+        {
+          "h": "The e-VOA: eligible nationalities only",
+          "p": "The visa on arrival (VOA) is the entry permit most tourists and business visitors use. It is available to nationals of around 97 countries, costs {evoaFee} per person, allows a stay of {evoaDays} days and can be extended once for another 30 days at an immigration office. The e-VOA is the same visa applied for online before departure, up to about 90 days ahead, so you skip the payment counter on arrival. ASEAN nationals enter visa-free for 30 days; nationals outside the VOA list need a visa issued before travel.",
+          "items": [
+            "Requirements: passport valid at least six months from entry, a return or onward ticket, a recent passport-style photo.",
+            "Purposes: tourism, family visits, business meetings and purchasing, transit. Not paid work or journalism.",
+            "Children need their own e-VOA at the same fee. We can <evoa>prepare and submit the e-VOA</evoa> for you, with the government fee shown separately from our service fee."
+          ]
+        },
+        {
+          "h": "The customs declaration: now a section of the arrival card",
+          "p": "Until 2025, arriving passengers completed a separate electronic customs declaration (e-CD) for Bea Cukai, Indonesian Customs. That form has been merged into the All Indonesia arrival card: the customs and quarantine questions are answered in the same submission, and the same QR code is scanned at the customs kiosk after baggage claim. What you must declare has not changed:",
+          "items": [
+            "Cash, cheques or other bearer instruments worth IDR 100 million or more, in any currency.",
+            "Personal goods worth more than USD 500 in total, or more than 1 litre of alcohol, 200 cigarettes, 25 cigars or 100 grams of tobacco.",
+            "Goods for sale or for a business, samples included; live animals, plants, seeds, fruit or other fresh food (quarantine).",
+            "A phone you want to register (IMEI) for use on an Indonesian SIM beyond 90 days."
+          ],
+          "after": "Nothing to declare means the green channel; a declaration means the red channel and an inspection or duty assessment. Allowances and a quick calculator are on our <customs>customs page</customs>."
+        },
+        {
+          "h": "Side by side",
+          "p": "The table sums up the differences.",
+          "table": {
+            "head": [
+              "",
+              "Arrival card",
+              "e-VOA / visa on arrival",
+              "Customs declaration"
+            ],
+            "rows": [
+              [
+                "Who needs it",
+                "Every international arrival, all ages, citizens included",
+                "Nationals of about 97 countries without another visa; not ASEAN nationals",
+                "Everyone, as part of the arrival card"
+              ],
+              [
+                "Issued by",
+                "Directorate General of Immigration",
+                "Directorate General of Immigration",
+                "Bea Cukai (Customs), via the arrival card"
+              ],
+              [
+                "Cost",
+                "Free",
+                "{evoaFee} per person",
+                "Free; duty only on goods above the allowance"
+              ],
+              [
+                "When",
+                "Within 72 hours before arrival",
+                "Up to about 90 days before arrival, or at the counter on landing",
+                "With the arrival card, within 72 hours"
+              ],
+              [
+                "Where",
+                "<portal>allindonesia.imigrasi.go.id</portal> or the official app",
+                "Official e-visa portal, or the VOA counter at the airport",
+                "Same form as the arrival card"
+              ],
+              [
+                "What you get",
+                "One QR code per traveler",
+                "e-VOA approval (PDF) or a visa stamp",
+                "Green or red channel at the customs kiosk"
+              ],
+              [
+                "Checked at",
+                "Airline check-in, immigration, customs kiosk",
+                "Immigration",
+                "Customs kiosk after baggage claim"
+              ]
+            ]
+          }
+        },
+        {
+          "h": "Which ones apply to you",
+          "p": "Three typical cases:",
+          "items": [
+            "<strong>Tourist from Australia, Europe, the UK, the US, Japan, Korea or China</strong>: arrival card + visa on arrival (e-VOA recommended) + customs section. Three items, two forms.",
+            "<strong>Traveler from Singapore, Malaysia, Thailand or another ASEAN country</strong>: arrival card with its customs section only. Visa-free entry.",
+            "<strong>Indonesian citizen coming home</strong>: arrival card in the citizen category, customs section included. No visa."
+          ],
+          "after": "Whatever the case, the order is the same: visa first if you need one, arrival card in the last three days, customs answered inside it. More answers are in our <faq>FAQ</faq>."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Does the e-VOA include the arrival card?",
+          "a": "No. They are separate submissions to the same immigration authority. The e-VOA is applied for weeks ahead; the arrival card only inside the 72 hours before arrival. You need both."
+        },
+        {
+          "q": "Do I still need to fill in a customs declaration for Indonesia?",
+          "a": "Yes, but not as a separate form. The customs and quarantine questions are part of the All Indonesia arrival card, and the arrival card QR is what you scan at the customs kiosk."
+        },
+        {
+          "q": "Can I get the visa on arrival without the e-VOA?",
+          "a": "Yes. The visa on arrival is sold at counters before immigration at international airports and major ports, for the same fee. The e-VOA avoids that queue."
+        },
+        {
+          "q": "What if my country is not on the visa on arrival list?",
+          "a": "You need a visa issued before travel, through an Indonesian embassy or the official e-visa system. The arrival card is required in addition, as for everyone else."
+        }
+      ],
+      "cta": {
+        "title": "Need both? Arrival card and e-VOA in one order.",
+        "text": "We prepare and check the arrival card from {price} and the e-VOA from {evoaPrice} per traveler, with the government visa fee itemized. Order both together and save {bundleSave} per traveler."
       }
     }
   },

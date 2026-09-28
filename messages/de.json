@@ -59,6 +59,12 @@
     "guide": "So funktioniert die Einreisekarte",
     "customs": "Zollfreimengen",
     "news": "Zusammenfassungen amtlicher Meldungen",
+    "guides": "Ratgeber",
+    "infoBali": "Arrival Card für Bali",
+    "infoJakarta": "Arrival Card für Jakarta",
+    "infoFamilies": "Arrival Card für Familien",
+    "infoRequirements": "Voraussetzungen der Arrival Card",
+    "infoCompare": "Arrival Card, e-VOA und Zoll im Vergleich",
     "disclosure": "Hinweis zur Nichtzugehörigkeit",
     "terms": "Nutzungsbedingungen",
     "privacy": "Datenschutzerklärung",
@@ -815,7 +821,8 @@
     "ctaTitle": "Lieber vorbereiten und prüfen lassen?",
     "ctaText": "Unser Team bereitet Ihre Karte aus einem kurzen geführten Formular vor, prüft jedes Feld anhand Ihres Reisepasses, reicht sie innerhalb des 72-Stunden-Fensters ein und sendet den QR-Code per E-Mail. Ab {price} pro Reisendem. Nützlich für Familien, Gruppen oder wenn Sie sich lieber nicht mit dem Portal befassen möchten.",
     "cta": "Assistenzdienst nutzen",
-    "ctaReminder": "Fliegen Sie erst in mehr als 3 Tagen? <link>Richten Sie eine Erinnerung ein</link>, und wir sagen Ihnen, wann das Zeitfenster öffnet."
+    "ctaReminder": "Fliegen Sie erst in mehr als 3 Tagen? <link>Richten Sie eine Erinnerung ein</link>, und wir sagen Ihnen, wann das Zeitfenster öffnet.",
+    "relatedTitle": "Weitere Ratgeber"
   },
   "Customs": {
     "metaTitle": "Zollerklärung Indonesien: Freimengen 2026",
@@ -964,6 +971,451 @@
       "diy": {
         "q": "Kann ich die Einreisekarte ohne Ihren Service ausfüllen?",
         "a": "Ja. Die All Indonesia Arrival Card kann kostenlos auf dem offiziellen Regierungsportal allindonesia.imigrasi.go.id ausgefüllt werden. Unsere Gebühr gilt nur für das Vorbereiten, Prüfen und Zustellen in Ihrem Auftrag."
+      }
+    },
+    "relatedTitle": "Weitere Ratgeber"
+  },
+  "Landing": {
+    "common": {
+      "kicker": "Reiseratgeber, Stand September 2026",
+      "questions": "Häufige Fragen",
+      "related": "Weitere Ratgeber",
+      "ctaApply": "Arrival Card starten – ab {price}",
+      "ctaGuide": "Kostenlose Anleitung lesen",
+      "ctaReminder": "Sie fliegen erst in mehr als drei Tagen? <link>Kostenlose Erinnerung</link> für das 72-Stunden-Fenster einrichten."
+    },
+    "bali-arrival-card": {
+      "metaTitle": "Arrival Card Bali: All Indonesia am DPS",
+      "metaDescription": "Die All Indonesia Arrival Card am Flughafen Ngurah Rai auf Bali: 72-Stunden-Fenster, QR-Code bei Einreise und Zoll, e-VOA und die separate Bali-Touristenabgabe.",
+      "title": "Arrival Card für Bali: Was Sie vor der Landung in Ngurah Rai erledigen müssen",
+      "intro": "Jeder Reisende, der am I Gusti Ngurah Rai International Airport (DPS) landet, braucht die All Indonesia Arrival Card, das kostenlose digitale Formular, das die Einreisekarte aus Papier und die Zollerklärung ersetzt hat. Die meisten Besucher brauchen außerdem ein Visum bei Ankunft, und ausländische Touristen zahlen eine separate Bali-Touristenabgabe. Diese Seite bringt die drei Dinge in Ordnung.",
+      "sections": [
+        {
+          "h": "Drei Dinge, nicht eines: Arrival Card, e-VOA und Bali-Abgabe",
+          "p": "Bali-Reisende verwechseln oft drei getrennte Pflichten. Sie stammen von verschiedenen Behörden und werden an verschiedenen Stellen geprüft.",
+          "items": [
+            "<strong>All Indonesia Arrival Card</strong>: Pflicht für alle, kostenlos, innerhalb von 72 Stunden vor der Ankunft im offiziellen Portal oder in der App eingereicht. Sie erzeugt den QR-Code für Einreise und Zoll.",
+            "<strong>Visum</strong>: Die meisten Nationalitäten brauchen ein Visum bei Ankunft, das vor dem Abflug als <evoa>e-VOA</evoa> (staatliche Gebühr {evoaFee}) oder am Schalter in der Ankunftshalle erhältlich ist. ASEAN-Staatsangehörige reisen visumfrei ein.",
+            "<strong>Bali-Touristenabgabe</strong>: {levy} pro ausländischem Besucher, erhoben von der Provinzregierung Bali über das Portal <lovebali>Love Bali</lovebali>. Sie ist nicht Teil der Arrival Card."
+          ],
+          "after": "Die Zahlung der Abgabe erzeugt keine Arrival Card, und die Arrival Card fragt nicht nach der Abgabe. Behandeln Sie beides als getrennte Aufgaben."
+        },
+        {
+          "h": "Das 72-Stunden-Fenster bei Flügen nach Bali",
+          "p": "Das offizielle Portal nimmt die Arrival Card nur an, wenn Ihr Ankunftsdatum auf Bali innerhalb der nächsten 72 Stunden liegt. Wer aus Europa mit Umstieg in Doha, Singapur oder Kuala Lumpur fliegt, landet auf Bali nach Ortszeit meist am Tag nach dem Abflug, und genau dieses Datum ist einzutragen.",
+          "items": [
+            "Reichen Sie die Karte ein bis zwei Tage vor der Landung von zu Hause aus ein, mit den Pässen vor sich; Flughafen-WLAN und ein zwanzigminütiges Formular passen schlecht zusammen.",
+            "Tragen Sie Denpasar (DPS) als Einreisehafen ein, auch wenn Sie mit einem Inlandsflug nach Lombok oder Labuan Bajo weiterreisen.",
+            "Sie fliegen erst in mehr als drei Tagen? <reminder>Richten Sie eine kostenlose Erinnerung ein</reminder>, und wir schreiben Ihnen, sobald Ihr Fenster offen ist."
+          ]
+        },
+        {
+          "h": "In Ngurah Rai: Wo der QR-Code geprüft wird",
+          "p": "In Ngurah Rai läuft nach dem Verlassen des Flugzeugs immer dieselbe Abfolge ab.",
+          "items": [
+            "<strong>Schalter für das Visum bei Ankunft</strong> kommen zuerst, noch vor der Einreisekontrolle. Wer kein e-VOA hat, zahlt hier; e-VOA-Inhaber gehen vorbei.",
+            "<strong>Einreisekontrolle</strong>: Für biometrische Pässe gibt es Autogates. Das System prüft, ob zu Ihrer Passnummer eine Arrival Card existiert; kann das Gate Sie nicht zuordnen oder reisen Sie mit Kindern, scannt ein Beamter den QR-Code am Schalter.",
+            "<strong>Zoll</strong>, nach der Gepäckausgabe: Scannen Sie den QR-Code der Arrival Card am Zollkiosk. Nichts zu verzollen bedeutet grüner Kanal; eine Anmeldung führt in den roten Kanal. Ein zweites Formular gibt es nicht."
+          ],
+          "after": "Bewahren Sie den QR-Code als heruntergeladene Datei und als Vollbild-Screenshot auf; Airlines auf Flügen aus Australien, Singapur und der Golfregion fragen beim Check-in mitunter danach."
+        },
+        {
+          "h": "Die Bali-Touristenabgabe, getrennt erklärt",
+          "p": "Seit Februar 2024 erhebt die Provinzregierung Bali von ausländischen Touristen eine einmalige Abgabe von {levy} pro Besuch, die in Kultur- und Umweltprogramme fließt. Sie wird online unter <lovebali>lovebali.baliprov.go.id</lovebali> per Karte bezahlt, und ein Voucher mit eigenem QR-Code kommt per E-Mail; Schalter am Flughafen nehmen ebenfalls Zahlungen an, doch die Warteschlange lässt sich vermeiden. Die Abgabe gilt pro Person, unabhängig vom Alter; Inhaber bestimmter Langzeitaufenthaltstitel können im selben Portal eine Befreiung beantragen. Beamte können den Voucher am Flughafen oder an Sehenswürdigkeiten sehen wollen."
+        },
+        {
+          "h": "Einreichen für eine Familie, die auf Bali ankommt",
+          "p": "Die Arrival Card gilt pro Person. Ein Elternteil füllt für jedes Kind und jedes Baby mit eigenem Pass eine eigene Karte aus, mit demselben Flug, derselben Hotelanschrift und derselben E-Mail-Adresse. Prüfen Sie vor dem Abflug, dass jeder Reisende seinen eigenen QR-Code hat; hat eine Gruppeneinreichung nur einen Code geliefert, suchen Sie die übrigen auf der <retrieve>Abrufseite</retrieve>. Auch das Visum bei Ankunft und die Bali-Abgabe werden pro Person berechnet. Unsere <guide>Schritt-für-Schritt-Anleitung</guide> behandelt das Einreichen für Familien im Detail."
+        },
+        {
+          "h": "Typische Bali-Fehler",
+          "p": "Die Fehler, die Reisende am DPS zum manuellen Schalter schicken, sind immer dieselben.",
+          "items": [
+            "Das Abflugdatum statt des Ankunftsdatums nach Ortszeit auf Bali eintragen.",
+            "Nach einem Inlandsumstieg über Jakarta den falschen Einreisehafen wählen: Die Karte muss den Flughafen nennen, an dem Sie zuerst die Einreisekontrolle passieren.",
+            "Eine Passnummer mit 0 statt O getippt; das Autogate kann sie nicht zuordnen.",
+            "Den Zollteil vergessen: Bargeld ab IDR 100 Millionen, mehr als ein Liter Alkohol oder Waren über USD 500 müssen angemeldet werden. Siehe unsere <customs>Zollseite</customs>."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Brauche ich die Arrival Card für Bali, wenn ich die Bali-Touristenabgabe schon bezahlt habe?",
+          "a": "Ja. Die Abgabe ist eine Tourismusabgabe der Provinz; die Arrival Card ist eine nationale Erklärung für Einreise, Zoll und Gesundheit. Beides ist nötig, jeweils mit eigenem QR-Code."
+        },
+        {
+          "q": "Kann ich die Arrival Card für Bali erst am Flughafen bei der Ankunft ausfüllen?",
+          "a": "Praktisch ja, auf dem Handy in der Ankunftshalle, aber das ist langsam, und manche Airlines verlangen den QR-Code schon vor dem Boarding. Reichen Sie die Karte innerhalb der 72 Stunden vor der Landung ein, am besten von zu Hause aus."
+        },
+        {
+          "q": "Ersetzt die Arrival Card das Visum bei Ankunft auf Bali?",
+          "a": "Nein. Die meisten Nationalitäten brauchen weiterhin ein Visum bei Ankunft, vor dem Abflug als e-VOA oder am Schalter in Ngurah Rai. ASEAN-Staatsangehörige sind visumfrei. Die Arrival Card ist in jedem Fall Pflicht."
+        },
+        {
+          "q": "Ich komme mit einem Inlandsflug oder mit der Fähre von Lombok nach Bali. Brauche ich sie?",
+          "a": "Nur Ihr internationaler Einreiseort zählt. Wenn Sie zuerst in Jakarta oder anderswo die Einreisekontrolle passiert haben, nennt die Karte diesen Flughafen, und auf Bali ist nichts weiter nötig. Nur internationale Ankünfte auf Bali, per Flug oder per Schiff in Benoa, tragen Denpasar als Einreisehafen ein."
+        }
+      ],
+      "cta": {
+        "title": "Bald auf Bali? Wir bereiten Ihre Arrival Card vor und prüfen sie.",
+        "text": "Beantworten Sie unsere geführten Fragen; eine Person prüft jedes Feld gegen Ihren Pass und reicht innerhalb des 72-Stunden-Fensters ein. Arrival-Card-Service ab {price} pro Reisendem; fügen Sie das <evoa>e-VOA</evoa> hinzu, wenn Sie ein Visum bei Ankunft brauchen."
+      }
+    },
+    "jakarta-arrival-card": {
+      "metaTitle": "Arrival Card Jakarta: Soekarno-Hatta",
+      "metaDescription": "Die All Indonesia Arrival Card am Flughafen Jakarta Soekarno-Hatta (CGK): 72-Stunden-Regel, Autogates und QR-Code, Transitregeln, Geschäftsreisen, Anschlussflüge.",
+      "title": "Arrival Card für Jakarta: Ankunft in Soekarno-Hatta, Autogates und Transit",
+      "intro": "Der Soekarno-Hatta International Airport (CGK) ist Indonesiens verkehrsreichster Einreiseort und einer der ersten Flughäfen, an denen die All Indonesia Arrival Card 2025 eingeführt wurde. Jeder Passagier, der dort die Einreisekontrolle passiert, braucht die Karte, ob er in Jakarta bleibt, auf einen Inlandsflug umsteigt oder für ein zweitägiges Meeting kommt. So funktioniert es am CGK.",
+      "sections": [
+        {
+          "h": "Wer die Karte in Soekarno-Hatta braucht",
+          "p": "Die Regel ist dieselbe wie überall in Indonesien: Jede internationale Ankunft reicht innerhalb von 72 Stunden vor der Landung eine Arrival Card ein, Ausländer wie indonesische Staatsbürger, Erwachsene wie Kinder. Der Unterschied in Jakarta: Viele reisen nur durch.",
+          "items": [
+            "Aufenthalt in Jakarta oder Umstieg auf einen Inlandsflug: Sie passieren die Einreisekontrolle am CGK, also nennt die Karte Jakarta als Einreisehafen.",
+            "Transit von international nach international ohne Verlassen des Transitbereichs: keine Einreisekontrolle, keine Karte.",
+            "Zwischenstopp mit Hotel außerhalb des Flughafens, auch nur für eine Nacht: Sie passieren die Einreisekontrolle, also ist die Karte Pflicht, dazu ein Visum oder eine Befreiung.",
+            "Indonesische Staatsbürger auf dem Heimweg: dieselbe Karte, Kategorie indonesischer Staatsbürger, NIK erforderlich."
+          ]
+        },
+        {
+          "h": "Das 72-Stunden-Fenster und das Ankunftsdatum",
+          "p": "Das Portal nimmt eine Karte nur an, wenn das Ankunftsdatum in Indonesien innerhalb der nächsten 72 Stunden liegt. Tragen Sie das Datum ein, an dem Sie nach Ortszeit in Jakarta landen, nicht das Abflugdatum: Bei Nachtflügen aus Europa, dem Nahen Osten und Nordamerika ist das meist der nächste Kalendertag. Prüfen Sie das Datum in der Zusammenfassung vor dem Absenden. Liegt Ihre Reise mehr als drei Tage in der Zukunft, <reminder>richten Sie eine kostenlose Erinnerung ein</reminder> und reichen Sie ein, sobald das Fenster offen ist."
+        },
+        {
+          "h": "Autogates am CGK: So wird der QR-Code genutzt",
+          "p": "Die internationalen Ankunftshallen von Terminal 3 und Terminal 2 haben Autogates für Passagiere mit biometrischem Pass. Das Gate liest den Passchip, macht ein Foto und prüft im Einreisesystem, ob zu dieser Passnummer eine gültige Arrival Card existiert. Den QR-Code scannen Sie am Gate meist nicht selbst; der Abgleich läuft im Hintergrund. Deshalb zählt jedes falsch getippte Zeichen der Passnummer: Das Gate findet nichts und schickt Sie zum Schalter.",
+          "items": [
+            "Halten Sie Pass und QR-Code trotzdem bereit; weist das Gate Sie ab, scannt der Beamte den Code.",
+            "Reisende mit Visum bei Ankunft zahlen vor der Einreisekontrolle an den VOA-Schaltern oder haben ein <evoa>e-VOA</evoa> und gehen direkt zu den Gates.",
+            "Nach der Gepäckausgabe scannen Sie den QR-Code am Zollkiosk und nehmen den grünen oder roten Kanal."
+          ]
+        },
+        {
+          "h": "Transitpassagiere: drei Fälle",
+          "p": "Jakarta ist Drehkreuz von Garuda Indonesia und mehreren ausländischen Airlines, Transitfragen kommen also täglich vor.",
+          "items": [
+            "<strong>Transit im Sicherheitsbereich</strong> mit Durchgangsticket, Gepäck bis zum Ziel im Ausland durchgecheckt: Sie passieren keine Einreisekontrolle und brauchen keine Karte.",
+            "<strong>Internationale Ankunft, Inlandsweiterflug</strong>: Sie passieren Einreise und Zoll am CGK, holen Ihr Gepäck ab, geben es neu auf und brauchen die Karte mit Jakarta als Einreisehafen. Planen Sie mindestens drei Stunden ein.",
+            "<strong>Getrennte Tickets oder Hotelübernachtung</strong>: Sie reisen nach Indonesien ein. Karte, Visum und Zoll gelten wie für jeden Besucher."
+          ]
+        },
+        {
+          "h": "Geschäftsreisende",
+          "p": "Die Arrival Card ist eine Erklärung, kein Visum, und sie fragt nach dem Reisezweck. Geschäftstreffen, Konferenzen und Einkäufe sind mit Visum bei Ankunft und e-VOA erlaubt; bezahlte Arbeit für ein indonesisches Unternehmen nicht, dafür ist ein vorab beantragtes Visum nötig. Vielreisende können in der offiziellen App ein Konto behalten, sodass jede neue Karte in wenigen Minuten erledigt ist, doch eine Arrival Card für mehrere Einreisen gibt es nicht: Die 72-Stunden-Regel gilt für jede Reise.",
+          "items": [
+            "Geben Sie die Hotel- oder Büroadresse an, an der Sie tatsächlich wohnen; ein Firmenname allein reicht nicht.",
+            "Firmenlaptop und Muster: Persönliche Gegenstände sind unproblematisch, aber Waren zum Verkauf oder zur Übergabe sowie Bargeld ab IDR 100 Millionen müssen angemeldet werden. Siehe unsere <customs>Zollseite</customs>.",
+            "Eine Assistenz kann die Karte im Namen des Reisenden einreichen, doch der QR-Code muss vor dem Check-in auf dem Handy des Reisenden sein."
+          ]
+        },
+        {
+          "h": "Inlandsanschlüsse ab Jakarta",
+          "p": "Wenn Sie nach Bali, Lombok oder anderswohin weiterfliegen, ist der Einreisehafen auf der Karte Jakarta (CGK), denn dort stempelt die Einreisebehörde Sie ein. Stattdessen das Endziel einzutragen ist ein häufiger Fehler: Der Zollkiosk in Jakarta findet Ihre Karte dann womöglich nicht. Die Bali-Touristenabgabe, falls Sie nach Bali weiterreisen, ist eine separate Provinzabgabe, die online bezahlt wird. Jeden Bildschirm des Formulars erklärt unsere <guide>Schritt-für-Schritt-Anleitung</guide>."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Ich habe sechs Stunden Aufenthalt in Jakarta und bleibe im Transitbereich. Brauche ich die Arrival Card?",
+          "a": "Nein. Die Karte ist nur nötig, wenn Sie die Einreisekontrolle passieren. Wer mit Durchgangsticket im Sicherheitsbereich bleibt, braucht nichts. Wer den Flughafen verlässt, auch kurz, braucht sie."
+        },
+        {
+          "q": "Welches Terminal in Soekarno-Hatta hat Autogates?",
+          "a": "Die internationalen Ankunftshallen von Terminal 3 und Terminal 2 haben Autogates für Inhaber biometrischer Pässe; für alle anderen bleiben besetzte Schalter. In beiden Fällen muss die Arrival Card existieren, bevor Sie die Schlange erreichen."
+        },
+        {
+          "q": "Ich fliege mit einem Inlandsflug von Jakarta nach Bali. Welchen Einreisehafen trage ich ein?",
+          "a": "Jakarta (CGK). Der Einreisehafen ist der Ort, an dem Sie zuerst die Einreisekontrolle passieren, nicht Ihr Endziel."
+        },
+        {
+          "q": "Kann ich die Karte für einen Kollegen einreichen?",
+          "a": "Ja. Jeder kann mit den Passdaten eines anderen Reisenden eine Karte ausfüllen. Jeder Reisende braucht seine eigene Karte und seinen eigenen QR-Code, und die Datei muss auf dem Handy des Reisenden sein oder ausgedruckt vorliegen."
+        }
+      ],
+      "cta": {
+        "title": "Diese Woche Landung am CGK? Wir bereiten Ihre Arrival Card vor und prüfen sie.",
+        "text": "Geführte Fragen, eine Person prüft jedes Feld, Einreichung innerhalb des 72-Stunden-Fensters und der QR-Code per E-Mail. Ab {price} pro Reisendem; ein <evoa>e-VOA</evoa> lässt sich für Geschäfts- oder Urlaubsreisen hinzufügen."
+      }
+    },
+    "arrival-card-for-families": {
+      "metaTitle": "Indonesien Arrival Card für Familien",
+      "metaDescription": "Die All Indonesia Arrival Card für Kinder und Babys einreichen: eine Karte pro Person, Gruppeneinreichung in einer Bestellung, Kinderpässe, QR-Codes und typische Fehler.",
+      "title": "Indonesien Arrival Card für Familien: Kinder, Babys und Gruppeneinreichung",
+      "intro": "Die All Indonesia Arrival Card wird pro Person ausgestellt, nicht pro Familie. Ein Paar mit zwei Kindern braucht vier Karten und vier QR-Codes, auch für ein Baby mit eigenem Pass. Das überrascht viele Eltern und verursacht die meisten Familienprobleme am Einreiseschalter. So reichen Sie für Kinder und für eine ganze Gruppe ein.",
+      "sections": [
+        {
+          "h": "Eine Karte pro Person, unabhängig vom Alter",
+          "p": "Die indonesische Einreisebehörde ordnet jede Arrival Card einer Passnummer zu. Ein Kind mit eigenem Pass ist im System ein eigener Reisender und braucht daher eine eigene Karte mit eigenem Namen, eigener Passnummer und eigenem Geburtsdatum sowie einen eigenen QR-Code. Es gibt keinen Abschnitt für Mitreisende auf der Karte eines Erwachsenen und keinen Familien-QR-Code.",
+          "items": [
+            "Babys mit eigenem Pass: eine Karte auf den Namen des Babys.",
+            "Kinder, die noch im Pass eines Elternteils eingetragen sind (einige Länder stellen solche Pässe aus): Das Formular ist auf einen Pass pro Karte ausgelegt, fragen Sie daher im Hilfebereich des offiziellen Portals nach, wie sie anzugeben sind.",
+            "Jugendliche: wie Erwachsene; Reisezweck und Adresse sind die des begleitenden Elternteils."
+          ]
+        },
+        {
+          "h": "Welche Angaben auf die Karte eines Kindes gehören",
+          "p": "Die meisten Felder werden von der Karte des Erwachsenen übernommen; nur der Identitätsblock ändert sich.",
+          "items": [
+            "Name genau wie in der maschinenlesbaren Zone des Kinderpasses, alle Vornamen, keine Kosenamen.",
+            "Passnummer, Nationalität, Geburtsdatum und Ablaufdatum aus dem Pass des Kindes, nicht aus dem der Eltern.",
+            "Flugnummer, Ankunftsdatum, Einreisehafen, Abreisedatum und Unterkunftsadresse: dieselben wie beim Elternteil.",
+            "E-Mail-Adresse: die des Elternteils. Alle QR-Codes können in ein Postfach gehen.",
+            "Gesundheitserklärung: für das Kind beantworten. Zoll: In der Praxis meldet ein Erwachsener Bargeld und Waren der Familie an; auf den anderen Karten geben Sie an, was dieser Reisende tatsächlich mitführt."
+          ]
+        },
+        {
+          "h": "Gruppeneinreichung: alle in einer Bestellung",
+          "p": "Es gibt drei Wege, mehrere Karten einzureichen.",
+          "items": [
+            "<strong>Offizielles Portal, eine nach der anderen</strong>: kein Konto, jedes Mal dieselben Fragen. Legen Sie die Pässe in einer Reihe bereit, füllen Sie die Karten in derselben Reihenfolge aus und haken Sie jede ab.",
+            "<strong>Offizielle App, Gruppenoption</strong>: Ein Konto ist nötig, und mehrere Reisende können in einer Sitzung hinzugefügt werden. Einige Reisende berichten, dass eine Gruppeneinreichung nur für den Gruppenleiter einen QR-Code lieferte; prüfen Sie anschließend jedes Mitglied auf der <retrieve>Abrufseite</retrieve>.",
+            "<strong>Unser Service</strong>: eine Bestellung für die ganze Familie, ab {price} für den ersten Reisenden und {additional} für jede weitere Person. Eine Person bereitet jede Karte vor, prüft jedes Feld und schickt alle QR-Codes in einer E-Mail."
+          ],
+          "after": "Welchen Weg Sie auch wählen, das Ergebnis muss dasselbe sein: ein QR-Code pro Person, jeder mit dem richtigen Namen und der richtigen Passnummer."
+        },
+        {
+          "h": "Zeitplanung für Familien",
+          "p": "Das 72-Stunden-Fenster gilt für jede Karte, und alle Karten für denselben Flug öffnen sich zur selben Zeit. Vier oder fünf Karten in der Abflughalle auszufüllen ist stressig; erledigen Sie es am Vortag zu Hause, mit den Pässen und der Hotelbuchung auf dem Tisch, oder <reminder>richten Sie eine Erinnerung</reminder> für das Ankunftsdatum der Familie ein. Kinderpässe brauchen außerdem sechs Monate Gültigkeit für das Visum bei Ankunft und das <evoa>e-VOA</evoa>, das Kinder ebenfalls benötigen, zur selben staatlichen Gebühr von jeweils {evoaFee}."
+        },
+        {
+          "h": "Am Flughafen mit Kindern",
+          "p": "Autogates werden in der Regel von Erwachsenen mit biometrischem Pass genutzt; Familien mit kleinen Kindern werden zu besetzten Schaltern geleitet, wo der Beamte jeden QR-Code mit dem jeweiligen Pass scannt. Halten Sie die Codes zusammen: ein Album auf dem Handy des Elternteils, nach Reisenden benannt, plus Ausdrucke in der Passhülle. Am Zollkiosk kann der Beamte jeden QR-Code oder nur den des anmeldenden Erwachsenen verlangen; halten Sie alle bereit."
+        },
+        {
+          "h": "Fehler, die Familien machen",
+          "p": "An jedem Familienschalter tauchen dieselben Fehler auf.",
+          "items": [
+            "Eine Karte für die ganze Familie, nur mit dem Pass des Elternteils. Die Kinder haben keine Karte, und der Schalter muss es klären.",
+            "Die Passnummer des Elternteils in die Karte eines Kindes kopiert. Jede Karte muss die eigene Nummer des Reisenden tragen.",
+            "Ein Kosename oder ein fehlender zweiter Vorname beim Kind; der Name muss der maschinenlesbaren Zone entsprechen.",
+            "Annehmen, ein Kind brauche kein Visum. Visum bei Ankunft, e-VOA und visumfreie Einreise gelten für Kinder wie für Erwachsene.",
+            "Einen Code unter vielen verlieren. Benennen Sie die Dateien nach dem Namen des Reisenden. Weitere Fallen finden Sie in unseren <faq>FAQ</faq>."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Braucht mein Baby eine Arrival Card für Indonesien?",
+          "a": "Ja, wenn das Baby einen eigenen Pass hat. Jeder Reisende mit Pass braucht eine Karte auf den eigenen Namen, unabhängig vom Alter. Ein Elternteil füllt sie aus."
+        },
+        {
+          "q": "Kann ich eine E-Mail-Adresse für alle Karten der Familie verwenden?",
+          "a": "Ja. Das Portal schickt jeden QR-Code an die eingegebene E-Mail-Adresse, ein Postfach für die ganze Familie ist also die einfachste Lösung. Benennen Sie jede Datei nach dem Namen des Reisenden."
+        },
+        {
+          "q": "Brauchen Kinder ein Visum bei Ankunft für Indonesien?",
+          "a": "Ja. Visum bei Ankunft und e-VOA gelten pro Person, Kinder eingeschlossen, zur selben staatlichen Gebühr. ASEAN-Staatsangehörige jeden Alters sind visumfrei. Die Arrival Card ist in jedem Fall Pflicht."
+        },
+        {
+          "q": "Wir haben nur einen QR-Code für die ganze Gruppe erhalten. Was jetzt?",
+          "a": "Suchen Sie jeden Reisenden mit seinen Passdaten auf der offiziellen Abrufseite. Wer keine Karte hat, sollte vor dem Abflug eine eigene Einreichung erhalten."
+        }
+      ],
+      "cta": {
+        "title": "Als Familie unterwegs? Eine Bestellung, ein QR-Code pro Person.",
+        "text": "Schicken Sie uns die Pässe einmal, und wir bereiten jede Karte vor, prüfen sie und reichen sie innerhalb des 72-Stunden-Fensters ein, dann kommen alle QR-Codes gemeinsam per E-Mail. Ab {price} für den ersten Reisenden und {additional} für jedes weitere Familienmitglied."
+      }
+    },
+    "arrival-card-requirements": {
+      "metaTitle": "Indonesien Arrival Card: Voraussetzungen 2026",
+      "metaDescription": "Wer die All Indonesia Arrival Card einreichen muss, welche Unterlagen nötig sind, die 72-Stunden-Regel, in Kraft seit 1. Oktober 2025, und was ohne Karte passiert.",
+      "title": "Voraussetzungen der Indonesien Arrival Card: Wer einreichen muss, was Sie brauchen, wann",
+      "intro": "Seit dem 1. Oktober 2025 ist die All Indonesia Arrival Card an jedem internationalen Flughafen, Seehafen und Landübergang Indonesiens Pflicht. Sie ist eine einzige digitale Erklärung für Einreise, Zoll, Gesundheit und Quarantäne, wird innerhalb von 72 Stunden vor der Ankunft eingereicht und erzeugt einen QR-Code pro Reisendem. Diese Seite fasst die Voraussetzungen an einem Ort zusammen.",
+      "sections": [
+        {
+          "h": "Wer einreichen muss",
+          "p": "Die Karte gilt für alle internationalen Ankünfte, ohne Ausnahme nach Nationalität, Alter oder Visumart.",
+          "items": [
+            "Ausländische Besucher jeder Nationalität, ob visumfrei, mit Visum bei Ankunft, e-VOA oder vorab erteiltem Visum.",
+            "Indonesische Staatsbürger, die aus dem Ausland zurückkehren, in der Kategorie indonesischer Staatsbürger mit ihrer NIK.",
+            "Kinder und Babys mit eigenem Pass: je eine Karte, ausgefüllt von einem Elternteil.",
+            "Ankünfte auf dem Seeweg (Batam, Bintan, Benoa und andere internationale Häfen) und auf dem Landweg (Motaain und andere Übergänge), nicht nur per Flugzeug."
+          ],
+          "after": "Nur Transitpassagiere, die im internationalen Transitbereich bleiben und nie die Einreisekontrolle passieren, reichen keine Karte ein."
+        },
+        {
+          "h": "Unterlagen und Angaben, die Sie bereithalten sollten",
+          "p": "Das Formular dauert etwa fünfzehn Minuten, wenn alles auf dem Tisch liegt. Sie brauchen:",
+          "items": [
+            "Den Pass, aufgeschlagen auf der Fotoseite. Name, Passnummer, Geburtsdatum, Nationalität und Ablaufdatum müssen genau wie gedruckt eingegeben werden; die maschinenlesbare Zone ist die sicherste Quelle.",
+            "Flug-, Fähr- oder Schiffsnummer, das Ankunftsdatum in Indonesien nach Ortszeit und den Flughafen oder Hafen, an dem Sie zuerst die Einreisekontrolle passieren.",
+            "Das geplante Abreisedatum (ungefähr reicht) und Ihre Visumart: visumfrei, Visum bei Ankunft, e-VOA oder andere.",
+            "Reisezweck sowie Name und Adresse Ihrer ersten Unterkunft. Hotelname und Stadt werden akzeptiert.",
+            "Eine E-Mail-Adresse, die Sie auf dem Handy öffnen können. Dorthin gehen der Bestätigungscode und der QR-Code.",
+            "Die in den letzten 21 Tagen besuchten Länder und ob Sie aktuell Symptome wie Fieber oder Husten haben.",
+            "Was Sie mitführen: Bargeld, Alkohol, Tabak, im Ausland gekaufte Waren, Tiere, Pflanzen oder frische Lebensmittel sowie die Anzahl der Gepäckstücke. Indonesische Staatsbürger geben zusätzlich ihre NIK an."
+          ]
+        },
+        {
+          "h": "Zeitpunkt: das 72-Stunden-Fenster",
+          "p": "Das offizielle Portal nimmt eine Karte nur an, wenn das Ankunftsdatum innerhalb der nächsten 72 Stunden liegt. Es gibt keine frühere Einreichung und keine Karte für mehrere Reisen. Die meisten Reisenden reichen 24 bis 48 Stunden vor der Landung ein. Das Ankunftsdatum ist der Kalendertag nach Ortszeit, an dem Sie in Indonesien landen; bei einem Nachtflug aus Europa oder Nordamerika ist das der Tag nach dem Abflug. Airlines prüfen den QR-Code auf vielen Strecken beim Check-in, planen Sie also nicht, erst am Zielflughafen einzureichen. Sie fliegen später? <reminder>Richten Sie eine kostenlose Erinnerung ein</reminder>."
+        },
+        {
+          "h": "Was die Karte nicht ist",
+          "p": "Die Arrival Card ist eine Erklärung. Sie allein gibt Ihnen kein Recht auf Einreise nach Indonesien.",
+          "items": [
+            "Sie ist kein Visum. Je nach Nationalität reisen Sie visumfrei (ASEAN), mit Visum bei Ankunft oder <evoa>e-VOA</evoa> (staatliche Gebühr {evoaFee}, {evoaDays} Tage, einmal verlängerbar) oder mit einem vorab erteilten Visum ein.",
+            "Sie ist nicht die Bali-Touristenabgabe, die die Provinzregierung Bali separat von ausländischen Touristen erhebt.",
+            "Sie kostet nichts. Portal und offizielle App sind kostenlos; jede Website, die für die Karte selbst Geld verlangt, ist inoffiziell. Unsere Gebühr bezahlt die Vorbereitung und Prüfung für Sie.",
+            "Sie ist kein Gesundheitspass. Die Gesundheitsfragen sind eine Erklärung; ein ehrliches Ja führt nicht zur Einreiseverweigerung."
+          ]
+        },
+        {
+          "h": "Was ohne Karte passiert",
+          "p": "Die Einreisebehörde prüft beim Vorlegen des Passes am Autogate oder am Schalter, ob eine gültige Karte existiert. Ohne Karte werden Sie nicht zurückgeschickt, aber zur Seite gebeten, um das Formular auf dem Handy auszufüllen, über Flughafen-WLAN, während Ihre Schlange weiterrückt. Manche Airlines verweigern Passagieren ohne QR-Code den Check-in, besonders auf Flügen aus Singapur, Australien und der Golfregion, und das ist das größere Risiko. Nach der Gepäckausgabe braucht der Zollkiosk denselben QR-Code.",
+          "after": "Eine Karte mit falschen Angaben ist fast so schlecht wie keine Karte: Ein Name oder eine Passnummer, die nicht übereinstimmen, schicken Sie zum manuellen Schalter, und ein falsches Ankunftsdatum ist am Tag der Landung womöglich ungültig. Reichen Sie eine korrigierte Karte ein und zeigen Sie nur diese."
+        },
+        {
+          "h": "Wo die Karte geprüft wird",
+          "p": "Der QR-Code wird zwischen Check-in und Ausgang bis zu dreimal geprüft.",
+          "items": [
+            "Beim Check-in der Airline, auf vielen Strecken, bevor die Bordkarte ausgestellt wird.",
+            "Bei der Einreisekontrolle: Autogates gleichen den Passchip automatisch mit der Karte ab; Schalter scannen den QR-Code.",
+            "Am Zollkiosk nach der Gepäckausgabe: grüner oder roter Kanal. Was anzumelden ist, steht auf unserer <customs>Zollseite</customs>."
+          ],
+          "after": "Eine Erklärung des Formulars Bildschirm für Bildschirm finden Sie in unserer <guide>vollständigen Anleitung</guide>."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Brauchen indonesische Staatsbürger die Arrival Card?",
+          "a": "Ja. Aus dem Ausland zurückkehrende Staatsbürger füllen dieselbe Karte aus, in der Kategorie indonesischer Staatsbürger, mit ihrer NIK."
+        },
+        {
+          "q": "Kann ich die Karte eine Woche vor dem Flug einreichen?",
+          "a": "Nein. Das Portal lehnt Ankunftsdaten ab, die mehr als 72 Stunden entfernt liegen. Reichen Sie innerhalb der drei Tage vor der Landung ein; richten Sie eine Erinnerung ein, wenn die Reise weiter entfernt ist."
+        },
+        {
+          "q": "Kostet die Indonesien Arrival Card eine Gebühr?",
+          "a": "Nein. Die Karte ist im offiziellen Portal allindonesia.imigrasi.go.id und in der offiziellen App kostenlos. Unsere Servicegebühr deckt Vorbereitung, Prüfung, Einreichung und Zustellung ab, nicht die Karte selbst."
+        },
+        {
+          "q": "Muss ich den QR-Code ausdrucken?",
+          "a": "Nein. Eine digitale Kopie auf dem Handy wird akzeptiert. Ein Ausdruck ist eine nützliche Reserve, falls Akku oder Empfang ausfallen."
+        }
+      ],
+      "cta": {
+        "title": "Alles beisammen? Wir erledigen das Formular für Sie.",
+        "text": "Geführte Fragen, eine Person prüft jedes Feld gegen Ihren Pass, Einreichung innerhalb des 72-Stunden-Fensters und der QR-Code per E-Mail, mit Support, bis Sie die Einreisekontrolle passiert haben. Ab {price} pro Reisendem."
+      }
+    },
+    "arrival-card-vs-evoa-vs-customs": {
+      "metaTitle": "Arrival Card, e-VOA und Zoll: Indonesien",
+      "metaDescription": "Was Indonesien-Reisende verwechseln: die All Indonesia Arrival Card (alle), das e-VOA Visum bei Ankunft (berechtigte Nationalitäten, IDR 500.000) und der Zoll.",
+      "title": "Arrival Card, e-VOA und Zollerklärung: Was jedes ist und wer es braucht",
+      "intro": "Indonesien-Reisende hören von einer Arrival Card, einem Visum bei Ankunft und einer Zollerklärung, oft aus drei verschiedenen Quellen, und fragen sich, ob das alles dasselbe ist. Ist es nicht. Das eine ist eine Erklärung, die alle abgeben, das andere ein Visum, das manche Nationalitäten brauchen, und das dritte war früher ein eigenes Formular und ist heute ein Abschnitt des ersten.",
+      "sections": [
+        {
+          "h": "Die All Indonesia Arrival Card: alle",
+          "p": "Die Arrival Card ist das digitale Formular der Generaldirektion für Einwanderung. Sie hat die Einreisekarte aus Papier, die elektronische Zollerklärung (e-CD) und das Gesundheitsformular SATUSEHAT durch eine Einreichung mit einem QR-Code ersetzt. Jede internationale Ankunft reicht eine ein, innerhalb von 72 Stunden vor der Landung, indonesische Staatsbürger und Kinder eingeschlossen. Sie ist im offiziellen Portal und in der App kostenlos und kein Visum: Sie erklärt, wer Sie sind, wie Sie ankommen, wo Sie wohnen und was Sie mitführen. Unsere <guide>Schritt-für-Schritt-Anleitung</guide> führt durch jeden Bildschirm."
+        },
+        {
+          "h": "Das e-VOA: nur berechtigte Nationalitäten",
+          "p": "Das Visum bei Ankunft (VOA) ist die Einreiseerlaubnis, die die meisten Touristen und Geschäftsreisenden nutzen. Es steht Staatsangehörigen von rund 97 Ländern offen, kostet {evoaFee} pro Person, erlaubt einen Aufenthalt von {evoaDays} Tagen und kann einmal um weitere 30 Tage bei einer Einwanderungsbehörde verlängert werden. Das e-VOA ist dasselbe Visum, online vor dem Abflug beantragt, bis etwa 90 Tage im Voraus, sodass Sie den Zahlschalter bei der Ankunft überspringen. ASEAN-Staatsangehörige reisen 30 Tage visumfrei ein; Staatsangehörige außerhalb der VOA-Liste brauchen ein vorab erteiltes Visum.",
+          "items": [
+            "Voraussetzungen: Pass mindestens sechs Monate ab Einreise gültig, Rück- oder Weiterflugticket, aktuelles Passfoto.",
+            "Zwecke: Tourismus, Familienbesuche, Geschäftstreffen und Einkäufe, Transit. Keine bezahlte Arbeit, kein Journalismus.",
+            "Kinder brauchen ein eigenes e-VOA zur selben Gebühr. Wir können das <evoa>e-VOA für Sie vorbereiten und einreichen</evoa>, mit der staatlichen Gebühr getrennt von unserer Servicegebühr ausgewiesen."
+          ]
+        },
+        {
+          "h": "Die Zollerklärung: heute ein Abschnitt der Arrival Card",
+          "p": "Bis 2025 füllten ankommende Passagiere eine separate elektronische Zollerklärung (e-CD) für Bea Cukai, den indonesischen Zoll, aus. Dieses Formular ist in die All Indonesia Arrival Card integriert worden: Die Zoll- und Quarantänefragen werden in derselben Einreichung beantwortet, und derselbe QR-Code wird nach der Gepäckausgabe am Zollkiosk gescannt. Was anzumelden ist, hat sich nicht geändert:",
+          "items": [
+            "Bargeld, Schecks oder andere Inhaberpapiere im Wert von IDR 100 Millionen oder mehr, in jeder Währung.",
+            "Persönliche Waren im Gesamtwert von über USD 500 oder mehr als 1 Liter Alkohol, 200 Zigaretten, 25 Zigarren oder 100 Gramm Tabak.",
+            "Waren zum Verkauf oder für ein Unternehmen, Muster eingeschlossen; lebende Tiere, Pflanzen, Samen, Obst oder andere frische Lebensmittel (Quarantäne).",
+            "Ein Telefon, das Sie für die Nutzung mit einer indonesischen SIM-Karte über 90 Tage hinaus registrieren möchten (IMEI)."
+          ],
+          "after": "Nichts anzumelden bedeutet grüner Kanal; eine Anmeldung bedeutet roter Kanal mit Kontrolle oder Abgabenfestsetzung. Freimengen und einen Schnellrechner finden Sie auf unserer <customs>Zollseite</customs>."
+        },
+        {
+          "h": "Im Vergleich",
+          "p": "Die Tabelle fasst die Unterschiede zusammen.",
+          "table": {
+            "head": [
+              "",
+              "Arrival Card",
+              "e-VOA / Visum bei Ankunft",
+              "Zollerklärung"
+            ],
+            "rows": [
+              [
+                "Wer sie braucht",
+                "Jede internationale Ankunft, jedes Alter, Staatsbürger eingeschlossen",
+                "Staatsangehörige von rund 97 Ländern ohne anderes Visum; nicht ASEAN-Staatsangehörige",
+                "Alle, als Teil der Arrival Card"
+              ],
+              [
+                "Ausgestellt von",
+                "Generaldirektion für Einwanderung",
+                "Generaldirektion für Einwanderung",
+                "Bea Cukai (Zoll), über die Arrival Card"
+              ],
+              [
+                "Kosten",
+                "Kostenlos",
+                "{evoaFee} pro Person",
+                "Kostenlos; Abgaben nur auf Waren über der Freimenge"
+              ],
+              [
+                "Wann",
+                "Innerhalb von 72 Stunden vor der Ankunft",
+                "Bis etwa 90 Tage vor der Ankunft oder am Schalter bei der Landung",
+                "Mit der Arrival Card, innerhalb von 72 Stunden"
+              ],
+              [
+                "Wo",
+                "<portal>allindonesia.imigrasi.go.id</portal> oder die offizielle App",
+                "Offizielles e-Visa-Portal oder VOA-Schalter am Flughafen",
+                "Dasselbe Formular wie die Arrival Card"
+              ],
+              [
+                "Was Sie erhalten",
+                "Ein QR-Code pro Reisendem",
+                "e-VOA-Genehmigung (PDF) oder Visumstempel",
+                "Grüner oder roter Kanal am Zollkiosk"
+              ],
+              [
+                "Geprüft bei",
+                "Check-in der Airline, Einreisekontrolle, Zollkiosk",
+                "Einreisekontrolle",
+                "Zollkiosk nach der Gepäckausgabe"
+              ]
+            ]
+          }
+        },
+        {
+          "h": "Was für Sie gilt",
+          "p": "Drei typische Fälle:",
+          "items": [
+            "<strong>Tourist aus Australien, Europa, Großbritannien, den USA, Japan, Korea oder China</strong>: Arrival Card + Visum bei Ankunft (e-VOA empfohlen) + Zollabschnitt. Drei Dinge, zwei Formulare.",
+            "<strong>Reisende aus Singapur, Malaysia, Thailand oder einem anderen ASEAN-Land</strong>: nur die Arrival Card mit ihrem Zollabschnitt. Visumfreie Einreise.",
+            "<strong>Indonesische Staatsbürger auf dem Heimweg</strong>: Arrival Card in der Kategorie Staatsbürger, Zollabschnitt eingeschlossen. Kein Visum."
+          ],
+          "after": "In jedem Fall ist die Reihenfolge dieselbe: zuerst das Visum, falls nötig, die Arrival Card in den letzten drei Tagen, der Zoll darin beantwortet. Weitere Antworten finden Sie in unseren <faq>FAQ</faq>."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Enthält das e-VOA die Arrival Card?",
+          "a": "Nein. Es sind getrennte Einreichungen bei derselben Einwanderungsbehörde. Das e-VOA wird Wochen im Voraus beantragt, die Arrival Card nur innerhalb der 72 Stunden vor der Ankunft. Sie brauchen beides."
+        },
+        {
+          "q": "Muss ich für Indonesien noch eine Zollerklärung ausfüllen?",
+          "a": "Ja, aber nicht als eigenes Formular. Die Zoll- und Quarantänefragen sind Teil der All Indonesia Arrival Card, und der QR-Code der Arrival Card ist es, den Sie am Zollkiosk scannen."
+        },
+        {
+          "q": "Bekomme ich das Visum bei Ankunft auch ohne e-VOA?",
+          "a": "Ja. Das Visum bei Ankunft wird an internationalen Flughäfen und großen Häfen an Schaltern vor der Einreisekontrolle verkauft, zur selben Gebühr. Das e-VOA erspart diese Warteschlange."
+        },
+        {
+          "q": "Was, wenn mein Land nicht auf der Liste für das Visum bei Ankunft steht?",
+          "a": "Dann brauchen Sie ein vorab erteiltes Visum, über eine indonesische Botschaft oder das offizielle e-Visa-System. Die Arrival Card ist zusätzlich Pflicht, wie für alle anderen."
+        }
+      ],
+      "cta": {
+        "title": "Beides nötig? Arrival Card und e-VOA in einer Bestellung.",
+        "text": "Wir bereiten die Arrival Card ab {price} und das e-VOA ab {evoaPrice} pro Reisendem vor und prüfen sie, mit der staatlichen Visumgebühr einzeln ausgewiesen. Bestellen Sie beides zusammen und sparen Sie {bundleSave} pro Reisendem."
       }
     }
   },

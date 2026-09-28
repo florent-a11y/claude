@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { site } from "@/lib/config";
+import { INFO_SLUGS } from "@/lib/info";
 import { routing, type AppLocale } from "./routing";
 
 /** Open Graph locale tags per site locale. */
@@ -66,4 +67,4 @@ export function pageMetadata(locale: string, path: string, meta: { title: string
 }
 
 /** Every indexable public route (without locale prefix). */
-export const PUBLIC_PATHS = ["/", "/apply", "/reminder", "/evoa", "/pricing", "/guide", "/customs", "/news", "/faq", "/contact", "/legal/disclosure", "/legal/terms", "/legal/privacy", "/legal/refunds"];
+export const PUBLIC_PATHS = ["/", "/apply", "/reminder", "/evoa", "/pricing", "/guide", "/customs", "/news", "/faq", "/contact", "/legal/disclosure", "/legal/terms", "/legal/privacy", "/legal/refunds", ...INFO_SLUGS.map((s) => `/info/${s}`)];

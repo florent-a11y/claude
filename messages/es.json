@@ -59,6 +59,12 @@
     "guide": "Cómo funciona la tarjeta de llegada",
     "customs": "Franquicias aduaneras",
     "news": "Resúmenes de noticias oficiales",
+    "guides": "Guías",
+    "infoBali": "Tarjeta de llegada para Bali",
+    "infoJakarta": "Tarjeta de llegada para Yakarta",
+    "infoFamilies": "Tarjeta de llegada para familias",
+    "infoRequirements": "Requisitos de la tarjeta de llegada",
+    "infoCompare": "Tarjeta de llegada, e-VOA y aduana",
     "disclosure": "Aviso de no vinculación",
     "terms": "Términos del servicio",
     "privacy": "Política de privacidad",
@@ -815,7 +821,8 @@
     "ctaTitle": "¿Prefiere que se la preparen y revisen?",
     "ctaText": "Nuestro equipo prepara su tarjeta a partir de un breve formulario guiado, comprueba cada campo con su pasaporte, la envía dentro de la ventana de 72 horas y le manda el código QR por correo electrónico. Desde {price} por viajero. Útil para familias, grupos o si prefiere no lidiar con el portal.",
     "cta": "Usar el servicio de asistencia",
-    "ctaReminder": "¿Vuela dentro de más de 3 días? <link>Cree un recordatorio</link> y le avisamos cuando se abra la ventana."
+    "ctaReminder": "¿Vuela dentro de más de 3 días? <link>Cree un recordatorio</link> y le avisamos cuando se abra la ventana.",
+    "relatedTitle": "Guías relacionadas"
   },
   "Customs": {
     "metaTitle": "Aduanas Indonesia: declaración y franquicias",
@@ -964,6 +971,451 @@
       "diy": {
         "q": "¿Puedo completar la tarjeta de llegada sin su servicio?",
         "a": "Sí. La tarjeta de llegada All Indonesia puede completarse de forma gratuita en el portal oficial del Gobierno allindonesia.imigrasi.go.id. Nuestra tarifa es solo por prepararla, revisarla y entregársela."
+      }
+    },
+    "relatedTitle": "Guías relacionadas"
+  },
+  "Landing": {
+    "common": {
+      "kicker": "Guía de viaje, actualizada en septiembre de 2026",
+      "questions": "Preguntas frecuentes",
+      "related": "Guías relacionadas",
+      "ctaApply": "Empezar mi tarjeta de llegada – desde {price}",
+      "ctaGuide": "Leer la guía gratuita",
+      "ctaReminder": "¿Vuela dentro de más de tres días? <link>Active un recordatorio gratuito</link> para la ventana de 72 horas."
+    },
+    "bali-arrival-card": {
+      "metaTitle": "Tarjeta de llegada Bali: All Indonesia en DPS",
+      "metaDescription": "La tarjeta de llegada All Indonesia en Ngurah Rai (Bali): ventana de 72 horas, QR en inmigración y aduana, e-VOA y la tasa turística de Bali, que es aparte.",
+      "title": "Tarjeta de llegada para Bali: qué completar antes de aterrizar en Ngurah Rai",
+      "intro": "Todo viajero que aterriza en el aeropuerto internacional I Gusti Ngurah Rai (DPS) necesita la tarjeta de llegada All Indonesia, el formulario digital gratuito que sustituyó a la tarjeta de inmigración en papel y a la declaración de aduana. La mayoría de los visitantes también necesita un visado a la llegada, y los turistas extranjeros pagan una tasa turística de Bali aparte. Esta página pone en orden las tres cosas.",
+      "sections": [
+        {
+          "h": "Tres cosas, no una: tarjeta de llegada, e-VOA y tasa de Bali",
+          "p": "Quienes llegan a Bali suelen confundir tres obligaciones distintas. Proceden de autoridades diferentes y se comprueban en puntos diferentes.",
+          "items": [
+            "<strong>Tarjeta de llegada All Indonesia</strong>: obligatoria para todos, gratuita, presentada dentro de las 72 horas previas a la llegada en el portal oficial o la app. Genera el código QR para inmigración y aduana.",
+            "<strong>Visado</strong>: la mayoría de las nacionalidades necesita un visado a la llegada, que se obtiene antes de salir como <evoa>e-VOA</evoa> (tasa oficial {evoaFee}) o en el mostrador de la sala de llegadas. Los ciudadanos de la ASEAN entran sin visado.",
+            "<strong>Tasa turística de Bali</strong>: {levy} por visitante extranjero, recaudada por el gobierno provincial de Bali en el portal <lovebali>Love Bali</lovebali>. No forma parte de la tarjeta de llegada."
+          ],
+          "after": "Pagar la tasa no crea una tarjeta de llegada, y la tarjeta de llegada no pregunta por la tasa. Trátelas como trámites separados."
+        },
+        {
+          "h": "La ventana de 72 horas para vuelos a Bali",
+          "p": "El portal oficial solo acepta la tarjeta de llegada cuando su fecha de llegada a Bali cae dentro de las próximas 72 horas. Si vuela desde Europa con escala en Doha, Singapur o Kuala Lumpur, la fecha local de llegada a Bali suele ser el día siguiente al de la salida, y esa es la fecha que hay que indicar.",
+          "items": [
+            "Presente la tarjeta uno o dos días antes de aterrizar, desde casa, con los pasaportes delante; el wifi del aeropuerto y un formulario de veinte minutos no son buena combinación.",
+            "Indique Denpasar (DPS) como puerto de entrada, aunque continúe a Lombok o Labuan Bajo en un vuelo nacional.",
+            "¿Vuela dentro de más de tres días? <reminder>Active un recordatorio gratuito</reminder> y le escribimos en cuanto se abra su ventana."
+          ]
+        },
+        {
+          "h": "En Ngurah Rai: dónde se comprueba el código QR",
+          "p": "En Ngurah Rai la secuencia tras salir del avión es siempre la misma.",
+          "items": [
+            "<strong>Los mostradores del visado a la llegada</strong> van primero, antes de inmigración. Quien no tiene e-VOA paga aquí; los titulares de e-VOA pasan de largo.",
+            "<strong>Inmigración</strong>: hay puertas automáticas para pasaportes biométricos. El sistema comprueba que existe una tarjeta de llegada para su número de pasaporte; si la puerta no le reconoce, o viaja con niños, un agente escanea el QR en el mostrador.",
+            "<strong>Aduana</strong>, tras recoger el equipaje: escanee el QR de la tarjeta de llegada en el quiosco de aduana. Sin nada que declarar, pasa por el canal verde; una declaración le envía al canal rojo. No hay un segundo formulario."
+          ],
+          "after": "Guarde el QR como archivo descargado y como captura de pantalla completa; las aerolíneas en vuelos desde Australia, Singapur y el Golfo pueden pedirlo en la facturación."
+        },
+        {
+          "h": "La tasa turística de Bali, explicada aparte",
+          "p": "Desde febrero de 2024 el gobierno provincial de Bali cobra a los turistas extranjeros una tasa única de {levy} por visita, destinada a programas culturales y medioambientales. Se paga en línea en <lovebali>lovebali.baliprov.go.id</lovebali> con tarjeta, y recibe por correo un comprobante con su propio código QR; los mostradores del aeropuerto también aceptan el pago, pero la cola es evitable. La tasa se aplica por persona, sea cual sea la edad; los titulares de ciertos permisos de larga estancia pueden solicitar una exención en el mismo portal. Los agentes pueden pedir el comprobante en el aeropuerto o en lugares turísticos."
+        },
+        {
+          "h": "Presentar la tarjeta para una familia que llega a Bali",
+          "p": "La tarjeta de llegada es una por persona. Uno de los padres rellena una para cada niño y bebé con pasaporte, con el mismo vuelo, la misma dirección de hotel y el mismo correo. Antes de volar, confirme que cada viajero tiene su propio QR; si un envío en grupo devolvió un solo código, busque los demás en la <retrieve>página de recuperación</retrieve>. El visado a la llegada y la tasa de Bali también se cobran por persona. Nuestra <guide>guía paso a paso</guide> explica en detalle la presentación en familia."
+        },
+        {
+          "h": "Errores habituales en Bali",
+          "p": "Los errores que mandan a la gente al mostrador manual de DPS son siempre los mismos.",
+          "items": [
+            "Indicar la fecha de salida en lugar de la fecha local de llegada a Bali.",
+            "Elegir un puerto de entrada equivocado tras una conexión nacional vía Yakarta: la tarjeta debe indicar el aeropuerto donde pasa inmigración por primera vez.",
+            "Un número de pasaporte escrito con 0 en lugar de O; la puerta automática no puede emparejarlo.",
+            "Olvidar la parte de aduana: el efectivo desde 100 millones de IDR, más de un litro de alcohol o mercancías por encima de 500 USD deben declararse. Consulte nuestra <customs>página de aduana</customs>."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "q": "¿Necesito la tarjeta de llegada para Bali si ya pagué la tasa turística de Bali?",
+          "a": "Sí. La tasa es un cobro turístico provincial; la tarjeta de llegada es una declaración nacional de inmigración, aduana y salud. Hacen falta ambas, cada una con su propio código QR."
+        },
+        {
+          "q": "¿Puedo completar la tarjeta de llegada de Bali en el aeropuerto al llegar?",
+          "a": "En la práctica sí, con el móvil en la sala de llegadas, pero es lento y algunas aerolíneas piden el QR antes de embarcar. Preséntela dentro de las 72 horas previas al aterrizaje, mejor desde casa."
+        },
+        {
+          "q": "¿La tarjeta de llegada sustituye al visado a la llegada en Bali?",
+          "a": "No. La mayoría de las nacionalidades sigue necesitando un visado a la llegada, obtenido como e-VOA antes de salir o en el mostrador de Ngurah Rai. Los ciudadanos de la ASEAN no necesitan visado. La tarjeta de llegada es obligatoria en todos los casos."
+        },
+        {
+          "q": "Llego a Bali en vuelo nacional o en ferry desde Lombok. ¿La necesito?",
+          "a": "Solo cuenta su punto de entrada internacional. Si pasó inmigración por primera vez en Yakarta o en otro lugar, la tarjeta indica ese aeropuerto y no hace falta nada más en Bali. Solo las llegadas internacionales a Bali, por aire o por mar en Benoa, indican Denpasar como puerto de entrada."
+        }
+      ],
+      "cta": {
+        "title": "¿Llega pronto a Bali? Preparamos y revisamos su tarjeta de llegada.",
+        "text": "Responda a nuestras preguntas guiadas; una persona revisa cada campo con su pasaporte y presenta la tarjeta dentro de la ventana de 72 horas. Asistencia con la tarjeta de llegada desde {price} por viajero; añada el <evoa>e-VOA</evoa> si necesita un visado a la llegada."
+      }
+    },
+    "jakarta-arrival-card": {
+      "metaTitle": "Tarjeta de llegada Yakarta: Soekarno-Hatta",
+      "metaDescription": "La tarjeta de llegada All Indonesia en Yakarta Soekarno-Hatta (CGK): regla de las 72 horas, puertas automáticas y código QR, tránsito, viajes de negocios y conexiones.",
+      "title": "Tarjeta de llegada para Yakarta: llegadas a Soekarno-Hatta, puertas automáticas y tránsito",
+      "intro": "El aeropuerto internacional Soekarno-Hatta (CGK) es el punto de entrada con más tráfico de Indonesia y uno de los primeros aeropuertos donde se introdujo la tarjeta de llegada All Indonesia en 2025. Todo pasajero que pasa inmigración allí necesita la tarjeta, ya se quede en Yakarta, conecte con un vuelo nacional o venga a una reunión de dos días. Así funciona en CGK.",
+      "sections": [
+        {
+          "h": "Quién necesita la tarjeta en Soekarno-Hatta",
+          "p": "La regla es la misma que en todo Indonesia: toda llegada internacional presenta una tarjeta de llegada dentro de las 72 horas previas al aterrizaje, extranjeros y ciudadanos indonesios por igual, adultos y niños. Lo que cambia en Yakarta es cuánta gente solo está de paso.",
+          "items": [
+            "Estancia en Yakarta o conexión con un vuelo nacional: pasa inmigración en CGK, así que la tarjeta indica Yakarta como puerto de entrada.",
+            "Tránsito internacional a internacional sin salir de la zona de tránsito: sin inmigración, sin tarjeta.",
+            "Escala con hotel fuera del aeropuerto, aunque sea una noche: pasa inmigración, así que la tarjeta es obligatoria, más un visado o una exención.",
+            "Ciudadanos indonesios que vuelven a casa: la misma tarjeta, categoría de ciudadano indonesio, NIK obligatorio."
+          ]
+        },
+        {
+          "h": "La ventana de 72 horas y la fecha de llegada",
+          "p": "El portal solo acepta una tarjeta cuando la fecha de llegada a Indonesia cae dentro de las próximas 72 horas. Indique la fecha local en que aterriza en Yakarta, no la de salida: en vuelos nocturnos desde Europa, Oriente Medio y Norteamérica suele ser el día natural siguiente. Compruebe la fecha en la pantalla de resumen antes de enviar. Si su viaje es dentro de más de tres días, <reminder>active un recordatorio gratuito</reminder> y presente la tarjeta cuando se abra la ventana."
+        },
+        {
+          "h": "Puertas automáticas en CGK: cómo se usa el QR",
+          "p": "Las salas de llegadas internacionales de las terminales 3 y 2 tienen puertas automáticas para pasajeros con pasaporte biométrico. La puerta lee el chip del pasaporte, toma una foto y comprueba en el sistema de inmigración que existe una tarjeta de llegada válida para ese número de pasaporte. Normalmente no se escanea el QR en la puerta; el cotejo ocurre en segundo plano. Por eso importa un número de pasaporte con un carácter mal escrito: la puerta no encuentra nada y le envía al mostrador.",
+          "items": [
+            "Tenga el pasaporte y el QR a mano de todos modos; si la puerta le rechaza, el agente escanea el código.",
+            "Los viajeros con visado a la llegada pagan en los mostradores VOA antes de inmigración, o llevan un <evoa>e-VOA</evoa> y van directamente a las puertas.",
+            "Tras recoger el equipaje, escanee el QR en el quiosco de aduana y pase por el canal verde o rojo."
+          ]
+        },
+        {
+          "h": "Pasajeros en tránsito: tres casos",
+          "p": "Yakarta es el hub de Garuda Indonesia y de varias aerolíneas extranjeras, así que las dudas sobre el tránsito surgen a diario.",
+          "items": [
+            "<strong>Tránsito en zona internacional</strong> con billete único y equipaje facturado hasta un destino en el extranjero: no pasa inmigración y no necesita la tarjeta.",
+            "<strong>Llegada internacional, vuelo nacional de conexión</strong>: pasa inmigración y aduana en CGK, recoge y vuelve a facturar el equipaje, y necesita la tarjeta con Yakarta como puerto de entrada. Calcule al menos tres horas.",
+            "<strong>Billetes separados o noche de hotel</strong>: entra en Indonesia. Tarjeta, visado y aduana se aplican como a cualquier visitante."
+          ]
+        },
+        {
+          "h": "Viajeros de negocios",
+          "p": "La tarjeta de llegada es una declaración, no un visado, y pregunta por el motivo del viaje. Las reuniones de negocios, conferencias y compras están permitidas con el visado a la llegada y el e-VOA; el trabajo remunerado para una empresa indonesia no, y requiere un visado tramitado con antelación. Los visitantes frecuentes pueden mantener una cuenta en la app oficial para que cada nueva tarjeta lleve pocos minutos, pero no existe una tarjeta de llegada de entradas múltiples: la regla de las 72 horas se aplica a cada viaje.",
+          "items": [
+            "Indique la dirección del hotel u oficina donde se alojará realmente; el nombre de una empresa no basta.",
+            "Portátil de empresa y muestras: los efectos personales no son problema, pero las mercancías para venta o entrega y el efectivo desde 100 millones de IDR deben declararse. Consulte nuestra <customs>página de aduana</customs>.",
+            "Un asistente puede presentar la tarjeta en nombre del viajero, pero el QR debe estar en el móvil del viajero antes de la facturación."
+          ]
+        },
+        {
+          "h": "Conexiones nacionales desde Yakarta",
+          "p": "Si continúa a Bali, Lombok u otro destino, el puerto de entrada en la tarjeta es Yakarta (CGK), porque allí es donde inmigración le sella la entrada. Indicar el destino final es un error frecuente: el quiosco de aduana de Yakarta puede no encontrar su tarjeta. La tasa turística de Bali, si continúa a Bali, es un cobro provincial aparte que se paga en línea. Cada pantalla del formulario se explica en nuestra <guide>guía paso a paso</guide>."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Tengo una escala de seis horas en Yakarta y me quedo en la zona de tránsito. ¿Necesito la tarjeta de llegada?",
+          "a": "No. La tarjeta solo se exige si pasa inmigración. Si permanece en zona internacional con un billete único, no necesita nada. Si sale del aeropuerto, aunque sea brevemente, sí."
+        },
+        {
+          "q": "¿Qué terminal de Soekarno-Hatta tiene puertas automáticas?",
+          "a": "Las salas de llegadas internacionales de las terminales 3 y 2 tienen puertas automáticas para titulares de pasaporte biométrico; para los demás quedan mostradores atendidos. En ambos casos la tarjeta de llegada debe existir antes de llegar a la fila."
+        },
+        {
+          "q": "Vuelo de Yakarta a Bali en un vuelo nacional. ¿Qué puerto de entrada indico?",
+          "a": "Yakarta (CGK). El puerto de entrada es donde pasa inmigración por primera vez, no su destino final."
+        },
+        {
+          "q": "¿Puedo presentar la tarjeta por un compañero de trabajo?",
+          "a": "Sí. Cualquiera puede rellenar una tarjeta para otro viajero con los datos de su pasaporte. Cada viajero necesita su propia tarjeta y su propio código QR, y el archivo debe estar en el móvil del viajero o impreso."
+        }
+      ],
+      "cta": {
+        "title": "¿Aterriza en CGK esta semana? Preparamos y revisamos su tarjeta de llegada.",
+        "text": "Preguntas guiadas, una persona revisa cada campo, presentación dentro de la ventana de 72 horas y el QR por correo. Desde {price} por viajero; puede añadir un <evoa>e-VOA</evoa> para viajes de negocios o de turismo."
+      }
+    },
+    "arrival-card-for-families": {
+      "metaTitle": "Tarjeta de llegada Indonesia para familias",
+      "metaDescription": "Presentar la tarjeta de llegada All Indonesia para niños y bebés: una tarjeta por persona, envío en grupo en un solo pedido, pasaportes de menores, códigos QR y errores.",
+      "title": "Tarjeta de llegada de Indonesia para familias: niños, bebés y envío en grupo",
+      "intro": "La tarjeta de llegada All Indonesia se emite por persona, no por familia. Una pareja con dos hijos necesita cuatro tarjetas y cuatro códigos QR, incluido uno para un bebé con pasaporte. Eso sorprende a muchos padres y causa la mayoría de los problemas familiares en el mostrador de inmigración. Aquí explicamos cómo presentarla para niños y para un grupo completo.",
+      "sections": [
+        {
+          "h": "Una tarjeta por persona, sea cual sea la edad",
+          "p": "Inmigración de Indonesia asocia cada tarjeta de llegada a un número de pasaporte. Un niño con pasaporte es un viajero aparte en el sistema, así que necesita su propia tarjeta, con su nombre, número de pasaporte y fecha de nacimiento, y su propio código QR. No hay una sección de dependientes en la tarjeta de un adulto ni un QR familiar.",
+          "items": [
+            "Bebés con pasaporte propio: una tarjeta a nombre del bebé.",
+            "Niños aún inscritos en el pasaporte de uno de los padres (algunos países todavía los emiten): el formulario está pensado para un pasaporte por tarjeta, así que consulte el centro de ayuda del portal oficial sobre cómo declararlos.",
+            "Adolescentes: igual que los adultos; el motivo del viaje y la dirección son los del padre o madre acompañante."
+          ]
+        },
+        {
+          "h": "Qué datos van en la tarjeta de un niño",
+          "p": "La mayoría de los campos se copian de la tarjeta del adulto; solo cambia el bloque de identidad.",
+          "items": [
+            "Nombre exactamente como en la zona de lectura mecánica del pasaporte del niño, todos los nombres de pila, sin apodos.",
+            "Número de pasaporte, nacionalidad, fecha de nacimiento y fecha de caducidad del pasaporte del niño, no del de los padres.",
+            "Número de vuelo, fecha de llegada, puerto de entrada, fecha de salida y dirección del alojamiento: los mismos que los del padre o madre.",
+            "Correo electrónico: el del padre o madre. Todos los códigos QR pueden llegar a una sola bandeja.",
+            "Declaración de salud: responda por el niño. Aduana: en la práctica, un adulto declara el efectivo y las mercancías de la familia; en las demás tarjetas, responda por lo que ese viajero lleva realmente."
+          ]
+        },
+        {
+          "h": "Envío en grupo: todos en un solo pedido",
+          "p": "Hay tres formas de presentar varias tarjetas.",
+          "items": [
+            "<strong>Portal oficial, una tras otra</strong>: sin cuenta, las mismas preguntas cada vez. Ponga los pasaportes en fila, rellene las tarjetas en el mismo orden y marque cada una.",
+            "<strong>App oficial, opción de grupo</strong>: hace falta una cuenta y se pueden añadir varios viajeros en una sesión. Algunos viajeros informan de que un envío en grupo devolvió el QR solo del responsable; compruebe después a cada miembro en la <retrieve>página de recuperación</retrieve>.",
+            "<strong>Nuestra asistencia</strong>: un pedido para toda la familia, desde {price} por el primer viajero y {additional} por cada persona adicional. Una persona prepara cada tarjeta, revisa cada campo y envía todos los códigos QR en un solo correo."
+          ],
+          "after": "Elija la vía que elija, el resultado debe ser el mismo: un QR por persona, cada uno con el nombre y el número de pasaporte correctos."
+        },
+        {
+          "h": "Plazos para familias",
+          "p": "La ventana de 72 horas se aplica a cada tarjeta, y todas las tarjetas del mismo vuelo se abren a la vez. Rellenar cuatro o cinco tarjetas en la sala de embarque es estresante; hágalo en casa el día anterior, con los pasaportes y la reserva del hotel delante, o <reminder>active un recordatorio</reminder> para la fecha de llegada de la familia. Los pasaportes de los niños también necesitan seis meses de validez para el visado a la llegada y el <evoa>e-VOA</evoa>, que los niños también necesitan, con la misma tasa oficial de {evoaFee} cada uno."
+        },
+        {
+          "h": "En el aeropuerto con niños",
+          "p": "Las puertas automáticas las usan por lo general adultos con pasaporte biométrico; a las familias con niños pequeños se las dirige a mostradores atendidos, donde el agente escanea cada QR con cada pasaporte. Mantenga los códigos juntos: un álbum en el móvil del padre o madre, con el nombre de cada viajero, más copias impresas en la funda de los pasaportes. En el quiosco de aduana el agente puede pedir cada QR o solo el del adulto que declara; téngalos todos a mano."
+        },
+        {
+          "h": "Errores que cometen las familias",
+          "p": "Los mismos errores se repiten en cada mostrador familiar.",
+          "items": [
+            "Una sola tarjeta para toda la familia, solo con el pasaporte del padre o madre. Los niños no tienen tarjeta y el mostrador tiene que resolverlo.",
+            "El número de pasaporte del padre o madre copiado en la tarjeta de un niño. Cada tarjeta debe llevar el número propio de ese viajero.",
+            "Un apodo o un segundo nombre omitido en un niño; el nombre debe coincidir con la zona de lectura mecánica.",
+            "Suponer que un niño no necesita visado. El visado a la llegada, el e-VOA y la entrada sin visado se aplican a los niños igual que a los adultos.",
+            "Perder un código entre muchos. Renombre los archivos con el nombre del viajero. Más trampas en nuestras <faq>preguntas frecuentes</faq>."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "q": "¿Mi bebé necesita una tarjeta de llegada para Indonesia?",
+          "a": "Sí, si el bebé tiene pasaporte. Todo viajero con pasaporte necesita una tarjeta a su nombre, sea cual sea su edad. La rellena uno de los padres."
+        },
+        {
+          "q": "¿Puedo usar un solo correo electrónico para todas las tarjetas de la familia?",
+          "a": "Sí. El portal envía cada QR al correo que indique, así que una sola bandeja para toda la familia es lo más sencillo. Renombre cada archivo con el nombre del viajero."
+        },
+        {
+          "q": "¿Los niños necesitan visado a la llegada para Indonesia?",
+          "a": "Sí. El visado a la llegada y el e-VOA se aplican por persona, niños incluidos, con la misma tasa oficial. Los ciudadanos de la ASEAN de cualquier edad entran sin visado. La tarjeta de llegada es obligatoria en todos los casos."
+        },
+        {
+          "q": "Recibimos un solo código QR para todo el grupo. ¿Y ahora?",
+          "a": "Busque a cada viajero en la página de recuperación oficial con los datos de su pasaporte. Quien no tenga tarjeta debe recibir un envío individual antes de volar."
+        }
+      ],
+      "cta": {
+        "title": "¿Viaja en familia? Un pedido, un QR por persona.",
+        "text": "Envíenos los pasaportes una sola vez y preparamos, revisamos y presentamos cada tarjeta dentro de la ventana de 72 horas, y luego enviamos todos los códigos QR juntos por correo. Desde {price} por el primer viajero y {additional} por cada familiar adicional."
+      }
+    },
+    "arrival-card-requirements": {
+      "metaTitle": "Requisitos tarjeta de llegada Indonesia 2026",
+      "metaDescription": "Quién debe presentar la tarjeta de llegada All Indonesia, los documentos necesarios, la regla de las 72 horas vigente desde el 1 de octubre de 2025 y qué pasa sin ella.",
+      "title": "Requisitos de la tarjeta de llegada de Indonesia: quién debe presentarla, qué necesita, cuándo",
+      "intro": "Desde el 1 de octubre de 2025 la tarjeta de llegada All Indonesia es obligatoria en todos los aeropuertos, puertos marítimos y pasos fronterizos internacionales de Indonesia. Es una única declaración digital para inmigración, aduana, salud y cuarentena, se presenta dentro de las 72 horas previas a la llegada y genera un código QR por viajero. Esta página reúne los requisitos en un solo lugar.",
+      "sections": [
+        {
+          "h": "Quién debe presentarla",
+          "p": "La tarjeta se aplica a todas las llegadas internacionales, sin exenciones por nacionalidad, edad o tipo de visado.",
+          "items": [
+            "Visitantes extranjeros de cualquier nacionalidad, ya entren sin visado, con visado a la llegada, con e-VOA o con un visado expedido con antelación.",
+            "Ciudadanos indonesios que regresan del extranjero, en la categoría de ciudadano indonesio con su NIK.",
+            "Niños y bebés con pasaporte: una tarjeta cada uno, rellenada por uno de los padres.",
+            "Llegadas por mar (Batam, Bintan, Benoa y otros puertos internacionales) y por tierra (Motaain y otros pasos), no solo por avión."
+          ],
+          "after": "Las únicas personas que no la presentan son los pasajeros en tránsito que permanecen en la zona de tránsito internacional y nunca pasan inmigración."
+        },
+        {
+          "h": "Documentos y datos que debe tener a mano",
+          "p": "El formulario lleva unos quince minutos si todo está sobre la mesa. Necesitará:",
+          "items": [
+            "El pasaporte, abierto por la página de la foto. Nombre, número de pasaporte, fecha de nacimiento, nacionalidad y fecha de caducidad deben escribirse exactamente como están impresos; la zona de lectura mecánica es la fuente más segura.",
+            "Número de vuelo, ferry o embarcación, la fecha local de llegada a Indonesia y el aeropuerto o puerto donde pasa inmigración por primera vez.",
+            "Fecha de salida prevista (se acepta aproximada) y su tipo de visado: sin visado, visado a la llegada, e-VOA u otro.",
+            "Motivo del viaje y nombre y dirección de su primer alojamiento. Se acepta el nombre del hotel y la ciudad.",
+            "Un correo electrónico que pueda abrir en el móvil. Allí llegan el código de verificación y el código QR.",
+            "Países visitados en los últimos 21 días y si tiene actualmente síntomas como fiebre o tos.",
+            "Lo que lleva: efectivo, alcohol, tabaco, mercancías compradas en el extranjero, animales, plantas o alimentos frescos, y el número de bultos. Los ciudadanos indonesios indican además su NIK."
+          ]
+        },
+        {
+          "h": "Cuándo: la ventana de 72 horas",
+          "p": "El portal oficial solo acepta una tarjeta cuando la fecha de llegada está dentro de las próximas 72 horas. No hay presentación anticipada ni tarjeta que cubra varios viajes. La mayoría de los viajeros la presenta entre 24 y 48 horas antes de aterrizar. La fecha de llegada es la fecha natural local en que aterriza en Indonesia; en un vuelo nocturno desde Europa o Norteamérica es el día siguiente al de la salida. En muchas rutas las aerolíneas comprueban el QR en la facturación, así que no planee presentarla en el aeropuerto de destino. ¿Vuela más tarde? <reminder>Active un recordatorio gratuito</reminder>."
+        },
+        {
+          "h": "Lo que la tarjeta no es",
+          "p": "La tarjeta de llegada es una declaración. Por sí sola no le da derecho a entrar en Indonesia.",
+          "items": [
+            "No es un visado. Según su nacionalidad, entra sin visado (ASEAN), con visado a la llegada o <evoa>e-VOA</evoa> (tasa oficial {evoaFee}, {evoaDays} días, prorrogable una vez), o con un visado expedido antes del viaje.",
+            "No es la tasa turística de Bali, que el gobierno provincial de Bali cobra aparte a los turistas extranjeros.",
+            "No cuesta nada. El portal y la app oficial son gratuitos; cualquier sitio que cobre por la tarjeta en sí es no oficial. Nuestra tarifa paga la preparación y la revisión por usted.",
+            "No es un pasaporte sanitario. Las preguntas de salud son una declaración; un sí sincero no supone la denegación de entrada."
+          ]
+        },
+        {
+          "h": "Qué pasa sin ella",
+          "p": "Inmigración comprueba que existe una tarjeta válida cuando presenta el pasaporte, en la puerta automática o en el mostrador. Sin ella no le devuelven a casa, pero le apartan para rellenar el formulario en el móvil, con el wifi del aeropuerto, mientras su fila avanza. Algunas aerolíneas se niegan a facturar a pasajeros que no pueden mostrar el QR, sobre todo en vuelos desde Singapur, Australia y el Golfo, y ese es el riesgo más serio. Tras recoger el equipaje, el quiosco de aduana necesita el mismo QR.",
+          "after": "Una tarjeta con datos erróneos es casi tan mala como no tenerla: un nombre o número de pasaporte que no coincide le manda al mostrador manual, y una fecha de llegada equivocada puede no ser válida ese día. Presente una tarjeta corregida y muestre solo esa."
+        },
+        {
+          "h": "Dónde se comprueba la tarjeta",
+          "p": "El QR se comprueba hasta tres veces entre la facturación y la salida.",
+          "items": [
+            "En la facturación de la aerolínea, en muchas rutas, antes de emitir la tarjeta de embarque.",
+            "En inmigración: las puertas automáticas cotejan el chip del pasaporte con la tarjeta automáticamente; los mostradores escanean el QR.",
+            "En el quiosco de aduana tras recoger el equipaje: canal verde o rojo. Qué declarar está en nuestra <customs>página de aduana</customs>."
+          ],
+          "after": "Para un recorrido pantalla por pantalla del formulario, consulte nuestra <guide>guía completa</guide>."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "¿Los ciudadanos indonesios necesitan la tarjeta de llegada?",
+          "a": "Sí. Los ciudadanos que regresan del extranjero rellenan la misma tarjeta, en la categoría de ciudadano indonesio, con su NIK."
+        },
+        {
+          "q": "¿Puedo presentar la tarjeta una semana antes del vuelo?",
+          "a": "No. El portal rechaza fechas de llegada a más de 72 horas. Preséntela dentro de los tres días previos al aterrizaje; active un recordatorio si el viaje está más lejos."
+        },
+        {
+          "q": "¿La tarjeta de llegada de Indonesia tiene algún coste?",
+          "a": "No. La tarjeta es gratuita en el portal oficial allindonesia.imigrasi.go.id y en la app oficial. Nuestra tarifa de servicio cubre la preparación, la revisión, la presentación y la entrega, no la tarjeta en sí."
+        },
+        {
+          "q": "¿Tengo que imprimir el código QR?",
+          "a": "No. Se acepta una copia digital en el móvil. Una copia impresa es un respaldo útil si falla la batería o la cobertura."
+        }
+      ],
+      "cta": {
+        "title": "¿Lo tiene todo listo? Nosotros hacemos el formulario por usted.",
+        "text": "Preguntas guiadas, una persona revisa cada campo con su pasaporte, presentación dentro de la ventana de 72 horas y el QR por correo, con soporte hasta que haya pasado inmigración. Desde {price} por viajero."
+      }
+    },
+    "arrival-card-vs-evoa-vs-customs": {
+      "metaTitle": "Tarjeta de llegada, e-VOA y aduana: Indonesia",
+      "metaDescription": "Lo que confunden los viajeros a Indonesia: la tarjeta de llegada All Indonesia (todos), el e-VOA o visado a la llegada (500.000 IDR) y la declaración de aduana.",
+      "title": "Tarjeta de llegada, e-VOA y declaración de aduana: qué es cada una y quién la necesita",
+      "intro": "Quienes viajan a Indonesia oyen hablar de una tarjeta de llegada, un visado a la llegada y una declaración de aduana, a menudo de tres fuentes distintas, y se preguntan si son lo mismo. No lo son. Una es una declaración que presentan todos, otra es un visado que necesitan algunas nacionalidades, y la tercera era un formulario aparte que ahora es una sección de la primera.",
+      "sections": [
+        {
+          "h": "La tarjeta de llegada All Indonesia: todos",
+          "p": "La tarjeta de llegada es el formulario digital gestionado por la Dirección General de Inmigración. Sustituyó a la tarjeta de inmigración en papel, a la declaración electrónica de aduana (e-CD) y al formulario sanitario SATUSEHAT por un único envío y un único código QR. Toda llegada internacional presenta una, dentro de las 72 horas previas al aterrizaje, incluidos ciudadanos indonesios y niños. Es gratuita en el portal oficial y en la app, y no es un visado: declara quién es usted, cómo llega, dónde se aloja y qué lleva. Nuestra <guide>guía paso a paso</guide> recorre cada pantalla."
+        },
+        {
+          "h": "El e-VOA: solo nacionalidades elegibles",
+          "p": "El visado a la llegada (VOA) es el permiso de entrada que usan la mayoría de turistas y visitantes de negocios. Está disponible para ciudadanos de unos 97 países, cuesta {evoaFee} por persona, permite una estancia de {evoaDays} días y puede prorrogarse una vez por otros 30 días en una oficina de inmigración. El e-VOA es el mismo visado solicitado en línea antes de salir, hasta unos 90 días antes, con lo que se salta el mostrador de pago a la llegada. Los ciudadanos de la ASEAN entran sin visado durante 30 días; las nacionalidades fuera de la lista VOA necesitan un visado expedido antes del viaje.",
+          "items": [
+            "Requisitos: pasaporte válido al menos seis meses desde la entrada, billete de vuelta o de continuación, foto reciente tipo pasaporte.",
+            "Motivos: turismo, visitas familiares, reuniones de negocios y compras, tránsito. No trabajo remunerado ni periodismo.",
+            "Los niños necesitan su propio e-VOA con la misma tasa. Podemos <evoa>preparar y presentar el e-VOA</evoa> por usted, con la tasa oficial mostrada aparte de nuestra tarifa de servicio."
+          ]
+        },
+        {
+          "h": "La declaración de aduana: ahora una sección de la tarjeta de llegada",
+          "p": "Hasta 2025, los pasajeros que llegaban rellenaban una declaración electrónica de aduana (e-CD) aparte para Bea Cukai, la aduana indonesia. Ese formulario se ha fusionado con la tarjeta de llegada All Indonesia: las preguntas de aduana y cuarentena se responden en el mismo envío, y el mismo código QR se escanea en el quiosco de aduana tras recoger el equipaje. Lo que hay que declarar no ha cambiado:",
+          "items": [
+            "Efectivo, cheques u otros instrumentos al portador por valor de 100 millones de IDR o más, en cualquier moneda.",
+            "Mercancías personales por un valor total superior a 500 USD, o más de 1 litro de alcohol, 200 cigarrillos, 25 puros o 100 gramos de tabaco.",
+            "Mercancías para venta o para una empresa, muestras incluidas; animales vivos, plantas, semillas, fruta u otros alimentos frescos (cuarentena).",
+            "Un teléfono que quiera registrar (IMEI) para usarlo con una SIM indonesia más de 90 días."
+          ],
+          "after": "Nada que declarar significa canal verde; una declaración significa canal rojo con inspección o liquidación de derechos. Las franquicias y una calculadora rápida están en nuestra <customs>página de aduana</customs>."
+        },
+        {
+          "h": "Comparación",
+          "p": "La tabla resume las diferencias.",
+          "table": {
+            "head": [
+              "",
+              "Tarjeta de llegada",
+              "e-VOA / visado a la llegada",
+              "Declaración de aduana"
+            ],
+            "rows": [
+              [
+                "Quién la necesita",
+                "Toda llegada internacional, todas las edades, ciudadanos incluidos",
+                "Ciudadanos de unos 97 países sin otro visado; no los ciudadanos de la ASEAN",
+                "Todos, como parte de la tarjeta de llegada"
+              ],
+              [
+                "Emitida por",
+                "Dirección General de Inmigración",
+                "Dirección General de Inmigración",
+                "Bea Cukai (aduana), a través de la tarjeta de llegada"
+              ],
+              [
+                "Coste",
+                "Gratuita",
+                "{evoaFee} por persona",
+                "Gratuita; derechos solo sobre mercancías por encima de la franquicia"
+              ],
+              [
+                "Cuándo",
+                "Dentro de las 72 horas previas a la llegada",
+                "Hasta unos 90 días antes de la llegada, o en el mostrador al aterrizar",
+                "Con la tarjeta de llegada, dentro de las 72 horas"
+              ],
+              [
+                "Dónde",
+                "<portal>allindonesia.imigrasi.go.id</portal> o la app oficial",
+                "Portal oficial de e-visa, o mostrador VOA en el aeropuerto",
+                "El mismo formulario que la tarjeta de llegada"
+              ],
+              [
+                "Qué obtiene",
+                "Un código QR por viajero",
+                "Aprobación del e-VOA (PDF) o sello de visado",
+                "Canal verde o rojo en el quiosco de aduana"
+              ],
+              [
+                "Se comprueba en",
+                "Facturación, inmigración, quiosco de aduana",
+                "Inmigración",
+                "Quiosco de aduana tras recoger el equipaje"
+              ]
+            ]
+          }
+        },
+        {
+          "h": "Cuáles se aplican a usted",
+          "p": "Tres casos típicos:",
+          "items": [
+            "<strong>Turista de Australia, Europa, Reino Unido, Estados Unidos, Japón, Corea o China</strong>: tarjeta de llegada + visado a la llegada (e-VOA recomendado) + sección de aduana. Tres elementos, dos formularios.",
+            "<strong>Viajero de Singapur, Malasia, Tailandia u otro país de la ASEAN</strong>: solo la tarjeta de llegada con su sección de aduana. Entrada sin visado.",
+            "<strong>Ciudadano indonesio que vuelve a casa</strong>: tarjeta de llegada en la categoría de ciudadano, sección de aduana incluida. Sin visado."
+          ],
+          "after": "Sea cual sea el caso, el orden es el mismo: primero el visado si lo necesita, la tarjeta de llegada en los últimos tres días, la aduana respondida dentro de ella. Más respuestas en nuestras <faq>preguntas frecuentes</faq>."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "¿El e-VOA incluye la tarjeta de llegada?",
+          "a": "No. Son envíos separados a la misma autoridad de inmigración. El e-VOA se solicita con semanas de antelación; la tarjeta de llegada solo dentro de las 72 horas previas a la llegada. Necesita ambos."
+        },
+        {
+          "q": "¿Sigo teniendo que rellenar una declaración de aduana para Indonesia?",
+          "a": "Sí, pero no como formulario aparte. Las preguntas de aduana y cuarentena forman parte de la tarjeta de llegada All Indonesia, y el QR de la tarjeta de llegada es lo que escanea en el quiosco de aduana."
+        },
+        {
+          "q": "¿Puedo obtener el visado a la llegada sin el e-VOA?",
+          "a": "Sí. El visado a la llegada se vende en mostradores situados antes de inmigración en aeropuertos internacionales y puertos principales, con la misma tasa. El e-VOA evita esa cola."
+        },
+        {
+          "q": "¿Y si mi país no está en la lista del visado a la llegada?",
+          "a": "Necesita un visado expedido antes del viaje, a través de una embajada de Indonesia o del sistema oficial de e-visa. La tarjeta de llegada es obligatoria además, como para todos."
+        }
+      ],
+      "cta": {
+        "title": "¿Necesita ambos? Tarjeta de llegada y e-VOA en un solo pedido.",
+        "text": "Preparamos y revisamos la tarjeta de llegada desde {price} y el e-VOA desde {evoaPrice} por viajero, con la tasa oficial del visado detallada. Pida ambos juntos y ahorre {bundleSave} por viajero."
       }
     }
   },

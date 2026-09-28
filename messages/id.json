@@ -59,6 +59,12 @@
     "guide": "Cara kerja kartu kedatangan",
     "customs": "Batas bebas bea",
     "news": "Ringkasan berita resmi",
+    "guides": "Panduan",
+    "infoBali": "Kartu kedatangan untuk Bali",
+    "infoJakarta": "Kartu kedatangan untuk Jakarta",
+    "infoFamilies": "Kartu kedatangan untuk keluarga",
+    "infoRequirements": "Persyaratan kartu kedatangan",
+    "infoCompare": "Kartu kedatangan, e-VOA, dan bea cukai",
     "disclosure": "Pernyataan non-afiliasi",
     "terms": "Ketentuan layanan",
     "privacy": "Kebijakan privasi",
@@ -815,7 +821,8 @@
     "ctaTitle": "Lebih suka disiapkan dan diperiksa untuk Anda?",
     "ctaText": "Tim kami menyiapkan kartu Anda dari formulir terpandu singkat, memeriksa setiap kolom berdasarkan paspor Anda, mengajukannya dalam jendela waktu 72 jam, dan mengirimkan kode QR melalui email. Mulai {price} per penumpang. Berguna untuk keluarga, rombongan, atau jika Anda tidak ingin berurusan dengan portal.",
     "cta": "Gunakan layanan bantuan",
-    "ctaReminder": "Tiba lebih dari 3 hari lagi? <link>Atur pengingat</link> dan kami memberi tahu saat jendela waktu terbuka."
+    "ctaReminder": "Tiba lebih dari 3 hari lagi? <link>Atur pengingat</link> dan kami memberi tahu saat jendela waktu terbuka.",
+    "relatedTitle": "Panduan terkait"
   },
   "Customs": {
     "metaTitle": "Deklarasi Bea Cukai Indonesia: Batas 2026",
@@ -964,6 +971,451 @@
       "diy": {
         "q": "Bisakah saya mengisi kartu kedatangan tanpa layanan Anda?",
         "a": "Bisa. Kartu Kedatangan All Indonesia dapat diisi secara gratis di portal resmi pemerintah allindonesia.imigrasi.go.id. Biaya kami hanya untuk menyiapkan, memeriksa, dan mengirimkannya untuk Anda."
+      }
+    },
+    "relatedTitle": "Panduan terkait"
+  },
+  "Landing": {
+    "common": {
+      "kicker": "Panduan perjalanan, diperbarui September 2026",
+      "questions": "Pertanyaan umum",
+      "related": "Panduan terkait",
+      "ctaApply": "Mulai kartu kedatangan saya – mulai {price}",
+      "ctaGuide": "Baca panduan gratis",
+      "ctaReminder": "Terbang lebih dari tiga hari lagi? <link>Pasang pengingat gratis</link> untuk jendela 72 jam."
+    },
+    "bali-arrival-card": {
+      "metaTitle": "Kartu kedatangan Bali: All Indonesia di DPS",
+      "metaDescription": "Cara kerja kartu kedatangan All Indonesia di Bandara Ngurah Rai, Bali: jendela 72 jam, QR di imigrasi dan bea cukai, e-VOA, serta pungutan wisatawan Bali yang terpisah.",
+      "title": "Kartu kedatangan Bali: yang harus diselesaikan sebelum mendarat di Ngurah Rai",
+      "intro": "Setiap penumpang yang mendarat di Bandara Internasional I Gusti Ngurah Rai (DPS) memerlukan kartu kedatangan All Indonesia, formulir digital gratis yang menggantikan kartu imigrasi kertas dan deklarasi bea cukai. Sebagian besar pengunjung juga memerlukan visa saat kedatangan, dan wisatawan asing membayar pungutan wisatawan Bali yang terpisah. Halaman ini merapikan ketiganya.",
+      "sections": [
+        {
+          "h": "Tiga hal, bukan satu: kartu kedatangan, e-VOA, dan pungutan Bali",
+          "p": "Penumpang tujuan Bali sering mencampuradukkan tiga kewajiban yang berbeda. Ketiganya berasal dari instansi berbeda dan diperiksa di titik yang berbeda.",
+          "items": [
+            "<strong>Kartu kedatangan All Indonesia</strong>: wajib bagi semua orang, gratis, diajukan dalam 72 jam sebelum kedatangan melalui portal atau aplikasi resmi. Menghasilkan kode QR untuk imigrasi dan bea cukai.",
+            "<strong>Visa</strong>: sebagian besar kewarganegaraan memerlukan visa saat kedatangan, yang bisa diperoleh sebelum berangkat sebagai <evoa>e-VOA</evoa> (biaya pemerintah {evoaFee}) atau di loket di ruang kedatangan. Warga negara ASEAN masuk bebas visa.",
+            "<strong>Pungutan wisatawan Bali</strong>: {levy} per pengunjung asing, dipungut oleh Pemerintah Provinsi Bali melalui portal <lovebali>Love Bali</lovebali>. Ini bukan bagian dari kartu kedatangan."
+          ],
+          "after": "Membayar pungutan tidak membuat kartu kedatangan, dan kartu kedatangan tidak menanyakan pungutan. Perlakukan keduanya sebagai urusan terpisah."
+        },
+        {
+          "h": "Jendela 72 jam untuk penerbangan ke Bali",
+          "p": "Portal resmi hanya menerima kartu kedatangan jika tanggal kedatangan Anda di Bali jatuh dalam 72 jam ke depan. Jika Anda terbang dari Eropa dengan transit di Doha, Singapura, atau Kuala Lumpur, tanggal kedatangan waktu setempat di Bali biasanya sehari setelah Anda berangkat, dan tanggal itulah yang harus diisi.",
+          "items": [
+            "Ajukan satu atau dua hari sebelum mendarat, dari rumah, dengan paspor di depan Anda; Wi-Fi bandara dan formulir dua puluh menit bukan kombinasi yang baik.",
+            "Isi Denpasar (DPS) sebagai pelabuhan masuk, meskipun Anda melanjutkan ke Lombok atau Labuan Bajo dengan penerbangan domestik.",
+            "Terbang lebih dari tiga hari lagi? <reminder>Pasang pengingat gratis</reminder> dan kami mengirim email begitu jendela Anda terbuka."
+          ]
+        },
+        {
+          "h": "Di Ngurah Rai: di mana kode QR diperiksa",
+          "p": "Di Ngurah Rai urutannya setelah keluar dari pesawat selalu sama.",
+          "items": [
+            "<strong>Loket visa saat kedatangan</strong> ada lebih dulu, sebelum imigrasi. Penumpang tanpa e-VOA membayar di sini; pemegang e-VOA langsung lewat.",
+            "<strong>Imigrasi</strong>: autogate tersedia untuk paspor biometrik. Sistem memeriksa apakah ada kartu kedatangan untuk nomor paspor Anda; jika gerbang tidak mengenali Anda, atau Anda bepergian dengan anak, petugas memindai QR di loket.",
+            "<strong>Bea cukai</strong>, setelah pengambilan bagasi: pindai QR kartu kedatangan di kios bea cukai. Tidak ada yang dideklarasikan berarti jalur hijau; deklarasi mengarahkan Anda ke jalur merah. Tidak ada formulir kedua."
+          ],
+          "after": "Simpan QR sebagai berkas unduhan dan tangkapan layar penuh; maskapai pada penerbangan dari Australia, Singapura, dan Teluk mungkin memintanya saat check-in."
+        },
+        {
+          "h": "Pungutan wisatawan Bali, dijelaskan terpisah",
+          "p": "Sejak Februari 2024 Pemerintah Provinsi Bali memungut dari wisatawan asing pungutan sekali bayar sebesar {levy} per kunjungan, yang digunakan untuk program budaya dan lingkungan. Pembayaran dilakukan daring di <lovebali>lovebali.baliprov.go.id</lovebali> dengan kartu, dan voucher dengan kode QR-nya sendiri dikirim lewat email; loket di bandara juga menerima pembayaran, tetapi antreannya bisa dihindari. Pungutan berlaku per orang, berapa pun usianya; pemegang izin tinggal jangka panjang tertentu dapat mengajukan pengecualian di portal yang sama. Petugas dapat meminta voucher di bandara atau di objek wisata."
+        },
+        {
+          "h": "Mengajukan untuk keluarga yang tiba di Bali",
+          "p": "Kartu kedatangan berlaku satu kartu per orang. Orang tua mengisi satu kartu untuk setiap anak dan bayi yang memiliki paspor, dengan penerbangan, alamat hotel, dan email yang sama. Sebelum terbang, pastikan setiap penumpang memiliki QR sendiri; jika pengajuan grup hanya mengembalikan satu kode, cari yang lain di <retrieve>halaman pengambilan</retrieve>. Visa saat kedatangan dan pungutan Bali juga dikenakan per orang. <guide>Panduan langkah demi langkah</guide> kami membahas pengajuan untuk keluarga secara rinci."
+        },
+        {
+          "h": "Kesalahan umum di Bali",
+          "p": "Kesalahan yang membuat orang dikirim ke loket manual di DPS selalu sama.",
+          "items": [
+            "Mengisi tanggal keberangkatan, bukan tanggal kedatangan waktu setempat di Bali.",
+            "Memilih pelabuhan masuk yang salah setelah transit domestik lewat Jakarta: kartu harus menyebut bandara tempat Anda pertama kali melewati imigrasi.",
+            "Nomor paspor diketik dengan 0 alih-alih O; autogate tidak bisa mencocokkannya.",
+            "Melupakan bagian bea cukai: uang tunai Rp100 juta atau lebih, alkohol lebih dari satu liter, atau barang di atas USD 500 harus dideklarasikan. Lihat <customs>halaman bea cukai</customs> kami."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Apakah saya memerlukan kartu kedatangan untuk Bali jika sudah membayar pungutan wisatawan Bali?",
+          "a": "Ya. Pungutan itu adalah pungutan pariwisata provinsi; kartu kedatangan adalah deklarasi nasional untuk imigrasi, bea cukai, dan kesehatan. Keduanya diperlukan, masing-masing dengan kode QR sendiri."
+        },
+        {
+          "q": "Bisakah saya mengisi kartu kedatangan Bali di bandara saat tiba?",
+          "a": "Dalam praktiknya bisa, lewat ponsel di ruang kedatangan, tetapi lambat dan beberapa maskapai meminta QR sebelum naik pesawat. Ajukan dalam 72 jam sebelum mendarat, sebaiknya dari rumah."
+        },
+        {
+          "q": "Apakah kartu kedatangan menggantikan visa saat kedatangan di Bali?",
+          "a": "Tidak. Sebagian besar kewarganegaraan tetap memerlukan visa saat kedatangan, diperoleh sebagai e-VOA sebelum berangkat atau di loket di Ngurah Rai. Warga negara ASEAN bebas visa. Kartu kedatangan wajib dalam semua kasus."
+        },
+        {
+          "q": "Saya tiba di Bali dengan penerbangan domestik atau feri dari Lombok. Apakah saya memerlukannya?",
+          "a": "Hanya titik masuk internasional Anda yang dihitung. Jika Anda pertama kali melewati imigrasi di Jakarta atau tempat lain, kartu menyebut bandara itu dan tidak ada yang perlu dilakukan lagi di Bali. Hanya kedatangan internasional ke Bali, lewat udara atau lewat laut di Benoa, yang mengisi Denpasar sebagai pelabuhan masuk."
+        }
+      ],
+      "cta": {
+        "title": "Segera tiba di Bali? Kami siapkan dan periksa kartu kedatangan Anda.",
+        "text": "Jawab pertanyaan terpandu kami; seseorang memeriksa setiap kolom dengan paspor Anda dan mengajukan dalam jendela 72 jam. Bantuan kartu kedatangan mulai {price} per penumpang; tambahkan <evoa>e-VOA</evoa> jika Anda memerlukan visa saat kedatangan."
+      }
+    },
+    "jakarta-arrival-card": {
+      "metaTitle": "Kartu kedatangan Jakarta: Soekarno-Hatta",
+      "metaDescription": "Kartu kedatangan All Indonesia di Bandara Soekarno-Hatta (CGK): aturan 72 jam, autogate dan kode QR, aturan transit, perjalanan bisnis, dan penerbangan lanjutan.",
+      "title": "Kartu kedatangan Jakarta: kedatangan di Soekarno-Hatta, autogate, dan transit",
+      "intro": "Bandara Internasional Soekarno-Hatta (CGK) adalah pintu masuk tersibuk Indonesia dan salah satu bandara pertama tempat kartu kedatangan All Indonesia diperkenalkan pada 2025. Setiap penumpang yang melewati imigrasi di sana memerlukan kartu ini, baik yang menginap di Jakarta, melanjutkan penerbangan domestik, maupun datang untuk rapat dua hari. Begini cara kerjanya di CGK.",
+      "sections": [
+        {
+          "h": "Siapa yang memerlukan kartu di Soekarno-Hatta",
+          "p": "Aturannya sama seperti di seluruh Indonesia: setiap kedatangan internasional mengajukan kartu kedatangan dalam 72 jam sebelum mendarat, warga asing maupun WNI, dewasa maupun anak-anak. Yang berbeda di Jakarta adalah banyaknya orang yang hanya lewat.",
+          "items": [
+            "Menginap di Jakarta atau melanjutkan penerbangan domestik: Anda melewati imigrasi di CGK, jadi kartu menyebut Jakarta sebagai pelabuhan masuk.",
+            "Transit internasional ke internasional tanpa keluar dari area transit: tidak ada imigrasi, tidak perlu kartu.",
+            "Singgah dengan hotel di luar bandara, walau hanya semalam: Anda melewati imigrasi, jadi kartu wajib, ditambah visa atau bebas visa.",
+            "WNI yang pulang: kartu yang sama, kategori warga negara Indonesia, NIK wajib diisi."
+          ]
+        },
+        {
+          "h": "Jendela 72 jam dan tanggal kedatangan",
+          "p": "Portal hanya menerima kartu jika tanggal kedatangan di Indonesia jatuh dalam 72 jam ke depan. Isi tanggal waktu setempat saat Anda mendarat di Jakarta, bukan tanggal keberangkatan: pada penerbangan malam dari Eropa, Timur Tengah, dan Amerika Utara biasanya itu hari kalender berikutnya. Periksa tanggal di layar ringkasan sebelum mengirim. Jika perjalanan Anda lebih dari tiga hari lagi, <reminder>pasang pengingat gratis</reminder> dan ajukan saat jendela terbuka."
+        },
+        {
+          "h": "Autogate di CGK: bagaimana QR digunakan",
+          "p": "Ruang kedatangan internasional Terminal 3 dan Terminal 2 memiliki autogate untuk penumpang berpaspor biometrik. Gerbang membaca chip paspor, mengambil foto, dan memeriksa di sistem imigrasi apakah ada kartu kedatangan yang valid untuk nomor paspor itu. Biasanya Anda tidak memindai QR di gerbang; pencocokan berlangsung di latar belakang. Itulah sebabnya satu karakter salah pada nomor paspor berpengaruh: gerbang tidak menemukan apa pun dan mengarahkan Anda ke loket.",
+          "items": [
+            "Tetap siapkan paspor dan QR; jika gerbang menolak Anda, petugas memindai kodenya.",
+            "Penumpang visa saat kedatangan membayar di loket VOA sebelum imigrasi, atau memegang <evoa>e-VOA</evoa> dan langsung ke gerbang.",
+            "Setelah pengambilan bagasi, pindai QR di kios bea cukai dan ambil jalur hijau atau merah."
+          ]
+        },
+        {
+          "h": "Penumpang transit: tiga kasus",
+          "p": "Jakarta adalah hub Garuda Indonesia dan beberapa maskapai asing, jadi pertanyaan soal transit muncul setiap hari.",
+          "items": [
+            "<strong>Transit di area steril</strong> dengan tiket terusan, bagasi dicek langsung ke tujuan di luar negeri: Anda tidak melewati imigrasi dan tidak memerlukan kartu.",
+            "<strong>Kedatangan internasional, lanjut penerbangan domestik</strong>: Anda melewati imigrasi dan bea cukai di CGK, mengambil dan mendaftarkan ulang bagasi, dan memerlukan kartu dengan Jakarta sebagai pelabuhan masuk. Sediakan waktu minimal tiga jam.",
+            "<strong>Tiket terpisah atau menginap di hotel</strong>: Anda masuk ke Indonesia. Kartu, visa, dan bea cukai berlaku seperti pengunjung lain."
+          ]
+        },
+        {
+          "h": "Pelaku perjalanan bisnis",
+          "p": "Kartu kedatangan adalah deklarasi, bukan visa, dan menanyakan tujuan kunjungan. Rapat bisnis, konferensi, dan pembelian diizinkan dengan visa saat kedatangan dan e-VOA; bekerja dengan bayaran untuk perusahaan Indonesia tidak diizinkan dan memerlukan visa yang diurus sebelumnya. Pengunjung rutin dapat menyimpan akun di aplikasi resmi agar setiap kartu baru selesai dalam beberapa menit, tetapi tidak ada kartu kedatangan multi-entri: aturan 72 jam berlaku untuk setiap perjalanan.",
+          "items": [
+            "Gunakan alamat hotel atau kantor tempat Anda benar-benar menginap; nama perusahaan saja tidak cukup.",
+            "Laptop kantor dan sampel: barang pribadi tidak masalah, tetapi barang untuk dijual atau diserahkan serta uang tunai Rp100 juta atau lebih harus dideklarasikan. Lihat <customs>halaman bea cukai</customs> kami.",
+            "Asisten dapat mengajukan atas nama penumpang, tetapi QR harus sudah ada di ponsel penumpang sebelum check-in."
+          ]
+        },
+        {
+          "h": "Penerbangan lanjutan domestik dari Jakarta",
+          "p": "Jika Anda melanjutkan ke Bali, Lombok, atau tempat lain, pelabuhan masuk di kartu adalah Jakarta (CGK), karena di sanalah imigrasi mencap kedatangan Anda. Mengisi tujuan akhir adalah kesalahan yang umum: kios bea cukai di Jakarta mungkin tidak menemukan kartu Anda. Pungutan wisatawan Bali, jika Anda melanjutkan ke Bali, adalah pungutan provinsi terpisah yang dibayar daring. Setiap layar formulir dijelaskan dalam <guide>panduan langkah demi langkah</guide> kami."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Saya transit enam jam di Jakarta dan tetap di area transit. Apakah saya memerlukan kartu kedatangan?",
+          "a": "Tidak. Kartu hanya diperlukan jika Anda melewati imigrasi. Jika Anda tetap di area steril dengan tiket terusan, tidak perlu apa pun. Jika Anda keluar bandara, walau sebentar, kartu diperlukan."
+        },
+        {
+          "q": "Terminal mana di Soekarno-Hatta yang memiliki autogate?",
+          "a": "Ruang kedatangan internasional Terminal 3 dan Terminal 2 memiliki autogate untuk pemegang paspor biometrik; loket berpetugas tetap tersedia untuk yang lain. Bagaimanapun, kartu kedatangan harus sudah ada sebelum Anda sampai di antrean."
+        },
+        {
+          "q": "Saya terbang Jakarta ke Bali dengan penerbangan domestik. Pelabuhan masuk mana yang saya isi?",
+          "a": "Jakarta (CGK). Pelabuhan masuk adalah tempat Anda pertama kali melewati imigrasi, bukan tujuan akhir Anda."
+        },
+        {
+          "q": "Bisakah saya mengajukan kartu untuk rekan kerja?",
+          "a": "Bisa. Siapa pun dapat mengisi kartu untuk penumpang lain dengan data paspornya. Setiap penumpang memerlukan kartu dan kode QR sendiri, dan berkasnya harus ada di ponsel penumpang atau dicetak."
+        }
+      ],
+      "cta": {
+        "title": "Mendarat di CGK minggu ini? Kami siapkan dan periksa kartu kedatangan Anda.",
+        "text": "Pertanyaan terpandu, seseorang memeriksa setiap kolom, pengajuan dalam jendela 72 jam, dan QR lewat email. Mulai {price} per penumpang; <evoa>e-VOA</evoa> dapat ditambahkan untuk perjalanan bisnis maupun wisata."
+      }
+    },
+    "arrival-card-for-families": {
+      "metaTitle": "Kartu kedatangan Indonesia untuk keluarga",
+      "metaDescription": "Mengajukan kartu kedatangan All Indonesia untuk anak dan bayi: satu kartu per orang, pengajuan grup dalam satu pesanan, paspor anak, kode QR, dan kesalahan umum.",
+      "title": "Kartu kedatangan Indonesia untuk keluarga: anak, bayi, dan pengajuan grup",
+      "intro": "Kartu kedatangan All Indonesia diterbitkan per orang, bukan per keluarga. Pasangan dengan dua anak memerlukan empat kartu dan empat kode QR, termasuk untuk bayi yang memiliki paspor. Ini mengejutkan banyak orang tua dan menjadi sumber sebagian besar masalah keluarga di loket imigrasi. Berikut cara mengajukan untuk anak dan untuk satu grup sekaligus.",
+      "sections": [
+        {
+          "h": "Satu kartu per orang, berapa pun usianya",
+          "p": "Imigrasi Indonesia mencocokkan setiap kartu kedatangan dengan satu nomor paspor. Anak yang memiliki paspor adalah penumpang tersendiri dalam sistem, sehingga memerlukan kartu sendiri, dengan nama, nomor paspor, dan tanggal lahirnya sendiri, serta kode QR sendiri. Tidak ada bagian tanggungan pada kartu orang dewasa dan tidak ada QR keluarga.",
+          "items": [
+            "Bayi dengan paspor sendiri: kartu atas nama bayi.",
+            "Anak yang masih tercantum di paspor orang tua (beberapa negara masih menerbitkannya): formulir dirancang untuk satu paspor per kartu, jadi periksa pusat bantuan portal resmi tentang cara mendeklarasikannya.",
+            "Remaja: sama seperti orang dewasa; tujuan kunjungan dan alamat mengikuti orang tua yang mendampingi."
+          ]
+        },
+        {
+          "h": "Data apa yang diisi pada kartu anak",
+          "p": "Sebagian besar kolom disalin dari kartu orang dewasa; hanya blok identitas yang berubah.",
+          "items": [
+            "Nama persis seperti pada zona baca mesin di paspor anak, semua nama depan, tanpa nama panggilan.",
+            "Nomor paspor, kewarganegaraan, tanggal lahir, dan tanggal kedaluwarsa dari paspor anak, bukan paspor orang tua.",
+            "Nomor penerbangan, tanggal kedatangan, pelabuhan masuk, tanggal keberangkatan, dan alamat akomodasi: sama dengan orang tua.",
+            "Alamat email: milik orang tua. Semua kode QR dapat masuk ke satu kotak masuk.",
+            "Deklarasi kesehatan: jawab untuk anak. Bea cukai: dalam praktiknya satu orang dewasa mendeklarasikan uang tunai dan barang keluarga; pada kartu lainnya, jawab sesuai yang benar-benar dibawa penumpang tersebut."
+          ]
+        },
+        {
+          "h": "Pengajuan grup: semua dalam satu pesanan",
+          "p": "Ada tiga cara mengajukan beberapa kartu.",
+          "items": [
+            "<strong>Portal resmi, satu per satu</strong>: tanpa akun, pertanyaan yang sama setiap kali. Jajarkan paspor, isi kartu dengan urutan yang sama, dan tandai setiap yang selesai.",
+            "<strong>Aplikasi resmi, opsi grup</strong>: perlu akun dan beberapa penumpang dapat ditambahkan dalam satu sesi. Beberapa penumpang melaporkan pengajuan grup hanya mengembalikan QR untuk ketua grup; periksa setiap anggota di <retrieve>halaman pengambilan</retrieve> setelahnya.",
+            "<strong>Bantuan kami</strong>: satu pesanan untuk seluruh keluarga, mulai {price} untuk penumpang pertama dan {additional} untuk setiap orang tambahan. Seseorang menyiapkan setiap kartu, memeriksa setiap kolom, dan mengirim semua kode QR dalam satu email."
+          ],
+          "after": "Cara mana pun yang Anda pilih, hasilnya harus sama: satu QR per orang, masing-masing dengan nama dan nomor paspor yang benar."
+        },
+        {
+          "h": "Waktu pengajuan untuk keluarga",
+          "p": "Jendela 72 jam berlaku untuk setiap kartu, dan semua kartu untuk penerbangan yang sama terbuka pada saat yang sama. Mengisi empat atau lima kartu di ruang tunggu keberangkatan membuat stres; lakukan di rumah sehari sebelumnya, dengan paspor dan pemesanan hotel di depan Anda, atau <reminder>pasang satu pengingat</reminder> untuk tanggal kedatangan keluarga. Paspor anak juga perlu masa berlaku enam bulan untuk visa saat kedatangan dan <evoa>e-VOA</evoa>, yang juga diperlukan anak-anak, dengan biaya pemerintah yang sama sebesar {evoaFee} per orang."
+        },
+        {
+          "h": "Di bandara bersama anak",
+          "p": "Autogate umumnya digunakan orang dewasa berpaspor biometrik; keluarga dengan anak kecil diarahkan ke loket berpetugas, tempat petugas memindai setiap QR dengan setiap paspor. Simpan kode-kode bersama: satu album di ponsel orang tua, diberi nama per penumpang, ditambah cetakan di dompet paspor. Di kios bea cukai petugas mungkin meminta setiap QR atau hanya QR orang dewasa yang mendeklarasikan; siapkan semuanya."
+        },
+        {
+          "h": "Kesalahan yang dilakukan keluarga",
+          "p": "Kesalahan yang sama muncul di setiap loket keluarga.",
+          "items": [
+            "Satu kartu untuk seluruh keluarga, hanya dengan paspor orang tua. Anak-anak tidak punya kartu dan loket harus membereskannya.",
+            "Nomor paspor orang tua disalin ke kartu anak. Setiap kartu harus memuat nomor milik penumpang itu sendiri.",
+            "Nama panggilan atau nama tengah yang hilang pada anak; nama harus sesuai dengan zona baca mesin.",
+            "Mengira anak tidak memerlukan visa. Visa saat kedatangan, e-VOA, dan bebas visa berlaku untuk anak sama seperti orang dewasa.",
+            "Kehilangan satu kode di antara banyak kode. Ganti nama berkas dengan nama penumpang. Jebakan lainnya ada di <faq>FAQ</faq> kami."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Apakah bayi saya memerlukan kartu kedatangan Indonesia?",
+          "a": "Ya, jika bayi memiliki paspor. Setiap penumpang yang memiliki paspor memerlukan kartu atas namanya sendiri, berapa pun usianya. Orang tua yang mengisinya."
+        },
+        {
+          "q": "Bisakah saya memakai satu alamat email untuk semua kartu keluarga?",
+          "a": "Bisa. Portal mengirim setiap QR ke email yang Anda masukkan, jadi satu kotak masuk untuk seluruh keluarga adalah pilihan paling sederhana. Ganti nama setiap berkas dengan nama penumpang."
+        },
+        {
+          "q": "Apakah anak-anak memerlukan visa saat kedatangan untuk Indonesia?",
+          "a": "Ya. Visa saat kedatangan dan e-VOA berlaku per orang, termasuk anak-anak, dengan biaya pemerintah yang sama. Warga negara ASEAN dari usia berapa pun bebas visa. Kartu kedatangan wajib dalam semua kasus."
+        },
+        {
+          "q": "Kami hanya menerima satu kode QR untuk seluruh grup. Bagaimana?",
+          "a": "Cari setiap penumpang di halaman pengambilan resmi dengan data paspornya. Siapa pun yang tidak punya kartu harus diajukan secara individual sebelum terbang."
+        }
+      ],
+      "cta": {
+        "title": "Bepergian bersama keluarga? Satu pesanan, satu QR per orang.",
+        "text": "Kirimkan paspor sekali saja dan kami menyiapkan, memeriksa, dan mengajukan setiap kartu dalam jendela 72 jam, lalu mengirim semua kode QR sekaligus lewat email. Mulai {price} untuk penumpang pertama dan {additional} untuk setiap anggota keluarga tambahan."
+      }
+    },
+    "arrival-card-requirements": {
+      "metaTitle": "Persyaratan kartu kedatangan Indonesia 2026",
+      "metaDescription": "Siapa yang wajib mengajukan kartu kedatangan All Indonesia, dokumen yang diperlukan, aturan 72 jam yang berlaku sejak 1 Oktober 2025, dan apa yang terjadi tanpa kartu.",
+      "title": "Persyaratan kartu kedatangan Indonesia: siapa yang wajib, apa yang diperlukan, kapan",
+      "intro": "Sejak 1 Oktober 2025 kartu kedatangan All Indonesia wajib di setiap bandara, pelabuhan laut, dan pos lintas batas internasional di Indonesia. Ini adalah satu deklarasi digital untuk imigrasi, bea cukai, kesehatan, dan karantina, diajukan dalam 72 jam sebelum kedatangan, dan menghasilkan satu kode QR per penumpang. Halaman ini merangkum persyaratannya di satu tempat.",
+      "sections": [
+        {
+          "h": "Siapa yang wajib mengajukan",
+          "p": "Kartu berlaku untuk semua kedatangan internasional, tanpa pengecualian berdasarkan kewarganegaraan, usia, atau jenis visa.",
+          "items": [
+            "Pengunjung asing dari semua kewarganegaraan, baik bebas visa, visa saat kedatangan, e-VOA, maupun visa yang diterbitkan sebelumnya.",
+            "WNI yang kembali dari luar negeri, dalam kategori warga negara Indonesia dengan NIK.",
+            "Anak dan bayi yang memiliki paspor: satu kartu masing-masing, diisi oleh orang tua.",
+            "Kedatangan lewat laut (Batam, Bintan, Benoa, dan pelabuhan internasional lain) dan lewat darat (Motaain dan pos lintas batas lain), bukan hanya lewat udara."
+          ],
+          "after": "Satu-satunya yang tidak mengajukan adalah penumpang transit yang tetap di area transit internasional dan tidak pernah melewati imigrasi."
+        },
+        {
+          "h": "Dokumen dan data yang perlu disiapkan",
+          "p": "Formulir memakan waktu sekitar lima belas menit jika semuanya sudah di meja. Anda memerlukan:",
+          "items": [
+            "Paspor, dibuka pada halaman foto. Nama, nomor paspor, tanggal lahir, kewarganegaraan, dan tanggal kedaluwarsa harus diketik persis seperti tercetak; zona baca mesin adalah sumber paling aman.",
+            "Nomor penerbangan, feri, atau kapal, tanggal kedatangan waktu setempat di Indonesia, dan bandara atau pelabuhan tempat Anda pertama kali melewati imigrasi.",
+            "Rencana tanggal keberangkatan (perkiraan diterima) dan jenis visa Anda: bebas visa, visa saat kedatangan, e-VOA, atau lainnya.",
+            "Tujuan kunjungan serta nama dan alamat akomodasi pertama Anda. Nama hotel dan kota diterima.",
+            "Alamat email yang bisa Anda buka di ponsel. Kode verifikasi dan kode QR dikirim ke sana.",
+            "Negara yang dikunjungi dalam 21 hari terakhir, dan apakah Anda saat ini memiliki gejala seperti demam atau batuk.",
+            "Barang bawaan: uang tunai, alkohol, tembakau, barang yang dibeli di luar negeri, hewan, tumbuhan, atau makanan segar, serta jumlah bagasi. WNI juga mengisi NIK."
+          ]
+        },
+        {
+          "h": "Waktu: jendela 72 jam",
+          "p": "Portal resmi hanya menerima kartu jika tanggal kedatangan berada dalam 72 jam ke depan. Tidak ada pengajuan lebih awal dan tidak ada kartu yang mencakup beberapa perjalanan. Sebagian besar penumpang mengajukan 24 hingga 48 jam sebelum mendarat. Tanggal kedatangan adalah tanggal kalender waktu setempat saat Anda mendarat di Indonesia; pada penerbangan malam dari Eropa atau Amerika Utara itu adalah sehari setelah keberangkatan. Maskapai di banyak rute memeriksa QR saat check-in, jadi jangan berencana mengajukan di bandara tujuan. Terbang lebih lama dari itu? <reminder>Pasang pengingat gratis</reminder>."
+        },
+        {
+          "h": "Apa yang bukan kartu kedatangan",
+          "p": "Kartu kedatangan adalah deklarasi. Kartu ini sendiri tidak memberi Anda hak masuk ke Indonesia.",
+          "items": [
+            "Bukan visa. Tergantung kewarganegaraan, Anda masuk bebas visa (ASEAN), dengan visa saat kedatangan atau <evoa>e-VOA</evoa> (biaya pemerintah {evoaFee}, {evoaDays} hari, dapat diperpanjang sekali), atau dengan visa yang diterbitkan sebelum bepergian.",
+            "Bukan pungutan wisatawan Bali, yang dipungut secara terpisah oleh Pemerintah Provinsi Bali dari wisatawan asing.",
+            "Tidak berbayar. Portal dan aplikasi resmi gratis; situs mana pun yang memungut biaya untuk kartunya sendiri tidak resmi. Biaya kami untuk menyiapkan dan memeriksanya bagi Anda.",
+            "Bukan paspor kesehatan. Pertanyaan kesehatan adalah deklarasi; jawaban ya yang jujur tidak membuat Anda ditolak masuk."
+          ]
+        },
+        {
+          "h": "Apa yang terjadi tanpa kartu",
+          "p": "Imigrasi memeriksa keberadaan kartu yang valid saat Anda menunjukkan paspor, di autogate atau di loket. Tanpa kartu Anda tidak dipulangkan, tetapi diminta menepi untuk mengisi formulir di ponsel, dengan Wi-Fi bandara, sementara antrean Anda terus berjalan. Beberapa maskapai menolak check-in penumpang yang tidak bisa menunjukkan QR, terutama pada penerbangan dari Singapura, Australia, dan Teluk, dan inilah risiko yang lebih serius. Setelah pengambilan bagasi, kios bea cukai memerlukan QR yang sama.",
+          "after": "Kartu dengan data yang salah hampir sama buruknya dengan tanpa kartu: nama atau nomor paspor yang tidak cocok mengirim Anda ke loket manual, dan tanggal kedatangan yang salah mungkin tidak berlaku pada hari itu. Ajukan kartu yang sudah diperbaiki dan tunjukkan hanya kartu itu."
+        },
+        {
+          "h": "Di mana kartu diperiksa",
+          "p": "QR diperiksa hingga tiga kali antara check-in dan pintu keluar.",
+          "items": [
+            "Saat check-in maskapai, di banyak rute, sebelum boarding pass diterbitkan.",
+            "Di imigrasi: autogate mencocokkan chip paspor dengan kartu secara otomatis; loket memindai QR.",
+            "Di kios bea cukai setelah pengambilan bagasi: jalur hijau atau merah. Apa yang harus dideklarasikan ada di <customs>halaman bea cukai</customs> kami."
+          ],
+          "after": "Untuk penjelasan layar demi layar formulir, lihat <guide>panduan lengkap</guide> kami."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Apakah WNI memerlukan kartu kedatangan?",
+          "a": "Ya. WNI yang kembali dari luar negeri mengisi kartu yang sama, dalam kategori warga negara Indonesia, dengan NIK."
+        },
+        {
+          "q": "Bisakah saya mengajukan kartu seminggu sebelum penerbangan?",
+          "a": "Tidak. Portal menolak tanggal kedatangan yang lebih dari 72 jam lagi. Ajukan dalam tiga hari sebelum mendarat; pasang pengingat jika perjalanan masih lama."
+        },
+        {
+          "q": "Apakah kartu kedatangan Indonesia berbayar?",
+          "a": "Tidak. Kartu ini gratis di portal resmi allindonesia.imigrasi.go.id dan di aplikasi resmi. Biaya layanan kami mencakup persiapan, pemeriksaan, pengajuan, dan pengiriman, bukan kartunya."
+        },
+        {
+          "q": "Apakah saya perlu mencetak kode QR?",
+          "a": "Tidak. Salinan digital di ponsel diterima. Cetakan berguna sebagai cadangan jika baterai atau sinyal bermasalah."
+        }
+      ],
+      "cta": {
+        "title": "Semua sudah siap? Kami isi formulirnya untuk Anda.",
+        "text": "Pertanyaan terpandu, seseorang memeriksa setiap kolom dengan paspor Anda, pengajuan dalam jendela 72 jam, dan QR lewat email, dengan dukungan hingga Anda melewati imigrasi. Mulai {price} per penumpang."
+      }
+    },
+    "arrival-card-vs-evoa-vs-customs": {
+      "metaTitle": "Kartu kedatangan, e-VOA, bea cukai: Indonesia",
+      "metaDescription": "Tiga hal yang sering tertukar: kartu kedatangan All Indonesia (semua orang), e-VOA atau visa saat kedatangan (Rp500.000), dan deklarasi bea cukai. Dibandingkan.",
+      "title": "Kartu kedatangan, e-VOA, dan deklarasi bea cukai: apa itu masing-masing dan siapa yang memerlukannya",
+      "intro": "Pelancong ke Indonesia mendengar tentang kartu kedatangan, visa saat kedatangan, dan deklarasi bea cukai, sering dari tiga sumber berbeda, dan bertanya-tanya apakah semuanya sama. Tidak. Yang satu adalah deklarasi yang diajukan semua orang, yang lain adalah visa yang diperlukan sebagian kewarganegaraan, dan yang ketiga dulu formulir terpisah dan kini menjadi bagian dari yang pertama.",
+      "sections": [
+        {
+          "h": "Kartu kedatangan All Indonesia: semua orang",
+          "p": "Kartu kedatangan adalah formulir digital yang dikelola Direktorat Jenderal Imigrasi. Kartu ini menggantikan kartu imigrasi kertas, deklarasi bea cukai elektronik (e-CD), dan formulir kesehatan SATUSEHAT dengan satu pengajuan dan satu kode QR. Setiap kedatangan internasional mengajukan satu, dalam 72 jam sebelum mendarat, termasuk WNI dan anak-anak. Gratis di portal dan aplikasi resmi, dan bukan visa: kartu ini mendeklarasikan siapa Anda, bagaimana Anda tiba, di mana Anda menginap, dan apa yang Anda bawa. <guide>Panduan langkah demi langkah</guide> kami membahas setiap layar."
+        },
+        {
+          "h": "e-VOA: hanya kewarganegaraan yang memenuhi syarat",
+          "p": "Visa saat kedatangan (VOA) adalah izin masuk yang dipakai sebagian besar wisatawan dan pengunjung bisnis. Tersedia bagi warga sekitar 97 negara, biayanya {evoaFee} per orang, mengizinkan tinggal {evoaDays} hari, dan dapat diperpanjang sekali untuk 30 hari lagi di kantor imigrasi. e-VOA adalah visa yang sama, diajukan daring sebelum berangkat, hingga sekitar 90 hari sebelumnya, sehingga Anda melewati loket pembayaran saat tiba. Warga negara ASEAN masuk bebas visa selama 30 hari; kewarganegaraan di luar daftar VOA memerlukan visa yang diterbitkan sebelum bepergian.",
+          "items": [
+            "Persyaratan: paspor berlaku minimal enam bulan sejak masuk, tiket pulang atau lanjutan, foto terbaru ukuran paspor.",
+            "Tujuan: wisata, kunjungan keluarga, rapat bisnis dan pembelian, transit. Bukan untuk bekerja dengan bayaran atau jurnalistik.",
+            "Anak-anak memerlukan e-VOA sendiri dengan biaya yang sama. Kami dapat <evoa>menyiapkan dan mengajukan e-VOA</evoa> untuk Anda, dengan biaya pemerintah ditampilkan terpisah dari biaya layanan kami."
+          ]
+        },
+        {
+          "h": "Deklarasi bea cukai: kini bagian dari kartu kedatangan",
+          "p": "Hingga 2025, penumpang yang tiba mengisi deklarasi bea cukai elektronik (e-CD) terpisah untuk Bea Cukai. Formulir itu telah digabung ke dalam kartu kedatangan All Indonesia: pertanyaan bea cukai dan karantina dijawab dalam pengajuan yang sama, dan kode QR yang sama dipindai di kios bea cukai setelah pengambilan bagasi. Apa yang harus dideklarasikan tidak berubah:",
+          "items": [
+            "Uang tunai, cek, atau instrumen pembawa lainnya senilai Rp100 juta atau lebih, dalam mata uang apa pun.",
+            "Barang pribadi dengan nilai total lebih dari USD 500, atau lebih dari 1 liter alkohol, 200 batang rokok, 25 cerutu, atau 100 gram tembakau.",
+            "Barang untuk dijual atau untuk usaha, termasuk sampel; hewan hidup, tumbuhan, benih, buah, atau makanan segar lainnya (karantina).",
+            "Ponsel yang ingin Anda daftarkan (IMEI) untuk dipakai dengan SIM Indonesia lebih dari 90 hari."
+          ],
+          "after": "Tidak ada yang dideklarasikan berarti jalur hijau; deklarasi berarti jalur merah dengan pemeriksaan atau penetapan bea. Batas pembebasan dan kalkulator cepat ada di <customs>halaman bea cukai</customs> kami."
+        },
+        {
+          "h": "Perbandingan",
+          "p": "Tabel ini merangkum perbedaannya.",
+          "table": {
+            "head": [
+              "",
+              "Kartu kedatangan",
+              "e-VOA / visa saat kedatangan",
+              "Deklarasi bea cukai"
+            ],
+            "rows": [
+              [
+                "Siapa yang perlu",
+                "Setiap kedatangan internasional, semua usia, termasuk WNI",
+                "Warga sekitar 97 negara tanpa visa lain; bukan warga negara ASEAN",
+                "Semua orang, sebagai bagian dari kartu kedatangan"
+              ],
+              [
+                "Diterbitkan oleh",
+                "Direktorat Jenderal Imigrasi",
+                "Direktorat Jenderal Imigrasi",
+                "Bea Cukai, melalui kartu kedatangan"
+              ],
+              [
+                "Biaya",
+                "Gratis",
+                "{evoaFee} per orang",
+                "Gratis; bea hanya untuk barang di atas batas pembebasan"
+              ],
+              [
+                "Kapan",
+                "Dalam 72 jam sebelum kedatangan",
+                "Hingga sekitar 90 hari sebelum kedatangan, atau di loket saat mendarat",
+                "Bersama kartu kedatangan, dalam 72 jam"
+              ],
+              [
+                "Di mana",
+                "<portal>allindonesia.imigrasi.go.id</portal> atau aplikasi resmi",
+                "Portal e-visa resmi, atau loket VOA di bandara",
+                "Formulir yang sama dengan kartu kedatangan"
+              ],
+              [
+                "Yang Anda dapat",
+                "Satu kode QR per penumpang",
+                "Persetujuan e-VOA (PDF) atau cap visa",
+                "Jalur hijau atau merah di kios bea cukai"
+              ],
+              [
+                "Diperiksa di",
+                "Check-in maskapai, imigrasi, kios bea cukai",
+                "Imigrasi",
+                "Kios bea cukai setelah pengambilan bagasi"
+              ]
+            ]
+          }
+        },
+        {
+          "h": "Mana yang berlaku untuk Anda",
+          "p": "Tiga kasus yang umum:",
+          "items": [
+            "<strong>Wisatawan dari Australia, Eropa, Inggris, AS, Jepang, Korea, atau Tiongkok</strong>: kartu kedatangan + visa saat kedatangan (e-VOA disarankan) + bagian bea cukai. Tiga hal, dua formulir.",
+            "<strong>Pelancong dari Singapura, Malaysia, Thailand, atau negara ASEAN lain</strong>: hanya kartu kedatangan dengan bagian bea cukainya. Masuk bebas visa.",
+            "<strong>WNI yang pulang</strong>: kartu kedatangan dalam kategori warga negara, termasuk bagian bea cukai. Tanpa visa."
+          ],
+          "after": "Apa pun kasusnya, urutannya sama: visa dulu jika Anda memerlukannya, kartu kedatangan dalam tiga hari terakhir, bea cukai dijawab di dalamnya. Jawaban lainnya ada di <faq>FAQ</faq> kami."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Apakah e-VOA sudah termasuk kartu kedatangan?",
+          "a": "Tidak. Keduanya pengajuan terpisah ke otoritas imigrasi yang sama. e-VOA diajukan berminggu-minggu sebelumnya; kartu kedatangan hanya dalam 72 jam sebelum kedatangan. Anda memerlukan keduanya."
+        },
+        {
+          "q": "Apakah saya masih harus mengisi deklarasi bea cukai untuk Indonesia?",
+          "a": "Ya, tetapi bukan sebagai formulir terpisah. Pertanyaan bea cukai dan karantina adalah bagian dari kartu kedatangan All Indonesia, dan QR kartu kedatangan itulah yang Anda pindai di kios bea cukai."
+        },
+        {
+          "q": "Bisakah saya mendapatkan visa saat kedatangan tanpa e-VOA?",
+          "a": "Bisa. Visa saat kedatangan dijual di loket sebelum imigrasi di bandara internasional dan pelabuhan utama, dengan biaya yang sama. e-VOA menghindarkan Anda dari antrean itu."
+        },
+        {
+          "q": "Bagaimana jika negara saya tidak ada dalam daftar visa saat kedatangan?",
+          "a": "Anda memerlukan visa yang diterbitkan sebelum bepergian, melalui kedutaan Indonesia atau sistem e-visa resmi. Kartu kedatangan tetap wajib, seperti semua orang."
+        }
+      ],
+      "cta": {
+        "title": "Perlu keduanya? Kartu kedatangan dan e-VOA dalam satu pesanan.",
+        "text": "Kami menyiapkan dan memeriksa kartu kedatangan mulai {price} dan e-VOA mulai {evoaPrice} per penumpang, dengan biaya visa pemerintah dirinci. Pesan keduanya sekaligus dan hemat {bundleSave} per penumpang."
       }
     }
   },
