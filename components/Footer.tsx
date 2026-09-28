@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/lib/config";
+import { INFO_LABEL_KEYS, INFO_SLUGS } from "@/lib/info";
 import { CookieSettingsLink } from "@/components/ConsentBanner";
 import { Logo } from "@/components/Logo";
 
@@ -11,7 +12,7 @@ export async function Footer() {
     <footer className="mt-16 border-t border-slate-200 bg-slate-50">
       <div className="mx-auto max-w-6xl px-4 py-10 text-sm text-ink-500">
         <p className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-900">{td("full")}</p>
-        <div className="grid gap-8 md:grid-cols-4">
+        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-5">
           <div>
             <Logo variant="mark" size={36} className="mb-3" />
             <p className="font-semibold text-ink-900">{site.company}</p>
@@ -36,6 +37,14 @@ export async function Footer() {
               <li><Link href="/guide">{t("guide")}</Link></li>
               <li><Link href="/customs">{t("customs")}</Link></li>
               <li><Link href="/news">{t("news")}</Link></li>
+            </ul>
+          </div>
+          <div>
+            <p className="font-semibold text-ink-900">{t("guides")}</p>
+            <ul className="mt-2 space-y-1">
+              {INFO_SLUGS.map((slug) => (
+                <li key={slug}><Link href={`/info/${slug}`}>{t(INFO_LABEL_KEYS[slug])}</Link></li>
+              ))}
             </ul>
           </div>
           <div>

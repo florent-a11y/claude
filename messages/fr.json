@@ -55,6 +55,12 @@
     "guide": "Comment fonctionne la carte d'arrivée",
     "customs": "Franchises douanières",
     "news": "Résumés des actualités officielles",
+    "guides": "Guides",
+    "infoBali": "Carte d'arrivée pour Bali",
+    "infoJakarta": "Carte d'arrivée pour Jakarta",
+    "infoFamilies": "Carte d'arrivée en famille",
+    "infoRequirements": "Conditions de la carte d'arrivée",
+    "infoCompare": "Carte d'arrivée, e-VOA et douane",
     "disclosure": "Avis de non-affiliation",
     "terms": "Conditions générales",
     "privacy": "Politique de confidentialité",
@@ -811,7 +817,8 @@
     "ctaTitle": "Vous préférez la faire préparer et vérifier ?",
     "ctaText": "Notre équipe prépare votre carte à partir d'un court formulaire guidé, vérifie chaque champ avec votre passeport, la soumet dans la fenêtre de 72 heures et vous envoie le code QR par e-mail. À partir de {price} par voyageur. Utile pour les familles, les groupes, ou si vous préférez ne pas vous occuper du portail.",
     "cta": "Utiliser le service d'assistance",
-    "ctaReminder": "Vous arrivez dans plus de 3 jours ? <link>Programmez un rappel</link> et nous vous indiquons quand la fenêtre s'ouvre."
+    "ctaReminder": "Vous arrivez dans plus de 3 jours ? <link>Programmez un rappel</link> et nous vous indiquons quand la fenêtre s'ouvre.",
+    "relatedTitle": "Guides associés"
   },
   "Customs": {
     "metaTitle": "Franchises douanières Indonésie 2026",
@@ -960,6 +967,451 @@
       "diy": {
         "q": "Puis-je remplir la carte d'arrivée sans votre service ?",
         "a": "Oui. La carte d'arrivée All Indonesia peut être remplie gratuitement sur le portail officiel du gouvernement allindonesia.imigrasi.go.id. Nos frais couvrent uniquement sa préparation, sa vérification et son envoi pour vous."
+      }
+    },
+    "relatedTitle": "Guides associés"
+  },
+  "Landing": {
+    "common": {
+      "kicker": "Guide de voyage, mis à jour en septembre 2026",
+      "questions": "Questions fréquentes",
+      "related": "Guides associés",
+      "ctaApply": "Commencer ma carte d'arrivée – dès {price}",
+      "ctaGuide": "Lire le guide gratuit",
+      "ctaReminder": "Vous partez dans plus de trois jours ? <link>Activez un rappel gratuit</link> pour la fenêtre de 72 heures."
+    },
+    "bali-arrival-card": {
+      "metaTitle": "Carte d'arrivée Bali : All Indonesia à DPS",
+      "metaDescription": "La carte d'arrivée All Indonesia à Ngurah Rai (Bali) : fenêtre de 72 heures, QR à l'immigration et à la douane, e-VOA et taxe touristique de Bali distincte.",
+      "title": "Carte d'arrivée pour Bali : ce qu'il faut faire avant d'atterrir à Ngurah Rai",
+      "intro": "Tout voyageur qui atterrit à l'aéroport international I Gusti Ngurah Rai (DPS) doit avoir la carte d'arrivée All Indonesia, le formulaire numérique gratuit qui a remplacé la carte d'immigration papier et la déclaration en douane. La plupart des visiteurs ont aussi besoin d'un visa à l'arrivée, et les touristes étrangers paient une taxe touristique de Bali distincte. Cette page met les trois au clair.",
+      "sections": [
+        {
+          "h": "Trois choses, pas une : carte d'arrivée, e-VOA et taxe de Bali",
+          "p": "Les voyageurs à destination de Bali confondent souvent trois obligations distinctes. Elles viennent d'autorités différentes et sont contrôlées à des endroits différents.",
+          "items": [
+            "<strong>Carte d'arrivée All Indonesia</strong> : obligatoire pour tous, gratuite, déposée dans les 72 heures avant l'arrivée sur le portail officiel ou l'application. Elle produit le code QR pour l'immigration et la douane.",
+            "<strong>Visa</strong> : la plupart des nationalités ont besoin d'un visa à l'arrivée, obtenu avant le départ sous forme d’<evoa>e-VOA</evoa> (frais gouvernementaux {evoaFee}) ou au guichet dans le hall d'arrivée. Les ressortissants de l'ASEAN entrent sans visa.",
+            "<strong>Taxe touristique de Bali</strong> : {levy} par visiteur étranger, perçue par le gouvernement provincial de Bali sur le portail <lovebali>Love Bali</lovebali>. Elle ne fait pas partie de la carte d'arrivée."
+          ],
+          "after": "Payer la taxe ne crée pas de carte d'arrivée, et la carte d'arrivée ne pose aucune question sur la taxe. Traitez-les comme deux démarches séparées."
+        },
+        {
+          "h": "La fenêtre de 72 heures pour les vols vers Bali",
+          "p": "Le portail officiel n'accepte la carte d'arrivée que si votre date d'arrivée à Bali tombe dans les 72 heures suivantes. Si vous venez d'Europe avec une correspondance à Doha, Singapour ou Kuala Lumpur, la date d'arrivée locale à Bali est en général le lendemain de votre départ, et c'est cette date qu'il faut saisir.",
+          "items": [
+            "Déposez la carte un ou deux jours avant l'atterrissage, depuis chez vous, les passeports sous les yeux ; le Wi-Fi d'aéroport et un formulaire de vingt minutes font mauvais ménage.",
+            "Indiquez Denpasar (DPS) comme port d'entrée, même si vous continuez vers Lombok ou Labuan Bajo sur un vol intérieur.",
+            "Vous partez dans plus de trois jours ? <reminder>Activez un rappel gratuit</reminder> et nous vous écrivons dès que votre fenêtre s'ouvre."
+          ]
+        },
+        {
+          "h": "À Ngurah Rai : où le code QR est contrôlé",
+          "p": "À Ngurah Rai, la séquence après la sortie de l'avion est toujours la même.",
+          "items": [
+            "<strong>Les guichets du visa à l'arrivée</strong> viennent en premier, avant l'immigration. Les voyageurs sans e-VOA paient ici ; les titulaires d'un e-VOA passent devant.",
+            "<strong>Immigration</strong> : des portiques automatiques sont en service pour les passeports biométriques. Le système vérifie qu'une carte d'arrivée existe pour votre numéro de passeport ; si le portique ne vous reconnaît pas, ou si vous voyagez avec des enfants, un agent scanne le QR au guichet.",
+            "<strong>Douane</strong>, après la récupération des bagages : scannez le QR de la carte d'arrivée à la borne douanière. Rien à déclarer, c'est le couloir vert ; une déclaration vous envoie vers le couloir rouge. Il n'y a pas de second formulaire."
+          ],
+          "after": "Conservez le QR sous forme de fichier téléchargé et de capture d'écran plein écran ; les compagnies sur les vols depuis l'Australie, Singapour et le Golfe peuvent le demander à l'enregistrement."
+        },
+        {
+          "h": "La taxe touristique de Bali, expliquée à part",
+          "p": "Depuis février 2024, le gouvernement provincial de Bali prélève auprès des touristes étrangers une taxe unique de {levy} par séjour, affectée à des programmes culturels et environnementaux. Elle se paie en ligne sur <lovebali>lovebali.baliprov.go.id</lovebali> par carte, et un justificatif avec son propre code QR vous est envoyé par e-mail ; des guichets à l'aéroport acceptent aussi le paiement, mais la file d'attente est évitable. La taxe s'applique par personne, quel que soit l'âge ; les titulaires de certains titres de séjour de longue durée peuvent demander une exemption sur le même portail. Les agents peuvent demander à voir le justificatif à l'aéroport ou sur les sites touristiques."
+        },
+        {
+          "h": "Déposer pour une famille qui arrive à Bali",
+          "p": "La carte d'arrivée est individuelle. Un parent en remplit une pour chaque enfant et chaque bébé titulaire d'un passeport, avec le même vol, la même adresse d'hôtel et la même adresse e-mail. Avant de partir, vérifiez que chaque voyageur a son propre QR ; si un dépôt groupé n'a renvoyé qu'un seul code, retrouvez les autres sur la <retrieve>page de récupération</retrieve>. Le visa à l'arrivée et la taxe de Bali sont eux aussi facturés par personne. Notre <guide>guide pas à pas</guide> détaille le dépôt en famille."
+        },
+        {
+          "h": "Erreurs fréquentes à Bali",
+          "p": "Les erreurs qui envoient les voyageurs au guichet manuel de DPS sont toujours les mêmes.",
+          "items": [
+            "Saisir la date de départ au lieu de la date d'arrivée locale à Bali.",
+            "Choisir le mauvais port d'entrée après une correspondance intérieure via Jakarta : la carte doit indiquer l'aéroport où vous passez l'immigration pour la première fois.",
+            "Un numéro de passeport tapé avec un 0 au lieu d'un O ; le portique ne peut pas faire la correspondance.",
+            "Oublier la partie douane : les espèces à partir de 100 millions IDR, plus d'un litre d'alcool ou des marchandises au-delà de 500 USD doivent être déclarés. Voir notre <customs>page douane</customs>."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Ai-je besoin de la carte d'arrivée pour Bali si j'ai déjà payé la taxe touristique de Bali ?",
+          "a": "Oui. La taxe est une contribution touristique provinciale ; la carte d'arrivée est une déclaration nationale pour l'immigration, la douane et la santé. Les deux sont nécessaires, chacune avec son propre code QR."
+        },
+        {
+          "q": "Puis-je remplir la carte d'arrivée de Bali à l'aéroport, à l'arrivée ?",
+          "a": "En pratique oui, sur votre téléphone dans le hall d'arrivée, mais c'est lent et certaines compagnies demandent le QR avant l'embarquement. Déposez-la dans les 72 heures avant l'atterrissage, idéalement depuis chez vous."
+        },
+        {
+          "q": "La carte d'arrivée remplace-t-elle le visa à l'arrivée à Bali ?",
+          "a": "Non. La plupart des nationalités ont toujours besoin d'un visa à l'arrivée, obtenu sous forme d'e-VOA avant le départ ou au guichet à Ngurah Rai. Les ressortissants de l'ASEAN en sont dispensés. La carte d'arrivée est obligatoire dans tous les cas."
+        },
+        {
+          "q": "J'arrive à Bali par vol intérieur ou par ferry depuis Lombok. En ai-je besoin ?",
+          "a": "Seul votre point d'entrée international compte. Si vous avez passé l'immigration à Jakarta ou ailleurs, la carte indique cet aéroport et rien de plus n'est nécessaire à Bali. Seules les arrivées internationales à Bali, par avion ou par mer à Benoa, indiquent Denpasar comme port d'entrée."
+        }
+      ],
+      "cta": {
+        "title": "Bientôt à Bali ? Nous préparons et vérifions votre carte d'arrivée.",
+        "text": "Répondez à nos questions guidées ; une personne vérifie chaque champ avec votre passeport et dépose la carte dans la fenêtre de 72 heures. Assistance carte d'arrivée dès {price} par voyageur ; ajoutez l’<evoa>e-VOA</evoa> si vous avez besoin d'un visa à l'arrivée."
+      }
+    },
+    "jakarta-arrival-card": {
+      "metaTitle": "Carte d'arrivée Jakarta : Soekarno-Hatta",
+      "metaDescription": "La carte d'arrivée All Indonesia à Jakarta Soekarno-Hatta (CGK) : règle des 72 heures, portiques automatiques et code QR, transit, voyages d'affaires et correspondances.",
+      "title": "Carte d'arrivée pour Jakarta : arrivées à Soekarno-Hatta, portiques automatiques et transit",
+      "intro": "L'aéroport international Soekarno-Hatta (CGK) est le point d'entrée le plus fréquenté d'Indonésie et l'un des premiers aéroports où la carte d'arrivée All Indonesia a été introduite en 2025. Tout passager qui y passe l'immigration doit avoir la carte, qu'il reste à Jakarta, prenne une correspondance intérieure ou vienne pour une réunion de deux jours. Voici comment cela fonctionne à CGK.",
+      "sections": [
+        {
+          "h": "Qui a besoin de la carte à Soekarno-Hatta",
+          "p": "La règle est la même partout en Indonésie : chaque arrivée internationale dépose une carte d'arrivée dans les 72 heures avant l'atterrissage, étrangers comme citoyens indonésiens, adultes comme enfants. Ce qui change à Jakarta, c'est le nombre de personnes qui ne font qu'y passer.",
+          "items": [
+            "Séjour à Jakarta ou correspondance vers un vol intérieur : vous passez l'immigration à CGK, la carte indique donc Jakarta comme port d'entrée.",
+            "Transit international vers international sans quitter la zone de transit : pas d'immigration, pas de carte.",
+            "Escale avec hôtel hors de l'aéroport, même pour une nuit : vous passez l'immigration, la carte est donc obligatoire, plus un visa ou une exemption.",
+            "Citoyens indonésiens de retour : même carte, catégorie citoyen indonésien, NIK requis."
+          ]
+        },
+        {
+          "h": "La fenêtre de 72 heures et la date d'arrivée",
+          "p": "Le portail n'accepte une carte que si la date d'arrivée en Indonésie tombe dans les 72 heures suivantes. Saisissez la date locale à laquelle vous atterrissez à Jakarta, pas celle de votre départ : sur les vols de nuit depuis l'Europe, le Moyen-Orient et l'Amérique du Nord, c'est en général le jour calendaire suivant. Vérifiez la date sur l'écran récapitulatif avant d'envoyer. Si votre voyage est dans plus de trois jours, <reminder>activez un rappel gratuit</reminder> et déposez la carte à l'ouverture de la fenêtre."
+        },
+        {
+          "h": "Portiques automatiques à CGK : comment le QR est utilisé",
+          "p": "Les halls d'arrivée internationaux des terminaux 3 et 2 disposent de portiques automatiques pour les passagers munis d'un passeport biométrique. Le portique lit la puce du passeport, prend une photo et vérifie dans le système d'immigration qu'une carte d'arrivée valide existe pour ce numéro de passeport. En général, vous ne scannez pas le QR au portique ; la correspondance se fait en arrière-plan. C'est pourquoi un numéro de passeport avec un caractère erroné pose problème : le portique ne trouve rien et vous renvoie au guichet.",
+          "items": [
+            "Gardez quand même le passeport et le QR à portée de main ; si le portique vous refuse, l'agent scanne le code.",
+            "Les voyageurs en visa à l'arrivée paient aux guichets VOA avant l'immigration, ou détiennent un <evoa>e-VOA</evoa> et vont directement aux portiques.",
+            "Après la récupération des bagages, scannez le QR à la borne douanière et prenez le couloir vert ou rouge."
+          ]
+        },
+        {
+          "h": "Passagers en transit : trois cas",
+          "p": "Jakarta est le hub de Garuda Indonesia et de plusieurs compagnies étrangères, les questions de transit reviennent donc chaque jour.",
+          "items": [
+            "<strong>Transit en zone internationale</strong> avec un billet direct, bagages enregistrés jusqu'à une destination à l'étranger : vous ne passez pas l'immigration et n'avez pas besoin de la carte.",
+            "<strong>Arrivée internationale, vol intérieur en correspondance</strong> : vous passez l'immigration et la douane à CGK, récupérez et réenregistrez vos bagages, et il vous faut la carte avec Jakarta comme port d'entrée. Prévoyez au moins trois heures.",
+            "<strong>Billets séparés ou nuit à l'hôtel</strong> : vous entrez en Indonésie. Carte, visa et douane s'appliquent comme pour tout visiteur."
+          ]
+        },
+        {
+          "h": "Voyageurs d'affaires",
+          "p": "La carte d'arrivée est une déclaration, pas un visa, et elle demande le motif du voyage. Réunions d'affaires, conférences et achats sont autorisés avec le visa à l'arrivée et l'e-VOA ; un travail rémunéré pour une entreprise indonésienne ne l'est pas et exige un visa demandé à l'avance. Les visiteurs fréquents peuvent garder un compte dans l'application officielle pour que chaque nouvelle carte ne prenne que quelques minutes, mais il n'existe pas de carte d'arrivée à entrées multiples : la règle des 72 heures s'applique à chaque voyage.",
+          "items": [
+            "Indiquez l'adresse de l'hôtel ou du bureau où vous logerez réellement ; un nom d'entreprise seul ne suffit pas.",
+            "Ordinateur portable et échantillons : les effets personnels ne posent pas de problème, mais les marchandises destinées à la vente ou à la remise et les espèces à partir de 100 millions IDR doivent être déclarées. Voir notre <customs>page douane</customs>.",
+            "Un assistant peut déposer la carte au nom du voyageur, mais le QR doit être sur le téléphone du voyageur avant l'enregistrement."
+          ]
+        },
+        {
+          "h": "Correspondances intérieures depuis Jakarta",
+          "p": "Si vous continuez vers Bali, Lombok ou ailleurs, le port d'entrée sur la carte est Jakarta (CGK), car c'est là que l'immigration vous fait entrer. Indiquer la destination finale à la place est une erreur fréquente : la borne douanière de Jakarta risque de ne pas trouver votre carte. La taxe touristique de Bali, si vous poursuivez vers Bali, est une contribution provinciale distincte payée en ligne. Chaque écran du formulaire est expliqué dans notre <guide>guide pas à pas</guide>."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "J'ai une escale de six heures à Jakarta et je reste en zone de transit. Ai-je besoin de la carte d'arrivée ?",
+          "a": "Non. La carte n'est exigée que si vous passez l'immigration. Si vous restez en zone internationale avec un billet direct, rien n'est nécessaire. Si vous sortez de l'aéroport, même brièvement, elle l'est."
+        },
+        {
+          "q": "Quel terminal de Soekarno-Hatta a des portiques automatiques ?",
+          "a": "Les halls d'arrivée internationaux des terminaux 3 et 2 ont des portiques pour les titulaires de passeports biométriques ; des guichets avec agents restent disponibles pour les autres. Dans les deux cas, la carte d'arrivée doit exister avant que vous n'atteigniez la file."
+        },
+        {
+          "q": "Je prends un vol intérieur Jakarta-Bali. Quel port d'entrée dois-je indiquer ?",
+          "a": "Jakarta (CGK). Le port d'entrée est l'endroit où vous passez l'immigration pour la première fois, pas votre destination finale."
+        },
+        {
+          "q": "Puis-je déposer la carte pour un collègue ?",
+          "a": "Oui. N'importe qui peut remplir une carte pour un autre voyageur avec les données de son passeport. Chaque voyageur a besoin de sa propre carte et de son propre code QR, et le fichier doit être sur le téléphone du voyageur ou imprimé."
+        }
+      ],
+      "cta": {
+        "title": "Atterrissage à CGK cette semaine ? Nous préparons et vérifions votre carte d'arrivée.",
+        "text": "Questions guidées, une personne vérifie chaque champ, dépôt dans la fenêtre de 72 heures et QR par e-mail. Dès {price} par voyageur ; un <evoa>e-VOA</evoa> peut être ajouté pour les voyages d'affaires ou touristiques."
+      }
+    },
+    "arrival-card-for-families": {
+      "metaTitle": "Carte d'arrivée Indonésie en famille",
+      "metaDescription": "Déposer la carte d'arrivée All Indonesia pour les enfants et bébés : une carte par personne, dépôt groupé en une commande, passeports des mineurs, QR, erreurs.",
+      "title": "Carte d'arrivée pour l'Indonésie en famille : enfants, bébés et dépôt groupé",
+      "intro": "La carte d'arrivée All Indonesia est délivrée par personne, pas par famille. Un couple avec deux enfants a besoin de quatre cartes et de quatre codes QR, y compris pour un bébé titulaire d'un passeport. Cela surprend beaucoup de parents et cause la plupart des problèmes familiaux au guichet d'immigration. Voici comment déposer pour des enfants et pour un groupe entier.",
+      "sections": [
+        {
+          "h": "Une carte par personne, quel que soit l'âge",
+          "p": "L'immigration indonésienne associe chaque carte d'arrivée à un numéro de passeport. Un enfant titulaire d'un passeport est un voyageur distinct dans le système : il lui faut sa propre carte, avec son nom, son numéro de passeport et sa date de naissance, et son propre code QR. Il n'y a pas de section « personnes à charge » sur la carte d'un adulte, ni de QR familial.",
+          "items": [
+            "Bébés avec leur propre passeport : une carte au nom du bébé.",
+            "Enfants encore inscrits sur le passeport d'un parent (quelques pays en délivrent encore) : le formulaire est conçu pour un passeport par carte, consultez donc le centre d'aide du portail officiel pour savoir comment les déclarer.",
+            "Adolescents : comme les adultes ; le motif du voyage et l'adresse sont ceux du parent accompagnant."
+          ]
+        },
+        {
+          "h": "Quelles informations mettre sur la carte d'un enfant",
+          "p": "La plupart des champs sont repris de la carte de l'adulte ; seul le bloc d'identité change.",
+          "items": [
+            "Nom exactement comme dans la zone de lecture optique du passeport de l'enfant, tous les prénoms, sans surnom.",
+            "Numéro de passeport, nationalité, date de naissance et date d'expiration du passeport de l'enfant, pas de celui du parent.",
+            "Numéro de vol, date d'arrivée, port d'entrée, date de départ et adresse d'hébergement : les mêmes que pour le parent.",
+            "Adresse e-mail : celle du parent. Tous les codes QR peuvent arriver dans une seule boîte.",
+            "Déclaration de santé : répondez pour l'enfant. Douane : en pratique, un adulte déclare les espèces et les marchandises de la famille ; sur les autres cartes, répondez pour ce que ce voyageur transporte réellement."
+          ]
+        },
+        {
+          "h": "Dépôt groupé : tout le monde en une commande",
+          "p": "Il existe trois façons de déposer plusieurs cartes.",
+          "items": [
+            "<strong>Portail officiel, l'une après l'autre</strong> : sans compte, les mêmes questions à chaque fois. Alignez les passeports, remplissez les cartes dans le même ordre et cochez chacune.",
+            "<strong>Application officielle, option groupe</strong> : un compte est nécessaire et plusieurs voyageurs peuvent être ajoutés en une session. Certains voyageurs signalent qu'un dépôt groupé n'a renvoyé de QR que pour le responsable ; vérifiez ensuite chaque membre sur la <retrieve>page de récupération</retrieve>.",
+            "<strong>Notre assistance</strong> : une commande pour toute la famille, dès {price} pour le premier voyageur et {additional} par personne supplémentaire. Une personne prépare chaque carte, vérifie chaque champ et envoie tous les codes QR dans un seul e-mail."
+          ],
+          "after": "Quelle que soit la méthode, le résultat doit être le même : un QR par personne, chacun avec le bon nom et le bon numéro de passeport."
+        },
+        {
+          "h": "Le calendrier pour les familles",
+          "p": "La fenêtre de 72 heures s'applique à chaque carte, et toutes les cartes d'un même vol s'ouvrent en même temps. Remplir quatre ou cinq cartes en salle d'embarquement est stressant ; faites-le à la maison la veille, avec les passeports et la réservation d'hôtel sous les yeux, ou <reminder>activez un rappel</reminder> pour la date d'arrivée de la famille. Les passeports des enfants doivent aussi être valides six mois pour le visa à l'arrivée et l’<evoa>e-VOA</evoa>, dont les enfants ont également besoin, aux mêmes frais gouvernementaux de {evoaFee} chacun."
+        },
+        {
+          "h": "À l'aéroport avec des enfants",
+          "p": "Les portiques automatiques sont en général utilisés par les adultes munis d'un passeport biométrique ; les familles avec de jeunes enfants sont dirigées vers les guichets, où l'agent scanne chaque QR avec chaque passeport. Gardez les codes ensemble : un album sur le téléphone du parent, nommé par voyageur, plus des impressions dans la pochette des passeports. À la borne douanière, l'agent peut demander chaque QR ou seulement celui de l'adulte qui déclare ; ayez-les tous prêts."
+        },
+        {
+          "h": "Les erreurs que font les familles",
+          "p": "Les mêmes erreurs reviennent à chaque guichet familial.",
+          "items": [
+            "Une seule carte pour toute la famille, avec le seul passeport du parent. Les enfants n'ont pas de carte et le guichet doit régler le problème.",
+            "Le numéro de passeport du parent copié sur la carte d'un enfant. Chaque carte doit porter le numéro propre du voyageur.",
+            "Un surnom ou un deuxième prénom oublié pour un enfant ; le nom doit correspondre à la zone de lecture optique.",
+            "Supposer qu'un enfant n'a pas besoin de visa. Visa à l'arrivée, e-VOA et entrée sans visa s'appliquent aux enfants comme aux adultes.",
+            "Perdre un code parmi tant d'autres. Renommez les fichiers avec le nom du voyageur. D'autres pièges sont listés dans notre <faq>FAQ</faq>."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Mon bébé a-t-il besoin d'une carte d'arrivée pour l'Indonésie ?",
+          "a": "Oui, si le bébé a un passeport. Tout voyageur muni d'un passeport a besoin d'une carte à son nom, quel que soit son âge. Un parent la remplit."
+        },
+        {
+          "q": "Puis-je utiliser une seule adresse e-mail pour toutes les cartes de la famille ?",
+          "a": "Oui. Le portail envoie chaque QR à l'adresse saisie, une seule boîte pour toute la famille est donc la solution la plus simple. Renommez chaque fichier avec le nom du voyageur."
+        },
+        {
+          "q": "Les enfants ont-ils besoin d'un visa à l'arrivée pour l'Indonésie ?",
+          "a": "Oui. Le visa à l'arrivée et l'e-VOA s'appliquent par personne, enfants compris, aux mêmes frais gouvernementaux. Les ressortissants de l'ASEAN, quel que soit leur âge, en sont dispensés. La carte d'arrivée est obligatoire dans tous les cas."
+        },
+        {
+          "q": "Nous n'avons reçu qu'un seul code QR pour tout le groupe. Que faire ?",
+          "a": "Recherchez chaque voyageur sur la page de récupération officielle avec les données de son passeport. Toute personne sans carte doit faire l'objet d'un dépôt individuel avant le départ."
+        }
+      ],
+      "cta": {
+        "title": "Vous voyagez en famille ? Une commande, un QR par personne.",
+        "text": "Envoyez-nous les passeports une seule fois : nous préparons, vérifions et déposons chaque carte dans la fenêtre de 72 heures, puis envoyons tous les codes QR ensemble par e-mail. Dès {price} pour le premier voyageur et {additional} par membre de la famille supplémentaire."
+      }
+    },
+    "arrival-card-requirements": {
+      "metaTitle": "Carte d'arrivée Indonésie : conditions 2026",
+      "metaDescription": "Qui doit déposer la carte d'arrivée All Indonesia, les documents nécessaires, la règle des 72 heures en vigueur depuis le 1er octobre 2025 et ce qui se passe sans carte.",
+      "title": "Conditions de la carte d'arrivée pour l'Indonésie : qui doit la déposer, ce qu'il faut, quand",
+      "intro": "Depuis le 1er octobre 2025, la carte d'arrivée All Indonesia est obligatoire dans tous les aéroports, ports maritimes et postes frontières internationaux d'Indonésie. C'est une déclaration numérique unique pour l'immigration, la douane, la santé et la quarantaine, déposée dans les 72 heures avant l'arrivée, qui produit un code QR par voyageur. Cette page rassemble les conditions en un seul endroit.",
+      "sections": [
+        {
+          "h": "Qui doit la déposer",
+          "p": "La carte s'applique à toutes les arrivées internationales, sans exemption selon la nationalité, l'âge ou le type de visa.",
+          "items": [
+            "Les visiteurs étrangers de toute nationalité, qu'ils soient sans visa, en visa à l'arrivée, en e-VOA ou avec un visa délivré à l'avance.",
+            "Les citoyens indonésiens de retour de l'étranger, dans la catégorie citoyen indonésien avec leur NIK.",
+            "Les enfants et bébés titulaires d'un passeport : une carte chacun, remplie par un parent.",
+            "Les arrivées par mer (Batam, Bintan, Benoa et autres ports internationaux) et par voie terrestre (Motaain et autres postes), pas seulement par avion."
+          ],
+          "after": "Les seules personnes dispensées sont les passagers en transit qui restent dans la zone de transit internationale et ne passent jamais l'immigration."
+        },
+        {
+          "h": "Documents et informations à préparer",
+          "p": "Le formulaire prend une quinzaine de minutes si tout est sur la table. Il vous faut :",
+          "items": [
+            "Le passeport, ouvert à la page photo. Nom, numéro de passeport, date de naissance, nationalité et date d'expiration doivent être saisis exactement comme imprimés ; la zone de lecture optique est la source la plus sûre.",
+            "Le numéro de vol, de ferry ou de navire, la date d'arrivée locale en Indonésie et l'aéroport ou le port où vous passez l'immigration pour la première fois.",
+            "La date de départ prévue (une date approximative est acceptée) et votre type de visa : sans visa, visa à l'arrivée, e-VOA ou autre.",
+            "Le motif du voyage ainsi que le nom et l'adresse de votre premier hébergement. Un nom d'hôtel et une ville sont acceptés.",
+            "Une adresse e-mail que vous pouvez ouvrir sur votre téléphone. Le code de vérification et le code QR y sont envoyés.",
+            "Les pays visités au cours des 21 derniers jours, et si vous présentez actuellement des symptômes comme de la fièvre ou de la toux.",
+            "Ce que vous transportez : espèces, alcool, tabac, marchandises achetées à l'étranger, animaux, plantes ou aliments frais, et le nombre de bagages. Les citoyens indonésiens saisissent aussi leur NIK."
+          ]
+        },
+        {
+          "h": "Le moment : la fenêtre de 72 heures",
+          "p": "Le portail officiel n'accepte une carte que si la date d'arrivée se situe dans les 72 heures suivantes. Il n'y a pas de dépôt anticipé ni de carte couvrant plusieurs voyages. La plupart des voyageurs déposent 24 à 48 heures avant l'atterrissage. La date d'arrivée est la date calendaire locale à laquelle vous atterrissez en Indonésie ; sur un vol de nuit depuis l'Europe ou l'Amérique du Nord, c'est le lendemain du départ. Sur de nombreuses lignes, les compagnies contrôlent le QR à l'enregistrement, ne prévoyez donc pas de déposer la carte à l'aéroport d'arrivée. Vous partez plus tard ? <reminder>Activez un rappel gratuit</reminder>."
+        },
+        {
+          "h": "Ce que la carte n'est pas",
+          "p": "La carte d'arrivée est une déclaration. Elle ne vous donne pas à elle seule le droit d'entrer en Indonésie.",
+          "items": [
+            "Ce n'est pas un visa. Selon votre nationalité, vous entrez sans visa (ASEAN), avec un visa à l'arrivée ou un <evoa>e-VOA</evoa> (frais gouvernementaux {evoaFee}, {evoaDays} jours, prolongeable une fois), ou avec un visa délivré avant le départ.",
+            "Ce n'est pas la taxe touristique de Bali, que le gouvernement provincial de Bali perçoit séparément auprès des touristes étrangers.",
+            "Elle ne coûte rien. Le portail et l'application officielle sont gratuits ; tout site qui fait payer la carte elle-même est non officiel. Nos frais rémunèrent la préparation et la vérification pour vous.",
+            "Ce n'est pas un passe sanitaire. Les questions de santé sont une déclaration ; un oui sincère n'entraîne pas de refus d'entrée."
+          ]
+        },
+        {
+          "h": "Ce qui se passe sans carte",
+          "p": "L'immigration vérifie l'existence d'une carte valide quand vous présentez votre passeport, au portique ou au guichet. Sans carte, on ne vous renvoie pas chez vous, mais on vous met de côté pour remplir le formulaire sur votre téléphone, avec le Wi-Fi de l'aéroport, pendant que votre file avance. Certaines compagnies refusent l'enregistrement aux passagers qui ne peuvent pas montrer le QR, en particulier sur les vols depuis Singapour, l'Australie et le Golfe, et c'est là le risque le plus sérieux. Après les bagages, la borne douanière exige le même QR.",
+          "after": "Une carte avec des données erronées est presque aussi problématique qu'une absence de carte : un nom ou un numéro de passeport qui ne correspond pas vous envoie au guichet manuel, et une mauvaise date d'arrivée peut ne pas être valide le jour même. Déposez une carte corrigée et ne présentez que celle-là."
+        },
+        {
+          "h": "Où la carte est contrôlée",
+          "p": "Le QR est contrôlé jusqu'à trois fois entre l'enregistrement et la sortie.",
+          "items": [
+            "À l'enregistrement, sur de nombreuses lignes, avant l'émission de la carte d'embarquement.",
+            "À l'immigration : les portiques associent automatiquement la puce du passeport à la carte ; les guichets scannent le QR.",
+            "À la borne douanière après les bagages : couloir vert ou rouge. Ce qu'il faut déclarer figure sur notre <customs>page douane</customs>."
+          ],
+          "after": "Pour un parcours écran par écran du formulaire, consultez notre <guide>guide complet</guide>."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Les citoyens indonésiens ont-ils besoin de la carte d'arrivée ?",
+          "a": "Oui. Les citoyens de retour de l'étranger remplissent la même carte, dans la catégorie citoyen indonésien, avec leur NIK."
+        },
+        {
+          "q": "Puis-je déposer la carte une semaine avant mon vol ?",
+          "a": "Non. Le portail refuse les dates d'arrivée à plus de 72 heures. Déposez-la dans les trois jours précédant l'atterrissage ; activez un rappel si le voyage est plus lointain."
+        },
+        {
+          "q": "La carte d'arrivée pour l'Indonésie est-elle payante ?",
+          "a": "Non. La carte est gratuite sur le portail officiel allindonesia.imigrasi.go.id et dans l'application officielle. Nos frais de service couvrent la préparation, la vérification, le dépôt et l'envoi, pas la carte elle-même."
+        },
+        {
+          "q": "Dois-je imprimer le code QR ?",
+          "a": "Non. Une copie numérique sur votre téléphone est acceptée. Une impression est une sauvegarde utile si la batterie ou le réseau vous lâche."
+        }
+      ],
+      "cta": {
+        "title": "Tout est prêt ? Nous remplissons le formulaire pour vous.",
+        "text": "Questions guidées, une personne vérifie chaque champ avec votre passeport, dépôt dans la fenêtre de 72 heures et QR par e-mail, avec assistance jusqu'à votre passage de l'immigration. Dès {price} par voyageur."
+      }
+    },
+    "arrival-card-vs-evoa-vs-customs": {
+      "metaTitle": "Carte d'arrivée, e-VOA et douane : Indonésie",
+      "metaDescription": "Ce que les voyageurs confondent en Indonésie : la carte d'arrivée All Indonesia (tous), l'e-VOA visa à l'arrivée (nationalités éligibles, 500 000 IDR) et la douane.",
+      "title": "Carte d'arrivée, e-VOA et déclaration en douane : ce que c'est et qui en a besoin",
+      "intro": "Les voyageurs à destination de l'Indonésie entendent parler d'une carte d'arrivée, d'un visa à l'arrivée et d'une déclaration en douane, souvent de trois sources différentes, et se demandent si c'est la même chose. Non. L'une est une déclaration que tout le monde dépose, l'autre un visa dont certaines nationalités ont besoin, et la troisième était un formulaire à part, désormais intégré au premier.",
+      "sections": [
+        {
+          "h": "La carte d'arrivée All Indonesia : tout le monde",
+          "p": "La carte d'arrivée est le formulaire numérique géré par la Direction générale de l'immigration. Elle a remplacé la carte d'immigration papier, la déclaration électronique en douane (e-CD) et le formulaire de santé SATUSEHAT par un seul dépôt et un seul code QR. Chaque arrivée internationale en dépose une, dans les 72 heures avant l'atterrissage, citoyens indonésiens et enfants compris. Elle est gratuite sur le portail officiel et l'application, et ce n'est pas un visa : elle déclare qui vous êtes, comment vous arrivez, où vous logez et ce que vous transportez. Notre <guide>guide pas à pas</guide> parcourt chaque écran."
+        },
+        {
+          "h": "L'e-VOA : nationalités éligibles seulement",
+          "p": "Le visa à l'arrivée (VOA) est le titre d'entrée qu'utilisent la plupart des touristes et des visiteurs d'affaires. Il est ouvert aux ressortissants d'environ 97 pays, coûte {evoaFee} par personne, autorise un séjour de {evoaDays} jours et peut être prolongé une fois de 30 jours dans un bureau d'immigration. L'e-VOA est le même visa demandé en ligne avant le départ, jusqu'à environ 90 jours à l'avance, ce qui vous évite le guichet de paiement à l'arrivée. Les ressortissants de l'ASEAN entrent sans visa pour 30 jours ; les nationalités hors liste VOA ont besoin d'un visa délivré avant le départ.",
+          "items": [
+            "Conditions : passeport valide au moins six mois à compter de l'entrée, billet de retour ou de continuation, photo d'identité récente.",
+            "Motifs : tourisme, visites familiales, réunions d'affaires et achats, transit. Pas de travail rémunéré ni de journalisme.",
+            "Les enfants ont besoin de leur propre e-VOA aux mêmes frais. Nous pouvons <evoa>préparer et déposer l'e-VOA</evoa> pour vous, les frais gouvernementaux étant affichés séparément de nos frais de service."
+          ]
+        },
+        {
+          "h": "La déclaration en douane : désormais une section de la carte d'arrivée",
+          "p": "Jusqu'en 2025, les passagers à l'arrivée remplissaient une déclaration électronique en douane (e-CD) distincte pour Bea Cukai, la douane indonésienne. Ce formulaire a été fusionné dans la carte d'arrivée All Indonesia : les questions de douane et de quarantaine sont traitées dans le même dépôt, et le même code QR est scanné à la borne douanière après les bagages. Ce qu'il faut déclarer n'a pas changé :",
+          "items": [
+            "Espèces, chèques ou autres instruments au porteur d'une valeur de 100 millions IDR ou plus, dans n'importe quelle devise.",
+            "Marchandises personnelles d'une valeur totale supérieure à 500 USD, ou plus d'un litre d'alcool, 200 cigarettes, 25 cigares ou 100 grammes de tabac.",
+            "Marchandises destinées à la vente ou à une entreprise, échantillons compris ; animaux vivants, plantes, graines, fruits ou autres aliments frais (quarantaine).",
+            "Un téléphone que vous souhaitez enregistrer (IMEI) pour l'utiliser avec une carte SIM indonésienne au-delà de 90 jours."
+          ],
+          "after": "Rien à déclarer, c'est le couloir vert ; une déclaration, c'est le couloir rouge avec inspection ou calcul des droits. Les franchises et un calculateur rapide sont sur notre <customs>page douane</customs>."
+        },
+        {
+          "h": "Côte à côte",
+          "p": "Le tableau résume les différences.",
+          "table": {
+            "head": [
+              "",
+              "Carte d'arrivée",
+              "e-VOA / visa à l'arrivée",
+              "Déclaration en douane"
+            ],
+            "rows": [
+              [
+                "Qui en a besoin",
+                "Toute arrivée internationale, tous âges, citoyens compris",
+                "Ressortissants d'environ 97 pays sans autre visa ; pas les ressortissants de l'ASEAN",
+                "Tout le monde, dans le cadre de la carte d'arrivée"
+              ],
+              [
+                "Délivrée par",
+                "Direction générale de l'immigration",
+                "Direction générale de l'immigration",
+                "Bea Cukai (douane), via la carte d'arrivée"
+              ],
+              [
+                "Coût",
+                "Gratuite",
+                "{evoaFee} par personne",
+                "Gratuite ; droits uniquement sur les marchandises au-delà de la franchise"
+              ],
+              [
+                "Quand",
+                "Dans les 72 heures avant l'arrivée",
+                "Jusqu'à environ 90 jours avant l'arrivée, ou au guichet à l'atterrissage",
+                "Avec la carte d'arrivée, dans les 72 heures"
+              ],
+              [
+                "Où",
+                "<portal>allindonesia.imigrasi.go.id</portal> ou l'application officielle",
+                "Portail e-visa officiel, ou guichet VOA à l'aéroport",
+                "Même formulaire que la carte d'arrivée"
+              ],
+              [
+                "Ce que vous obtenez",
+                "Un code QR par voyageur",
+                "Approbation e-VOA (PDF) ou tampon de visa",
+                "Couloir vert ou rouge à la borne douanière"
+              ],
+              [
+                "Contrôlée à",
+                "Enregistrement, immigration, borne douanière",
+                "Immigration",
+                "Borne douanière après les bagages"
+              ]
+            ]
+          }
+        },
+        {
+          "h": "Ce qui s'applique à vous",
+          "p": "Trois cas typiques :",
+          "items": [
+            "<strong>Touriste d'Australie, d'Europe, du Royaume-Uni, des États-Unis, du Japon, de Corée ou de Chine</strong> : carte d'arrivée + visa à l'arrivée (e-VOA recommandé) + section douane. Trois éléments, deux formulaires.",
+            "<strong>Voyageur de Singapour, de Malaisie, de Thaïlande ou d'un autre pays de l'ASEAN</strong> : carte d'arrivée avec sa section douane seulement. Entrée sans visa.",
+            "<strong>Citoyen indonésien de retour</strong> : carte d'arrivée dans la catégorie citoyen, section douane incluse. Pas de visa."
+          ],
+          "after": "Dans tous les cas, l'ordre est le même : le visa d'abord si vous en avez besoin, la carte d'arrivée dans les trois derniers jours, la douane traitée à l'intérieur. D'autres réponses dans notre <faq>FAQ</faq>."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "L'e-VOA inclut-il la carte d'arrivée ?",
+          "a": "Non. Ce sont des dépôts distincts auprès de la même autorité d'immigration. L'e-VOA se demande des semaines à l'avance ; la carte d'arrivée seulement dans les 72 heures avant l'arrivée. Il vous faut les deux."
+        },
+        {
+          "q": "Dois-je encore remplir une déclaration en douane pour l'Indonésie ?",
+          "a": "Oui, mais pas sous forme de formulaire séparé. Les questions de douane et de quarantaine font partie de la carte d'arrivée All Indonesia, et c'est le QR de la carte d'arrivée que vous scannez à la borne douanière."
+        },
+        {
+          "q": "Puis-je obtenir le visa à l'arrivée sans e-VOA ?",
+          "a": "Oui. Le visa à l'arrivée est vendu aux guichets situés avant l'immigration dans les aéroports internationaux et les grands ports, aux mêmes frais. L'e-VOA évite cette file d'attente."
+        },
+        {
+          "q": "Et si mon pays n'est pas sur la liste du visa à l'arrivée ?",
+          "a": "Il vous faut un visa délivré avant le départ, par une ambassade d'Indonésie ou le système e-visa officiel. La carte d'arrivée reste obligatoire en plus, comme pour tout le monde."
+        }
+      ],
+      "cta": {
+        "title": "Besoin des deux ? Carte d'arrivée et e-VOA en une commande.",
+        "text": "Nous préparons et vérifions la carte d'arrivée dès {price} et l'e-VOA dès {evoaPrice} par voyageur, les frais de visa gouvernementaux étant détaillés. Commandez les deux ensemble et économisez {bundleSave} par voyageur."
       }
     }
   },

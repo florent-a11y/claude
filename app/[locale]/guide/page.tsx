@@ -6,6 +6,7 @@ import { pageMetadata } from "@/i18n/seo";
 import { JsonLd } from "@/components/JsonLd";
 import { OfficialNote } from "@/components/OfficialNote";
 import { site } from "@/lib/config";
+import { INFO_LABEL_KEYS, INFO_SLUGS } from "@/lib/info";
 import { PRICING, money } from "@/lib/pricing";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -36,6 +37,7 @@ export default async function Guide({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("Guide");
+  const tf = await getTranslations("Footer");
   const price = money(PRICING.arrivalCard.first, PRICING.currency, intlLocale(locale));
   const portalSteps = PORTAL_STEPS.map((k) => ({ t: t(`portalSteps.${k}.t`), d: t(`portalSteps.${k}.d`) }));
   const faqs = FAQS.map((k) => ({ q: t(`faqs.${k}.q`), a: t(`faqs.${k}.a`) }));
@@ -211,6 +213,15 @@ export default async function Guide({ params }: Props) {
           })}</li>
         </ul>
       </div>
+
+      <nav aria-label={t("relatedTitle")} className="mt-10">
+        <p className="font-semibold">{t("relatedTitle")}</p>
+        <ul className="mt-2 grid gap-1 text-sm sm:grid-cols-2">
+          {INFO_SLUGS.map((slug) => (
+            <li key={slug}><Link className="underline underline-offset-2 hover:text-brand-700" href={`/info/${slug}`}>{tf(INFO_LABEL_KEYS[slug])}</Link></li>
+          ))}
+        </ul>
+      </nav>
 
       <div className="card mt-10 bg-slate-50">
         <h2 className="text-xl font-bold">{t("ctaTitle")}</h2>
