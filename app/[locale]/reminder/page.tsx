@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { intlLocale } from "@/i18n/routing";
 import { pageMetadata } from "@/i18n/seo";
 import { ReminderForm } from "@/components/ReminderForm";
+import { HeroBackdrop } from "@/components/HeroBackdrop";
 import { JsonLd } from "@/components/JsonLd";
 import { site } from "@/lib/config";
 import { PRICING, money } from "@/lib/pricing";
@@ -34,8 +35,9 @@ export default async function ReminderPage({ params, searchParams }: Props) {
   return (
     <>
       <JsonLd data={{ "@context": "https://schema.org", "@type": "FAQPage", inLanguage: locale, mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) }} />
-      <section className="bg-gradient-to-b from-brand-50 to-white">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-2 md:py-20">
+      <section className="relative overflow-hidden">
+        <HeroBackdrop priority />
+        <div className="relative mx-auto grid max-w-6xl gap-10 px-4 pb-80 pt-12 md:grid-cols-2 md:pb-64 md:pt-20">
           <div>
             <p className="mb-3 inline-block rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-700 ring-1 ring-brand-100">{t("badge")}</p>
             <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{t("title")}</h1>

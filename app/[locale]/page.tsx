@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { intlLocale } from "@/i18n/routing";
 import { PriceCard } from "@/components/PriceCard";
+import { HeroBackdrop } from "@/components/HeroBackdrop";
 import { JsonLd } from "@/components/JsonLd";
 import { ReminderForm } from "@/components/ReminderForm";
 import { OfficialNote } from "@/components/OfficialNote";
@@ -44,8 +45,9 @@ export default async function Home({ params }: Props) {
         description: tc("siteDescription"),
         inLanguage: locale,
       }} />
-      <section className="bg-gradient-to-b from-brand-50 to-white">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-2 md:py-20">
+      <section className="relative overflow-hidden">
+        <HeroBackdrop priority />
+        <div className="relative mx-auto grid max-w-6xl gap-10 px-4 pb-80 pt-12 md:grid-cols-2 md:pb-64 md:pt-20">
           <div>
             <p className="mb-3 inline-block rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-700 ring-1 ring-brand-100">{t("badge")}</p>
             <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{t("title")}</h1>
@@ -57,7 +59,7 @@ export default async function Home({ params }: Props) {
             <p className="mt-4 text-sm text-ink-500">{tc.rich("notAffiliated", { link: (chunks) => <Link className="underline" href="/legal/disclosure">{chunks}</Link> })}</p>
             <OfficialNote className="mt-1 text-sm text-ink-500" />
           </div>
-          <PriceCard />
+          <PriceCard className="bg-white/95 shadow-lg shadow-brand-700/10 backdrop-blur md:self-start" />
         </div>
       </section>
 

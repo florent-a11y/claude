@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/lib/config";
 import { CookieSettingsLink } from "@/components/ConsentBanner";
+import { Logo } from "@/components/Logo";
 
 export async function Footer() {
   const t = await getTranslations("Footer");
@@ -12,6 +13,7 @@ export async function Footer() {
         <p className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-900">{td("full")}</p>
         <div className="grid gap-8 md:grid-cols-4">
           <div>
+            <Logo variant="mark" size={36} className="mb-3" />
             <p className="font-semibold text-ink-900">{site.company}</p>
             <p className="mt-1 text-xs">{site.address}</p>
             <p className="text-xs">{site.companyReg}</p>

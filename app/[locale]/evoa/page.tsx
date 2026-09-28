@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { intlLocale } from "@/i18n/routing";
 import { pageMetadata } from "@/i18n/seo";
 import { JsonLd } from "@/components/JsonLd";
+import { HeroBackdrop } from "@/components/HeroBackdrop";
 import { PRICING, money } from "@/lib/pricing";
 import { EVOA } from "@/lib/evoa";
 import { site } from "@/lib/config";
@@ -41,8 +42,9 @@ export default async function Evoa({ params }: Props) {
         offers: { "@type": "Offer", price: (q.first / 100).toFixed(2), priceCurrency: PRICING.currency, url: `${site.url}/apply?product=evoa` },
         inLanguage: locale,
       }} />
-      <section className="bg-gradient-to-b from-brand-50 to-white">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-2">
+      <section className="relative overflow-hidden">
+        <HeroBackdrop />
+        <div className="relative mx-auto grid max-w-6xl gap-10 px-4 pb-80 pt-12 md:grid-cols-2 md:pb-64 md:pt-20">
           <div>
             <p className="mb-3 inline-block rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-700 ring-1 ring-brand-100">{t("badge", { days: EVOA.validityDays })}</p>
             <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{t("title")}</h1>
