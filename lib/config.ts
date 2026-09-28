@@ -18,6 +18,8 @@ export const site = {
     addressCountry: "HK",
   },
   supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "info@allindonesia-arrivalcard.com",
+  /** Hero photo source page (CC BY-SA 4.0, attribution shown in the footer via Footer.photoCredit). */
+  heroPhotoUrl: "https://commons.wikimedia.org/wiki/File:Balinese_dance_in_Ubud,_Kecak,_20220822_1840_0182.jpg",
   officialPortal: "https://allindonesia.imigrasi.go.id/",
   officialRetrieve: "https://allindonesia.imigrasi.go.id/arrival-card-submission/retrieve",
   description:

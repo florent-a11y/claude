@@ -3,17 +3,17 @@ import { useState } from "react";
 import { HeroScene } from "./HeroScene";
 
 /**
- * Decorative backdrop for the hero sections (home, e-VOA, reminder): the illustrated Kecak-at-Uluwatu
+ * Decorative backdrop for the hero sections (home, e-VOA, reminder): the Kecak photo
  * key visual with a readability overlay on the copy side. Purely presentational (aria-hidden, no
  * pointer events). Use inside a `relative overflow-hidden` section as its first child; give the content
  * `relative` and enough bottom padding (see the pages) so the lower band of the picture stays visible.
  *
  * Image source, in order:
- *   1. `/hero.jpg` (public/hero.jpg, 2400×1200) — generated from components/HeroScene.tsx by
- *      `scripts/render-hero.tsx`. To swap in a licensed photo, overwrite that file with a 2400×1200 JPEG
- *      (quality ~75, under 350 KB, subject in the right two thirds and lower half so the crops work),
- *      re-run the script only for og.png if you want it to match, and add any attribution the licence
- *      requires (for example in the footer).
+ *   1. `/hero.jpg` (public/hero.jpg, 2400×1200): a licensed photo of a Kecak performance in Bali by
+ *      Jakub Hałun, Wikimedia Commons, CC BY-SA 4.0 (attribution in the footer, link in lib/config.ts
+ *      `heroPhotoUrl`). To swap it, overwrite the file with a 2400×1200 JPEG (quality ~75, under 400 KB,
+ *      subject in the right two thirds so the left-side fade keeps the copy readable) and update the credit.
+ *      The illustrated version lives in public/hero-illustrated.jpg (scripts/render-hero.tsx).
  *   2. If the image fails to load, the inline SVG scene renders instead, so the hero never goes blank.
  *
  * Layout: on phones the picture is a band at the bottom of the section (the hero stacks copy, then the

@@ -17,7 +17,7 @@
  * overwrite public/hero.jpg (2400×1200, JPEG quality ~75, under 350 KB) and keep og.png in sync.
  */
 import * as React from "react";
-import { statSync } from "node:fs";
+import { statSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 
@@ -50,20 +50,22 @@ async function main() {
     return;
   }
 
-  const hero = resolve(ROOT, "public/hero.jpg");
+  // The illustrated scene is kept as public/hero-illustrated.jpg; the live hero (public/hero.jpg) is a photo.
+  const hero = resolve(ROOT, "public/hero-illustrated.jpg");
   const page = await browser.newPage({ viewport: { width: 2400, height: 1200 } });
   await page.setContent(`<html><body style="margin:0;background:#131a45">${scene}</body></html>`);
   await page.screenshot({ path: hero, type: "jpeg", quality: 80 });
-  console.log(`public/hero.jpg  ${Math.round(statSync(hero).size / 1024)} KB`);
+  console.log(`public/hero-illustrated.jpg  ${Math.round(statSync(hero).size / 1024)} KB`);
+  const photo = "data:image/jpeg;base64," + readFileSync(resolve(ROOT, "public/hero.jpg")).toString("base64");
 
   const og = resolve(ROOT, "public/og.png");
   const ogPage = await browser.newPage({ viewport: { width: 1200, height: 630 } });
   await ogPage.setContent(`<!doctype html><html><head><style>
     body{margin:0;width:1200px;height:630px;overflow:hidden;position:relative;font-family:${FONT};background:#131a45}
-    .bg{position:absolute;left:-30px;top:0;width:1260px;height:630px}
-    .bg svg{width:1260px;height:630px}
-    .fade{position:absolute;inset:0;background:linear-gradient(90deg,#fff 0%,#fff 38%,rgba(255,255,255,.92) 50%,rgba(255,255,255,.35) 66%,rgba(255,255,255,0) 82%)}
-    .top{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,0) 40%)}
+    .bg{position:absolute;inset:0}
+    .bg img{position:absolute;width:1800px;height:900px;left:0;top:-120px}
+    .fade{position:absolute;inset:0;background:linear-gradient(90deg,#fff 0%,#fff 40%,rgba(255,255,255,.94) 52%,rgba(255,255,255,.45) 68%,rgba(255,255,255,0) 84%)}
+    .top{display:none}
     .panel{position:absolute;left:72px;top:72px;width:640px}
     .logo{display:flex;align-items:center;gap:20px}
     .word{font-size:46px;font-weight:700;letter-spacing:-.02em;color:#095241;white-space:nowrap}
@@ -73,7 +75,7 @@ async function main() {
     .pill{position:absolute;left:72px;bottom:64px;background:#fff;border:2px solid #d6ece4;border-radius:999px;padding:12px 24px;font-size:22px;font-weight:700;color:#095241}
     .dom{position:absolute;right:72px;bottom:74px;font-size:22px;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.45)}
   </style></head><body>
-    <div class="bg">${scene}</div><div class="top"></div><div class="fade"></div>
+    <div class="bg"><img src="${photo}"></div><div class="top"></div><div class="fade"></div>
     <div class="panel">
       <div class="logo">${mark}<div class="word"><div style="font-size:18px;letter-spacing:.18em;text-transform:uppercase;color:#5f6f69;font-weight:600;margin-bottom:4px">Indonesia</div>Arrival Card <b>Assist</b></div></div>
       <h1>${TAGLINE}</h1>

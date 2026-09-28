@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "news:refresh": "tsx scripts/refresh-news.ts",
-    "prebuild": "node scripts/fetch-hero.mjs"
+    "news:refresh": "tsx scripts/refresh-news.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.128.0",
