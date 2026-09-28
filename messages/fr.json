@@ -42,6 +42,10 @@
     "closeMenu": "Fermer le menu",
     "language": "Langue"
   },
+  "Breadcrumbs": {
+    "home": "Accueil",
+    "ariaLabel": "Fil d'Ariane"
+  },
   "Footer": {
     "service": "Service",
     "resources": "Ressources",

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { pageMetadata } from "@/i18n/seo";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { site } from "@/lib/config";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -17,6 +18,7 @@ export default async function Contact({ params }: Props) {
   const t = await getTranslations("Contact");
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
+      <Breadcrumbs path="/contact" />
       <h1 className="text-3xl font-bold">{t("title")}</h1>
       <p className="mt-2 text-ink-700">{t("hours")}</p>
       <div className="mt-8 grid gap-6 md:grid-cols-2">

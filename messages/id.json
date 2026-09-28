@@ -42,6 +42,10 @@
     "closeMenu": "Tutup menu",
     "language": "Bahasa"
   },
+  "Breadcrumbs": {
+    "home": "Beranda",
+    "ariaLabel": "Navigasi jejak"
+  },
   "Footer": {
     "service": "Layanan",
     "resources": "Sumber daya",

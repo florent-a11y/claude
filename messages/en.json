@@ -42,6 +42,10 @@
     "closeMenu": "Close menu",
     "language": "Language"
   },
+  "Breadcrumbs": {
+    "home": "Home",
+    "ariaLabel": "Breadcrumb"
+  },
   "Footer": {
     "service": "Service",
     "resources": "Resources",

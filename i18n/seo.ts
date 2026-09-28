@@ -52,14 +52,16 @@ export function socialFor(locale: string, path: string, meta: { title: string; d
   };
 }
 
-/** Per-page metadata with localized title/description, hreflang alternates and social tags. */
+/** Per-page metadata with localized title/description, hreflang alternates and social tags.
+ *  A noindex page keeps a self-canonical (so the layout's home alternates never leak onto it) but emits no hreflang,
+ *  since hreflang must only point at indexable URLs. */
 export function pageMetadata(locale: string, path: string, meta: { title: string; description?: string; noindex?: boolean }): Metadata {
   return {
     title: meta.title,
     description: meta.description,
-    alternates: alternatesFor(locale, path),
+    alternates: meta.noindex ? { canonical: localizedPath(locale, path) } : alternatesFor(locale, path),
     ...socialFor(locale, path, { title: `${meta.title} | ${site.shortName}`, description: meta.description }),
-    ...(meta.noindex ? { robots: { index: false } } : {}),
+    ...(meta.noindex ? { robots: { index: false, follow: true } } : {}),
   };
 }
 

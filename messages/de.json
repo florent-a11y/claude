@@ -42,6 +42,10 @@
     "closeMenu": "Menü schließen",
     "language": "Sprache"
   },
+  "Breadcrumbs": {
+    "home": "Startseite",
+    "ariaLabel": "Navigationspfad"
+  },
   "Footer": {
     "service": "Service",
     "resources": "Ressourcen",

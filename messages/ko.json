@@ -42,6 +42,10 @@
     "closeMenu": "메뉴 닫기",
     "language": "언어"
   },
+  "Breadcrumbs": {
+    "home": "홈",
+    "ariaLabel": "브레드크럼"
+  },
   "Footer": {
     "service": "서비스",
     "resources": "자료",

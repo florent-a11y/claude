@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { intlLocale } from "@/i18n/routing";
 import { pageMetadata } from "@/i18n/seo";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import { OfficialNote } from "@/components/OfficialNote";
 import { site } from "@/lib/config";
@@ -63,6 +64,7 @@ export default async function Guide({ params }: Props) {
         }}
       />
 
+      <Breadcrumbs path="/guide" />
       <p className="text-sm font-semibold uppercase tracking-wide text-brand-700">{t("kicker")}</p>
       <h1 className="mt-2 text-3xl font-bold md:text-4xl">{t("title")}</h1>
 

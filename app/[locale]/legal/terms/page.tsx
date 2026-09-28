@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { pageMetadata } from "@/i18n/seo";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { site } from "@/lib/config";
 import { OfficialNote } from "@/components/OfficialNote";
 import { PRICING } from "@/lib/pricing";
@@ -30,6 +31,7 @@ export default async function Page({ params }: Props) {
   };
   return (
     <div className="prose-basic mx-auto max-w-3xl px-4 py-12">
+      <Breadcrumbs path="/legal/terms" />
       <h1 className="text-3xl font-bold">{t("title")}</h1>
       <p className="mt-4 text-sm">{t("template", { date: LAST_UPDATED })}</p>
       <h2>{t("s1Title")}</h2>

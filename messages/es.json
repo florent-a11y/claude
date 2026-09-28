@@ -42,6 +42,10 @@
     "closeMenu": "Cerrar menú",
     "language": "Idioma"
   },
+  "Breadcrumbs": {
+    "home": "Inicio",
+    "ariaLabel": "Ruta de navegación"
+  },
   "Footer": {
     "service": "Servicio",
     "resources": "Recursos",

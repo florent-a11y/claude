@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { pageMetadata } from "@/i18n/seo";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { intlLocale } from "@/i18n/routing";
 import { listNews } from "@/lib/store";
 import { site } from "@/lib/config";
+import { JsonLd } from "@/components/JsonLd";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -29,6 +31,27 @@ export default async function News({ params }: Props) {
   const fmt = new Intl.DateTimeFormat(intlLocale(locale), { year: "numeric", month: "2-digit", day: "2-digit" });
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
+      {items.length > 0 && (
+        <JsonLd data={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: t("latest"),
+          numberOfItems: items.length,
+          itemListElement: items.map((n, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            item: {
+              "@type": "NewsArticle",
+              headline: n.title,
+              url: n.url,
+              datePublished: n.publishedAt,
+              ...(n.summary ? { description: n.summary } : {}),
+              publisher: { "@type": "Organization", name: t(`sources.${n.source}`) },
+            },
+          })),
+        }} />
+      )}
+      <Breadcrumbs path="/news" />
       <h1 className="text-3xl font-bold">{t("title")}</h1>
       <p className="mt-2 text-ink-700">{t("intro")}</p>
 

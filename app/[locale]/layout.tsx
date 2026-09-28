@@ -8,6 +8,7 @@ import { Footer } from "@/components/Footer";
 import { DisclosureBar } from "@/components/Disclosure";
 import { Analytics } from "@/components/Analytics";
 import { ConsentBanner } from "@/components/ConsentBanner";
+import { JsonLd } from "@/components/JsonLd";
 import { site } from "@/lib/config";
 import { routing } from "@/i18n/routing";
 import { alternatesFor, socialFor } from "@/i18n/seo";
@@ -36,15 +37,48 @@ export async function generateMetadata({ params }: Omit<Props, "children">): Pro
   };
 }
 
+/** Site-wide structured data: the company behind the service and the website itself, referenced by @id. */
+function siteGraph(locale: string, description: string) {
+  const orgId = `${site.url}/#organization`;
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": orgId,
+        name: site.name,
+        legalName: site.company,
+        url: site.url,
+        logo: { "@type": "ImageObject", url: `${site.url}/icon.svg` },
+        email: site.supportEmail,
+        identifier: site.companyId,
+        address: { "@type": "PostalAddress", ...site.postalAddress },
+        contactPoint: { "@type": "ContactPoint", contactType: "customer support", email: site.supportEmail, availableLanguage: [...routing.locales] },
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${site.url}/#website`,
+        name: site.name,
+        url: site.url,
+        description,
+        inLanguage: locale,
+        publisher: { "@id": orgId },
+      },
+    ],
+  };
+}
+
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
   const all = (await getMessages()) as Record<string, unknown>;
   const messages = Object.fromEntries(CLIENT_NAMESPACES.filter((ns) => ns in all).map((ns) => [ns, all[ns]]));
+  const tm = await getTranslations("Metadata");
   return (
     <html lang={locale}>
       <body className="flex min-h-screen flex-col">
+        <JsonLd data={siteGraph(locale, tm("description"))} />
         <NextIntlClientProvider messages={messages}>
           <DisclosureBar />
           <Header />

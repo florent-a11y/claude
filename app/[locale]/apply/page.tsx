@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ApplyForm } from "./ApplyForm";
 import { pageMetadata } from "@/i18n/seo";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { DATE_RE } from "@/lib/window";
 
 type Props = { params: Promise<{ locale: string }>; searchParams: Promise<{ failed?: string; product?: string; arrival?: string; email?: string }> };
@@ -25,6 +26,7 @@ export default async function Apply({ params, searchParams }: Props) {
   const initialEmail = email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 254 ? email.trim().toLowerCase() : "";
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
+      <Breadcrumbs path="/apply" />
       <h1 className="text-3xl font-bold">{initialProduct === "arrival_card" ? t("titleArrivalCard") : initialProduct === "evoa" ? t("titleEvoa") : t("titleBundle")}</h1>
       <OfficialNote className="mt-2 text-sm text-ink-500" />
       <p className="mt-2 text-sm text-ink-500">{td("full")}</p>

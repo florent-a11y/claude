@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { pageMetadata } from "@/i18n/seo";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { site } from "@/lib/config";
 import { WINDOW_HOURS } from "@/lib/window";
 
@@ -23,6 +24,7 @@ export default async function Page({ params }: Props) {
   const strong = (chunks: React.ReactNode) => <strong>{chunks}</strong>;
   return (
     <div className="prose-basic mx-auto max-w-3xl px-4 py-12">
+      <Breadcrumbs path="/legal/refunds" />
       <h1 className="text-3xl font-bold">{t("title")}</h1>
       <p className="mt-4 text-sm">{t("updated", { date: LAST_UPDATED })}</p>
       <ul className="mt-4">

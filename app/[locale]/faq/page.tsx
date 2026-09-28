@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { pageMetadata } from "@/i18n/seo";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -21,6 +22,7 @@ export default async function FAQ({ params }: Props) {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
       <JsonLd data={{ "@context": "https://schema.org", "@type": "FAQPage", inLanguage: locale, mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) }} />
+      <Breadcrumbs path="/faq" />
       <h1 className="text-3xl font-bold">{t("title")}</h1>
       <div className="mt-8 divide-y divide-slate-200">
         {faqs.map((f) => (

@@ -42,6 +42,10 @@
     "closeMenu": "メニューを閉じる",
     "language": "言語"
   },
+  "Breadcrumbs": {
+    "home": "ホーム",
+    "ariaLabel": "パンくずリスト"
+  },
   "Footer": {
     "service": "サービス",
     "resources": "お役立ち情報",

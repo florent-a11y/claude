@@ -3,10 +3,13 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { intlLocale } from "@/i18n/routing";
-import { pageMetadata } from "@/i18n/seo";
+import { localizedPath, pageMetadata } from "@/i18n/seo";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PriceCard } from "@/components/PriceCard";
+import { JsonLd } from "@/components/JsonLd";
 import { PRICING, money, quote } from "@/lib/pricing";
 import { EVOA } from "@/lib/evoa";
+import { site } from "@/lib/config";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -22,9 +25,31 @@ export default async function Pricing({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("Pricing");
+  const tp = await getTranslations("PriceCard");
   const m = (cents: number) => money(cents, PRICING.currency, intlLocale(locale));
+  const usd = (cents: number) => (cents / 100).toFixed(2);
+  const applyUrl = (product?: string) => `${site.url}/apply${product ? `?product=${product}` : ""}`;
+  const offer = (name: string, cents: number, url: string) => ({ "@type": "Offer", name, price: usd(cents), priceCurrency: PRICING.currency, url, availability: "https://schema.org/InStock" });
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: t("arrivalCardTitle"),
+        serviceType: t("arrivalCardTitle"),
+        provider: { "@id": `${site.url}/#organization` },
+        areaServed: "Indonesia",
+        inLanguage: locale,
+        url: `${site.url}${localizedPath(locale, "/pricing")}`,
+        offers: [
+          offer(tp("first"), PRICING.arrivalCard.first, applyUrl()),
+          offer(tp("additional"), PRICING.arrivalCard.additional, applyUrl()),
+          offer(`${t("evoaTitle")}: ${t("serviceFirst")}`, PRICING.evoa.first, applyUrl("evoa")),
+          offer(`${t("evoaTitle")}: ${t("serviceAdditional")}`, PRICING.evoa.additional, applyUrl("evoa")),
+          offer(t("express", { hours: PRICING.arrivalCard.expressSlaHours }), PRICING.express, applyUrl()),
+        ],
+      }} />
+      <Breadcrumbs path="/pricing" />
       <h1 className="text-3xl font-bold">{t("title")}</h1>
       <OfficialNote className="mt-2 text-sm text-ink-500" />
       <h2 className="mt-8 text-xl font-bold">{t("arrivalCardTitle")}</h2>

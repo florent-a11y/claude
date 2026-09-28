@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { intlLocale } from "@/i18n/routing";
 import { pageMetadata } from "@/i18n/seo";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import { HeroBackdrop } from "@/components/HeroBackdrop";
 import { PRICING, money } from "@/lib/pricing";
@@ -46,6 +47,7 @@ export default async function Evoa({ params }: Props) {
         <HeroBackdrop />
         <div className="relative mx-auto grid max-w-6xl gap-10 px-4 pb-80 pt-12 md:grid-cols-2 md:pb-64 md:pt-20">
           <div>
+            <Breadcrumbs path="/evoa" />
             <p className="mb-3 inline-block rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-700 ring-1 ring-brand-100">{t("badge", { days: EVOA.validityDays })}</p>
             <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{t("title")}</h1>
       <OfficialNote className="mt-2 text-sm text-ink-500" />
