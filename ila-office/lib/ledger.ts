@@ -10,6 +10,7 @@ import type { Account, AccountSubtype, Bill, BillLine, DocStatus, FixedAsset, In
 import { FISCAL_ASSET_GROUPS } from "./types";
 import { roundMoney, toIDR, parseMoney } from "./money";
 import { addDays, daysBetween, nextPeriod, periodOf } from "./dates";
+import { parseAnyDate } from "./bank-formats";
 import { accountBalances, findByCode, findByTag, naturalBalance, netProfit, type Balance } from "./balances";
 
 // ---------- Withholding defaults ----------
@@ -564,12 +565,13 @@ export function apAging(bills: Bill[], asOf: string): AgingReport {
 
 // ---------- Bank statement CSV mapping ----------
 
-export type DateFormat = "dd/mm/yyyy" | "yyyy-mm-dd" | "mm/dd/yyyy";
+export type DateFormat = "dd/mm/yyyy" | "yyyy-mm-dd" | "mm/dd/yyyy" | "auto";
 export interface CsvMapping { date: number; description: number; amount?: number; debit?: number; credit?: number; balance?: number; reference?: number; dateFormat: DateFormat; /** Debit column means money out (default true). */ debitIsOut?: boolean; /** Flip the sign of the single amount column (statements that show outflows as positive). */ invertAmount?: boolean }
-export interface ParsedBankRow { date: string; description: string; amount: number; balance?: number; reference?: string }
+export interface ParsedBankRow { date: string; description: string; amount: number; balance?: number; reference?: string; /** Statement currency when the export carries one (Aspire); rows in another currency are skipped on import. */ currency?: string }
 
 /** Parses "31/12/2026", "2026-12-31", "12/31/2026", also tolerating "-" or "." separators and 2-digit years. */
 export function parseStatementDate(raw: string, format: DateFormat): string | null {
+  if (format === "auto") return parseAnyDate(raw);
   const s = raw.trim().replace(/\s.*$/, "");
   const m = s.match(/^(\d{1,4})[\/\-.](\d{1,2})[\/\-.](\d{1,4})$/);
   if (!m) return null;

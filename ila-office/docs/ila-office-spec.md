@@ -74,7 +74,12 @@ The sales CRM built in the first iteration (deal pipeline with the HubSpot stage
 projects with checklists and cost of sales, renewals, tasks) is set aside to focus on accounting and tax first. It is
 preserved in git under the tag `with-crm-v1` and can be restored later.
 
-### 3.3 Books (`/books/[entityId]`)
+### 3.3 Books
+
+Bank statements import directly from the exports ILA already receives: OCBC Velocity (xlsx), Mandiri Kopra account
+statement (semicolon csv), BNIDirect (xls with merged cells and D/K markers) and Aspire (xlsx, localised headers). The
+format is detected automatically; anything else goes through manual column mapping.
+ (`/books/[entityId]`)
 - One entity = one set of books. ILA's own entity is flagged `isOwn`.
 - Chart of accounts (PSAK-style, bilingual, tax-tagged) created with the entity.
 - Journals: manual and generated (invoice, bill, receipt, disbursement, bank, payroll, depreciation, withholding, opening, closing, adjustment, FX). Numbered JE-YYYY-NNNN per entity. Posted entries are voided, never deleted.

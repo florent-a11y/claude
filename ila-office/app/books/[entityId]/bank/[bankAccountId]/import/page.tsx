@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { fmtDateTime } from "@/lib/dates";
 import { Card } from "@/components/ui";
 import { base, requireEntity } from "../../../shared";
-import { CsvImport } from "./CsvImport";
+import { StatementImport } from "./StatementImport";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +22,7 @@ export default async function ImportPage({ params }: { params: Promise<{ entityI
     <div className="space-y-4 pb-8">
       <p className="text-xs text-ink-500"><Link href={`${b}/bank`} className="hover:underline">Bank</Link> / <Link href={listHref} className="hover:underline">{bank.name}</Link> / import</p>
       <h2 className="text-base font-semibold">Import statement into {bank.name} ({bank.currency})</h2>
-      <CsvImport entityId={entityId} bankAccountId={bank.id} currency={bank.currency} listHref={listHref} />
+      <StatementImport entityId={entityId} bankAccountId={bank.id} currency={bank.currency} listHref={listHref} />
       {batches.length > 0 && (
         <Card title="Recent imports (all accounts of this entity)">
           <table className="table"><thead><tr><th>When</th><th>File</th><th className="num">Rows</th><th className="num">Inserted</th><th className="num">Skipped</th><th>Errors</th></tr></thead>
