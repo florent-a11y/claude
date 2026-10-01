@@ -5,7 +5,9 @@ import { accountBalances, naturalBalance } from "@/lib/balances";
 import { fmtDate, todayISO, periodOf, periodLabel } from "@/lib/dates";
 import { fmtMoney } from "@/lib/money";
 import { toIDR } from "@/lib/money";
-import { OBLIGATION_LABELS, OBLIGATION_STATUS_LABELS, type ObligationStatus } from "@/lib/types";
+import { OBLIGATION_LABELS, OBLIGATION_STATUS_LABELS, type ObligationStatus, type TaxRegime } from "@/lib/types";
+
+const REGIME_SHORT: Record<TaxRegime, string> = { final_0_5: "PPh final 0.5%", art_31e: "Art. 31E", normal_22: "CIT 22%", hk_profits_tax: "HK profits tax", none: "No CIT" };
 import { Page, Card, Stat, Badge, statusTone, EmptyState } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
@@ -88,7 +90,7 @@ export default async function Home() {
               <tbody>{entities.map((e) => (
                 <tr key={e.id}>
                   <td className="font-medium">{e.isOwn && <span className="mr-1 text-accent-600">★</span>}{e.name}</td>
-                  <td className="text-xs">{e.tax.regime.replace(/_/g, " ")}{e.tax.pkp ? " · PKP" : ""}{e.tax.payroll ? " · payroll" : ""}</td>
+                  <td className="text-xs">{REGIME_SHORT[e.tax.regime]}{e.tax.pkp ? " · PKP" : ""}{e.tax.payroll ? " · payroll" : ""}</td>
                   <td className="num">{unmatchedByEntity.get(e.id) ?? 0}</td>
                   <td className="whitespace-nowrap text-xs"><Link href={`/books/${e.id}`} className="text-brand-600 underline">Books</Link> · <Link href={`/tax/${e.id}`} className="text-brand-600 underline">Tax</Link>{e.tax.payroll && <> · <Link href={`/payroll/${e.id}`} className="text-brand-600 underline">Payroll</Link></>}</td>
                 </tr>
