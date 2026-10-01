@@ -3,6 +3,9 @@
  * ILA's vendor list, and a fictional demo client (company, contact, deal, project, renewal, client entity).
  * Idempotent: skips anything that already exists. Run with `npm run seed`.
  */
+import { existsSync } from "node:fs";
+// `next dev` reads .env.local by itself; this script runs under plain Node, so load it here too.
+for (const f of [".env.local", ".env"]) if (existsSync(f)) process.loadEnvFile(f);
 import { db } from "../lib/db";
 import { hashPassword } from "../lib/password";
 import { buildAccounts } from "../lib/coa";
