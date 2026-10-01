@@ -167,6 +167,9 @@ const ASPIRE_DESC = ["description", "descripción", "descripcion", "deskripsi"];
 const ASPIRE_REF = ["payment reference", "referencia del pago", "référence du paiement", "reference", "referencia"];
 const ASPIRE_BAL = ["running balance", "saldo corriente", "solde courant", "balance", "saldo"];
 const ASPIRE_ID = ["id", "documento de identidad", "transaction id", "identifiant"];
+const ASPIRE_PAYER = ["payer name", "nombre del pagador", "nom du payeur"];
+const ASPIRE_BENEFICIARY = ["beneficiary name", "nombre del beneficiario", "nom du bénéficiaire"];
+const ASPIRE_MERCHANT = ["merchant", "comercio", "marchand"];
 
 const ASPIRE: Preset = {
   id: "aspire", label: "Aspire (transactions export)",
@@ -174,7 +177,7 @@ const ASPIRE: Preset = {
   extract: (grid) => {
     const h = findHeader(grid, [ASPIRE_DATE, ASPIRE_AMOUNT, ASPIRE_CCY], 5);
     if (!h) return { rows: [], errors: ["Aspire header row not found"], headerRow: -1, note: "" };
-    const c = { date: h.idx(ASPIRE_DATE), amount: h.idx(ASPIRE_AMOUNT), ccy: h.idx(ASPIRE_CCY), desc: h.idx(ASPIRE_DESC), ref: h.idx(ASPIRE_REF), balance: h.idx(ASPIRE_BAL), id: h.idx(ASPIRE_ID) };
+    const c = { date: h.idx(ASPIRE_DATE), amount: h.idx(ASPIRE_AMOUNT), ccy: h.idx(ASPIRE_CCY), desc: h.idx(ASPIRE_DESC), ref: h.idx(ASPIRE_REF), balance: h.idx(ASPIRE_BAL), id: h.idx(ASPIRE_ID), payer: h.idx(ASPIRE_PAYER), beneficiary: h.idx(ASPIRE_BENEFICIARY), merchant: h.idx(ASPIRE_MERCHANT) };
     const rows: ParsedBankRow[] = []; const errors: string[] = [];
     for (let r = h.row + 1; r < grid.length; r++) {
       const g = grid[r];
@@ -184,7 +187,11 @@ const ASPIRE: Preset = {
       const amount = money(g[c.amount]);
       if (!amount) { errors.push(`Row ${r + 1}: no amount`); continue; }
       const ref = c.ref >= 0 ? clean(g[c.ref]) : "";
-      rows.push({ date, description: clean(g[c.desc]) || "(no description)", amount, balance: c.balance >= 0 && g[c.balance]?.trim() ? money(g[c.balance]) : undefined, reference: ref || (c.id >= 0 ? clean(g[c.id]) || undefined : undefined), currency: c.ccy >= 0 ? clean(g[c.ccy]) || undefined : undefined });
+      // "Transfer" alone is useless for matching: add the counterparty (payer for money in, beneficiary or merchant for money out).
+      let description = clean(g[c.desc]);
+      const party = amount > 0 ? clean(g[c.payer]) : clean(g[c.beneficiary]) || clean(g[c.merchant]);
+      if (party && !description.toLowerCase().includes(party.toLowerCase())) description = description ? `${description} · ${party}` : party;
+      rows.push({ date, description: description || "(no description)", amount, balance: c.balance >= 0 && g[c.balance]?.trim() ? money(g[c.balance]) : undefined, reference: ref || (c.id >= 0 ? clean(g[c.id]) || undefined : undefined), currency: c.ccy >= 0 ? clean(g[c.ccy]) || undefined : undefined });
     }
     return { rows, errors, headerRow: h.row, note: "Aspire: signed amount; rows in another currency than the account are skipped." };
   },

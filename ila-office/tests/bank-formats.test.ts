@@ -42,7 +42,11 @@ const ASPIRE_ES = [
   ["BALANCE-3216951482", "22/3/2025", "22/03/2025 22:41:46.697", "88340", "IDR", "Se han convertido 4,97 EUR a 88.340,00 IDR", "INV-1", "88340", "CREDIT"],
   ["BALANCE-9", "23/3/2025", "23/03/2025 10:00:00.000", "12.5", "EUR", "EUR row must be skipped on an IDR account", "", "12.5", "CREDIT"],
 ];
-const ASPIRE_EN = [["ID", "Date", "Date and time", "Amount", "Currency", "Description", "Payment reference", "Running balance"], ["X1", "5/9/2026", "05/09/2026 09:00:00.000", "1500000", "IDR", "Client payment", "INV-2026-0007", "1500000"]];
+const ASPIRE_EN = [
+  ["ID", "Date", "Date and time", "Amount", "Currency", "Description", "Payment reference", "Running balance", "Payer name", "Beneficiary name", "Merchant"],
+  ["X1", "5/9/2026", "05/09/2026 09:00:00.000", "1500000", "IDR", "Transfer", "INV-2026-0007", "1500000", "PT Pelanggan Satu", "", ""],
+  ["X2", "6/9/2026", "06/09/2026 09:00:00.000", "-250000", "IDR", "Card payment", "", "1250000", "", "", "Google Workspace"],
+];
 
 test("date parser handles every format seen on OCBC, Mandiri, BNI and Aspire exports", () => {
   assert.equal(parseAnyDate("20/11/2026 14:29:44"), "2026-11-20");
@@ -100,7 +104,10 @@ test("Aspire exports in Spanish and English are parsed and foreign-currency rows
   assert.equal(f.rows.length, 2); assert.equal(f.dropped, 1);
   assert.equal(detectPreset(ASPIRE_EN, "x.xlsx").id, "aspire");
   const en = presetById("aspire")!.extract(ASPIRE_EN);
-  assert.deepEqual(en.rows.map((r) => [r.date, r.amount, r.reference, r.balance]), [["2026-09-05", 1_500_000, "INV-2026-0007", 1_500_000]]);
+  assert.deepEqual(en.rows.map((r) => [r.date, r.amount, r.reference, r.balance, r.description]), [
+    ["2026-09-05", 1_500_000, "INV-2026-0007", 1_500_000, "Transfer · PT Pelanggan Satu"],
+    ["2026-09-06", -250_000, "X2", 1_250_000, "Card payment · Google Workspace"],
+  ]);
 });
 
 test("an unknown layout falls back to generic", () => {
