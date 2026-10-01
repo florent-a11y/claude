@@ -33,7 +33,7 @@ export default async function Bank({ params, searchParams }: { params: Params; s
       <ErrorNotice error={first(sp.error)} ok={first(sp.ok)} />
       <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
         <div className="space-y-4">
-          {rows.length === 0 ? <EmptyState title="No bank account yet" hint="Add the entity's bank and cash accounts, then import statements (OCBC, Mandiri, BNI, Aspire, Xendit CSV) to reconcile." /> : (
+          {rows.length === 0 ? <EmptyState title="No bank account yet" hint="Add the entity's bank and cash accounts, then import statements (OCBC, Mandiri, BNI, Aspire CSV) to reconcile." /> : (
             <Card className="overflow-x-auto !p-0">
               <table className="table">
                 <thead><tr><th className="pl-4">Account</th><th>GL</th><th>Ccy</th><th className="num">GL balance (IDR)</th><th className="num">Lines</th><th className="num">Unmatched</th><th>Last line</th><th></th></tr></thead>
@@ -76,7 +76,7 @@ export default async function Bank({ params, searchParams }: { params: Params; s
             <form action={createBankAccountAction.bind(null, entityId)} className="space-y-3">
               <Field label="Name"><input name="name" className="input" required placeholder="OCBC IDR operating" /></Field>
               <div className="grid grid-cols-2 gap-3">
-                <Field label="Bank"><input name="bankName" className="input" placeholder="OCBC / Mandiri / BNI / Aspire / Xendit" /></Field>
+                <Field label="Bank"><input name="bankName" className="input" placeholder="OCBC / Mandiri / BNI / Aspire / Aspire" /></Field>
                 <Field label="Account number"><input name="accountNumber" className="input" /></Field>
                 <Field label="Currency"><Select name="currency" defaultValue="IDR" options={["IDR", "USD", "EUR", "HKD", "SGD", "AUD", "GBP"]} /></Field>
                 <Field label="Opening date"><input name="openingDate" type="date" className="input" /></Field>
