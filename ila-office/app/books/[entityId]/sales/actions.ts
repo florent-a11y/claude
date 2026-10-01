@@ -3,6 +3,10 @@ import { z } from "zod";
 import { requirePermission } from "@/lib/auth";
 import { createInvoice, updateInvoice, postInvoice, recordReceipt, voidInvoice, voidPayment, type InvoiceInput } from "@/lib/books";
 import { num, str } from "@/lib/util";
+import { db } from "@/lib/db";
+import { emailConfigured, defaultBcc, sendEmail } from "@/lib/email";
+import { renderInvoicePdf } from "@/lib/invoice-pdf";
+import { defaultPaymentInstructions } from "./_data";
 import { act, base } from "../shared";
 
 const lineSchema = z.object({
@@ -88,4 +92,40 @@ export async function voidPaymentAction(entityId: string, paymentId: string, bac
     await voidPayment(entityId, paymentId);
     return `${backTo}?ok=${encodeURIComponent("Payment reversed")}`;
   }, backTo);
+}
+
+const sendSchema = z.object({ to: z.string().email("Enter the client's email address"), cc: z.string().max(400).optional(), subject: z.string().min(1).max(200), message: z.string().min(1).max(5000) });
+
+/**
+ * Send to client: posts the invoice if it is still a draft, renders the PDF, emails it (Resend) with the message the
+ * user reviewed, stamps sentAt and logs an email activity on the CRM record. Without an email service the invoice is
+ * only marked as sent (the panel offers a mailto: link and the PDF instead).
+ */
+export async function sendInvoiceAction(entityId: string, invoiceId: string, fd: FormData) {
+  const to = `${base(entityId)}/sales/${invoiceId}`;
+  await act(entityId, async () => {
+    const user = await requirePermission("books:write");
+    const v = sendSchema.parse({ to: str(fd, "to"), cc: str(fd, "cc"), subject: str(fd, "subject"), message: str(fd, "message") });
+    const entity = await db.get("entities", entityId);
+    let invoice = await db.get("invoices", invoiceId);
+    if (!entity || !invoice || invoice.entityId !== entityId) throw new Error("Invoice not found");
+    if (invoice.status === "void") throw new Error("A void invoice cannot be sent.");
+    if (invoice.status === "draft") invoice = await postInvoice(entityId, invoiceId, user.id);
+    const now = new Date().toISOString();
+    let note: string;
+    if (emailConfigured()) {
+      const pdf = await renderInvoicePdf(invoice, entity, { paymentInstructions: invoice.paymentInstructions ?? (await defaultPaymentInstructions(entityId)) });
+      const cc = (v.cc ?? "").split(",").map((x) => x.trim()).filter(Boolean);
+      await sendEmail({ to: [v.to], cc, bcc: defaultBcc(), subject: v.subject, text: v.message, attachments: [{ filename: `${invoice.number}.pdf`, content: pdf, contentType: "application/pdf" }] });
+      note = `${invoice.number} emailed to ${v.to}${cc.length ? ` (cc ${cc.join(", ")})` : ""} with the PDF attached`;
+    } else {
+      note = `${invoice.number} marked as sent to ${v.to} (no email service configured; send the PDF manually)`;
+    }
+    await db.update("invoices", invoiceId, { sentAt: now, updatedAt: now });
+    await db.insert("activities", {
+      id: db.newId(), kind: "email", subject: note, body: `${v.subject}\n\n${v.message}`, at: now, byUserId: user.id, byName: user.name, entityId,
+      companyId: invoice.customer.type === "company" ? invoice.customer.id : undefined, contactId: invoice.customer.type === "contact" ? invoice.customer.id : undefined,
+    });
+    return `${to}?ok=${encodeURIComponent(note)}`;
+  }, to);
 }

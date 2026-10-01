@@ -27,7 +27,7 @@ npm run typecheck && npm run test && npm run build
 | Area | Path | What it covers |
 |---|---|---|
 | CRM | `app/crm` | Contacts, companies, deal pipeline (Prospect → Qualified → Quotation sent → Review → Invoice sent → Closed), quotes (7-day validity, ILA terms, print to PDF), projects with checklists and cost of sales (project owner approval), vendors, renewals (KITAS, commercial address, nominee director, licences, GMS). |
-| Books | `app/books/[entityId]` | Chart of accounts (PSAK-style, bilingual), journals, sales invoices and purchase bills (PPN, withholding), receipts and payments, bank CSV import and reconciliation, fixed assets (fiscal groups), general ledger, trial balance, P&L, balance sheet, period locks. |
+| Books | `app/books/[entityId]` | Send-to-client button on invoices (PDF attached, ILA wording, Resend), chart of accounts (PSAK-style, bilingual), journals, sales invoices and purchase bills (PPN, withholding), receipts and payments, bank CSV import and reconciliation, fixed assets (fiscal groups), general ledger, trial balance, P&L, balance sheet, period locks. |
 | Tax | `app/tax/[entityId]` | Compliance calendar per entity (the monthly milestones ILA runs: data by the 5th, prepare by the 10th, pay by the 10th, report by the 15th/20th, PPN by month end, LKPM quarterly, SPT Badan 30 April, SPT OP 31 March), PPh 21, PPh 23/26/4(2) bukti potong, PPN register, PPh 25, annual CIT computation, LKPM data pack. |
 | Payroll | `app/payroll/[entityId]` | Employees, BPJS, monthly runs with PPh 21 TER and December true-up, payslips, journal posting. |
 | Settings | `app/settings` | Entities (one per set of books), users and roles, CSV imports (HubSpot contacts, QuickBooks customers and invoices). |

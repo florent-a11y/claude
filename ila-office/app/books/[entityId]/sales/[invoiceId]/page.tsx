@@ -9,6 +9,9 @@ import { Card, Badge, statusTone, DL, Field, Select, Money } from "@/components/
 import { ConfirmForm, SubmitButton } from "@/components/client";
 import { ErrorNotice, base, first, requireEntity, type Search } from "../../shared";
 import { postInvoiceAction, receiptAction, voidInvoiceAction, voidPaymentAction } from "../actions";
+import { SendPanel } from "./SendPanel";
+import { defaultPaymentInstructions } from "../_data";
+import { fullName } from "@/lib/util";
 
 export const dynamic = "force-dynamic";
 
@@ -16,9 +19,21 @@ export default async function InvoicePage({ params, searchParams }: { params: Pr
   const user = await requireUser();
   const { entityId, invoiceId } = await params;
   const sp = await searchParams;
-  await requireEntity(entityId);
+  const entity = await requireEntity(entityId);
   const invoice = await db.get("invoices", invoiceId);
   if (!invoice || invoice.entityId !== entityId) notFound();
+  // Recipient and greeting for "Send to client": the invoice email, else the CRM contact / company primary contact.
+  let to = invoice.customer.email ?? "";
+  let greetingName = invoice.customer.name;
+  if (invoice.customer.type === "contact" && invoice.customer.id) {
+    const c = await db.get("contacts", invoice.customer.id);
+    if (c) { to = to || c.email || ""; greetingName = c.firstName || fullName(c) || greetingName; }
+  } else if (invoice.customer.type === "company" && invoice.customer.id) {
+    const co = await db.get("companies", invoice.customer.id);
+    const c = co?.primaryContactId ? await db.get("contacts", co.primaryContactId) : null;
+    if (c) { to = to || c.email || ""; greetingName = c.firstName || greetingName; }
+  }
+  const paymentInstructions = invoice.paymentInstructions ?? (await defaultPaymentInstructions(entityId));
   const [payments, banks, accounts] = await Promise.all([db.list("payments", { where: { entityId, invoiceId }, orderBy: "date" }), db.list("bank_accounts", { where: { entityId, active: true } }), db.list("accounts", { where: { entityId } })]);
   const accName = (id: string) => { const a = accounts.find((x) => x.id === id); return a ? `${a.code} ${a.name}` : id; };
   const today = todayISO();
@@ -85,6 +100,7 @@ export default async function InvoicePage({ params, searchParams }: { params: Pr
           </Card>
         </div>
         <div className="space-y-4">
+          <SendPanel entity={entity} invoice={invoice} to={to} greetingName={greetingName} paymentInstructions={paymentInstructions} writable={writable} />
           <Card title="Details">
             <DL items={[["Customer", <span key="c">{invoice.customer.name}{invoice.customer.email && <><br /><span className="text-xs text-ink-500">{invoice.customer.email}</span></>}{invoice.customer.npwp && <><br /><span className="text-xs text-ink-500">NPWP {invoice.customer.npwp}</span></>}</span>], ["Currency", `${ccy}${ccy !== "IDR" ? ` @ ${invoice.fxRate}` : ""}`], ["Journal", invoice.journalId ? <Link href={`${b}/journal/${invoice.journalId}`} className="text-brand-600 underline">view entry</Link> : "not posted"], ["e-Faktur", invoice.fakturNumber ?? "—"], ["Project", invoice.projectId ? <Link href={`/crm/projects/${invoice.projectId}`} className="text-brand-600 underline">{invoice.projectId.slice(0, 8)}…</Link> : "—"], ["Notes", invoice.notes ?? "—"]]} />
           </Card>
