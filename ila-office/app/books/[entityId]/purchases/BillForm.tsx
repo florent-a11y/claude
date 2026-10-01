@@ -68,7 +68,6 @@ export function BillForm({ action, entity, vendors, accounts, defaultAccountId, 
           <label className="block"><span className="label">Currency</span><select name="currency" value={currency} onChange={(e) => setCurrency(e.target.value)} className="input">{CURRENCIES.map((c) => <option key={c}>{c}</option>)}</select></label>
           <label className="block"><span className="label">FX rate (IDR per 1 {currency})</span><input name="fxRate" value={currency === "IDR" ? "1" : fxRate} onChange={(e) => setFxRate(e.target.value)} disabled={currency === "IDR"} className="input" inputMode="decimal" /></label>
           <label className="block"><span className="label">Vendor e-Faktur number</span><input name="fakturNumber" defaultValue={bill?.fakturNumber} className="input" /></label>
-          <label className="block"><span className="label">Project id (optional)</span><input name="projectId" defaultValue={bill?.projectId} className="input" /></label>
         </div>
       </div>
       <div className="card overflow-x-auto !p-0">

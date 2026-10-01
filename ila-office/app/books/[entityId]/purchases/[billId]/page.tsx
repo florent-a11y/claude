@@ -86,7 +86,7 @@ export default async function BillPage({ params, searchParams }: { params: Promi
         </div>
         <div className="space-y-4">
           <Card title="Details">
-            <DL items={[["Vendor", <span key="v">{bill.vendor.name}{bill.vendor.npwp && <><br /><span className="text-xs text-ink-500">NPWP {bill.vendor.npwp}</span></>}{bill.vendor.country && bill.vendor.country !== "ID" && <><br /><span className="text-xs text-ink-500">{bill.vendor.country} (foreign: PPh 26)</span></>}</span>], ["Currency", `${ccy}${ccy !== "IDR" ? ` @ ${bill.fxRate}` : ""}`], ["Journal", bill.journalId ? <Link href={`${b}/journal/${bill.journalId}`} className="text-brand-600 underline">view entry</Link> : "not posted"], ["e-Faktur", bill.fakturNumber ?? "—"], ["Project", bill.projectId ?? "—"], ["Notes", bill.notes ?? "—"]]} />
+            <DL items={[["Vendor", <span key="v">{bill.vendor.name}{bill.vendor.npwp && <><br /><span className="text-xs text-ink-500">NPWP {bill.vendor.npwp}</span></>}{bill.vendor.country && bill.vendor.country !== "ID" && <><br /><span className="text-xs text-ink-500">{bill.vendor.country} (foreign: PPh 26)</span></>}</span>], ["Currency", `${ccy}${ccy !== "IDR" ? ` @ ${bill.fxRate}` : ""}`], ["Journal", bill.journalId ? <Link href={`${b}/journal/${bill.journalId}`} className="text-brand-600 underline">view entry</Link> : "not posted"], ["e-Faktur", bill.fakturNumber ?? "—"], ["Notes", bill.notes ?? "—"]]} />
           </Card>
           {writable && open && (
             <Card title="Record payment">

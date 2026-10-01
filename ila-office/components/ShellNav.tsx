@@ -3,10 +3,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 type Item = { href: string; label: string };
-const CRM: Item[] = [
-  { href: "/crm/contacts", label: "Contacts" }, { href: "/crm/companies", label: "Companies" }, { href: "/crm/deals", label: "Deals" },
-  { href: "/crm/quotes", label: "Quotes" }, { href: "/crm/projects", label: "Projects" }, { href: "/crm/renewals", label: "Renewals" },
-  { href: "/crm/services", label: "Service catalogue" }, { href: "/crm/vendors", label: "Vendors" },
+const CLIENTS: Item[] = [
+  { href: "/clients/companies", label: "Client companies" }, { href: "/clients/contacts", label: "Contacts" },
+  { href: "/clients/vendors", label: "Vendors" }, { href: "/clients/services", label: "Price list" },
 ];
 const SETTINGS: Item[] = [{ href: "/settings/entities", label: "Entities (books)" }, { href: "/settings/users", label: "Users" }, { href: "/settings/import", label: "Import data" }];
 
@@ -23,9 +22,8 @@ export function ShellNav({ entities, ownEntityId, role }: { entities: Array<{ id
   return (
     <nav className="flex-1 overflow-y-auto px-2 py-2">
       {link("/", "Dashboard", true)}
-      {link("/tasks", "My tasks")}
-      {section("CRM")}
-      {CRM.map((i) => link(i.href, i.label))}
+      {section("Clients")}
+      {CLIENTS.map((i) => link(i.href, i.label))}
       {section("Books & tax")}
       {entityId ? (
         <>

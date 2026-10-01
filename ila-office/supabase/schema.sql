@@ -9,7 +9,7 @@ do $$
 declare t text;
 begin
   foreach t in array array[
-    'users','entities','contacts','companies','deals','services','quotes','projects','vendors','renewals','activities','tasks',
+    'users','entities','contacts','companies','services','vendors','activities',
     'accounts','journal_entries','periods','bank_accounts','bank_transactions','invoices','bills','payments','fixed_assets',
     'employees','payroll_runs','withholding_slips','vat_transactions','tax_obligations','import_batches','counters','settings'
   ] loop

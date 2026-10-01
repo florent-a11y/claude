@@ -126,7 +126,7 @@ export function invoiceJournalLines(inv: Invoice, accounts: Account[]): JournalL
   const lines: JournalLine[] = [];
   const totalIDR = conv(inv.total);
   lines.push(jl(ar, totalIDR, 0, { description: `Invoice ${inv.number}`, ...cp, ...fxInfo(inv, inv.total) }));
-  const revenueLines: JournalLine[] = inv.lines.map((l) => jl(accountById(accounts, l.accountId), 0, conv(l.amount), { description: l.description, ...cp, taxCode: l.taxCode, projectId: l.projectId ?? inv.projectId, ...fxInfo(inv, l.amount) }));
+  const revenueLines: JournalLine[] = inv.lines.map((l) => jl(accountById(accounts, l.accountId), 0, conv(l.amount), { description: l.description, ...cp, taxCode: l.taxCode, ...fxInfo(inv, l.amount) }));
   lines.push(...revenueLines);
   if (inv.discount > 0) {
     const disc = findByCode(accounts, "4-1900") ?? findByTag(accounts, "sales_default") ?? accountById(accounts, inv.lines[0].accountId);
@@ -171,7 +171,7 @@ export function billJournalLines(bill: Bill, accounts: Account[], opts: { ppnCre
   const expenseLines: JournalLine[] = bill.lines.map((l) => {
     const ppn = l.taxCode === "ppn" && taxable > 0 ? roundMoney((l.amount / taxable) * bill.ppnInput, bill.currency) : 0;
     const amount = l.amount + (opts.ppnCreditable ? 0 : ppn);
-    return jl(accountById(accounts, l.accountId), conv(amount), 0, { description: l.description, ...cp, taxCode: l.taxCode, projectId: l.projectId ?? bill.projectId, ...fxInfo(bill, amount) });
+    return jl(accountById(accounts, l.accountId), conv(amount), 0, { description: l.description, ...cp, taxCode: l.taxCode, ...fxInfo(bill, amount) });
   });
   lines.push(...expenseLines);
   if (opts.ppnCreditable && bill.ppnInput > 0) lines.push(jl(requireTag(accounts, "ppn_input"), conv(bill.ppnInput), 0, { description: `PPN input ${bill.number}`, ...cp, ...fxInfo(bill, bill.ppnInput) }));

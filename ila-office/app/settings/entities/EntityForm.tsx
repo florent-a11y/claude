@@ -21,7 +21,7 @@ export function EntityForm({ entity, companies, action }: { entity?: Entity; com
         <Field label="Deed (akta) number"><input name="aktaNumber" defaultValue={e?.aktaNumber} className="input" /></Field>
         <Field label="Address"><textarea name="address" defaultValue={e?.address} rows={2} className="input" /></Field>
         <Field label="Drive folder URL" hint="Client workdrive where reports are stored."><input name="driveFolderUrl" defaultValue={e?.driveFolderUrl} className="input" type="url" /></Field>
-        <Field label="CRM company" hint="Links these books to the client record."><Select name="crmCompanyId" defaultValue={e?.crmCompanyId ?? ""} options={[{ value: "", label: "— none —" }, ...companies.map((c) => ({ value: c.id, label: c.name }))]} /></Field>
+        <Field label="Client company" hint="Links these books to the client record in the directory."><Select name="crmCompanyId" defaultValue={e?.crmCompanyId ?? ""} options={[{ value: "", label: "— none —" }, ...companies.map((c) => ({ value: c.id, label: c.name }))]} /></Field>
         <div className="flex flex-wrap gap-4 text-sm">
           <label className="flex items-center gap-2"><input type="checkbox" name="isOwn" defaultChecked={e?.isOwn} className="checkbox" /> ILA's own books</label>
           <Field label="Status"><Select name="status" defaultValue={e?.status ?? "active"} options={["active", "dormant", "closed"]} /></Field>

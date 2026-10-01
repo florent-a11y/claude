@@ -11,7 +11,7 @@ import { act, base } from "../shared";
 
 const lineSchema = z.object({
   description: z.string().min(1, "Line description is required").max(300), qty: z.number().positive(), unitPrice: z.number().min(0), accountId: z.string().min(1, "Revenue account is required"),
-  taxCode: z.enum(["none", "ppn", "out_of_scope"]), serviceId: z.string().optional(), projectId: z.string().optional(),
+  taxCode: z.enum(["none", "ppn", "out_of_scope"]), serviceId: z.string().optional(),
 });
 const customerSchema = z.object({ type: z.enum(["company", "contact", "other"]), id: z.string().optional(), name: z.string().min(1, "Customer name is required").max(200), email: z.string().max(200).optional(), npwp: z.string().max(40).optional(), address: z.string().max(400).optional() });
 const schema = z.object({
@@ -24,7 +24,6 @@ const schema = z.object({
   discount: z.number().min(0).optional(),
   notes: z.string().max(2000).optional(),
   paymentInstructions: z.string().max(2000).optional(),
-  projectId: z.string().optional(),
   fakturNumber: z.string().max(40).optional(),
 });
 
@@ -34,7 +33,7 @@ function readInvoice(fd: FormData): InvoiceInput {
   const currency = (str(fd, "currency") ?? "IDR").toUpperCase();
   const v = schema.parse({
     customer, date: str(fd, "date"), dueDate: str(fd, "dueDate"), currency, fxRate: currency === "IDR" ? 1 : num(fd, "fxRate", 0), lines, discount: num(fd, "discount", 0),
-    notes: str(fd, "notes"), paymentInstructions: str(fd, "paymentInstructions"), projectId: str(fd, "projectId"), fakturNumber: str(fd, "fakturNumber"),
+    notes: str(fd, "notes"), paymentInstructions: str(fd, "paymentInstructions"), fakturNumber: str(fd, "fakturNumber"),
   });
   if (v.currency !== "IDR" && v.fxRate <= 0) throw new Error("An FX rate (IDR per 1 unit) is required for foreign-currency invoices.");
   return v;

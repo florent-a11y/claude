@@ -7,21 +7,21 @@ import { act, base } from "../shared";
 
 const lineSchema = z.object({
   description: z.string().min(1, "Line description is required").max(300), amount: z.number().min(0), accountId: z.string().min(1, "Account is required"),
-  taxCode: z.enum(["none", "ppn", "out_of_scope"]), withholding: z.enum(["none", "pph21", "pph23", "pph26", "pph4_2", "pph15", "pph22"]), withholdingRate: z.number().min(0).max(1).optional(), projectId: z.string().optional(),
+  taxCode: z.enum(["none", "ppn", "out_of_scope"]), withholding: z.enum(["none", "pph21", "pph23", "pph26", "pph4_2", "pph15", "pph22"]), withholdingRate: z.number().min(0).max(1).optional(),
 });
 const vendorSchema = z.object({ type: z.enum(["vendor", "contact", "company", "other"]), id: z.string().optional(), name: z.string().min(1, "Vendor name is required").max(200), npwp: z.string().max(40).optional(), country: z.string().max(2).optional() });
 const schema = z.object({
   vendor: vendorSchema, vendorInvoiceNumber: z.string().max(80).optional(),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date is required"), dueDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   currency: z.string().length(3), fxRate: z.number().min(0), lines: z.array(lineSchema).min(1, "Add at least one line"),
-  notes: z.string().max(2000).optional(), projectId: z.string().optional(), fakturNumber: z.string().max(40).optional(),
+  notes: z.string().max(2000).optional(), fakturNumber: z.string().max(40).optional(),
 });
 
 function readBill(fd: FormData): BillInput {
   let vendor: unknown, lines: unknown;
   try { vendor = JSON.parse(String(fd.get("vendor") ?? "{}")); lines = JSON.parse(String(fd.get("lines") ?? "[]")); } catch { throw new Error("Form data could not be read."); }
   const currency = (str(fd, "currency") ?? "IDR").toUpperCase();
-  const v = schema.parse({ vendor, vendorInvoiceNumber: str(fd, "vendorInvoiceNumber"), date: str(fd, "date"), dueDate: str(fd, "dueDate"), currency, fxRate: currency === "IDR" ? 1 : num(fd, "fxRate", 0), lines, notes: str(fd, "notes"), projectId: str(fd, "projectId"), fakturNumber: str(fd, "fakturNumber") });
+  const v = schema.parse({ vendor, vendorInvoiceNumber: str(fd, "vendorInvoiceNumber"), date: str(fd, "date"), dueDate: str(fd, "dueDate"), currency, fxRate: currency === "IDR" ? 1 : num(fd, "fxRate", 0), lines, notes: str(fd, "notes"), fakturNumber: str(fd, "fakturNumber") });
   if (v.currency !== "IDR" && v.fxRate <= 0) throw new Error("An FX rate (IDR per 1 unit) is required for foreign-currency bills.");
   return v;
 }

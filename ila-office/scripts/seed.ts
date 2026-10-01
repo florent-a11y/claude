@@ -1,6 +1,6 @@
 /**
  * Seeds a development database: first admin, ILA's own entity with its chart of accounts, the service catalogue,
- * ILA's vendor list, and a fictional demo client (company, contact, deal, project, renewal, client entity).
+ * ILA's vendor list, and a fictional demo client (company, contact, client entity with its own books).
  * Idempotent: skips anything that already exists. Run with `npm run seed`.
  */
 import { existsSync } from "node:fs";
@@ -10,8 +10,8 @@ import { db } from "../lib/db";
 import { hashPassword } from "../lib/password";
 import { buildAccounts } from "../lib/coa";
 import { catalogueItems, COMPANY } from "../lib/catalogue";
-import { addMonths, todayISO } from "../lib/dates";
-import type { Company, Contact, Deal, Entity, Project, Renewal, User, Vendor } from "../lib/types";
+import { todayISO } from "../lib/dates";
+import type { Company, Contact, Entity, User, Vendor } from "../lib/types";
 
 async function main() {
   const now = new Date().toISOString();
@@ -79,22 +79,7 @@ async function main() {
       { serviceId: "", label: "Monthly tax compliance", amount: 1_500_000, currency: "IDR", cadence: "monthly", startedAt: today },
       { serviceId: "", label: "Monthly bookkeeping", amount: 1_000_000, currency: "IDR", cadence: "monthly", startedAt: today },
     ] });
-    const deal: Deal = { id: db.newId(), title: "Working KITAS for villa manager", companyId: company.id, contactId: contact.id, stage: "quotation_sent", amount: 43_000_000, currency: "IDR", category: "visa", ownerUserId: admin.id, createdAt: now };
-    await db.insert("deals", deal);
-    const project: Project = {
-      id: db.newId(), number: await db.nextNumber("global", "P"), title: "Investor KITAS - Camille Durand", category: "visa", companyId: company.id, contactId: contact.id, status: "in_progress",
-      ownerUserId: admin.id, subject: { name: "Camille Durand", nationality: "FR" }, feeAmount: 19_500_000, feeCurrency: "IDR",
-      checklist: [
-        { id: db.newId(), label: "Passport copy and photo received", done: true, doneAt: now }, { id: db.newId(), label: "Sponsor letter signed", done: true, doneAt: now },
-        { id: db.newId(), label: "e-Visa application submitted", done: false }, { id: db.newId(), label: "Biometrics at Kanim", done: false }, { id: db.newId(), label: "KITAS issued and sent to client", done: false },
-      ],
-      costOfSales: [{ id: db.newId(), description: "PNBP Investor KITAS 2 years", vendorName: "Own arrangement", amountIDR: 7_000_000, approved: true, approvedByUserId: admin.id, approvedAt: now }],
-      startedAt: today, dueDate: addMonths(today, 1), expiresAt: addMonths(today, 24), createdAt: now,
-    };
-    await db.insert("projects", project);
-    const renewal: Renewal = { id: db.newId(), kind: "commercial_address", label: "Commercial address - PT Demo Villa Investama", companyId: company.id, expiresAt: addMonths(today, 2), reminderDays: 60, status: "upcoming", createdAt: now };
-    await db.insert("renewals", renewal);
-    console.log("created demo client with books, deal, project and renewal");
+    console.log("created demo client with its own books");
   }
 
   console.log("seed complete");

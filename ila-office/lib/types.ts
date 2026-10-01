@@ -86,7 +86,7 @@ export interface Entity {
   updatedAt?: string;
 }
 
-// ---------- CRM ----------
+// ---------- Clients directory (customers, contacts, vendors, price list) ----------
 
 export const REGIONS = ["Bali", "Lombok", "Sumba", "Flores", "Jakarta", "Hong Kong", "Philippines", "Other"] as const;
 
@@ -142,17 +142,6 @@ export interface Company {
   updatedAt?: string;
 }
 
-/** Deal stages mirror ILA's HubSpot pipeline (probabilities 20/40/60/80/90/100/0). */
-export const DEAL_STAGES = ["prospect", "qualified", "quotation_sent", "review", "invoice_sent", "closed_won", "closed_lost"] as const;
-export type DealStage = (typeof DEAL_STAGES)[number];
-export const DEAL_STAGE_LABELS: Record<DealStage, string> = {
-  prospect: "Prospect", qualified: "Qualified", quotation_sent: "Quotation sent", review: "Review",
-  invoice_sent: "Invoice sent", closed_won: "Closed won", closed_lost: "Closed lost",
-};
-export const DEAL_STAGE_PROBABILITY: Record<DealStage, number> = {
-  prospect: 0.2, qualified: 0.4, quotation_sent: 0.6, review: 0.8, invoice_sent: 0.9, closed_won: 1, closed_lost: 0,
-};
-
 export const SERVICE_CATEGORIES = ["corporate", "visa", "tax_accounting", "payroll_eor", "legal_property", "licensing", "advisory", "disbursement"] as const;
 export type ServiceCategory = (typeof SERVICE_CATEGORIES)[number];
 export const SERVICE_CATEGORY_LABELS: Record<ServiceCategory, string> = {
@@ -160,27 +149,6 @@ export const SERVICE_CATEGORY_LABELS: Record<ServiceCategory, string> = {
   payroll_eor: "Payroll & employer of record", legal_property: "Legal & property", licensing: "Licensing & permits",
   advisory: "Advisory & consulting", disbursement: "Government fees & disbursements",
 };
-
-export interface Deal {
-  id: string;
-  title: string;
-  companyId?: string;
-  contactId?: string;
-  stage: DealStage;
-  amount: number;
-  currency: string;
-  category?: ServiceCategory;
-  ownerUserId?: string;
-  expectedCloseDate?: string;
-  quoteId?: string;
-  projectId?: string;
-  lostReason?: string;
-  source?: string;
-  nextStep?: string;
-  createdAt: string;
-  updatedAt?: string;
-  closedAt?: string;
-}
 
 export type Cadence = "none" | "monthly" | "quarterly" | "annual" | "biennial";
 
@@ -206,108 +174,6 @@ export interface ServiceItem {
   sortOrder?: number;
 }
 
-export interface QuoteLine {
-  id: string;
-  serviceId?: string;
-  description: string;
-  qty: number;
-  unitPrice: number;
-  amount: number;
-  note?: string;
-}
-
-export type QuoteStatus = "draft" | "sent" | "accepted" | "declined" | "expired";
-
-export interface Quote {
-  id: string;
-  number: string; // Q-2026-0001
-  title: string;
-  companyId?: string;
-  contactId?: string;
-  dealId?: string;
-  currency: string;
-  lines: QuoteLine[];
-  subtotal: number;
-  discount: number;
-  total: number;
-  validUntil: string; // ILA quotes are valid 7 days
-  terms: string;
-  scopeNotes?: string;
-  documentsNeeded?: string;
-  status: QuoteStatus;
-  preparedByUserId?: string;
-  createdAt: string;
-  sentAt?: string;
-  acceptedAt?: string;
-  updatedAt?: string;
-}
-
-export const PROJECT_STATUSES = ["new", "waiting_client", "waiting_payment", "in_progress", "submitted", "done", "cancelled"] as const;
-export type ProjectStatus = (typeof PROJECT_STATUSES)[number];
-export const PROJECT_STATUS_LABELS: Record<ProjectStatus, string> = {
-  new: "New", waiting_client: "Waiting for client", waiting_payment: "Waiting for payment", in_progress: "In progress",
-  submitted: "Submitted to authority", done: "Done", cancelled: "Cancelled",
-};
-
-export interface ChecklistItem {
-  id: string;
-  label: string;
-  done: boolean;
-  doneAt?: string;
-  doneBy?: string;
-  dueDate?: string;
-}
-
-/** One line of the project's cost of sales (government fee, notary, Kanim agent…), per ILA's Cost of Sales SOP. */
-export interface CostLine {
-  id: string;
-  description: string;
-  vendorId?: string;
-  vendorName?: string;
-  amountIDR: number;
-  amountUSD?: number;
-  approved: boolean;
-  approvedByUserId?: string;
-  approvedAt?: string;
-  paidAt?: string;
-  billId?: string;
-  note?: string;
-}
-
-/** A matter / job: a visa application, an incorporation, a due diligence, a licence… */
-export interface Project {
-  id: string;
-  number: string; // P-2026-0001
-  title: string;
-  category: ServiceCategory;
-  serviceId?: string;
-  companyId?: string;
-  contactId?: string;
-  dealId?: string;
-  quoteId?: string;
-  status: ProjectStatus;
-  /** "Project owner" in the SOP: approves cost lines. */
-  ownerUserId?: string;
-  assigneeUserId?: string;
-  /** Person the service is for (visa holder, director…). */
-  subject?: { name: string; passportNumber?: string; nationality?: string; dateOfBirth?: string };
-  feeAmount: number;
-  feeCurrency: string;
-  invoiceRef?: string; // internal invoice id or QBO doc number
-  checklist: ChecklistItem[];
-  costOfSales: CostLine[];
-  startedAt?: string;
-  dueDate?: string;
-  submittedAt?: string;
-  completedAt?: string;
-  /** When the deliverable expires (KITAS validity, licence validity); feeds the renewal tracker. */
-  expiresAt?: string;
-  driveFolderUrl?: string;
-  notes?: string;
-  createdAt: string;
-  updatedAt?: string;
-}
-
 export const VENDOR_CATEGORIES = ["notary", "kanim", "bkpm", "oss", "pbg", "pupr", "sktt", "sim", "dora", "agent", "bank", "government", "other"] as const;
 export interface Vendor {
   id: string;
@@ -323,32 +189,6 @@ export interface Vendor {
   createdAt: string;
 }
 
-export const RENEWAL_KINDS = ["kitas", "visa", "passport", "commercial_address", "resident_director", "commissioner", "local_shareholder", "licence", "gms", "lkpm", "other"] as const;
-export type RenewalKind = (typeof RENEWAL_KINDS)[number];
-export const RENEWAL_KIND_LABELS: Record<RenewalKind, string> = {
-  kitas: "KITAS / stay permit", visa: "Visa", passport: "Passport", commercial_address: "Commercial address / virtual office",
-  resident_director: "Resident director", commissioner: "Commissioner", local_shareholder: "Local shareholder",
-  licence: "Licence / certificate", gms: "Annual GMS (RUPS)", lkpm: "LKPM", other: "Other",
-};
-
-export interface Renewal {
-  id: string;
-  kind: RenewalKind;
-  label: string;
-  companyId?: string;
-  contactId?: string;
-  projectId?: string;
-  serviceId?: string;
-  expiresAt: string;
-  reminderDays: number; // e.g. 60
-  status: "upcoming" | "reminded" | "quoted" | "renewed" | "lapsed" | "cancelled";
-  renewalProjectId?: string;
-  ownerUserId?: string;
-  notes?: string;
-  createdAt: string;
-  updatedAt?: string;
-}
-
 export type ActivityKind = "note" | "call" | "email" | "whatsapp" | "meeting" | "status" | "system";
 export interface Activity {
   id: string;
@@ -360,21 +200,7 @@ export interface Activity {
   byName?: string;
   contactId?: string;
   companyId?: string;
-  dealId?: string;
-  projectId?: string;
-  quoteId?: string;
   entityId?: string;
-}
-
-export interface TaskItem {
-  id: string;
-  title: string;
-  dueDate?: string;
-  done: boolean;
-  doneAt?: string;
-  assigneeUserId?: string;
-  related?: { type: "contact" | "company" | "deal" | "project" | "quote" | "entity" | "obligation"; id: string };
-  createdAt: string;
 }
 
 // ---------- Books (double-entry, per entity) ----------
@@ -429,7 +255,6 @@ export interface JournalLine {
   counterpartyId?: string; // contact, company or vendor id
   counterpartyName?: string;
   taxCode?: "ppn" | "none" | "out_of_scope";
-  projectId?: string;
 }
 
 export interface JournalEntry {
@@ -503,7 +328,6 @@ export interface InvoiceLine {
   amount: number;
   accountId: string; // revenue account
   taxCode: TaxCode;
-  projectId?: string;
 }
 
 export interface Invoice {
@@ -523,9 +347,6 @@ export interface Invoice {
   amountPaid: number;
   status: DocStatus;
   journalId?: string;
-  projectId?: string;
-  quoteId?: string;
-  dealId?: string;
   /** e-Faktur number when PKP. */
   fakturNumber?: string;
   qboDocNumber?: string;
@@ -547,7 +368,6 @@ export interface BillLine {
   withholding: WithholdingType;
   withholdingRate?: number; // 0.02 for PPh 23 services
   withholdingAmount?: number;
-  projectId?: string;
   assetId?: string;
 }
 
@@ -570,7 +390,6 @@ export interface Bill {
   amountPaid: number;
   status: DocStatus;
   journalId?: string;
-  projectId?: string;
   fakturNumber?: string;
   notes?: string;
   createdAt: string;
@@ -818,14 +637,9 @@ export type TableMap = {
   entities: Entity;
   contacts: Contact;
   companies: Company;
-  deals: Deal;
   services: ServiceItem;
-  quotes: Quote;
-  projects: Project;
   vendors: Vendor;
-  renewals: Renewal;
   activities: Activity;
-  tasks: TaskItem;
   accounts: Account;
   journal_entries: JournalEntry;
   periods: AccountingPeriod;
@@ -846,7 +660,7 @@ export type TableMap = {
 };
 export type Table = keyof TableMap;
 export const TABLES = [
-  "users", "entities", "contacts", "companies", "deals", "services", "quotes", "projects", "vendors", "renewals", "activities", "tasks",
+  "users", "entities", "contacts", "companies", "services", "vendors", "activities",
   "accounts", "journal_entries", "periods", "bank_accounts", "bank_transactions", "invoices", "bills", "payments", "fixed_assets",
   "employees", "payroll_runs", "withholding_slips", "vat_transactions", "tax_obligations", "import_batches", "counters", "settings",
 ] as const satisfies readonly Table[];

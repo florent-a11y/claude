@@ -268,7 +268,7 @@ export const db = {
 
   /**
    * Sequential document numbers per scope and year, e.g. nextNumber(entityId, "INV") → "INV-2026-0001".
-   * Scope is usually an entity id; use "global" for CRM documents (quotes, projects).
+   * Scope is usually an entity id; use "global" for firm-wide documents.
    */
   async nextNumber(scope: string, prefix: string, date = new Date()): Promise<string> {
     const year = date.getFullYear();

@@ -34,7 +34,7 @@ export default async function ImportPage({ searchParams }: { searchParams: Promi
             <span className="font-semibold">{IMPORT_KIND_LABELS[done.kind as ImportKind] ?? done.kind}</span>: {done.inserted} inserted, {done.skipped} skipped out of {done.rows} rows in <span className="font-mono">{done.fileName}</span>.
             {done.errors.length > 0 && <details className="mt-1"><summary className="cursor-pointer">{done.errors.length} error{done.errors.length === 1 ? "" : "s"}</summary><ul className="mt-1 list-disc pl-5 text-xs">{done.errors.slice(0, 50).map((e, i) => <li key={i}>{e}</li>)}</ul></details>}
             <span className="ml-2 text-xs">
-              {done.kind === "qbo_invoices" && done.entityId ? <Link className="underline" href={`/books/${done.entityId}/invoices`}>Open invoices</Link> : <Link className="underline" href="/crm/contacts">Open contacts</Link>}
+              {done.kind === "qbo_invoices" && done.entityId ? <Link className="underline" href={`/books/${done.entityId}/invoices`}>Open invoices</Link> : <Link className="underline" href="/clients/contacts">Open contacts</Link>}
             </span>
           </Notice>
         </div>

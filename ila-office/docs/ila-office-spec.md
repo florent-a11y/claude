@@ -63,15 +63,16 @@ It is an internal tool. Four roles, a handful of users, behind Cloudflare Access
 - Stats: weighted pipeline, open projects, renewals due within 60 days, tax obligations due this month by status, ILA's receivables, ILA's cash and bank balances (from the ledger).
 - Lists: my open tasks, projects waiting on the client, renewals due soon, overdue obligations across all entities, recent activity, quick links and one link per client entity.
 
-### 3.2 CRM (`/crm`)
-- **Contacts**: person, passport, nationality, language, WhatsApp, owner, tags, Drive folder, HubSpot/QBO ids.
-- **Companies**: legal form (PT PMA, PT PMDN, PT Perorangan, CV, HK Ltd, PH OPC…), NPWP, NIB, akta, region, status, recurring subscriptions (monthly tax, bookkeeping, payroll), link to the entity whose books ILA keeps.
-- **Deals**: seven stages, amount and currency, category, owner, expected close, next step, lost reason. Kanban and list.
-- **Quotes**: numbered Q-YYYY-NNNN, lines from the catalogue, discount, validity, terms, scope notes, documents needed. Statuses draft → sent → accepted/declined/expired. Printable.
-- **Projects**: numbered P-YYYY-NNNN. Category, service, client, subject (visa holder, director), fee, status (new, waiting client, waiting payment, in progress, submitted to authority, done, cancelled), owner and assignee, checklist, cost-of-sales lines with approval, dates, expiry → renewal.
-- **Vendors**: Kanim agents, notaries, BKPM, OSS, PBG, PUPR, SKTT, SIM, DORA, banks.
-- **Renewals**: KITAS, visa, passport, commercial address, resident director, commissioner, local shareholder, licence, GMS, LKPM. Status upcoming → reminded → quoted → renewed / lapsed.
-- **Activities and tasks**: notes, calls, emails, WhatsApp, meetings, status changes; tasks with due date, assignee and the record they relate to.
+### 3.2 Clients directory (`/clients`)
+
+Client companies (type, NPWP, NIB, region, primary contact, recurring engagements such as monthly tax and bookkeeping),
+contacts (passport, nationality, language, Drive folder), vendors (notaries, Kanim and BKPM agents, government offices,
+suppliers) and the price list used for ILA's own invoices. Each company links to its entity, so Books and Tax are one
+click away. Notes and emails are logged on a timeline.
+
+The sales CRM built in the first iteration (deal pipeline with the HubSpot stages, quotes with the 7-day terms,
+projects with checklists and cost of sales, renewals, tasks) is set aside to focus on accounting and tax first. It is
+preserved in git under the tag `with-crm-v1` and can be restored later.
 
 ### 3.3 Books (`/books/[entityId]`)
 - One entity = one set of books. ILA's own entity is flagged `isOwn`.

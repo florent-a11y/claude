@@ -34,8 +34,8 @@ function readOptions(fd: FormData): ImportOptions {
 }
 
 const PATHS_TOUCHED: Record<ImportKind, string[]> = {
-  hubspot_contacts: ["/crm/contacts", "/crm/companies"],
-  qbo_customers: ["/crm/contacts", "/crm/companies"],
+  hubspot_contacts: ["/clients/contacts", "/clients/companies"],
+  qbo_customers: ["/clients/contacts", "/clients/companies"],
   qbo_invoices: ["/books", "/"],
 };
 

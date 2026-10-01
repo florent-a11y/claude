@@ -9,8 +9,8 @@ cd ila-app/ila-office
 npm run start:local
 ```
 
-The last command installs the app, loads the demo data (ILA's entity and chart of accounts, the service
-catalogue, your vendor list, one fictional client) and starts the server. When it prints
+The last command installs the app, loads the demo data (ILA's entity and chart of accounts, the price
+list, your vendor list, one fictional client with its own books) and starts the server. When it prints
 `Local: http://localhost:3100`, open that address in your browser and sign in with:
 
 | Email | Password |

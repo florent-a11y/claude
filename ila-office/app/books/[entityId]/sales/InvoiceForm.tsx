@@ -79,7 +79,6 @@ export function InvoiceForm({ action, entity, customers, accounts, services, def
           <label className="block"><span className="label">Currency</span><select name="currency" value={currency} onChange={(e) => setCurrency(e.target.value)} className="input">{CURRENCIES.map((c) => <option key={c}>{c}</option>)}</select></label>
           <label className="block"><span className="label">FX rate (IDR per 1 {currency})</span><input name="fxRate" value={currency === "IDR" ? "1" : fxRate} onChange={(e) => setFxRate(e.target.value)} disabled={currency === "IDR"} className="input" inputMode="decimal" placeholder="16500" /></label>
           <label className="block"><span className="label">e-Faktur number (PKP)</span><input name="fakturNumber" defaultValue={invoice?.fakturNumber} className="input" /></label>
-          <label className="block"><span className="label">Project id (optional)</span><input name="projectId" defaultValue={invoice?.projectId} className="input" /></label>
         </div>
       </div>
       <div className="card overflow-x-auto !p-0">

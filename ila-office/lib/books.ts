@@ -89,7 +89,7 @@ export async function deleteAccount(entityId: string, id: string): Promise<void>
 
 // ---------- Invoices ----------
 
-export interface InvoiceLineInput { description: string; qty: number; unitPrice: number; accountId: string; taxCode: TaxCode; serviceId?: string; projectId?: string }
+export interface InvoiceLineInput { description: string; qty: number; unitPrice: number; accountId: string; taxCode: TaxCode; serviceId?: string }
 export interface InvoiceInput {
   customer: Invoice["customer"];
   date: string;
@@ -100,9 +100,6 @@ export interface InvoiceInput {
   discount?: number;
   notes?: string;
   paymentInstructions?: string;
-  projectId?: string;
-  quoteId?: string;
-  dealId?: string;
   fakturNumber?: string;
 }
 
@@ -111,12 +108,12 @@ function buildInvoice(entity: Entity, accounts: Account[], input: InvoiceInput, 
   const totals = invoiceTotals(input.lines, { discount: input.discount, pkp: entity.tax.pkp, ppnRate: entity.tax.ppnRate, currency: input.currency });
   const lines: InvoiceLine[] = input.lines.map((l, i) => {
     accountById(accounts, l.accountId);
-    return { id: db.newId(), serviceId: l.serviceId, description: l.description, qty: l.qty, unitPrice: l.unitPrice, amount: totals.lineAmounts[i], accountId: l.accountId, taxCode: l.taxCode, projectId: l.projectId };
+    return { id: db.newId(), serviceId: l.serviceId, description: l.description, qty: l.qty, unitPrice: l.unitPrice, amount: totals.lineAmounts[i], accountId: l.accountId, taxCode: l.taxCode };
   });
   return {
     ...base, entityId: entity.id, customer: input.customer, date: input.date, dueDate: input.dueDate ?? addWorkingDays(input.date, 3), currency: input.currency, fxRate: input.currency === "IDR" ? 1 : input.fxRate,
     lines, subtotal: totals.subtotal, discount: totals.discount, ppnAmount: totals.ppnAmount, total: totals.total, notes: input.notes, paymentInstructions: input.paymentInstructions,
-    projectId: input.projectId, quoteId: input.quoteId, dealId: input.dealId, fakturNumber: input.fakturNumber, updatedAt: new Date().toISOString(),
+    fakturNumber: input.fakturNumber, updatedAt: new Date().toISOString(),
   };
 }
 
@@ -211,7 +208,7 @@ export async function voidPayment(entityId: string, paymentId: string): Promise<
 
 // ---------- Bills ----------
 
-export interface BillLineInput { description: string; amount: number; accountId: string; taxCode: TaxCode; withholding: WithholdingType; withholdingRate?: number; projectId?: string }
+export interface BillLineInput { description: string; amount: number; accountId: string; taxCode: TaxCode; withholding: WithholdingType; withholdingRate?: number }
 export interface BillInput {
   vendor: Bill["vendor"];
   vendorInvoiceNumber?: string;
@@ -221,7 +218,6 @@ export interface BillInput {
   fxRate: number;
   lines: BillLineInput[];
   notes?: string;
-  projectId?: string;
   fakturNumber?: string;
 }
 
@@ -231,12 +227,12 @@ function buildBill(entity: Entity, accounts: Account[], input: BillInput, base: 
   const lines: BillLine[] = input.lines.map((l, i) => {
     accountById(accounts, l.accountId);
     const t = totals.lines[i];
-    return { id: db.newId(), description: l.description, amount: t.amount, accountId: l.accountId, taxCode: l.taxCode, withholding: l.withholding, withholdingRate: l.withholding === "none" ? undefined : t.withholdingRate, withholdingAmount: l.withholding === "none" ? undefined : t.withholdingAmount, projectId: l.projectId };
+    return { id: db.newId(), description: l.description, amount: t.amount, accountId: l.accountId, taxCode: l.taxCode, withholding: l.withholding, withholdingRate: l.withholding === "none" ? undefined : t.withholdingRate, withholdingAmount: l.withholding === "none" ? undefined : t.withholdingAmount };
   });
   return {
     ...base, entityId: entity.id, vendor: input.vendor, vendorInvoiceNumber: input.vendorInvoiceNumber, date: input.date, dueDate: input.dueDate ?? input.date, currency: input.currency, fxRate: input.currency === "IDR" ? 1 : input.fxRate,
     lines, subtotal: totals.subtotal, ppnInput: totals.ppnInput, withholdingTotal: totals.withholdingTotal, total: totals.total, amountPayable: totals.amountPayable,
-    notes: input.notes, projectId: input.projectId, fakturNumber: input.fakturNumber, updatedAt: new Date().toISOString(),
+    notes: input.notes, fakturNumber: input.fakturNumber, updatedAt: new Date().toISOString(),
   };
 }
 
