@@ -78,7 +78,7 @@ export default async function AllClientsCalendar({ searchParams }: { searchParam
         </form>
       </div>
 
-      <div className="mb-4 grid grid-cols-2 gap-3 md:grid-cols-5">
+      <div className="mb-4 grid grid-cols-[repeat(auto-fit,minmax(10rem,1fr))] gap-3">
         <Stat label="Obligations" value={counts.total} hint={`${entities.length} active entities`} />
         <Stat label="Not started" value={counts.open} />
         <Stat label="In progress" value={counts.inProgress} tone="text-blue-700" />

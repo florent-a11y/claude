@@ -34,9 +34,9 @@ export default async function Services({ searchParams }: { searchParams: Promise
                     <span className="truncate font-mono text-xs" title={s.description}>{s.code}</span>
                     <span><input name="name" defaultValue={s.name} required className="input !py-1" disabled={!write} />{s.includesNote && <span className="block truncate text-[11px] text-ink-500" title={s.includesNote}>{s.includesNote}</span>}</span>
                     <input name="unit" defaultValue={s.unit} list="units" className="input !py-1" disabled={!write} />
-                    <input name="priceIDR" type="number" min={0} defaultValue={s.priceIDR} className="input !py-1 text-right" disabled={!write} />
-                    <input name="priceUSD" type="number" min={0} step="0.01" defaultValue={s.priceUSD ?? ""} className="input !py-1 text-right" disabled={!write} />
-                    <input name="priceEUR" type="number" min={0} step="0.01" defaultValue={s.priceEUR ?? ""} className="input !py-1 text-right" disabled={!write} />
+                    <input name="priceIDR" type="number" min={0} defaultValue={s.priceIDR} className="input !w-32 !py-1 text-right" disabled={!write} />
+                    <input name="priceUSD" type="number" min={0} step="0.01" defaultValue={s.priceUSD ?? ""} className="input !w-24 !py-1 text-right" disabled={!write} />
+                    <input name="priceEUR" type="number" min={0} step="0.01" defaultValue={s.priceEUR ?? ""} className="input !w-24 !py-1 text-right" disabled={!write} />
                     <Select name="cadence" defaultValue={s.cadence} options={CADENCES} className="input !py-1" />
                     <input name="renewalMonths" type="number" min={0} max={120} defaultValue={s.renewalMonths ?? ""} className="input !py-1 text-right" disabled={!write} />
                     <label className="flex justify-center"><input type="checkbox" name="active" defaultChecked={s.active} className="checkbox" disabled={!write} /></label>

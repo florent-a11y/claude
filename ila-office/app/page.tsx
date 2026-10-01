@@ -69,7 +69,7 @@ export default async function Home() {
   return (
     <Page title={`Good day, ${user.name.split(" ")[0]}`} subtitle={<span>{fmtDate(today)} · {entities.length} entities · {deals.length} open deals · {projects.length} open projects</span>}
       actions={<><Link href="/crm/deals/new" className="btn-secondary">New deal</Link><Link href="/crm/quotes/new" className="btn-secondary">New quote</Link><Link href="/crm/projects/new" className="btn-primary">New project</Link></>}>
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(11rem,1fr))] gap-3">
         <Stat label="Weighted pipeline" value={fmtMoney(weightedIDR, "IDR")} hint={<Link href="/crm/deals" className="hover:underline">{deals.length} open deals{weightedOther ? ` · + ${weightedOther}` : ""}</Link>} />
         <Stat label="Open projects" value={projects.length} hint={<Link href="/crm/projects" className="hover:underline">{waitingClient.length} waiting on client · {projects.filter((p) => p.status === "waiting_payment").length} waiting payment</Link>} />
         <Stat label={`Renewals ≤ ${RENEWAL_WINDOW_DAYS} days`} value={renewals.length} tone={renewals.some((r) => r.expiresAt < today) ? "text-red-700" : ""} hint={<Link href="/crm/renewals" className="hover:underline">{renewals.filter((r) => r.expiresAt < today).length} already expired</Link>} />

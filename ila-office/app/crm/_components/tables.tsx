@@ -10,7 +10,7 @@ import type { Lookups } from "../_lib/server";
 export function DealsTable({ deals, l, showCompany = true }: { deals: Deal[]; l: Lookups; showCompany?: boolean }) {
   if (deals.length === 0) return <p className="text-sm text-ink-500">No deals.</p>;
   return (
-    <div className="overflow-x-auto"><table className="table">
+    <div className="overflow-x-auto"><table className="table table-wide">
       <thead><tr><th>Deal</th>{showCompany && <th>Company</th>}<th>Stage</th><th className="num">Amount</th><th>Owner</th><th>Close</th></tr></thead>
       <tbody>{deals.map((d) => (
         <tr key={d.id}>
@@ -30,7 +30,7 @@ export function QuotesTable({ quotes, l, showCompany = true }: { quotes: Quote[]
   const today = todayISO();
   if (quotes.length === 0) return <p className="text-sm text-ink-500">No quotes.</p>;
   return (
-    <div className="overflow-x-auto"><table className="table">
+    <div className="overflow-x-auto"><table className="table table-wide">
       <thead><tr><th>Number</th><th>Title</th>{showCompany && <th>Client</th>}<th>Status</th><th className="num">Total</th><th>Valid until</th><th>Prepared by</th></tr></thead>
       <tbody>{quotes.map((q) => { const st = effectiveQuoteStatus(q, today); return (
         <tr key={q.id}>
@@ -50,7 +50,7 @@ export function QuotesTable({ quotes, l, showCompany = true }: { quotes: Quote[]
 export function ProjectsTable({ projects, l, showCompany = true }: { projects: Project[]; l: Lookups; showCompany?: boolean }) {
   if (projects.length === 0) return <p className="text-sm text-ink-500">No projects.</p>;
   return (
-    <div className="overflow-x-auto"><table className="table">
+    <div className="overflow-x-auto"><table className="table table-wide">
       <thead><tr><th>Number</th><th>Project</th>{showCompany && <th>Client</th>}<th>Status</th><th>Checklist</th><th className="num">Fee</th><th>Assignee</th><th>Due</th></tr></thead>
       <tbody>{projects.map((p) => { const done = p.checklist.filter((c) => c.done).length; return (
         <tr key={p.id}>
@@ -77,7 +77,7 @@ export function DaysLeft({ expiresAt }: { expiresAt: string }) {
 export function RenewalsTable({ renewals, l, showClient = true, actions }: { renewals: Renewal[]; l: Lookups; showClient?: boolean; actions?: (r: Renewal) => React.ReactNode }) {
   if (renewals.length === 0) return <p className="text-sm text-ink-500">No renewals.</p>;
   return (
-    <div className="overflow-x-auto"><table className="table">
+    <div className="overflow-x-auto"><table className="table table-wide">
       <thead><tr><th>Expires</th><th>Left</th><th>Kind</th><th>Renewal</th>{showClient && <th>Client</th>}<th>Status</th><th>Owner</th>{actions && <th></th>}</tr></thead>
       <tbody>{renewals.map((r) => (
         <tr key={r.id}>

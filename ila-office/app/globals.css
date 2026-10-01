@@ -32,10 +32,13 @@ body { @apply bg-slate-50 text-ink-900 antialiased; }
 .checkbox { @apply h-4 w-4 shrink-0 rounded border-slate-300 text-brand-600 focus:ring-brand-500; }
 .error { @apply mt-1 text-sm text-red-600; }
 .table { @apply w-full text-sm; }
-.table thead th { @apply border-b border-slate-200 py-2 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-ink-500; }
+.table thead th { @apply whitespace-nowrap border-b border-slate-200 py-2 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-ink-500; }
 .table tbody td { @apply border-t border-slate-100 py-2 pr-3 align-top; }
 .table tbody tr:hover { @apply bg-brand-50/40; }
 .num { @apply text-right tabular-nums whitespace-nowrap; }
+.money { @apply whitespace-nowrap tabular-nums; }
+/* Tables inside two-column layouts: scroll sideways rather than wrapping every cell word by word. */
+.table-wide { @apply min-w-[560px]; }
 .pill { @apply inline-flex items-center whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium; }
 
 @media print {

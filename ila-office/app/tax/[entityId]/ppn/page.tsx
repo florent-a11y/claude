@@ -57,7 +57,7 @@ export default async function PpnPage({ params, searchParams }: { params: Promis
         </div>
         <a href={`/tax/${entityId}/ppn/export?period=${period}`} className="btn-secondary">Export CSV</a>
       </div>
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(11rem,1fr))] gap-3">
         <Stat label="PPN Keluaran (output)" value={<Money amount={summary.outputPpn} />} hint={`DPP ${summary.outputDpp.toLocaleString("en-US")}`} />
         <Stat label="PPN Masukan creditable" value={<Money amount={summary.creditableInputPpn} />} hint={summary.nonCreditableInputPpn ? `+ ${summary.nonCreditableInputPpn.toLocaleString("en-US")} without e-Faktur (not creditable)` : "all input rows have an e-Faktur"} />
         <Stat label="Carried forward in" value={<Money amount={summary.carriedForwardIn} />} />

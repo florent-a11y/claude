@@ -36,7 +36,7 @@ export default async function Overview({ params }: { params: Params }) {
   const bankBalances = bankAccounts.map((ba) => { const a = accounts.find((x) => x.id === ba.accountId); return { ba, balance: a ? (bal.get(a.id)?.net ?? 0) : 0 }; });
   return (
     <div className="space-y-5 pb-8">
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(11rem,1fr))] gap-3">
         <Stat label="Cash & bank" value={fmtMoney(cash)} hint={bankBalances.length ? bankBalances.map((x) => `${x.ba.name}: ${fmtMoney(x.balance)}`).join(" · ") : "No bank account yet"} />
         <Stat label="Receivables (AR)" value={fmtMoney(arOutstanding)} hint={`${invoices.length} open invoice${invoices.length === 1 ? "" : "s"}`} tone={overdue.length ? "text-amber-700" : ""} />
         <Stat label="Payables (AP)" value={fmtMoney(apOutstanding)} hint={`${bills.length} open bill${bills.length === 1 ? "" : "s"}`} />

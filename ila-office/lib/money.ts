@@ -19,12 +19,23 @@ export function roundTaxDown(amount: number): number {
   return Math.floor(amount + 1e-9);
 }
 
+/**
+ * Money for screens and documents. IDR follows the Indonesian convention ("Rp 2.500.000", no decimals); other
+ * currencies use their symbol with two decimals ("$1,315.00", "€955.00", "HK$8,200.00"). The space after the
+ * symbol is non-breaking so an amount never wraps in the middle.
+ */
 export function fmtMoney(amount: number, currency = "IDR", locale = "en-US"): string {
   const d = decimalsFor(currency);
+  const neg = amount < 0;
+  const abs = Math.abs(amount);
+  if (currency === "IDR") {
+    return `${neg ? "\u2212" : ""}Rp\u00a0${new Intl.NumberFormat("id-ID", { maximumFractionDigits: 0 }).format(Math.round(abs))}`;
+  }
   try {
-    return new Intl.NumberFormat(locale, { style: "currency", currency, minimumFractionDigits: d, maximumFractionDigits: d }).format(amount);
+    const s = new Intl.NumberFormat(locale, { style: "currency", currency, minimumFractionDigits: d, maximumFractionDigits: d }).format(abs).replace(/ /g, "\u00a0");
+    return `${neg ? "\u2212" : ""}${s}`;
   } catch {
-    return `${currency} ${fmtNumber(amount, d)}`;
+    return `${neg ? "\u2212" : ""}${currency}\u00a0${fmtNumber(abs, d)}`;
   }
 }
 

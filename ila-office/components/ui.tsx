@@ -34,9 +34,9 @@ export function Card({ title, children, className = "", actions }: { title?: Rea
 
 export function Stat({ label, value, hint, tone = "" }: { label: string; value: ReactNode; hint?: ReactNode; tone?: string }) {
   return (
-    <div className="card !p-4">
+    <div className="card @container min-w-0 !p-4">
       <p className="text-xs text-ink-500">{label}</p>
-      <p className={`mt-1 text-2xl font-bold tabular-nums ${tone}`}>{value}</p>
+      <p className={`mt-1 whitespace-nowrap text-lg font-bold tabular-nums @min-[13rem]:text-xl @min-[17rem]:text-2xl ${tone}`}>{value}</p>
       {hint && <p className="mt-1 text-xs text-ink-500">{hint}</p>}
     </div>
   );
@@ -62,7 +62,7 @@ export function statusTone(status: string): Tone {
 }
 
 export function Money({ amount, currency = "IDR", className = "" }: { amount: number; currency?: string; className?: string }) {
-  return <span className={`tabular-nums ${amount < 0 ? "text-red-700" : ""} ${className}`}>{fmtMoney(amount, currency)}</span>;
+  return <span className={`whitespace-nowrap tabular-nums ${amount < 0 ? "text-red-700" : ""} ${className}`}>{fmtMoney(amount, currency)}</span>;
 }
 
 export function EmptyState({ title, hint, action }: { title: string; hint?: ReactNode; action?: ReactNode }) {
@@ -90,8 +90,8 @@ export function Select({ name, value, defaultValue, options, className = "input"
 
 export function DL({ items }: { items: Array<[ReactNode, ReactNode]> }) {
   return (
-    <dl className="grid grid-cols-[max-content_1fr] gap-x-4 gap-y-1 text-sm">
-      {items.map(([k, v], i) => <div key={i} className="contents"><dt className="text-ink-500">{k}</dt><dd className="min-w-0 break-words">{v ?? "—"}</dd></div>)}
+    <dl className="grid grid-cols-[fit-content(45%)_minmax(0,1fr)] gap-x-4 gap-y-1 text-sm">
+      {items.map(([k, v], i) => <div key={i} className="contents"><dt className="text-ink-500">{k}</dt><dd className="min-w-0 [overflow-wrap:anywhere]">{v ?? "—"}</dd></div>)}
     </dl>
   );
 }
