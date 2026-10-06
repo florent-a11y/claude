@@ -34,3 +34,8 @@ Without Airwallex keys, checkout skips payment and marks the order paid (dev onl
 ```bash
 npm run typecheck && npm run build
 ```
+
+## Hub (client workspace platform)
+A separate, self-hosted application lives in [`hub/`](hub/README.md): client workspaces with
+conversations, tasks, files, approvals and flows, for the internal team and client contacts.
+It has its own `package.json`, database and Docker setup; see its README to run or deploy it.
