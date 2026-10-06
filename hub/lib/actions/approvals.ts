@@ -43,7 +43,7 @@ export async function createApproval(workspaceId: string, _prev: ActionState, fd
      VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', '', ?, NULL, ?)`,
     id, workspaceId, title, str(fd, "description", 5000), user.id, approver.id, fileId, due, nowIso(),
   );
-  logSystem(workspaceId, user.id, `requested approval from ${approver.name}: ${title}`, { refType: "approval", refId: id, fileId: fileId ?? undefined });
+  logSystem(workspaceId, user.id, `requested approval from ${approver.name}: ${title}`, { refType: "approval", refId: id, card: true });
   if (approver.id !== user.id) {
     notify([approver.id], `Approval requested in ${ws.name}`, title, `/workspaces/${workspaceId}/approvals`);
   }

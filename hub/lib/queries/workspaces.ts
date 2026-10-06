@@ -7,13 +7,19 @@ const META = `
   SELECT w.*, c.name AS client_name, c.color AS client_color, o.name AS owner_name,
     (SELECT COUNT(*) FROM workspace_members m WHERE m.workspace_id = w.id) AS member_count,
     (SELECT COUNT(*) FROM tasks t WHERE t.workspace_id = w.id AND t.status != 'done' __TASKVIS__) AS open_tasks,
-    (SELECT COUNT(*) FROM approvals a WHERE a.workspace_id = w.id AND a.status = 'pending') AS pending_approvals
+    (SELECT COUNT(*) FROM tasks t WHERE t.workspace_id = w.id AND t.status = 'done' __TASKVIS__) AS done_tasks,
+    (SELECT COUNT(*) FROM approvals a WHERE a.workspace_id = w.id AND a.status = 'pending') AS pending_approvals,
+    (SELECT COUNT(*) FROM approvals a WHERE a.workspace_id = w.id AND a.status IN ('approved','rejected')) AS decided_approvals,
+    (SELECT m.body FROM messages m WHERE m.workspace_id = w.id __MSGVIS__ ORDER BY m.created_at DESC LIMIT 1) AS last_body,
+    (SELECT u.name FROM messages m LEFT JOIN users u ON u.id = m.user_id WHERE m.workspace_id = w.id __MSGVIS__ ORDER BY m.created_at DESC LIMIT 1) AS last_author,
+    (SELECT m.kind FROM messages m WHERE m.workspace_id = w.id __MSGVIS__ ORDER BY m.created_at DESC LIMIT 1) AS last_kind
   FROM workspaces w
   LEFT JOIN clients c ON c.id = w.client_id
   LEFT JOIN users o ON o.id = w.owner_id`;
 
 function meta(user: Pick<PublicUser, "role">): string {
-  return META.replace("__TASKVIS__", isInternal(user) ? "" : "AND t.internal = 0");
+  const internal = isInternal(user);
+  return META.replaceAll("__TASKVIS__", internal ? "" : "AND t.internal = 0").replaceAll("__MSGVIS__", internal ? "" : "AND m.internal = 0");
 }
 
 export interface WorkspaceFilter {

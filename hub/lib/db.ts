@@ -119,6 +119,7 @@ CREATE TABLE IF NOT EXISTS messages (
   file_id TEXT REFERENCES files(id) ON DELETE SET NULL,
   ref_type TEXT,
   ref_id TEXT,
+  card INTEGER NOT NULL DEFAULT 0,
   created_at TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS messages_ws ON messages(workspace_id, created_at);
@@ -192,7 +193,7 @@ function open(): Database.Database {
   return d;
 }
 
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2;
 
 /** Upgrades databases created by earlier versions. Runs before the schema, so a fresh (empty) database just gets its version stamped. */
 function migrate(d: Database.Database): void {
@@ -233,6 +234,18 @@ function migrate(d: Database.Database): void {
       } finally {
         d.pragma("foreign_keys = ON");
       }
+    }
+  }
+  if (version < 2) {
+    // v2: timeline cards. A system message with card = 1 renders the referenced task / approval / file
+    // as a live card in the workspace timeline (Moxo-style) instead of a grey line.
+    const cols = d.prepare("PRAGMA table_info(messages)").all() as { name: string }[];
+    if (cols.length && !cols.some((c) => c.name === "card")) {
+      d.exec(`
+        ALTER TABLE messages ADD COLUMN card INTEGER NOT NULL DEFAULT 0;
+        UPDATE messages SET card = 1 WHERE kind = 'system' AND ref_type IS NOT NULL AND ref_id IS NOT NULL
+          AND (body LIKE 'created a task%' OR body LIKE 'requested a file%' OR body LIKE 'uploaded %' OR body LIKE 'requested approval%');
+      `);
     }
   }
   d.pragma(`user_version = ${SCHEMA_VERSION}`);

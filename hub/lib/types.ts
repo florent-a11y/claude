@@ -52,7 +52,12 @@ export interface WorkspaceWithMeta extends Workspace {
   owner_name: string | null;
   member_count: number;
   open_tasks: number;
+  done_tasks: number;
   pending_approvals: number;
+  decided_approvals: number;
+  last_body: string | null;
+  last_author: string | null;
+  last_kind: MessageKind | null;
 }
 
 export type MessageKind = "text" | "system";
@@ -66,8 +71,15 @@ export interface Message {
   file_id: string | null;
   ref_type: string | null;
   ref_id: string | null;
+  /** 1 = render the referenced item as a live card in the timeline. */
+  card: number;
   created_at: string;
 }
+/** The current state of the item a timeline card points at. */
+export type TimelineRef =
+  | { kind: "task"; task: TaskWithMeta }
+  | { kind: "approval"; approval: ApprovalWithMeta }
+  | { kind: "file"; file: FileWithMeta };
 export interface MessageWithMeta extends Message {
   user_name: string | null;
   user_color: string | null;
@@ -75,6 +87,7 @@ export interface MessageWithMeta extends Message {
   file_name: string | null;
   file_size: number | null;
   file_mime: string | null;
+  ref?: TimelineRef;
 }
 
 export interface FileRow {

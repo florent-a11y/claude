@@ -24,7 +24,7 @@ export async function uploadFiles(workspaceId: string, _prev: ActionState, fd: F
   for (const f of files) {
     const saved = await saveUpload(f, { workspaceId }, user, folder, internal);
     names.push(saved.name);
-    logSystem(workspaceId, user.id, `uploaded ${saved.name}${folder ? ` to ${folder}` : ""}`, { internal, fileId: saved.id, refType: "file", refId: saved.id });
+    logSystem(workspaceId, user.id, `uploaded ${saved.name}${folder ? ` to ${folder}` : ""}`, { internal, refType: "file", refId: saved.id, card: true });
   }
   notifyWorkspace(workspaceId, user.id, `New files in ${ws.name}`, names.slice(0, 3).join(", ") + (names.length > 3 ? ` +${names.length - 3}` : ""), `/workspaces/${workspaceId}/files`, internal);
   revalidatePath(`/workspaces/${workspaceId}`, "layout");

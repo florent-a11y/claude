@@ -41,7 +41,7 @@ export async function createTask(workspaceId: string, _prev: ActionState, fd: Fo
     id, workspaceId, title, str(fd, "description", 5000), kind, assigneeId && getUser(assigneeId) ? assigneeId : null, due,
     PRIORITIES.includes(priority) ? priority : "normal", internal ? 1 : 0, user.id, ts, ts,
   );
-  logSystem(workspaceId, user.id, `${kind === "file_request" ? "requested a file" : "created a task"}: ${title}`, { internal, refType: "task", refId: id });
+  logSystem(workspaceId, user.id, `${kind === "file_request" ? "requested a file" : "created a task"}: ${title}`, { internal, refType: "task", refId: id, card: true });
   if (assigneeId && assigneeId !== user.id) {
     notify([assigneeId], `New task in ${ws.name}`, title, `/workspaces/${workspaceId}/tasks`);
   }
