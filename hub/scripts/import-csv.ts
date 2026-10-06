@@ -1,6 +1,5 @@
 /**
- * Bulk import "./load-env"; // must come first: lib/config reads DATA_DIR when imported
-import clients, contacts, workspaces and tasks from CSV files (e.g. data exported from Moxo).
+ * Bulk import clients, contacts, workspaces and tasks from CSV files (e.g. data exported from Moxo).
  *
  *   npx tsx scripts/import-csv.ts <folder> [--dry-run] [--strict] [--actor you@company.com]
  *
@@ -37,6 +36,7 @@ import clients, contacts, workspaces and tasks from CSV files (e.g. data exporte
  * The database must already have an administrator (complete the Set up page or run `npm run seed`):
  * imported workspaces and tasks are recorded as created by that administrator (or by --actor).
  */
+import "./load-env"; // must come first: lib/config reads DATA_DIR when imported
 import fs from "node:fs";
 import path from "node:path";
 import { randomBytes } from "node:crypto";
