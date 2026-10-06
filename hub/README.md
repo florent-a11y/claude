@@ -89,6 +89,22 @@ The `NEXT_PUBLIC_*` values are baked in at build time; pass them as build args (
 
 ## Migrating from Moxo
 
+The full runbook is in [`docs/migrating-from-moxo.md`](docs/migrating-from-moxo.md): what Moxo lets you
+export and how, the migration order, what cannot be carried over and the workaround for each, a
+cutover plan with a client email template, and an effort estimate. For bulk loading, prepare CSV files
+(templates in [`docs/import-templates/`](docs/import-templates/)) and run:
+
+```bash
+npm run import:csv -- path/to/folder --dry-run   # validate first
+npm run import:csv -- path/to/folder             # clients → contacts → workspaces → tasks
+```
+
+The importer is idempotent, generates temporary passwords for new contacts into
+`credentials-out.csv` next to your CSVs (share them privately, then delete the file), and reports every
+problem with its line number.
+
+In short:
+
 1. Create your **clients** and their **contacts** (Clients → New client → Add a contact). Each contact
    gets a login; send them the temporary password privately.
 2. Create a **workspace** per active Moxo workspace, pick the client, add your team and the contacts.

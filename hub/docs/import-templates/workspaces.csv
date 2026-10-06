@@ -1,0 +1,4 @@
+name,client,description,status,owner,due_date,members,moxo_url
+Villa management licence renewal,Acme Hospitality Group,"Renew the tourism business licence for the three Seminyak villas before the end of the quarter.",active,,2026-12-15,putri@acme-hospitality.example;sari@example.com,https://app.moxo.com/example/binder/123
+PT PMA incorporation — Nordic Ventures,Nordic Ventures AS,"Set up the Indonesian entity for the Bali co-working project.",active,,2027-01-31,erik@nordicventures.example,
+Representative office — Sakura Trading,Sakura Trading Co.,"Register the KPPA representative office in Jakarta.",on hold,sari@example.com,,yuki@sakura-trading.example;sari@example.com,

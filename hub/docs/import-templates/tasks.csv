@@ -1,0 +1,6 @@
+workspace,client,title,description,kind,assignee,due_date,status,priority,internal
+Villa management licence renewal,Acme Hospitality Group,Collect current licences from client,"Scans of the three current licences (PDF).",file_request,putri@acme-hospitality.example,2026-10-20,done,normal,no
+Villa management licence renewal,Acme Hospitality Group,Prepare renewal forms for the three villas,,task,sari@example.com,2026-11-05,in progress,high,no
+Villa management licence renewal,Acme Hospitality Group,Check land certificate validity at BPN,"Regency office now asks for the updated certificate.",task,sari@example.com,2026-11-10,to do,normal,yes
+PT PMA incorporation — Nordic Ventures,Nordic Ventures AS,Passport copies of all shareholders and directors,"Colour scans, valid for at least 18 months.",File request,erik@nordicventures.example,2026-10-25,todo,high,no
+Representative office — Sakura Trading,,Letter of appointment from head office,,file request,yuki@sakura-trading.example,,,normal,no
