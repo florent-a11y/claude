@@ -14,11 +14,11 @@ runs anywhere a Docker container or a Node process can run. No third-party servi
 |---|---|
 | Dashboard | Active workspaces, your open/overdue tasks, approvals waiting on you, workspaces that went quiet ("needs a follow-up"), recent activity. |
 | Workspaces | One per project. Status (active / on hold / completed / archived), client, owner, target date. Filter by status, client, "only mine", search. |
-| Conversation | Chat per workspace with file attachments, live updates (polling), day separators, and **internal notes** that clients never see. System lines record every task, file and approval event. |
+| Conversation | Chat per workspace with file attachments (pick or drag-and-drop), live updates (polling), day separators, and **internal notes** that clients never see. System lines record every task, file and approval event. |
 | Tasks | Tasks and **file requests** with assignee, due date, priority, status (to do / in progress / done), internal flag. Cross-workspace views: mine, team, overdue. |
-| Files | Upload (50 MB per file), folders, download with access control, internal flag. Attachments from the conversation and approvals appear here too. |
+| Files | Upload or drag-and-drop (50 MB per file), folders, download with access control, internal flag. Attachments from the conversation and approvals appear here too. |
 | Approvals | Ask a client or colleague for a formal yes/no on a document or decision; decision + note are logged and the requester is notified. |
-| Flows | Templates of steps (task / file request / approval, due in N days, assign to team owner or first client contact). Apply at workspace creation or later. |
+| Flows & project builder | A drag-and-drop builder: drag Task, File request, Approval and Message steps onto a plan, reorder them, set due-in-days and who gets each step. Save the plan as a reusable **flow**, or open **Build project** inside a workspace to compose the plan there (start from a flow, assign steps to real members, create everything in one click, optionally save it as a flow too). |
 | Clients | Companies with contacts, internal notes and all their workspaces. Create portal logins for contacts from the client page. |
 | Team | Administrators manage internal users: add, switch role, deactivate (sessions revoked), reset passwords (also for client logins). |
 | Notifications | In-app notifications for messages, assignments, files, approvals and membership changes; unread badge in the top bar. |
@@ -91,7 +91,9 @@ The `NEXT_PUBLIC_*` values are baked in at build time; pass them as build args (
 1. Create your **clients** and their **contacts** (Clients → New client → Add a contact). Each contact
    gets a login; send them the temporary password privately.
 2. Create a **workspace** per active Moxo workspace, pick the client, add your team and the contacts.
-3. Turn your recurring engagements into **flows** so new workspaces start with every step in place.
+3. Turn your recurring engagements into **flows** (Flows → New flow, drag the steps into place) so new
+   workspaces start with every step in place. For a one-off project, open the workspace's Tasks tab
+   and click **Build project**.
 4. Upload the important files from Moxo into the Files tab (folders are free text, e.g. `Contracts`).
 5. Share the URL with the team; clients use the same URL.
 
@@ -101,6 +103,6 @@ The `NEXT_PUBLIC_*` values are baked in at build time; pass them as build args (
 npm run typecheck && npm run build
 ```
 
-Stack: Next.js 15 (App Router, server actions), React 19, Tailwind CSS 4, better-sqlite3, bcryptjs.
+Stack: Next.js 15 (App Router, server actions), React 19, Tailwind CSS 4, dnd-kit, better-sqlite3, bcryptjs.
 Schema is created automatically on first start (`lib/db.ts`). Key folders: `lib/queries` (reads),
 `lib/actions` (writes, one file per feature), `app/(app)` (pages), `components/`.

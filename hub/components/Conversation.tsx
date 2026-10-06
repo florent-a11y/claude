@@ -18,6 +18,7 @@ export function Conversation({ workspaceId, initial, me, canInternal }: {
   const [body, setBody] = useState("");
   const [internal, setInternal] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const [dragOver, setDragOver] = useState(false);
   const [pending, startTransition] = useTransition();
   const bottomRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -114,7 +115,17 @@ export function Conversation({ workspaceId, initial, me, canInternal }: {
         <div ref={bottomRef} />
       </div>
 
-      <div className={`border-t p-3 ${internal ? "border-amber-200 bg-amber-50/60" : "border-slate-200 bg-slate-50/60"}`}>
+      <div
+        className={`border-t p-3 transition ${internal ? "border-amber-200 bg-amber-50/60" : "border-slate-200 bg-slate-50/60"} ${dragOver ? "ring-2 ring-inset ring-indigo-400" : ""}`}
+        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={(e) => {
+          e.preventDefault();
+          setDragOver(false);
+          const f = e.dataTransfer.files?.[0];
+          if (f) setFile(f);
+        }}
+      >
         {file && (
           <div className="mb-2 inline-flex items-center gap-2 rounded-lg bg-white px-2.5 py-1.5 text-xs text-slate-700 ring-1 ring-slate-200">
             <Paperclip className="h-3.5 w-3.5 text-slate-400" /> {file.name} <span className="text-slate-400">({formatBytes(file.size)})</span>

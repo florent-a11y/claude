@@ -83,14 +83,27 @@ export function applyTemplate(ws: Workspace, templateId: string, actor: PublicUs
   if (!tpl) return 0;
   const steps = parseSteps(tpl.steps);
   if (!steps.length) return 0;
+  return createSteps(ws, steps, actor, `applied the "${tpl.name}" flow (${steps.length} steps)`);
+}
+
+/** Create a list of steps (tasks, file requests, approvals, messages) inside a workspace. */
+export function createSteps(ws: Workspace, steps: TemplateStep[], actor: PublicUser, summary: string): number {
+  if (!steps.length) return 0;
   const ts = nowIso();
   const members = listMemberIds(ws.id);
+  const memberSet = new Set(members);
   const firstClient = members.find((id) => id !== actor.id && isClientMember(ws.id, id)) ?? null;
   transaction(() => {
     for (const step of steps) {
       const due = step.due_in_days == null ? null : addDays(step.due_in_days);
-      const assignee = resolveAssignee(step, actor, firstClient, ws.owner_id);
-      if (step.type === "approval") {
+      const assignee = step.assignee_id && memberSet.has(step.assignee_id) ? step.assignee_id : resolveAssignee(step, actor, firstClient, ws.owner_id);
+      if (step.type === "message") {
+        run(
+          `INSERT INTO messages (id, workspace_id, user_id, kind, body, internal, file_id, ref_type, ref_id, created_at)
+           VALUES (?, ?, ?, 'text', ?, ?, NULL, NULL, NULL, ?)`,
+          newId(), ws.id, actor.id, step.description?.trim() || step.title, step.internal ? 1 : 0, ts,
+        );
+      } else if (step.type === "approval") {
         run(
           `INSERT INTO approvals (id, workspace_id, title, description, requested_by, approver_id, file_id, status, decision_note, due_date, decided_at, created_at)
            VALUES (?, ?, ?, ?, ?, ?, NULL, 'pending', '', ?, NULL, ?)`,
@@ -104,7 +117,7 @@ export function applyTemplate(ws: Workspace, templateId: string, actor: PublicUs
         );
       }
     }
-    logSystem(ws.id, actor.id, `applied the "${tpl.name}" flow (${steps.length} steps)`);
+    logSystem(ws.id, actor.id, summary);
   });
   return steps.length;
 }

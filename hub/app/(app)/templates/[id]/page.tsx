@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { requireInternal } from "@/lib/auth";
 import { getTemplate, parseSteps } from "@/lib/queries/templates";
 import { PageHeader } from "@/components/PageHeader";
-import { TemplateEditor } from "../TemplateEditor";
+import { FlowBuilder } from "@/components/FlowBuilder";
 
 export const metadata = { title: "Edit flow" };
 
@@ -12,9 +12,9 @@ export default async function EditTemplatePage({ params }: { params: Promise<{ i
   const template = getTemplate(id);
   if (!template) notFound();
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="mx-auto max-w-6xl">
       <PageHeader title={template.name} description="Changes apply to future uses of this flow." />
-      <TemplateEditor template={template} steps={parseSteps(template.steps)} />
+      <FlowBuilder mode="template" template={{ id: template.id, name: template.name, description: template.description }} initialSteps={parseSteps(template.steps)} />
     </div>
   );
 }

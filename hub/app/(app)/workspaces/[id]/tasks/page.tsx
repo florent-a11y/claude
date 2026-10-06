@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
-import { CheckSquare, Trash2, Play } from "lucide-react";
+import Link from "next/link";
+import { CheckSquare, LayoutTemplate, Trash2, Play } from "lucide-react";
 import { isInternal, requireUser } from "@/lib/auth";
 import { getWorkspaceForUser, listMembers } from "@/lib/queries/workspaces";
 import { listWorkspaceTasks } from "@/lib/queries/tasks";
@@ -40,12 +41,15 @@ export default async function WorkspaceTasksPage({ params }: { params: Promise<{
               <button className="btn btn-secondary btn-sm" type="submit"><Play className="h-3.5 w-3.5" /> Apply</button>
             </form>
           )}
+          {internal && (
+            <Link href={`/workspaces/${id}/build`} className="btn btn-secondary btn-sm"><LayoutTemplate className="h-3.5 w-3.5" /> Build project</Link>
+          )}
           <TaskForm workspaceId={id} members={members} canInternal={internal} meId={user.id} />
         </div>
       </div>
 
       {tasks.length === 0 ? (
-        <EmptyState icon={CheckSquare} title="No tasks yet" hint="Add tasks for your team or file requests for the client. Everyone sees what is waiting on them." />
+        <EmptyState icon={CheckSquare} title="No tasks yet" hint="Add tasks one by one, or build the whole project plan by dragging steps into place." action={internal && <Link href={`/workspaces/${id}/build`} className="btn btn-primary btn-sm"><LayoutTemplate className="h-4 w-4" /> Build project</Link>} />
       ) : (
         <>
           <div className="card">

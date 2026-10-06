@@ -145,13 +145,16 @@ export interface ApprovalWithMeta extends Approval {
   client_name: string | null;
 }
 
-export type TemplateStepType = "task" | "file_request" | "approval";
+export type TemplateStepType = "task" | "file_request" | "approval" | "message";
 export interface TemplateStep {
   type: TemplateStepType;
   title: string;
   description: string;
   due_in_days: number | null;
+  /** Who gets the step when applied: the workspace owner, the first client contact, nobody… */
   assign_to: "team" | "client" | "none";
+  /** …or one specific member (used when a project is built inside a workspace). */
+  assignee_id?: string | null;
   internal: boolean;
 }
 export interface Template {

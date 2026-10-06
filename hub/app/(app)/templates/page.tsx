@@ -38,7 +38,7 @@ export default async function TemplatesPage() {
                     <li key={i} className="flex items-center gap-1.5">
                       <span className="w-4 text-right text-slate-400">{i + 1}.</span>
                       <span className="truncate">{s.title}</span>
-                      <span className="text-slate-400">· {s.type === "file_request" ? "file" : s.type}{s.due_in_days != null ? ` · ${s.due_in_days}d` : ""}</span>
+                      <span className="text-slate-400">· {s.type === "file_request" ? "file" : s.type}{s.due_in_days != null && s.type !== "message" ? ` · ${s.due_in_days}d` : ""}</span>
                     </li>
                   ))}
                   {steps.length > 5 && <li className="pl-5 text-slate-400">+{steps.length - 5} more</li>}

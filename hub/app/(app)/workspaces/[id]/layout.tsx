@@ -17,9 +17,9 @@ export default async function WorkspaceLayout({ children, params }: { children: 
   const members = listMembers(id);
   const files = countWorkspaceFiles(id, user);
   const base = `/workspaces/${id}`;
-  const tabs = [
+  const tabs: { href: string; label: string; exact: boolean; count: number; also?: string }[] = [
     { href: base, label: "Conversation", exact: true, count: 0 },
-    { href: `${base}/tasks`, label: "Tasks", exact: false, count: ws.open_tasks },
+    { href: `${base}/tasks`, label: "Tasks", exact: false, count: ws.open_tasks, also: `${base}/build` },
     { href: `${base}/files`, label: "Files", exact: false, count: files },
     { href: `${base}/approvals`, label: "Approvals", exact: false, count: ws.pending_approvals },
     { href: `${base}/members`, label: "Members", exact: false, count: members.length },
@@ -62,7 +62,7 @@ export default async function WorkspaceLayout({ children, params }: { children: 
       </div>
       <nav className="mb-5 flex gap-5 overflow-x-auto border-b border-slate-200">
         {tabs.map((t) => (
-          <NavLink key={t.href} href={t.href} exact={t.exact} className="tab" activeClassName="tab-active">
+          <NavLink key={t.href} href={t.href} exact={t.exact} also={t.also} className="tab" activeClassName="tab-active">
             {t.label}
             {t.count > 0 && <span className="rounded-full bg-slate-100 px-1.5 py-0.5 text-[10px] font-semibold text-slate-600">{t.count}</span>}
           </NavLink>
