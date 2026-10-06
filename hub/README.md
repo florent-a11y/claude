@@ -13,6 +13,7 @@ runs anywhere a Docker container or a Node process can run. No third-party servi
 | Area | What it does |
 |---|---|
 | Dashboard | Active workspaces, your open/overdue tasks, approvals waiting on you, workspaces that went quiet ("needs a follow-up"), recent activity. |
+| Messages | Direct messages between any two people, and group chats, outside of workspaces. Clients can message your team (and people they share a workspace with). Attachments, unread badges, one notification per unread conversation. "Message" buttons next to every person. |
 | Workspaces | One per project. Status (active / on hold / completed / archived), client, owner, target date. Filter by status, client, "only mine", search. |
 | Conversation | Chat per workspace with file attachments (pick or drag-and-drop), live updates (polling), day separators, and **internal notes** that clients never see. System lines record every task, file and approval event. |
 | Tasks | Tasks and **file requests** with assignee, due date, priority, status (to do / in progress / done), internal flag. Cross-workspace views: mine, team, overdue. |
@@ -95,7 +96,8 @@ The `NEXT_PUBLIC_*` values are baked in at build time; pass them as build args (
    workspaces start with every step in place. For a one-off project, open the workspace's Tasks tab
    and click **Build project**.
 4. Upload the important files from Moxo into the Files tab (folders are free text, e.g. `Contracts`).
-5. Share the URL with the team; clients use the same URL.
+5. Share the URL with the team; clients use the same URL. Use **Messages** for one-to-one and group
+   chats, and the workspace conversation for anything about a project.
 
 ## Development
 

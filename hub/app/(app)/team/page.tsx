@@ -1,6 +1,8 @@
 import { requireAdmin } from "@/lib/auth";
 import { listAllClientUsers, listTeam } from "@/lib/queries/users";
+import { MessageSquare } from "lucide-react";
 import { setUserActive, setUserRole } from "@/lib/actions/team";
+import { startDirect } from "@/lib/actions/dm";
 import { PageHeader, SectionTitle } from "@/components/PageHeader";
 import { Avatar } from "@/components/Avatar";
 import { Badge } from "@/components/Badge";
@@ -34,6 +36,11 @@ export default async function TeamPage() {
                   </div>
                   {u.id !== me.id ? (
                     <div className="flex flex-wrap items-center gap-1">
+                      {!!u.active && (
+                        <form action={startDirect.bind(null, u.id)}>
+                          <button className="btn btn-ghost btn-sm px-2" title={`Message ${u.name}`}><MessageSquare className="h-4 w-4" /></button>
+                        </form>
+                      )}
                       <form action={setUserRole.bind(null, u.id, u.role === "admin" ? "member" : "admin")}>
                         <button className="btn btn-ghost btn-sm" type="submit">{u.role === "admin" ? "Administrator" : "Member"} · switch</button>
                       </form>
@@ -62,6 +69,9 @@ export default async function TeamPage() {
                     <span className="block truncate text-sm font-medium text-slate-900">{u.name}</span>
                     <p className="truncate text-xs text-slate-500">{u.client_name ?? "No company"} · {u.email}</p>
                   </div>
+                  <form action={startDirect.bind(null, u.id)}>
+                    <button className="btn btn-ghost btn-sm px-2" title={`Message ${u.name}`}><MessageSquare className="h-4 w-4" /></button>
+                  </form>
                   <ResetPasswordForm userId={u.id} userName={u.name} />
                 </li>
               ))}

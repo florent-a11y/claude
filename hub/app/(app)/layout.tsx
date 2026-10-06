@@ -2,6 +2,7 @@ import { requireUser } from "@/lib/auth";
 import { countMyOpenTasks } from "@/lib/queries/tasks";
 import { countApprovalsForMe } from "@/lib/queries/approvals";
 import { countUnread } from "@/lib/queries/notifications";
+import { countUnreadConversations } from "@/lib/queries/dm";
 import { Sidebar } from "@/components/Sidebar";
 import { Topbar } from "@/components/Topbar";
 
@@ -13,6 +14,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     tasks: countMyOpenTasks(user.id).open,
     approvals: countApprovalsForMe(user.id),
     unread: countUnread(user.id),
+    messages: countUnreadConversations(user.id),
   };
   return (
     <div className="flex min-h-screen">

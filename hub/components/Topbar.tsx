@@ -2,11 +2,11 @@ import Link from "next/link";
 import { Bell, Search } from "lucide-react";
 import { Avatar } from "./Avatar";
 import { NavLink } from "./NavLink";
-import { navItems } from "./Sidebar";
+import { navItems, type NavCounts } from "./Sidebar";
 import { isInternal } from "@/lib/auth";
 import type { PublicUser } from "@/lib/types";
 
-export function Topbar({ user, counts }: { user: PublicUser; counts: { tasks: number; approvals: number; unread: number } }) {
+export function Topbar({ user, counts }: { user: PublicUser; counts: NavCounts }) {
   return (
     <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
       <div className="flex h-14 items-center gap-3 px-4 md:px-6">

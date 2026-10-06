@@ -42,16 +42,20 @@ export function notifyWorkspace(workspaceId: string, actorId: string, title: str
   notify(listMemberIds(workspaceId, internalOnly), title, body, href, actorId);
 }
 
-export async function saveUpload(file: File, workspaceId: string, uploader: PublicUser, folder = "", internal = false): Promise<FileRow> {
+export type UploadScope = { workspaceId: string; conversationId?: undefined } | { conversationId: string; workspaceId?: undefined };
+
+export async function saveUpload(file: File, scope: UploadScope, uploader: PublicUser, folder = "", internal = false): Promise<FileRow> {
   const id = newId();
   const safeName = (file.name || "file").replace(/[\\/:*?"<>|]/g, "_").slice(0, 200);
-  const key = `${workspaceId}/${id}${path.extname(safeName).toLowerCase()}`;
+  const owner = scope.workspaceId ?? `dm-${scope.conversationId}`;
+  const key = `${owner}/${id}${path.extname(safeName).toLowerCase()}`;
   const dest = path.join(UPLOAD_DIR, key);
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.writeFileSync(dest, Buffer.from(await file.arrayBuffer()));
   const row: FileRow = {
     id,
-    workspace_id: workspaceId,
+    workspace_id: scope.workspaceId ?? null,
+    conversation_id: scope.conversationId ?? null,
     uploader_id: uploader.id,
     name: safeName,
     size: file.size,
@@ -62,9 +66,9 @@ export async function saveUpload(file: File, workspaceId: string, uploader: Publ
     created_at: nowIso(),
   };
   run(
-    `INSERT INTO files (id, workspace_id, uploader_id, name, size, mime, storage_key, folder, internal, created_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    row.id, row.workspace_id, row.uploader_id, row.name, row.size, row.mime, row.storage_key, row.folder, row.internal, row.created_at,
+    `INSERT INTO files (id, workspace_id, conversation_id, uploader_id, name, size, mime, storage_key, folder, internal, created_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    row.id, row.workspace_id, row.conversation_id, row.uploader_id, row.name, row.size, row.mime, row.storage_key, row.folder, row.internal, row.created_at,
   );
   return row;
 }

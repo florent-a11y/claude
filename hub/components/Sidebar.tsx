@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Bell, Briefcase, Building2, CheckSquare, Home, LayoutTemplate, LogOut, Settings, ShieldCheck, Users } from "lucide-react";
+import { Bell, Briefcase, Building2, CheckSquare, Home, LayoutTemplate, LogOut, MessageSquare, Settings, ShieldCheck, Users } from "lucide-react";
 import { NavLink } from "./NavLink";
 import { Avatar } from "./Avatar";
 import { APP_NAME, ORG_NAME } from "@/lib/config";
@@ -7,9 +7,17 @@ import { logout } from "@/lib/actions/auth";
 import { isInternal } from "@/lib/auth";
 import type { PublicUser } from "@/lib/types";
 
-export function navItems(user: PublicUser, counts: { tasks: number; approvals: number; unread: number }) {
+export interface NavCounts {
+  tasks: number;
+  approvals: number;
+  unread: number;
+  messages: number;
+}
+
+export function navItems(user: PublicUser, counts: NavCounts) {
   const items = [
     { href: "/", label: isInternal(user) ? "Dashboard" : "Home", icon: Home, exact: true, count: 0 },
+    { href: "/messages", label: "Messages", icon: MessageSquare, exact: false, count: counts.messages },
     { href: "/workspaces", label: "Workspaces", icon: Briefcase, exact: false, count: 0 },
   ];
   if (isInternal(user)) items.push({ href: "/clients", label: "Clients", icon: Building2, exact: false, count: 0 });
@@ -21,7 +29,7 @@ export function navItems(user: PublicUser, counts: { tasks: number; approvals: n
   return items;
 }
 
-export function Sidebar({ user, counts }: { user: PublicUser; counts: { tasks: number; approvals: number; unread: number } }) {
+export function Sidebar({ user, counts }: { user: PublicUser; counts: NavCounts }) {
   return (
     <aside className="hidden w-60 shrink-0 flex-col border-r border-slate-200 bg-white md:flex">
       <Link href="/" className="flex items-center gap-2.5 px-4 py-4">

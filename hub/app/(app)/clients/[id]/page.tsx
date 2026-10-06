@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Globe, Mail, MapPin, Phone, Plus, Trash2, UserX, UserCheck } from "lucide-react";
+import { Globe, Mail, MapPin, MessageSquare, Phone, Plus, Trash2, UserX, UserCheck } from "lucide-react";
 import { requireInternal } from "@/lib/auth";
 import { getClient } from "@/lib/queries/clients";
 import { listClientContacts } from "@/lib/queries/users";
 import { listWorkspaces } from "@/lib/queries/workspaces";
 import { deleteClient } from "@/lib/actions/clients";
 import { setUserActive } from "@/lib/actions/team";
+import { startDirect } from "@/lib/actions/dm";
 import { PageHeader, SectionTitle } from "@/components/PageHeader";
 import { WorkspaceCard } from "@/components/WorkspaceCard";
 import { Avatar } from "@/components/Avatar";
@@ -60,6 +61,11 @@ export default async function ClientPage({ params }: { params: Promise<{ id: str
                       </div>
                       <p className="truncate text-xs text-slate-500">{c.title ? `${c.title} · ` : ""}{c.email}</p>
                     </div>
+                    {!!c.active && (
+                      <form action={startDirect.bind(null, c.id)}>
+                        <button className="btn btn-ghost btn-sm px-2" title={`Message ${c.name}`}><MessageSquare className="h-4 w-4" /></button>
+                      </form>
+                    )}
                     {user.role === "admin" && (
                       <form action={setUserActive.bind(null, c.id, !c.active)}>
                         <ConfirmButton message={c.active ? `Deactivate ${c.name}? They will no longer be able to sign in.` : `Reactivate ${c.name}?`} className="btn btn-ghost btn-sm px-2 text-slate-400 hover:text-slate-700">

@@ -35,7 +35,7 @@ export async function createApproval(workspaceId: string, _prev: ActionState, fd
   const upload = fd.get("file");
   if (upload instanceof File && upload.size > 0) {
     if (upload.size > MAX_UPLOAD_BYTES) return { error: "File is larger than the 50 MB limit." };
-    fileId = (await saveUpload(upload, workspaceId, user, "Approvals", false)).id;
+    fileId = (await saveUpload(upload, { workspaceId }, user, "Approvals", false)).id;
   }
   const id = newId();
   run(

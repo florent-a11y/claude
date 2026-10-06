@@ -139,6 +139,35 @@ async function main() {
   run("INSERT INTO notifications (id, user_id, title, body, href, read, created_at) VALUES (?, ?, ?, ?, ?, 0, ?)",
     newId(), putri, "Approval requested in Villa management licence renewal", "Approve the renewal fee quotation", `/workspaces/${ws1}/approvals`, ago(1));
 
+  function conversation(kind: "direct" | "group", title: string, memberIds: string[], lines: [string, string, string][]): string {
+    const id = newId();
+    const last = lines.at(-1)?.[2] ?? ts;
+    run("INSERT INTO conversations (id, kind, title, created_by, created_at, last_message_at) VALUES (?, ?, ?, ?, ?, ?)", id, kind, title, memberIds[0], lines[0]?.[2] ?? ts, last);
+    for (const uid of memberIds) {
+      // the first member (the admin) has not read the latest message yet, so the demo shows an unread badge
+      run("INSERT INTO conversation_members (conversation_id, user_id, joined_at, last_read_at) VALUES (?, ?, ?, ?)", id, uid, lines[0]?.[2] ?? ts, uid === memberIds[0] ? (lines.at(-2)?.[2] ?? ts) : last);
+    }
+    for (const [who, body, at] of lines) {
+      run("INSERT INTO direct_messages (id, conversation_id, user_id, body, file_id, created_at) VALUES (?, ?, ?, ?, NULL, ?)", newId(), id, who, body, at);
+    }
+    return id;
+  }
+  conversation("direct", "", [adminId, putri], [
+    [putri, "Hi Florent, quick question outside the licence project: can you recommend a payroll provider for the villas?", ago(3)],
+    [adminId, "Of course. I'll send you two options we work with, with pricing, by tomorrow.", ago(2.9)],
+    [putri, "Perfect, thank you!", ago(0.5)],
+  ]);
+  conversation("direct", "", [adminId, member1], [
+    [member1, "Are you in the office on Thursday? I'd like to go through the Nordic deed together.", ago(1.2)],
+    [adminId, "Yes, from 10. Book 30 minutes.", ago(1.1)],
+    [member1, "Done 👍", ago(1)],
+  ]);
+  conversation("group", "Acme account team", [adminId, member1, member2], [
+    [adminId, "Reminder: Acme's quarterly review is on the 20th. Sari covers licences, Marc the numbers.", ago(4)],
+    [member2, "Management report draft will be ready on the 15th.", ago(3.8)],
+  ]);
+  console.log("  messages  3 conversations");
+
   console.log("Done. Demo logins (password: password123): sari@example.com, marc@example.com, putri@acme-hospitality.example, erik@nordicventures.example");
 }
 

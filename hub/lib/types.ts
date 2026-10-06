@@ -79,7 +79,8 @@ export interface MessageWithMeta extends Message {
 
 export interface FileRow {
   id: string;
-  workspace_id: string;
+  workspace_id: string | null;
+  conversation_id: string | null;
   uploader_id: string | null;
   name: string;
   size: number;
@@ -174,4 +175,45 @@ export interface Notification {
   href: string;
   read: number;
   created_at: string;
+}
+
+export type ConversationKind = "direct" | "group";
+export interface Conversation {
+  id: string;
+  kind: ConversationKind;
+  title: string;
+  created_by: string | null;
+  created_at: string;
+  last_message_at: string;
+}
+export interface ConversationMember {
+  id: string;
+  name: string;
+  color: string;
+  role: Role;
+  title: string;
+  client_name: string | null;
+  last_read_at: string;
+}
+export interface ConversationWithMeta extends Conversation {
+  members: ConversationMember[];
+  /** Display name from the viewer's point of view. */
+  display_name: string;
+  last_body: string | null;
+  last_author: string | null;
+  unread: number;
+}
+export interface DirectMessageWithMeta {
+  id: string;
+  conversation_id: string;
+  user_id: string | null;
+  body: string;
+  file_id: string | null;
+  created_at: string;
+  user_name: string | null;
+  user_color: string | null;
+  user_role: Role | null;
+  file_name: string | null;
+  file_size: number | null;
+  file_mime: string | null;
 }

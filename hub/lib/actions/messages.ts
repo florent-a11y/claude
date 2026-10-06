@@ -20,7 +20,7 @@ export async function postMessage(workspaceId: string, fd: FormData): Promise<vo
   let fileId: string | null = null;
   if (file instanceof File && file.size > 0) {
     if (file.size > MAX_UPLOAD_BYTES) return;
-    const saved = await saveUpload(file, workspaceId, user, "", internal);
+    const saved = await saveUpload(file, { workspaceId }, user, "", internal);
     fileId = saved.id;
   }
   if (!body && !fileId) return;

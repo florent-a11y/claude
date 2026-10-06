@@ -22,7 +22,7 @@ export async function uploadFiles(workspaceId: string, _prev: ActionState, fd: F
   }
   const names: string[] = [];
   for (const f of files) {
-    const saved = await saveUpload(f, workspaceId, user, folder, internal);
+    const saved = await saveUpload(f, { workspaceId }, user, folder, internal);
     names.push(saved.name);
     logSystem(workspaceId, user.id, `uploaded ${saved.name}${folder ? ` to ${folder}` : ""}`, { internal, fileId: saved.id, refType: "file", refId: saved.id });
   }
@@ -35,10 +35,15 @@ export async function deleteFile(fileId: string): Promise<void> {
   const user = await requireUser();
   const file = getFile(fileId);
   if (!file) return;
-  const ws = getWorkspaceForUser(file.workspace_id, user);
-  if (!ws) return;
-  if (file.uploader_id !== user.id && !isInternal(user)) return;
+  if (file.workspace_id) {
+    const ws = getWorkspaceForUser(file.workspace_id, user);
+    if (!ws) return;
+    if (file.uploader_id !== user.id && !isInternal(user)) return;
+  } else if (file.uploader_id !== user.id) {
+    return;
+  }
   run("DELETE FROM files WHERE id = ?", fileId);
   deleteStoredFile(file.storage_key);
-  revalidatePath(`/workspaces/${file.workspace_id}`, "layout");
+  if (file.workspace_id) revalidatePath(`/workspaces/${file.workspace_id}`, "layout");
+  if (file.conversation_id) revalidatePath(`/messages/${file.conversation_id}`);
 }

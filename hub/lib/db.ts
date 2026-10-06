@@ -65,9 +65,28 @@ CREATE TABLE IF NOT EXISTS workspace_members (
 );
 CREATE INDEX IF NOT EXISTS workspace_members_user ON workspace_members(user_id);
 
+CREATE TABLE IF NOT EXISTS conversations (
+  id TEXT PRIMARY KEY,
+  kind TEXT NOT NULL CHECK (kind IN ('direct','group')),
+  title TEXT NOT NULL DEFAULT '',
+  created_by TEXT REFERENCES users(id) ON DELETE SET NULL,
+  created_at TEXT NOT NULL,
+  last_message_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS conversation_members (
+  conversation_id TEXT NOT NULL REFERENCES conversations(id) ON DELETE CASCADE,
+  user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  joined_at TEXT NOT NULL,
+  last_read_at TEXT NOT NULL DEFAULT '1970-01-01T00:00:00.000Z',
+  PRIMARY KEY (conversation_id, user_id)
+);
+CREATE INDEX IF NOT EXISTS conversation_members_user ON conversation_members(user_id);
+
 CREATE TABLE IF NOT EXISTS files (
   id TEXT PRIMARY KEY,
-  workspace_id TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
+  workspace_id TEXT REFERENCES workspaces(id) ON DELETE CASCADE,
+  conversation_id TEXT REFERENCES conversations(id) ON DELETE CASCADE,
   uploader_id TEXT REFERENCES users(id) ON DELETE SET NULL,
   name TEXT NOT NULL,
   size INTEGER NOT NULL DEFAULT 0,
@@ -78,6 +97,17 @@ CREATE TABLE IF NOT EXISTS files (
   created_at TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS files_ws ON files(workspace_id, created_at);
+CREATE INDEX IF NOT EXISTS files_conv ON files(conversation_id, created_at);
+
+CREATE TABLE IF NOT EXISTS direct_messages (
+  id TEXT PRIMARY KEY,
+  conversation_id TEXT NOT NULL REFERENCES conversations(id) ON DELETE CASCADE,
+  user_id TEXT REFERENCES users(id) ON DELETE SET NULL,
+  body TEXT NOT NULL DEFAULT '',
+  file_id TEXT REFERENCES files(id) ON DELETE SET NULL,
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS direct_messages_conv ON direct_messages(conversation_id, created_at);
 
 CREATE TABLE IF NOT EXISTS messages (
   id TEXT PRIMARY KEY,
@@ -157,8 +187,55 @@ function open(): Database.Database {
   d.pragma("journal_mode = WAL");
   d.pragma("foreign_keys = ON");
   d.pragma("busy_timeout = 5000");
+  migrate(d); // upgrade tables from older versions first, so the CREATE ... IF NOT EXISTS statements below apply cleanly
   d.exec(SCHEMA);
   return d;
+}
+
+const SCHEMA_VERSION = 1;
+
+/** Upgrades databases created by earlier versions. Runs before the schema, so a fresh (empty) database just gets its version stamped. */
+function migrate(d: Database.Database): void {
+  const version = d.pragma("user_version", { simple: true }) as number;
+  if (version >= SCHEMA_VERSION) return;
+  if (version < 1) {
+    // v1: files may belong to a direct-message conversation instead of a workspace.
+    const cols = d.prepare("PRAGMA table_info(files)").all() as { name: string }[];
+    if (cols.length && !cols.some((c) => c.name === "conversation_id")) {
+      d.pragma("foreign_keys = OFF");
+      try {
+        d.exec(`
+          BEGIN;
+          CREATE TABLE files_v1 (
+            id TEXT PRIMARY KEY,
+            workspace_id TEXT REFERENCES workspaces(id) ON DELETE CASCADE,
+            conversation_id TEXT REFERENCES conversations(id) ON DELETE CASCADE,
+            uploader_id TEXT REFERENCES users(id) ON DELETE SET NULL,
+            name TEXT NOT NULL,
+            size INTEGER NOT NULL DEFAULT 0,
+            mime TEXT NOT NULL DEFAULT 'application/octet-stream',
+            storage_key TEXT NOT NULL,
+            folder TEXT NOT NULL DEFAULT '',
+            internal INTEGER NOT NULL DEFAULT 0,
+            created_at TEXT NOT NULL
+          );
+          INSERT INTO files_v1 (id, workspace_id, conversation_id, uploader_id, name, size, mime, storage_key, folder, internal, created_at)
+            SELECT id, workspace_id, NULL, uploader_id, name, size, mime, storage_key, folder, internal, created_at FROM files;
+          DROP TABLE files;
+          ALTER TABLE files_v1 RENAME TO files;
+          CREATE INDEX IF NOT EXISTS files_ws ON files(workspace_id, created_at);
+          CREATE INDEX IF NOT EXISTS files_conv ON files(conversation_id, created_at);
+          COMMIT;
+        `);
+      } catch (e) {
+        d.exec("ROLLBACK");
+        throw e;
+      } finally {
+        d.pragma("foreign_keys = ON");
+      }
+    }
+  }
+  d.pragma(`user_version = ${SCHEMA_VERSION}`);
 }
 
 /** Shared connection (kept on globalThis so dev hot-reloads reuse it). */

@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
-import { UserMinus, UserPlus } from "lucide-react";
+import { MessageSquare, UserMinus, UserPlus } from "lucide-react";
 import { isInternal, requireUser } from "@/lib/auth";
 import { getWorkspaceForUser, listMembers } from "@/lib/queries/workspaces";
 import { listActiveUsers } from "@/lib/queries/users";
 import { addMember, removeMember } from "@/lib/actions/workspaces";
+import { startDirect } from "@/lib/actions/dm";
 import { Avatar } from "@/components/Avatar";
 import { Badge } from "@/components/Badge";
 import { ConfirmButton } from "@/components/ConfirmButton";
@@ -39,6 +40,11 @@ export default async function WorkspaceMembersPage({ params }: { params: Promise
               </div>
               <p className="truncate text-xs text-slate-500">{m.title || roleLabel(m.role)}{m.client_name ? ` · ${m.client_name}` : ""} · {m.email}</p>
             </div>
+            {m.id !== user.id && m.active ? (
+              <form action={startDirect.bind(null, m.id)}>
+                <button className="btn btn-ghost btn-sm" title={`Message ${m.name}`}><MessageSquare className="h-3.5 w-3.5" /> Message</button>
+              </form>
+            ) : null}
             {internal && m.id !== user.id && (
               <form action={removeMember.bind(null, id, m.id)}>
                 <ConfirmButton message={`Remove ${m.name} from this workspace?`} className="btn btn-ghost btn-sm text-slate-500 hover:text-red-600"><UserMinus className="h-3.5 w-3.5" /> Remove</ConfirmButton>
