@@ -3,6 +3,7 @@
  *   npm run seed        → creates the first administrator from SEED_ADMIN_* env vars (if no users exist)
  *   npm run seed:demo   → also adds a demo client, contacts, workspaces, tasks, files and a flow
  */
+import "./load-env"; // must come first: lib/config reads DATA_DIR when imported
 import bcrypt from "bcryptjs";
 import { db, one, run } from "../lib/db";
 import { newId, nowIso } from "../lib/ids";

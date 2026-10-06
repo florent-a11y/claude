@@ -1,5 +1,6 @@
 /**
- * Bulk import clients, contacts, workspaces and tasks from CSV files (e.g. data exported from Moxo).
+ * Bulk import "./load-env"; // must come first: lib/config reads DATA_DIR when imported
+import clients, contacts, workspaces and tasks from CSV files (e.g. data exported from Moxo).
  *
  *   npx tsx scripts/import-csv.ts <folder> [--dry-run] [--strict] [--actor you@company.com]
  *
