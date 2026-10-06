@@ -90,3 +90,7 @@ export function pickColor(seed: string): string {
 export function plural(n: number, word: string, pluralWord = word + "s"): string {
   return `${n} ${n === 1 ? word : pluralWord}`;
 }
+
+export function roleLabel(role: "admin" | "member" | "client"): string {
+  return role === "admin" ? "Administrator" : role === "member" ? "Team member" : "Client";
+}

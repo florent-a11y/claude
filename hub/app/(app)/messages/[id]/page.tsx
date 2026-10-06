@@ -2,11 +2,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, LogOut, UserPlus, Users } from "lucide-react";
 import { requireUser } from "@/lib/auth";
+import { roleLabel } from "@/lib/format";
 import { getConversationForUser, listDirectMessages, listMessageableUsers } from "@/lib/queries/dm";
 import { addToGroup, leaveGroup, renameGroup } from "@/lib/actions/dm";
 import { Avatar, AvatarStack } from "@/components/Avatar";
 import { ConfirmButton } from "@/components/ConfirmButton";
-import { roleLabel } from "@/components/Sidebar";
 import { DirectThread } from "@/components/DirectThread";
 
 export default async function ConversationPage({ params }: { params: Promise<{ id: string }> }) {

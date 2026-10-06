@@ -5,7 +5,7 @@ import { listClients } from "@/lib/queries/clients";
 import { PageHeader } from "@/components/PageHeader";
 import { EmptyState } from "@/components/EmptyState";
 
-export const metadata = { title: "Clients" };
+export const metadata = { title: "Companies" };
 
 export default async function ClientsPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
   await requireInternal();
@@ -14,23 +14,23 @@ export default async function ClientsPage({ searchParams }: { searchParams: Prom
   return (
     <div className="mx-auto max-w-6xl">
       <PageHeader
-        title="Clients"
-        description="Every company you work with, their contacts and their workspaces."
+        title="Companies"
+        description="The companies you work with, their contacts and their workspaces. The people themselves are listed under Clients."
         actions={
           <>
             <form action="/clients"><input name="q" defaultValue={q} placeholder="Search clients…" className="input w-48 py-1.5 text-xs" /></form>
-            <Link href="/clients/new" className="btn btn-primary"><Plus className="h-4 w-4" /> New client</Link>
+            <Link href="/clients/new" className="btn btn-primary"><Plus className="h-4 w-4" /> New company</Link>
           </>
         }
       />
       {clients.length === 0 ? (
-        <EmptyState icon={Building2} title={q ? "No client matches" : "No clients yet"} hint="Add a client company, then create its contacts so they can sign in to their portal." action={<Link href="/clients/new" className="btn btn-primary btn-sm"><Plus className="h-4 w-4" /> New client</Link>} />
+        <EmptyState icon={Building2} title={q ? "No company matches" : "No companies yet"} hint="Add a company, then create its contacts so they can sign in to their portal." action={<Link href="/clients/new" className="btn btn-primary btn-sm"><Plus className="h-4 w-4" /> New company</Link>} />
       ) : (
         <div className="card overflow-hidden">
           <table className="w-full text-sm">
             <thead className="bg-slate-50 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
               <tr>
-                <th className="px-4 py-2.5">Client</th>
+                <th className="px-4 py-2.5">Company</th>
                 <th className="px-4 py-2.5">Industry</th>
                 <th className="px-4 py-2.5 text-right">Contacts</th>
                 <th className="px-4 py-2.5 text-right">Active workspaces</th>

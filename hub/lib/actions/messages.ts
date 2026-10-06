@@ -24,11 +24,21 @@ export async function postMessage(workspaceId: string, fd: FormData): Promise<vo
     fileId = saved.id;
   }
   if (!body && !fileId) return;
+  // Optional reference to a step (a comment made from the Action Details panel shows as "Re: <step>" in the chat).
+  let refType: string | null = str(fd, "ref_type", 20) || null;
+  let refId: string | null = str(fd, "ref_id", 40) || null;
+  if (refType === "task") {
+    if (!one("SELECT 1 FROM tasks WHERE id = ? AND workspace_id = ?", refId, workspaceId)) refType = refId = null;
+  } else if (refType === "approval") {
+    if (!one("SELECT 1 FROM approvals WHERE id = ? AND workspace_id = ?", refId, workspaceId)) refType = refId = null;
+  } else {
+    refType = refId = null;
+  }
   const id = newId();
   run(
-    `INSERT INTO messages (id, workspace_id, user_id, kind, body, internal, file_id, ref_type, ref_id, created_at)
-     VALUES (?, ?, ?, 'text', ?, ?, ?, NULL, NULL, ?)`,
-    id, workspaceId, user.id, body, internal ? 1 : 0, fileId, nowIso(),
+    `INSERT INTO messages (id, workspace_id, user_id, kind, body, internal, file_id, ref_type, ref_id, card, created_at)
+     VALUES (?, ?, ?, 'text', ?, ?, ?, ?, ?, 0, ?)`,
+    id, workspaceId, user.id, body, internal ? 1 : 0, fileId, refType, refId, nowIso(),
   );
   touchWorkspace(workspaceId);
   const preview = body ? body.slice(0, 120) : "Shared a file";

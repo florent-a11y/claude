@@ -10,7 +10,7 @@ import { getWorkspaceForUser, getWorkspacePlain, isMember } from "../queries/wor
 import { notify } from "../queries/notifications";
 import { applyTemplate, logSystem, touchWorkspace } from "../services";
 import { bool, isDate, opt, str, type ActionState } from "./state";
-import type { WorkspaceStatus } from "../types";
+import type { RoleMap, WorkspaceStatus } from "../types";
 
 const STATUSES: WorkspaceStatus[] = ["active", "on_hold", "completed", "archived"];
 
@@ -101,10 +101,15 @@ export async function applyTemplateAction(workspaceId: string, fd: FormData): Pr
   const ws = getWorkspacePlain(workspaceId);
   const templateId = str(fd, "template_id", 40);
   if (!ws || !templateId) return;
-  const n = applyTemplate(ws, templateId, user);
+  // role mapping comes as role:<name> = <user id>
+  const roleMap: RoleMap = {};
+  for (const [k, v] of fd.entries()) {
+    if (k.startsWith("role:") && typeof v === "string") roleMap[k.slice(5)] = v || null;
+  }
+  const n = applyTemplate(ws, templateId, user, roleMap);
   if (n) touchWorkspace(workspaceId);
   revalidatePath(`/workspaces/${workspaceId}`, "layout");
-  redirect(`/workspaces/${workspaceId}/tasks`);
+  redirect(`/workspaces/${workspaceId}`);
 }
 
 export async function deleteWorkspace(id: string): Promise<void> {

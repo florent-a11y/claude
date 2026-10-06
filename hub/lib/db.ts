@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS tasks (
   workspace_id TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
   title TEXT NOT NULL,
   description TEXT NOT NULL DEFAULT '',
-  kind TEXT NOT NULL DEFAULT 'task' CHECK (kind IN ('task','file_request')),
+  kind TEXT NOT NULL DEFAULT 'task' CHECK (kind IN ('task','file_request','acknowledgement')),
   assignee_id TEXT REFERENCES users(id) ON DELETE SET NULL,
   due_date TEXT,
   status TEXT NOT NULL DEFAULT 'todo' CHECK (status IN ('todo','in_progress','done')),
@@ -193,7 +193,7 @@ function open(): Database.Database {
   return d;
 }
 
-const SCHEMA_VERSION = 2;
+const SCHEMA_VERSION = 3;
 
 /** Upgrades databases created by earlier versions. Runs before the schema, so a fresh (empty) database just gets its version stamped. */
 function migrate(d: Database.Database): void {
@@ -246,6 +246,45 @@ function migrate(d: Database.Database): void {
         UPDATE messages SET card = 1 WHERE kind = 'system' AND ref_type IS NOT NULL AND ref_id IS NOT NULL
           AND (body LIKE 'created a task%' OR body LIKE 'requested a file%' OR body LIKE 'uploaded %' OR body LIKE 'requested approval%');
       `);
+    }
+  }
+  if (version < 3) {
+    // v3: tasks may be acknowledgements ("please confirm you have read this"). SQLite cannot alter a CHECK, so rebuild.
+    const sql = (d.prepare("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'tasks'").get() as { sql: string } | undefined)?.sql ?? "";
+    if (sql && !sql.includes("acknowledgement")) {
+      d.pragma("foreign_keys = OFF");
+      try {
+        d.exec(`
+          BEGIN;
+          CREATE TABLE tasks_v3 (
+            id TEXT PRIMARY KEY,
+            workspace_id TEXT NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
+            title TEXT NOT NULL,
+            description TEXT NOT NULL DEFAULT '',
+            kind TEXT NOT NULL DEFAULT 'task' CHECK (kind IN ('task','file_request','acknowledgement')),
+            assignee_id TEXT REFERENCES users(id) ON DELETE SET NULL,
+            due_date TEXT,
+            status TEXT NOT NULL DEFAULT 'todo' CHECK (status IN ('todo','in_progress','done')),
+            priority TEXT NOT NULL DEFAULT 'normal' CHECK (priority IN ('low','normal','high')),
+            internal INTEGER NOT NULL DEFAULT 0,
+            created_by TEXT REFERENCES users(id) ON DELETE SET NULL,
+            created_at TEXT NOT NULL,
+            updated_at TEXT NOT NULL,
+            completed_at TEXT
+          );
+          INSERT INTO tasks_v3 SELECT id, workspace_id, title, description, kind, assignee_id, due_date, status, priority, internal, created_by, created_at, updated_at, completed_at FROM tasks;
+          DROP TABLE tasks;
+          ALTER TABLE tasks_v3 RENAME TO tasks;
+          CREATE INDEX IF NOT EXISTS tasks_ws ON tasks(workspace_id, status);
+          CREATE INDEX IF NOT EXISTS tasks_assignee ON tasks(assignee_id, status);
+          COMMIT;
+        `);
+      } catch (e) {
+        d.exec("ROLLBACK");
+        throw e;
+      } finally {
+        d.pragma("foreign_keys = ON");
+      }
     }
   }
   d.pragma(`user_version = ${SCHEMA_VERSION}`);

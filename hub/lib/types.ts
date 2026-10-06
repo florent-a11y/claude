@@ -110,7 +110,7 @@ export interface FileWithMeta extends FileRow {
 
 export type TaskStatus = "todo" | "in_progress" | "done";
 export type TaskPriority = "low" | "normal" | "high";
-export type TaskKind = "task" | "file_request";
+export type TaskKind = "task" | "file_request" | "acknowledgement";
 export interface Task {
   id: string;
   workspace_id: string;
@@ -159,18 +159,22 @@ export interface ApprovalWithMeta extends Approval {
   client_name: string | null;
 }
 
-export type TemplateStepType = "task" | "file_request" | "approval" | "message";
+export type TemplateStepType = "task" | "file_request" | "acknowledgement" | "approval" | "message";
+/** Built-in roles. "Client" resolves to the first client contact of the workspace, "Manager" to its owner. */
+export const BUILT_IN_ROLES = ["Client", "Manager"] as const;
 export interface TemplateStep {
   type: TemplateStepType;
   title: string;
   description: string;
   due_in_days: number | null;
-  /** Who gets the step when applied: the workspace owner, the first client contact, nobody… */
-  assign_to: "team" | "client" | "none";
+  /** The role that gets the step ("Client", "Manager", or a custom role such as "Tax and Accounting"); "" = nobody. */
+  assign_to: string;
   /** …or one specific member (used when a project is built inside a workspace). */
   assignee_id?: string | null;
   internal: boolean;
 }
+/** Role → member id chosen when a flow is started in a workspace. */
+export type RoleMap = Record<string, string | null>;
 export interface Template {
   id: string;
   name: string;

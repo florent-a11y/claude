@@ -1,4 +1,4 @@
-import { Download, FileText, Lock } from "lucide-react";
+import { Download, FileText, Lock, type LucideIcon } from "lucide-react";
 import { Avatar } from "./Avatar";
 import { formatBytes, formatTime } from "@/lib/format";
 import type { Role } from "@/lib/types";
@@ -19,7 +19,14 @@ export interface BubbleMessage {
   created_at: string;
 }
 
-export function MessageBubble({ m, mine }: { m: BubbleMessage; mine: boolean }) {
+export interface BubbleReference {
+  title: string;
+  sub: string;
+  icon: LucideIcon;
+  tone: string;
+}
+
+export function MessageBubble({ m, mine, reference }: { m: BubbleMessage; mine: boolean; reference?: BubbleReference }) {
   const name = m.user_name ?? "Unknown";
   return (
     <div className={`flex gap-2.5 py-1.5 ${mine ? "flex-row-reverse" : ""}`}>
@@ -31,10 +38,19 @@ export function MessageBubble({ m, mine }: { m: BubbleMessage; mine: boolean }) 
           <span>{formatTime(m.created_at)}</span>
           {!!m.internal && <span className="inline-flex items-center gap-0.5 rounded bg-amber-100 px-1 text-[10px] font-medium text-amber-800"><Lock className="h-2.5 w-2.5" /> Internal</span>}
         </div>
-        {m.body && (
+        {(m.body || reference) && (
           <div className={`inline-block rounded-2xl px-3.5 py-2 text-left text-sm leading-relaxed whitespace-pre-wrap break-words ${
             m.internal ? "bg-amber-50 text-amber-950 ring-1 ring-amber-200/70" : mine ? "bg-indigo-600 text-white" : "bg-slate-100 text-slate-800"
           }`}>
+            {reference && (
+              <span className={`mb-1.5 flex items-center gap-2 border-b pb-1.5 ${mine && !m.internal ? "border-white/20" : "border-slate-200"}`}>
+                <span className={`inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-white ${reference.tone}`}><reference.icon className="h-3.5 w-3.5" /></span>
+                <span className="min-w-0">
+                  <span className={`block truncate text-xs font-semibold italic ${mine && !m.internal ? "text-white" : "text-indigo-700"}`}>Re: {reference.title}</span>
+                  <span className={`block truncate text-[11px] ${mine && !m.internal ? "text-white/70" : "text-slate-500"}`}>{reference.sub}</span>
+                </span>
+              </span>
+            )}
             {m.body}
           </div>
         )}

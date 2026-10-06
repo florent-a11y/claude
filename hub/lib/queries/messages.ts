@@ -65,6 +65,12 @@ export function attachRefs(rows: MessageWithMeta[], user: PublicUser): MessageWi
   });
 }
 
+/** Everything that happened to one step: system events and comments (for the Action Details panel). */
+export function listMessagesForRef(workspaceId: string, user: PublicUser, refId: string): MessageWithMeta[] {
+  const vis = isInternal(user) ? "" : "AND m.internal = 0";
+  return attachRefs(all<MessageWithMeta>(`${BASE} WHERE m.workspace_id = ? AND m.ref_id = ? ${vis} ORDER BY m.created_at ASC, m.rowid ASC LIMIT 300`, workspaceId, refId), user);
+}
+
 /** Recent activity across all workspaces the user can see. */
 export function listRecentActivity(user: PublicUser, limit = 15): (MessageWithMeta & { workspace_name: string; client_name: string | null })[] {
   const internal = isInternal(user);

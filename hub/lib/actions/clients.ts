@@ -82,3 +82,28 @@ export async function addContact(clientId: string, _prev: ActionState, fd: FormD
   revalidatePath(`/clients/${clientId}`);
   return { ok: true };
 }
+
+const ClientUserSchema = ContactSchema.extend({ client_id: z.string().max(40) });
+
+/** Admin → Clients → Invite: a client login, optionally attached to a company. */
+export async function createClientUser(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  await requireAdmin();
+  const parsed = ClientUserSchema.safeParse({
+    name: str(fd, "name"),
+    email: str(fd, "email").toLowerCase(),
+    password: str(fd, "password"),
+    title: str(fd, "title", 100),
+    client_id: str(fd, "client_id", 40),
+  });
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Invalid input" };
+  if (getUserByEmail(parsed.data.email)) return { error: "A user with that email already exists." };
+  const clientId = parsed.data.client_id && getClientPlain(parsed.data.client_id) ? parsed.data.client_id : null;
+  run(
+    "INSERT INTO users (id, name, email, password_hash, role, title, client_id, color, active, created_at) VALUES (?, ?, ?, ?, 'client', ?, ?, ?, 1, ?)",
+    newId(), parsed.data.name, parsed.data.email, await hashPassword(parsed.data.password), parsed.data.title, clientId, pickColor(parsed.data.email), nowIso(),
+  );
+  revalidatePath("/admin/clients");
+  revalidatePath("/manage/clients");
+  if (clientId) revalidatePath(`/clients/${clientId}`);
+  return { ok: true };
+}

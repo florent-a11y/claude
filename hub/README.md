@@ -10,20 +10,18 @@ runs anywhere a Docker container or a Node process can run. No third-party servi
 
 ## What's inside
 
+The layout follows Moxo's: a top bar with **Home · Library · Manage · Admin**, and a three-pane Home.
+
 | Area | What it does |
 |---|---|
-| Dashboard | Active workspaces, your open/overdue tasks, approvals waiting on you, workspaces that went quiet ("needs a follow-up"), recent activity. |
-| Messages | Direct messages between any two people, and group chats, outside of workspaces. Clients can message your team (and people they share a workspace with). Attachments, unread badges, one notification per unread conversation. "Message" buttons next to every person. |
-| Workspaces | One per project. Status (active / on hold / completed / archived), client, owner, target date. Filter by status, client, "only mine", search. |
-| Conversation | Chat per workspace with file attachments (pick or drag-and-drop), live updates (polling), day separators, and **internal notes** that clients never see. System lines record every task, file and approval event. |
-| Tasks | Tasks and **file requests** with assignee, due date, priority, status (to do / in progress / done), internal flag. Cross-workspace views: mine, team, overdue. |
-| Files | Upload or drag-and-drop (50 MB per file), folders, download with access control, internal flag. Attachments from the conversation and approvals appear here too. |
-| Approvals | Ask a client or colleague for a formal yes/no on a document or decision; decision + note are logged and the requester is notified. |
-| Flows & project builder | A drag-and-drop builder: drag Task, File request, Approval and Message steps onto a plan, reorder them, set due-in-days and who gets each step. Save the plan as a reusable **flow**, or open **Build project** inside a workspace to compose the plan there (start from a flow, assign steps to real members, create everything in one click, optionally save it as a flow too). |
-| Clients | Companies with contacts, internal notes and all their workspaces. Create portal logins for contacts from the client page. |
-| Team | Administrators manage internal users: add, switch role, deactivate (sessions revoked), reset passwords (also for client logins). |
-| Notifications | In-app notifications for messages, assignments, files, approvals and membership changes; unread badge in the top bar. |
-| Roles | `admin` (everything), `member` (everything except team admin and deletions), `client` (own workspaces only, non-internal items only). |
+| Home | Left: the workspace list (filter, archive toggle, progress badge such as `2/5`, last-activity preview) with a **Summary** tab (your to-dos, approvals waiting on you, quiet workspaces, recent activity). Middle: the selected workspace with its cover, members and **Flow \| Files** tabs. Right: the workspace **Chat**. |
+| Flow tab | The vertical timeline of steps: to-dos, file requests, acknowledgements and approvals, each with a status (Not Started / In Progress / Completed) and its assignee. Click a step for the **Action Details** panel: progress, activity log, comments (which appear in the chat as "Re: <step>"), and the buttons to complete, upload, acknowledge, approve or reject. **Add action** opens the action-type chooser; **Start a flow** applies a template and lets you say who plays each role. |
+| Chat | Per-workspace chat with attachments (pick or drag-and-drop), live updates, and **internal notes** that clients never see. Event lines record every step, file and approval change. |
+| Messages | Direct messages between any two people, and group chats, outside workspaces (top-right icon). Clients can message your team and people they share a workspace with. |
+| Library | Flow Workspace Templates as cards (by whom, how many steps, last used). The **builder** is a vertical flow diagram: a Flow Start node with a welcome message, "+" connectors, step cards with coloured headers and "Assigned to" role chips, drag-and-drop from the Add panel, a **Roles** panel (Client, Manager and custom roles such as "Tax and Accounting") and a **Details** panel. |
+| Manage | Report tables: Workspaces (current action, assignees, status, owner), Actions, Clients, Internal Users, plus the Companies directory. |
+| Admin | Internal Users and Clients tables with Invite, make/remove admin, reset password, deactivate. In Moxo a "client" is a person; companies are an optional grouping here. |
+| Roles | `admin` (everything), `member` (everything except Admin), `client` (own workspaces only, non-internal items only, no Library/Manage/Admin). |
 
 ## Run it locally
 
@@ -113,7 +111,7 @@ In short:
    and click **Build project**.
 4. Upload the important files from Moxo into the Files tab (folders are free text, e.g. `Contracts`).
 5. Share the URL with the team; clients use the same URL. Use **Messages** for one-to-one and group
-   chats, and the workspace conversation for anything about a project.
+   chats, and the workspace chat for anything about a project.
 
 ## Development
 

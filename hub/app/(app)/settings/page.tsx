@@ -1,6 +1,6 @@
 import { requireUser } from "@/lib/auth";
+import { roleLabel } from "@/lib/format";
 import { PageHeader, SectionTitle } from "@/components/PageHeader";
-import { roleLabel } from "@/components/Sidebar";
 import { PasswordForm, ProfileForm } from "./SettingsForms";
 
 export const metadata = { title: "Settings" };
