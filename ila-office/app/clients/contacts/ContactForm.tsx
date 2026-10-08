@@ -4,7 +4,8 @@ import { SubmitButton } from "@/components/client";
 import { userOptions } from "../_lib/server";
 
 const SOURCES = ["", "referral", "website", "instagram", "google", "partner", "event", "existing client", "other"];
-const LANGUAGES = [{ value: "en", label: "English" }, { value: "fr", label: "French" }, { value: "id", label: "Indonesian" }, { value: "es", label: "Spanish" }, { value: "ru", label: "Russian" }, { value: "de", label: "German" }, { value: "it", label: "Italian" }, { value: "zh", label: "Chinese" }, { value: "other", label: "Other" }];
+export const LANGUAGES = [{ value: "en", label: "English" }, { value: "fr", label: "French" }, { value: "id", label: "Indonesian" }, { value: "es", label: "Spanish" }, { value: "ru", label: "Russian" }, { value: "de", label: "German" }, { value: "it", label: "Italian" }, { value: "zh", label: "Chinese" }, { value: "other", label: "Other" }];
+export const LANGUAGE_LABELS: Record<string, string> = Object.fromEntries(LANGUAGES.map((l) => [l.value, l.label]));
 
 export function ContactForm({ contact, companies, users, action, defaultCompanyId }: { contact?: Contact; companies: Company[]; users: User[]; action: (fd: FormData) => Promise<void>; defaultCompanyId?: string }) {
   const c = contact;

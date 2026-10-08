@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { fmtDate, todayISO } from "@/lib/dates";
 import { fullName } from "@/lib/util";
 import { ENTITY_TYPE_LABELS } from "@/lib/types";
-import { Page, Card, DL, Badge, Field, Select, Money, statusTone } from "@/components/ui";
+import { Page, Card, DL, Badge, Cols, Field, Select, Money, statusTone } from "@/components/ui";
 import { SubmitButton, ConfirmForm } from "@/components/client";
 import { activeServices, activitiesFor, lookups } from "../../_lib/server";
 import { Timeline } from "../../_components/Timeline";
@@ -36,8 +36,8 @@ export default async function CompanyDetail({ params }: { params: Promise<{ id: 
         {company.entityId && <Link href={`/tax/${company.entityId}`} className="btn-secondary">Tax</Link>}
         {write && <Link href={`/clients/companies/${id}/edit`} className="btn-primary">Edit</Link>}
       </>}>
-      <div className="grid gap-4 lg:grid-cols-[1fr_2fr]">
-        <div className="space-y-4">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+        <div className="min-w-0 space-y-4">
           <Card title="Details">
             <DL items={[
               ["Status", <Badge key="s" tone={statusTone(company.status)}>{company.status}</Badge>],
@@ -56,26 +56,33 @@ export default async function CompanyDetail({ params }: { params: Promise<{ id: 
           <Card title={`Contacts (${contacts.length})`} actions={write && <Link href={`/clients/contacts/new?companyId=${id}`} className="text-xs text-brand-600 underline">New contact</Link>}>
             {contacts.length === 0 ? <p className="text-sm text-ink-500">No contacts linked.</p> : (
               <ul className="divide-y divide-slate-100 text-sm">
-                {contacts.map((c) => <li key={c.id} className="flex items-center justify-between gap-2 py-1.5"><span><Link href={`/clients/contacts/${c.id}`} className="font-medium hover:underline">{fullName(c)}</Link>{c.id === company.primaryContactId && <Badge tone="brand" className="ml-2">primary</Badge>}</span><span className="text-xs text-ink-500">{c.email ?? c.phone ?? ""}</span></li>)}
+                {contacts.map((c) => (
+                  <li key={c.id} className="flex items-center justify-between gap-3 py-2">
+                    <span className="min-w-0">
+                      <span className="flex items-center gap-2"><Link href={`/clients/contacts/${c.id}`} className="truncate font-medium hover:underline">{fullName(c)}</Link>{c.id === company.primaryContactId && <Badge tone="brand">primary</Badge>}</span>
+                      {(c.email || c.phone) && <span className="cell-sub">{[c.email, c.phone].filter(Boolean).join(" · ")}</span>}
+                    </span>
+                    {c.nationality && <span className="shrink-0 text-xs font-medium text-ink-500">{c.nationality}</span>}
+                  </li>
+                ))}
               </ul>
             )}
           </Card>
         </div>
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           <Card title={`Subscriptions (${recurring.length} active)`}>
             {company.subscriptions.length === 0 ? <p className="text-sm text-ink-500">No recurring engagement.</p> : (
-              <div className="overflow-x-auto"><table className="table">
-                <thead><tr><th>Service</th><th className="num">Amount</th><th>Cadence</th><th>Started</th><th>Ended</th>{write && <th></th>}</tr></thead>
+              <div className="-mx-5 overflow-x-auto border-y border-slate-100"><table className="table table-data min-w-[600px]">
+                <Cols widths={[undefined, 140, 96, ...(write ? [190] : [])]} />
+                <thead><tr><th className="!pl-5">Service</th><th className="num">Amount</th><th>Status</th>{write && <th className="!pr-5"></th>}</tr></thead>
                 <tbody>{company.subscriptions.map((s, i) => (
                   <tr key={i} className={s.endedAt ? "text-ink-500" : ""}>
-                    <td>{s.label}</td>
-                    <td className="num"><Money amount={s.amount} currency={s.currency} /></td>
-                    <td className="text-xs">{s.cadence}</td>
-                    <td className="text-xs">{fmtDate(s.startedAt)}</td>
-                    <td className="text-xs">{s.endedAt ? fmtDate(s.endedAt) : <Badge tone="green">active</Badge>}</td>
-                    {write && <td className="whitespace-nowrap text-xs">
-                      {!s.endedAt && <form action={endSubscription.bind(null, id, i)} className="inline-flex items-center gap-1"><input type="date" name="endedAt" defaultValue={todayISO()} className="input !w-36 !py-0.5 text-xs" /><button className="text-brand-600 underline">End</button></form>}
-                      {s.endedAt && <ConfirmForm action={removeSubscription.bind(null, id, i)} message="Remove this subscription row?"><button className="text-red-600 underline">Remove</button></ConfirmForm>}
+                    <td className="!pl-5"><span className="cell" title={s.label}>{s.label}</span><span className="cell-sub">{s.endedAt ? `${fmtDate(s.startedAt)} → ${fmtDate(s.endedAt)}` : `since ${fmtDate(s.startedAt)}`}</span></td>
+                    <td className="num"><Money amount={s.amount} currency={s.currency} /><span className="cell-sub">{s.cadence}</span></td>
+                    <td>{s.endedAt ? <Badge>ended</Badge> : <Badge tone="green">active</Badge>}</td>
+                    {write && <td className="!pr-5 text-right text-xs">
+                      {!s.endedAt && <form action={endSubscription.bind(null, id, i)} className="inline-flex items-center justify-end gap-2"><input type="date" name="endedAt" defaultValue={todayISO()} className="input !w-[7.5rem] !py-0.5 text-xs" aria-label="End date" title="Last day of the engagement" /><button className="font-medium text-brand-600 hover:underline">End</button></form>}
+                      {s.endedAt && <ConfirmForm action={removeSubscription.bind(null, id, i)} message="Remove this subscription row?"><button className="text-red-600 hover:underline">Remove</button></ConfirmForm>}
                     </td>}
                   </tr>
                 ))}</tbody>

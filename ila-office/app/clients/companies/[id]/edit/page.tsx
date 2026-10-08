@@ -14,7 +14,7 @@ export default async function EditCompany({ params }: { params: Promise<{ id: st
   const [company, l] = await Promise.all([db.get("companies", id), lookups()]);
   if (!company) notFound();
   return (
-    <Page title={`Edit ${company.name}`} breadcrumbs={[{ href: "/clients/companies", label: "Companies" }, { href: `/clients/companies/${id}`, label: company.name }, { label: "Edit" }]}>
+    <Page title={`Edit ${company.name}`} breadcrumbs={[{ href: "/clients/companies", label: "Client companies" }, { href: `/clients/companies/${id}`, label: company.name }, { label: "Edit" }]}>
       <CompanyForm company={company} contacts={sortedContacts(l)} users={l.activeUsers} action={updateCompany.bind(null, id)} />
     </Page>
   );

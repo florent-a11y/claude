@@ -4,10 +4,11 @@ import { requireUser, can } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { fmtDate } from "@/lib/dates";
 import { fullName } from "@/lib/util";
-import { ENTITY_TYPE_LABELS } from "@/lib/types";
+import { ENTITY_TYPE_SHORT } from "@/lib/types";
 import { Page, Card, DL, Badge, statusTone } from "@/components/ui";
 import { activitiesFor, lookups } from "../../_lib/server";
 import { Timeline } from "../../_components/Timeline";
+import { LANGUAGE_LABELS } from "../ContactForm";
 
 export const dynamic = "force-dynamic";
 
@@ -27,14 +28,14 @@ export default async function ContactDetail({ params }: { params: Promise<{ id: 
       actions={<>
         {write && <Link href={`/clients/contacts/${id}/edit`} className="btn-primary">Edit</Link>}
       </>}>
-      <div className="grid gap-4 lg:grid-cols-[1fr_2fr]">
-        <div className="space-y-4">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+        <div className="min-w-0 space-y-4">
           <Card title="Details">
             <DL items={[
               ["Email", contact.email ? <a className="text-brand-600 underline" href={`mailto:${contact.email}`}>{contact.email}</a> : "—"],
               ["Phone", contact.phone ?? "—"],
               ["WhatsApp", contact.whatsapp ? <a className="text-brand-600 underline" href={`https://wa.me/${contact.whatsapp.replace(/\D/g, "")}`} target="_blank" rel="noreferrer">{contact.whatsapp}</a> : "—"],
-              ["Nationality", contact.nationality ?? "—"], ["Language", contact.language ?? "—"],
+              ["Nationality", contact.nationality ?? "—"], ["Language", contact.language ? LANGUAGE_LABELS[contact.language] ?? contact.language : "—"],
               ["Date of birth", fmtDate(contact.dateOfBirth)],
               ["Passport", contact.passportNumber ? `${contact.passportNumber} · exp. ${fmtDate(contact.passportExpiry)}` : "—"],
               ["Source", contact.source ?? "—"], ["Owner", l.user(contact.ownerUserId)],
@@ -48,12 +49,20 @@ export default async function ContactDetail({ params }: { params: Promise<{ id: 
           <Card title="Companies" actions={write && <Link href={`/clients/companies/new?contactId=${id}`} className="text-xs text-brand-600 underline">New company</Link>}>
             {companies.length === 0 ? <p className="text-sm text-ink-500">Not linked to a company.</p> : (
               <ul className="divide-y divide-slate-100 text-sm">
-                {companies.map((co) => <li key={co.id} className="flex items-center justify-between py-1.5"><Link href={`/clients/companies/${co.id}`} className="font-medium hover:underline">{co.name}</Link><span className="text-xs text-ink-500">{co.type === "prospect" ? "prospect" : ENTITY_TYPE_LABELS[co.type]}{co.primaryContactId === id ? " · primary" : ""}</span><Badge tone={statusTone(co.status)}>{co.status}</Badge></li>)}
+                {companies.map((co) => (
+                  <li key={co.id} className="flex items-center justify-between gap-3 py-2">
+                    <span className="min-w-0">
+                      <Link href={`/clients/companies/${co.id}`} className="cell font-medium hover:underline">{co.name}</Link>
+                      <span className="cell-sub">{ENTITY_TYPE_SHORT[co.type]}{co.region ? ` · ${co.region}` : ""}{co.primaryContactId === id ? " · primary contact" : ""}</span>
+                    </span>
+                    <Badge tone={statusTone(co.status)}>{co.status}</Badge>
+                  </li>
+                ))}
               </ul>
             )}
           </Card>
         </div>
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           <Timeline activities={activities} refs={{ contactId: id, companyId: contact.companyIds[0] }} backPath={path} canWrite={write} />
         </div>
       </div>

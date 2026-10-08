@@ -41,6 +41,20 @@ body { @apply bg-slate-50 text-ink-900 antialiased; }
 .table-wide { @apply min-w-[560px]; }
 .pill { @apply inline-flex items-center whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium; }
 
+/* Directory-style tables: fixed column widths (set with <Cols>), one line per cell with ellipsis, vertically centred rows. */
+.table-data { table-layout: fixed; }
+.table-data thead th { @apply px-3 py-2.5 text-[11px]; }
+.table-data thead th:first-child, .table-data tbody td:first-child { @apply pl-4; }
+.table-data thead th:last-child, .table-data tbody td:last-child { @apply pr-4; }
+.table-data tbody td { @apply overflow-hidden px-3 py-2.5 align-middle; }
+.table-data tbody tr.group-row td { @apply bg-slate-50 py-1.5 text-xs font-semibold uppercase tracking-wide text-ink-700; }
+.table-data tbody tr.group-row:hover td { @apply bg-slate-50; }
+.cell { @apply block truncate; }
+.cell-primary { @apply block truncate font-medium text-ink-900; }
+.cell-sub { @apply mt-0.5 block truncate text-xs font-normal text-ink-500; }
+.table-data a.cell-primary:hover, .table-data a.cell:hover { @apply text-brand-700 underline; }
+.muted-dash { @apply text-slate-300; }
+
 @media print {
   .no-print { display: none !important; }
   body { background: white; }

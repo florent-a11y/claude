@@ -12,7 +12,7 @@ export default async function NewCompany({ searchParams }: { searchParams: Promi
   const sp = await searchParams;
   const l = await lookups();
   return (
-    <Page title="New company" breadcrumbs={[{ href: "/clients/companies", label: "Companies" }, { label: "New" }]}>
+    <Page title="New company" breadcrumbs={[{ href: "/clients/companies", label: "Client companies" }, { label: "New" }]}>
       <CompanyForm contacts={sortedContacts(l)} users={l.activeUsers} action={createCompany} defaultContactId={sp.contactId} />
     </Page>
   );

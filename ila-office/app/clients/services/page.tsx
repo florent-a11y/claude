@@ -1,74 +1,81 @@
+import Link from "next/link";
+import type { ReactNode } from "react";
 import { requireUser, can } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { SERVICE_CATEGORIES, SERVICE_CATEGORY_LABELS } from "@/lib/types";
-import { Page, Card, Badge, Field, Select, EmptyState } from "@/components/ui";
-import { SubmitButton } from "@/components/client";
-import { createService, updateService } from "./actions";
+import { fmtMoney } from "@/lib/money";
+import { SERVICE_CATEGORIES, SERVICE_CATEGORY_LABELS, type ServiceItem } from "@/lib/types";
+import { matchesSearch } from "../_lib/search";
+import { Page, Badge, Chips, Cols, Dash, EmptyState, TableCard, withParams } from "@/components/ui";
+import { AutoSubmitInput } from "@/components/client";
+import { CADENCE_LABELS } from "./ServiceForm";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Service catalogue" };
-const CADENCES = ["none", "monthly", "quarterly", "annual", "biennial"];
-const UNITS = ["each", "per year", "per month", "per quarter", "per person", "per agreement", "per class", "per hour"];
+export const metadata = { title: "Price list" };
 
-export default async function Services({ searchParams }: { searchParams: Promise<{ inactive?: string }> }) {
+type SP = { q?: string; category?: string; inactive?: string };
+const byOrder = (a: ServiceItem, b: ServiceItem) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0) || a.code.localeCompare(b.code);
+
+
+export default async function Services({ searchParams }: { searchParams: Promise<SP> }) {
   const me = await requireUser();
   const sp = await searchParams;
   const write = can(me, "crm:write");
-  const all = (await db.list("services")).sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0) || a.code.localeCompare(b.code));
-  const rows = sp.inactive ? all : all.filter((s) => s.active);
-  const cols = "grid grid-cols-[7rem_1fr_7rem_8rem_6rem_6rem_6.5rem_4rem_3rem_4.5rem] items-center gap-2";
+  const all = (await db.list("services")).sort(byOrder);
+  const q = sp.q?.trim() ?? "";
+  const rows = all.filter((s) => (sp.inactive ? true : s.active) && (!sp.category || s.category === sp.category) && matchesSearch([s.code, s.name, s.description, s.includesNote, s.unit], q));
+  const base = "/clients/services";
+  const categories = SERVICE_CATEGORIES.filter((c) => all.some((s) => s.category === c && (sp.inactive || s.active)));
+  const groups = (sp.category ? [sp.category as ServiceItem["category"]] : categories).map((c) => ({ category: c, items: rows.filter((s) => s.category === c) })).filter((g) => g.items.length > 0);
+  const activeCount = all.filter((s) => s.active).length;
   return (
-    <Page title="Price list" subtitle={`${all.filter((s) => s.active).length} active services · list prices in IDR, with the USD/EUR figures ILA actually quotes. Edit inline.`}
-      actions={<a href={sp.inactive ? "/clients/services" : "/clients/services?inactive=1"} className="btn-secondary">{sp.inactive ? "Hide inactive" : "Show inactive"}</a>}>
-      {all.length === 0 && <EmptyState title="Catalogue is empty" hint="Run the seed script or add services below." />}
-      <div className="space-y-4">
-        {SERVICE_CATEGORIES.map((cat) => {
-          const items = rows.filter((s) => s.category === cat);
-          if (items.length === 0) return null;
-          return (
-            <Card key={cat} title={`${SERVICE_CATEGORY_LABELS[cat]} (${items.length})`} className="overflow-x-auto">
-              <div className="min-w-[72rem] text-sm">
-                <div className={`${cols} border-b border-slate-200 pb-1 text-xs font-semibold uppercase tracking-wide text-ink-500`}><span>Code</span><span>Name</span><span>Unit</span><span className="text-right">IDR</span><span className="text-right">USD</span><span className="text-right">EUR</span><span>Cadence</span><span className="text-right">Renew (m)</span><span>Active</span><span></span></div>
-                {items.map((s) => (
-                  <form key={s.id} action={updateService.bind(null, s.id)} className={`${cols} border-t border-slate-100 py-1`}>
-                    <span className="truncate font-mono text-xs" title={s.description}>{s.code}</span>
-                    <span><input name="name" defaultValue={s.name} required className="input !py-1" disabled={!write} />{s.includesNote && <span className="block truncate text-[11px] text-ink-500" title={s.includesNote}>{s.includesNote}</span>}</span>
-                    <input name="unit" defaultValue={s.unit} list="units" className="input !py-1" disabled={!write} />
-                    <input name="priceIDR" type="number" min={0} defaultValue={s.priceIDR} className="input !w-32 !py-1 text-right" disabled={!write} />
-                    <input name="priceUSD" type="number" min={0} step="0.01" defaultValue={s.priceUSD ?? ""} className="input !w-24 !py-1 text-right" disabled={!write} />
-                    <input name="priceEUR" type="number" min={0} step="0.01" defaultValue={s.priceEUR ?? ""} className="input !w-24 !py-1 text-right" disabled={!write} />
-                    <Select name="cadence" defaultValue={s.cadence} options={CADENCES} className="input !py-1" />
-                    <input name="renewalMonths" type="number" min={0} max={120} defaultValue={s.renewalMonths ?? ""} className="input !py-1 text-right" disabled={!write} />
-                    <label className="flex justify-center"><input type="checkbox" name="active" defaultChecked={s.active} className="checkbox" disabled={!write} /></label>
-                    {write ? <button className="btn-secondary !px-2 !py-1 text-xs">Save</button> : <Badge tone={s.taxTreatment === "ppn" ? "blue" : "slate"}>{s.taxTreatment === "ppn" ? "PPN" : "no PPN"}</Badge>}
-                  </form>
-                ))}
-              </div>
-            </Card>
-          );
-        })}
-        <datalist id="units">{UNITS.map((u) => <option key={u} value={u} />)}</datalist>
-        {write && (
-          <Card title="Add a service">
-            <form action={createService} className="grid gap-3 md:grid-cols-4">
-              <Field label="Code"><input name="code" required className="input font-mono uppercase" placeholder="VISA-NEW" /></Field>
-              <Field label="Category"><Select name="category" defaultValue="visa" options={SERVICE_CATEGORIES.map((c) => ({ value: c, label: SERVICE_CATEGORY_LABELS[c] }))} /></Field>
-              <Field label="Name" className="md:col-span-2"><input name="name" required className="input" /></Field>
-              <Field label="Unit"><input name="unit" defaultValue="each" list="units" className="input" /></Field>
-              <Field label="Price IDR"><input name="priceIDR" type="number" min={0} defaultValue={0} className="input" /></Field>
-              <Field label="Price USD"><input name="priceUSD" type="number" min={0} step="0.01" className="input" /></Field>
-              <Field label="Price EUR"><input name="priceEUR" type="number" min={0} step="0.01" className="input" /></Field>
-              <Field label="Cadence"><Select name="cadence" defaultValue="none" options={CADENCES} /></Field>
-              <Field label="Renewal months"><input name="renewalMonths" type="number" min={0} max={120} className="input" /></Field>
-              <Field label="Tax treatment"><Select name="taxTreatment" defaultValue="out_of_scope" options={[{ value: "out_of_scope", label: "Out of scope (no PPN)" }, { value: "ppn", label: "PPN" }]} /></Field>
-              <Field label="Includes note"><input name="includesNote" className="input" placeholder="USD 1,200 DKP-TKA included" /></Field>
-              <Field label="Description" className="md:col-span-3"><input name="description" className="input" /></Field>
-              <label className="flex items-center gap-2 self-end text-sm"><input type="checkbox" name="active" defaultChecked className="checkbox" /> Active</label>
-              <div className="md:col-span-4"><SubmitButton>Add service</SubmitButton></div>
-            </form>
-          </Card>
-        )}
+    <Page title="Price list" subtitle={`${activeCount} active services · list prices in IDR, with the USD/EUR figures ILA actually quotes.`}
+      actions={<>
+        <Link href={withParams(base, sp, { inactive: sp.inactive ? undefined : "1" })} className="btn-secondary">{sp.inactive ? "Hide inactive" : "Show inactive"}</Link>
+        {write && <Link href="/clients/services/new" className="btn-primary">New service</Link>}
+      </>}>
+      <div className="mb-3 space-y-2 no-print">
+        <form className="flex flex-wrap items-center gap-2">
+          {sp.category && <input type="hidden" name="category" value={sp.category} />}
+          {sp.inactive && <input type="hidden" name="inactive" value={sp.inactive} />}
+          <AutoSubmitInput name="q" defaultValue={q} placeholder="Search code, name, description…" className="input max-w-sm" />
+          {(q || sp.category) && <Link href={base} className="btn-ghost !px-2 !py-1 text-xs">Clear</Link>}
+          <span className="ml-auto text-xs text-ink-500">{rows.length} shown</span>
+        </form>
+        <Chips items={[{ href: withParams(base, sp, { category: undefined }), label: "All", active: !sp.category }, ...categories.map((c) => ({ href: withParams(base, sp, { category: c }), label: SERVICE_CATEGORY_LABELS[c], active: sp.category === c }))]} />
       </div>
+      {all.length === 0 ? <EmptyState title="The price list is empty" hint="Run the seed script or add a service." action={write && <Link href="/clients/services/new" className="btn-primary">New service</Link>} /> :
+        rows.length === 0 ? <EmptyState title="No service matches" /> : (
+        <TableCard>
+          <table className="table table-data min-w-[960px]">
+            <Cols widths={[140, undefined, 100, 130, 150, 150, ...(write ? [56] : [])]} />
+            <thead><tr><th>Code</th><th>Service</th><th>Unit</th><th className="num">Price (IDR)</th><th className="num">Also quoted</th><th>Billing</th>{write && <th></th>}</tr></thead>
+            <tbody>
+              {groups.map((g) => (
+                <GroupRows key={g.category} label={`${SERVICE_CATEGORY_LABELS[g.category]} · ${g.items.length}`} showHeader={groups.length > 1} span={write ? 7 : 6}>
+                  {g.items.map((s) => (
+                    <tr key={s.id} className={s.active ? "" : "text-ink-500"}>
+                      <td><span className="cell font-mono text-xs" title={s.code}>{s.code}</span></td>
+                      <td>
+                        <span className="cell-primary" title={s.description ? `${s.name}\n${s.description}` : s.name}>{s.name}{s.taxTreatment === "ppn" && <Badge tone="blue" className="ml-2 align-middle">PPN</Badge>}{!s.active && <Badge className="ml-2 align-middle">inactive</Badge>}</span>
+                        {(s.includesNote || s.description) && <span className="cell-sub" title={s.includesNote ?? s.description}>{s.includesNote ?? s.description}</span>}
+                      </td>
+                      <td className="text-xs">{s.unit}</td>
+                      <td className="num">{s.priceIDR > 0 ? <span className="money">{fmtMoney(s.priceIDR, "IDR")}</span> : <span className="text-xs text-ink-500" title="Quoted per proposal">on quote</span>}</td>
+                      <td className="num text-xs">{s.priceUSD || s.priceEUR ? <span className="money">{[s.priceUSD ? fmtMoney(s.priceUSD, "USD") : "", s.priceEUR ? fmtMoney(s.priceEUR, "EUR") : ""].filter(Boolean).join(" · ")}</span> : <Dash />}</td>
+                      <td><span className="cell text-xs">{CADENCE_LABELS[s.cadence] ?? s.cadence}</span>{s.renewalMonths ? <span className="cell-sub">renew after {s.renewalMonths} months</span> : null}</td>
+                      {write && <td className="text-right text-xs"><Link href={`/clients/services/${s.id}`} className="text-brand-600 hover:underline">Edit</Link></td>}
+                    </tr>
+                  ))}
+                </GroupRows>
+              ))}
+            </tbody>
+          </table>
+        </TableCard>
+      )}
     </Page>
   );
+}
+
+function GroupRows({ label, showHeader, span, children }: { label: string; showHeader: boolean; span: number; children: ReactNode }) {
+  return <>{showHeader && <tr className="group-row"><td colSpan={span}>{label}</td></tr>}{children}</>;
 }

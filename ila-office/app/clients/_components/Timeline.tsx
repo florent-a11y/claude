@@ -23,8 +23,8 @@ export function Timeline({ activities, refs, backPath, canWrite = true, title = 
       {activities.length === 0 ? <p className="text-sm text-ink-500">Nothing logged yet.</p> : (
         <ol className="divide-y divide-slate-100 text-sm">
           {activities.map((a) => (
-            <li key={a.id} className="flex gap-3 py-2">
-              <div className="w-28 shrink-0 text-xs text-ink-500">{fmtDateTime(a.at)}</div>
+            <li key={a.id} className="flex gap-3 py-2.5">
+              <div className="w-24 shrink-0 text-xs text-ink-500">{fmtDateTime(a.at).split(", ").map((part, i) => <span key={i} className="block whitespace-nowrap">{part}</span>)}</div>
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <Badge tone={KIND_TONE[a.kind] ?? "slate"}>{a.kind}</Badge>

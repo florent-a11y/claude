@@ -32,6 +32,10 @@ export const ENTITY_TYPE_LABELS: Record<EntityType, string> = {
   pt_pma: "PT PMA (foreign-owned)", pt_pmdn: "PT PMDN (local)", pt_perorangan: "PT Perorangan", cv: "CV",
   hk_ltd: "Hong Kong Limited", ph_opc: "Philippines OPC", individual: "Individual", other: "Other",
 };
+/** Compact labels for table columns and sub-lines. */
+export const ENTITY_TYPE_SHORT: Record<EntityType | "prospect", string> = {
+  pt_pma: "PT PMA", pt_pmdn: "PT PMDN", pt_perorangan: "PT Perorangan", cv: "CV", hk_ltd: "HK Ltd", ph_opc: "PH OPC", individual: "Individual", other: "Other", prospect: "Prospect",
+};
 
 /** Corporate income tax regime applied when computing the annual return. */
 export type TaxRegime = "final_0_5" | "art_31e" | "normal_22" | "hk_profits_tax" | "none";

@@ -65,6 +65,39 @@ export function Money({ amount, currency = "IDR", className = "" }: { amount: nu
   return <span className={`whitespace-nowrap tabular-nums ${amount < 0 ? "text-red-700" : ""} ${className}`}>{fmtMoney(amount, currency)}</span>;
 }
 
+/** Card that wraps a `.table-data` table: clips the rounded corners and scrolls sideways when the columns do not fit. */
+export function TableCard({ children, footer, className = "" }: { children: ReactNode; footer?: ReactNode; className?: string }) {
+  return (
+    <div className={`card overflow-hidden !p-0 ${className}`}>
+      <div className="overflow-x-auto">{children}</div>
+      {footer && <div className="border-t border-slate-200 px-4 py-2 text-xs text-ink-500">{footer}</div>}
+    </div>
+  );
+}
+
+/** Column widths for a fixed-layout table: numbers are pixels, strings are CSS widths, `undefined` columns share the remaining space. */
+export function Cols({ widths }: { widths: Array<number | string | undefined> }) {
+  return <colgroup>{widths.map((w, i) => <col key={i} style={w === undefined ? undefined : { width: typeof w === "number" ? `${w}px` : w }} />)}</colgroup>;
+}
+
+/** Muted placeholder for an empty cell. */
+export function Dash() {
+  return <span className="muted-dash">—</span>;
+}
+
+/** Up to `max` tags on one line, the rest folded into a "+n" with the full list on hover. */
+export function TagList({ tags, max = 2 }: { tags: string[]; max?: number }) {
+  if (tags.length === 0) return <Dash />;
+  const shown = tags.slice(0, max);
+  const rest = tags.length - shown.length;
+  return (
+    <span className="flex items-center gap-1 overflow-hidden whitespace-nowrap" title={tags.join(", ")}>
+      {shown.map((t) => <Badge key={t} className="min-w-0"><span className="truncate">{t}</span></Badge>)}
+      {rest > 0 && <span className="shrink-0 text-xs text-ink-500">+{rest}</span>}
+    </span>
+  );
+}
+
 export function EmptyState({ title, hint, action }: { title: string; hint?: ReactNode; action?: ReactNode }) {
   return (
     <div className="rounded-xl border border-dashed border-slate-300 bg-white p-8 text-center">
