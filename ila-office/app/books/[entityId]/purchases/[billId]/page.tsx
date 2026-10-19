@@ -53,7 +53,7 @@ export default async function BillPage({ params, searchParams }: { params: Promi
               <thead><tr><th className="pl-4">Description</th><th>Account</th><th>PPN</th><th>Withholding</th><th className="num">Withheld</th><th className="num">Amount</th></tr></thead>
               <tbody>
                 {bill.lines.map((l) => (
-                  <tr key={l.id}><td className="pl-4">{l.description}</td><td className="text-xs">{accName(l.accountId)}</td><td className="text-xs">{l.taxCode}</td><td className="text-xs">{l.withholding === "none" ? "—" : `${WITHHOLDING_LABELS[l.withholding].split(" (")[0]} ${((l.withholdingRate ?? 0) * 100).toFixed(l.withholdingRate && l.withholdingRate * 100 % 1 ? 2 : 0)}%`}</td><td className="num">{l.withholdingAmount ? fmtMoney(l.withholdingAmount, ccy) : ""}</td><td className="num">{fmtMoney(l.amount, ccy)}</td></tr>
+                  <tr key={l.id}><td className="pl-4">{l.description}</td><td className="text-xs">{accName(l.accountId)}</td><td className="text-xs">{l.taxCode}</td><td className="text-xs">{!l.withholding || l.withholding === "none" ? "—" : `${(WITHHOLDING_LABELS[l.withholding] ?? l.withholding).split(" (")[0]} ${((l.withholdingRate ?? 0) * 100).toFixed(l.withholdingRate && l.withholdingRate * 100 % 1 ? 2 : 0)}%`}</td><td className="num">{l.withholdingAmount ? fmtMoney(l.withholdingAmount, ccy) : ""}</td><td className="num">{fmtMoney(l.amount, ccy)}</td></tr>
                 ))}
               </tbody>
               <tfoot className="text-sm">

@@ -46,6 +46,8 @@ export const TAX_REGIME_LABELS: Record<TaxRegime, string> = {
   hk_profits_tax: "Hong Kong profits tax (two-tier)",
   none: "No corporate tax (individual / dormant)",
 };
+/** Compact regime labels for table cells. */
+export const TAX_REGIME_SHORT: Record<TaxRegime, string> = { final_0_5: "PPh final 0.5%", art_31e: "Art. 31E", normal_22: "CIT 22%", hk_profits_tax: "HK profits tax", none: "No CIT" };
 
 export interface Entity {
   id: string;

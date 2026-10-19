@@ -75,6 +75,11 @@ export function TableCard({ children, footer, className = "" }: { children: Reac
   );
 }
 
+/** Edge-to-edge table inside a Card: cancels the card padding so the table uses the full width and its rows line up with the card border. */
+export function CardTable({ children, bottom = true, className = "" }: { children: ReactNode; bottom?: boolean; className?: string }) {
+  return <div className={`-mx-5 overflow-x-auto border-t border-slate-100 ${bottom ? "-mb-5 rounded-b-xl" : "mb-3"} ${className}`}>{children}</div>;
+}
+
 /** Column widths for a fixed-layout table: numbers are pixels, strings are CSS widths, `undefined` columns share the remaining space. */
 export function Cols({ widths }: { widths: Array<number | string | undefined> }) {
   return <colgroup>{widths.map((w, i) => <col key={i} style={w === undefined ? undefined : { width: typeof w === "number" ? `${w}px` : w }} />)}</colgroup>;

@@ -53,7 +53,26 @@ body { @apply bg-slate-50 text-ink-900 antialiased; }
 .cell-primary { @apply block truncate font-medium text-ink-900; }
 .cell-sub { @apply mt-0.5 block truncate text-xs font-normal text-ink-500; }
 .table-data a.cell-primary:hover, .table-data a.cell:hover { @apply text-brand-700 underline; }
+.table-data tfoot td { @apply border-t border-slate-200 bg-slate-50/70 px-3 py-2.5 text-sm font-semibold; }
+.table-data tfoot td:first-child { @apply pl-4; }
+.table-data tfoot td:last-child { @apply pr-4; }
+.table-data tbody tr.row-muted td { @apply text-ink-500; }
+.table-data tbody tr.row-highlight td { @apply bg-green-50/70; }
 .muted-dash { @apply text-slate-300; }
+
+/* Financial statements (P&L, balance sheet, trial balance, ledgers, aging): natural widths, tight rows,
+   section header rows, bold totals, a heavier rule before the grand total. Numbers always right-aligned. */
+.table-statement { table-layout: auto; }
+.table-statement thead th { @apply px-3 py-2.5 text-[11px]; }
+.table-statement tbody td, .table-statement tfoot td { @apply px-3 py-2 align-middle; }
+.table-statement thead th:first-child, .table-statement tbody td:first-child, .table-statement tfoot td:first-child { @apply pl-4; }
+.table-statement thead th:last-child, .table-statement tbody td:last-child, .table-statement tfoot td:last-child { @apply pr-4; }
+.table-statement tbody tr.row-section td { @apply border-t-0 bg-slate-50 pb-1.5 pt-3 text-[11px] font-semibold uppercase tracking-wide text-ink-500; }
+.table-statement tbody tr.row-total td { @apply border-t border-slate-200 bg-slate-50/60 font-semibold; }
+.table-statement tbody tr.row-grand td, .table-statement tfoot td { @apply border-t-2 border-slate-300 font-bold; }
+.table-statement tbody tr.row-section:hover td, .table-statement tbody tr.row-total:hover td, .table-statement tbody tr.row-grand:hover td { background-color: inherit; }
+.table-statement .indent { @apply pl-8; }
+.table-statement .code { @apply mr-2 font-mono text-xs text-ink-500; }
 
 @media print {
   .no-print { display: none !important; }
