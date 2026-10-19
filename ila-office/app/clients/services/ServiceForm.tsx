@@ -33,7 +33,7 @@ export function ServiceForm({ service, action }: { service?: ServiceItem; action
         </div>
         <div className="grid grid-cols-2 gap-3">
           <Field label="Billing"><Select name="cadence" defaultValue={s?.cadence ?? "none"} options={CADENCES} /></Field>
-          <Field label="Renew after (months)"><input name="renewalMonths" type="number" min={0} max={120} defaultValue={s?.renewalMonths ?? ""} className="input num" placeholder="—" /></Field>
+          <Field label="Renewal (months)"><input name="renewalMonths" type="number" min={0} max={120} defaultValue={s?.renewalMonths ?? ""} className="input num" placeholder="—" /></Field>
         </div>
         <Field label="Tax treatment"><Select name="taxTreatment" defaultValue={s?.taxTreatment ?? "out_of_scope"} options={[{ value: "out_of_scope", label: "Out of scope (no PPN)" }, { value: "ppn", label: "PPN" }]} /></Field>
         <label className="flex items-center gap-2 text-sm"><input type="checkbox" name="active" defaultChecked={s?.active ?? true} className="checkbox" /> Active (shown on the price list and in quotes)</label>

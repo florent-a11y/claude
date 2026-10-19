@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { fmtDateTime } from "@/lib/dates";
 import { DATE_FORMAT_LABELS } from "@/lib/importers";
 import { FX_CURRENCIES, IMPORT_KINDS, IMPORT_KIND_LABELS, listImportBatches, loadImportDraft, prepareImport, type ImportKind, type ImportOptions, type ImportPlan } from "@/lib/import-services";
-import { Page, Card, Badge, Field, Select, Notice, EmptyState } from "@/components/ui";
+import { Page, Card, CardTable, Cols, Dash, Badge, Field, Select, Notice, EmptyState } from "@/components/ui";
 import { SubmitButton, ConfirmForm } from "@/components/client";
 import { discardPendingImport, previewImport, runPendingImport, updateImportOptions } from "./actions";
 
@@ -23,7 +23,7 @@ export default async function ImportPage({ searchParams }: { searchParams: Promi
   const own = ownEntities[0];
   const plan = draft ? await prepareImport(draft.kind, draft.text, draft.options) : null;
   const done = sp.done ? batches.find((b) => b.id === sp.done) : undefined;
-  const userName = (id?: string) => users.find((u) => u.id === id)?.name ?? "—";
+  const userName = (id?: string) => users.find((u) => u.id === id)?.name;
 
   return (
     <Page title="Import data" subtitle="Bring HubSpot and QuickBooks Online across as CSV files. Every file is previewed first; rows that already exist are skipped, so re-running a file is safe." breadcrumbs={[{ href: "/settings/entities", label: "Settings" }, { label: "Import" }]}>
@@ -71,25 +71,31 @@ export default async function ImportPage({ searchParams }: { searchParams: Promi
         </Card>
       </div>
 
-      <Card title="Import history" className="mt-5 overflow-x-auto">
+      <Card title="Import history" className="mt-5">
         {batches.length === 0 ? <EmptyState title="No import yet" hint="Each run is recorded here with its counts and errors." /> : (
-          <table className="table">
-            <thead><tr><th>When</th><th>Kind</th><th>File</th><th className="num">Rows</th><th className="num">Inserted</th><th className="num">Skipped</th><th>Errors</th><th>By</th></tr></thead>
-            <tbody>
-              {batches.map((b) => (
-                <tr key={b.id}>
-                  <td className="whitespace-nowrap text-xs">{fmtDateTime(b.createdAt)}</td>
-                  <td><Badge tone={b.kind === "qbo_invoices" ? "indigo" : b.kind === "qbo_customers" ? "blue" : "brand"}>{IMPORT_KIND_LABELS[b.kind as ImportKind] ?? b.kind}</Badge></td>
-                  <td className="max-w-[16rem] truncate font-mono text-xs" title={b.fileName}>{b.fileName}</td>
-                  <td className="num">{b.rows}</td>
-                  <td className="num text-green-800">{b.inserted}</td>
-                  <td className="num">{b.skipped}</td>
-                  <td className="text-xs">{b.errors.length === 0 ? <span className="text-ink-500">none</span> : <details><summary className="cursor-pointer text-red-700">{b.errors.length}</summary><ul className="mt-1 max-h-48 list-disc overflow-y-auto pl-4">{b.errors.map((e, i) => <li key={i}>{e}</li>)}</ul></details>}</td>
-                  <td className="text-xs">{userName(b.byUserId)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <CardTable>
+            <table className="table table-data min-w-[1040px]">
+              <Cols widths={[160, 170, undefined, 95, 95, 95, 95, 150]} />
+              <thead><tr><th>When</th><th>Kind</th><th>File</th><th className="num">Rows</th><th className="num">Inserted</th><th className="num">Skipped</th><th className="num">Errors</th><th>By</th></tr></thead>
+              <tbody>
+                {batches.map((b) => (
+                  <tr key={b.id}>
+                    <td className="whitespace-nowrap">{fmtDateTime(b.createdAt)}</td>
+                    <td><Badge tone={b.kind === "qbo_invoices" ? "indigo" : b.kind === "qbo_customers" ? "blue" : "brand"}>{IMPORT_KIND_LABELS[b.kind as ImportKind] ?? b.kind}</Badge></td>
+                    <td>
+                      <span className="cell font-mono text-xs" title={b.fileName}>{b.fileName}</span>
+                      {b.errors.length > 0 && <details className="text-xs"><summary className="cursor-pointer text-red-700">{b.errors.length} error{b.errors.length === 1 ? "" : "s"}</summary><ul className="mt-1 max-h-48 list-disc overflow-y-auto pl-4 text-ink-700">{b.errors.map((e, i) => <li key={i}>{e}</li>)}</ul></details>}
+                    </td>
+                    <td className="num">{b.rows}</td>
+                    <td className="num text-green-800">{b.inserted}</td>
+                    <td className="num">{b.skipped}</td>
+                    <td className={`num ${b.errors.length ? "text-red-700" : ""}`}>{b.errors.length}</td>
+                    <td>{userName(b.byUserId) ? <span className="cell" title={userName(b.byUserId)}>{userName(b.byUserId)}</span> : <Dash />}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </CardTable>
         )}
       </Card>
     </Page>
@@ -160,21 +166,24 @@ function PreviewPanel({ plan, fileName, options }: { plan: ImportPlan; fileName:
       )}
 
       {plan.sample.length > 0 ? (
-        <div className="overflow-x-auto">
-          <p className="mb-1 text-xs text-ink-500">First {plan.sample.length} of {plan.toInsert} rows as they will be stored:</p>
-          <table className="table">
-            <thead><tr><th>Line</th>{plan.columns.map((c) => <th key={c}>{c}</th>)}<th>Notes</th></tr></thead>
-            <tbody>
-              {plan.sample.map((r) => (
-                <tr key={r.line}>
-                  <td className="text-xs text-ink-500">{r.line}</td>
-                  {r.cells.map((c, i) => <td key={i} className="max-w-[18rem] truncate text-xs" title={c}>{c}</td>)}
-                  <td className="text-xs text-amber-900">{r.warnings.join("; ")}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <>
+          <p className="mb-2 text-xs text-ink-500">First {plan.sample.length} of {plan.toInsert} rows as they will be stored:</p>
+          <CardTable bottom={false}>
+            <table className="table table-data" style={{ minWidth: 60 + 200 + 150 * plan.columns.length }}>
+              <Cols widths={[60, ...plan.columns.map(() => undefined), 200]} />
+              <thead><tr><th className="num">Line</th>{plan.columns.map((c) => <th key={c}>{c}</th>)}<th>Notes</th></tr></thead>
+              <tbody>
+                {plan.sample.map((r) => (
+                  <tr key={r.line}>
+                    <td className="num text-ink-500">{r.line}</td>
+                    {r.cells.map((c, i) => <td key={i}>{c ? <span className="cell" title={c}>{c}</span> : <Dash />}</td>)}
+                    <td>{r.warnings.length > 0 ? <span className="cell text-amber-900" title={r.warnings.join("; ")}>{r.warnings.join("; ")}</span> : <Dash />}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </CardTable>
+        </>
       ) : !plan.blocking && <p className="text-sm text-ink-500">Nothing new to insert{plan.rows === 0 ? ": no data rows were found. Check that the file is a CSV with a header line." : "."}</p>}
 
       <div className="mt-3 grid gap-3 md:grid-cols-3">

@@ -5,10 +5,8 @@ import { accountBalances, naturalBalance } from "@/lib/balances";
 import { fmtDate, todayISO, periodOf, periodLabel } from "@/lib/dates";
 import { fmtMoney } from "@/lib/money";
 import { toIDR } from "@/lib/money";
-import { OBLIGATION_LABELS, OBLIGATION_STATUS_LABELS, type ObligationStatus, type TaxRegime } from "@/lib/types";
-
-const REGIME_SHORT: Record<TaxRegime, string> = { final_0_5: "PPh final 0.5%", art_31e: "Art. 31E", normal_22: "CIT 22%", hk_profits_tax: "HK profits tax", none: "No CIT" };
-import { Page, Card, Stat, Badge, statusTone, EmptyState } from "@/components/ui";
+import { OBLIGATION_LABELS, OBLIGATION_STATUS_LABELS, TAX_REGIME_SHORT, type ObligationStatus } from "@/lib/types";
+import { Page, Card, CardTable, Cols, Dash, Stat, Badge, statusTone, EmptyState } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -61,17 +59,23 @@ export default async function Home() {
       <div className="mt-5 grid gap-4 lg:grid-cols-2">
         <Card title="Overdue tax obligations" actions={<Link href="/tax" className="text-xs text-brand-600 underline">All clients calendar</Link>}>
           {overdue.length === 0 ? <EmptyState title="Nothing is past its reporting deadline" /> : (
-            <table className="table">
-              <thead><tr><th>Entity</th><th>Obligation</th><th>Period</th><th>Due</th><th>Status</th></tr></thead>
-              <tbody>{overdue.slice(0, 12).map((o) => (
-                <tr key={o.id}>
-                  <td><Link href={`/tax/${o.entityId}`} className="font-medium hover:underline">{entityName(o.entityId)}</Link></td>
-                  <td className="text-xs">{OBLIGATION_LABELS[o.type]}</td><td className="text-xs">{periodLabel(o.period)}</td>
-                  <td className="whitespace-nowrap text-xs text-red-700">{fmtDate(o.reportDue)}</td>
-                  <td><Badge tone={statusTone(o.status)}>{OBLIGATION_STATUS_LABELS[o.status]}</Badge></td>
-                </tr>
-              ))}</tbody>
-            </table>
+            <CardTable>
+              <table className="table table-data min-w-[560px]">
+                <Cols widths={[undefined, 84, 100, 170]} />
+                <thead><tr><th>Entity · obligation</th><th>Period</th><th>Due</th><th>Status</th></tr></thead>
+                <tbody>{overdue.slice(0, 12).map((o) => (
+                  <tr key={o.id}>
+                    <td>
+                      <Link href={`/tax/${o.entityId}`} className="cell-primary" title={entityName(o.entityId)}>{entityName(o.entityId)}</Link>
+                      <span className="cell-sub" title={OBLIGATION_LABELS[o.type]}>{OBLIGATION_LABELS[o.type]}</span>
+                    </td>
+                    <td className="whitespace-nowrap">{periodLabel(o.period)}</td>
+                    <td className="whitespace-nowrap text-red-700">{fmtDate(o.reportDue)}</td>
+                    <td title={OBLIGATION_STATUS_LABELS[o.status]}><Badge tone={statusTone(o.status)} className="max-w-full"><span className="truncate">{OBLIGATION_STATUS_LABELS[o.status]}</span></Badge></td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </CardTable>
           )}
         </Card>
         <Card title={`Due ${periodLabel(period)} by status`} actions={<Link href="/tax" className="text-xs text-brand-600 underline">Open calendar</Link>}>
@@ -85,31 +89,43 @@ export default async function Home() {
         </Card>
         <Card title="Client books" actions={<Link href="/settings/entities" className="text-xs text-brand-600 underline">Entities</Link>}>
           {entities.length === 0 ? <EmptyState title="No entity yet" action={<Link href="/settings/entities/new" className="btn-primary">New entity</Link>} /> : (
-            <table className="table">
-              <thead><tr><th>Entity</th><th>Regime</th><th className="num">Unmatched</th><th></th></tr></thead>
-              <tbody>{entities.map((e) => (
-                <tr key={e.id}>
-                  <td className="font-medium">{e.isOwn && <span className="mr-1 text-accent-600">★</span>}{e.name}</td>
-                  <td className="text-xs">{REGIME_SHORT[e.tax.regime]}{e.tax.pkp ? " · PKP" : ""}{e.tax.payroll ? " · payroll" : ""}</td>
-                  <td className="num">{unmatchedByEntity.get(e.id) ?? 0}</td>
-                  <td className="whitespace-nowrap text-xs"><Link href={`/books/${e.id}`} className="text-brand-600 underline">Books</Link> · <Link href={`/tax/${e.id}`} className="text-brand-600 underline">Tax</Link>{e.tax.payroll && <> · <Link href={`/payroll/${e.id}`} className="text-brand-600 underline">Payroll</Link></>}</td>
-                </tr>
-              ))}</tbody>
-            </table>
+            <CardTable>
+              <table className="table table-data min-w-[560px]">
+                <Cols widths={[undefined, 100, 145]} />
+                <thead><tr><th>Entity · regime</th><th className="num">Unmatched</th><th></th></tr></thead>
+                <tbody>{entities.map((e) => {
+                  const regime = [TAX_REGIME_SHORT[e.tax.regime], e.tax.pkp && "PKP", e.tax.payroll && "payroll"].filter(Boolean).join(" · ");
+                  return (
+                    <tr key={e.id}>
+                      <td>
+                        <span className="cell-primary" title={e.name}>{e.isOwn && <span className="mr-1 text-accent-600">★</span>}{e.name}</span>
+                        <span className="cell-sub" title={regime}>{regime}</span>
+                      </td>
+                      <td className="num">{unmatchedByEntity.get(e.id) ?? 0}</td>
+                      <td className="whitespace-nowrap text-right text-xs"><Link href={`/books/${e.id}`} className="text-brand-600 hover:underline">Books</Link><span className="mx-1 text-slate-300">·</span><Link href={`/tax/${e.id}`} className="text-brand-600 hover:underline">Tax</Link>{e.tax.payroll && <><span className="mx-1 text-slate-300">·</span><Link href={`/payroll/${e.id}`} className="text-brand-600 hover:underline">Payroll</Link></>}</td>
+                    </tr>
+                  );
+                })}</tbody>
+              </table>
+            </CardTable>
           )}
         </Card>
         <Card title="Recent journal entries">
           {journals.length === 0 ? <EmptyState title="No journal entries yet" hint="Post an invoice, import a bank statement or create a manual entry." /> : (
-            <table className="table">
-              <thead><tr><th>Date</th><th>Entity</th><th>Entry</th><th>Memo</th></tr></thead>
-              <tbody>{journals.map((j) => (
-                <tr key={j.id}>
-                  <td className="whitespace-nowrap text-xs">{fmtDate(j.date)}</td><td className="text-xs">{entityName(j.entityId)}</td>
-                  <td><Link href={`/books/${j.entityId}/journal/${j.id}`} className="text-brand-600 underline">{j.number}</Link></td>
-                  <td className="text-xs">{j.memo}{j.status === "void" && <Badge tone="red" className="ml-1">void</Badge>}</td>
-                </tr>
-              ))}</tbody>
-            </table>
+            <CardTable>
+              <table className="table table-data min-w-[560px]">
+                <Cols widths={[110, 170, 120, undefined]} />
+                <thead><tr><th>Date</th><th>Entity</th><th>Entry</th><th>Memo</th></tr></thead>
+                <tbody>{journals.map((j) => (
+                  <tr key={j.id}>
+                    <td className="whitespace-nowrap">{fmtDate(j.date)}</td>
+                    <td><span className="cell text-xs" title={entityName(j.entityId)}>{entityName(j.entityId)}</span></td>
+                    <td className="whitespace-nowrap"><Link href={`/books/${j.entityId}/journal/${j.id}`} className="text-brand-600 hover:underline">{j.number}</Link></td>
+                    <td><span className="cell" title={j.memo || undefined}>{j.memo || <Dash />}{j.status === "void" && <Badge tone="red" className="ml-1 align-middle">void</Badge>}</span></td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </CardTable>
           )}
         </Card>
         <Card title="Recent activity" className="lg:col-span-2">

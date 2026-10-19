@@ -30,7 +30,7 @@ export function EmployeeForm({ employee: e, action }: { employee?: Employee; act
       <div className="card space-y-3">
         <h2 className="text-sm font-semibold text-ink-700">Pay</h2>
         <Field label="Basic salary (IDR / month)"><input name="basicSalary" type="number" min={0} step={1000} defaultValue={e?.basicSalary} required className="input" /></Field>
-        <p className="label">Fixed allowances (part of the BPJS wage; tick taxable for PPh 21)</p>
+        <p className="label">Fixed allowances</p><p className="-mt-1 mb-2 text-xs text-ink-500">Part of the BPJS wage; tick taxable for PPh 21.</p>
         {allowances.map((a, i) => (
           <div key={i} className="grid grid-cols-[1fr_1fr_auto] items-center gap-2">
             <input name={`allowance_name_${i + 1}`} defaultValue={a?.name} placeholder={["Transport", "Meal", "Housing", "Other"][i]} className="input" />

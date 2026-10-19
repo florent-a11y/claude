@@ -32,11 +32,11 @@ body { @apply bg-slate-50 text-ink-900 antialiased; }
 /* Same height for every control: Safari and Chrome size native selects and date pickers differently, so draw them ourselves. */
 select.input { @apply cursor-pointer appearance-none bg-no-repeat pr-9; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 20 20' fill='none' stroke='%2365727f' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 8l4 4 4-4'/%3E%3C/svg%3E"); background-position: right 0.65rem center; background-size: 1rem 1rem; }
 select.input[multiple], select.input[size] { @apply bg-none pr-3; }
-input[type="date"].input, input[type="month"].input, input[type="time"].input, input[type="datetime-local"].input { -webkit-appearance: none; appearance: none; min-height: 2.5rem; }
+input[type="date"].input, input[type="month"].input, input[type="time"].input, input[type="datetime-local"].input { -webkit-appearance: none; appearance: none; }
 input[type="date"].input::-webkit-datetime-edit, input[type="month"].input::-webkit-datetime-edit { padding: 0; line-height: 1.25rem; }
 input[type="date"].input::-webkit-date-and-time-value, input[type="month"].input::-webkit-date-and-time-value { text-align: left; min-height: 1.25rem; }
 input[type="file"].input { @apply cursor-pointer py-1.5 file:mr-3 file:rounded-md file:border-0 file:bg-brand-50 file:px-3 file:py-1 file:text-xs file:font-semibold file:text-brand-700; }
-textarea.input { min-height: 2.5rem; }
+textarea.input { min-height: 2.375rem; }
 .checkbox { @apply h-4 w-4 shrink-0 rounded border-slate-300 text-brand-600 focus:ring-brand-500; }
 .error { @apply mt-1 text-sm text-red-600; }
 .table { @apply w-full text-sm; }

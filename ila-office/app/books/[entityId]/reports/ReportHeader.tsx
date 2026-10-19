@@ -10,7 +10,7 @@ export function ReportHeader({ title, subtitle, entityLegalName, csvHref, childr
       <div className="flex flex-wrap items-end gap-2 no-print">
         {children && <form method="get" className="flex flex-wrap items-end gap-2">{children}<button className="btn-secondary !py-1 text-xs" type="submit">Apply</button></form>}
         <Link href={csvHref} className="btn-secondary !py-1 text-xs">Export CSV</Link>
-        <PrintButton label="Print" />
+        <PrintButton label="Print" className="!py-1 text-xs" />
       </div>
     </div>
   );

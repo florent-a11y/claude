@@ -20,8 +20,8 @@ export function CopyButton({ value, label = "copy" }: { value: string; label?: s
   return <button type="button" className="text-xs text-brand-600 underline" onClick={async () => { await navigator.clipboard.writeText(value); setOk(true); setTimeout(() => setOk(false), 1200); }}>{ok ? "copied" : label}</button>;
 }
 
-export function PrintButton({ label = "Print / PDF" }: { label?: string }) {
-  return <button type="button" className="btn-secondary no-print" onClick={() => window.print()}>{label}</button>;
+export function PrintButton({ label = "Print / PDF", className = "" }: { label?: string; className?: string }) {
+  return <button type="button" className={`btn-secondary no-print ${className}`} onClick={() => window.print()}>{label}</button>;
 }
 
 /** Auto-submits a search form shortly after typing stops. */
