@@ -6,7 +6,7 @@ import { fmtDate, quarterOf, todayISO, periodLabel } from "@/lib/dates";
 import { ENTITY_TYPE_LABELS, OBLIGATION_STATUS_LABELS } from "@/lib/types";
 import { lkpmPackForEntity } from "@/lib/tax/services";
 import { LKPM_ASSET_LABELS, quartersOf, type LkpmAssetCategory } from "@/lib/tax/lkpm";
-import { Card, Chips, DL, Notice } from "@/components/ui";
+import { Badge, Card, CardTable, Chips, Cols, DL, Notice, statusTone } from "@/components/ui";
 import { PrintButton } from "@/components/client";
 
 export const dynamic = "force-dynamic";
@@ -34,38 +34,56 @@ export default async function LkpmPage({ params, searchParams }: { params: Promi
       </Card>
       <div className="grid gap-4 md:grid-cols-2">
         <Card title="Realisasi investasi · investment realisation (IDR)">
-          <table className="table">
-            <tbody>
-              {(Object.keys(LKPM_ASSET_LABELS) as LkpmAssetCategory[]).map((c) => <tr key={c}><td>{LKPM_ASSET_LABELS[c]}</td><td className="num">{f(pack.fixedAssets[c])}</td></tr>)}
-              <tr className="font-semibold"><td>Modal tetap · fixed assets (gross cost, cumulative)</td><td className="num">{f(pack.fixedAssetsTotal)}</td></tr>
-              <tr><td>Modal kerja · working capital (operating expenses of the quarter)</td><td className="num">{f(pack.workingCapital)}</td></tr>
-              <tr className="font-semibold"><td>Total realisasi investasi</td><td className="num">{f(pack.investmentRealisation)}</td></tr>
-              <tr><td>Modal disetor · paid-up capital</td><td className="num">{f(pack.paidUpCapital)}</td></tr>
-            </tbody>
-          </table>
+          <CardTable bottom={pack.assetAdditions.length === 0}>
+            <table className="table table-statement">
+              <tbody>
+                {(Object.keys(LKPM_ASSET_LABELS) as LkpmAssetCategory[]).map((c) => <tr key={c}><td className="indent">{LKPM_ASSET_LABELS[c]}</td><td className="num">{f(pack.fixedAssets[c])}</td></tr>)}
+                <tr className="row-total"><td>Modal tetap · fixed assets (gross cost, cumulative)</td><td className="num">{f(pack.fixedAssetsTotal)}</td></tr>
+                <tr><td>Modal kerja · working capital (operating expenses of the quarter)</td><td className="num">{f(pack.workingCapital)}</td></tr>
+                <tr className="row-grand"><td>Total realisasi investasi</td><td className="num">{f(pack.investmentRealisation)}</td></tr>
+                <tr><td>Modal disetor · paid-up capital</td><td className="num">{f(pack.paidUpCapital)}</td></tr>
+              </tbody>
+            </table>
+          </CardTable>
           {pack.assetAdditions.length > 0 && (
-            <div className="mt-3"><p className="mb-1 text-xs font-semibold text-ink-700">Fixed-asset additions this quarter</p>
-              <table className="table"><tbody>{pack.assetAdditions.map((a, i) => <tr key={i}><td className="text-xs">{fmtDate(a.date)}</td><td className="text-xs">{a.name}</td><td className="text-xs text-ink-500">{LKPM_ASSET_LABELS[a.category].split(" (")[0]}</td><td className="num">{f(a.cost)}</td></tr>)}</tbody></table></div>
+            <>
+              <p className="mb-1 text-xs font-semibold text-ink-700">Fixed-asset additions this quarter</p>
+              <CardTable>
+                <table className="table table-data">
+                  <Cols widths={[110, undefined, 150, 130]} />
+                  <tbody>{pack.assetAdditions.map((a, i) => <tr key={i}><td className="whitespace-nowrap">{fmtDate(a.date)}</td><td><span className="cell" title={a.name}>{a.name}</span></td><td><span className="cell text-ink-500" title={LKPM_ASSET_LABELS[a.category]}>{LKPM_ASSET_LABELS[a.category].split(" (")[0]}</span></td><td className="num"><span className="money">{f(a.cost)}</span></td></tr>)}</tbody>
+                </table>
+              </CardTable>
+            </>
           )}
         </Card>
         <Card title="Activity and workforce">
-          <table className="table">
-            <tbody>
-              <tr><td>Revenue of the quarter</td><td className="num">{f(pack.revenueQuarter)}</td></tr>
-              <tr><td>Expenses of the quarter</td><td className="num">{f(pack.expensesQuarter)}</td></tr>
-              <tr><td>Tenaga kerja Indonesia · local employees</td><td className="num">{pack.headcount.local}</td></tr>
-              <tr><td>Tenaga kerja asing · foreign employees</td><td className="num">{pack.headcount.foreign}</td></tr>
-              <tr className="font-semibold"><td>Total headcount at quarter end</td><td className="num">{pack.headcount.total}</td></tr>
-            </tbody>
-          </table>
-          {pack.foreignEmployees.length > 0 && <ul className="mt-2 text-xs text-ink-500">{pack.foreignEmployees.map((e, i) => <li key={i}>{e.name}{e.position ? ` · ${e.position}` : ""}{e.passportNumber ? ` · passport ${e.passportNumber}` : ""}</li>)}</ul>}
-          {pack.headcount.total === 0 && <p className="mt-2 text-xs text-ink-500">No employee on record. Headcount comes from the Payroll › Employees register (foreign flag).</p>}
+          <CardTable bottom={pack.foreignEmployees.length === 0 && pack.headcount.total !== 0}>
+            <table className="table table-statement">
+              <tbody>
+                <tr className="row-section"><td colSpan={2}>Kegiatan · activity</td></tr>
+                <tr><td>Revenue of the quarter</td><td className="num">{f(pack.revenueQuarter)}</td></tr>
+                <tr><td>Expenses of the quarter</td><td className="num">{f(pack.expensesQuarter)}</td></tr>
+                <tr className="row-section"><td colSpan={2}>Tenaga kerja · workforce</td></tr>
+                <tr><td className="indent">Tenaga kerja Indonesia · local employees</td><td className="num">{pack.headcount.local}</td></tr>
+                <tr><td className="indent">Tenaga kerja asing · foreign employees</td><td className="num">{pack.headcount.foreign}</td></tr>
+                <tr className="row-total"><td>Total headcount at quarter end</td><td className="num">{pack.headcount.total}</td></tr>
+              </tbody>
+            </table>
+          </CardTable>
+          {pack.foreignEmployees.length > 0 && <ul className="text-xs text-ink-500">{pack.foreignEmployees.map((e, i) => <li key={i}>{e.name}{e.position ? ` · ${e.position}` : ""}{e.passportNumber ? ` · passport ${e.passportNumber}` : ""}</li>)}</ul>}
+          {pack.headcount.total === 0 && <p className="text-xs text-ink-500">No employee on record. Headcount comes from the Payroll › Employees register (foreign flag).</p>}
         </Card>
       </div>
       <Card title="Kendala / kewajiban · outstanding obligations at quarter end">
         {pack.outstandingObligations.length === 0 ? <p className="text-sm text-ink-500">Nothing outstanding.</p> : (
-          <table className="table"><thead><tr><th>Obligation</th><th>Period</th><th>Due</th><th>Status</th></tr></thead>
-            <tbody>{pack.outstandingObligations.map((o) => <tr key={o.id}><td className="text-xs">{o.label}</td><td className="text-xs">{periodLabel(o.period)}</td><td className="text-xs">{fmtDate(o.reportDue)}</td><td className="text-xs">{OBLIGATION_STATUS_LABELS[o.status]}</td></tr>)}</tbody></table>
+          <CardTable>
+            <table className="table table-data">
+              <Cols widths={[undefined, 110, 120, 190]} />
+              <thead><tr><th>Obligation</th><th>Period</th><th>Due</th><th>Status</th></tr></thead>
+              <tbody>{pack.outstandingObligations.map((o) => <tr key={o.id}><td><span className="cell" title={o.label}>{o.label}</span></td><td className="whitespace-nowrap">{periodLabel(o.period)}</td><td className="whitespace-nowrap">{fmtDate(o.reportDue)}</td><td><Badge tone={statusTone(o.status)}>{OBLIGATION_STATUS_LABELS[o.status]}</Badge></td></tr>)}</tbody>
+            </table>
+          </CardTable>
         )}
       </Card>
       <p className="text-xs text-ink-500 no-print">Figures come from posted journals (fixed-asset accounts by name: land, buildings, machinery/equipment/vehicles, other), the share-capital accounts and the employee register. Submit on OSS (oss.go.id › LKPM) by the 10th of the month after the quarter. <Link href={`/tax/${entityId}?year=${year}`} className="underline">Calendar</Link></p>

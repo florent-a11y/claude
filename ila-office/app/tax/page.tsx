@@ -5,7 +5,7 @@ import { nextPeriod, periodLabel, prevPeriod, todayISO, fmtDate } from "@/lib/da
 import { OBLIGATION_LABELS, OBLIGATION_STATUSES, OBLIGATION_STATUS_LABELS, OBLIGATION_TYPES, type ObligationType } from "@/lib/types";
 import { groupBy } from "@/lib/util";
 import { dueMonth, isOverdue } from "@/lib/tax/calendar";
-import { Page, Card, Stat, Select, Chips, withParams, EmptyState } from "@/components/ui";
+import { Page, Stat, Select, Chips, Cols, Dash, TableCard, withParams, EmptyState } from "@/components/ui";
 import { SubmitButton } from "@/components/client";
 import { ObligationCell } from "./ObligationCell";
 import { generateAllObligations } from "./actions";
@@ -45,6 +45,13 @@ export default async function AllClientsCalendar({ searchParams }: { searchParam
   const cellUsers = users.map((u) => ({ id: u.id, name: u.name }));
   const current = { month, mode: sp.mode, status: sp.status, assignee: sp.assignee };
   const year = Number(month.slice(0, 4));
+  /** Cell line "Sept · due 20 Oct": the period and the due date drop the year when it is the calendar's own year (the tooltip keeps everything). */
+  const yearStr = String(year);
+  const hintOf = (o: (typeof all)[number]) => {
+    const period = periodLabel(o.period), due = fmtDate(o.reportDue);
+    return `${o.period.length > 4 && o.period.startsWith(yearStr) ? period.replace(/\s\d{4}$/, "") : period} · due ${o.reportDue.startsWith(yearStr) ? due.replace(/\s\d{4}$/, "") : due}`;
+  };
+  const titleOf = (o: (typeof all)[number]) => `${periodLabel(o.period)} · due ${fmtDate(o.reportDue)}${o.amount ? ` · ${o.amount.toLocaleString("en-US")}` : ""}`;
 
   return (
     <Page
@@ -89,30 +96,38 @@ export default async function AllClientsCalendar({ searchParams }: { searchParam
       {inMonth.length === 0 ? (
         <EmptyState title={`No obligations for ${periodLabel(month)}`} hint={canWrite ? "Generate the calendar for the year with the button above; it follows each entity's tax profile (PKP, payroll, LKPM, regime…)." : "Ask an accountant or admin to generate the calendar."} />
       ) : (
-        <Card className="overflow-x-auto !p-0">
-          <table className="table">
+        <TableCard>
+          <table className="table table-data" style={{ minWidth: 210 + 150 * types.length }}>
+            <Cols widths={[210, ...types.map(() => 150)]} />
             <thead>
               <tr>
-                <th className="sticky left-0 bg-white pl-4">Client</th>
+                <th className="sticky left-0 bg-white">Client</th>
                 {types.map((t) => <th key={t} title={OBLIGATION_LABELS[t]}>{SHORT[t]}</th>)}
               </tr>
             </thead>
             <tbody>
               {entityRows.map((e) => {
                 const rows = byEntity.get(e.id) ?? [];
+                const meta = [e.region ?? e.country, e.tax.pkp ? "PKP" : "non-PKP", e.tax.payroll ? "payroll" : undefined].filter(Boolean).join(" · ");
                 return (
                   <tr key={e.id}>
-                    <td className="sticky left-0 bg-white pl-4 align-middle">
-                      <Link href={`/tax/${e.id}?year=${year}`} className="font-medium hover:underline">{e.isOwn && <span className="mr-1 text-accent-600">★</span>}{e.name}</Link>
-                      <p className="text-[10px] text-ink-500">{e.region ?? e.country} · {e.tax.pkp ? "PKP" : "non-PKP"}{e.tax.payroll ? " · payroll" : ""}</p>
+                    <td className="sticky left-0 bg-white !align-top">
+                      <Link href={`/tax/${e.id}?year=${year}`} className="cell-primary" title={e.name}>{e.isOwn && <span className="mr-1 text-accent-600">★</span>}{e.name}</Link>
+                      <span className="cell-sub" title={meta}>{meta}</span>
                     </td>
                     {types.map((t) => {
                       const cells = rows.filter((o) => o.type === t).sort((a, b) => a.period.localeCompare(b.period));
                       return (
-                        <td key={t} className="align-top">
-                          {cells.length === 0 ? <span className="text-xs text-slate-300">—</span> : cells.map((o) => (
-                            <ObligationCell key={o.id} id={o.id} status={o.status} assigneeUserId={o.assigneeUserId} users={cellUsers} canWrite={canWrite} overdue={isOverdue(o, today)} hint={`${periodLabel(o.period)} · due ${fmtDate(o.reportDue)}${o.amount ? ` · ${o.amount.toLocaleString("en-US")}` : ""}`} />
-                          ))}
+                        <td key={t} className="!align-top">
+                          {cells.length === 0 ? <Dash /> : (
+                            <div className="space-y-1.5">
+                              {cells.map((o) => (
+                                <ObligationCell key={o.id} id={o.id} status={o.status} assigneeUserId={o.assigneeUserId} users={cellUsers} canWrite={canWrite} overdue={isOverdue(o, today)} hint={hintOf(o)} title={titleOf(o)}>
+                                  {o.amount ? <span className="tabular-nums">{o.amount.toLocaleString("en-US")}</span> : null}
+                                </ObligationCell>
+                              ))}
+                            </div>
+                          )}
                         </td>
                       );
                     })}
@@ -121,7 +136,7 @@ export default async function AllClientsCalendar({ searchParams }: { searchParam
               })}
             </tbody>
           </table>
-        </Card>
+        </TableCard>
       )}
       <p className="mt-3 text-xs text-ink-500">Cells change status and assignee in place. A red outline means the report due date has passed. Open a client to edit amounts, NTPN and notes.</p>
     </Page>

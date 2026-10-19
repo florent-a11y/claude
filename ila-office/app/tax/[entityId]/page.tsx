@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { fmtDate, periodLabel, todayISO } from "@/lib/dates";
 import { OBLIGATION_LABELS, OBLIGATION_STATUSES, OBLIGATION_STATUS_LABELS, OBLIGATION_TYPES, type ObligationType, type TaxObligation } from "@/lib/types";
 import { isOverdue, obligationTypesFor } from "@/lib/tax/calendar";
-import { Card, Field, Money, Select, Stat, EmptyState, Chips, Badge, statusTone } from "@/components/ui";
+import { Card, CardTable, Cols, Dash, Field, Money, Select, Stat, EmptyState, Chips, Badge, TableCard, statusTone } from "@/components/ui";
 import { SubmitButton } from "@/components/client";
 import { ObligationCell } from "../ObligationCell";
 import { relatedLink } from "../links";
@@ -43,18 +43,15 @@ export default async function EntityCalendar({ params, searchParams }: { params:
   const periods = Array.from({ length: 12 }, (_, i) => `${year}-${String(i + 1).padStart(2, "0")}`);
 
   const cell = (o: TaxObligation | undefined) => {
-    if (!o) return <span className="text-xs text-slate-300">—</span>;
+    if (!o) return <Dash />;
     const link = relatedLink(o);
     return (
-      <div className="space-y-0.5">
-        <ObligationCell id={o.id} status={o.status} assigneeUserId={o.assigneeUserId} users={cellUsers} canWrite={canWrite} overdue={isOverdue(o, today)} />
-        <div className="flex flex-wrap items-center gap-1 px-1 text-[10px] text-ink-500">
-          <Link href={`/tax/${entityId}?year=${year}&o=${encodeURIComponent(o.id)}`} className={`underline ${selected?.id === o.id ? "font-semibold text-brand-700" : ""}`}>edit</Link>
-          {link && <Link href={link.href} className="underline">{link.label}</Link>}
-          {o.amount ? <span className="tabular-nums">{o.amount.toLocaleString("en-US")}</span> : null}
-          {o.ntpn && <span title={`NTPN ${o.ntpn}`}>NTPN ✓</span>}
-        </div>
-      </div>
+      <ObligationCell id={o.id} status={o.status} assigneeUserId={o.assigneeUserId} users={cellUsers} canWrite={canWrite} overdue={isOverdue(o, today)}>
+        <Link href={`/tax/${entityId}?year=${year}&o=${encodeURIComponent(o.id)}`} className={`underline ${selected?.id === o.id ? "font-semibold text-brand-700" : ""}`}>edit</Link>
+        {link && <Link href={link.href} className="underline">{link.label}</Link>}
+        {o.amount ? <span className="tabular-nums">{o.amount.toLocaleString("en-US")}</span> : null}
+        {o.ntpn && <span title={`NTPN ${o.ntpn}`}>NTPN ✓</span>}
+      </ObligationCell>
     );
   };
 
@@ -80,35 +77,42 @@ export default async function EntityCalendar({ params, searchParams }: { params:
         <EmptyState title={`No obligations for ${year}`} hint="Generate them from the entity's tax profile (PKP, payroll, LKPM, regime, PPh 25, regional tax)." />
       ) : (
         <>
-          <Card className="overflow-x-auto !p-0" title={undefined}>
-            <table className="table">
-              <thead><tr><th className="sticky left-0 bg-white pl-4">Period</th>{monthly.map((t) => <th key={t} title={OBLIGATION_LABELS[t]}>{SHORT[t]}</th>)}</tr></thead>
+          <TableCard>
+            <table className="table table-data" style={{ minWidth: 150 + 140 * monthly.length }}>
+              <Cols widths={[150, ...monthly.map(() => 140)]} />
+              <thead><tr><th className="sticky left-0 bg-white">Period</th>{monthly.map((t) => <th key={t} title={OBLIGATION_LABELS[t]}>{SHORT[t]}</th>)}</tr></thead>
               <tbody>
                 {periods.map((p) => (
                   <tr key={p}>
-                    <td className="sticky left-0 bg-white pl-4 align-top text-xs font-medium">{periodLabel(p)}<br /><span className="font-normal text-ink-500">due {fmtDate(find(monthly[0], p)?.reportDue)}</span></td>
-                    {monthly.map((t) => <td key={t} className="align-top">{cell(find(t, p))}</td>)}
+                    <td className="sticky left-0 bg-white !align-top"><span className="cell-primary">{periodLabel(p)}</span><span className="cell-sub">due {fmtDate(find(monthly[0], p)?.reportDue)}</span></td>
+                    {monthly.map((t) => <td key={t} className="!align-top">{cell(find(t, p))}</td>)}
                   </tr>
                 ))}
               </tbody>
             </table>
-          </Card>
+          </TableCard>
           {(quarterly.length > 0 || yearly.length > 0) && (
             <div className="mt-4 grid gap-4 md:grid-cols-2">
               {quarterly.length > 0 && (
-                <Card title="Quarterly" className="overflow-x-auto">
-                  <table className="table">
-                    <thead><tr><th>Quarter</th>{quarterly.map((t) => <th key={t}>{SHORT[t]}</th>)}</tr></thead>
-                    <tbody>{[1, 2, 3, 4].map((q) => { const p = `${year}-Q${q}`; return <tr key={p}><td className="text-xs font-medium">{p}<br /><span className="font-normal text-ink-500">due {fmtDate(find(quarterly[0], p)?.reportDue)}</span></td>{quarterly.map((t) => <td key={t}>{cell(find(t, p))}</td>)}</tr>; })}</tbody>
-                  </table>
+                <Card title="Quarterly">
+                  <CardTable>
+                    <table className="table table-data">
+                      <Cols widths={[150, ...quarterly.map(() => undefined)]} />
+                      <thead><tr><th>Quarter</th>{quarterly.map((t) => <th key={t} title={OBLIGATION_LABELS[t]}>{SHORT[t]}</th>)}</tr></thead>
+                      <tbody>{[1, 2, 3, 4].map((q) => { const p = `${year}-Q${q}`; return <tr key={p}><td className="!align-top"><span className="cell-primary">{p}</span><span className="cell-sub">due {fmtDate(find(quarterly[0], p)?.reportDue)}</span></td>{quarterly.map((t) => <td key={t} className="!align-top">{cell(find(t, p))}</td>)}</tr>; })}</tbody>
+                    </table>
+                  </CardTable>
                 </Card>
               )}
               {yearly.length > 0 && (
-                <Card title="Annual" className="overflow-x-auto">
-                  <table className="table">
-                    <thead><tr><th>Filing</th><th>Due</th><th>Status</th></tr></thead>
-                    <tbody>{yearly.map((t) => { const o = find(t, String(year)); return <tr key={t}><td className="text-xs font-medium">{OBLIGATION_LABELS[t]}</td><td className="text-xs">{fmtDate(o?.reportDue)}</td><td>{cell(o)}</td></tr>; })}</tbody>
-                  </table>
+                <Card title="Annual">
+                  <CardTable>
+                    <table className="table table-data">
+                      <Cols widths={[undefined, 120, 160]} />
+                      <thead><tr><th>Filing</th><th>Due</th><th>Status</th></tr></thead>
+                      <tbody>{yearly.map((t) => { const o = find(t, String(year)); return <tr key={t}><td className="!align-top"><span className="cell" title={OBLIGATION_LABELS[t]}>{OBLIGATION_LABELS[t].split(" (")[0]}</span>{OBLIGATION_LABELS[t].includes(" (") && <span className="cell-sub">{OBLIGATION_LABELS[t].split(" (")[1].replace(/\)$/, "")}</span>}</td><td className="whitespace-nowrap !align-top">{o?.reportDue ? fmtDate(o.reportDue) : <Dash />}</td><td className="!align-top">{cell(o)}</td></tr>; })}</tbody>
+                    </table>
+                  </CardTable>
                 </Card>
               )}
             </div>

@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { fmtDate, lastDayOfMonth, nextPeriod, periodLabel, prevPeriod, todayISO } from "@/lib/dates";
 import { ppnRegisterForEntity } from "@/lib/tax/services";
 import { PPN_DPP_FRACTION_2025 } from "@/lib/tax/constants";
-import { Card, Field, Money, Notice, Select, Stat } from "@/components/ui";
+import { Card, CardTable, Cols, Field, Money, Notice, Select, Stat } from "@/components/ui";
 import { ConfirmForm, SubmitButton } from "@/components/client";
 import { addVatTransaction, deleteVatTransaction } from "../../actions";
 import type { PpnRow } from "@/lib/tax/ppn";
@@ -23,27 +23,31 @@ export default async function PpnPage({ params, searchParams }: { params: Promis
   const { rows, summary } = await ppnRegisterForEntity(entityId, period, carry);
   const canWrite = can(user, "tax:write");
   const dueDate = lastDayOfMonth(nextPeriod(period));
+  const f = (v: number) => v.toLocaleString("en-US");
   const table = (list: PpnRow[], title: string) => (
-    <Card title={title} className="overflow-x-auto !p-0">
-      <table className="table">
-        <thead><tr><th className="pl-4">Date</th><th>Document</th><th>Counterparty</th><th>e-Faktur</th><th className="num">DPP</th><th className="num">Rate</th><th className="num">PPN</th><th>Source</th><th></th></tr></thead>
-        <tbody>
-          {list.length === 0 && <tr><td colSpan={9} className="pl-4 text-sm text-ink-500">Nothing in this period.</td></tr>}
-          {list.map((r) => (
-            <tr key={r.key} className={r.direction === "input" && !r.creditable ? "text-ink-500" : ""}>
-              <td className="pl-4 text-xs">{fmtDate(r.date)}</td>
-              <td className="text-xs font-medium">{r.docNumber}</td>
-              <td className="text-xs">{r.counterparty}<br /><span className="text-ink-500">{r.npwp ?? "—"}</span></td>
-              <td className="text-xs">{r.fakturNumber ?? <span className="text-amber-700">missing{r.direction === "input" ? " · not creditable" : ""}</span>}</td>
-              <td className="num">{r.dpp.toLocaleString("en-US")}</td>
-              <td className="num">{(r.rate * 100).toFixed(1)}%</td>
-              <td className="num font-semibold">{r.ppn.toLocaleString("en-US")}</td>
-              <td className="text-xs">{r.source === "manual" ? "manual" : <Link href={`/books/${entityId}/${r.source === "invoice" ? "invoices" : "bills"}/${r.sourceId}`} className="underline">{r.source}</Link>}</td>
-              <td className="text-right">{r.source === "manual" && canWrite && <ConfirmForm action={deleteVatTransaction.bind(null, r.sourceId)} message="Delete this manual row?"><button className="text-xs text-red-700 underline">delete</button></ConfirmForm>}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <Card title={title}>
+      <CardTable>
+        <table className="table table-data min-w-[1080px]">
+          <Cols widths={[110, 140, undefined, 170, 130, 60, 130, 90, ...(canWrite ? [64] : [])]} />
+          <thead><tr><th>Date</th><th>Document</th><th>Counterparty</th><th>e-Faktur</th><th className="num">DPP</th><th className="num">Rate</th><th className="num">PPN</th><th>Source</th>{canWrite && <th></th>}</tr></thead>
+          <tbody>
+            {list.length === 0 && <tr><td colSpan={canWrite ? 9 : 8} className="text-ink-500">Nothing in this period.</td></tr>}
+            {list.map((r) => (
+              <tr key={r.key} className={r.direction === "input" && !r.creditable ? "row-muted" : ""}>
+                <td className="whitespace-nowrap">{fmtDate(r.date)}</td>
+                <td><span className="cell font-medium" title={r.docNumber}>{r.docNumber}</span></td>
+                <td><span className="cell" title={r.counterparty}>{r.counterparty}</span>{r.npwp && <span className="cell-sub" title={r.npwp}>{r.npwp}</span>}</td>
+                <td>{r.fakturNumber ? <span className="cell font-mono text-xs" title={r.fakturNumber}>{r.fakturNumber}</span> : <span className="cell text-xs text-amber-700" title={r.direction === "input" ? "e-Faktur missing · not creditable" : "e-Faktur missing"}>missing{r.direction === "input" ? " · not creditable" : ""}</span>}</td>
+                <td className="num"><span className="money">{f(r.dpp)}</span></td>
+                <td className="num">{(r.rate * 100).toFixed(1)}%</td>
+                <td className="num font-semibold"><span className="money">{f(r.ppn)}</span></td>
+                <td>{r.source === "manual" ? <span className="cell">manual</span> : <Link href={`/books/${entityId}/${r.source === "invoice" ? "invoices" : "bills"}/${r.sourceId}`} className="cell text-brand-600 hover:underline">{r.source}</Link>}</td>
+                {canWrite && <td className="text-right text-xs">{r.source === "manual" && <ConfirmForm action={deleteVatTransaction.bind(null, r.sourceId)} message="Delete this manual row?"><button className="text-red-600 hover:underline">delete</button></ConfirmForm>}</td>}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </CardTable>
     </Card>
   );
   return (
