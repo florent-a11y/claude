@@ -1,4 +1,5 @@
 import { ENTITY_TYPES, ENTITY_TYPE_LABELS, REGIONS, type Company, type Contact, type User } from "@/lib/types";
+import { countryOptions } from "@/lib/countries";
 import { fullName } from "@/lib/util";
 import { Field, Select } from "@/components/ui";
 import { SubmitButton } from "@/components/client";
@@ -15,7 +16,7 @@ export function CompanyForm({ company, contacts, users, action, defaultContactId
         <div className="grid grid-cols-2 gap-3">
           <Field label="Type"><Select name="type" defaultValue={c?.type ?? "prospect"} options={typeOptions} /></Field>
           <Field label="Status"><Select name="status" defaultValue={c?.status ?? "lead"} options={["lead", "active", "inactive"]} /></Field>
-          <Field label="Country (ISO-2)"><input name="country" defaultValue={c?.country ?? "ID"} maxLength={2} className="input" /></Field>
+          <Field label="Country"><Select name="country" defaultValue={c?.country ?? "ID"} options={countryOptions()} /></Field>
           <Field label="Region"><Select name="region" defaultValue={c?.region ?? "Bali"} options={[...REGIONS]} /></Field>
           <Field label="NPWP"><input name="npwp" defaultValue={c?.npwp} className="input" /></Field>
           <Field label="NIB"><input name="nib" defaultValue={c?.nib} className="input" /></Field>

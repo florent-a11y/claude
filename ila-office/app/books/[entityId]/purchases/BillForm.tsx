@@ -1,5 +1,6 @@
 "use client";
 import { useMemo, useState } from "react";
+import { countryOptions } from "@/lib/countries";
 import { addDays } from "@/lib/dates";
 import { currencyOptions, fmtNumber } from "@/lib/money";
 import { billTotals, WITHHOLDING_LABELS, WITHHOLDING_TYPES, defaultWithholdingRate } from "@/lib/ledger";
@@ -57,7 +58,7 @@ export function BillForm({ action, entity, vendors, accounts, defaultAccountId, 
             <div className="grid grid-cols-3 gap-3">
               <label className="col-span-3 block"><span className="label">Name</span><input value={other.name} onChange={(e) => setOther({ ...other, name: e.target.value })} className="input" required /></label>
               <label className="col-span-2 block"><span className="label">NPWP</span><input value={other.npwp} onChange={(e) => setOther({ ...other, npwp: e.target.value })} className="input" /></label>
-              <label className="block"><span className="label">Country</span><input value={other.country} onChange={(e) => setOther({ ...other, country: e.target.value.toUpperCase() })} maxLength={2} className="input" /></label>
+              <label className="block"><span className="label">Country</span><select value={other.country || "ID"} onChange={(e) => setOther({ ...other, country: e.target.value })} className="input">{countryOptions().map((o) => <option key={o.value} value={o.value} disabled={o.disabled}>{o.label}</option>)}</select></label>
             </div>
           )}
           <label className="block"><span className="label">Vendor invoice number</span><input name="vendorInvoiceNumber" defaultValue={bill?.vendorInvoiceNumber} className="input" /></label>

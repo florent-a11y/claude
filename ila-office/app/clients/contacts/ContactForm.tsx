@@ -1,4 +1,5 @@
 import type { Company, Contact, User } from "@/lib/types";
+import { countryOptions } from "@/lib/countries";
 import { Field, Select } from "@/components/ui";
 import { SubmitButton } from "@/components/client";
 import { userOptions } from "../_lib/server";
@@ -20,7 +21,7 @@ export function ContactForm({ contact, companies, users, action, defaultCompanyI
           <Field label="Email"><input name="email" type="email" defaultValue={c?.email} className="input" /></Field>
           <Field label="Phone"><input name="phone" defaultValue={c?.phone} className="input" placeholder="+62 8…" /></Field>
           <Field label="WhatsApp"><input name="whatsapp" defaultValue={c?.whatsapp} className="input" placeholder="same as phone if empty" /></Field>
-          <Field label="Nationality (ISO-2)"><input name="nationality" defaultValue={c?.nationality} maxLength={2} className="input" placeholder="FR" /></Field>
+          <Field label="Nationality"><Select name="nationality" defaultValue={c?.nationality ?? ""} options={countryOptions({ none: "— unknown —" })} /></Field>
           <Field label="Language"><Select name="language" defaultValue={c?.language ?? "en"} options={LANGUAGES} /></Field>
           <Field label="Date of birth"><input name="dateOfBirth" type="date" defaultValue={c?.dateOfBirth} className="input" /></Field>
           <Field label="Passport number"><input name="passportNumber" defaultValue={c?.passportNumber} className="input" /></Field>

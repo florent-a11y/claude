@@ -1,4 +1,5 @@
 import { ENTITY_TYPES, ENTITY_TYPE_LABELS, REGIONS, TAX_REGIME_LABELS, type Company, type Entity } from "@/lib/types";
+import { countryOptions } from "@/lib/countries";
 import { Field, Select } from "@/components/ui";
 import { currencyOptions } from "@/lib/money";
 import { SubmitButton } from "@/components/client";
@@ -13,7 +14,7 @@ export function EntityForm({ entity, companies, action }: { entity?: Entity; com
         <Field label="Legal name"><input name="legalName" defaultValue={e?.legalName} className="input" placeholder="PT EXAMPLE BALI INVESTAMA" /></Field>
         <div className="grid grid-cols-2 gap-3">
           <Field label="Type"><Select name="type" defaultValue={e?.type ?? "pt_pma"} options={ENTITY_TYPES.map((t) => ({ value: t, label: ENTITY_TYPE_LABELS[t] }))} /></Field>
-          <Field label="Country (ISO-2)"><input name="country" defaultValue={e?.country ?? "ID"} maxLength={2} className="input" /></Field>
+          <Field label="Country"><Select name="country" defaultValue={e?.country ?? "ID"} options={countryOptions()} /></Field>
           <Field label="Region"><Select name="region" defaultValue={e?.region ?? "Bali"} options={[...REGIONS]} /></Field>
           <Field label="City"><input name="city" defaultValue={e?.city} className="input" /></Field>
           <Field label="NPWP"><input name="npwp" defaultValue={e?.npwp} className="input" placeholder="00.000.000.0-000.000" /></Field>

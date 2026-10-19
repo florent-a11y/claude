@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { countryOptions } from "@/lib/countries";
 import { notFound } from "next/navigation";
 import { requirePermission } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -50,7 +51,7 @@ export default async function NewSlip({ params, searchParams }: { params: Promis
           <Field label="Recipient NPWP" hint="Empty = no NPWP: PPh 23 doubled, PPh 21 +20%."><input name="npwp" defaultValue={pre.npwp} className="input" placeholder="00.000.000.0-000.000" /></Field>
           <Field label="Recipient NIK (individuals without NPWP)"><input name="nik" className="input" /></Field>
           <Field label="Recipient address" className="md:col-span-2"><input name="address" className="input" /></Field>
-          <Field label="Country (ISO-2)"><input name="country" defaultValue={pre.country} maxLength={2} className="input" /></Field>
+          <Field label="Country"><Select name="country" defaultValue={pre.country ?? "ID"} options={countryOptions()} /></Field>
           <Field label="DPP / gross amount (IDR)"><input name="baseAmount" type="number" min={0} defaultValue={pre.base || ""} required className="input" /></Field>
           <div className="md:col-span-2 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm">
             <label className="flex items-center gap-2"><input type="checkbox" name="treatyApplied" className="checkbox" /> PPh 26: apply tax treaty rate (DGT form / certificate of residence on file)</label>

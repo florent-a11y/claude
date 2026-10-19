@@ -117,11 +117,11 @@ export function Field({ label, children, hint, className = "" }: { label: ReactN
   return <label className={`block ${className}`}><span className="label">{label}</span>{children}{hint && <span className="mt-1 block text-xs text-ink-500">{hint}</span>}</label>;
 }
 
-export function Select({ name, value, defaultValue, options, className = "input", required, id }: { name: string; value?: string; defaultValue?: string; options: Array<{ value: string; label: string }> | readonly string[]; className?: string; required?: boolean; id?: string }) {
-  const opts = (options as ReadonlyArray<string | { value: string; label: string }>).map((o) => (typeof o === "string" ? { value: o, label: o } : o));
+export function Select({ name, value, defaultValue, options, className = "input", required, id }: { name: string; value?: string; defaultValue?: string; options: Array<{ value: string; label: string; disabled?: boolean }> | readonly string[]; className?: string; required?: boolean; id?: string }) {
+  const opts = (options as ReadonlyArray<string | { value: string; label: string; disabled?: boolean }>).map((o) => (typeof o === "string" ? { value: o, label: o } : o));
   return (
     <select name={name} id={id} value={value} defaultValue={defaultValue} className={className} required={required}>
-      {opts.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+      {opts.map((o) => <option key={o.value} value={o.value} disabled={o.disabled}>{o.label}</option>)}
     </select>
   );
 }
