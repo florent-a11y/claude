@@ -6,6 +6,7 @@ import { fmtDate, todayISO } from "@/lib/dates";
 import { fullName } from "@/lib/util";
 import { ENTITY_TYPE_LABELS } from "@/lib/types";
 import { Page, Card, DL, Badge, Cols, Field, Select, Money, statusTone } from "@/components/ui";
+import { currencyOptions } from "@/lib/money";
 import { SubmitButton, ConfirmForm } from "@/components/client";
 import { activeServices, activitiesFor, lookups } from "../../_lib/server";
 import { Timeline } from "../../_components/Timeline";
@@ -94,7 +95,7 @@ export default async function CompanyDetail({ params }: { params: Promise<{ id: 
                   <Field label="Catalogue service (optional)" className="md:col-span-3"><Select name="serviceId" defaultValue="" options={[{ value: "", label: "— free text —" }, ...subscriptionServices.map((s) => ({ value: s.id, label: `${s.name} (${s.unit})` }))]} /></Field>
                   <Field label="Label" className="md:col-span-3"><input name="label" required className="input" placeholder="Monthly tax compliance" /></Field>
                   <Field label="Amount"><input name="amount" type="number" min={0} step="any" required className="input" /></Field>
-                  <Field label="Currency"><Select name="currency" defaultValue="IDR" options={["IDR", "USD", "EUR", "HKD"]} /></Field>
+                  <Field label="Currency"><Select name="currency" defaultValue="IDR" options={currencyOptions()} /></Field>
                   <Field label="Cadence"><Select name="cadence" defaultValue="monthly" options={["monthly", "quarterly", "annual"]} /></Field>
                   <Field label="Started"><input name="startedAt" type="date" defaultValue={todayISO()} className="input" /></Field>
                   <div className="flex items-end"><SubmitButton className="btn-secondary">Add</SubmitButton></div>

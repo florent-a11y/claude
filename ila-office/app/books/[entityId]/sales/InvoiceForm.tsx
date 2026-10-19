@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
 import { addWorkingDays } from "@/lib/dates";
-import { fmtNumber } from "@/lib/money";
+import { currencyOptions, fmtNumber } from "@/lib/money";
 import { invoiceTotals } from "@/lib/ledger";
 import { SubmitButton } from "@/components/client";
 import { Cols, TableCard } from "@/components/ui";
@@ -12,7 +12,6 @@ export interface AccountOpt { id: string; code: string; name: string }
 export interface ServiceOpt { id: string; name: string; priceIDR: number; priceUSD?: number; priceEUR?: number; taxTreatment: "out_of_scope" | "ppn" }
 interface Line { key: number; description: string; qty: string; unitPrice: string; accountId: string; taxCode: TaxCode; serviceId?: string }
 
-const CURRENCIES = ["IDR", "USD", "EUR", "HKD", "SGD", "AUD", "GBP"];
 const TAX_CODES: Array<{ value: TaxCode; label: string }> = [{ value: "out_of_scope", label: "Out of scope (no PPN)" }, { value: "ppn", label: "PPN" }, { value: "none", label: "None / exempt" }];
 
 function n(s: string): number { const x = Number(String(s).replace(/[^0-9.\-]/g, "")); return Number.isFinite(x) ? x : 0; }
@@ -77,7 +76,7 @@ export function InvoiceForm({ action, entity, customers, accounts, services, def
         <div className="card grid grid-cols-2 gap-3">
           <label className="block"><span className="label">Invoice date</span><input name="date" type="date" value={date} required className="input" onChange={(e) => { setDate(e.target.value); if (!dueTouched && e.target.value) setDueDate(addWorkingDays(e.target.value, 3)); }} /></label>
           <label className="block"><span className="label">Due date</span><input name="dueDate" type="date" value={dueDate} required className="input" onChange={(e) => { setDueDate(e.target.value); setDueTouched(true); }} /><span className="mt-1 block text-xs text-ink-500">Default: 3 working days after the invoice date.</span></label>
-          <label className="block"><span className="label">Currency</span><select name="currency" value={currency} onChange={(e) => setCurrency(e.target.value)} className="input">{CURRENCIES.map((c) => <option key={c}>{c}</option>)}</select></label>
+          <label className="block"><span className="label">Currency</span><select name="currency" value={currency} onChange={(e) => setCurrency(e.target.value)} className="input">{currencyOptions().map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}</select></label>
           <label className="block"><span className="label">FX rate (IDR per 1 {currency})</span><input name="fxRate" value={currency === "IDR" ? "1" : fxRate} onChange={(e) => setFxRate(e.target.value)} disabled={currency === "IDR"} className="input" inputMode="decimal" placeholder="16500" /></label>
           <label className="block"><span className="label">e-Faktur number (PKP)</span><input name="fakturNumber" defaultValue={invoice?.fakturNumber} className="input" /></label>
         </div>

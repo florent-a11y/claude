@@ -1,5 +1,6 @@
 import { ENTITY_TYPES, ENTITY_TYPE_LABELS, REGIONS, TAX_REGIME_LABELS, type Company, type Entity } from "@/lib/types";
 import { Field, Select } from "@/components/ui";
+import { currencyOptions } from "@/lib/money";
 import { SubmitButton } from "@/components/client";
 
 export function EntityForm({ entity, companies, action }: { entity?: Entity; companies: Company[]; action: (fd: FormData) => Promise<void> }) {
@@ -30,7 +31,7 @@ export function EntityForm({ entity, companies, action }: { entity?: Entity; com
       <div className="card space-y-3">
         <h2 className="text-sm font-semibold text-ink-700">Books & tax profile</h2>
         <div className="grid grid-cols-2 gap-3">
-          <Field label="Base currency"><input name="baseCurrency" defaultValue={e?.baseCurrency ?? "IDR"} maxLength={3} className="input" /></Field>
+          <Field label="Base currency"><Select name="baseCurrency" defaultValue={e?.baseCurrency ?? "IDR"} options={currencyOptions()} /></Field>
           <Field label="Fiscal year starts (month)"><input name="fiscalYearStartMonth" type="number" min={1} max={12} defaultValue={e?.fiscalYearStartMonth ?? 1} className="input" /></Field>
         </div>
         <Field label="Corporate tax regime"><Select name="regime" defaultValue={e?.tax.regime ?? "normal_22"} options={Object.entries(TAX_REGIME_LABELS).map(([value, label]) => ({ value, label }))} /></Field>

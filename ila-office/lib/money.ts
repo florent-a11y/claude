@@ -2,6 +2,11 @@
 
 export const CURRENCIES = ["IDR", "USD", "EUR", "HKD", "SGD", "AUD", "GBP", "PHP"] as const;
 export type Currency = (typeof CURRENCIES)[number] | string;
+export const CURRENCY_NAMES: Record<(typeof CURRENCIES)[number], string> = {
+  IDR: "Indonesian rupiah", USD: "US dollar", EUR: "Euro", HKD: "Hong Kong dollar", SGD: "Singapore dollar", AUD: "Australian dollar", GBP: "British pound", PHP: "Philippine peso",
+};
+/** Options for a currency dropdown: "IDR · Indonesian rupiah". */
+export const currencyOptions = (codes: readonly string[] = CURRENCIES) => codes.map((c) => ({ value: c, label: c in CURRENCY_NAMES ? `${c} · ${CURRENCY_NAMES[c as keyof typeof CURRENCY_NAMES]}` : c }));
 
 export function decimalsFor(currency: string): number {
   return currency === "IDR" ? 0 : 2;

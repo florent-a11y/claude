@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { accountBalances, naturalBalance } from "@/lib/balances";
 import { entityAccounts, entityEntries } from "@/lib/books";
 import { todayISO, fmtDate } from "@/lib/dates";
-import { fmtMoney } from "@/lib/money";
+import { currencyOptions, fmtMoney } from "@/lib/money";
 import { Card, Field, Select, Money, EmptyState, Badge, Cols, Dash, TableCard } from "@/components/ui";
 import { SubmitButton } from "@/components/client";
 import { ErrorNotice, accountOptions, base, first, requireEntity, type Params, type Search } from "../shared";
@@ -69,7 +69,7 @@ export default async function Bank({ params, searchParams }: { params: Params; s
                 <Field label="To"><Select name="toBankAccountId" defaultValue={banks.filter((x) => x.active)[1]?.id} options={banks.filter((x) => x.active).map((x) => ({ value: x.id, label: `${x.name} (${x.currency})` }))} /></Field>
                 <Field label="Date"><input name="date" type="date" defaultValue={todayISO()} className="input" required /></Field>
                 <Field label="Amount sent"><input name="amount" inputMode="decimal" className="input text-right" required /></Field>
-                <Field label="Currency of amount"><Select name="currency" defaultValue="IDR" options={["IDR", "USD", "EUR", "HKD", "SGD", "AUD", "GBP"]} /></Field>
+                <Field label="Currency of amount"><Select name="currency" defaultValue="IDR" options={currencyOptions()} /></Field>
                 <Field label="FX rate (IDR per unit, non-IDR)"><input name="fxRate" inputMode="decimal" className="input" placeholder="1" /></Field>
                 <Field label="IDR received (optional, cross-currency)" hint="Leave blank when both sides are the same currency."><input name="toAmountIDR" inputMode="decimal" className="input text-right" /></Field>
                 <Field label="Bank fee (IDR)"><input name="feeIDR" inputMode="decimal" className="input text-right" placeholder="0" /></Field>
@@ -86,7 +86,7 @@ export default async function Bank({ params, searchParams }: { params: Params; s
               <div className="grid grid-cols-2 gap-3">
                 <Field label="Bank"><input name="bankName" className="input" placeholder="OCBC / Mandiri / BNI / Aspire / Aspire" /></Field>
                 <Field label="Account number"><input name="accountNumber" className="input" /></Field>
-                <Field label="Currency"><Select name="currency" defaultValue="IDR" options={["IDR", "USD", "EUR", "HKD", "SGD", "AUD", "GBP"]} /></Field>
+                <Field label="Currency"><Select name="currency" defaultValue="IDR" options={currencyOptions()} /></Field>
                 <Field label="Opening date"><input name="openingDate" type="date" className="input" /></Field>
               </div>
               <Field label="GL account" hint="Pick an unused bank/cash account or create one."><Select name="accountId" defaultValue={glOptions[0]?.value ?? "__new__"} options={[...glOptions, { value: "__new__", label: "+ Create a new GL account" }]} /></Field>
