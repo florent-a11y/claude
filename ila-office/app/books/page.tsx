@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { requireUser } from "@/lib/auth";
+import { can, requireUser, scopeEntities } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { ENTITY_TYPE_LABELS, ENTITY_TYPE_SHORT, TAX_REGIME_SHORT } from "@/lib/types";
 import { Page, Badge, Cols, Dash, EmptyState, TableCard, statusTone } from "@/components/ui";
@@ -9,9 +9,9 @@ export const metadata = { title: "Books" };
 
 /** Entity picker: one set of books per entity (ILA itself and every client company). */
 export default async function BooksIndex() {
-  await requireUser();
+  const user = await requireUser();
   const [entities, invoices, bankTx] = await Promise.all([
-    db.list("entities", { orderBy: "name" }),
+    db.list("entities", { orderBy: "name" }).then((rows) => scopeEntities(user, rows)),
     db.list("invoices", { where: (i) => i.status === "sent" || i.status === "partial" }),
     db.list("bank_transactions", { where: { status: "unmatched" } }),
   ]);
@@ -22,7 +22,7 @@ export default async function BooksIndex() {
   const sorted = [...entities].sort((a, b) => Number(b.isOwn) - Number(a.isOwn) || a.name.localeCompare(b.name));
   return (
     <Page title="Books" subtitle="Pick the entity whose books you want to work on.">
-      {sorted.length === 0 ? <EmptyState title="No entity yet" hint="Create ILA's own entity first, then one per client." action={<Link href="/settings/entities/new" className="btn-primary">New entity</Link>} /> : (
+      {sorted.length === 0 ? <EmptyState title="No entity yet" hint="Create ILA's own entity first, then one per client." action={can(user, "admin") && <Link href="/settings/entities/new" className="btn-primary">New entity</Link>} /> : (
         <TableCard>
           <table className="table table-data min-w-[950px]">
             <Cols widths={[undefined, 110, 120, 86, 116, 164, 186]} />

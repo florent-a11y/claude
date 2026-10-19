@@ -13,7 +13,7 @@ const GRID_ROWS_RETURNED = 6000;
  * format and returns the parsed rows (for known banks) plus the raw grid (for manual column mapping).
  */
 export async function POST(req: Request, ctx: { params: Promise<{ entityId: string }> }) {
-  const user = await guard("books:write");
+  const user = await guard("books:write", (await ctx.params).entityId);
   if (user instanceof Response) return user;
   const { entityId } = await ctx.params;
   try {

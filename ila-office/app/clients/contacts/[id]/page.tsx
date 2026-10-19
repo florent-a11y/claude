@@ -1,6 +1,7 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
-import { requireUser, can } from "@/lib/auth";
+import { requireUser, can, canAccessEntity, isClient } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { fmtDate } from "@/lib/dates";
 import { fullName } from "@/lib/util";
@@ -18,6 +19,8 @@ export default async function ContactDetail({ params }: { params: Promise<{ id: 
   const contact = await db.get("contacts", id);
   if (!contact) notFound();
   const [l, activities] = await Promise.all([lookups(), activitiesFor((a) => a.contactId === id)]);
+  const client = isClient(me);
+  if (client && !contact.companyIds.some((cid) => canAccessEntity(me, l.companies.get(cid)?.entityId))) notFound();
   const name = fullName(contact) || "(no name)";
   const companies = contact.companyIds.map((cid) => l.companies.get(cid)).filter((c): c is NonNullable<typeof c> => Boolean(c));
   const write = can(me, "crm:write");
@@ -38,13 +41,15 @@ export default async function ContactDetail({ params }: { params: Promise<{ id: 
               ["Nationality", contact.nationality ?? "—"], ["Language", contact.language ? LANGUAGE_LABELS[contact.language] ?? contact.language : "—"],
               ["Date of birth", fmtDate(contact.dateOfBirth)],
               ["Passport", contact.passportNumber ? `${contact.passportNumber} · exp. ${fmtDate(contact.passportExpiry)}` : "—"],
-              ["Source", contact.source ?? "—"], ["Owner", l.user(contact.ownerUserId)],
-              ["Tags", contact.tags.length ? <span className="space-x-1">{contact.tags.map((t) => <Badge key={t}>{t}</Badge>)}</span> : "—"],
-              ["Drive", contact.driveFolderUrl ? <a className="text-brand-600 underline" href={contact.driveFolderUrl} target="_blank" rel="noreferrer">Open folder</a> : "—"],
-              ["HubSpot / QBO", [contact.hubspotId, contact.qboCustomerId].filter(Boolean).join(" / ") || "—"],
-              ["Created", fmtDate(contact.createdAt.slice(0, 10))],
+              ...(client ? [] : [
+                ["Source", contact.source ?? "—"], ["Owner", l.user(contact.ownerUserId)],
+                ["Tags", contact.tags.length ? <span className="space-x-1">{contact.tags.map((t) => <Badge key={t}>{t}</Badge>)}</span> : "—"],
+                ["Drive", contact.driveFolderUrl ? <a className="text-brand-600 underline" href={contact.driveFolderUrl} target="_blank" rel="noreferrer">Open folder</a> : "—"],
+                ["HubSpot / QBO", [contact.hubspotId, contact.qboCustomerId].filter(Boolean).join(" / ") || "—"],
+                ["Created", fmtDate(contact.createdAt.slice(0, 10))],
+              ] as Array<[string, ReactNode]>),
             ]} />
-            {contact.notes && <p className="mt-3 whitespace-pre-wrap rounded-lg bg-slate-50 p-2 text-sm">{contact.notes}</p>}
+            {contact.notes && !client && <p className="mt-3 whitespace-pre-wrap rounded-lg bg-slate-50 p-2 text-sm">{contact.notes}</p>}
           </Card>
           <Card title="Companies" actions={write && <Link href={`/clients/companies/new?contactId=${id}`} className="text-xs text-brand-600 underline">New company</Link>}>
             {companies.length === 0 ? <p className="text-sm text-ink-500">Not linked to a company.</p> : (
@@ -63,7 +68,7 @@ export default async function ContactDetail({ params }: { params: Promise<{ id: 
           </Card>
         </div>
         <div className="min-w-0 space-y-4">
-          <Timeline activities={activities} refs={{ contactId: id, companyId: contact.companyIds[0] }} backPath={path} canWrite={write} />
+          {!client && <Timeline activities={activities} refs={{ contactId: id, companyId: contact.companyIds[0] }} backPath={path} canWrite={write} />}
         </div>
       </div>
     </Page>

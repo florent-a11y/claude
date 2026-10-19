@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { requireUser, can } from "@/lib/auth";
+import { requireTeam, can } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { fmtMoney } from "@/lib/money";
 import { SERVICE_CATEGORIES, SERVICE_CATEGORY_LABELS, type ServiceItem } from "@/lib/types";
@@ -17,7 +17,7 @@ const byOrder = (a: ServiceItem, b: ServiceItem) => (a.sortOrder ?? 0) - (b.sort
 
 
 export default async function Services({ searchParams }: { searchParams: Promise<SP> }) {
-  const me = await requireUser();
+  const me = await requireTeam();
   const sp = await searchParams;
   const write = can(me, "crm:write");
   const all = (await db.list("services")).sort(byOrder);

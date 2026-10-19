@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { requireUser, can } from "@/lib/auth";
+import { requireTeam, can } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { VENDOR_CATEGORIES } from "@/lib/types";
 import { matchesSearch } from "../_lib/search";
@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "Vendors" };
 
 export default async function Vendors({ searchParams }: { searchParams: Promise<{ q?: string; category?: string; inactive?: string }> }) {
-  const me = await requireUser();
+  const me = await requireTeam();
   const sp = await searchParams;
   const all = await db.list("vendors", { orderBy: "name" });
   const write = can(me, "crm:write");

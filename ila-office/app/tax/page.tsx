@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { can, requireUser } from "@/lib/auth";
+import { can, requireUser, scopeEntities } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { nextPeriod, periodLabel, prevPeriod, todayISO, fmtDate } from "@/lib/dates";
 import { OBLIGATION_LABELS, OBLIGATION_STATUSES, OBLIGATION_STATUS_LABELS, OBLIGATION_TYPES, type ObligationType } from "@/lib/types";
@@ -25,7 +25,7 @@ export default async function AllClientsCalendar({ searchParams }: { searchParam
   const month = sp.month && /^\d{4}-\d{2}$/.test(sp.month) ? sp.month : today.slice(0, 7);
   const mode = sp.mode === "period" ? "period" : "due";
   const [entities, users, all] = await Promise.all([
-    db.list("entities", { where: { status: "active" }, orderBy: "name" }),
+    db.list("entities", { where: { status: "active" }, orderBy: "name" }).then((rows) => scopeEntities(user, rows)),
     db.list("users", { where: { active: true }, orderBy: "name" }),
     db.list("tax_obligations"),
   ]);

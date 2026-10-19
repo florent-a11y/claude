@@ -1,10 +1,12 @@
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { hashPassword, verifyPassword } from "./password";
 export { hashPassword, verifyPassword };
 import { db } from "./db";
-import type { Role, User } from "./types";
+import type { User } from "./types";
+import { can as canDo, canAccessEntity, isClient, type Permission } from "./access";
+export { allowedEntityIds, canAccessEntity, isClient, scopeByEntity, scopeEntities, type Permission } from "./access";
 
 /**
  * Authentication: email + password (scrypt) and an HMAC-signed session cookie.
@@ -57,7 +59,7 @@ export async function clearSessionCookie() {
   jar.set(SESSION_COOKIE, "", { httpOnly: true, path: "/", maxAge: 0 });
 }
 
-export type SessionUser = Pick<User, "id" | "email" | "name" | "role">;
+export type SessionUser = Pick<User, "id" | "email" | "name" | "role" | "entityIds">;
 
 /** Current user or null. Safe to call from server components, route handlers and server actions. */
 export async function getUser(): Promise<SessionUser | null> {
@@ -66,7 +68,7 @@ export async function getUser(): Promise<SessionUser | null> {
   if (!parsed) return null;
   const user = await db.get("users", parsed.userId);
   if (!user || !user.active) return null;
-  return { id: user.id, email: user.email, name: user.name, role: user.role };
+  return { id: user.id, email: user.email, name: user.name, role: user.role, entityIds: user.role === "client" ? user.entityIds ?? [] : undefined };
 }
 
 /** Redirects to /login when not signed in. */
@@ -76,33 +78,44 @@ export async function requireUser(): Promise<SessionUser> {
   return user;
 }
 
-const ROLE_RANK: Record<Role, number> = { viewer: 0, consultant: 1, accountant: 1, admin: 2 };
-
 /**
- * Coarse permissions. Consultants own the CRM, accountants own books/tax, admins everything; viewers read only.
- * Both consultant and accountant may read everything (a visa project needs the invoice, the accountant needs the client).
+ * Coarse permissions (rules in lib/access.ts). Consultants own the CRM, accountants own books/tax, admins everything;
+ * viewers read only. Every team role reads everything (a visa project needs the invoice, the accountant needs the client).
+ * Client users read only the entities allocated to them.
  */
-export type Permission = "crm:write" | "books:write" | "tax:write" | "admin" | "read";
 export function can(user: SessionUser | null, perm: Permission): boolean {
-  if (!user) return false;
-  if (perm === "read") return true;
-  if (user.role === "admin") return true;
-  if (perm === "admin") return false;
-  if (perm === "crm:write") return user.role === "consultant";
-  return user.role === "accountant"; // books:write, tax:write
+  return canDo(user, perm);
+}
+
+/** Pages reserved for ILA's team (every role except client). Clients get a 404. */
+export async function requireTeam(): Promise<SessionUser> {
+  const user = await requireUser();
+  if (isClient(user)) notFound();
+  return user;
+}
+
+/** Entity-scoped pages and actions: signed in and allowed to see this entity, else 404. */
+export async function requireEntityAccess(entityId: string): Promise<SessionUser> {
+  const user = await requireUser();
+  if (!canAccessEntity(user, entityId)) notFound();
+  return user;
 }
 
 export async function requirePermission(perm: Permission): Promise<SessionUser> {
   const user = await requireUser();
-  if (!can(user, perm)) throw new Error("Forbidden");
+  if (!can(user, perm)) {
+    if (isClient(user)) notFound(); // a client never sees team pages or actions
+    throw new Error("Forbidden");
+  }
   return user;
 }
 
-/** Route-handler guard: returns the user or a 401/403 Response. */
-export async function guard(perm: Permission = "read"): Promise<SessionUser | Response> {
+/** Route-handler guard: returns the user or a 401/403 Response; with `entityId`, also checks the entity allocation. */
+export async function guard(perm: Permission = "read", entityId?: string): Promise<SessionUser | Response> {
   const user = await getUser();
   if (!user) return new Response("Unauthorized", { status: 401 });
   if (!can(user, perm)) return new Response("Forbidden", { status: 403 });
+  if (entityId !== undefined && !canAccessEntity(user, entityId)) return new Response("Forbidden", { status: 403 });
   return user;
 }
 

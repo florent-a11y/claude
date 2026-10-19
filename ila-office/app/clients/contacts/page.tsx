@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { requireUser } from "@/lib/auth";
+import { can, isClient, requireUser, scopeByEntity } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { matchesSearch, phoneDigits } from "../_lib/search";
 import { fullName } from "@/lib/util";
@@ -11,10 +11,13 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "Contacts" };
 
 export default async function Contacts({ searchParams }: { searchParams: Promise<{ q?: string; owner?: string }> }) {
-  await requireUser();
+  const user = await requireUser();
   const sp = await searchParams;
   const l = await lookups();
-  const all = await db.list("contacts", { orderBy: "createdAt", desc: true });
+  // A client sees the people linked to its own companies only.
+  const visibleCompanies = new Set(scopeByEntity(user, [...l.companies.values()], (c) => c.entityId).map((c) => c.id));
+  const all = (await db.list("contacts", { orderBy: "createdAt", desc: true })).filter((c) => !isClient(user) || c.companyIds.some((id) => visibleCompanies.has(id)));
+  const write = can(user, "crm:write");
   const q = sp.q?.trim() ?? "";
   const qDigits = phoneDigits(q);
   const rows = all.filter((c) => {
@@ -26,7 +29,7 @@ export default async function Contacts({ searchParams }: { searchParams: Promise
   });
   const base = "/clients/contacts";
   return (
-    <Page title="Contacts" subtitle={`${all.length} people · investors, directors, visa holders, referrers`} actions={<Link href="/clients/contacts/new" className="btn-primary">New contact</Link>}>
+    <Page title="Contacts" subtitle={`${all.length} people · investors, directors, visa holders, referrers`} actions={write && <Link href="/clients/contacts/new" className="btn-primary">New contact</Link>}>
       <form className="mb-3 flex flex-wrap items-center gap-2 no-print">
         <AutoSubmitInput name="q" defaultValue={q} placeholder="Search name, email, phone, nationality, company, tag…" className="input max-w-md" />
         {sp.owner && <input type="hidden" name="owner" value={sp.owner} />}
@@ -34,7 +37,7 @@ export default async function Contacts({ searchParams }: { searchParams: Promise
         {(q || sp.owner) && <Link href={base} className="btn-ghost !px-2 !py-1 text-xs">Clear</Link>}
         <span className="ml-auto text-xs text-ink-500">{rows.length} shown</span>
       </form>
-      {rows.length === 0 ? <EmptyState title={q ? "No contact matches" : "No contacts yet"} action={<Link href="/clients/contacts/new" className="btn-primary">New contact</Link>} /> : (
+      {rows.length === 0 ? <EmptyState title={q ? "No contact matches" : "No contacts yet"} action={write && <Link href="/clients/contacts/new" className="btn-primary">New contact</Link>} /> : (
         <TableCard>
           <table className="table table-data min-w-[940px]">
             <Cols widths={[undefined, 210, 150, 56, undefined, 180]} />

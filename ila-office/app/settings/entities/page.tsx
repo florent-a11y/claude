@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { requireUser } from "@/lib/auth";
+import { requireTeam } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { ENTITY_TYPE_LABELS, ENTITY_TYPE_SHORT, TAX_REGIME_LABELS, TAX_REGIME_SHORT } from "@/lib/types";
 import { Page, Badge, Cols, Dash, EmptyState, TableCard, statusTone } from "@/components/ui";
@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "Entities" };
 
 export default async function Entities() {
-  await requireUser();
+  await requireTeam();
   const entities = await db.list("entities", { orderBy: "name" });
   return (
     <Page title="Entities" subtitle="One entity per set of books: ILA itself and every client company whose accounting ILA keeps." actions={<Link href="/settings/entities/new" className="btn-primary">New entity</Link>}>

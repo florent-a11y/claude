@@ -9,16 +9,49 @@ const CLIENTS: Item[] = [
 ];
 const SETTINGS: Item[] = [{ href: "/settings/entities", label: "Entities (books)" }, { href: "/settings/users", label: "Users" }, { href: "/settings/import", label: "Import data" }];
 
-export function ShellNav({ entities, ownEntityId, role }: { entities: Array<{ id: string; name: string; isOwn: boolean }>; ownEntityId?: string; role: string }) {
+type EntityItem = { id: string; name: string; isOwn: boolean; payroll?: boolean };
+
+/** Sidebar navigation. Team roles see every module; client users see their own companies' books and tax only. */
+export function ShellNav({ entities, ownEntityId, role, companies = [] }: { entities: EntityItem[]; ownEntityId?: string; role: string; companies?: Array<{ id: string; name: string }> }) {
   const path = usePathname();
+  const client = role === "client";
   // Remember the entity from the URL so Books/Tax links keep the current context.
   const m = path.match(/^\/(books|tax|payroll)\/([^/]+)/);
   const entityId = m?.[2] ?? ownEntityId ?? entities[0]?.id;
+  const current = entities.find((e) => e.id === entityId);
   const link = (href: string, label: string, exact = false) => {
     const active = exact ? path === href : path === href || path.startsWith(href + "/");
     return <Link key={href} href={href} className={`block rounded-md px-2 py-1 text-sm ${active ? "bg-brand-50 font-semibold text-brand-700" : "text-ink-700 hover:bg-slate-50"}`}>{label}</Link>;
   };
   const section = (title: string) => <p className="mt-4 mb-1 px-2 text-[10px] font-semibold uppercase tracking-widest text-ink-500">{title}</p>;
+  const entityPicker = entities.length > 1 && (
+    <div className="mt-2 px-2">
+      <label className="label">{client ? "Company" : "Entity"}</label>
+      <select className="input !py-1 text-xs" value={entityId} onChange={(e) => { const id = e.target.value; const seg = m?.[1] ?? "books"; window.location.href = `/${seg}/${id}`; }}>
+        {entities.map((e) => <option key={e.id} value={e.id}>{e.isOwn ? `★ ${e.name}` : e.name}</option>)}
+      </select>
+    </div>
+  );
+  if (client) {
+    return (
+      <nav className="flex-1 overflow-y-auto px-2 py-2">
+        {link("/", "Dashboard", true)}
+        {companies.length > 0 && section(companies.length > 1 ? "My companies" : "My company")}
+        {companies.map((c) => link(`/clients/companies/${c.id}`, c.name))}
+        {section("Books & tax")}
+        {entityId ? (
+          <>
+            {link(`/books/${entityId}`, "Books")}
+            {link(`/tax/${entityId}`, "Tax & compliance")}
+            {current?.payroll && link(`/payroll/${entityId}`, "Payroll")}
+            {entityPicker}
+          </>
+        ) : (
+          <p className="px-2 text-xs text-ink-500">No company has been allocated to your account yet. Ask ILA.</p>
+        )}
+      </nav>
+    );
+  }
   return (
     <nav className="flex-1 overflow-y-auto px-2 py-2">
       {link("/", "Dashboard", true)}
@@ -30,12 +63,7 @@ export function ShellNav({ entities, ownEntityId, role }: { entities: Array<{ id
           {link(`/books/${entityId}`, "Books")}
           {link(`/tax/${entityId}`, "Tax & compliance")}
           {link(`/payroll/${entityId}`, "Payroll")}
-          <div className="mt-2 px-2">
-            <label className="label">Entity</label>
-            <select className="input !py-1 text-xs" value={entityId} onChange={(e) => { const id = e.target.value; const seg = m?.[1] ?? "books"; window.location.href = `/${seg}/${id}`; }}>
-              {entities.map((e) => <option key={e.id} value={e.id}>{e.isOwn ? `★ ${e.name}` : e.name}</option>)}
-            </select>
-          </div>
+          {entityPicker}
         </>
       ) : (
         <p className="px-2 text-xs text-ink-500">No entity yet. <Link className="underline" href="/settings/entities/new">Create one</Link>.</p>

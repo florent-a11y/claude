@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { requireUser } from "@/lib/auth";
+import { requireUser, scopeEntities } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { periodLabel } from "@/lib/dates";
 import { ENTITY_TYPE_LABELS, ENTITY_TYPE_SHORT } from "@/lib/types";
@@ -9,9 +9,9 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "Payroll" };
 
 export default async function PayrollHome() {
-  await requireUser();
+  const user = await requireUser();
   const [entities, employees, runs] = await Promise.all([
-    db.list("entities", { where: (e) => e.tax.payroll && e.status !== "closed", orderBy: "name" }),
+    db.list("entities", { where: (e) => e.tax.payroll && e.status !== "closed", orderBy: "name" }).then((rows) => scopeEntities(user, rows)),
     db.list("employees", { where: { active: true } }),
     db.list("payroll_runs", { orderBy: "period", desc: true }),
   ]);

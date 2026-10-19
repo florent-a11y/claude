@@ -7,7 +7,7 @@ export const runtime = "nodejs";
 
 /** Downloads the invoice as a PDF (the same file that "Send to client" attaches). */
 export async function GET(_req: Request, ctx: { params: Promise<{ entityId: string; invoiceId: string }> }) {
-  const user = await guard("read");
+  const user = await guard("read", (await ctx.params).entityId);
   if (user instanceof Response) return user;
   const { entityId, invoiceId } = await ctx.params;
   const [entity, invoice] = await Promise.all([db.get("entities", entityId), db.get("invoices", invoiceId)]);

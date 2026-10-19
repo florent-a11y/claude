@@ -1,6 +1,7 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
-import { requireUser, can } from "@/lib/auth";
+import { requireUser, can, canAccessEntity, isClient } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { fmtDate, todayISO } from "@/lib/dates";
 import { fullName } from "@/lib/util";
@@ -18,7 +19,8 @@ export default async function CompanyDetail({ params }: { params: Promise<{ id: 
   const me = await requireUser();
   const { id } = await params;
   const company = await db.get("companies", id);
-  if (!company) notFound();
+  if (!company || !canAccessEntity(me, company.entityId)) notFound();
+  const client = isClient(me);
   const [l, services, entity] = await Promise.all([
     lookups(), activeServices(),
     company.entityId ? db.get("entities", company.entityId) : Promise.resolve(null),
@@ -43,16 +45,18 @@ export default async function CompanyDetail({ params }: { params: Promise<{ id: 
             <DL items={[
               ["Status", <Badge key="s" tone={statusTone(company.status)}>{company.status}</Badge>],
               ["Primary contact", company.primaryContactId ? <Link className="text-brand-600 underline" href={`/clients/contacts/${company.primaryContactId}`}>{l.contact(company.primaryContactId)}</Link> : "—"],
-              ["Owner", l.user(company.ownerUserId)],
+              ...(client ? [] : [["Owner", l.user(company.ownerUserId)] as [string, ReactNode]]),
               ["NIB", company.nib ?? "—"], ["Deed", company.aktaNumber ?? "—"],
               ["Address", company.address ?? "—"],
               ["Books", entity ? <span><Link className="text-brand-600 underline" href={`/books/${entity.id}`}>{entity.name}</Link> · <Link className="text-brand-600 underline" href={`/tax/${entity.id}`}>tax calendar</Link></span> : <span className="text-ink-500">not managed by ILA{can(me, "admin") && <> · <Link className="underline" href="/settings/entities/new">create entity</Link></>}</span>],
-              ["Drive", company.driveFolderUrl ? <a className="text-brand-600 underline" href={company.driveFolderUrl} target="_blank" rel="noreferrer">Open folder</a> : "—"],
-              ["HubSpot / QBO", [company.hubspotId, company.qboCustomerId].filter(Boolean).join(" / ") || "—"],
-              ["Tags", company.tags.length ? <span className="space-x-1">{company.tags.map((t) => <Badge key={t}>{t}</Badge>)}</span> : "—"],
-              ["Created", fmtDate(company.createdAt.slice(0, 10))],
+              ...(client ? [] : [
+                ["Drive", company.driveFolderUrl ? <a className="text-brand-600 underline" href={company.driveFolderUrl} target="_blank" rel="noreferrer">Open folder</a> : "—"],
+                ["HubSpot / QBO", [company.hubspotId, company.qboCustomerId].filter(Boolean).join(" / ") || "—"],
+                ["Tags", company.tags.length ? <span className="space-x-1">{company.tags.map((t) => <Badge key={t}>{t}</Badge>)}</span> : "—"],
+                ["Created", fmtDate(company.createdAt.slice(0, 10))],
+              ] as Array<[string, ReactNode]>),
             ]} />
-            {company.notes && <p className="mt-3 whitespace-pre-wrap rounded-lg bg-slate-50 p-2 text-sm">{company.notes}</p>}
+            {company.notes && !client && <p className="mt-3 whitespace-pre-wrap rounded-lg bg-slate-50 p-2 text-sm">{company.notes}</p>}
           </Card>
           <Card title={`Contacts (${contacts.length})`} actions={write && <Link href={`/clients/contacts/new?companyId=${id}`} className="text-xs text-brand-600 underline">New contact</Link>}>
             {contacts.length === 0 ? <p className="text-sm text-ink-500">No contacts linked.</p> : (
@@ -103,7 +107,7 @@ export default async function CompanyDetail({ params }: { params: Promise<{ id: 
               </details>
             )}
           </Card>
-          <Timeline activities={activities} refs={{ companyId: id, contactId: company.primaryContactId }} backPath={path} canWrite={write} />
+          {!client && <Timeline activities={activities} refs={{ companyId: id, contactId: company.primaryContactId }} backPath={path} canWrite={write} />}
         </div>
       </div>
     </Page>

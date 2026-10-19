@@ -21,7 +21,7 @@ const schema = z.object({
 
 /** POST: stores new (deduplicated) bank transactions, either pre-parsed by a bank preset or mapped from a CSV/grid. */
 export async function POST(req: Request, ctx: { params: Promise<{ entityId: string }> }) {
-  const user = await guard("books:write");
+  const user = await guard("books:write", (await ctx.params).entityId);
   if (user instanceof Response) return user;
   const { entityId } = await ctx.params;
   const entity = await db.get("entities", entityId);

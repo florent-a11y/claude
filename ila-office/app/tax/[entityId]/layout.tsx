@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
-import { requireUser } from "@/lib/auth";
+import { requireEntityAccess } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { ENTITY_TYPE_LABELS, TAX_REGIME_LABELS } from "@/lib/types";
 import { Badge } from "@/components/ui";
@@ -9,8 +9,8 @@ import { EntityTabs } from "./EntityTabs";
 export const dynamic = "force-dynamic";
 
 export default async function TaxEntityLayout({ params, children }: { params: Promise<{ entityId: string }>; children: ReactNode }) {
-  await requireUser();
   const { entityId } = await params;
+  await requireEntityAccess(entityId);
   const entity = await db.get("entities", entityId);
   if (!entity) notFound();
   return (

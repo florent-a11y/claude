@@ -13,13 +13,19 @@
 
 // ---------- Core ----------
 
-export type Role = "admin" | "consultant" | "accountant" | "viewer";
+export type Role = "admin" | "consultant" | "accountant" | "viewer" | "client";
+export const ROLES: readonly Role[] = ["admin", "consultant", "accountant", "viewer", "client"];
+export const ROLE_LABELS: Record<Role, string> = {
+  admin: "Admin (everything)", consultant: "Consultant (clients, read books)", accountant: "Accountant / tax team (books, tax, payroll)", viewer: "Viewer (team, read-only)", client: "Client (own companies only)",
+};
 
 export interface User {
   id: string;
   email: string;
   name: string;
   role: Role;
+  /** Client users only: the entities (client companies' books) they may see. Team roles see everything. */
+  entityIds?: string[];
   passwordHash: string;
   active: boolean;
   createdAt: string;

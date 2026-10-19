@@ -13,7 +13,7 @@ export const runtime = "nodejs";
  * compare), balance-sheet (asOf), general-ledger (accountId, from, to), ar-aging (asOf), ap-aging (asOf), accounts, journal (from, to).
  */
 export async function GET(req: Request, ctx: { params: Promise<{ entityId: string; report: string }> }) {
-  const user = await guard("read");
+  const user = await guard("read", (await ctx.params).entityId);
   if (user instanceof Response) return user;
   const { entityId, report } = await ctx.params;
   const entity = await db.get("entities", entityId);

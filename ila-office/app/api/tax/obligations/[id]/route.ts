@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { guard } from "@/lib/auth";
+import { canAccessEntity, guard } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { todayISO } from "@/lib/dates";
 import { OBLIGATION_STATUSES } from "@/lib/types";
@@ -49,6 +49,6 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   if (g instanceof Response) return g;
   const { id } = await params;
   const row = await db.get("tax_obligations", decodeURIComponent(id));
-  if (!row) return NextResponse.json({ error: "Obligation not found" }, { status: 404 });
+  if (!row || !canAccessEntity(g, row.entityId)) return NextResponse.json({ error: "Obligation not found" }, { status: 404 });
   return NextResponse.json(row);
 }

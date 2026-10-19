@@ -5,7 +5,7 @@ import { z } from "zod";
 import { requirePermission, hashPassword } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { buildAccounts } from "@/lib/coa";
-import { ENTITY_TYPES, type Entity, type User } from "@/lib/types";
+import { ENTITY_TYPES, ROLES, type Entity, type User } from "@/lib/types";
 import { bool, num, str } from "@/lib/util";
 
 const entitySchema = z.object({
@@ -80,15 +80,36 @@ export async function updateEntity(id: string, fd: FormData) {
   redirect(`/settings/entities/${id}`);
 }
 
-const userSchema = z.object({ email: z.string().email(), name: z.string().min(1).max(80), role: z.enum(["admin", "consultant", "accountant", "viewer"]), password: z.string().min(10).max(200) });
+const roleSchema = z.enum(ROLES as [User["role"], ...User["role"][]]);
+const userSchema = z.object({ email: z.string().email(), name: z.string().min(1).max(80), role: roleSchema, password: z.string().min(10).max(200) });
+
+/** Entity ids a client user may be allocated: existing, not ILA's own books. */
+async function allocatableEntityIds(fd: FormData): Promise<string[]> {
+  const wanted = fd.getAll("entityIds").filter((v): v is string => typeof v === "string" && v !== "");
+  if (wanted.length === 0) return [];
+  const entities = await db.list("entities", { where: (e) => !e.isOwn });
+  const ok = new Set(entities.map((e) => e.id));
+  return [...new Set(wanted.filter((id) => ok.has(id)))];
+}
 
 export async function createUser(fd: FormData) {
   await requirePermission("admin");
   const v = userSchema.parse({ email: str(fd, "email"), name: str(fd, "name"), role: str(fd, "role"), password: str(fd, "password") });
   const exists = await db.list("users", { where: (u) => u.email.toLowerCase() === v.email.toLowerCase() });
   if (exists.length) throw new Error("A user with this email already exists");
-  const user: User = { id: db.newId(), email: v.email.toLowerCase(), name: v.name, role: v.role, passwordHash: hashPassword(v.password), active: true, createdAt: new Date().toISOString() };
+  const entityIds = v.role === "client" ? await allocatableEntityIds(fd) : undefined;
+  const user: User = { id: db.newId(), email: v.email.toLowerCase(), name: v.name, role: v.role, entityIds, passwordHash: hashPassword(v.password), active: true, createdAt: new Date().toISOString() };
   await db.insert("users", user);
+  revalidatePath("/settings/users");
+}
+
+/** Which client companies a client user may see. Team users are never restricted. */
+export async function setUserEntities(id: string, fd: FormData) {
+  await requirePermission("admin");
+  const user = await db.get("users", id);
+  if (!user) throw new Error("User not found");
+  if (user.role !== "client") throw new Error("Only client users are restricted to specific companies");
+  await db.update("users", id, { entityIds: await allocatableEntityIds(fd) });
   revalidatePath("/settings/users");
 }
 
@@ -101,9 +122,10 @@ export async function setUserActive(id: string, active: boolean) {
 
 export async function setUserRole(id: string, fd: FormData) {
   const me = await requirePermission("admin");
-  const role = z.enum(["admin", "consultant", "accountant", "viewer"]).parse(str(fd, "role"));
+  const role = roleSchema.parse(str(fd, "role"));
   if (me.id === id && role !== "admin") throw new Error("You cannot remove your own admin role");
-  await db.update("users", id, { role });
+  // Moving a user out of the client role lifts the company restriction; moving into it starts with no company until allocated.
+  await db.update("users", id, { role, entityIds: role === "client" ? [] : undefined });
   revalidatePath("/settings/users");
 }
 

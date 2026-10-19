@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { requireUser } from "@/lib/auth";
+import { isClient, requireUser } from "@/lib/auth";
+import { ClientHome } from "./ClientHome";
 import { db } from "@/lib/db";
 import { accountBalances, naturalBalance } from "@/lib/balances";
 import { fmtDate, todayISO, periodOf, periodLabel } from "@/lib/dates";
@@ -13,6 +14,7 @@ export const dynamic = "force-dynamic";
 /** Home: the accounting and tax workload across ILA and every client entity, plus ILA's own position. */
 export default async function Home() {
   const user = await requireUser();
+  if (isClient(user)) return <ClientHome user={user} />;
   const today = todayISO();
   const period = periodOf(today);
   const [entities, obligations, invoices, bankTx, journals, activities] = await Promise.all([

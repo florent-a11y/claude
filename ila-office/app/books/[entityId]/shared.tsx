@@ -1,6 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
+import { requireEntityAccess } from "@/lib/auth";
 import { errorMessage } from "@/lib/books";
 import { Notice } from "@/components/ui";
 import type { Account, Entity } from "@/lib/types";
@@ -15,7 +16,9 @@ export function first(v: string | string[] | undefined): string | undefined {
   return s === undefined || s === "" ? undefined : s;
 }
 
+/** Loads the entity after checking the signed-in user may see it (team: all; client: allocated entities only). */
 export async function requireEntity(entityId: string): Promise<Entity> {
+  await requireEntityAccess(entityId);
   const entity = await db.get("entities", entityId);
   if (!entity) notFound();
   return entity;

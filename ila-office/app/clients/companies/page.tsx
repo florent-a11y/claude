@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { requireUser } from "@/lib/auth";
+import { can, isClient, requireUser, scopeByEntity } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { matchesSearch } from "../_lib/search";
 import { fmtMoney } from "@/lib/money";
@@ -20,10 +20,12 @@ function monthlyIDR(c: Company): number {
 }
 
 export default async function Companies({ searchParams }: { searchParams: Promise<SP> }) {
-  await requireUser();
+  const user = await requireUser();
   const sp = await searchParams;
   const l = await lookups();
-  const all = await db.list("companies", { orderBy: "name" });
+  const all = scopeByEntity(user, await db.list("companies", { orderBy: "name" }), (c) => c.entityId);
+  const write = can(user, "crm:write");
+  const client = isClient(user);
   const q = sp.q?.trim() ?? "";
   const rows = all.filter((c) => {
     if (sp.status && c.status !== sp.status) return false;
@@ -35,7 +37,7 @@ export default async function Companies({ searchParams }: { searchParams: Promis
   const regions = REGIONS.filter((r) => all.some((c) => (c.region ?? "Other") === r));
   const totalMonthly = rows.reduce((a, c) => a + monthlyIDR(c), 0);
   return (
-    <Page title="Client companies" subtitle={`${counts.active} active clients · ${counts.lead} leads · ${counts.inactive} inactive`} actions={<Link href="/clients/companies/new" className="btn-primary">New company</Link>}>
+    <Page title={client ? "My companies" : "Client companies"} subtitle={client ? `${all.length} compan${all.length === 1 ? "y" : "ies"} managed by ILA for you` : `${counts.active} active clients · ${counts.lead} leads · ${counts.inactive} inactive`} actions={write && <Link href="/clients/companies/new" className="btn-primary">New company</Link>}>
       <div className="mb-3 space-y-2 no-print">
         <form className="flex flex-wrap items-center gap-2">
           {sp.status && <input type="hidden" name="status" value={sp.status} />}
@@ -47,7 +49,7 @@ export default async function Companies({ searchParams }: { searchParams: Promis
         </form>
         {regions.length > 1 && <Chips items={[{ href: withParams(base, sp, { region: undefined }), label: "All regions", active: !sp.region }, ...regions.map((r) => ({ href: withParams(base, sp, { region: r }), label: r, active: sp.region === r }))]} />}
       </div>
-      {rows.length === 0 ? <EmptyState title="No company matches" action={<Link href="/clients/companies/new" className="btn-primary">New company</Link>} /> : (
+      {rows.length === 0 ? <EmptyState title="No company matches" action={write && <Link href="/clients/companies/new" className="btn-primary">New company</Link>} /> : (
         <TableCard footer={totalMonthly > 0 && <span>Recurring fees of the companies shown: <span className="money font-medium text-ink-700">{fmtMoney(totalMonthly, "IDR")}</span> per month (IDR subscriptions, monthly equivalent).</span>}>
           <table className="table table-data min-w-[900px]">
             <Cols widths={[undefined, 170, 170, 150, 96, 100]} />
