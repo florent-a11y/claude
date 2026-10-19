@@ -3,7 +3,7 @@ import { requireUser } from "@/lib/auth";
 import { generalLedger } from "@/lib/ledger";
 import { fmtDate } from "@/lib/dates";
 import { fmtMoney } from "@/lib/money";
-import { Card, EmptyState } from "@/components/ui";
+import { Cols, Dash, EmptyState, TableCard } from "@/components/ui";
 import { accountLabel, base, first, requireEntity, type Params, type Search } from "../../shared";
 import { loadReportData, defaultRange } from "../_data";
 import { ReportHeader } from "../ReportHeader";
@@ -30,27 +30,28 @@ export default async function GeneralLedgerPage({ params, searchParams }: { para
         <label className="block"><span className="label">To</span><input name="to" type="date" defaultValue={to} className="input !py-1" /></label>
       </ReportHeader>
       {!gl ? <EmptyState title="No account selected" /> : (
-        <Card className="overflow-x-auto !p-0">
-          <table className="table">
-            <thead><tr><th className="pl-4">Date</th><th>Entry</th><th>Memo / description</th><th>Counterparty</th><th className="num">Debit</th><th className="num">Credit</th><th className="num">Balance</th></tr></thead>
+        <TableCard>
+          <table className="table table-data min-w-[980px]">
+            <Cols widths={[110, 130, undefined, 170, 140, 140, 150]} />
+            <thead><tr><th>Date</th><th>Entry</th><th>Memo / description</th><th>Counterparty</th><th className="num">Debit</th><th className="num">Credit</th><th className="num">Balance</th></tr></thead>
             <tbody>
-              <tr className="bg-slate-50 font-medium"><td className="pl-4" colSpan={6}>Opening balance at {fmtDate(from)}</td><td className="num">{fmtMoney(gl.opening)}</td></tr>
+              <tr className="bg-slate-50 font-medium"><td colSpan={6}>Opening balance at {fmtDate(from)}</td><td className="num money">{fmtMoney(gl.opening)}</td></tr>
               {gl.rows.map((r, i) => (
                 <tr key={`${r.entryId}-${i}`}>
-                  <td className="pl-4 whitespace-nowrap">{fmtDate(r.date)}</td>
-                  <td><Link href={`${b}/journal/${r.entryId}`} className="font-medium hover:underline">{r.number}</Link></td>
-                  <td className="max-w-md"><span className="block truncate">{r.memo}</span>{r.description && r.description !== r.memo && <span className="block truncate text-xs text-ink-500">{r.description}</span>}</td>
-                  <td className="text-xs">{r.counterpartyName ?? ""}</td>
-                  <td className="num">{r.debit ? fmtMoney(r.debit) : ""}</td>
-                  <td className="num">{r.credit ? fmtMoney(r.credit) : ""}</td>
-                  <td className={`num ${r.balance < 0 ? "text-red-700" : ""}`}>{fmtMoney(r.balance)}</td>
+                  <td className="whitespace-nowrap">{fmtDate(r.date)}</td>
+                  <td><Link href={`${b}/journal/${r.entryId}`} className="cell font-medium hover:underline">{r.number}</Link></td>
+                  <td><span className="cell" title={r.memo}>{r.memo}</span>{r.description && r.description !== r.memo && <span className="cell-sub" title={r.description}>{r.description}</span>}</td>
+                  <td>{r.counterpartyName ? <span className="cell text-xs" title={r.counterpartyName}>{r.counterpartyName}</span> : <Dash />}</td>
+                  <td className="num money">{r.debit ? fmtMoney(r.debit) : ""}</td>
+                  <td className="num money">{r.credit ? fmtMoney(r.credit) : ""}</td>
+                  <td className={`num money ${r.balance < 0 ? "text-red-700" : ""}`}>{fmtMoney(r.balance)}</td>
                 </tr>
               ))}
               {gl.rows.length === 0 && <tr><td colSpan={7} className="p-4 text-center text-sm text-ink-500">No movements in this range.</td></tr>}
             </tbody>
-            <tfoot><tr className="border-t-2 border-slate-300 font-semibold"><td className="pl-4 py-2" colSpan={4}>Closing balance at {fmtDate(to)}</td><td className="num py-2">{fmtMoney(gl.totalDebit)}</td><td className="num py-2">{fmtMoney(gl.totalCredit)}</td><td className="num py-2">{fmtMoney(gl.closing)}</td></tr></tfoot>
+            <tfoot><tr><td colSpan={4}>Closing balance at {fmtDate(to)}</td><td className="num money">{fmtMoney(gl.totalDebit)}</td><td className="num money">{fmtMoney(gl.totalCredit)}</td><td className="num money">{fmtMoney(gl.closing)}</td></tr></tfoot>
           </table>
-        </Card>
+        </TableCard>
       )}
     </div>
   );

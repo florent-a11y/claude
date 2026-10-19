@@ -133,6 +133,7 @@ Relationships are ids, not joins: `contact.companyIds`, `company.entityId`, `pro
 - **Auth:** email + password (scrypt), HMAC-signed session cookie, Edge middleware that rejects anonymous requests, server-side re-check of the user record on every request. First user is created on the login page; `npm run seed` loads ILA's entity, catalogue, vendors and a fictional demo client.
 - **Roles:** admin (everything), consultant (CRM write, read all), accountant (books, tax, payroll write, read all), viewer (read). Checked by `requirePermission` in every action.
 - **Deployment:** Vercel (root directory `ila-office`) + Supabase. Environment: `SESSION_SECRET`, Supabase keys, optional `ANTHROPIC_API_KEY`.
+- **Table conventions (`components/ui.tsx`, `app/globals.css`):** every list is a `table table-data` with a `<Cols>` column plan (fixed pixel widths for dates, numbers, statuses and actions; one or two flexible text columns), one line per cell (`cell` / `cell-primary` / `cell-sub` with the full text on hover), right-aligned `num` columns, `<Dash />` for empty values, totals in `<tfoot>`, `row-muted` for void or inactive rows. Full-width lists sit in `TableCard`, tables inside a card in `CardTable`. Financial statements (P&L, balance sheet, CIT computation, LKPM) use `table table-statement` with `row-section`, `row-total` and `row-grand` lines.
 
 ```
 Browser ── Cloudflare Access ── Vercel (Next.js)
