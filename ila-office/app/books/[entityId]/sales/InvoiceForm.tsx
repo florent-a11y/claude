@@ -4,6 +4,7 @@ import { addWorkingDays } from "@/lib/dates";
 import { fmtNumber } from "@/lib/money";
 import { invoiceTotals } from "@/lib/ledger";
 import { SubmitButton } from "@/components/client";
+import { Cols, TableCard } from "@/components/ui";
 import type { Invoice, TaxCode } from "@/lib/types";
 
 export interface CustomerOpt { key: string; type: "company" | "contact"; id: string; name: string; email?: string; npwp?: string; address?: string }
@@ -81,28 +82,30 @@ export function InvoiceForm({ action, entity, customers, accounts, services, def
           <label className="block"><span className="label">e-Faktur number (PKP)</span><input name="fakturNumber" defaultValue={invoice?.fakturNumber} className="input" /></label>
         </div>
       </div>
-      <div className="card overflow-x-auto !p-0">
-        <table className="table">
-          <thead><tr><th className="pl-4 w-[32%]">Description</th><th className="w-20">Qty</th><th className="w-36">Unit price</th><th className="w-[22%]">Revenue account</th><th className="w-40">Tax</th><th className="num w-32">Amount</th><th className="w-8"></th></tr></thead>
+      <TableCard footer={
+        <div className="flex flex-wrap items-center gap-2">
+          <button type="button" className="btn-secondary !py-1 text-xs" onClick={() => setLines((ls) => [...ls, blank()])}>+ Add line</button>
+          {services.length > 0 && <select className="input !w-auto !py-1 text-xs" value="" onChange={(e) => addService(e.target.value)}><option value="">+ From service catalogue…</option>{services.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}</select>}
+        </div>
+      }>
+        <table className="table table-data min-w-[980px]">
+          <Cols widths={[undefined, 70, 150, 230, 170, 140, 44]} />
+          <thead><tr><th>Description</th><th className="num">Qty</th><th className="num">Unit price</th><th>Revenue account</th><th>Tax</th><th className="num">Amount</th><th></th></tr></thead>
           <tbody>
             {lines.map((l, i) => (
               <tr key={l.key}>
-                <td className="pl-4"><input value={l.description} onChange={(e) => update(l.key, { description: e.target.value })} className="input !py-1" placeholder="Service description" /></td>
+                <td><input value={l.description} onChange={(e) => update(l.key, { description: e.target.value })} className="input !py-1" placeholder="Service description" /></td>
                 <td><input value={l.qty} onChange={(e) => update(l.key, { qty: e.target.value })} className="input !py-1 text-right" inputMode="decimal" /></td>
                 <td><input value={l.unitPrice} onChange={(e) => update(l.key, { unitPrice: e.target.value })} className="input !py-1 text-right" inputMode="decimal" placeholder="0" /></td>
                 <td><select value={l.accountId} onChange={(e) => update(l.key, { accountId: e.target.value })} className="input !py-1">{accounts.map((a) => <option key={a.id} value={a.id}>{a.code} · {a.name}</option>)}</select></td>
                 <td><select value={l.taxCode} onChange={(e) => update(l.key, { taxCode: e.target.value as TaxCode })} className="input !py-1">{TAX_CODES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}</select></td>
                 <td className="num">{fmt(totals.lineAmounts[i] ?? 0)}</td>
-                <td><button type="button" className="text-ink-500 hover:text-red-600" aria-label="Remove line" onClick={() => setLines((ls) => (ls.length > 1 ? ls.filter((x) => x.key !== l.key) : ls))}>×</button></td>
+                <td className="text-center"><button type="button" className="text-ink-500 hover:text-red-600" aria-label="Remove line" onClick={() => setLines((ls) => (ls.length > 1 ? ls.filter((x) => x.key !== l.key) : ls))}>×</button></td>
               </tr>
             ))}
           </tbody>
         </table>
-        <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 p-3">
-          <button type="button" className="btn-secondary !py-1 text-xs" onClick={() => setLines((ls) => [...ls, blank()])}>+ Add line</button>
-          {services.length > 0 && <select className="input !w-auto !py-1 text-xs" value="" onChange={(e) => addService(e.target.value)}><option value="">+ From service catalogue…</option>{services.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}</select>}
-        </div>
-      </div>
+      </TableCard>
       <div className="grid gap-4 md:grid-cols-[1fr_320px]">
         <div className="card space-y-3">
           <label className="block"><span className="label">Notes (shown on the invoice)</span><textarea name="notes" defaultValue={invoice?.notes} rows={2} className="input" /></label>

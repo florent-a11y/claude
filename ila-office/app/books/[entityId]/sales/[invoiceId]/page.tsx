@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { docDisplayStatus, invoiceOutstanding } from "@/lib/ledger";
 import { fmtDate, todayISO } from "@/lib/dates";
 import { fmtMoney } from "@/lib/money";
-import { Card, Badge, statusTone, DL, Field, Select, Money } from "@/components/ui";
+import { Card, Badge, statusTone, DL, Field, Select, Money, CardTable, Cols, Dash, TableCard } from "@/components/ui";
 import { ConfirmForm, SubmitButton } from "@/components/client";
 import { ErrorNotice, base, first, requireEntity, type Search } from "../../shared";
 import { postInvoiceAction, receiptAction, voidInvoiceAction, voidPaymentAction } from "../actions";
@@ -63,39 +63,56 @@ export default async function InvoicePage({ params, searchParams }: { params: Pr
         </div>
       </div>
       <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
-        <div className="space-y-4">
-          <Card className="overflow-x-auto !p-0">
-            <table className="table">
-              <thead><tr><th className="pl-4">Description</th><th className="num">Qty</th><th className="num">Unit price</th><th>Account</th><th>Tax</th><th className="num">Amount</th></tr></thead>
+        <div className="min-w-0 space-y-4">
+          <TableCard>
+            <table className="table table-data min-w-[760px]">
+              <Cols widths={[undefined, 56, 130, 170, 70, 136]} />
+              <thead><tr><th>Description</th><th className="num">Qty</th><th className="num">Unit price</th><th>Account</th><th>Tax</th><th className="num">Amount</th></tr></thead>
               <tbody>
                 {invoice.lines.map((l) => (
-                  <tr key={l.id}><td className="pl-4">{l.description}</td><td className="num">{l.qty}</td><td className="num">{fmtMoney(l.unitPrice, ccy)}</td><td className="text-xs">{accName(l.accountId)}</td><td className="text-xs">{l.taxCode}</td><td className="num">{fmtMoney(l.amount, ccy)}</td></tr>
+                  <tr key={l.id}>
+                    <td><span className="cell" title={l.description}>{l.description}</span></td>
+                    <td className="num">{l.qty}</td>
+                    <td className="num"><span className="money">{fmtMoney(l.unitPrice, ccy)}</span></td>
+                    <td><span className="cell text-xs" title={accName(l.accountId)}>{accName(l.accountId)}</span></td>
+                    <td className="whitespace-nowrap text-xs">{l.taxCode === "ppn" ? "PPN" : l.taxCode === "out_of_scope" ? "no PPN" : <Dash />}</td>
+                    <td className="num"><span className="money">{fmtMoney(l.amount, ccy)}</span></td>
+                  </tr>
                 ))}
               </tbody>
-              <tfoot className="text-sm">
-                <tr><td colSpan={5} className="pl-4 py-1 text-right text-ink-500">Subtotal</td><td className="num py-1">{fmtMoney(invoice.subtotal, ccy)}</td></tr>
-                {invoice.discount > 0 && <tr><td colSpan={5} className="pl-4 py-1 text-right text-ink-500">Discount</td><td className="num py-1">−{fmtMoney(invoice.discount, ccy)}</td></tr>}
-                {invoice.ppnAmount > 0 && <tr><td colSpan={5} className="pl-4 py-1 text-right text-ink-500">PPN</td><td className="num py-1">{fmtMoney(invoice.ppnAmount, ccy)}</td></tr>}
-                <tr className="border-t border-slate-200 font-semibold"><td colSpan={5} className="pl-4 py-2 text-right">Total</td><td className="num py-2">{fmtMoney(invoice.total, ccy)}</td></tr>
-                <tr><td colSpan={5} className="pl-4 py-1 text-right text-ink-500">Paid</td><td className="num py-1">{fmtMoney(invoice.amountPaid, ccy)}</td></tr>
-                <tr className="font-semibold"><td colSpan={5} className="pl-4 py-1 text-right">Outstanding</td><td className="num py-1">{fmtMoney(outstanding, ccy)}</td></tr>
+              <tfoot>
+                <tr><td colSpan={5} className="text-right !font-normal text-ink-500">Subtotal</td><td className="num !font-normal">{fmtMoney(invoice.subtotal, ccy)}</td></tr>
+                {invoice.discount > 0 && <tr><td colSpan={5} className="text-right !font-normal text-ink-500">Discount</td><td className="num !font-normal">−{fmtMoney(invoice.discount, ccy)}</td></tr>}
+                {invoice.ppnAmount > 0 && <tr><td colSpan={5} className="text-right !font-normal text-ink-500">PPN</td><td className="num !font-normal">{fmtMoney(invoice.ppnAmount, ccy)}</td></tr>}
+                <tr><td colSpan={5} className="text-right">Total</td><td className="num">{fmtMoney(invoice.total, ccy)}</td></tr>
+                <tr><td colSpan={5} className="text-right !font-normal text-ink-500">Paid</td><td className="num !font-normal">{fmtMoney(invoice.amountPaid, ccy)}</td></tr>
+                <tr><td colSpan={5} className="text-right">Outstanding</td><td className="num">{fmtMoney(outstanding, ccy)}</td></tr>
               </tfoot>
             </table>
-          </Card>
+          </TableCard>
           <Card title={`Receipts (${payments.length})`}>
             {payments.length === 0 ? <p className="text-sm text-ink-500">No receipt recorded yet.</p> : (
-              <table className="table">
-                <thead><tr><th>Date</th><th>Bank</th><th className="num">Amount</th><th>Rate</th><th>Journal</th><th>Reference</th><th></th></tr></thead>
-                <tbody>
-                  {payments.map((p) => (
-                    <tr key={p.id}>
-                      <td>{fmtDate(p.date)}</td><td>{banks.find((x) => x.id === p.bankAccountId)?.name ?? p.bankAccountId}</td><td className="num"><Money amount={p.amount} currency={p.currency} /></td><td className="text-xs">{p.currency === "IDR" ? "" : p.fxRate}</td>
-                      <td>{p.journalId && <Link href={`${b}/journal/${p.journalId}`} className="text-brand-600 underline">journal</Link>}</td><td className="text-xs">{p.reference ?? ""}{p.bankTransactionId && <span className="ml-1 text-ink-500">(bank match)</span>}</td>
-                      <td className="no-print">{writable && <ConfirmForm action={voidPaymentAction.bind(null, entityId, p.id, here)} message="Reverse this receipt? Its journal is voided and the invoice balance restored."><button className="text-xs text-red-600 underline" type="submit">reverse</button></ConfirmForm>}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <CardTable>
+                <table className="table table-data min-w-[640px]">
+                  <Cols widths={[118, undefined, 150, 90, 90]} />
+                  <thead><tr><th>Date</th><th>Bank</th><th className="num">Amount</th><th>Journal</th><th></th></tr></thead>
+                  <tbody>
+                    {payments.map((p) => {
+                      const bankName = banks.find((x) => x.id === p.bankAccountId)?.name ?? p.bankAccountId;
+                      const ref = [p.reference, p.bankTransactionId ? "(bank match)" : ""].filter(Boolean).join(" ");
+                      return (
+                        <tr key={p.id}>
+                          <td className="whitespace-nowrap">{fmtDate(p.date)}</td>
+                          <td><span className="cell" title={bankName}>{bankName}</span>{ref && <span className="cell-sub" title={ref}>{ref}</span>}</td>
+                          <td className="num"><Money amount={p.amount} currency={p.currency} className="money" />{p.currency !== "IDR" && <span className="cell-sub">@ {p.fxRate}</span>}</td>
+                          <td className="text-xs">{p.journalId ? <Link href={`${b}/journal/${p.journalId}`} className="text-brand-600 underline">journal</Link> : <Dash />}</td>
+                          <td className="no-print text-right">{writable && <ConfirmForm action={voidPaymentAction.bind(null, entityId, p.id, here)} message="Reverse this receipt? Its journal is voided and the invoice balance restored."><button className="text-xs text-red-600 underline" type="submit">reverse</button></ConfirmForm>}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </CardTable>
             )}
           </Card>
         </div>

@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { docDisplayStatus, billOutstanding, WITHHOLDING_LABELS } from "@/lib/ledger";
 import { fmtDate, todayISO } from "@/lib/dates";
 import { fmtMoney } from "@/lib/money";
-import { Card, Badge, statusTone, DL, Field, Select, Money } from "@/components/ui";
+import { Card, Badge, statusTone, DL, Field, Select, Money, CardTable, Cols, Dash, TableCard } from "@/components/ui";
 import { ConfirmForm, SubmitButton } from "@/components/client";
 import { ErrorNotice, base, first, requireEntity, type Search } from "../../shared";
 import { postBillAction, disbursementAction, voidBillAction, voidBillPaymentAction } from "../actions";
@@ -47,40 +47,60 @@ export default async function BillPage({ params, searchParams }: { params: Promi
         </div>
       </div>
       <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
-        <div className="space-y-4">
-          <Card className="overflow-x-auto !p-0">
-            <table className="table">
-              <thead><tr><th className="pl-4">Description</th><th>Account</th><th>PPN</th><th>Withholding</th><th className="num">Withheld</th><th className="num">Amount</th></tr></thead>
+        <div className="min-w-0 space-y-4">
+          <TableCard>
+            <table className="table table-data min-w-[770px]">
+              <Cols widths={[undefined, 160, 64, 110, 112, 136]} />
+              <thead><tr><th>Description</th><th>Account</th><th>PPN</th><th>Withholding</th><th className="num">Withheld</th><th className="num">Amount</th></tr></thead>
               <tbody>
-                {bill.lines.map((l) => (
-                  <tr key={l.id}><td className="pl-4">{l.description}</td><td className="text-xs">{accName(l.accountId)}</td><td className="text-xs">{l.taxCode}</td><td className="text-xs">{!l.withholding || l.withholding === "none" ? "—" : `${(WITHHOLDING_LABELS[l.withholding] ?? l.withholding).split(" (")[0]} ${((l.withholdingRate ?? 0) * 100).toFixed(l.withholdingRate && l.withholdingRate * 100 % 1 ? 2 : 0)}%`}</td><td className="num">{l.withholdingAmount ? fmtMoney(l.withholdingAmount, ccy) : ""}</td><td className="num">{fmtMoney(l.amount, ccy)}</td></tr>
-                ))}
+                {bill.lines.map((l) => {
+                  const wht = !l.withholding || l.withholding === "none" ? "" : `${(WITHHOLDING_LABELS[l.withholding] ?? l.withholding).split(" (")[0]} ${((l.withholdingRate ?? 0) * 100).toFixed(l.withholdingRate && l.withholdingRate * 100 % 1 ? 2 : 0)}%`;
+                  return (
+                    <tr key={l.id}>
+                      <td><span className="cell" title={l.description}>{l.description}</span></td>
+                      <td><span className="cell text-xs" title={accName(l.accountId)}>{accName(l.accountId)}</span></td>
+                      <td className="whitespace-nowrap text-xs">{l.taxCode === "ppn" ? "PPN" : l.taxCode === "out_of_scope" ? "no PPN" : <Dash />}</td>
+                      <td>{wht ? <span className="cell text-xs" title={wht}>{wht}</span> : <Dash />}</td>
+                      <td className="num">{l.withholdingAmount ? <span className="money">{fmtMoney(l.withholdingAmount, ccy)}</span> : <Dash />}</td>
+                      <td className="num"><span className="money">{fmtMoney(l.amount, ccy)}</span></td>
+                    </tr>
+                  );
+                })}
               </tbody>
-              <tfoot className="text-sm">
-                <tr><td colSpan={5} className="pl-4 py-1 text-right text-ink-500">Subtotal (DPP)</td><td className="num py-1">{fmtMoney(bill.subtotal, ccy)}</td></tr>
-                {bill.ppnInput > 0 && <tr><td colSpan={5} className="pl-4 py-1 text-right text-ink-500">PPN input {entity.tax.pkp ? "(creditable)" : "(expensed, non-PKP)"}</td><td className="num py-1">{fmtMoney(bill.ppnInput, ccy)}</td></tr>}
-                <tr className="font-semibold"><td colSpan={5} className="pl-4 py-1 text-right">Total</td><td className="num py-1">{fmtMoney(bill.total, ccy)}</td></tr>
-                {bill.withholdingTotal > 0 && <tr><td colSpan={5} className="pl-4 py-1 text-right text-ink-500">Withholding (remit to DJP)</td><td className="num py-1">−{fmtMoney(bill.withholdingTotal, ccy)}</td></tr>}
-                <tr className="border-t border-slate-200 font-semibold"><td colSpan={5} className="pl-4 py-2 text-right">Amount payable</td><td className="num py-2">{fmtMoney(bill.amountPayable, ccy)}</td></tr>
-                <tr><td colSpan={5} className="pl-4 py-1 text-right text-ink-500">Paid</td><td className="num py-1">{fmtMoney(bill.amountPaid, ccy)}</td></tr>
-                <tr className="font-semibold"><td colSpan={5} className="pl-4 py-1 text-right">Outstanding</td><td className="num py-1">{fmtMoney(outstanding, ccy)}</td></tr>
+              <tfoot>
+                <tr><td colSpan={5} className="text-right !font-normal text-ink-500">Subtotal (DPP)</td><td className="num !font-normal">{fmtMoney(bill.subtotal, ccy)}</td></tr>
+                {bill.ppnInput > 0 && <tr><td colSpan={5} className="text-right !font-normal text-ink-500">PPN input {entity.tax.pkp ? "(creditable)" : "(expensed, non-PKP)"}</td><td className="num !font-normal">{fmtMoney(bill.ppnInput, ccy)}</td></tr>}
+                <tr><td colSpan={5} className="text-right">Total</td><td className="num">{fmtMoney(bill.total, ccy)}</td></tr>
+                {bill.withholdingTotal > 0 && <tr><td colSpan={5} className="text-right !font-normal text-ink-500">Withholding (remit to DJP)</td><td className="num !font-normal">−{fmtMoney(bill.withholdingTotal, ccy)}</td></tr>}
+                <tr><td colSpan={5} className="text-right">Amount payable</td><td className="num">{fmtMoney(bill.amountPayable, ccy)}</td></tr>
+                <tr><td colSpan={5} className="text-right !font-normal text-ink-500">Paid</td><td className="num !font-normal">{fmtMoney(bill.amountPaid, ccy)}</td></tr>
+                <tr><td colSpan={5} className="text-right">Outstanding</td><td className="num">{fmtMoney(outstanding, ccy)}</td></tr>
               </tfoot>
             </table>
-          </Card>
+          </TableCard>
           <Card title={`Payments (${payments.length})`}>
             {payments.length === 0 ? <p className="text-sm text-ink-500">No payment recorded yet.</p> : (
-              <table className="table">
-                <thead><tr><th>Date</th><th>Bank</th><th className="num">Amount</th><th>Rate</th><th>Journal</th><th>Reference</th><th></th></tr></thead>
-                <tbody>
-                  {payments.map((p) => (
-                    <tr key={p.id}>
-                      <td>{fmtDate(p.date)}</td><td>{banks.find((x) => x.id === p.bankAccountId)?.name ?? p.bankAccountId}</td><td className="num"><Money amount={p.amount} currency={p.currency} /></td><td className="text-xs">{p.currency === "IDR" ? "" : p.fxRate}</td>
-                      <td>{p.journalId && <Link href={`${b}/journal/${p.journalId}`} className="text-brand-600 underline">journal</Link>}</td><td className="text-xs">{p.reference ?? ""}{p.bankTransactionId && <span className="ml-1 text-ink-500">(bank match)</span>}</td>
-                      <td className="no-print">{writable && <ConfirmForm action={voidBillPaymentAction.bind(null, entityId, p.id, here)} message="Reverse this payment? Its journal is voided and the bill balance restored."><button className="text-xs text-red-600 underline" type="submit">reverse</button></ConfirmForm>}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <CardTable>
+                <table className="table table-data min-w-[640px]">
+                  <Cols widths={[118, undefined, 150, 90, 90]} />
+                  <thead><tr><th>Date</th><th>Bank</th><th className="num">Amount</th><th>Journal</th><th></th></tr></thead>
+                  <tbody>
+                    {payments.map((p) => {
+                      const bankName = banks.find((x) => x.id === p.bankAccountId)?.name ?? p.bankAccountId;
+                      const ref = [p.reference, p.bankTransactionId ? "(bank match)" : ""].filter(Boolean).join(" ");
+                      return (
+                        <tr key={p.id}>
+                          <td className="whitespace-nowrap">{fmtDate(p.date)}</td>
+                          <td><span className="cell" title={bankName}>{bankName}</span>{ref && <span className="cell-sub" title={ref}>{ref}</span>}</td>
+                          <td className="num"><Money amount={p.amount} currency={p.currency} className="money" />{p.currency !== "IDR" && <span className="cell-sub">@ {p.fxRate}</span>}</td>
+                          <td className="text-xs">{p.journalId ? <Link href={`${b}/journal/${p.journalId}`} className="text-brand-600 underline">journal</Link> : <Dash />}</td>
+                          <td className="no-print text-right">{writable && <ConfirmForm action={voidBillPaymentAction.bind(null, entityId, p.id, here)} message="Reverse this payment? Its journal is voided and the bill balance restored."><button className="text-xs text-red-600 underline" type="submit">reverse</button></ConfirmForm>}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </CardTable>
             )}
           </Card>
         </div>

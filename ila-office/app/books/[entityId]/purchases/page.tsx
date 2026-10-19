@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { docDisplayStatus, billOutstanding } from "@/lib/ledger";
 import { fmtDate, todayISO } from "@/lib/dates";
 import { fmtMoney, toIDR } from "@/lib/money";
-import { Card, Badge, statusTone, Money, Chips, EmptyState, withParams, Stat } from "@/components/ui";
+import { Badge, statusTone, Money, Chips, Cols, Dash, EmptyState, TableCard, withParams, Stat } from "@/components/ui";
 import { AutoSubmitInput } from "@/components/client";
 import { ErrorNotice, base, first, requireEntity, type Params, type Search } from "../shared";
 
@@ -47,26 +47,30 @@ export default async function Purchases({ params, searchParams }: { params: Para
       </div>
       <Chips items={[{ href: withParams(url, current, { status: undefined }), label: `All (${all.length})`, active: !status }, ...STATUSES.map((s) => ({ href: withParams(url, current, { status: s }), label: `${s} (${all.filter((x) => x.display === s).length})`, active: status === s }))]} />
       {rows.length === 0 ? <EmptyState title="No bills" hint="Record vendor invoices here; withholding is computed per line." action={<Link href={`${b}/purchases/new`} className="btn-primary">New bill</Link>} /> : (
-        <Card className="overflow-x-auto !p-0">
-          <table className="table">
-            <thead><tr><th className="pl-4">Number</th><th>Date</th><th>Due</th><th>Vendor</th><th className="num">Total</th><th className="num">Withheld</th><th className="num">Payable</th><th className="num">Paid</th><th>Status</th></tr></thead>
+        <TableCard>
+          <table className="table table-data min-w-[1120px]">
+            <Cols widths={[150, 118, 118, undefined, 136, 110, 136, 120, 90]} />
+            <thead><tr><th>Number</th><th>Date</th><th>Due</th><th>Vendor</th><th className="num">Total</th><th className="num">Withheld</th><th className="num">Payable</th><th className="num">Paid</th><th>Status</th></tr></thead>
             <tbody>
               {rows.map(({ bill, display }) => (
-                <tr key={bill.id} className={bill.status === "void" ? "opacity-60" : ""}>
-                  <td className="pl-4 font-medium"><Link href={`${b}/purchases/${bill.id}`} className="hover:underline">{bill.number}</Link>{bill.vendorInvoiceNumber && <span className="block text-xs text-ink-500">{bill.vendorInvoiceNumber}</span>}</td>
+                <tr key={bill.id} className={bill.status === "void" ? "row-muted" : ""}>
+                  <td>
+                    <Link href={`${b}/purchases/${bill.id}`} className={bill.status === "void" ? "cell font-medium" : "cell-primary"} title={bill.number}>{bill.number}</Link>
+                    {bill.vendorInvoiceNumber && <span className="cell-sub" title={bill.vendorInvoiceNumber}>{bill.vendorInvoiceNumber}</span>}
+                  </td>
                   <td className="whitespace-nowrap">{fmtDate(bill.date)}</td>
                   <td className={`whitespace-nowrap ${display === "overdue" ? "text-red-700" : ""}`}>{fmtDate(bill.dueDate)}</td>
-                  <td className="max-w-xs truncate">{bill.vendor.name}</td>
-                  <td className="num"><Money amount={bill.total} currency={bill.currency} /></td>
-                  <td className="num">{bill.withholdingTotal ? <Money amount={bill.withholdingTotal} currency={bill.currency} /> : "—"}</td>
-                  <td className="num"><Money amount={bill.amountPayable} currency={bill.currency} /></td>
-                  <td className="num"><Money amount={bill.amountPaid} currency={bill.currency} /></td>
+                  <td><span className="cell" title={bill.vendor.name}>{bill.vendor.name}</span></td>
+                  <td className="num"><Money amount={bill.total} currency={bill.currency} className="money" /></td>
+                  <td className="num">{bill.withholdingTotal ? <Money amount={bill.withholdingTotal} currency={bill.currency} className="money" /> : <Dash />}</td>
+                  <td className="num"><Money amount={bill.amountPayable} currency={bill.currency} className="money" /></td>
+                  <td className="num"><Money amount={bill.amountPaid} currency={bill.currency} className="money" /></td>
                   <td><Badge tone={statusTone(display)}>{display}</Badge></td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </Card>
+        </TableCard>
       )}
     </div>
   );

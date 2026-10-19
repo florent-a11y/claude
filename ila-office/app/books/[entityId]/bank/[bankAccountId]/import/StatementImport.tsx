@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { mapBankRows, type CsvMapping, type DateFormat, type ParsedBankRow } from "@/lib/ledger";
 import { fmtNumber } from "@/lib/money";
+import { Cols, Dash, TableCard } from "@/components/ui";
 
 type Col = "date" | "description" | "amount" | "debit" | "credit" | "balance" | "reference";
 const COLS: Array<{ key: Col; label: string; hint: string }> = [
@@ -121,13 +122,23 @@ export function StatementImport({ entityId, bankAccountId, currency, listHref }:
         )}
       </div>
       {parsed && rows.length > 0 && (
-        <div className="card overflow-x-auto !p-0">
-          <table className="table">
-            <thead><tr><th className="pl-4">Date</th><th>Description</th><th>Ref</th><th className="num">Amount ({currency})</th><th className="num">Balance</th></tr></thead>
-            <tbody>{rows.slice(0, 10).map((r, i) => <tr key={i}><td className="pl-4 whitespace-nowrap">{r.date}</td><td className="max-w-md truncate">{r.description}</td><td className="text-xs">{r.reference ?? ""}</td><td className={`num ${r.amount < 0 ? "text-red-700" : "text-green-700"}`}>{fmtNumber(r.amount, dec)}</td><td className="num text-xs">{r.balance !== undefined ? fmtNumber(r.balance, dec) : ""}</td></tr>)}</tbody>
+        <TableCard footer={rows.length > 10 && <span>… and {rows.length - 10} more</span>}>
+          <table className="table table-data min-w-[720px]">
+            <Cols widths={[110, undefined, 120, 130, 130]} />
+            <thead><tr><th>Date</th><th>Description</th><th>Reference</th><th className="num">Amount ({currency})</th><th className="num">Balance</th></tr></thead>
+            <tbody>
+              {rows.slice(0, 10).map((r, i) => (
+                <tr key={i}>
+                  <td className="whitespace-nowrap">{r.date}</td>
+                  <td><span className="cell" title={r.description}>{r.description}</span></td>
+                  <td>{r.reference ? <span className="cell text-xs" title={r.reference}>{r.reference}</span> : <Dash />}</td>
+                  <td className={`num ${r.amount < 0 ? "text-red-700" : "text-green-700"}`}><span className="money">{fmtNumber(r.amount, dec)}</span></td>
+                  <td className="num text-ink-500">{r.balance !== undefined ? <span className="money">{fmtNumber(r.balance, dec)}</span> : <Dash />}</td>
+                </tr>
+              ))}
+            </tbody>
           </table>
-          {rows.length > 10 && <p className="p-3 text-xs text-ink-500">… and {rows.length - 10} more</p>}
-        </div>
+        </TableCard>
       )}
       {parsed && rows.length === 0 && !busy && <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">No transaction could be read with the “{parsed.presetLabel}” format. Try another bank format above, or “Generic” to map the columns yourself.</div>}
       {errors.length > 0 && <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900">{errors.slice(0, 5).map((e, i) => <p key={i}>{e}</p>)}{errors.length > 5 && <p>… {errors.length - 5} more</p>}</div>}

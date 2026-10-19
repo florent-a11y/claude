@@ -6,7 +6,7 @@ import { depreciationSchedule, netBookValue } from "@/lib/ledger";
 import { FISCAL_ASSET_GROUPS } from "@/lib/types";
 import { fmtDate, todayISO, periodLabel } from "@/lib/dates";
 import { fmtMoney } from "@/lib/money";
-import { Card, Badge, statusTone, DL, Field, Select } from "@/components/ui";
+import { Card, Badge, statusTone, DL, Field, Select, CardTable, Cols, Dash } from "@/components/ui";
 import { SubmitButton } from "@/components/client";
 import { ErrorNotice, base, first, requireEntity, type Search } from "../../shared";
 import { disposeAssetAction } from "../actions";
@@ -32,14 +32,28 @@ export default async function AssetPage({ params, searchParams }: { params: Prom
         <div><p className="text-xs text-ink-500"><Link href={`${b}/assets`} className="hover:underline">Assets</Link> / {asset.name}</p><h2 className="text-xl font-bold">{asset.name} <Badge tone={statusTone(asset.status === "fully_depreciated" ? "done" : asset.status === "disposed" ? "cancelled" : asset.status)}>{asset.status.replace("_", " ")}</Badge></h2></div>
       </div>
       <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
-        <Card title={`Depreciation schedule (${schedule.length} months)`} className="overflow-x-auto">
+        <Card title={`Depreciation schedule (${schedule.length} months)`} className="min-w-0">
           {schedule.length === 0 ? <p className="text-sm text-ink-500">Not depreciated.</p> : (
-            <table className="table">
-              <thead><tr><th>Period</th><th className="num">Depreciation</th><th className="num">Accumulated</th><th className="num">NBV</th><th>Posted</th></tr></thead>
-              <tbody>
-                {schedule.map((r) => <tr key={r.period} className={asset.depreciatedThrough && r.period <= asset.depreciatedThrough ? "" : "text-ink-500"}><td>{periodLabel(r.period)}</td><td className="num">{fmtMoney(r.amount)}</td><td className="num">{fmtMoney(r.accumulated)}</td><td className="num">{fmtMoney(r.nbv)}</td><td className="text-xs">{asset.depreciatedThrough && r.period <= asset.depreciatedThrough ? "✓" : ""}</td></tr>)}
-              </tbody>
-            </table>
+            <CardTable>
+              <table className="table table-data min-w-[600px]">
+                <Cols widths={[undefined, 140, 140, 140, 80]} />
+                <thead><tr><th>Period</th><th className="num">Depreciation</th><th className="num">Accumulated</th><th className="num">NBV</th><th>Posted</th></tr></thead>
+                <tbody>
+                  {schedule.map((r) => {
+                    const posted = Boolean(asset.depreciatedThrough && r.period <= asset.depreciatedThrough);
+                    return (
+                      <tr key={r.period} className={posted ? "" : "row-muted"}>
+                        <td className="whitespace-nowrap">{periodLabel(r.period)}</td>
+                        <td className="num"><span className="money">{fmtMoney(r.amount)}</span></td>
+                        <td className="num"><span className="money">{fmtMoney(r.accumulated)}</span></td>
+                        <td className="num"><span className="money">{fmtMoney(r.nbv)}</span></td>
+                        <td className="text-xs">{posted ? "✓" : <Dash />}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </CardTable>
           )}
         </Card>
         <div className="space-y-4">

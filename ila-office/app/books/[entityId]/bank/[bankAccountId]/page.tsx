@@ -4,7 +4,7 @@ import { requireUser, can } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { fmtDate, periodLabel } from "@/lib/dates";
 import { fmtMoney } from "@/lib/money";
-import { Card, Badge, statusTone, Chips, EmptyState, withParams, Stat } from "@/components/ui";
+import { Badge, statusTone, Chips, Cols, Dash, EmptyState, TableCard, withParams, Stat } from "@/components/ui";
 import { ConfirmForm } from "@/components/client";
 import { ErrorNotice, base, first, requireEntity, type Search } from "../../shared";
 import { excludeTxAction, unmatchTxAction } from "../actions";
@@ -53,36 +53,44 @@ export default async function BankTransactions({ params, searchParams }: { param
         </form>
       </div>
       {rows.length === 0 ? <EmptyState title={all.length === 0 ? "No statement lines yet" : "Nothing here"} hint={all.length === 0 ? "Import a CSV export from the bank to start reconciling." : "Change the filter."} action={all.length === 0 ? <Link href={`${here}/import`} className="btn-primary">Import CSV</Link> : undefined} /> : (
-        <Card className="overflow-x-auto !p-0">
-          <table className="table">
-            <thead><tr><th className="pl-4">Date</th><th>Description</th><th>Ref</th><th className="num">In</th><th className="num">Out</th><th className="num">Balance</th><th>Status</th><th>Matched to</th><th></th></tr></thead>
+        <TableCard footer={rows.length > 500 && <span>Showing 500 of {rows.length} lines.</span>}>
+          <table className="table table-data min-w-[970px]">
+            <Cols widths={[122, undefined, 136, 136, 136, 100, 190]} />
+            <thead><tr><th>Date</th><th>Description</th><th className="num">In</th><th className="num">Out</th><th className="num">Balance</th><th>Status</th><th>Matched to</th></tr></thead>
             <tbody>
               {rows.slice(0, 500).map((t) => {
                 const j = t.matchedJournalId ? journals.get(t.matchedJournalId) : undefined;
                 const docHref = t.matchedDocument?.type === "invoice" ? `${b}/sales/${t.matchedDocument.id}` : t.matchedDocument?.type === "bill" ? `${b}/purchases/${t.matchedDocument.id}` : j ? `${b}/journal/${j.id}` : undefined;
+                const docLabel = `${t.matchedDocument?.type ?? "journal"}${j ? ` ${j.number}` : ""}`;
+                const hasAction = t.status === "unmatched" || (writable && (t.status === "excluded" || t.status === "matched"));
                 return (
-                  <tr key={t.id} className={t.status === "excluded" ? "opacity-50" : ""}>
-                    <td className="pl-4 whitespace-nowrap">{fmtDate(t.date)}</td>
-                    <td className="max-w-md"><span className="line-clamp-2">{t.description}</span></td>
-                    <td className="text-xs text-ink-500">{t.reference ?? ""}</td>
-                    <td className="num text-green-700">{t.amount > 0 ? fmtMoney(t.amount, bank.currency) : ""}</td>
-                    <td className="num text-red-700">{t.amount < 0 ? fmtMoney(-t.amount, bank.currency) : ""}</td>
-                    <td className="num text-xs text-ink-500">{t.balance !== undefined ? fmtMoney(t.balance, bank.currency) : ""}</td>
+                  <tr key={t.id} className={t.status === "excluded" ? "row-muted" : ""}>
+                    <td className="whitespace-nowrap">{fmtDate(t.date)}</td>
+                    <td><span className="cell" title={t.description}>{t.description}</span>{t.reference && <span className="cell-sub" title={t.reference}>{t.reference}</span>}</td>
+                    <td className="num text-green-700">{t.amount > 0 ? <span className="money">{fmtMoney(t.amount, bank.currency)}</span> : <Dash />}</td>
+                    <td className="num text-red-700">{t.amount < 0 ? <span className="money">{fmtMoney(-t.amount, bank.currency)}</span> : <Dash />}</td>
+                    <td className="num text-ink-500">{t.balance !== undefined ? <span className="money">{fmtMoney(t.balance, bank.currency)}</span> : <Dash />}</td>
                     <td><Badge tone={statusTone(t.status)}>{t.status}</Badge></td>
-                    <td className="text-xs">{docHref ? <Link href={docHref} className="text-brand-600 underline">{t.matchedDocument?.type ?? "journal"}{j ? ` ${j.number}` : ""}</Link> : ""}</td>
-                    <td className="whitespace-nowrap text-xs no-print">
-                      {t.status === "unmatched" && <Link href={`${here}/tx/${t.id}`} className="btn-primary !px-2 !py-1 text-xs">Match</Link>}
-                      {writable && t.status === "unmatched" && <form action={excludeTxAction.bind(null, entityId, bank.id, t.id)} className="ml-2 inline"><input type="hidden" name="back" value={withParams(here, current, {})} /><button className="text-ink-500 underline" type="submit">exclude</button></form>}
-                      {writable && t.status === "excluded" && <form action={excludeTxAction.bind(null, entityId, bank.id, t.id)} className="inline"><input type="hidden" name="restore" value="1" /><input type="hidden" name="back" value={withParams(here, current, {})} /><button className="text-brand-600 underline" type="submit">restore</button></form>}
-                      {writable && t.status === "matched" && <ConfirmForm action={unmatchTxAction.bind(null, entityId, bank.id, t.id)} message="Unmatch this line? The linked receipt/payment or quick journal will be reversed (voided)."><button className="text-red-600 underline" type="submit">unmatch</button></ConfirmForm>}
+                    <td className="text-xs">
+                      {!docHref && !hasAction ? <Dash /> : t.status === "matched" ? (
+                        <>
+                          {docHref ? <Link href={docHref} className="cell text-brand-600 underline" title={docLabel}>{docLabel}</Link> : <Dash />}
+                          {writable && <ConfirmForm action={unmatchTxAction.bind(null, entityId, bank.id, t.id)} message="Unmatch this line? The linked receipt/payment or quick journal will be reversed (voided)." className="cell-sub no-print"><button className="text-red-600 underline" type="submit">unmatch</button></ConfirmForm>}
+                        </>
+                      ) : (
+                        <span className="flex items-center gap-2 whitespace-nowrap no-print">
+                          {t.status === "unmatched" && <Link href={`${here}/tx/${t.id}`} className="btn-primary shrink-0 !px-2 !py-1 text-xs">Match</Link>}
+                          {writable && t.status === "unmatched" && <form action={excludeTxAction.bind(null, entityId, bank.id, t.id)} className="shrink-0"><input type="hidden" name="back" value={withParams(here, current, {})} /><button className="text-ink-500 underline" type="submit">exclude</button></form>}
+                          {writable && t.status === "excluded" && <form action={excludeTxAction.bind(null, entityId, bank.id, t.id)} className="shrink-0"><input type="hidden" name="restore" value="1" /><input type="hidden" name="back" value={withParams(here, current, {})} /><button className="text-brand-600 underline" type="submit">restore</button></form>}
+                        </span>
+                      )}
                     </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
-          {rows.length > 500 && <p className="p-3 text-xs text-ink-500">Showing 500 of {rows.length} lines.</p>}
-        </Card>
+        </TableCard>
       )}
     </div>
   );

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { requirePermission } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { fmtDateTime } from "@/lib/dates";
-import { Card } from "@/components/ui";
+import { Card, CardTable, Cols, Dash } from "@/components/ui";
 import { base, requireEntity } from "../../../shared";
 import { StatementImport } from "./StatementImport";
 
@@ -25,8 +25,24 @@ export default async function ImportPage({ params }: { params: Promise<{ entityI
       <StatementImport entityId={entityId} bankAccountId={bank.id} currency={bank.currency} listHref={listHref} />
       {batches.length > 0 && (
         <Card title="Recent imports (all accounts of this entity)">
-          <table className="table"><thead><tr><th>When</th><th>File</th><th className="num">Rows</th><th className="num">Inserted</th><th className="num">Skipped</th><th>Errors</th></tr></thead>
-            <tbody>{batches.map((x) => <tr key={x.id}><td className="whitespace-nowrap">{fmtDateTime(x.createdAt)}</td><td>{x.fileName}</td><td className="num">{x.rows}</td><td className="num">{x.inserted}</td><td className="num">{x.skipped}</td><td className="text-xs text-ink-500">{x.errors.length ? `${x.errors.length}: ${x.errors[0]}` : ""}</td></tr>)}</tbody></table>
+          <CardTable>
+            <table className="table table-data min-w-[760px]">
+              <Cols widths={[180, undefined, 80, 96, 90, 240]} />
+              <thead><tr><th>When</th><th>File</th><th className="num">Rows</th><th className="num">Inserted</th><th className="num">Skipped</th><th>Errors</th></tr></thead>
+              <tbody>
+                {batches.map((x) => (
+                  <tr key={x.id}>
+                    <td className="whitespace-nowrap">{fmtDateTime(x.createdAt)}</td>
+                    <td><span className="cell" title={x.fileName}>{x.fileName}</span></td>
+                    <td className="num">{x.rows}</td>
+                    <td className="num">{x.inserted}</td>
+                    <td className="num">{x.skipped}</td>
+                    <td>{x.errors.length ? <span className="cell text-xs text-ink-500" title={x.errors.join("\n")}>{x.errors.length}: {x.errors[0]}</span> : <Dash />}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </CardTable>
         </Card>
       )}
     </div>

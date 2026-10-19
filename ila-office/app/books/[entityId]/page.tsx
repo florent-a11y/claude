@@ -6,7 +6,7 @@ import { entityAccounts, entityEntries } from "@/lib/books";
 import { sumBySubtype, invoiceOutstanding, billOutstanding, entryTotal, fiscalYearStartOf } from "@/lib/ledger";
 import { todayISO, fmtDate, periodOf } from "@/lib/dates";
 import { toIDR, fmtMoney } from "@/lib/money";
-import { Card, Stat, Badge, statusTone, Money, EmptyState } from "@/components/ui";
+import { Card, Stat, Badge, statusTone, Money, EmptyState, CardTable, Cols } from "@/components/ui";
 import { base, requireEntity, type Params } from "./shared";
 
 export const dynamic = "force-dynamic";
@@ -55,38 +55,44 @@ export default async function Overview({ params }: { params: Params }) {
         </Card>
         <Card title="Overdue invoices" actions={<Link href={`${b}/sales?status=overdue`} className="text-xs text-brand-600 underline">Sales</Link>} className="lg:col-span-2">
           {overdue.length === 0 ? <p className="text-sm text-ink-500">Nothing overdue.</p> : (
-            <table className="table">
-              <thead><tr><th>Invoice</th><th>Customer</th><th>Due</th><th className="num">Outstanding</th></tr></thead>
-              <tbody>
-                {overdue.slice(0, 6).map((i) => (
-                  <tr key={i.id}>
-                    <td><Link href={`${b}/sales/${i.id}`} className="font-medium hover:underline">{i.number}</Link></td>
-                    <td>{i.customer.name}</td>
-                    <td><Badge tone="red">{fmtDate(i.dueDate)}</Badge></td>
-                    <td className="num"><Money amount={invoiceOutstanding(i)} currency={i.currency} /></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <CardTable>
+              <table className="table table-data min-w-[600px]">
+                <Cols widths={[140, undefined, 124, 150]} />
+                <thead><tr><th>Invoice</th><th>Customer</th><th>Due</th><th className="num">Outstanding</th></tr></thead>
+                <tbody>
+                  {overdue.slice(0, 6).map((i) => (
+                    <tr key={i.id}>
+                      <td><Link href={`${b}/sales/${i.id}`} className="cell-primary" title={i.number}>{i.number}</Link></td>
+                      <td><span className="cell" title={i.customer.name}>{i.customer.name}</span></td>
+                      <td><Badge tone="red">{fmtDate(i.dueDate)}</Badge></td>
+                      <td className="num"><Money amount={invoiceOutstanding(i)} currency={i.currency} className="money" /></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </CardTable>
           )}
         </Card>
       </div>
       <Card title="Recent journal entries" actions={<div className="flex gap-3 text-xs"><Link href={`${b}/journal/new`} className="text-brand-600 underline">New entry</Link><Link href={`${b}/journal`} className="text-brand-600 underline">All</Link></div>}>
         {recent.length === 0 ? <EmptyState title="No journal entries yet" hint="Post an invoice, import a bank statement or create a manual entry." action={<Link href={`${b}/journal/new`} className="btn-primary">New journal entry</Link>} /> : (
-          <table className="table">
-            <thead><tr><th>Number</th><th>Date</th><th>Memo</th><th>Source</th><th className="num">Amount</th></tr></thead>
-            <tbody>
-              {recent.map((e) => (
-                <tr key={e.id}>
-                  <td><Link href={`${b}/journal/${e.id}`} className="font-medium hover:underline">{e.number}</Link></td>
-                  <td className="whitespace-nowrap">{fmtDate(e.date)}</td>
-                  <td className="max-w-md truncate">{e.memo}</td>
-                  <td><Badge tone={statusTone(e.source)}>{e.source}</Badge></td>
-                  <td className="num"><Money amount={entryTotal(e)} /></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <CardTable>
+            <table className="table table-data min-w-[700px]">
+              <Cols widths={[130, 118, undefined, 120, 140]} />
+              <thead><tr><th>Number</th><th>Date</th><th>Memo</th><th>Source</th><th className="num">Amount</th></tr></thead>
+              <tbody>
+                {recent.map((e) => (
+                  <tr key={e.id}>
+                    <td><Link href={`${b}/journal/${e.id}`} className="cell-primary" title={e.number}>{e.number}</Link></td>
+                    <td className="whitespace-nowrap">{fmtDate(e.date)}</td>
+                    <td><span className="cell" title={e.memo}>{e.memo}</span></td>
+                    <td><Badge tone={statusTone(e.source)}>{e.source}</Badge></td>
+                    <td className="num"><Money amount={entryTotal(e)} className="money" /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </CardTable>
         )}
       </Card>
       <p className="text-xs text-ink-500">Balances as of {fmtDate(today)}; revenue and profit since the fiscal year start.</p>

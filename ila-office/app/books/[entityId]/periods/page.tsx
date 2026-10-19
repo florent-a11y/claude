@@ -5,7 +5,7 @@ import { fiscalYearPeriods, fiscalYearStartOf, profitAndLoss } from "@/lib/ledge
 import { entityEntries, entityAccounts } from "@/lib/books";
 import { todayISO, periodLabel, lastDayOfMonth, fmtDateTime } from "@/lib/dates";
 import { fmtMoney } from "@/lib/money";
-import { Card, Badge, Field, Notice } from "@/components/ui";
+import { Card, Badge, Field, Notice, Cols, Dash, TableCard } from "@/components/ui";
 import { ConfirmForm, SubmitButton } from "@/components/client";
 import { ErrorNotice, base, first, requireEntity, type Params, type Search } from "../shared";
 import { lockPeriodAction, lockThroughAction, closeYearAction } from "./actions";
@@ -47,26 +47,28 @@ export default async function Periods({ params, searchParams }: { params: Params
           </form>
         )}
       </div>
-      <Card className="overflow-x-auto !p-0">
-        <table className="table">
-          <thead><tr><th className="pl-4">Period</th><th className="num">Posted entries</th><th>Status</th><th>Locked by</th><th className="no-print"></th></tr></thead>
+      <TableCard>
+        <table className="table table-data min-w-[680px]">
+          <Cols widths={[170, 130, 100, undefined, 90]} />
+          <thead><tr><th>Period</th><th className="num">Posted entries</th><th>Status</th><th>Locked by</th><th className="no-print"></th></tr></thead>
           <tbody>
             {periods.map((p) => {
               const l = lockById.get(p);
               const future = p > today.slice(0, 7);
+              const lockedBy = l?.locked ? [userName(l.lockedByUserId), fmtDateTime(l.lockedAt)].filter(Boolean).join(" · ") : "";
               return (
-                <tr key={p} className={future ? "text-ink-500" : ""}>
-                  <td className="pl-4 font-medium">{periodLabel(p)} <span className="text-xs text-ink-500">{p}</span></td>
+                <tr key={p} className={future ? "row-muted" : ""}>
+                  <td><span className={future ? "cell font-medium" : "cell-primary"}>{periodLabel(p)}</span><span className="cell-sub">{p}</span></td>
                   <td className="num"><Link href={`${b}/journal?period=${p}`} className="hover:underline">{counts.get(p) ?? 0}</Link></td>
                   <td>{l?.locked ? <Badge tone="green">locked</Badge> : <Badge tone={future ? "slate" : "amber"}>{future ? "future" : "open"}</Badge>}</td>
-                  <td className="text-xs text-ink-500">{l?.locked ? `${userName(l.lockedByUserId)} · ${fmtDateTime(l.lockedAt)}` : ""}</td>
-                  <td className="no-print text-xs">{writable && (l?.locked ? <ConfirmForm action={lockPeriodAction.bind(null, entityId, p, false, year)} message={`Unlock ${p}? Entries can then be posted or voided in this month again.`}><button className="text-brand-600 underline" type="submit">unlock</button></ConfirmForm> : <form action={lockPeriodAction.bind(null, entityId, p, true, year)} className="inline"><button className="text-brand-600 underline" type="submit">lock</button></form>)}</td>
+                  <td>{lockedBy ? <span className="cell text-xs text-ink-500" title={lockedBy}>{lockedBy}</span> : <Dash />}</td>
+                  <td className="no-print text-right text-xs">{writable && (l?.locked ? <ConfirmForm action={lockPeriodAction.bind(null, entityId, p, false, year)} message={`Unlock ${p}? Entries can then be posted or voided in this month again.`}><button className="text-brand-600 underline" type="submit">unlock</button></ConfirmForm> : <form action={lockPeriodAction.bind(null, entityId, p, true, year)} className="inline"><button className="text-brand-600 underline" type="submit">lock</button></form>)}</td>
                 </tr>
               );
             })}
           </tbody>
         </table>
-      </Card>
+      </TableCard>
       <div className="grid gap-4 md:grid-cols-2">
         <Card title={`Year ${year} result`}>
           <p className="text-sm">Revenue {fmtMoney(pl.revenue)} · expenses {fmtMoney(pl.cogs + pl.opex + pl.otherExpense + pl.tax)} · <strong>net profit {fmtMoney(pl.netProfit)}</strong></p>

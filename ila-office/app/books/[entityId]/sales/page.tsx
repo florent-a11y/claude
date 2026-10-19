@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { docDisplayStatus, invoiceOutstanding } from "@/lib/ledger";
 import { fmtDate, todayISO } from "@/lib/dates";
 import { fmtMoney, toIDR } from "@/lib/money";
-import { Card, Badge, statusTone, Money, Chips, EmptyState, withParams, Stat } from "@/components/ui";
+import { Badge, statusTone, Money, Chips, Cols, Dash, EmptyState, TableCard, withParams, Stat } from "@/components/ui";
 import { AutoSubmitInput } from "@/components/client";
 import { ErrorNotice, base, first, requireEntity, type Params, type Search } from "../shared";
 
@@ -48,25 +48,26 @@ export default async function Sales({ params, searchParams }: { params: Params; 
       </div>
       <Chips items={[{ href: withParams(url, current, { status: undefined }), label: `All (${all.length})`, active: !status }, ...STATUSES.map((s) => ({ href: withParams(url, current, { status: s }), label: `${s} (${all.filter((x) => x.display === s).length})`, active: status === s }))]} />
       {rows.length === 0 ? <EmptyState title="No invoices" hint="Create the first invoice for this entity." action={<Link href={`${b}/sales/new`} className="btn-primary">New invoice</Link>} /> : (
-        <Card className="overflow-x-auto !p-0">
-          <table className="table">
-            <thead><tr><th className="pl-4">Number</th><th>Date</th><th>Due</th><th>Customer</th><th className="num">Total</th><th className="num">Paid</th><th className="num">Outstanding</th><th>Status</th></tr></thead>
+        <TableCard>
+          <table className="table table-data min-w-[980px]">
+            <Cols widths={[140, 118, 118, undefined, 136, 126, 136, 92]} />
+            <thead><tr><th>Number</th><th>Date</th><th>Due</th><th>Customer</th><th className="num">Total</th><th className="num">Paid</th><th className="num">Outstanding</th><th>Status</th></tr></thead>
             <tbody>
               {rows.map(({ i, display }) => (
-                <tr key={i.id} className={i.status === "void" ? "opacity-60" : ""}>
-                  <td className="pl-4 font-medium"><Link href={`${b}/sales/${i.id}`} className="hover:underline">{i.number}</Link></td>
+                <tr key={i.id} className={i.status === "void" ? "row-muted" : ""}>
+                  <td><Link href={`${b}/sales/${i.id}`} className={i.status === "void" ? "cell font-medium" : "cell-primary"} title={i.number}>{i.number}</Link></td>
                   <td className="whitespace-nowrap">{fmtDate(i.date)}</td>
                   <td className={`whitespace-nowrap ${display === "overdue" ? "text-red-700" : ""}`}>{fmtDate(i.dueDate)}</td>
-                  <td className="max-w-xs truncate">{i.customer.name}</td>
-                  <td className="num"><Money amount={i.total} currency={i.currency} /></td>
-                  <td className="num"><Money amount={i.amountPaid} currency={i.currency} /></td>
-                  <td className="num">{i.status === "void" || i.status === "draft" ? "—" : <Money amount={invoiceOutstanding(i)} currency={i.currency} />}</td>
+                  <td><span className="cell" title={i.customer.name}>{i.customer.name}</span></td>
+                  <td className="num"><Money amount={i.total} currency={i.currency} className="money" /></td>
+                  <td className="num"><Money amount={i.amountPaid} currency={i.currency} className="money" /></td>
+                  <td className="num">{i.status === "void" || i.status === "draft" ? <Dash /> : <Money amount={invoiceOutstanding(i)} currency={i.currency} className="money" />}</td>
                   <td><Badge tone={statusTone(display)}>{display}</Badge></td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </Card>
+        </TableCard>
       )}
     </div>
   );

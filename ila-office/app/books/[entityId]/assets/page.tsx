@@ -5,7 +5,7 @@ import { netBookValue, depreciationDue } from "@/lib/ledger";
 import { FISCAL_ASSET_GROUPS } from "@/lib/types";
 import { fmtDate, todayISO, periodOf, prevPeriod } from "@/lib/dates";
 import { fmtMoney } from "@/lib/money";
-import { Card, Badge, statusTone, Money, EmptyState, Stat, Field } from "@/components/ui";
+import { Badge, statusTone, Money, Cols, Dash, EmptyState, Stat, Field, TableCard } from "@/components/ui";
 import { SubmitButton } from "@/components/client";
 import { ErrorNotice, base, first, requireEntity, type Params, type Search } from "../shared";
 import { runDepreciationAction } from "./actions";
@@ -44,27 +44,33 @@ export default async function Assets({ params, searchParams }: { params: Params;
         {writable && <Link href={`${b}/assets/new`} className="btn-primary">Register asset</Link>}
       </div>
       {assets.length === 0 ? <EmptyState title="No fixed assets" hint="Register computers, vehicles, buildings and leasehold rights with their fiscal group." action={writable ? <Link href={`${b}/assets/new`} className="btn-primary">Register asset</Link> : undefined} /> : (
-        <Card className="overflow-x-auto !p-0">
-          <table className="table">
-            <thead><tr><th className="pl-4">Asset</th><th>Acquired</th><th>Group</th><th>Method</th><th className="num">Cost</th><th className="num">Accum. depr.</th><th className="num">NBV</th><th>Through</th><th>Status</th></tr></thead>
+        <TableCard>
+          <table className="table table-data min-w-[980px]">
+            <Cols widths={[undefined, 118, 140, 140, 140, 96, 160]} />
+            <thead><tr><th>Asset</th><th>Acquired</th><th className="num">Cost</th><th className="num">Accum. depr.</th><th className="num">NBV</th><th>Through</th><th>Status</th></tr></thead>
             <tbody>
-              {assets.map((a) => (
-                <tr key={a.id} className={a.status === "disposed" ? "opacity-60" : ""}>
-                  <td className="pl-4 font-medium"><Link href={`${b}/assets/${a.id}`} className="hover:underline">{a.name}</Link></td>
-                  <td className="whitespace-nowrap">{fmtDate(a.acquisitionDate)}</td>
-                  <td className="text-xs">{FISCAL_ASSET_GROUPS[a.fiscalGroup].label.split(" (")[0]} · {a.usefulLifeMonths} m</td>
-                  <td className="text-xs">{a.method === "straight_line" ? "Straight line" : "Declining"}</td>
-                  <td className="num"><Money amount={a.cost} /></td>
-                  <td className="num"><Money amount={a.accumulatedDepreciation} /></td>
-                  <td className="num font-medium"><Money amount={netBookValue(a)} /></td>
-                  <td className="text-xs">{a.depreciatedThrough ?? "—"}</td>
-                  <td><Badge tone={statusTone(a.status === "fully_depreciated" ? "done" : a.status === "disposed" ? "cancelled" : a.status)}>{a.status.replace("_", " ")}</Badge></td>
-                </tr>
-              ))}
+              {assets.map((a) => {
+                const meta = `${FISCAL_ASSET_GROUPS[a.fiscalGroup].label.split(" (")[0]} · ${a.usefulLifeMonths} m · ${a.method === "straight_line" ? "Straight line" : "Declining"}`;
+                const disposed = a.status === "disposed";
+                return (
+                  <tr key={a.id} className={disposed ? "row-muted" : ""}>
+                    <td>
+                      <Link href={`${b}/assets/${a.id}`} className={disposed ? "cell font-medium" : "cell-primary"} title={a.name}>{a.name}</Link>
+                      <span className="cell-sub" title={meta}>{meta}</span>
+                    </td>
+                    <td className="whitespace-nowrap">{fmtDate(a.acquisitionDate)}</td>
+                    <td className="num"><Money amount={a.cost} className="money" /></td>
+                    <td className="num"><Money amount={a.accumulatedDepreciation} className="money" /></td>
+                    <td className="num font-medium"><Money amount={netBookValue(a)} className="money" /></td>
+                    <td className="whitespace-nowrap text-xs">{a.depreciatedThrough ?? <Dash />}</td>
+                    <td><Badge tone={statusTone(a.status === "fully_depreciated" ? "done" : a.status === "disposed" ? "cancelled" : a.status)}>{a.status.replace("_", " ")}</Badge></td>
+                  </tr>
+                );
+              })}
             </tbody>
-            <tfoot><tr className="border-t border-slate-200 font-semibold"><td className="pl-4 py-2" colSpan={4}>Total (excluding disposed)</td><td className="num py-2">{fmtMoney(totals.cost)}</td><td className="num py-2">{fmtMoney(totals.accum)}</td><td className="num py-2">{fmtMoney(totals.cost - totals.accum)}</td><td colSpan={2}></td></tr></tfoot>
+            <tfoot><tr><td colSpan={2}>Total (excluding disposed)</td><td className="num">{fmtMoney(totals.cost)}</td><td className="num">{fmtMoney(totals.accum)}</td><td className="num">{fmtMoney(totals.cost - totals.accum)}</td><td colSpan={2}></td></tr></tfoot>
           </table>
-        </Card>
+        </TableCard>
       )}
     </div>
   );

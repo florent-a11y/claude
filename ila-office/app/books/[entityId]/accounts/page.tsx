@@ -4,7 +4,7 @@ import { accountBalances, naturalBalance } from "@/lib/balances";
 import { entityAccounts, entityEntries } from "@/lib/books";
 import { ACCOUNT_TYPE_LABELS, ACCOUNT_TYPE_ORDER } from "@/lib/ledger";
 import { ACCOUNT_SUBTYPES } from "@/lib/types";
-import { Card, Badge, Money, Field, Select } from "@/components/ui";
+import { Card, Badge, Money, Field, Select, CardTable, Cols, Dash } from "@/components/ui";
 import { SubmitButton } from "@/components/client";
 import { ErrorNotice, base, first, requireEntity, type Params, type Search } from "../shared";
 import { createAccountAction } from "./actions";
@@ -30,25 +30,30 @@ export default async function Accounts({ params, searchParams }: { params: Param
         <div className="flex gap-3 text-xs"><Link href={`${b}/accounts${showInactive ? "" : "?inactive=1"}`} className="text-brand-600 underline">{showInactive ? "Hide inactive" : "Show inactive"}</Link><Link href={`/api/books/${entityId}/reports/accounts`} className="text-brand-600 underline">Export CSV</Link></div>
       </div>
       <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           {groups.map((g) => (
-            <Card key={g.type} title={`${ACCOUNT_TYPE_LABELS[g.type]} (${g.rows.length})`} className="overflow-x-auto">
-              <table className="table">
-                <thead><tr><th>Code</th><th>Name</th><th>Nama (ID)</th><th>Subtype</th><th>Tag</th><th className="num">Balance</th><th></th></tr></thead>
-                <tbody>
-                  {g.rows.map((a) => (
-                    <tr key={a.id} className={a.active ? "" : "opacity-50"}>
-                      <td className="font-mono text-xs">{a.code}</td>
-                      <td><Link href={`${b}/accounts/${a.id}`} className="font-medium hover:underline">{a.name}</Link>{a.isSystem && <span className="ml-1 text-[10px] uppercase text-ink-500">system</span>}{!a.active && <span className="ml-1 text-[10px] uppercase text-red-600">inactive</span>}</td>
-                      <td className="text-xs text-ink-500">{a.nameId ?? ""}</td>
-                      <td className="text-xs">{a.subtype}</td>
-                      <td>{a.taxTag && <Badge tone="indigo">{a.taxTag}</Badge>}</td>
-                      <td className="num"><Link href={`${b}/reports/general-ledger?accountId=${a.id}`} className="hover:underline"><Money amount={naturalBalance(a, bal.get(a.id))} /></Link></td>
-                      <td className="text-xs"><Link href={`${b}/accounts/${a.id}`} className="text-brand-600 underline">edit</Link></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <Card key={g.type} title={`${ACCOUNT_TYPE_LABELS[g.type]} (${g.rows.length})`}>
+              <CardTable>
+                <table className="table table-data min-w-[720px]">
+                  <Cols widths={[84, undefined, 128, 150, 140, 56]} />
+                  <thead><tr><th>Code</th><th>Name</th><th>Subtype</th><th>Tag</th><th className="num">Balance</th><th></th></tr></thead>
+                  <tbody>
+                    {g.rows.map((a) => (
+                      <tr key={a.id} className={a.active ? "" : "row-muted"}>
+                        <td><span className="cell font-mono text-xs" title={a.code}>{a.code}</span></td>
+                        <td>
+                          <span className={a.active ? "cell-primary" : "cell font-medium"} title={a.nameId ? `${a.name} · ${a.nameId}` : a.name}><Link href={`${b}/accounts/${a.id}`} className="hover:underline">{a.name}</Link>{a.isSystem && <Badge className="ml-2 align-middle">system</Badge>}{!a.active && <Badge tone="red" className="ml-2 align-middle">inactive</Badge>}</span>
+                          {a.nameId && <span className="cell-sub" title={a.nameId}>{a.nameId}</span>}
+                        </td>
+                        <td><span className="cell text-xs" title={a.subtype}>{a.subtype}</span></td>
+                        <td>{a.taxTag ? <Badge tone="indigo" className="max-w-full"><span className="truncate" title={a.taxTag}>{a.taxTag}</span></Badge> : <Dash />}</td>
+                        <td className="num"><Link href={`${b}/reports/general-ledger?accountId=${a.id}`} className="hover:underline"><Money amount={naturalBalance(a, bal.get(a.id))} className="money" /></Link></td>
+                        <td className="text-right text-xs"><Link href={`${b}/accounts/${a.id}`} className="text-brand-600 underline">edit</Link></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </CardTable>
             </Card>
           ))}
         </div>

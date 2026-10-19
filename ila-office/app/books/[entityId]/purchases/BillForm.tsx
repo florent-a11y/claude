@@ -4,6 +4,7 @@ import { addDays } from "@/lib/dates";
 import { fmtNumber } from "@/lib/money";
 import { billTotals, WITHHOLDING_LABELS, WITHHOLDING_TYPES, defaultWithholdingRate } from "@/lib/ledger";
 import { SubmitButton } from "@/components/client";
+import { Cols, TableCard } from "@/components/ui";
 import type { Bill, TaxCode, WithholdingType } from "@/lib/types";
 
 export interface VendorOpt { key: string; type: "vendor" | "company" | "contact"; id: string; name: string; npwp?: string; country?: string }
@@ -70,26 +71,26 @@ export function BillForm({ action, entity, vendors, accounts, defaultAccountId, 
           <label className="block"><span className="label">Vendor e-Faktur number</span><input name="fakturNumber" defaultValue={bill?.fakturNumber} className="input" /></label>
         </div>
       </div>
-      <div className="card overflow-x-auto !p-0">
-        <table className="table">
-          <thead><tr><th className="pl-4 w-[26%]">Description</th><th className="w-36">Amount (DPP)</th><th className="w-[22%]">Account</th><th className="w-36">PPN</th><th className="w-44">Withholding</th><th className="w-20">Rate %</th><th className="num w-28">Withheld</th><th className="w-8"></th></tr></thead>
+      <TableCard footer={<button type="button" className="btn-secondary !py-1 text-xs" onClick={() => setLines((ls) => [...ls, blank()])}>+ Add line</button>}>
+        <table className="table table-data min-w-[1100px]">
+          <Cols widths={[undefined, 136, 220, 150, 190, 76, 116, 44]} />
+          <thead><tr><th>Description</th><th className="num">Amount (DPP)</th><th>Account</th><th>PPN</th><th>Withholding</th><th className="num">Rate %</th><th className="num">Withheld</th><th></th></tr></thead>
           <tbody>
             {lines.map((l, i) => (
               <tr key={l.key}>
-                <td className="pl-4"><input value={l.description} onChange={(e) => update(l.key, { description: e.target.value })} className="input !py-1" placeholder="What was purchased" /></td>
+                <td><input value={l.description} onChange={(e) => update(l.key, { description: e.target.value })} className="input !py-1" placeholder="What was purchased" /></td>
                 <td><input value={l.amount} onChange={(e) => update(l.key, { amount: e.target.value })} className="input !py-1 text-right" inputMode="decimal" placeholder="0" /></td>
                 <td><select value={l.accountId} onChange={(e) => update(l.key, { accountId: e.target.value })} className="input !py-1">{grouped.map((g) => <optgroup key={g.t} label={g.t}>{g.items.map((a) => <option key={a.id} value={a.id}>{a.code} · {a.name}</option>)}</optgroup>)}</select></td>
                 <td><select value={l.taxCode} onChange={(e) => update(l.key, { taxCode: e.target.value as TaxCode })} className="input !py-1">{TAX_CODES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}</select></td>
                 <td><select value={l.withholding} onChange={(e) => { const w = e.target.value as WithholdingType; update(l.key, { withholding: w, withholdingRate: w === "none" ? "" : String(defaultWithholdingRate(w) * 100) }); }} className="input !py-1">{WITHHOLDING_TYPES.map((w) => <option key={w} value={w}>{WITHHOLDING_LABELS[w]}</option>)}</select></td>
                 <td><input value={l.withholdingRate} onChange={(e) => update(l.key, { withholdingRate: e.target.value })} disabled={l.withholding === "none"} className="input !py-1 text-right" inputMode="decimal" /></td>
                 <td className="num">{fmt(totals.lines[i]?.withholdingAmount ?? 0)}</td>
-                <td><button type="button" className="text-ink-500 hover:text-red-600" aria-label="Remove line" onClick={() => setLines((ls) => (ls.length > 1 ? ls.filter((x) => x.key !== l.key) : ls))}>×</button></td>
+                <td className="text-center"><button type="button" className="text-ink-500 hover:text-red-600" aria-label="Remove line" onClick={() => setLines((ls) => (ls.length > 1 ? ls.filter((x) => x.key !== l.key) : ls))}>×</button></td>
               </tr>
             ))}
           </tbody>
         </table>
-        <div className="border-t border-slate-100 p-3"><button type="button" className="btn-secondary !py-1 text-xs" onClick={() => setLines((ls) => [...ls, blank()])}>+ Add line</button></div>
-      </div>
+      </TableCard>
       <div className="grid gap-4 md:grid-cols-[1fr_340px]">
         <div className="card"><label className="block"><span className="label">Notes</span><textarea name="notes" defaultValue={bill?.notes} rows={3} className="input" /></label>
           <p className="mt-2 text-xs text-ink-500">Withholding defaults: PPh 23 2% on services, PPh 4(2) 10% on land/building rent, PPh 26 20% on foreign vendors (treaty rates can be typed in). Vendor PPN is {entity.pkp ? "booked as creditable VAT input (PKP)" : "expensed with the line (non-PKP)"}.</p>

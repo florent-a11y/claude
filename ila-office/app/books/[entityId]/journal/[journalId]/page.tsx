@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { entityAccounts } from "@/lib/books";
 import { fmtDate, fmtDateTime } from "@/lib/dates";
 import { fmtMoney } from "@/lib/money";
-import { Card, Badge, statusTone, DL } from "@/components/ui";
+import { Card, Badge, statusTone, DL, Cols, Dash, TableCard } from "@/components/ui";
 import { ConfirmForm } from "@/components/client";
 import { ErrorNotice, base, first, requireEntity, type Search } from "../../shared";
 import { voidJournalAction } from "../actions";
@@ -41,26 +41,28 @@ export default async function JournalEntryPage({ params, searchParams }: { param
         </div>
       </div>
       <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
-        <Card className="overflow-x-auto !p-0">
-          <table className="table">
-            <thead><tr><th className="pl-4">Account</th><th>Description</th><th>Counterparty</th><th className="num">Debit</th><th className="num">Credit</th></tr></thead>
+        <TableCard>
+          <table className="table table-data min-w-[800px]">
+            <Cols widths={[236, undefined, 130, 136, 136]} />
+            <thead><tr><th>Account</th><th>Description</th><th>Counterparty</th><th className="num">Debit</th><th className="num">Credit</th></tr></thead>
             <tbody>
               {entry.lines.map((l, i) => {
                 const a = byId.get(l.accountId);
+                const fx = l.currency ? `(${l.currency} ${l.fxAmount} @ ${l.fxRate})` : "";
                 return (
                   <tr key={i}>
-                    <td className="pl-4"><Link href={`${b}/reports/general-ledger?accountId=${l.accountId}`} className="hover:underline"><span className="font-mono text-xs">{l.accountCode}</span> {a?.name ?? ""}</Link></td>
-                    <td>{l.description ?? ""}{l.currency && <span className="ml-1 text-xs text-ink-500">({l.currency} {l.fxAmount} @ {l.fxRate})</span>}</td>
-                    <td className="text-xs">{l.counterpartyName ?? ""}</td>
-                    <td className="num">{l.debit ? fmtMoney(l.debit) : ""}</td>
-                    <td className="num">{l.credit ? fmtMoney(l.credit) : ""}</td>
+                    <td><Link href={`${b}/reports/general-ledger?accountId=${l.accountId}`} className="cell" title={`${l.accountCode} ${a?.name ?? ""}`}><span className="font-mono text-xs">{l.accountCode}</span> {a?.name ?? ""}</Link></td>
+                    <td>{l.description || fx ? <span className="cell" title={[l.description, fx].filter(Boolean).join(" ")}>{l.description ?? ""}{fx && <span className="ml-1 text-xs text-ink-500">{fx}</span>}</span> : <Dash />}</td>
+                    <td>{l.counterpartyName ? <span className="cell text-xs" title={l.counterpartyName}>{l.counterpartyName}</span> : <Dash />}</td>
+                    <td className="num">{l.debit ? <span className="money">{fmtMoney(l.debit)}</span> : <Dash />}</td>
+                    <td className="num">{l.credit ? <span className="money">{fmtMoney(l.credit)}</span> : <Dash />}</td>
                   </tr>
                 );
               })}
             </tbody>
-            <tfoot><tr className="border-t border-slate-200 font-semibold"><td className="pl-4 py-2" colSpan={3}>Totals</td><td className="num py-2">{fmtMoney(totalD)}</td><td className="num py-2">{fmtMoney(totalC)}</td></tr></tfoot>
+            <tfoot><tr><td colSpan={3}>Totals</td><td className="num">{fmtMoney(totalD)}</td><td className="num">{fmtMoney(totalC)}</td></tr></tfoot>
           </table>
-        </Card>
+        </TableCard>
         <Card title="Details">
           <DL items={[["Date", fmtDate(entry.date)], ["Period", entry.period], ["Source", sourceLink ? <Link href={sourceLink} className="text-brand-600 underline">{entry.source}</Link> : entry.source], ["Posted", fmtDateTime(entry.postedAt)], ["Voided", entry.voidedAt ? fmtDateTime(entry.voidedAt) : "—"], ["Created", fmtDateTime(entry.createdAt)]]} />
         </Card>

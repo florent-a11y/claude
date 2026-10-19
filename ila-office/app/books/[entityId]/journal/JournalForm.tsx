@@ -1,6 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
 import { fmtNumber } from "@/lib/money";
+import { Cols, TableCard } from "@/components/ui";
 
 export interface AccountOpt { id: string; code: string; name: string; type: string }
 interface Line { key: number; accountId: string; description: string; debit: string; credit: string }
@@ -38,13 +39,14 @@ export function JournalForm({ accounts, action, defaultDate }: { accounts: Accou
         <label className="block"><span className="label">Memo</span><input name="memo" required className="input" placeholder="What is this entry for?" /></label>
         <label className="block"><span className="label">Source</span><select name="source" defaultValue="manual" className="input">{SOURCES.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}</select></label>
       </div>
-      <div className="card overflow-x-auto !p-0">
-        <table className="table">
-          <thead><tr><th className="pl-4 w-[34%]">Account</th><th>Description</th><th className="num w-40">Debit (IDR)</th><th className="num w-40">Credit (IDR)</th><th className="w-8"></th></tr></thead>
+      <TableCard>
+        <table className="table table-data min-w-[860px]">
+          <Cols widths={[300, undefined, 160, 160, 44]} />
+          <thead><tr><th>Account</th><th>Description</th><th className="num">Debit (IDR)</th><th className="num">Credit (IDR)</th><th></th></tr></thead>
           <tbody>
             {lines.map((l) => (
               <tr key={l.key}>
-                <td className="pl-4">
+                <td>
                   <select value={l.accountId} onChange={(e) => update(l.key, { accountId: e.target.value })} className="input !py-1">
                     <option value="">— account —</option>
                     {grouped.map((g) => <optgroup key={g.t} label={g.t}>{g.items.map((a) => <option key={a.id} value={a.id}>{a.code} · {a.name}</option>)}</optgroup>)}
@@ -53,21 +55,21 @@ export function JournalForm({ accounts, action, defaultDate }: { accounts: Accou
                 <td><input value={l.description} onChange={(e) => update(l.key, { description: e.target.value })} className="input !py-1" placeholder="optional" /></td>
                 <td><input inputMode="numeric" value={l.debit} onChange={(e) => update(l.key, { debit: e.target.value, credit: e.target.value ? "" : l.credit })} className="input !py-1 text-right" placeholder="0" /></td>
                 <td><input inputMode="numeric" value={l.credit} onChange={(e) => update(l.key, { credit: e.target.value, debit: e.target.value ? "" : l.debit })} className="input !py-1 text-right" placeholder="0" /></td>
-                <td><button type="button" className="text-ink-500 hover:text-red-600" onClick={() => setLines((ls) => (ls.length > 2 ? ls.filter((x) => x.key !== l.key) : ls))} aria-label="Remove line">×</button></td>
+                <td className="text-center"><button type="button" className="text-ink-500 hover:text-red-600" onClick={() => setLines((ls) => (ls.length > 2 ? ls.filter((x) => x.key !== l.key) : ls))} aria-label="Remove line">×</button></td>
               </tr>
             ))}
           </tbody>
           <tfoot>
-            <tr className="border-t border-slate-200 font-semibold">
-              <td className="pl-4 py-2"><button type="button" className="btn-secondary !py-1 text-xs" onClick={() => setLines((ls) => [...ls, blank()])}>+ Add line</button></td>
-              <td className="py-2 text-right text-xs text-ink-500">Totals</td>
-              <td className="num py-2">{fmtNumber(totals.d)}</td>
-              <td className="num py-2">{fmtNumber(totals.c)}</td>
+            <tr>
+              <td><button type="button" className="btn-secondary !py-1 text-xs" onClick={() => setLines((ls) => [...ls, blank()])}>+ Add line</button></td>
+              <td className="text-right !text-xs !font-normal text-ink-500">Totals</td>
+              <td className="num">{fmtNumber(totals.d)}</td>
+              <td className="num">{fmtNumber(totals.c)}</td>
               <td></td>
             </tr>
           </tfoot>
         </table>
-      </div>
+      </TableCard>
       <div className="flex flex-wrap items-center gap-3">
         <button type="submit" className="btn-primary" disabled={!ok}>Post entry</button>
         {totals.diff !== 0 && <span className="text-sm text-red-600">Out of balance by {fmtNumber(Math.abs(totals.diff))} ({totals.diff > 0 ? "credits short" : "debits short"})</span>}

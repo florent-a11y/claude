@@ -36,7 +36,7 @@ export function Stat({ label, value, hint, tone = "" }: { label: string; value: 
   return (
     <div className="card @container min-w-0 !p-4">
       <p className="text-xs text-ink-500">{label}</p>
-      <p className={`mt-1 whitespace-nowrap text-lg font-bold tabular-nums @min-[13rem]:text-xl @min-[17rem]:text-2xl ${tone}`}>{value}</p>
+      <p className={`mt-1 whitespace-nowrap text-base font-bold tabular-nums @min-[12rem]:text-lg @min-[14rem]:text-xl @min-[18rem]:text-2xl ${tone}`}>{value}</p>
       {hint && <p className="mt-1 text-xs text-ink-500">{hint}</p>}
     </div>
   );
@@ -47,8 +47,8 @@ const TONES: Record<Tone, string> = {
   slate: "bg-slate-100 text-slate-700", green: "bg-green-100 text-green-800", amber: "bg-amber-100 text-amber-900", red: "bg-red-100 text-red-800",
   blue: "bg-blue-100 text-blue-800", indigo: "bg-indigo-100 text-indigo-800", brand: "bg-brand-100 text-brand-700", accent: "bg-amber-50 text-accent-600",
 };
-export function Badge({ tone = "slate", children, className = "" }: { tone?: Tone; children: ReactNode; className?: string }) {
-  return <span className={`pill ${TONES[tone]} ${className}`}>{children}</span>;
+export function Badge({ tone = "slate", children, className = "", title }: { tone?: Tone; children: ReactNode; className?: string; title?: string }) {
+  return <span className={`pill ${TONES[tone]} ${className}`} title={title}>{children}</span>;
 }
 
 /** Generic status → tone mapping used by the modules (extend locally where needed). */

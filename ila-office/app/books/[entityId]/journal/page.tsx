@@ -3,7 +3,7 @@ import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { entryTotal } from "@/lib/ledger";
 import { fmtDate, periodLabel } from "@/lib/dates";
-import { Card, Badge, statusTone, Money, Chips, EmptyState, withParams, Select } from "@/components/ui";
+import { Badge, statusTone, Money, Chips, Cols, EmptyState, TableCard, withParams, Select } from "@/components/ui";
 import { AutoSubmitInput } from "@/components/client";
 import { ErrorNotice, base, first, requireEntity, type Params, type Search } from "../shared";
 
@@ -39,25 +39,29 @@ export default async function Journal({ params, searchParams }: { params: Params
       <Chips items={[{ href: withParams(url, current, { source: undefined }), label: "All sources", active: !source }, ...SOURCES.map((s) => ({ href: withParams(url, current, { source: s }), label: s, active: source === s }))]} />
       <Chips items={[{ href: withParams(url, current, { status: undefined }), label: "Posted + void", active: !status }, { href: withParams(url, current, { status: "posted" }), label: "Posted", active: status === "posted" }, { href: withParams(url, current, { status: "void" }), label: "Void", active: status === "void" }, { href: withParams(url, current, { status: "draft" }), label: "Draft", active: status === "draft" }]} />
       {rows.length === 0 ? <EmptyState title="No journal entries" hint="Post an invoice or bill, match bank lines, or add a manual entry." action={<Link href={`${b}/journal/new`} className="btn-primary">New entry</Link>} /> : (
-        <Card className="overflow-x-auto !p-0">
-          <table className="table">
-            <thead><tr><th className="pl-4">Number</th><th>Date</th><th>Memo</th><th>Source</th><th>Lines</th><th className="num">Amount</th><th>Status</th></tr></thead>
+        <TableCard footer={rows.length > 500 && <span>Showing the first 500 of {rows.length} entries; narrow the filter.</span>}>
+          <table className="table table-data min-w-[960px]">
+            <Cols widths={[130, 118, undefined, 124, 170, 140, 90]} />
+            <thead><tr><th>Number</th><th>Date</th><th>Memo</th><th>Source</th><th>Lines</th><th className="num">Amount</th><th>Status</th></tr></thead>
             <tbody>
-              {rows.slice(0, 500).map((e) => (
-                <tr key={e.id} className={e.status === "void" ? "opacity-60" : ""}>
-                  <td className="pl-4 font-medium"><Link href={`${b}/journal/${e.id}`} className="hover:underline">{e.number}</Link></td>
-                  <td className="whitespace-nowrap">{fmtDate(e.date)}</td>
-                  <td className="max-w-lg truncate">{e.memo}</td>
-                  <td><Badge tone={statusTone(e.source)}>{e.source}</Badge></td>
-                  <td className="text-xs text-ink-500">{e.lines.map((l) => l.accountCode).join(", ")}</td>
-                  <td className="num"><Money amount={entryTotal(e)} /></td>
-                  <td><Badge tone={statusTone(e.status)}>{e.status}</Badge></td>
-                </tr>
-              ))}
+              {rows.slice(0, 500).map((e) => {
+                const codes = e.lines.map((l) => l.accountCode).join(", ");
+                const isVoid = e.status === "void";
+                return (
+                  <tr key={e.id} className={isVoid ? "row-muted" : ""}>
+                    <td><Link href={`${b}/journal/${e.id}`} className={isVoid ? "cell font-medium" : "cell-primary"} title={e.number}>{e.number}</Link></td>
+                    <td className="whitespace-nowrap">{fmtDate(e.date)}</td>
+                    <td><span className="cell" title={e.memo}>{e.memo}</span></td>
+                    <td><Badge tone={statusTone(e.source)}>{e.source}</Badge></td>
+                    <td><span className="cell text-xs text-ink-500" title={codes}>{codes}</span></td>
+                    <td className="num"><Money amount={entryTotal(e)} className="money" /></td>
+                    <td><Badge tone={statusTone(e.status)}>{e.status}</Badge></td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
-          {rows.length > 500 && <p className="p-3 text-xs text-ink-500">Showing the first 500 of {rows.length} entries; narrow the filter.</p>}
-        </Card>
+        </TableCard>
       )}
     </div>
   );
