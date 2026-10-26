@@ -1,8 +1,8 @@
 -- ILA Office storage. Each collection is a document table: the application reads and writes `data` (jsonb)
 -- through lib/db.ts; `entity_id` is denormalised for indexing and row-level policies later on.
--- Run in the Supabase SQL editor. The service-role key is used server-side only; RLS blocks anon access.
+-- Run in the Supabase SQL editor (safe to re-run). The service-role key is used server-side only; RLS blocks anon access.
 
-create or replace function public.ila_touch() returns trigger language plpgsql as $$
+create or replace function public.ila_touch() returns trigger language plpgsql set search_path = '' as $$
 begin new.updated_at = now(); return new; end $$;
 
 do $$
@@ -23,8 +23,7 @@ begin
     execute format('create index if not exists %I on public.%I (entity_id)', t || '_entity_idx', t);
     execute format('create index if not exists %I on public.%I using gin (data jsonb_path_ops)', t || '_data_idx', t);
     execute format('alter table public.%I enable row level security', t);
-    execute format('drop trigger if exists %I on public.%I', t || '_touch', t);
-    execute format('create trigger %I before update on public.%I for each row execute function public.ila_touch()', t || '_touch', t);
+    execute format('create or replace trigger %I before update on public.%I for each row execute function public.ila_touch()', t || '_touch', t);
   end loop;
 end $$;
 
