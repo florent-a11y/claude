@@ -1,0 +1,40 @@
+# ILA Office: start it on your laptop
+
+You need two free programs once: **Git** (git-scm.com) and **Node.js 22** (nodejs.org, "LTS").
+Then open a terminal (Mac: Terminal; Windows: PowerShell) and paste these four lines:
+
+```bash
+git clone -b claude/great-cerf-wd6j0e https://github.com/florent-a11y/claude.git ila-app
+cd ila-app/ila-office
+npm run start:local
+```
+
+The last command installs the app, loads the demo data (ILA's entity and chart of accounts, the price
+list, your vendor list, one fictional client with its own books) and starts the server. When it prints
+`Local: http://localhost:3100`, open that address in your browser and sign in with:
+
+| Email | Password |
+|---|---|
+| florent@ilaglobalconsulting.com | change-me-now-please |
+
+Change the password under **Settings → Users** afterwards.
+
+## Day to day
+- Start again later: `cd ila-app/ila-office` then `npm run dev`.
+- Stop the server: press `Ctrl` + `C` in the terminal.
+- Your data lives in `ila-app/ila-office/data/` on this laptop only. Nothing is sent anywhere.
+- Get the latest version: `git pull` inside the folder, then `npm run setup`.
+
+## When you want the team on it
+Follow `DEPLOY.md` (about 30 minutes: a Supabase database, a Vercel project, then create the first administrator
+on the sign-in page). The design document is `docs/ila-office-spec.md`.
+
+## Forgot the password?
+
+In Terminal, inside `~/ila-app/ila-office`, run (choose your own password, at least 10 characters):
+
+```bash
+npm run reset-password -- florent@ilaglobalconsulting.com "your-new-password"
+```
+
+Then sign in at http://localhost:3100/login with that password.

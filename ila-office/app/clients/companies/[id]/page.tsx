@@ -1,0 +1,115 @@
+import Link from "next/link";
+import type { ReactNode } from "react";
+import { notFound } from "next/navigation";
+import { requireUser, can, canAccessEntity, isClient } from "@/lib/auth";
+import { db } from "@/lib/db";
+import { fmtDate, todayISO } from "@/lib/dates";
+import { fullName } from "@/lib/util";
+import { ENTITY_TYPE_LABELS } from "@/lib/types";
+import { Page, Card, DL, Badge, Cols, Field, Select, Money, statusTone } from "@/components/ui";
+import { currencyOptions } from "@/lib/money";
+import { SubmitButton, ConfirmForm } from "@/components/client";
+import { activeServices, activitiesFor, lookups } from "../../_lib/server";
+import { Timeline } from "../../_components/Timeline";
+import { addSubscription, endSubscription, removeSubscription } from "../actions";
+
+export const dynamic = "force-dynamic";
+
+export default async function CompanyDetail({ params }: { params: Promise<{ id: string }> }) {
+  const me = await requireUser();
+  const { id } = await params;
+  const company = await db.get("companies", id);
+  if (!company || !canAccessEntity(me, company.entityId)) notFound();
+  const client = isClient(me);
+  const [l, services, entity] = await Promise.all([
+    lookups(), activeServices(),
+    company.entityId ? db.get("entities", company.entityId) : Promise.resolve(null),
+  ]);
+  const contacts = [...l.contacts.values()].filter((c) => c.companyIds.includes(id) || c.id === company.primaryContactId);
+  const activities = await activitiesFor((a) => a.companyId === id);
+  const write = can(me, "crm:write");
+  const path = `/clients/companies/${id}`;
+  const recurring = company.subscriptions.filter((s) => !s.endedAt);
+  const subscriptionServices = services.filter((s) => s.cadence !== "none");
+  return (
+    <Page title={company.name} subtitle={<span>{company.type === "prospect" ? "Prospect" : ENTITY_TYPE_LABELS[company.type]} · {company.region ?? company.country}{company.npwp ? ` · NPWP ${company.npwp}` : ""}</span>}
+      breadcrumbs={[{ href: "/clients/companies", label: "Client companies" }, { label: company.name }]}
+      actions={<>
+        {company.entityId && <Link href={`/books/${company.entityId}`} className="btn-secondary">Books</Link>}
+        {company.entityId && <Link href={`/tax/${company.entityId}`} className="btn-secondary">Tax</Link>}
+        {write && <Link href={`/clients/companies/${id}/edit`} className="btn-primary">Edit</Link>}
+      </>}>
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+        <div className="min-w-0 space-y-4">
+          <Card title="Details">
+            <DL items={[
+              ["Status", <Badge key="s" tone={statusTone(company.status)}>{company.status}</Badge>],
+              ["Primary contact", company.primaryContactId ? <Link className="text-brand-600 underline" href={`/clients/contacts/${company.primaryContactId}`}>{l.contact(company.primaryContactId)}</Link> : "—"],
+              ...(client ? [] : [["Owner", l.user(company.ownerUserId)] as [string, ReactNode]]),
+              ["NIB", company.nib ?? "—"], ["Deed", company.aktaNumber ?? "—"],
+              ["Address", company.address ?? "—"],
+              ["Books", entity ? <span><Link className="text-brand-600 underline" href={`/books/${entity.id}`}>{entity.name}</Link> · <Link className="text-brand-600 underline" href={`/tax/${entity.id}`}>tax calendar</Link></span> : <span className="text-ink-500">not managed by ILA{can(me, "admin") && <> · <Link className="underline" href="/settings/entities/new">create entity</Link></>}</span>],
+              ...(client ? [] : [
+                ["Drive", company.driveFolderUrl ? <a className="text-brand-600 underline" href={company.driveFolderUrl} target="_blank" rel="noreferrer">Open folder</a> : "—"],
+                ["HubSpot / QBO", [company.hubspotId, company.qboCustomerId].filter(Boolean).join(" / ") || "—"],
+                ["Tags", company.tags.length ? <span className="space-x-1">{company.tags.map((t) => <Badge key={t}>{t}</Badge>)}</span> : "—"],
+                ["Created", fmtDate(company.createdAt.slice(0, 10))],
+              ] as Array<[string, ReactNode]>),
+            ]} />
+            {company.notes && !client && <p className="mt-3 whitespace-pre-wrap rounded-lg bg-slate-50 p-2 text-sm">{company.notes}</p>}
+          </Card>
+          <Card title={`Contacts (${contacts.length})`} actions={write && <Link href={`/clients/contacts/new?companyId=${id}`} className="text-xs text-brand-600 underline">New contact</Link>}>
+            {contacts.length === 0 ? <p className="text-sm text-ink-500">No contacts linked.</p> : (
+              <ul className="divide-y divide-slate-100 text-sm">
+                {contacts.map((c) => (
+                  <li key={c.id} className="flex items-center justify-between gap-3 py-2">
+                    <span className="min-w-0">
+                      <span className="flex items-center gap-2"><Link href={`/clients/contacts/${c.id}`} className="truncate font-medium hover:underline">{fullName(c)}</Link>{c.id === company.primaryContactId && <Badge tone="brand">primary</Badge>}</span>
+                      {(c.email || c.phone) && <span className="cell-sub">{[c.email, c.phone].filter(Boolean).join(" · ")}</span>}
+                    </span>
+                    {c.nationality && <span className="shrink-0 text-xs font-medium text-ink-500">{c.nationality}</span>}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </Card>
+        </div>
+        <div className="min-w-0 space-y-4">
+          <Card title={`Subscriptions (${recurring.length} active)`}>
+            {company.subscriptions.length === 0 ? <p className="text-sm text-ink-500">No recurring engagement.</p> : (
+              <div className="-mx-5 overflow-x-auto border-y border-slate-100"><table className="table table-data min-w-[600px]">
+                <Cols widths={[undefined, 140, 96, ...(write ? [190] : [])]} />
+                <thead><tr><th className="!pl-5">Service</th><th className="num">Amount</th><th>Status</th>{write && <th className="!pr-5"></th>}</tr></thead>
+                <tbody>{company.subscriptions.map((s, i) => (
+                  <tr key={i} className={s.endedAt ? "text-ink-500" : ""}>
+                    <td className="!pl-5"><span className="cell" title={s.label}>{s.label}</span><span className="cell-sub">{s.endedAt ? `${fmtDate(s.startedAt)} → ${fmtDate(s.endedAt)}` : `since ${fmtDate(s.startedAt)}`}</span></td>
+                    <td className="num"><Money amount={s.amount} currency={s.currency} /><span className="cell-sub">{s.cadence}</span></td>
+                    <td>{s.endedAt ? <Badge>ended</Badge> : <Badge tone="green">active</Badge>}</td>
+                    {write && <td className="!pr-5 text-right text-xs">
+                      {!s.endedAt && <form action={endSubscription.bind(null, id, i)} className="inline-flex items-center justify-end gap-2"><input type="date" name="endedAt" defaultValue={todayISO()} className="input !w-[7.5rem] !py-0.5 text-xs" aria-label="End date" title="Last day of the engagement" /><button className="font-medium text-brand-600 hover:underline">End</button></form>}
+                      {s.endedAt && <ConfirmForm action={removeSubscription.bind(null, id, i)} message="Remove this subscription row?"><button className="text-red-600 hover:underline">Remove</button></ConfirmForm>}
+                    </td>}
+                  </tr>
+                ))}</tbody>
+              </table></div>
+            )}
+            {write && (
+              <details className="mt-3"><summary className="cursor-pointer text-sm text-brand-600 underline">Add subscription</summary>
+                <form action={addSubscription.bind(null, id)} className="mt-2 grid gap-2 md:grid-cols-3">
+                  <Field label="Catalogue service (optional)" className="md:col-span-3"><Select name="serviceId" defaultValue="" options={[{ value: "", label: "— free text —" }, ...subscriptionServices.map((s) => ({ value: s.id, label: `${s.name} (${s.unit})` }))]} /></Field>
+                  <Field label="Label" className="md:col-span-3"><input name="label" required className="input" placeholder="Monthly tax compliance" /></Field>
+                  <Field label="Amount"><input name="amount" type="number" min={0} step="any" required className="input" /></Field>
+                  <Field label="Currency"><Select name="currency" defaultValue="IDR" options={currencyOptions()} /></Field>
+                  <Field label="Cadence"><Select name="cadence" defaultValue="monthly" options={["monthly", "quarterly", "annual"]} /></Field>
+                  <Field label="Started"><input name="startedAt" type="date" defaultValue={todayISO()} className="input" /></Field>
+                  <div className="flex items-end"><SubmitButton className="btn-secondary">Add</SubmitButton></div>
+                </form>
+              </details>
+            )}
+          </Card>
+          {!client && <Timeline activities={activities} refs={{ companyId: id, contactId: company.primaryContactId }} backPath={path} canWrite={write} />}
+        </div>
+      </div>
+    </Page>
+  );
+}

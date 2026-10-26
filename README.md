@@ -29,6 +29,7 @@ Without Airwallex keys, checkout skips payment and marks the order paid (dev onl
 | `extension/` | Chrome extension: fills the official form from order JSON; a human reviews and submits |
 | `app/api/news/refresh` | Cron (Vercel) that summarizes official announcements |
 | `supabase/schema.sql` | Tables, RLS, 30-day passport-data purge |
+| `ila-office/` | Separate app: ILA Global Consulting practice suite (CRM, quotes, projects, multi-entity books, Indonesian tax and payroll). See `ila-office/README.md` and `ila-office/docs/ila-office-spec.md` |
 
 ## Checks
 ```bash
