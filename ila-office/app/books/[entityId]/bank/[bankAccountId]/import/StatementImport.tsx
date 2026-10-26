@@ -15,11 +15,12 @@ const GUESS: Record<Col, RegExp> = {
   amount: /^(amount|jumlah|nominal|mutasi)$/i, debit: /^(debit|debet|debit amount|withdrawal|money out|out|dr)/i, credit: /^(credit|kredit|credit amount|deposit|money in|in|cr)/i, balance: /^(balance|saldo|running balance|closing balance|close balance)/i, reference: /^(ref|reference|no\.? ref|reference no\.?|transaction id|id|trx id|journal)/i,
 };
 
-interface Parsed { fileName: string; sheet: string; sheets: string[]; preset: string; presetLabel: string; presets: Array<{ id: string; label: string }>; rows: ParsedBankRow[]; errors: string[]; headerRow: number; note: string; dropped: number; grid: string[][]; truncated: boolean }
+interface Parsed { fileName: string; sheet: string; sheets: string[]; preset: string; presetLabel: string; presets: Array<{ id: string; label: string }>; rows: ParsedBankRow[]; errors: string[]; headerRow: number; note: string; dropped: number; grid: string[][]; truncated: boolean; warnings?: string[]; pdf?: { pages: number; opening?: number; closing?: number; periodFrom?: string; periodTo?: string; accountNumber?: string } }
 
 /**
- * Statement import: the file (CSV, XLS, XLSX from OCBC, Mandiri, BNI, Aspire or any bank) is parsed on the server, the
- * bank format is detected, the rows are previewed here and then stored. Unknown formats fall back to column mapping.
+ * Statement import: the file (a PDF e-statement from BCA, BNI, BRI, CIMB Niaga or Mandiri; a CSV/XLS/XLSX export from OCBC,
+ * Mandiri, BNI, Aspire or any bank) is parsed on the server, the bank format is detected, the rows are previewed here and
+ * then stored. Unknown spreadsheet formats fall back to column mapping.
  */
 export function StatementImport({ entityId, bankAccountId, currency, listHref }: { entityId: string; bankAccountId: string; currency: string; listHref: string }) {
   const [file, setFile] = useState<File | null>(null);
@@ -28,6 +29,7 @@ export function StatementImport({ entityId, bankAccountId, currency, listHref }:
   const [mapping, setMapping] = useState<Record<Col, number>>({ date: -1, description: -1, amount: -1, debit: -1, credit: -1, balance: -1, reference: -1 });
   const [dateFormat, setDateFormat] = useState<DateFormat>("auto");
   const [invert, setInvert] = useState(false);
+  const [flipPdf, setFlipPdf] = useState(false);
   const [busy, setBusy] = useState<"parse" | "import" | null>(null);
   const [result, setResult] = useState<{ inserted: number; skipped: number; errors: string[] } | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -56,13 +58,14 @@ export function StatementImport({ entityId, bankAccountId, currency, listHref }:
   const onPreset = async (id: string) => { if (file) await parse(file, id); };
 
   const generic = parsed?.preset === "generic";
+  const isPdf = parsed?.sheet === "PDF";
   const grid = parsed?.grid ?? [];
   const header = grid[0] ?? [];
   const body = hasHeader ? grid.slice(1) : grid;
   const colLabel = (i: number) => (hasHeader ? header[i] || `Column ${i + 1}` : `Column ${i + 1}`);
   const csvMapping: CsvMapping = { date: mapping.date, description: mapping.description, amount: mapping.amount >= 0 ? mapping.amount : undefined, debit: mapping.debit >= 0 ? mapping.debit : undefined, credit: mapping.credit >= 0 ? mapping.credit : undefined, balance: mapping.balance >= 0 ? mapping.balance : undefined, reference: mapping.reference >= 0 ? mapping.reference : undefined, dateFormat, invertAmount: invert };
   const genericPreview = useMemo(() => (generic && body.length ? mapBankRows(body, csvMapping) : { rows: [] as ParsedBankRow[], errors: [] as string[] }), [generic, body, csvMapping]);
-  const rows = generic ? genericPreview.rows : parsed?.rows ?? [];
+  const rows = useMemo(() => (generic ? genericPreview.rows : isPdf && flipPdf ? (parsed?.rows ?? []).map((r) => ({ ...r, amount: -r.amount })) : parsed?.rows ?? []), [generic, genericPreview.rows, isPdf, flipPdf, parsed]);
   const errors = generic ? genericPreview.errors : parsed?.errors ?? [];
   const ready = parsed && rows.length > 0 && (!generic || (mapping.date >= 0 && mapping.description >= 0 && (mapping.amount >= 0 || mapping.debit >= 0 || mapping.credit >= 0)));
   const totals = useMemo(() => rows.reduce((t, r) => ({ in: t.in + (r.amount > 0 ? r.amount : 0), out: t.out + (r.amount < 0 ? -r.amount : 0) }), { in: 0, out: 0 }), [rows]);
@@ -83,7 +86,8 @@ export function StatementImport({ entityId, bankAccountId, currency, listHref }:
   return (
     <div className="space-y-4">
       <div className="card space-y-3">
-        <label className="block"><span className="label">Statement file: OCBC (xlsx), Mandiri Kopra (csv), BNI (xls), Aspire (xlsx), or any CSV</span><input type="file" accept=".csv,.txt,.xls,.xlsx,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange={(e) => onFile(e.target.files?.[0])} className="input" /></label>
+        <label className="block"><span className="label">Statement file</span><input type="file" accept=".pdf,application/pdf,.csv,.txt,.xls,.xlsx,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange={(e) => onFile(e.target.files?.[0])} className="input" /></label>
+        <p className="-mt-2 text-xs text-ink-500">PDF e-statements from BCA, BNI, BRI, CIMB Niaga and Mandiri are read directly. Exports from OCBC (xlsx), Mandiri Kopra (csv), BNI (xls) and Aspire (xlsx) are recognised too; any other CSV or Excel file can be mapped column by column.</p>
         {busy === "parse" && <p className="text-sm text-ink-500">Reading the file…</p>}
         {parsed && (
           <>
@@ -93,7 +97,11 @@ export function StatementImport({ entityId, bankAccountId, currency, listHref }:
               </label>
               {parsed.sheets.length > 1 && <span className="text-xs text-ink-500">sheet “{parsed.sheet}” of {parsed.sheets.length}</span>}
               {!generic && parsed.note && <span className="text-xs text-ink-500">{parsed.note}</span>}
+              {isPdf && rows.length > 0 && <label className="flex items-center gap-2 text-xs"><input type="checkbox" checked={flipPdf} onChange={(e) => setFlipPdf(e.target.checked)} className="checkbox" /> Flip all signs (if money in and out look swapped)</label>}
             </div>
+            {(parsed.warnings?.length ?? 0) > 0 && (
+              <ul className="list-disc space-y-0.5 pl-5 text-xs text-amber-800">{parsed.warnings!.slice(0, 5).map((e, i) => <li key={i}>{e}</li>)}{parsed.warnings!.length > 5 && <li>… and {parsed.warnings!.length - 5} more</li>}</ul>
+            )}
             {generic && (
               <>
                 <div className="flex flex-wrap gap-4 text-sm">

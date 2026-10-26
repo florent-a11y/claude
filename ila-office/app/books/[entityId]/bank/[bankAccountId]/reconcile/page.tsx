@@ -66,6 +66,7 @@ export default async function ReconcilePage({ params, searchParams }: { params: 
           <Link href={nav(prev)} className="btn-secondary !px-3" aria-label="Previous month">‹</Link>
           <span className="text-sm font-medium">{periodLabel(period)}</span>
           <Link href={nav(next)} className="btn-secondary !px-3" aria-label="Next month">›</Link>
+          <Link href={`${b}/bank/${bank.id}/import`} className="btn-secondary">Import statement</Link>
           <Link href={`${b}/bank/${bank.id}`} className="btn-secondary">Statement lines</Link>
           <PrintButton label="Print" />
         </div>
@@ -80,7 +81,7 @@ export default async function ReconcilePage({ params, searchParams }: { params: 
 
       {r.statementBalance === null && (
         <Card title="Closing balance on the bank statement">
-          <p className="mb-3 text-sm text-ink-500">The imported lines carry no running balance, so type the closing balance printed on the {periodLabel(period)} statement.</p>
+          <p className="mb-3 text-sm text-ink-500">{transactions.length === 0 ? <>No statement has been imported for this account yet. <Link href={`${b}/bank/${bank.id}/import`} className="underline">Import the {periodLabel(period)} statement</Link> (PDF, Excel or CSV), or type its closing balance below.</> : <>The imported lines carry no running balance, so type the closing balance printed on the {periodLabel(period)} statement.</>}</p>
           <form method="get" className="flex flex-wrap items-end gap-2">
             <input type="hidden" name="period" value={period} />
             <label className="block"><span className="label">Closing balance ({bank.currency})</span><input name="statement" inputMode="decimal" defaultValue={manualRaw} className="input !w-56" required /></label>

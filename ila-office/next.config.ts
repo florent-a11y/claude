@@ -15,8 +15,8 @@ const nextConfig: NextConfig = {
   /** This app has its own lockfile inside a larger repository; pin the tracing root so Next does not guess. */
   outputFileTracingRoot: path.join(__dirname),
   /** pdfkit reads its font metrics from disk at runtime; keep it out of the bundle and trace its data files. */
-  serverExternalPackages: ["pdfkit", "xlsx"],
-  outputFileTracingIncludes: { "/**": ["./node_modules/pdfkit/js/data/**/*"] },
+  serverExternalPackages: ["pdfkit", "xlsx", "pdfjs-dist"],
+  outputFileTracingIncludes: { "/**": ["./node_modules/pdfkit/js/data/**/*", "./node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs"] },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
   },

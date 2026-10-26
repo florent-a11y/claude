@@ -30,11 +30,11 @@ export default async function ReconciliationIndex({ params }: { params: Params }
   });
   return (
     <div className="space-y-4 pb-8">
-      <p className="text-sm text-ink-500">Every month, each bank account's statement closing balance is reconciled with the books: statement lines are matched to invoices, bills or journals, ledger entries that have not reached the bank yet are listed as outstanding, and the month is signed off.</p>
+      <p className="text-sm text-ink-500">Every month, each bank account's statement closing balance is reconciled with the books: import the statement (PDF e-statement, Excel or CSV), match its lines to invoices, bills or journals, list the ledger entries that have not reached the bank yet, and sign the month off.</p>
       {rows.length === 0 ? <EmptyState title="No bank account yet" hint="Add the bank accounts on the Bank tab, then import their statements." action={<Link href={`${b}/bank`} className="btn-primary">Bank accounts</Link>} /> : (
         <TableCard>
           <table className="table table-data min-w-[1000px]">
-            <Cols widths={[undefined, 56, 150, 150, 160, 100, 150, 104]} />
+            <Cols widths={[undefined, 56, 150, 150, 160, 100, 150, 160]} />
             <thead><tr><th>Account</th><th>Ccy</th><th className="num">Statement balance</th><th className="num">Books balance</th><th className="num">Difference</th><th className="num">Unbooked</th><th>Last sign-off</th><th></th></tr></thead>
             <tbody>
               {rows.map(({ bank, period, r, last, lines }) => (
@@ -46,7 +46,7 @@ export default async function ReconciliationIndex({ params }: { params: Params }
                   <td className="num">{r.difference === null ? <Badge tone="slate">no statement balance</Badge> : r.balanced ? <Badge tone="green">balanced</Badge> : <span className="money text-red-700">{fmtMoney(r.difference, bank.currency)}</span>}</td>
                   <td className="num">{r.unbookedStatement.length ? <Badge tone="amber">{r.unbookedStatement.length}</Badge> : <span className="text-ink-500">0</span>}</td>
                   <td>{last ? <><span className="cell text-xs">{periodLabel(last.period)}</span><span className="cell-sub">{fmtDate(last.at.slice(0, 10))}{last.byName ? ` · ${last.byName}` : ""}</span></> : <span className="text-xs text-ink-500">never</span>}</td>
-                  <td className="text-right text-xs"><Link href={`${b}/bank/${bank.id}/reconcile?period=${period}`} className="btn-secondary !px-2 !py-1 text-xs">Reconcile</Link></td>
+                  <td className="whitespace-nowrap text-right text-xs"><Link href={`${b}/bank/${bank.id}/import`} className="text-brand-600 hover:underline">Import</Link><span className="mx-2 text-slate-300">·</span><Link href={`${b}/bank/${bank.id}/reconcile?period=${period}`} className="btn-secondary !px-2 !py-1 text-xs">Reconcile</Link></td>
                 </tr>
               ))}
             </tbody>

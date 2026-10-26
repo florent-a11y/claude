@@ -76,15 +76,16 @@ preserved in git under the tag `with-crm-v1` and can be restored later.
 
 ### 3.3 Books
 
-Bank statements import directly from the exports ILA already receives: OCBC Velocity (xlsx), Mandiri Kopra account
-statement (semicolon csv), BNIDirect (xls with merged cells and D/K markers) and Aspire (xlsx, localised headers). The
-format is detected automatically; anything else goes through manual column mapping.
+Bank statements import directly from what ILA and its clients already receive: PDF e-statements from BCA, BNI, BRI,
+CIMB Niaga and Mandiri, and the exports OCBC Velocity (xlsx), Mandiri Kopra (semicolon csv), BNIDirect (xls with merged
+cells and D/K markers) and Aspire (xlsx, localised headers) produce. The format is detected automatically; any other
+CSV or Excel file goes through manual column mapping. Scanned PDFs (no text layer) are refused with an explanation.
  (`/books/[entityId]`)
 - One entity = one set of books. ILA's own entity is flagged `isOwn`.
 - Chart of accounts (PSAK-style, bilingual, tax-tagged) created with the entity.
 - Journals: manual and generated (invoice, bill, receipt, disbursement, bank, payroll, depreciation, withholding, opening, closing, adjustment, FX). Numbered JE-YYYY-NNNN per entity. Posted entries are voided, never deleted.
 - Sales invoices (PPN or out of scope), purchase bills with withholding (PPh 23/26/4(2)/21), receipts and payments, transfers.
-- Bank statement import with duplicate detection (hash); statement lines are matched to invoices, bills or journals.
+- Bank statement import with duplicate detection (hash): PDF e-statements (BCA, BNI, BRI, CIMB Niaga, Mandiri Kopra) are read from their text layer by position (`lib/pdf-text.ts`, `lib/bank-pdf.ts`), with the running balance used to verify every sign; OCBC, Mandiri, BNI and Aspire exports (xlsx/xls/csv) have presets; any other CSV/Excel is mapped column by column. Statement lines are matched to invoices, bills or journals.
 - Monthly bank reconciliation per account (`/books/[entityId]/reconciliation`): closing balance per statement vs balance per books, statement lines not yet booked, ledger entries not yet on the statement (ticked "on statement" when their line predates the imports), a printable reconciliation statement and a sign-off that settles the month (`BankAccount.reconciliations`, `reconciledThrough`).
 - Fixed assets with Indonesian fiscal groups and straight-line or declining-balance depreciation.
 - Reports: general ledger, trial balance, P&L, balance sheet. Period locks per month.
