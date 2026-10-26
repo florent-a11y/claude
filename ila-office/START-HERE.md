@@ -26,8 +26,8 @@ Change the password under **Settings → Users** afterwards.
 - Get the latest version: `git pull` inside the folder, then `npm run setup`.
 
 ## When you want the team on it
-Follow the Deploy section of `README.md` (Vercel + Supabase, the same setup as the arrival-card site) and put it behind
-Cloudflare Access. The design document is `docs/ila-office-spec.md`.
+Follow `DEPLOY.md` (about 30 minutes: a Supabase database, a Vercel project, then create the first administrator
+on the sign-in page). The design document is `docs/ila-office-spec.md`.
 
 ## Forgot the password?
 

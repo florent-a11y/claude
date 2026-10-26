@@ -8,14 +8,11 @@ import { existsSync } from "node:fs";
 for (const f of [".env.local", ".env"]) if (existsSync(f)) process.loadEnvFile(f);
 import { db } from "../lib/db";
 import { hashPassword } from "../lib/password";
-import { buildAccounts } from "../lib/coa";
-import { catalogueItems, COMPANY } from "../lib/catalogue";
-import { todayISO } from "../lib/dates";
-import type { Company, Contact, Entity, User, Vendor } from "../lib/types";
+import { seedBase, seedDemoClient } from "../lib/seed";
+import type { User } from "../lib/types";
 
 async function main() {
   const now = new Date().toISOString();
-  const today = todayISO();
 
   // 1. Admin user
   const users = await db.list("users");
@@ -28,59 +25,9 @@ async function main() {
     console.log(`admin user: ${email} / ${password}`);
   }
 
-  // 2. ILA's own entity
-  const entities = await db.list("entities");
-  let own = entities.find((e) => e.isOwn);
-  if (!own) {
-    own = {
-      id: db.newId(), name: "ILA Global Consulting", legalName: COMPANY.name, type: "pt_pma", country: "ID", isOwn: true, region: "Bali", city: "Badung",
-      address: COMPANY.baliOffice, baseCurrency: "IDR", fiscalYearStartMonth: 1,
-      tax: { regime: "normal_22", pkp: false, ppnRate: 0.11, lkpm: true, payroll: true }, status: "active", createdAt: now,
-    } satisfies Entity;
-    await db.insert("entities", own);
-    await db.insertMany("accounts", buildAccounts(own.id, () => db.newId()));
-    console.log("created ILA entity + chart of accounts");
-  }
-
-  // 3. Service catalogue
-  if ((await db.count("services")) === 0) {
-    await db.insertMany("services", catalogueItems(() => db.newId()));
-    console.log("loaded service catalogue");
-  }
-
-  // 4. Vendors (names and categories from ILA's cost-of-sales vendor list; add phone numbers in the app)
-  if ((await db.count("vendors")) === 0) {
-    const rows: Array<[string, Vendor["category"], string?]> = [
-      ["Own arrangement", "other"], ["Tama (visa agent)", "agent"], ["Charles (visa agent)", "agent"], ["Chonas / Kitabantu", "agent"],
-      ["BKPM Astika", "bkpm", "Bali"], ["BKPM Andi", "bkpm", "Jakarta"], ["Notary Yanti", "notary", "Lombok"], ["Notary Indra", "notary", "Jakarta"],
-      ["Notary Aditya", "notary", "Sumba"], ["Notary Agung", "notary", "Bali"], ["Notary Wahyu", "notary", "Bali"], ["Notary Widhi", "notary", "Bali"],
-      ["PUPR Pris", "pupr", "Bali"], ["PBG Petra", "pbg", "Bali"], ["OSS Rara", "oss"], ["SIM Dedy", "sim"], ["SKTT Esa", "sktt"], ["DORA Robert", "dora"],
-      ["Kanim Rangga", "kanim", "Bali"], ["Kanim Ficki", "kanim", "Bali"], ["Kanim Yudi", "kanim", "Bali"], ["Kanim Erik", "kanim", "Bali"],
-      ["Kanim Y Abra", "kanim", "Bali"], ["Kanim Yosep", "kanim", "Bali"], ["Bali One Stop", "agent", "Bali"], ["Bu Ninik (Kanim Ngurah Rai)", "kanim", "Bali"],
-    ];
-    await db.insertMany("vendors", rows.map(([name, category, region]) => ({ id: db.newId(), name, category, region, active: true, createdAt: now })));
-    console.log("loaded vendors");
-  }
-
-  // 5. Demo client (fictional)
-  if ((await db.count("companies")) === 0) {
-    const contact: Contact = { id: db.newId(), firstName: "Camille", lastName: "Durand", email: "camille@example.com", phone: "+33 6 00 00 00 00", nationality: "FR", language: "fr", source: "referral", companyIds: [], tags: ["villa", "bali"], createdAt: now };
-    const company: Company = { id: db.newId(), name: "PT Demo Villa Investama", type: "pt_pma", country: "ID", region: "Bali", primaryContactId: contact.id, status: "active", subscriptions: [], tags: ["demo"], createdAt: now, notes: "Fictional demo client created by the seed script." };
-    contact.companyIds = [company.id];
-    await db.insert("contacts", contact);
-    await db.insert("companies", company);
-    const client: Entity = {
-      id: db.newId(), name: company.name, legalName: "PT DEMO VILLA INVESTAMA", type: "pt_pma", country: "ID", isOwn: false, region: "Bali", baseCurrency: "IDR", fiscalYearStartMonth: 1,
-      tax: { regime: "final_0_5", pkp: false, ppnRate: 0.11, lkpm: true, payroll: false }, crmCompanyId: company.id, status: "active", createdAt: now,
-    };
-    await db.insert("entities", client);
-    await db.insertMany("accounts", buildAccounts(client.id, () => db.newId()));
-    await db.update("companies", company.id, { entityId: client.id, subscriptions: [
-      { serviceId: "", label: "Monthly tax compliance", amount: 1_500_000, currency: "IDR", cadence: "monthly", startedAt: today },
-      { serviceId: "", label: "Monthly bookkeeping", amount: 1_000_000, currency: "IDR", cadence: "monthly", startedAt: today },
-    ] });
-    console.log("created demo client with its own books");
-  }
+  // 2. ILA's own entity, chart of accounts, price list, vendors; 3. a fictional demo client.
+  for (const what of await seedBase()) console.log(`created ${what}`);
+  if (await seedDemoClient()) console.log("created demo client with its own books");
 
   console.log("seed complete");
 }

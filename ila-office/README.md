@@ -41,6 +41,8 @@ collection is a Postgres table with an `id` and a `data` jsonb column (`supabase
 collections live in `data/*.json`. Domain types are in `lib/types.ts`.
 
 ## Deploy
-Import the repository in Vercel with **Root Directory = `ila-office`**, set the environment variables from
-`.env.example`, and run `supabase/schema.sql` in the Supabase SQL editor (Singapore region). Put the app behind
-Cloudflare Access or a VPN: it holds client passport, tax and bank data.
+Follow [DEPLOY.md](DEPLOY.md): a Supabase project (run `supabase/schema.sql`), a Vercel project with
+**Root Directory = `ila-office`** and the environment variables from `.env.example`, then create the first
+administrator on the sign-in page (it seeds ILA's entity, price list and vendors). Hosted installations refuse to
+run without Supabase. Put the app behind Cloudflare Access or a VPN when real client data is in: it holds
+passport, tax and bank data.

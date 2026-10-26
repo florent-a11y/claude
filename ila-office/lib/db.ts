@@ -38,6 +38,22 @@ export function storageBackend(): "supabase" | "file" {
   return sb() ? "supabase" : "file";
 }
 
+export type DatabaseStatus = "ok" | "unconfigured" | "missing-schema" | "error";
+
+/** Hosted installations must use Supabase; the file backend is for a laptop (or an explicit ILA_DATA_DIR). */
+function fileBackendAllowed(): boolean {
+  return process.env.NODE_ENV !== "production" || !!process.env.ILA_DATA_DIR;
+}
+
+/** Used by /api/health and the sign-in page to explain a misconfigured deployment instead of crashing. */
+export async function storageCheck(): Promise<{ storage: "supabase" | "file"; database: DatabaseStatus }> {
+  const client = sb();
+  if (!client) return { storage: "file", database: fileBackendAllowed() ? "ok" : "unconfigured" };
+  const { error } = await client.from("users").select("id", { head: true, count: "exact" }).limit(1);
+  if (!error) return { storage: "supabase", database: "ok" };
+  return { storage: "supabase", database: /relation|does not exist|schema cache|not find the table/i.test(error.message) ? "missing-schema" : "error" };
+}
+
 // ---------- File backend ----------
 
 const DATA_DIR = process.env.ILA_DATA_DIR ?? path.join(process.cwd(), "data");
@@ -45,6 +61,7 @@ const cache = new Map<string, unknown[]>();
 const queues = new Map<string, Promise<unknown>>();
 
 async function readTable<T>(table: string): Promise<T[]> {
+  if (!fileBackendAllowed()) throw new Error("No database configured: set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in the hosting environment (see DEPLOY.md).");
   if (cache.has(table)) return cache.get(table) as T[];
   try {
     const rows = JSON.parse(await fs.readFile(path.join(DATA_DIR, `${table}.json`), "utf8")) as T[];
