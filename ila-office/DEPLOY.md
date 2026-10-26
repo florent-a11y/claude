@@ -1,6 +1,11 @@
 # ILA Office online: Vercel + Supabase
 
 This puts ILA Office on a web address your team signs in to, with the data in a Postgres database in Singapore.
+
+> **Current installation (26 Oct 2026):** the app runs at <https://ila-office.vercel.app> from the `main` branch,
+> Vercel project `ila-office` (functions in Singapore), Supabase project `ila-office` (`qrrcsfznyppiirpxejxs`,
+> Singapore). The steps below are kept for a rebuild or a second installation.
+
 Budget about 30 minutes. You need a GitHub account that can see the repository (you have one), a Supabase account
 and a Vercel account; both sign up with GitHub.
 
@@ -14,8 +19,9 @@ and a Vercel account; both sign up with GitHub.
    It creates the 24 tables the app uses. Running it again later is harmless.
 4. Open **Project Settings → API** and copy two values for the next step:
    - **Project URL** (looks like `https://abcdefgh.supabase.co`)
-   - **service_role** key under *Project API keys* (click *Reveal*). This key bypasses every database rule:
-     paste it only into Vercel, never into a chat, a document or the browser.
+   - a **secret key**: under *Secret keys* click *Create new API key*, name it `vercel` and copy the `sb_secret_…`
+     value (shown once; it can be revoked on its own later). The legacy `service_role` key works too. Either one
+     bypasses every database rule: paste it only into Vercel, never into a chat, a document or the browser.
 
 ## 2. Hosting (Vercel, ~10 minutes)
 
@@ -34,10 +40,8 @@ and a Vercel account; both sign up with GitHub.
      | `EMAIL_REPLY_TO` | optional, e.g. `florent@ilaglobalconsulting.com` |
 
 3. Press **Deploy** and wait for the confetti (1–2 minutes).
-4. The app lives on the branch `claude/great-cerf-wd6j0e` for now. In the project go to
-   **Settings → Git → Production Branch**, type `claude/great-cerf-wd6j0e`, save, then
-   **Deployments → ⋯ on the latest deployment → Redeploy**. (Alternatively ask Claude to merge the branch
-   into `main`; then nothing needs changing here.)
+4. Production deploys from `main`; every merge into `main` redeploys automatically. In **Settings → Functions**
+   set the region to Singapore (`sin1`) so the app runs next to the database.
 5. Open the deployment URL (something like `https://claude-xyz.vercel.app`). Add `/api/health` to it: you
    should see `"storage":"supabase","database":"ok"`. If it says `missing-schema`, step 1.3 did not run;
    if `unconfigured`, the environment variables are missing or the deployment predates them (redeploy).
@@ -77,7 +81,7 @@ dashboard (upcoming filings, cash position), its books, tax calendar and bank re
   `ilaglobalconsulting.com` (three DNS records), create an API key and set `RESEND_API_KEY` and `EMAIL_FROM`
   in Vercel → Settings → Environment Variables, then redeploy. Until then the Send button opens your mail app
   with the PDF to attach.
-- **Updates**: every change pushed to the production branch redeploys automatically; the team just reloads.
+- **Updates**: every change merged into `main` redeploys automatically; the team just reloads.
 
 ## 7. Plans, cost and safety
 
