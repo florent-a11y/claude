@@ -35,7 +35,7 @@ export default async function BankTransactions({ params, searchParams }: { param
       <ErrorNotice error={first(sp.error)} ok={first(sp.ok)} />
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div><p className="text-xs text-ink-500"><Link href={`${b}/bank`} className="hover:underline">Bank</Link> / {bank.name}</p><h2 className="text-xl font-bold">{bank.name} <span className="text-sm font-normal text-ink-500">{bank.bankName} {bank.accountNumber} · {bank.currency}</span></h2></div>
-        <div className="flex gap-2"><Link href={`${here}/import`} className="btn-primary">Import CSV</Link></div>
+        <div className="flex gap-2"><Link href={`${here}/reconcile`} className="btn-secondary">Reconciliation</Link><Link href={`${here}/import`} className="btn-primary">Import CSV</Link></div>
       </div>
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <Stat label="Unmatched" value={counts.unmatched} tone={counts.unmatched ? "text-amber-700" : ""} />

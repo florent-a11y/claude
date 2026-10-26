@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 
 const TABS = [
   { seg: "", label: "Overview" }, { seg: "accounts", label: "Accounts" }, { seg: "journal", label: "Journal" }, { seg: "sales", label: "Sales" },
-  { seg: "purchases", label: "Purchases" }, { seg: "bank", label: "Bank" }, { seg: "assets", label: "Assets" }, { seg: "reports", label: "Reports" }, { seg: "periods", label: "Periods" },
+  { seg: "purchases", label: "Purchases" }, { seg: "bank", label: "Bank" }, { seg: "reconciliation", label: "Reconciliation" }, { seg: "assets", label: "Assets" }, { seg: "reports", label: "Reports" }, { seg: "periods", label: "Periods" },
 ];
 
 /** Section tabs for one entity's books; the active tab follows the URL. */

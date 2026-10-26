@@ -20,7 +20,8 @@ export function ShellNav({ entities, ownEntityId, role, companies = [] }: { enti
   const entityId = m?.[2] ?? ownEntityId ?? entities[0]?.id;
   const current = entities.find((e) => e.id === entityId);
   const link = (href: string, label: string, exact = false) => {
-    const active = exact ? path === href : path === href || path.startsWith(href + "/");
+    const reconciliation = /^\/books\/[^/]+\/reconciliation/.test(path);
+    const active = exact ? path === href : href.endsWith("/reconciliation") ? reconciliation : (path === href || path.startsWith(href + "/")) && !(reconciliation && /^\/books\/[^/]+$/.test(href));
     return <Link key={href} href={href} className={`block rounded-md px-2 py-1 text-sm ${active ? "bg-brand-50 font-semibold text-brand-700" : "text-ink-700 hover:bg-slate-50"}`}>{label}</Link>;
   };
   const section = (title: string) => <p className="mt-4 mb-1 px-2 text-[10px] font-semibold uppercase tracking-widest text-ink-500">{title}</p>;
@@ -42,6 +43,7 @@ export function ShellNav({ entities, ownEntityId, role, companies = [] }: { enti
         {entityId ? (
           <>
             {link(`/books/${entityId}`, "Books")}
+            {link(`/books/${entityId}/reconciliation`, "Bank reconciliation")}
             {link(`/tax/${entityId}`, "Tax & compliance")}
             {current?.payroll && link(`/payroll/${entityId}`, "Payroll")}
             {entityPicker}
@@ -61,6 +63,7 @@ export function ShellNav({ entities, ownEntityId, role, companies = [] }: { enti
       {entityId ? (
         <>
           {link(`/books/${entityId}`, "Books")}
+          {link(`/books/${entityId}/reconciliation`, "Bank reconciliation")}
           {link(`/tax/${entityId}`, "Tax & compliance")}
           {link(`/payroll/${entityId}`, "Payroll")}
           {entityPicker}

@@ -84,7 +84,8 @@ format is detected automatically; anything else goes through manual column mappi
 - Chart of accounts (PSAK-style, bilingual, tax-tagged) created with the entity.
 - Journals: manual and generated (invoice, bill, receipt, disbursement, bank, payroll, depreciation, withholding, opening, closing, adjustment, FX). Numbered JE-YYYY-NNNN per entity. Posted entries are voided, never deleted.
 - Sales invoices (PPN or out of scope), purchase bills with withholding (PPh 23/26/4(2)/21), receipts and payments, transfers.
-- Bank CSV import with duplicate detection (hash) and reconciliation.
+- Bank statement import with duplicate detection (hash); statement lines are matched to invoices, bills or journals.
+- Monthly bank reconciliation per account (`/books/[entityId]/reconciliation`): closing balance per statement vs balance per books, statement lines not yet booked, ledger entries not yet on the statement (ticked "on statement" when their line predates the imports), a printable reconciliation statement and a sign-off that settles the month (`BankAccount.reconciliations`, `reconciledThrough`).
 - Fixed assets with Indonesian fiscal groups and straight-line or declining-balance depreciation.
 - Reports: general ledger, trial balance, P&L, balance sheet. Period locks per month.
 - Multi-currency: documents keep their currency and `fxRate` (IDR per unit); the ledger is always IDR.

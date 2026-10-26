@@ -285,6 +285,8 @@ export interface JournalEntry {
   createdByUserId?: string;
   createdAt: string;
   updatedAt?: string;
+  /** Bank accounts on which this entry was ticked as "appears on the statement" (value: reconciliation period). */
+  bankCleared?: Record<string, string>;
 }
 
 export interface AccountingPeriod {
@@ -294,6 +296,21 @@ export interface AccountingPeriod {
   locked: boolean;
   lockedByUserId?: string;
   lockedAt?: string;
+}
+
+/** A signed-off monthly bank reconciliation (statement balance = books balance after outstanding items). */
+export interface BankReconciliation {
+  period: string; // YYYY-MM
+  endDate: string;
+  statementBalance: number;
+  ledgerBalance: number;
+  difference: number;
+  unbookedCount: number;
+  unpresentedCount: number;
+  note?: string;
+  at: string;
+  byUserId?: string;
+  byName?: string;
 }
 
 export interface BankAccount {
@@ -307,6 +324,9 @@ export interface BankAccount {
   openingBalance?: number;
   openingDate?: string;
   active: boolean;
+  /** Last signed-off reconciliation: items dated on or before this day are settled. */
+  reconciledThrough?: string;
+  reconciliations?: BankReconciliation[];
 }
 
 export interface BankTransaction {
