@@ -11,7 +11,8 @@
     "test": "tsx --test tests/*.test.ts",
     "seed": "tsx scripts/seed.ts",
     "setup": "npm install --no-audit --no-fund && node -e \"const fs=require('fs');if(!fs.existsSync('.env.local'))fs.copyFileSync('.env.example','.env.local')\" && npm run seed",
-    "start:local": "npm run setup && npm run dev"
+    "start:local": "npm run setup && npm run dev",
+    "reset-password": "tsx scripts/reset-password.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.0",

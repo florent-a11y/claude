@@ -28,3 +28,13 @@ Change the password under **Settings → Users** afterwards.
 ## When you want the team on it
 Follow the Deploy section of `README.md` (Vercel + Supabase, the same setup as the arrival-card site) and put it behind
 Cloudflare Access. The design document is `docs/ila-office-spec.md`.
+
+## Forgot the password?
+
+In Terminal, inside `~/ila-app/ila-office`, run (choose your own password, at least 10 characters):
+
+```bash
+npm run reset-password -- florent@ilaglobalconsulting.com "your-new-password"
+```
+
+Then sign in at http://localhost:3100/login with that password.
