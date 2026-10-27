@@ -4,7 +4,7 @@ import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { fmtDate, periodLabel } from "@/lib/dates";
 import { fmtIDR } from "@/lib/money";
-import { employeeTotal, employerTotal } from "@/lib/payroll";
+import { employeeTotal, employerTotal, pphBorne, pphDeducted } from "@/lib/payroll";
 import { PrintButton } from "@/components/client";
 import { Cols } from "@/components/ui";
 
@@ -39,6 +39,8 @@ export default async function PayslipPage({ params }: { params: Promise<{ entity
             <tbody>
               {row("Gaji pokok", "Basic salary", line.basicSalary)}
               {row("Tunjangan", "Allowances", line.allowances)}
+              {(line.bpjsAllowance ?? 0) > 0 && row("Tunjangan BPJS", "BPJS allowance", line.bpjsAllowance ?? 0)}
+              {(line.taxAllowance ?? 0) > 0 && row("Tunjangan PPh 21", "Tax allowance", line.taxAllowance ?? 0)}
               {row("Lembur", "Overtime", line.overtime)}
               {row("Bonus / THR", "Bonus", line.bonus)}
             </tbody>
@@ -48,10 +50,10 @@ export default async function PayslipPage({ params }: { params: Promise<{ entity
               {row("BPJS Kesehatan (1%)", "Health insurance", line.employee.bpjsKesehatan, { neg: true })}
               {row("BPJS JHT (2%)", "Old-age savings", line.employee.jht, { neg: true })}
               {row("BPJS JP (1%)", "Pension", line.employee.jp, { neg: true })}
-              {row(`PPh 21 (${line.pph21.method === "ter" ? `TER ${line.pph21.terCategory} ${((line.pph21.rate ?? 0) * 100).toFixed(2)}%` : "perhitungan tahunan"})`, line.pph21.method === "ter" ? "Income tax" : "Annual true-up", line.pph21.amount, { neg: true })}
+              {row(`PPh 21 (${line.pph21.method === "ter" ? `TER ${line.pph21.terCategory} ${((line.pph21.rate ?? 0) * 100).toFixed(2)}%` : "perhitungan tahunan"})${pphBorne(line) !== 0 ? " · ditanggung perusahaan" : ""}`, line.pph21.method === "ter" ? "Income tax" : "Annual true-up", pphDeducted(line), { neg: true })}
               {row("Potongan lain", "Other deductions", line.otherDeductions, { neg: true })}
             </tbody>
-            <tfoot>{row("Total potongan", "Total deductions", employeeTotal(line) + line.pph21.amount + line.otherDeductions, { bold: true, neg: true })}</tfoot></table>
+            <tfoot>{row("Total potongan", "Total deductions", employeeTotal(line) + pphDeducted(line) + line.otherDeductions, { bold: true, neg: true })}</tfoot></table>
         </div>
         <div className="mt-6 flex items-center justify-between rounded-lg bg-brand-50 px-4 py-3 text-lg font-bold"><span>GAJI BERSIH / NET PAY</span><span className="tabular-nums">{fmtIDR(line.netPay)}</span></div>
         <section className="mt-6">
@@ -62,15 +64,16 @@ export default async function PayslipPage({ params }: { params: Promise<{ entity
               {row("BPJS JP (2%)", "Pension", line.employer.jp)}
               {row("BPJS JKK", "Work accident", line.employer.jkk)}
               {row("BPJS JKM (0,3%)", "Death benefit", line.employer.jkm)}
+              {pphBorne(line) !== 0 && row("PPh 21 ditanggung perusahaan", "Income tax borne by employer", pphBorne(line))}
             </tbody>
-            <tfoot>{row("Total iuran pemberi kerja", "Total employer contributions", employerTotal(line), { bold: true })}</tfoot></table>
+            <tfoot>{row("Total iuran pemberi kerja", "Total employer contributions", employerTotal(line) + pphBorne(line), { bold: true })}</tfoot></table>
         </section>
         {line.notes && <p className="mt-4 text-xs text-ink-500">Catatan / Notes: {line.notes}</p>}
         <footer className="mt-10 grid grid-cols-2 gap-8 text-center text-xs">
           <div><p className="mb-12">Diterima oleh / Received by</p><p className="border-t border-ink-900 pt-1">{line.employeeName}</p></div>
           <div><p className="mb-12">Pemberi kerja / Employer</p><p className="border-t border-ink-900 pt-1">{entity.legalName}</p></div>
         </footer>
-        <p className="mt-6 text-[10px] text-ink-500">PPh 21 dihitung dengan tarif efektif rata-rata (PP 58/2023) untuk Januari–November dan tarif Pasal 17 UU PPh untuk Desember. Dokumen ini dibuat secara otomatis oleh ILA Office. / PPh 21 uses the monthly effective rate (PP 58/2023) January–November and the art. 17 progressive rates in December.</p>
+        <p className="mt-6 text-[10px] text-ink-500">PPh 21 dihitung dengan tarif efektif rata-rata (PP 58/2023) untuk Januari–November dan tarif Pasal 17 UU PPh untuk Desember. Dokumen ini dibuat secara otomatis oleh ILA Office. / PPh 21 uses the monthly effective rate (PP 58/2023) January–November and the art. 17 progressive rates in December.{line.taxMethod === "nett" ? " PPh 21 ditanggung oleh pemberi kerja. / PPh 21 is borne by the employer." : line.taxMethod === "grossup" ? " PPh 21 dihitung dengan metode gross-up: tunjangan PPh 21 termasuk penghasilan kena pajak. / Gross-up method: the tax allowance is part of taxable income." : ""}</p>
       </article>
     </div>
   );

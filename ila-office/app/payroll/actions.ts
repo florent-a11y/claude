@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { requirePermission } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { PTKP_STATUSES, type Employee } from "@/lib/types";
+import { PAYROLL_TAX_METHODS, PTKP_STATUSES, type Employee } from "@/lib/types";
 import { bool, num, str } from "@/lib/util";
 import type { LineOverride } from "@/lib/payroll";
 import { approveRun, createRun, deleteDraftRun, markRunPaid, recalculateRun } from "@/lib/payroll-services";
@@ -99,6 +99,8 @@ const employeeSchema = z.object({
   bpjsKesehatanNumber: z.string().max(30).optional(),
   bpjsKetenagakerjaanNumber: z.string().max(30).optional(),
   bpjs: z.object({ kesehatan: z.boolean(), jht: z.boolean(), jp: z.boolean(), jkk: z.boolean(), jkm: z.boolean(), jkkRiskClass: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]) }),
+  taxMethod: z.enum(PAYROLL_TAX_METHODS as [string, ...string[]]).transform((v) => v as Employee["taxMethod"]),
+  bpjsAllowance: z.object({ kesehatan: z.boolean(), jht: z.boolean(), jp: z.boolean() }),
   basicSalary: z.number().min(0),
   allowances: z.array(z.object({ name: z.string().min(1).max(60), amount: z.number().min(0), taxable: z.boolean() })),
   deductions: z.array(z.object({ name: z.string().min(1).max(60), amount: z.number().min(0) })),
@@ -118,6 +120,7 @@ function readEmployee(fd: FormData) {
     name: str(fd, "name"), nik: str(fd, "nik"), npwp: str(fd, "npwp"), email: str(fd, "email") ?? "", position: str(fd, "position"), ptkpStatus: str(fd, "ptkpStatus"), isForeign: bool(fd, "isForeign"),
     passportNumber: str(fd, "passportNumber"), bpjsKesehatanNumber: str(fd, "bpjsKesehatanNumber"), bpjsKetenagakerjaanNumber: str(fd, "bpjsKetenagakerjaanNumber"),
     bpjs: { kesehatan: bool(fd, "bpjs_kesehatan"), jht: bool(fd, "bpjs_jht"), jp: bool(fd, "bpjs_jp"), jkk: bool(fd, "bpjs_jkk"), jkm: bool(fd, "bpjs_jkm"), jkkRiskClass: risk },
+    taxMethod: str(fd, "taxMethod") ?? "gross", bpjsAllowance: { kesehatan: bool(fd, "cover_kesehatan"), jht: bool(fd, "cover_jht"), jp: bool(fd, "cover_jp") },
     basicSalary: num(fd, "basicSalary"), allowances, deductions, bankName: str(fd, "bankName"), bankAccountNumber: str(fd, "bankAccountNumber"),
     joinDate: str(fd, "joinDate"), endDate: str(fd, "endDate"), contractType: str(fd, "contractType") ?? "pkwtt", active: bool(fd, "active"),
   });

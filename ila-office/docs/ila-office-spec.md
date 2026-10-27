@@ -109,6 +109,14 @@ CSV or Excel file goes through manual column mapping. Scanned PDFs (no text laye
 - Employees with PTKP status, BPJS options, allowances and deductions, contract type.
 - Monthly runs: gross, employer and employee BPJS, PPh 21 (TER Jan–Nov, annual true-up in December), net pay, cost to company. Approval, payslips, journal posting.
 
+**Tax methods and BPJS allowance (added October 2026).** Each employee carries a PPh 21 method:
+- *Gross* (default): the tax is deducted from the employee's pay.
+- *Nett*: the company pays the tax on top of the salary. The amount is remitted through PPh 21 payable like any other, booked to `6-1040 PPh 21 borne by company` (non-deductible for CIT, created automatically on first use) and not added to the employee's taxable income. Note for the tax team: since PMK 66/2023 the authorities may treat tax borne by the employer as a taxable benefit; gross-up is the conservative alternative.
+- *Gross-up*: the company adds a tax allowance (tunjangan PPh 21) that is itself taxable, solved so that the tax on the grossed-up income equals the allowance (fixed-point iteration on the TER rate, and on the annual art. 17 computation in December or the termination month). The allowance is part of gross salary expense and of the PPh 21 base; take-home pay equals the agreed salary.
+
+Independently of the method, the company can pay the employee's own BPJS shares (Kesehatan 1%, JHT 2%, JP 1%) as a taxable allowance: the allowance is added to gross and to the PPh 21 base, the deduction still appears on the payslip, so the employee's pay is unchanged and the company bears the contribution and the extra tax. Payslip lines store `taxMethod`, `bpjsAllowance`, `taxAllowance` and split `pph21` into `deducted` and `borneByCompany`; runs computed before this option read as gross.
+
+
 ### 3.6 Settings (`/settings`)
 - Entities (books), users and roles, CSV imports with preview and history.
 

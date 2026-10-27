@@ -1,4 +1,4 @@
-import { PTKP_STATUSES, type Employee } from "@/lib/types";
+import { PAYROLL_TAX_METHODS, PAYROLL_TAX_METHOD_LABELS, PTKP_STATUSES, type Employee } from "@/lib/types";
 import { PTKP_TABLE, BPJS_JKK_RATES } from "@/lib/tax/constants";
 import { Field, Select } from "@/components/ui";
 import { SubmitButton } from "@/components/client";
@@ -31,6 +31,13 @@ export function EmployeeForm({ employee: e, action }: { employee?: Employee; act
       <div className="card space-y-3">
         <h2 className="text-sm font-semibold text-ink-700">Pay</h2>
         <Field label="Basic salary (IDR / month)"><MoneyInput name="basicSalary" defaultValue={e?.basicSalary} currency="IDR" required placeholder="" /></Field>
+        <Field label="PPh 21 method" hint="Gross: deducted from pay. Nett: company pays the tax on top (non-deductible expense). Gross-up: company adds a taxable tax allowance so net pay stays as agreed."><Select name="taxMethod" defaultValue={e?.taxMethod ?? "gross"} options={PAYROLL_TAX_METHODS.map((m) => ({ value: m, label: PAYROLL_TAX_METHOD_LABELS[m] }))} /></Field>
+        <p className="label">Employee BPJS share paid by the company</p><p className="-mt-1 mb-1 text-xs text-ink-500">Added as a taxable allowance; the deduction still appears, so take-home pay is unchanged.</p>
+        <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs">
+          <label className="flex items-center gap-1"><input type="checkbox" name="cover_kesehatan" defaultChecked={e?.bpjsAllowance?.kesehatan} className="checkbox" /> Kesehatan 1%</label>
+          <label className="flex items-center gap-1"><input type="checkbox" name="cover_jht" defaultChecked={e?.bpjsAllowance?.jht} className="checkbox" /> JHT 2%</label>
+          <label className="flex items-center gap-1"><input type="checkbox" name="cover_jp" defaultChecked={e?.bpjsAllowance?.jp} className="checkbox" /> JP 1%</label>
+        </div>
         <p className="label">Fixed allowances</p><p className="-mt-1 mb-2 text-xs text-ink-500">Part of the BPJS wage; tick taxable for PPh 21.</p>
         {allowances.map((a, i) => (
           <div key={i} className="grid grid-cols-[1fr_1fr_auto] items-center gap-2">

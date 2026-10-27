@@ -231,7 +231,7 @@ export type AccountSubtype = (typeof ACCOUNT_SUBTYPES)[number];
 export type TaxTag =
   | "ppn_output" | "ppn_input" | "pph21_payable" | "pph23_payable" | "pph26_payable" | "pph4_2_payable" | "pph25_prepaid"
   | "pph23_prepaid" | "pph22_prepaid" | "cit_payable" | "bpjs_payable" | "local_tax_payable" | "ar_trade" | "ap_trade"
-  | "bank_default" | "sales_default" | "salary_expense" | "bpjs_expense" | "cit_expense" | "retained_earnings" | "current_earnings"
+  | "bank_default" | "sales_default" | "salary_expense" | "bpjs_expense" | "pph21_company_expense" | "cit_expense" | "retained_earnings" | "current_earnings"
   | "fx_gain" | "fx_loss" | "suspense";
 
 export interface Account {
@@ -519,6 +519,10 @@ export interface FixedAsset {
 export const PTKP_STATUSES = ["TK/0", "TK/1", "TK/2", "TK/3", "K/0", "K/1", "K/2", "K/3"] as const;
 export type PtkpStatus = (typeof PTKP_STATUSES)[number];
 
+export type PayrollTaxMethod = "gross" | "nett" | "grossup";
+export const PAYROLL_TAX_METHODS: readonly PayrollTaxMethod[] = ["gross", "nett", "grossup"];
+export const PAYROLL_TAX_METHOD_LABELS: Record<PayrollTaxMethod, string> = { gross: "Gross · employee bears PPh 21", nett: "Nett · company bears PPh 21", grossup: "Gross-up · company pays a taxable tax allowance" };
+
 export interface Employee {
   id: string;
   entityId: string;
@@ -533,6 +537,14 @@ export interface Employee {
   bpjsKesehatanNumber?: string;
   bpjsKetenagakerjaanNumber?: string;
   bpjs: { kesehatan: boolean; jht: boolean; jp: boolean; jkk: boolean; jkm: boolean; jkkRiskClass: 1 | 2 | 3 | 4 | 5 };
+  /**
+   * Who bears PPh 21 (default "gross"): gross = deducted from the employee's pay; nett = paid by the company on top
+   * (booked as a non-deductible expense, not added to the employee's income); grossup = the company pays a tax
+   * allowance (tunjangan PPh 21) that is itself taxable, so the employee's net equals the agreed pay.
+   */
+  taxMethod?: PayrollTaxMethod;
+  /** The company pays the employee's own BPJS share as a taxable allowance (the deduction still appears on the slip). */
+  bpjsAllowance?: { kesehatan: boolean; jht: boolean; jp: boolean };
   basicSalary: number;
   allowances: Array<{ name: string; amount: number; taxable: boolean }>;
   /** Fixed monthly deductions (loan repayment, etc.). */
@@ -555,12 +567,26 @@ export interface PayslipLine {
   overtime: number;
   bonus: number;
   gross: number;
+  /** Payroll tax method applied to this line (missing on runs computed before the option existed: gross). */
+  taxMethod?: PayrollTaxMethod;
+  /** Employee BPJS shares paid by the company as a taxable allowance (part of gross). */
+  bpjsAllowance?: number;
+  /** Tunjangan PPh 21 under the gross-up method (part of gross and of the PPh 21 base). */
+  taxAllowance?: number;
   /** Employer contributions (cost to company, part of PPh 21 gross-up base where applicable). */
   employer: { bpjsKesehatan: number; jht: number; jp: number; jkk: number; jkm: number };
   /** Employee contributions (deducted from pay). */
   employee: { bpjsKesehatan: number; jht: number; jp: number };
   /** PPh 21: monthly TER (PP 58/2023) Jan–Nov, annual progressive true-up in December / on termination. */
-  pph21: { method: "ter" | "annual"; terCategory?: "A" | "B" | "C"; rate?: number; base: number; amount: number };
+  pph21: {
+    method: "ter" | "annual"; terCategory?: "A" | "B" | "C"; rate?: number; base: number;
+    /** Tax for the month (what is remitted). */
+    amount: number;
+    /** Part deducted from the employee's pay (gross and gross-up: `amount`; nett: 0). Missing = `amount`. */
+    deducted?: number;
+    /** Part paid by the company on top of the salary (nett: `amount`). Missing = 0. */
+    borneByCompany?: number;
+  };
   otherDeductions: number;
   netPay: number;
   notes?: string;
@@ -572,7 +598,7 @@ export interface PayrollRun {
   period: string; // YYYY-MM
   payDate: string;
   lines: PayslipLine[];
-  totals: { gross: number; pph21: number; employerBpjs: number; employeeBpjs: number; netPay: number; costToCompany: number };
+  totals: { gross: number; pph21: number; employerBpjs: number; employeeBpjs: number; netPay: number; costToCompany: number; taxAllowance?: number; bpjsAllowance?: number; pph21Company?: number };
   status: "draft" | "approved" | "paid";
   journalId?: string;
   approvedByUserId?: string;

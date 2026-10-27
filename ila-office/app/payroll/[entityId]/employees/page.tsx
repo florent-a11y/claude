@@ -1,3 +1,4 @@
+import { PAYROLL_TAX_METHOD_LABELS } from "@/lib/types";
 import Link from "next/link";
 import { can, requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -30,7 +31,7 @@ export default async function EmployeesPage({ params }: { params: Promise<{ enti
                     </td>
                     <td className="whitespace-nowrap">{e.ptkpStatus}</td>
                     <td className="whitespace-nowrap">{e.npwp ?? <span className="text-red-700">none (+20%)</span>}</td>
-                    <td className="num">{e.basicSalary.toLocaleString("en-US")}</td>
+                    <td className="num">{e.basicSalary.toLocaleString("en-US")}{(e.taxMethod && e.taxMethod !== "gross") || (e.bpjsAllowance && (e.bpjsAllowance.kesehatan || e.bpjsAllowance.jht || e.bpjsAllowance.jp)) ? <span className="cell-sub" title={PAYROLL_TAX_METHOD_LABELS[e.taxMethod ?? "gross"]}>{e.taxMethod === "nett" ? "nett" : e.taxMethod === "grossup" ? "gross-up" : "gross"}{e.bpjsAllowance && (e.bpjsAllowance.kesehatan || e.bpjsAllowance.jht || e.bpjsAllowance.jp) ? " · BPJS paid" : ""}</span> : null}</td>
                     <td className="num">{e.allowances.reduce((s, a) => s + a.amount, 0).toLocaleString("en-US")}</td>
                     <td><span className="cell text-xs" title={bpjs}>{bpjs}</span></td>
                     <td className="whitespace-nowrap">{fmtDate(e.joinDate)}{e.endDate && <span className="cell-sub">left {fmtDate(e.endDate)}</span>}</td>
