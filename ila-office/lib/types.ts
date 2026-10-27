@@ -251,6 +251,19 @@ export interface Account {
   active: boolean;
 }
 
+/** A supporting document stored in lib/files.ts (Supabase Storage bucket `ila-office`, or ILA_DATA_DIR/files locally). */
+export interface Attachment {
+  id: string;
+  name: string;
+  size: number;
+  type: string; // MIME type
+  /** Storage key: `<entityId>/<docType>/<docId>/<id>-<safe name>` */
+  path: string;
+  uploadedAt: string;
+  byUserId?: string;
+  byName?: string;
+}
+
 export type JournalSource = "manual" | "invoice" | "bill" | "receipt" | "disbursement" | "bank" | "payroll" | "depreciation" | "withholding" | "opening" | "closing" | "adjustment" | "fx";
 
 export interface JournalLine {
@@ -287,6 +300,9 @@ export interface JournalEntry {
   updatedAt?: string;
   /** Bank accounts on which this entry was ticked as "appears on the statement" (value: reconciliation period). */
   bankCleared?: Record<string, string>;
+  /** Previous versions kept when a manual entry is edited in place (newest last). */
+  revisions?: Array<{ at: string; byUserId?: string; byName?: string; date: string; memo: string; source: JournalSource; lines: JournalLine[] }>;
+  attachments?: Attachment[];
 }
 
 export interface AccountingPeriod {
@@ -387,6 +403,7 @@ export interface Invoice {
   createdAt: string;
   updatedAt?: string;
   sentAt?: string;
+  attachments?: Attachment[];
 }
 
 export type WithholdingType = "none" | "pph21" | "pph23" | "pph26" | "pph4_2" | "pph15" | "pph22";
@@ -426,6 +443,7 @@ export interface Bill {
   notes?: string;
   createdAt: string;
   updatedAt?: string;
+  attachments?: Attachment[];
 }
 
 export interface Payment {
@@ -446,6 +464,18 @@ export interface Payment {
   method?: "transfer" | "cash" | "card" | "other";
   notes?: string;
   createdAt: string;
+  /**
+   * Money paid or received outside invoices and bills (bank charges, loan repayments, capital contributions,
+   * interest income…): `kind` is "disbursement" (expense) or "receipt" (deposit) with no billId/invoiceId, the
+   * counter accounts come from `lines` (amounts in `currency`), and `payee` names the other party.
+   */
+  payee?: string;
+  memo?: string;
+  lines?: Array<{ accountId: string; description?: string; amount: number }>;
+  status?: "posted" | "void";
+  voidedAt?: string;
+  createdByUserId?: string;
+  attachments?: Attachment[];
 }
 
 /** Indonesian fiscal depreciation groups (UU PPh art. 11). */
@@ -481,6 +511,7 @@ export interface FixedAsset {
   status: "active" | "fully_depreciated" | "disposed";
   billId?: string;
   createdAt: string;
+  attachments?: Attachment[];
 }
 
 // ---------- Tax & payroll (per entity) ----------
