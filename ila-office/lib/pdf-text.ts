@@ -2,6 +2,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import type { PdfLine, PdfPage, PdfToken } from "./bank-pdf";
+import { ensureDomMatrix } from "./dom-matrix";
 
 /** pdf.js needs its worker module even in Node (it runs it in-process); resolve it from node_modules. */
 function workerUrl(): string {
@@ -18,6 +19,8 @@ function workerUrl(): string {
  * Uses pdf.js (server only). Scanned statements have no text layer and come back with (almost) no tokens.
  */
 export async function extractPdfPages(data: Uint8Array | Buffer): Promise<PdfPage[]> {
+  // pdf.js needs a DOMMatrix at import time; hosted Node runtimes have none (see lib/dom-matrix.ts).
+  ensureDomMatrix();
   const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
   if (!pdfjs.GlobalWorkerOptions.workerSrc) pdfjs.GlobalWorkerOptions.workerSrc = workerUrl();
   const doc = await pdfjs.getDocument({ data: new Uint8Array(data), isEvalSupported: false, useSystemFonts: true, disableFontFace: true, verbosity: 0 }).promise;
