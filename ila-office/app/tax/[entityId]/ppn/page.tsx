@@ -7,8 +7,11 @@ import { ppnRegisterForEntity } from "@/lib/tax/services";
 import { PPN_DPP_FRACTION_2025 } from "@/lib/tax/constants";
 import { Card, CardTable, Cols, Field, Money, Notice, Select, Stat } from "@/components/ui";
 import { ConfirmForm, SubmitButton } from "@/components/client";
+import { MoneyInput } from "@/components/MoneyInput";
 import { addVatTransaction, deleteVatTransaction } from "../../actions";
 import type { PpnRow } from "@/lib/tax/ppn";
+
+import { parseMoney } from "@/lib/money";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +22,7 @@ export default async function PpnPage({ params, searchParams }: { params: Promis
   const entity = await db.get("entities", entityId);
   if (!entity) notFound();
   const period = sp.period && /^\d{4}-\d{2}$/.test(sp.period) ? sp.period : todayISO().slice(0, 7);
-  const carry = Number(sp.carry ?? 0) || 0;
+  const carry = Math.max(0, Math.floor(parseMoney(sp.carry ?? "") || 0));
   const { rows, summary } = await ppnRegisterForEntity(entityId, period, carry);
   const canWrite = can(user, "tax:write");
   const dueDate = lastDayOfMonth(nextPeriod(period));
@@ -56,7 +59,7 @@ export default async function PpnPage({ params, searchParams }: { params: Promis
       <div className="flex flex-wrap items-center justify-between gap-3 no-print">
         <div className="flex items-center gap-2">
           <Link href={`/tax/${entityId}/ppn?period=${prevPeriod(period)}&carry=${carry}`} className="btn-secondary !px-3">‹</Link>
-          <form method="get" className="flex items-center gap-2"><input type="month" name="period" defaultValue={period} className="input !w-44" /><input name="carry" type="number" min={0} defaultValue={carry || ""} placeholder="Carried forward" className="input !w-40" title="Overpayment carried forward from the previous period" /><button className="btn-secondary">Go</button></form>
+          <form method="get" className="flex items-center gap-2"><input type="month" name="period" defaultValue={period} className="input !w-44" /><MoneyInput name="carry" defaultValue={carry || ""} currency="IDR" placeholder="Carried forward" className="input !w-40" aria-label="Overpayment carried forward from the previous period" /><button className="btn-secondary">Go</button></form>
           <Link href={`/tax/${entityId}/ppn?period=${nextPeriod(period)}&carry=${carry}`} className="btn-secondary !px-3">›</Link>
         </div>
         <a href={`/tax/${entityId}/ppn/export?period=${period}`} className="btn-secondary">Export CSV</a>
@@ -78,8 +81,8 @@ export default async function PpnPage({ params, searchParams }: { params: Promis
             <Field label="Counterparty" className="md:col-span-2"><input name="name" required className="input" /></Field>
             <Field label="NPWP"><input name="npwp" className="input" /></Field>
             <Field label="e-Faktur number"><input name="fakturNumber" className="input" placeholder="010.000-26.00000000" /></Field>
-            <Field label="DPP"><input name="dpp" type="number" min={0} required className="input" /></Field>
-            <Field label="PPN"><input name="ppn" type="number" min={0} required className="input" /></Field>
+            <Field label="DPP"><MoneyInput name="dpp" currency="IDR" required placeholder="" /></Field>
+            <Field label="PPN"><MoneyInput name="ppn" currency="IDR" required placeholder="" /></Field>
             <Field label="Notes" className="md:col-span-3"><input name="notes" className="input" /></Field>
             <label className="flex items-center gap-2 self-end pb-2 text-sm"><input type="checkbox" name="creditable" defaultChecked className="checkbox" /> Creditable (input)</label>
             <div className="md:col-span-4"><SubmitButton>Add row</SubmitButton></div>

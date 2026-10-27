@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { FISCAL_ASSET_GROUPS, type FiscalAssetGroup } from "@/lib/types";
 import { SubmitButton } from "@/components/client";
+import { AccountPicker } from "@/components/AccountPicker";
+import { MoneyInput } from "@/components/MoneyInput";
 
 export interface AccountOpt { id: string; code: string; name: string }
 
@@ -32,8 +34,8 @@ export function AssetForm({ action, assetAccounts, accumAccounts, expenseAccount
         <label className="block"><span className="label">Asset name</span><input name="name" required className="input" placeholder="MacBook Pro 14 — finance" /></label>
         <div className="grid grid-cols-2 gap-3">
           <label className="block"><span className="label">Acquisition date</span><input name="acquisitionDate" type="date" defaultValue={defaultDate} required className="input" /></label>
-          <label className="block"><span className="label">Cost (IDR)</span><input name="cost" inputMode="numeric" required className="input text-right" /></label>
-          <label className="block"><span className="label">Salvage value (IDR)</span><input name="salvageValue" inputMode="numeric" defaultValue="0" className="input text-right" /></label>
+          <label className="block"><span className="label">Cost (IDR)</span><MoneyInput name="cost" currency="IDR" required placeholder="" /></label>
+          <label className="block"><span className="label">Salvage value (IDR)</span><MoneyInput name="salvageValue" currency="IDR" defaultValue={0} /></label>
           <label className="block"><span className="label">Bill id (optional)</span><input name="billId" className="input" /></label>
         </div>
         <label className="block"><span className="label">Fiscal group (UU PPh art. 11)</span>
@@ -51,9 +53,9 @@ export function AssetForm({ action, assetAccounts, accumAccounts, expenseAccount
         <p className="text-xs text-ink-500">{group === "land" ? "Land is not depreciated." : `Depreciation starts in the month of acquisition and runs ${months} months.`}</p>
       </div>
       <div className="card space-y-3">
-        <label className="block"><span className="label">Asset (cost) account</span><select name="assetAccountId" value={assetAccountId} onChange={(e) => setAssetAccountId(e.target.value)} className="input">{assetAccounts.map((a) => <option key={a.id} value={a.id}>{a.code} · {a.name}</option>)}</select></label>
-        <label className="block"><span className="label">Accumulated depreciation account</span><select name="accumDeprAccountId" value={accumAccountId} onChange={(e) => setAccumAccountId(e.target.value)} className="input">{accumAccounts.map((a) => <option key={a.id} value={a.id}>{a.code} · {a.name}</option>)}</select></label>
-        <label className="block"><span className="label">Depreciation expense account</span><select name="deprExpenseAccountId" defaultValue={pick("6-2100", expenseAccounts)} className="input">{expenseAccounts.map((a) => <option key={a.id} value={a.id}>{a.code} · {a.name}</option>)}</select></label>
+        <label className="block"><span className="label">Asset (cost) account</span><AccountPicker name="assetAccountId" accounts={assetAccounts} value={assetAccountId} onChange={(id) => setAssetAccountId(id)} required /></label>
+        <label className="block"><span className="label">Accumulated depreciation account</span><AccountPicker name="accumDeprAccountId" accounts={accumAccounts} value={accumAccountId} onChange={(id) => setAccumAccountId(id)} required /></label>
+        <label className="block"><span className="label">Depreciation expense account</span><AccountPicker name="deprExpenseAccountId" accounts={expenseAccounts} defaultValue={pick("6-2100", expenseAccounts)} required /></label>
         <SubmitButton>Register asset</SubmitButton>
         <p className="text-xs text-ink-500">Registering does not post the purchase: book it through a bill (Dr asset account) or a journal. Monthly depreciation is posted from the Assets tab.</p>
       </div>

@@ -6,7 +6,7 @@ import { fmtMoney } from "@/lib/money";
 import { Card, Dash, Notice, TableCard } from "@/components/ui";
 import { base, first, requireEntity, type Params, type Search } from "../../shared";
 import { loadReportData, defaultRange } from "../_data";
-import { ReportHeader } from "../ReportHeader";
+import { ReportHeader, exportHrefs } from "../ReportHeader";
 
 export const dynamic = "force-dynamic";
 
@@ -36,8 +36,8 @@ export default async function BalanceSheetPage({ params, searchParams }: { param
     </table>
   );
   return (
-    <div className="pb-8">
-      <ReportHeader title="Balance sheet" subtitle={`As of ${fmtDate(asOf)} · fiscal year from ${fmtDate(bs.fiscalYearStart)}`} entityLegalName={data.entity.legalName} csvHref={`/api/books/${entityId}/reports/balance-sheet?asOf=${asOf}`}>
+    <div className="report pb-8">
+      <ReportHeader title="Balance sheet" subtitle={`As of ${fmtDate(asOf)} · fiscal year from ${fmtDate(bs.fiscalYearStart)}`} entityLegalName={data.entity.legalName} {...exportHrefs(`/api/books/${entityId}/reports/balance-sheet?asOf=${asOf}`, true)}>
         <label className="block"><span className="label">As of</span><input name="asOf" type="date" defaultValue={asOf} className="input !py-1" /></label>
       </ReportHeader>
       {!bs.balanced && <div className="mb-3"><Notice tone="red">Assets {fmtMoney(bs.totalAssets)} ≠ liabilities + equity {fmtMoney(bs.totalLiabilities + bs.totalEquity)}. Check for unbalanced or mis-typed accounts.</Notice></div>}
@@ -46,7 +46,7 @@ export default async function BalanceSheetPage({ params, searchParams }: { param
         <div className="space-y-4">
           <TableCard><Section sections={bs.liabilities} total={bs.totalLiabilities} label="Total liabilities" /></TableCard>
           <TableCard><Section sections={bs.equity} total={bs.totalEquity} label="Total equity" /></TableCard>
-          <Card className="!py-3"><div className="flex justify-between text-sm font-bold"><span>Total liabilities and equity</span><span className="tabular-nums">{fmtMoney(bs.totalLiabilities + bs.totalEquity)}</span></div><p className="mt-1 text-xs text-ink-500">Retained earnings {fmtMoney(bs.retainedEarnings)} include prior years' profit not yet closed; current-year earnings {fmtMoney(bs.currentYearEarnings)} come from the P&L since {fmtDate(bs.fiscalYearStart)}.</p></Card>
+          <Card className="!py-3"><div className="flex justify-between text-sm font-bold"><span>Total liabilities and equity</span><span className="tabular-nums">{fmtMoney(bs.totalLiabilities + bs.totalEquity)}</span></div><p className="no-print mt-1 text-xs text-ink-500">Retained earnings {fmtMoney(bs.retainedEarnings)} include prior years&apos; profit not yet closed; current-year earnings {fmtMoney(bs.currentYearEarnings)} come from the P&amp;L since {fmtDate(bs.fiscalYearStart)}.</p></Card>
         </div>
       </div>
     </div>

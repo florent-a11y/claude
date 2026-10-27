@@ -7,6 +7,8 @@ import { fmtDate, todayISO } from "@/lib/dates";
 import { fmtMoney } from "@/lib/money";
 import { Card, Badge, statusTone, DL, Field, Select, Money, CardTable, Cols, Dash, TableCard } from "@/components/ui";
 import { ConfirmForm, SubmitButton } from "@/components/client";
+import { Attachments } from "@/components/Attachments";
+import { MoneyInput } from "@/components/MoneyInput";
 import { ErrorNotice, base, first, requireEntity, type Search } from "../../shared";
 import { postBillAction, disbursementAction, voidBillAction, voidBillPaymentAction } from "../actions";
 
@@ -103,6 +105,7 @@ export default async function BillPage({ params, searchParams }: { params: Promi
               </CardTable>
             )}
           </Card>
+          <Attachments entityId={entityId} docType="bill" docId={bill.id} items={bill.attachments ?? []} canWrite={writable} backTo={here} />
         </div>
         <div className="space-y-4">
           <Card title="Details">
@@ -115,7 +118,7 @@ export default async function BillPage({ params, searchParams }: { params: Promi
                   <Field label="Bank account"><Select name="bankAccountId" options={bankOpts} required /></Field>
                   <div className="grid grid-cols-2 gap-3">
                     <Field label="Date"><input name="date" type="date" defaultValue={today} required className="input" /></Field>
-                    <Field label={`Amount (${ccy})`}><input name="amount" defaultValue={String(outstanding)} inputMode="decimal" required className="input text-right" /></Field>
+                    <Field label={`Amount (${ccy})`}><MoneyInput name="amount" defaultValue={outstanding} currency={ccy} required /></Field>
                   </div>
                   {ccy !== "IDR" && <Field label={`Rate on payment (IDR per 1 ${ccy})`}><input name="fxRate" defaultValue={String(bill.fxRate)} inputMode="decimal" className="input" /></Field>}
                   <Field label="Reference"><input name="reference" className="input" placeholder="Transfer reference" /></Field>

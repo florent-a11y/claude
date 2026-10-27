@@ -9,7 +9,7 @@
 import type { Account, AccountSubtype, Bill, BillLine, DocStatus, FixedAsset, Invoice, InvoiceLine, JournalEntry, JournalLine, TaxTag, WithholdingType } from "./types";
 import { FISCAL_ASSET_GROUPS } from "./types";
 import { roundMoney, toIDR, parseMoney } from "./money";
-import { addDays, daysBetween, nextPeriod, periodOf } from "./dates";
+import { addDays, daysBetween, firstDayOfMonth, lastDayOfMonth, nextPeriod, periodOf } from "./dates";
 import { parseAnyDate } from "./bank-formats";
 import { accountBalances, findByCode, findByTag, naturalBalance, netProfit, type Balance } from "./balances";
 
@@ -431,6 +431,79 @@ export function profitAndLoss(accounts: Account[], entries: JournalEntry[], rang
   const operatingProfit = roundMoney(grossProfit - opex);
   const profitBeforeTax = roundMoney(operatingProfit + otherIncome - otherExpense);
   return { from: range.from, to: range.to, sections, revenue, cogs, grossProfit, opex, operatingProfit, otherIncome, otherExpense, profitBeforeTax, tax, netProfit: roundMoney(profitBeforeTax - tax) };
+}
+
+// ---------- Monthly P&L ----------
+
+/** Most month columns a monthly P&L shows (a fiscal year plus one); longer ranges are trimmed to the last 13 months. */
+export const MONTHLY_PL_MAX_COLUMNS = 13;
+
+export interface MonthlyColumn { period: string; /** Short header, "Jan 26". */ label: string; from: string; to: string }
+export interface MonthlyReportRow { account: Account; /** One amount per column, natural sign. */ amounts: number[]; total: number }
+export interface MonthlyReportSection { key: string; label: string; subtypes: AccountSubtype[]; rows: MonthlyReportRow[]; /** Section total per column. */ totals: number[]; total: number }
+export type MonthlySummaryKey = "grossProfit" | "operatingProfit" | "profitBeforeTax" | "netProfit";
+export interface MonthlySummaryLine { key: MonthlySummaryKey; label: string; /** Section key after which the line is printed. */ afterSection: string; amounts: number[]; total: number }
+export interface ProfitAndLossMonthly {
+  /** Effective range (the first day of the first column when the requested range was trimmed). */
+  from: string; to: string;
+  columns: MonthlyColumn[];
+  sections: MonthlyReportSection[];
+  /** Gross profit, operating profit, profit before tax, net profit — per column and total. */
+  summary: MonthlySummaryLine[];
+  /** The underlying statements: one per column, clipped to the range, and one for the whole range. */
+  months: ProfitAndLoss[];
+  total: ProfitAndLoss;
+  /** Set when the requested range had more than MONTHLY_PL_MAX_COLUMNS months. */
+  note?: string;
+}
+
+const MONTH_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+/** "2026-01" → "Jan 26": the compact column header of the monthly P&L. */
+export function monthColumnLabel(period: string): string {
+  const [y, m] = period.split("-");
+  return `${MONTH_SHORT[Number(m) - 1] ?? m} ${y.slice(2)}`;
+}
+
+const PL_SUMMARY_LINES: Array<Pick<MonthlySummaryLine, "key" | "label" | "afterSection">> = [
+  { key: "grossProfit", label: "Gross profit", afterSection: "cogs" },
+  { key: "operatingProfit", label: "Operating profit", afterSection: "opex" },
+  { key: "profitBeforeTax", label: "Profit before tax", afterSection: "other_expense" },
+  { key: "netProfit", label: "Net profit", afterSection: "tax" },
+];
+
+/**
+ * Income statement with one column per calendar month of the range (each month clipped to the range) and a Total
+ * column equal to the P&L of the whole range, so the month columns always add up to the total. Ranges longer than
+ * MONTHLY_PL_MAX_COLUMNS months are trimmed to their last months and `note` says so.
+ */
+export function profitAndLossMonthly(accounts: Account[], entries: JournalEntry[], range: { from: string; to: string }): ProfitAndLossMonthly {
+  let from = range.from <= range.to ? range.from : range.to;
+  const to = range.from <= range.to ? range.to : range.from;
+  let periods: string[] = [];
+  for (let p = periodOf(from); p <= periodOf(to); p = nextPeriod(p)) periods.push(p);
+  let note: string | undefined;
+  if (periods.length > MONTHLY_PL_MAX_COLUMNS) {
+    const requested = periods.length;
+    periods = periods.slice(-MONTHLY_PL_MAX_COLUMNS);
+    from = firstDayOfMonth(periods[0]);
+    note = `The selected range covers ${requested} months; showing the last ${MONTHLY_PL_MAX_COLUMNS} (${monthColumnLabel(periods[0])} – ${monthColumnLabel(periods[periods.length - 1])}). The Total column covers the months shown.`;
+  }
+  const columns: MonthlyColumn[] = periods.map((p) => {
+    const start = firstDayOfMonth(p), end = lastDayOfMonth(p);
+    return { period: p, label: monthColumnLabel(p), from: start > from ? start : from, to: end < to ? end : to };
+  });
+  const months = columns.map((c) => profitAndLoss(accounts, entries, { from: c.from, to: c.to }));
+  const total = profitAndLoss(accounts, entries, { from, to });
+  const sorted = [...accounts].sort((x, y) => x.code.localeCompare(y.code));
+  const sections: MonthlyReportSection[] = PL_SECTIONS.map((d, i) => {
+    const ids = new Set<string>();
+    for (const pl of [...months, total]) for (const r of pl.sections[i].rows) ids.add(r.account.id);
+    const amountOf = (pl: ProfitAndLoss, accountId: string) => pl.sections[i].rows.find((r) => r.account.id === accountId)?.amount ?? 0;
+    const rows: MonthlyReportRow[] = sorted.filter((a) => ids.has(a.id)).map((a) => ({ account: a, amounts: months.map((m) => amountOf(m, a.id)), total: amountOf(total, a.id) }));
+    return { key: d.key, label: d.label, subtypes: d.subtypes, rows, totals: months.map((m) => m.sections[i].total), total: total.sections[i].total };
+  });
+  const summary: MonthlySummaryLine[] = PL_SUMMARY_LINES.map((s) => ({ ...s, amounts: months.map((m) => m[s.key]), total: total[s.key] }));
+  return { from, to, columns, sections, summary, months, total, note };
 }
 
 const BS_ASSET_SECTIONS: Array<Pick<ReportSection, "key" | "label" | "subtypes">> = [

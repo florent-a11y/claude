@@ -3,11 +3,13 @@ import { notFound } from "next/navigation";
 import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { todayISO } from "@/lib/dates";
+import { parseMoney } from "@/lib/money";
 import { PTKP_STATUSES, type PtkpStatus } from "@/lib/types";
 import { PTKP_TABLE, TER_CATEGORY, TER_TABLES, BIAYA_JABATAN_MAX_ANNUAL } from "@/lib/tax/constants";
 import { pph21Annual, pph21Monthly } from "@/lib/tax/pph21";
 import { payrollRunsOfYear } from "@/lib/tax/services";
 import { Card, Cols, Dash, Field, Select, Money, DL, Chips, Notice, EmptyState, TableCard } from "@/components/ui";
+import { MoneyInput } from "@/components/MoneyInput";
 
 export const dynamic = "force-dynamic";
 
@@ -18,7 +20,7 @@ export default async function Pph21Page({ params, searchParams }: { params: Prom
   const entity = await db.get("entities", entityId);
   if (!entity) notFound();
   const year = sp.year && /^\d{4}$/.test(sp.year) ? Number(sp.year) : Number(todayISO().slice(0, 4));
-  const gross = Number(sp.gross ?? 10_000_000) || 0;
+  const gross = Math.max(0, Math.floor(parseMoney(sp.gross ?? "") || 10_000_000));
   const ptkp = (PTKP_STATUSES as readonly string[]).includes(sp.ptkp ?? "") ? (sp.ptkp as PtkpStatus) : "TK/0";
   const hasNpwp = sp.npwp !== "no";
   const monthly = pph21Monthly({ grossMonthly: gross, ptkpStatus: ptkp, hasNpwp });
@@ -43,7 +45,7 @@ export default async function Pph21Page({ params, searchParams }: { params: Prom
       <div className="grid gap-4 lg:grid-cols-3">
         <Card title="PPh 21 calculator (TER, PP 58/2023)">
           <form method="get" className="space-y-3">
-            <Field label="Monthly gross" hint="Salary + taxable allowances + employer BPJS Kesehatan / JKK / JKM."><input name="gross" type="number" min={0} step={1000} defaultValue={gross} className="input" /></Field>
+            <Field label="Monthly gross" hint="Salary + taxable allowances + employer BPJS Kesehatan / JKK / JKM."><MoneyInput name="gross" defaultValue={gross} currency="IDR" /></Field>
             <div className="grid grid-cols-2 gap-3">
               <Field label="PTKP status"><Select name="ptkp" defaultValue={ptkp} options={PTKP_STATUSES.map((s) => ({ value: s, label: `${s} · ${PTKP_TABLE[s].toLocaleString("en-US")}` }))} /></Field>
               <Field label="NPWP"><Select name="npwp" defaultValue={hasNpwp ? "yes" : "no"} options={[{ value: "yes", label: "Has NPWP" }, { value: "no", label: "No NPWP (+20%)" }]} /></Field>

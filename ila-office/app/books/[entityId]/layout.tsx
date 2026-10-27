@@ -23,7 +23,7 @@ export default async function BooksLayout({ params, children }: { params: Params
         </div>
         {!isClient(user) && <Link href={`/settings/entities/${entity.id}`} className="text-xs text-brand-600 underline">Entity settings</Link>}
       </div>
-      <BooksTabs base={base(entityId)} />
+      <div className="no-print"><BooksTabs base={base(entityId)} /></div>
       {children}
     </div>
   );

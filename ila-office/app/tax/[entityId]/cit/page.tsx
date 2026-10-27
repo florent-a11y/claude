@@ -6,6 +6,7 @@ import { TAX_REGIME_LABELS } from "@/lib/types";
 import { computeCitForEntity, fiscalYearRange } from "@/lib/tax/services";
 import { Card, CardTable, Chips, Cols, Field, Notice } from "@/components/ui";
 import { PrintButton } from "@/components/client";
+import { MoneyInput } from "@/components/MoneyInput";
 
 export const dynamic = "force-dynamic";
 
@@ -82,10 +83,10 @@ export default async function CitPage({ params, searchParams }: { params: Promis
       <Card title="Adjustments (not stored)" className="no-print">
         <form method="get" className="space-y-3">
           <input type="hidden" name="year" value={year} />
-          <Field label="Income subject to final tax / non-taxable (IDR)" hint="e.g. revenue already taxed under PPh 4(2) (villa rent), bank interest. The chart of accounts has no final-tax flag, so enter it here."><input name="nonTaxable" type="number" min={0} defaultValue={sp.nonTaxable} className="input" /></Field>
-          <Field label="Other positive adjustments"><input name="otherPos" type="number" min={0} defaultValue={sp.otherPos} className="input" /></Field>
-          <Field label="Other negative adjustments"><input name="otherNeg" type="number" min={0} defaultValue={sp.otherNeg} className="input" /></Field>
-          <Field label="Loss carried forward"><input name="loss" type="number" min={0} defaultValue={sp.loss} className="input" /></Field>
+          <Field label="Income subject to final tax / non-taxable (IDR)" hint="e.g. revenue already taxed under PPh 4(2) (villa rent), bank interest. The chart of accounts has no final-tax flag, so enter it here."><MoneyInput name="nonTaxable" defaultValue={sp.nonTaxable} currency="IDR" placeholder="" /></Field>
+          <Field label="Other positive adjustments"><MoneyInput name="otherPos" defaultValue={sp.otherPos} currency="IDR" placeholder="" /></Field>
+          <Field label="Other negative adjustments"><MoneyInput name="otherNeg" defaultValue={sp.otherNeg} currency="IDR" placeholder="" /></Field>
+          <Field label="Loss carried forward"><MoneyInput name="loss" defaultValue={sp.loss} currency="IDR" placeholder="" /></Field>
           <Field label="Note"><input name="note" defaultValue={sp.note} className="input" /></Field>
           <button className="btn-primary">Recompute</button>
         </form>

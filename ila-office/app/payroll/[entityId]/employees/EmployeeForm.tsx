@@ -2,6 +2,7 @@ import { PTKP_STATUSES, type Employee } from "@/lib/types";
 import { PTKP_TABLE, BPJS_JKK_RATES } from "@/lib/tax/constants";
 import { Field, Select } from "@/components/ui";
 import { SubmitButton } from "@/components/client";
+import { MoneyInput } from "@/components/MoneyInput";
 
 export function EmployeeForm({ employee: e, action }: { employee?: Employee; action: (fd: FormData) => Promise<void> }) {
   const allowances = [0, 1, 2, 3].map((i) => e?.allowances[i]);
@@ -29,12 +30,12 @@ export function EmployeeForm({ employee: e, action }: { employee?: Employee; act
       </div>
       <div className="card space-y-3">
         <h2 className="text-sm font-semibold text-ink-700">Pay</h2>
-        <Field label="Basic salary (IDR / month)"><input name="basicSalary" type="number" min={0} step={1000} defaultValue={e?.basicSalary} required className="input" /></Field>
+        <Field label="Basic salary (IDR / month)"><MoneyInput name="basicSalary" defaultValue={e?.basicSalary} currency="IDR" required placeholder="" /></Field>
         <p className="label">Fixed allowances</p><p className="-mt-1 mb-2 text-xs text-ink-500">Part of the BPJS wage; tick taxable for PPh 21.</p>
         {allowances.map((a, i) => (
           <div key={i} className="grid grid-cols-[1fr_1fr_auto] items-center gap-2">
             <input name={`allowance_name_${i + 1}`} defaultValue={a?.name} placeholder={["Transport", "Meal", "Housing", "Other"][i]} className="input" />
-            <input name={`allowance_amount_${i + 1}`} type="number" min={0} defaultValue={a?.amount} placeholder="0" className="input" />
+            <MoneyInput name={`allowance_amount_${i + 1}`} defaultValue={a?.amount} currency="IDR" aria-label={`Allowance ${i + 1} amount`} />
             <label className="flex items-center gap-1 text-xs"><input type="checkbox" name={`allowance_taxable_${i + 1}`} defaultChecked={a ? a.taxable : true} className="checkbox" /> taxable</label>
           </div>
         ))}
@@ -42,7 +43,7 @@ export function EmployeeForm({ employee: e, action }: { employee?: Employee; act
         {deductions.map((d, i) => (
           <div key={i} className="grid grid-cols-2 gap-2">
             <input name={`deduction_name_${i + 1}`} defaultValue={d?.name} placeholder="Loan" className="input" />
-            <input name={`deduction_amount_${i + 1}`} type="number" min={0} defaultValue={d?.amount} placeholder="0" className="input" />
+            <MoneyInput name={`deduction_amount_${i + 1}`} defaultValue={d?.amount} currency="IDR" aria-label={`Deduction ${i + 1} amount`} />
           </div>
         ))}
         <div className="grid grid-cols-2 gap-3">

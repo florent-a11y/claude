@@ -41,7 +41,7 @@ export default async function Journal({ params, searchParams }: { params: Params
       {rows.length === 0 ? <EmptyState title="No journal entries" hint="Post an invoice or bill, match bank lines, or add a manual entry." action={<Link href={`${b}/journal/new`} className="btn-primary">New entry</Link>} /> : (
         <TableCard footer={rows.length > 500 && <span>Showing the first 500 of {rows.length} entries; narrow the filter.</span>}>
           <table className="table table-data min-w-[960px]">
-            <Cols widths={[130, 118, undefined, 124, 170, 140, 90]} />
+            <Cols widths={[130, 118, undefined, 124, 170, 140, 136]} />
             <thead><tr><th>Number</th><th>Date</th><th>Memo</th><th>Source</th><th>Lines</th><th className="num">Amount</th><th>Status</th></tr></thead>
             <tbody>
               {rows.slice(0, 500).map((e) => {
@@ -55,7 +55,7 @@ export default async function Journal({ params, searchParams }: { params: Params
                     <td><Badge tone={statusTone(e.source)}>{e.source}</Badge></td>
                     <td><span className="cell text-xs text-ink-500" title={codes}>{codes}</span></td>
                     <td className="num"><Money amount={entryTotal(e)} className="money" /></td>
-                    <td><Badge tone={statusTone(e.status)}>{e.status}</Badge></td>
+                    <td><span className="flex items-center gap-1"><Badge tone={statusTone(e.status)}>{e.status}</Badge>{e.revisions?.length ? <Badge tone="blue" title={`Edited ${e.revisions.length} time${e.revisions.length === 1 ? "" : "s"}`}>edited</Badge> : null}</span></td>
                   </tr>
                 );
               })}

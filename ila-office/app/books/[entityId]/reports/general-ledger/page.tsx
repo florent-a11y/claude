@@ -6,7 +6,7 @@ import { fmtMoney } from "@/lib/money";
 import { Cols, Dash, EmptyState, TableCard } from "@/components/ui";
 import { accountLabel, base, first, requireEntity, type Params, type Search } from "../../shared";
 import { loadReportData, defaultRange } from "../_data";
-import { ReportHeader } from "../ReportHeader";
+import { ReportHeader, exportHrefs } from "../ReportHeader";
 
 export const dynamic = "force-dynamic";
 
@@ -23,8 +23,10 @@ export default async function GeneralLedgerPage({ params, searchParams }: { para
   const b = base(entityId);
   const sorted = [...data.accounts].sort((x, y) => x.code.localeCompare(y.code));
   return (
-    <div className="pb-8">
-      <ReportHeader title="General ledger" subtitle={account ? `${accountLabel(account)} · ${fmtDate(from)} – ${fmtDate(to)} · ${account.normalBalance} balance` : "Pick an account"} entityLegalName={data.entity.legalName} csvHref={`/api/books/${entityId}/reports/general-ledger?accountId=${accountId ?? ""}&from=${from}&to=${to}`}>
+    <div className="report pb-8">
+      {/* Seven columns: print sideways. */}
+      <style>{"@page { size: A4 landscape; margin: 10mm; }"}</style>
+      <ReportHeader title="General ledger" subtitle={account ? `${accountLabel(account)} · ${fmtDate(from)} – ${fmtDate(to)} · ${account.normalBalance} balance` : "Pick an account"} entityLegalName={data.entity.legalName} {...exportHrefs(`/api/books/${entityId}/reports/general-ledger?accountId=${accountId ?? ""}&from=${from}&to=${to}`, !!account)}>
         <label className="block"><span className="label">Account</span><select name="accountId" defaultValue={accountId} className="input !w-72 !py-1">{sorted.map((a) => <option key={a.id} value={a.id}>{a.code} · {a.name}{a.active ? "" : " (inactive)"}</option>)}</select></label>
         <label className="block"><span className="label">From</span><input name="from" type="date" defaultValue={from} className="input !py-1" /></label>
         <label className="block"><span className="label">To</span><input name="to" type="date" defaultValue={to} className="input !py-1" /></label>
@@ -53,6 +55,7 @@ export default async function GeneralLedgerPage({ params, searchParams }: { para
           </table>
         </TableCard>
       )}
+      {gl && <p className="no-print mt-2 text-xs text-ink-500">Running balance in the account&apos;s natural sign ({account!.normalBalance}); the opening balance sums every posted line before {fmtDate(from)}. Export to Excel for reconciliation work.</p>}
     </div>
   );
 }

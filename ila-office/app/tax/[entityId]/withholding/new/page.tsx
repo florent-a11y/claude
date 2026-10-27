@@ -8,6 +8,7 @@ import { WITHHOLDING_OBJECTS, type WithholdingKind } from "@/lib/tax/constants";
 import { WITHHOLDING_TYPE_LABELS } from "@/lib/tax/withholding";
 import { Card, Field, Select, Notice } from "@/components/ui";
 import { SubmitButton } from "@/components/client";
+import { MoneyInput } from "@/components/MoneyInput";
 import { createWithholdingSlip } from "../../../actions";
 
 export const dynamic = "force-dynamic";
@@ -52,7 +53,7 @@ export default async function NewSlip({ params, searchParams }: { params: Promis
           <Field label="Recipient NIK (individuals without NPWP)"><input name="nik" className="input" /></Field>
           <Field label="Recipient address" className="md:col-span-2"><input name="address" className="input" /></Field>
           <Field label="Country"><Select name="country" defaultValue={pre.country ?? "ID"} options={countryOptions()} /></Field>
-          <Field label="DPP / gross amount (IDR)"><input name="baseAmount" type="number" min={0} defaultValue={pre.base || ""} required className="input" /></Field>
+          <Field label="DPP / gross amount (IDR)"><MoneyInput name="baseAmount" defaultValue={pre.base || ""} currency="IDR" required placeholder="" /></Field>
           <div className="md:col-span-2 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm">
             <label className="flex items-center gap-2"><input type="checkbox" name="treatyApplied" className="checkbox" /> PPh 26: apply tax treaty rate (DGT form / certificate of residence on file)</label>
             <div className="mt-2 max-w-xs"><Field label="Treaty rate %"><input name="treatyRate" type="number" step="0.01" min={0} max={100} defaultValue={10} className="input" /></Field></div>

@@ -5,10 +5,12 @@ import { currencyOptions, fmtNumber } from "@/lib/money";
 import { invoiceTotals } from "@/lib/ledger";
 import { SubmitButton } from "@/components/client";
 import { Cols, TableCard } from "@/components/ui";
+import { AccountPicker } from "@/components/AccountPicker";
+import { MoneyField } from "@/components/MoneyInput";
 import type { Invoice, TaxCode } from "@/lib/types";
 
 export interface CustomerOpt { key: string; type: "company" | "contact"; id: string; name: string; email?: string; npwp?: string; address?: string }
-export interface AccountOpt { id: string; code: string; name: string }
+export interface AccountOpt { id: string; code: string; name: string; type?: string }
 export interface ServiceOpt { id: string; name: string; priceIDR: number; priceUSD?: number; priceEUR?: number; taxTreatment: "out_of_scope" | "ppn" }
 interface Line { key: number; description: string; qty: string; unitPrice: string; accountId: string; taxCode: TaxCode; serviceId?: string }
 
@@ -95,8 +97,8 @@ export function InvoiceForm({ action, entity, customers, accounts, services, def
               <tr key={l.key}>
                 <td><input value={l.description} onChange={(e) => update(l.key, { description: e.target.value })} className="input !py-1" placeholder="Service description" /></td>
                 <td><input value={l.qty} onChange={(e) => update(l.key, { qty: e.target.value })} className="input !py-1 text-right" inputMode="decimal" /></td>
-                <td><input value={l.unitPrice} onChange={(e) => update(l.key, { unitPrice: e.target.value })} className="input !py-1 text-right" inputMode="decimal" placeholder="0" /></td>
-                <td><select value={l.accountId} onChange={(e) => update(l.key, { accountId: e.target.value })} className="input !py-1">{accounts.map((a) => <option key={a.id} value={a.id}>{a.code} · {a.name}</option>)}</select></td>
+                <td><MoneyField value={l.unitPrice} onChange={(raw) => update(l.key, { unitPrice: raw })} currency={currency} className="input !py-1" aria-label="Unit price" /></td>
+                <td><AccountPicker accounts={accounts} value={l.accountId} onChange={(id) => update(l.key, { accountId: id })} className="input !py-1" aria-label="Revenue account" /></td>
                 <td><select value={l.taxCode} onChange={(e) => update(l.key, { taxCode: e.target.value as TaxCode })} className="input !py-1">{TAX_CODES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}</select></td>
                 <td className="num">{fmt(totals.lineAmounts[i] ?? 0)}</td>
                 <td className="text-center"><button type="button" className="text-ink-500 hover:text-red-600" aria-label="Remove line" onClick={() => setLines((ls) => (ls.length > 1 ? ls.filter((x) => x.key !== l.key) : ls))}>×</button></td>
@@ -112,7 +114,7 @@ export function InvoiceForm({ action, entity, customers, accounts, services, def
         </div>
         <div className="card space-y-1 text-sm">
           <div className="flex justify-between"><span>Subtotal</span><span className="tabular-nums">{currency} {fmt(totals.subtotal)}</span></div>
-          <div className="flex items-center justify-between gap-2"><span>Discount</span><input name="discount" value={discount} onChange={(e) => setDiscount(e.target.value)} className="input !w-32 !py-1 text-right" inputMode="decimal" placeholder="0" /></div>
+          <div className="flex items-center justify-between gap-2"><span>Discount</span><MoneyField value={discount} onChange={setDiscount} currency={currency} className="input !w-32 !py-1" aria-label="Discount" /><input type="hidden" name="discount" value={discount} /></div>
           <div className="flex justify-between"><span>PPN {entity.pkp ? `${Math.round(entity.ppnRate * 100)}%` : "(non-PKP: none)"}</span><span className="tabular-nums">{currency} {fmt(totals.ppnAmount)}</span></div>
           <div className="flex justify-between border-t border-slate-200 pt-2 text-base font-semibold"><span>Total</span><span className="tabular-nums">{currency} {fmt(totals.total)}</span></div>
           {currency !== "IDR" && n(fxRate) > 0 && <p className="text-xs text-ink-500">≈ IDR {fmtNumber(Math.round(totals.total * n(fxRate)))} at {fxRate}</p>}

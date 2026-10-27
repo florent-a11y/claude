@@ -6,7 +6,7 @@ import { fmtMoney } from "@/lib/money";
 import { Cols, Notice, TableCard } from "@/components/ui";
 import { base, first, requireEntity, type Params, type Search } from "../../shared";
 import { loadReportData, defaultRange } from "../_data";
-import { ReportHeader } from "../ReportHeader";
+import { ReportHeader, exportHrefs } from "../ReportHeader";
 
 export const dynamic = "force-dynamic";
 
@@ -20,8 +20,8 @@ export default async function TrialBalancePage({ params, searchParams }: { param
   const tb = trialBalance(data.accounts, data.entries, asOf);
   const b = base(entityId);
   return (
-    <div className="pb-8">
-      <ReportHeader title="Trial balance" subtitle={`As of ${fmtDate(asOf)} · ${tb.rows.length} accounts`} entityLegalName={data.entity.legalName} csvHref={`/api/books/${entityId}/reports/trial-balance?asOf=${asOf}`}>
+    <div className="report pb-8">
+      <ReportHeader title="Trial balance" subtitle={`As of ${fmtDate(asOf)} · ${tb.rows.length} accounts`} entityLegalName={data.entity.legalName} {...exportHrefs(`/api/books/${entityId}/reports/trial-balance?asOf=${asOf}`, true)}>
         <label className="block"><span className="label">As of</span><input name="asOf" type="date" defaultValue={asOf} className="input !py-1" /></label>
       </ReportHeader>
       {!tb.balanced && <div className="mb-3"><Notice tone="red">Out of balance: debits {fmtMoney(tb.totalDebit)} vs credits {fmtMoney(tb.totalCredit)}.</Notice></div>}
@@ -36,6 +36,7 @@ export default async function TrialBalancePage({ params, searchParams }: { param
           <tfoot><tr><td colSpan={3}>Total</td><td className="num money">{fmtMoney(tb.totalDebit)}</td><td className="num money">{fmtMoney(tb.totalCredit)}</td></tr></tfoot>
         </table>
       </TableCard>
+      <p className="no-print mt-2 text-xs text-ink-500">Cumulative balances of every account with activity up to the date; an account appears in the debit column when its net balance is a debit. Click an account to open its ledger.</p>
     </div>
   );
 }

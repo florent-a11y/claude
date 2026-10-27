@@ -3,6 +3,7 @@ import type { PayslipLine, PayrollRun } from "@/lib/types";
 import type { LineOverride } from "@/lib/payroll";
 import { employeeTotal, employerTotal } from "@/lib/payroll";
 import { CardTable, Cols } from "@/components/ui";
+import { MoneyInput } from "@/components/MoneyInput";
 
 /** Server-safe payslip table used by the preview, the draft editor and the run detail.
  *  Renders edge to edge inside the enclosing Card, with the remittance summary as a line under the table. */
@@ -42,8 +43,8 @@ export function PayslipTable({ lines, totals, editable = false, overrides = {}, 
                 </td>
                 <td className="num">{f(l.basicSalary)}</td>
                 <td className="num">{f(l.allowances)}</td>
-                {showOvertime && <td className="num">{editable ? <input name={`ot_${l.employeeId}`} type="number" min={0} defaultValue={l.overtime || ""} className="input !w-24 !px-2 !py-1 text-right" /> : f(l.overtime)}</td>}
-                {showBonus && <td className="num">{editable ? <input name={`bonus_${l.employeeId}`} type="number" min={0} defaultValue={l.bonus || ""} className="input !w-24 !px-2 !py-1 text-right" /> : f(l.bonus)}</td>}
+                {showOvertime && <td className="num">{editable ? <MoneyInput name={`ot_${l.employeeId}`} defaultValue={l.overtime || ""} currency="IDR" className="input !w-24 !px-2 !py-1" aria-label={`Overtime ${l.employeeName}`} /> : f(l.overtime)}</td>}
+                {showBonus && <td className="num">{editable ? <MoneyInput name={`bonus_${l.employeeId}`} defaultValue={l.bonus || ""} currency="IDR" className="input !w-24 !px-2 !py-1" aria-label={`Bonus ${l.employeeName}`} /> : f(l.bonus)}</td>}
                 <td className="num font-semibold">{f(l.gross)}</td>
                 <td className="num" title={`Kesehatan ${f(l.employer.bpjsKesehatan)} · JHT ${f(l.employer.jht)} · JP ${f(l.employer.jp)} · JKK ${f(l.employer.jkk)} · JKM ${f(l.employer.jkm)}`}>{f(employerTotal(l))}</td>
                 <td className="num" title={`Kesehatan ${f(l.employee.bpjsKesehatan)} · JHT ${f(l.employee.jht)} · JP ${f(l.employee.jp)}`}>{f(employeeTotal(l))}</td>

@@ -38,6 +38,11 @@ export function storageBackend(): "supabase" | "file" {
   return sb() ? "supabase" : "file";
 }
 
+/** The configured Supabase client (for Storage in lib/files.ts), or null on the file backend. Tables stay behind `db`. */
+export function supabaseClient(): SupabaseClient | null {
+  return sb();
+}
+
 export type DatabaseStatus = "ok" | "unconfigured" | "missing-schema" | "error";
 
 /** Hosted installations must use Supabase; the file backend is for a laptop (or an explicit ILA_DATA_DIR). */
