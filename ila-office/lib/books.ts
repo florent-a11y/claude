@@ -187,6 +187,9 @@ export async function recordReceipt(entityId: string, input: ReceiptInput, userI
 export async function voidPayment(entityId: string, paymentId: string): Promise<void> {
   const p = await db.get("payments", paymentId);
   if (!p || p.entityId !== entityId) throw new BooksError("Payment not found.");
+  // Expenses and deposits (no bill or invoice) keep their row as "void" and release their statement line themselves.
+  const moneyMoves = await import("./money-moves");
+  if (moneyMoves.isMoneyMove(p)) { await moneyMoves.voidMoneyMove(entityId, p.id); return; }
   if (p.journalId) await voidJournal(entityId, p.journalId);
   if (p.invoiceId) {
     const inv = await db.get("invoices", p.invoiceId);

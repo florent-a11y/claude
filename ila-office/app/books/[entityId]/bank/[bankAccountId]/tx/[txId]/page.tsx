@@ -8,7 +8,9 @@ import { fmtDate } from "@/lib/dates";
 import { fmtMoney, roundMoney } from "@/lib/money";
 import { Card, Badge, DL, Field, Select, Notice, CardTable, Cols } from "@/components/ui";
 import { SubmitButton } from "@/components/client";
-import { ErrorNotice, accountOptions, base, first, requireEntity, type Search } from "../../../../shared";
+import { AccountPicker } from "@/components/AccountPicker";
+import { MoneyInput } from "@/components/MoneyInput";
+import { ErrorNotice, base, first, requireEntity, type Search } from "../../../../shared";
 import { matchAction, postBankTxAction, linkJournalAction, excludeTxAction } from "../../../actions";
 
 export const dynamic = "force-dynamic";
@@ -33,7 +35,8 @@ export default async function MatchTransaction({ params, searchParams }: { param
   const near = (x: number) => Math.abs(roundMoney(x, bank.currency) - amt) < 0.5;
   const invSuggested = invoices.filter((i) => i.currency === bank.currency && near(invoiceOutstanding(i)));
   const billSuggested = bills.filter((x) => x.currency === bank.currency && near(billOutstanding(x)));
-  const counterOptions = accountOptions(accounts, (a) => a.id !== bank.accountId);
+  const counterAccounts = accounts.filter((a) => a.active && a.id !== bank.accountId).map(({ id, code, name, type, subtype }) => ({ id, code, name, type, subtype }));
+  const recordHref = `${b}/${moneyIn ? "deposits" : "expenses"}/new?tx=${tx.id}`;
   const defaultCounter = (moneyIn ? accounts.find((a) => a.subtype === "other_income" && a.active) : accounts.find((a) => a.code === "6-2000" && a.active)) ?? accounts.find((a) => a.taxTag === "suspense");
   const back = `${listHref}/tx/${tx.id}`;
   return (
@@ -43,7 +46,7 @@ export default async function MatchTransaction({ params, searchParams }: { param
       <Card>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <DL items={[["Date", fmtDate(tx.date)], ["Description", tx.description], ["Reference", tx.reference ?? "—"], ["Amount", <span key="a" className={moneyIn ? "font-semibold text-green-700" : "font-semibold text-red-700"}>{moneyIn ? "+" : "−"}{fmtMoney(amt, bank.currency)}</span>]]} />
-          <div className="flex items-center gap-2"><Badge tone={moneyIn ? "green" : "red"}>{moneyIn ? "money in" : "money out"}</Badge>{writable && <form action={excludeTxAction.bind(null, entityId, bank.id, tx.id)}><input type="hidden" name="back" value={`${listHref}?status=unmatched`} /><button className="btn-secondary" type="submit">Exclude (not a business transaction)</button></form>}</div>
+          <div className="flex flex-wrap items-center gap-2"><Badge tone={moneyIn ? "green" : "red"}>{moneyIn ? "money in" : "money out"}</Badge>{writable && <Link href={recordHref} className="btn-primary" title={moneyIn ? "Capital contribution, loan received, interest income… (not a customer payment)" : "Bank charges, loan repayment, tax payment… (not a bill)"}>{moneyIn ? "Record as deposit" : "Record as expense"}</Link>}{writable && <form action={excludeTxAction.bind(null, entityId, bank.id, tx.id)}><input type="hidden" name="back" value={`${listHref}?status=unmatched`} /><button className="btn-secondary" type="submit">Exclude (not a business transaction)</button></form>}</div>
         </div>
       </Card>
       {!writable && <Notice tone="amber">You can view suggestions but need the accountant or admin role to post.</Notice>}
@@ -71,8 +74,8 @@ export default async function MatchTransaction({ params, searchParams }: { param
                           {writable && (
                             <form action={matchAction.bind(null, entityId, bank.id, tx.id)} className="flex flex-wrap items-center justify-end gap-1">
                               <input type="hidden" name="type" value={moneyIn ? "invoice" : "bill"} /><input type="hidden" name="id" value={d.id} />
-                              <input name="amount" defaultValue={String(defaultAmount)} className="input !w-24 !py-1 text-right text-xs" title={`Amount in ${d.ccy}`} />
-                              {d.ccy !== "IDR" && bank.currency !== "IDR" && <input name="fxRate" defaultValue={String(d.fxRate)} className="input !w-20 !py-1 text-right text-xs" title="IDR per unit" />}
+                              <span className="inline-block w-28" title={`Amount in ${d.ccy}`}><MoneyInput name="amount" defaultValue={defaultAmount} currency={d.ccy} className="input !py-1 text-xs" aria-label={`Amount in ${d.ccy}`} /></span>
+                              {d.ccy !== "IDR" && bank.currency !== "IDR" && <span className="inline-block w-24" title="IDR per unit"><MoneyInput name="fxRate" defaultValue={d.fxRate} currency={d.ccy} className="input !py-1 text-xs" aria-label="IDR per unit" /></span>}
                               <button className="btn-primary !px-2 !py-1 text-xs" type="submit">Match</button>
                             </form>
                           )}
@@ -90,11 +93,12 @@ export default async function MatchTransaction({ params, searchParams }: { param
           {writable && (
             <Card title="Create a journal from this line">
               <form action={postBankTxAction.bind(null, entityId, bank.id, tx.id)} className="space-y-3">
-                <Field label="Counter account" hint={moneyIn ? "e.g. interest income, shareholder loan, customer deposit, capital" : "e.g. bank charges, rent, salaries, PPh payment, owner drawings"}><Select name="counterAccountId" defaultValue={defaultCounter?.id} options={counterOptions} required /></Field>
+                <Field label="Counter account" hint={moneyIn ? "e.g. interest income, shareholder loan, customer deposit, capital" : "e.g. bank charges, rent, salaries, PPh payment, owner drawings"}><AccountPicker name="counterAccountId" defaultValue={defaultCounter?.id} accounts={counterAccounts} required /></Field>
+                <p className="-mt-1 text-xs text-ink-500">Prefer <Link href={recordHref} className="underline">{moneyIn ? "Record as deposit" : "Record as expense"}</Link> to split the line over several accounts, name the {moneyIn ? "payer" : "payee"} and attach a document.</p>
                 <Field label="Memo"><input name="description" defaultValue={tx.description.slice(0, 120)} className="input" /></Field>
                 <div className="grid grid-cols-2 gap-3">
                   <Field label="Counterparty (optional)"><input name="counterpartyName" className="input" /></Field>
-                  {bank.currency !== "IDR" && <Field label={`FX rate (IDR per 1 ${bank.currency})`}><input name="fxRate" inputMode="decimal" className="input" required /></Field>}
+                  {bank.currency !== "IDR" && <Field label={`FX rate (IDR per 1 ${bank.currency})`}><MoneyInput name="fxRate" currency={bank.currency} required placeholder="e.g. 16500" /></Field>}
                 </div>
                 <SubmitButton pendingText="Posting…">{moneyIn ? "Post Dr bank / Cr counter" : "Post Dr counter / Cr bank"}</SubmitButton>
               </form>
