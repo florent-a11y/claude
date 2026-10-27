@@ -11,6 +11,8 @@ import { MoneyInput } from "@/components/MoneyInput";
 import { addVatTransaction, deleteVatTransaction } from "../../actions";
 import type { PpnRow } from "@/lib/tax/ppn";
 
+import { parseMoney } from "@/lib/money";
+
 export const dynamic = "force-dynamic";
 
 export default async function PpnPage({ params, searchParams }: { params: Promise<{ entityId: string }>; searchParams: Promise<Record<string, string | undefined>> }) {
@@ -20,7 +22,7 @@ export default async function PpnPage({ params, searchParams }: { params: Promis
   const entity = await db.get("entities", entityId);
   if (!entity) notFound();
   const period = sp.period && /^\d{4}-\d{2}$/.test(sp.period) ? sp.period : todayISO().slice(0, 7);
-  const carry = Number(sp.carry ?? 0) || 0;
+  const carry = Math.max(0, Math.floor(parseMoney(sp.carry ?? "") || 0));
   const { rows, summary } = await ppnRegisterForEntity(entityId, period, carry);
   const canWrite = can(user, "tax:write");
   const dueDate = lastDayOfMonth(nextPeriod(period));

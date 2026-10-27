@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { cleanRaw, formatRaw } from "../components/MoneyInput";
+import { cleanRaw, formatRaw, rawToSubmit } from "../components/MoneyInput";
 import { accountMatches, type AccountOption } from "../components/AccountPicker";
 
 test("cleanRaw: typing digits keeps only digits for IDR (no decimals)", () => {
@@ -8,7 +8,7 @@ test("cleanRaw: typing digits keeps only digits for IDR (no decimals)", () => {
   assert.equal(cleanRaw("1500000", 0), "1500000");
   assert.equal(cleanRaw("1,500,000", 0), "1500000"); // the box re-feeds its own formatted value
   assert.equal(cleanRaw("15abc00", 0), "1500");
-  assert.equal(cleanRaw("1500.75", 0), "1500"); // IDR takes no decimals
+  assert.equal(cleanRaw("1500.75", 0), "1500."); // IDR takes no decimals: the dot stays, the digits after it are refused
   assert.equal(cleanRaw("", 0), "");
   assert.equal(cleanRaw("abc", 0), "");
 });
@@ -107,4 +107,19 @@ test("accountMatches: name words in any order, case-insensitive", () => {
 test("accountMatches: words may mix code and name, extra spaces are ignored", () => {
   assert.deepEqual(find("1-11 usd"), ["a2"]);
   assert.deepEqual(find("  bank   idr  "), ["a1"]);
+});
+
+
+test("cleanRaw: Indonesian thousands dots and pasted formatted values for IDR", () => {
+  assert.equal(cleanRaw("8.500.000", 0), "8500000");
+  assert.equal(cleanRaw("Rp 8.750.500", 0), "8750500");
+  assert.equal(cleanRaw("8.500", 0), "8500");
+  assert.equal(cleanRaw("8,500,000", 0), "8500000");
+  assert.equal(cleanRaw("8750500.75", 0), "8750500."); // decimals refused, dot kept until blur
+  assert.equal(cleanRaw("8.", 0), "8."); // the dot stays while typing so the next digit is not appended
+  assert.equal(rawToSubmit("8750500."), "8750500");
+  assert.equal(rawToSubmit("-"), "");
+  assert.equal(rawToSubmit("1234.5"), "1234.5");
+  assert.equal(cleanRaw("1.234,56", 2), "1234.56"); // European decimal comma
+  assert.equal(cleanRaw("1,234.56", 2), "1234.56");
 });

@@ -22,16 +22,34 @@ function decimalsFor(currency: string | undefined): number {
 
 /** Keeps digits, one decimal dot and an optional leading minus; drops everything else (letters, stray commas). */
 export function cleanRaw(input: string, decimals: number, allowNegative = false): string {
-  let s = input.replace(/,/g, "");
-  const neg = allowNegative && s.trim().startsWith("-");
-  s = s.replace(/[^0-9.]/g, "");
-  const dot = s.indexOf(".");
-  if (dot >= 0) s = s.slice(0, dot + 1) + s.slice(dot + 1).replace(/\./g, "");
-  if (decimals === 0) s = s.replace(/\..*$/, "");
-  else if (dot >= 0) s = s.slice(0, dot + 1 + decimals);
+  let s = input.trim();
+  const neg = allowNegative && s.startsWith("-");
+  s = s.replace(/[^0-9.,]/g, "");
+  const lastDot = s.lastIndexOf("."), lastComma = s.lastIndexOf(",");
+  if (decimals === 0) {
+    // No decimals in this currency: dots and commas are both thousands separators ("8.500.000", "8,500,000"),
+    // except a single dot not followed by exactly three digits, which starts a decimal part. That part is refused:
+    // the dot stays visible while typing so the next digits are not appended to the rupiah, and it is dropped on submit.
+    const dots = (s.match(/\./g) ?? []).length;
+    const tail = lastDot >= 0 ? s.slice(lastDot + 1).replace(/,/g, "") : "";
+    if (dots === 1 && tail.length !== 3) s = s.slice(0, lastDot).replace(/[.,]/g, "") + ".";
+    else s = s.replace(/[.,]/g, "");
+  } else {
+    // Decimal currency: the en-US convention (dot = decimal mark) unless a comma comes after the last dot ("1.234,56").
+    if (lastComma > lastDot) s = s.replace(/\./g, "").replace(",", ".");
+    s = s.replace(/,/g, "");
+    const dot = s.indexOf(".");
+    if (dot >= 0) s = s.slice(0, dot + 1) + s.slice(dot + 1).replace(/\./g, "").slice(0, decimals);
+  }
   s = s.replace(/^0+(?=\d)/, "");
   // A lone minus is kept so a negative amount can be typed sign first; MoneyInput submits it as empty.
   return (neg ? "-" : "") + s;
+}
+
+/** The number a raw string stands for: a lone minus, an empty string or a trailing dot count as nothing. */
+export function rawToSubmit(raw: string): string {
+  const r = raw.replace(/\.$/, "");
+  return r === "" || r === "-" ? "" : r;
 }
 
 /** "1234567.8" → "1,234,567.8"; keeps a trailing dot while the user is typing the decimals. */
@@ -85,7 +103,7 @@ export function MoneyField({ value, onChange, currency, allowNegative = false, c
       autoFocus={autoFocus}
       aria-label={rest["aria-label"]}
       value={formatRaw(value)}
-      onBlur={onBlur}
+      onBlur={() => { if (value.endsWith(".")) onChange(value.slice(0, -1)); onBlur?.(); }}
       onChange={(e) => {
         const el = e.target;
         const before = el.value.slice(0, el.selectionStart ?? el.value.length).replace(/[^0-9.\-]/g, "").length;
@@ -131,8 +149,8 @@ export function MoneyInput({ name, defaultValue, onValueChange, currency, curren
   useEffect(() => { if (known) setRaw((r) => cleanRaw(r, decimals, props.allowNegative)); }, [known, decimals, props.allowNegative]);
   return (
     <>
-      <MoneyField {...props} id={props.id ?? uid} currency={effective} value={raw} onChange={(r) => { setRaw(r); onValueChange?.(r === "" || r === "-" ? 0 : Number(r)); }} />
-      <input ref={hiddenRef} type="hidden" name={name} value={raw === "-" ? "" : raw} />
+      <MoneyField {...props} id={props.id ?? uid} currency={effective} value={raw} onChange={(r) => { setRaw(r); onValueChange?.(rawToSubmit(r) === "" ? 0 : Number(rawToSubmit(r))); }} />
+      <input ref={hiddenRef} type="hidden" name={name} value={rawToSubmit(raw)} />
     </>
   );
 }
