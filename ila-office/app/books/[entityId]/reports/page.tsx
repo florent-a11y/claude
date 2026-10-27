@@ -28,7 +28,7 @@ export default async function Reports({ params }: { params: Params }) {
         {items.map((i) => <Link key={i.href} href={i.href} className="card block hover:border-brand-500"><p className="font-semibold text-brand-700">{i.title}</p><p className="mt-1 text-sm text-ink-500">{i.text}</p></Link>)}
       </div>
       <Card title="Exports" className="mt-4">
-        <p className="text-sm text-ink-500">Every report has a CSV export; the chart of accounts and the journal can also be exported: <Link className="text-brand-600 underline" href={`/api/books/${entityId}/reports/accounts`}>accounts.csv</Link> · <Link className="text-brand-600 underline" href={`/api/books/${entityId}/reports/journal?from=${fy}&to=${today}`}>journal.csv</Link></p>
+        <p className="text-sm text-ink-500">Every report exports to CSV and Excel, and the statements (profit &amp; loss, balance sheet, trial balance, general ledger) also to PDF. The chart of accounts and the journal can be exported too: <Link className="text-brand-600 underline" href={`/api/books/${entityId}/reports/accounts`}>accounts.csv</Link> · <Link className="text-brand-600 underline" href={`/api/books/${entityId}/reports/accounts?format=xlsx`}>accounts.xlsx</Link> · <Link className="text-brand-600 underline" href={`/api/books/${entityId}/reports/journal?from=${fy}&to=${today}`}>journal.csv</Link> · <Link className="text-brand-600 underline" href={`/api/books/${entityId}/reports/journal?from=${fy}&to=${today}&format=xlsx`}>journal.xlsx</Link></p>
       </Card>
     </div>
   );
