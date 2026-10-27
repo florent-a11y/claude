@@ -1,6 +1,7 @@
 import { SERVICE_CATEGORIES, SERVICE_CATEGORY_LABELS, type ServiceItem } from "@/lib/types";
 import { Field, Select } from "@/components/ui";
 import { SubmitButton } from "@/components/client";
+import { MoneyInput } from "@/components/MoneyInput";
 
 export const CADENCES = [{ value: "none", label: "One-off" }, { value: "monthly", label: "Monthly" }, { value: "quarterly", label: "Quarterly" }, { value: "annual", label: "Annual" }, { value: "biennial", label: "Every 2 years" }];
 export const CADENCE_LABELS: Record<string, string> = Object.fromEntries(CADENCES.map((c) => [c.value, c.label]));
@@ -14,7 +15,7 @@ export function ServiceForm({ service, action }: { service?: ServiceItem; action
         <h2 className="text-sm font-semibold text-ink-700">Service</h2>
         <div className="grid gap-3 sm:grid-cols-[10rem_1fr]">
           <Field label="Code" hint={s ? "Codes are fixed once created." : "Upper-case letters, digits and dashes."}>
-            {s ? <input value={s.code} readOnly className="input bg-slate-50 font-mono text-ink-500" /> : <input name="code" required className="input font-mono uppercase" placeholder="VISA-NEW" pattern="[A-Za-z0-9-]{2,30}" />}
+            {s ? <input value={s.code} readOnly className="input bg-slate-50 font-mono text-ink-500" /> : <input name="code" required className="input font-mono uppercase" placeholder="VISA-NEW" pattern="[A-Za-z0-9\-]{2,30}" />}
           </Field>
           <Field label="Category"><Select name="category" defaultValue={s?.category ?? "visa"} options={SERVICE_CATEGORIES.map((c) => ({ value: c, label: SERVICE_CATEGORY_LABELS[c] }))} /></Field>
         </div>
@@ -26,10 +27,10 @@ export function ServiceForm({ service, action }: { service?: ServiceItem; action
         <h2 className="text-sm font-semibold text-ink-700">Pricing & billing</h2>
         <Field label="Unit"><input name="unit" defaultValue={s?.unit ?? "each"} list="units" className="input" /></Field>
         <datalist id="units">{UNITS.map((u) => <option key={u} value={u} />)}</datalist>
-        <Field label="List price (IDR)"><input name="priceIDR" type="number" min={0} step={1} defaultValue={s?.priceIDR ?? 0} required className="input num" /></Field>
+        <Field label="List price (IDR)"><MoneyInput name="priceIDR" defaultValue={s?.priceIDR ?? 0} currency="IDR" required /></Field>
         <div className="grid grid-cols-2 gap-3">
-          <Field label="Quoted in USD"><input name="priceUSD" type="number" min={0} step="0.01" defaultValue={s?.priceUSD ?? ""} className="input num" /></Field>
-          <Field label="Quoted in EUR"><input name="priceEUR" type="number" min={0} step="0.01" defaultValue={s?.priceEUR ?? ""} className="input num" /></Field>
+          <Field label="Quoted in USD"><MoneyInput name="priceUSD" defaultValue={s?.priceUSD ?? ""} currency="USD" placeholder="" /></Field>
+          <Field label="Quoted in EUR"><MoneyInput name="priceEUR" defaultValue={s?.priceEUR ?? ""} currency="EUR" placeholder="" /></Field>
         </div>
         <div className="grid grid-cols-2 gap-3">
           <Field label="Billing"><Select name="cadence" defaultValue={s?.cadence ?? "none"} options={CADENCES} /></Field>

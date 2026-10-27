@@ -7,7 +7,9 @@ import { todayISO, fmtDate } from "@/lib/dates";
 import { currencyOptions, fmtMoney } from "@/lib/money";
 import { Card, Field, Select, Money, EmptyState, Badge, Cols, Dash, TableCard } from "@/components/ui";
 import { SubmitButton } from "@/components/client";
-import { ErrorNotice, accountOptions, base, first, requireEntity, type Params, type Search } from "../shared";
+import { AccountPicker } from "@/components/AccountPicker";
+import { MoneyInput } from "@/components/MoneyInput";
+import { ErrorNotice, base, first, requireEntity, type Params, type Search } from "../shared";
 import { createBankAccountAction, transferAction } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -21,7 +23,11 @@ export default async function Bank({ params, searchParams }: { params: Params; s
   const bal = accountBalances(entries);
   const writable = can(user, "books:write");
   const b = base(entityId);
-  const glOptions = accountOptions(accounts, (a) => (a.subtype === "bank" || a.subtype === "cash") && !banks.some((x) => x.accountId === a.id));
+  // Unused bank/cash GL accounts, plus a pseudo entry the action understands as "create a new GL account".
+  const glOptions = [
+    ...accounts.filter((a) => a.active && (a.subtype === "bank" || a.subtype === "cash") && !banks.some((x) => x.accountId === a.id)).map((a) => ({ id: a.id, code: a.code, name: a.name })),
+    { id: "__new__", code: "NEW", name: "+ Create a new GL account" },
+  ];
   const rows = banks.map((bk) => {
     const gl = accounts.find((a) => a.id === bk.accountId);
     const mine = txs.filter((t) => t.bankAccountId === bk.id);
@@ -68,11 +74,11 @@ export default async function Bank({ params, searchParams }: { params: Params; s
                 <Field label="From"><Select name="fromBankAccountId" options={banks.filter((x) => x.active).map((x) => ({ value: x.id, label: `${x.name} (${x.currency})` }))} /></Field>
                 <Field label="To"><Select name="toBankAccountId" defaultValue={banks.filter((x) => x.active)[1]?.id} options={banks.filter((x) => x.active).map((x) => ({ value: x.id, label: `${x.name} (${x.currency})` }))} /></Field>
                 <Field label="Date"><input name="date" type="date" defaultValue={todayISO()} className="input" required /></Field>
-                <Field label="Amount sent"><input name="amount" inputMode="decimal" className="input text-right" required /></Field>
+                <Field label="Amount sent"><MoneyInput name="amount" currencyField="currency" required /></Field>
                 <Field label="Currency of amount"><Select name="currency" defaultValue="IDR" options={currencyOptions()} /></Field>
                 <Field label="FX rate (IDR per unit, non-IDR)"><input name="fxRate" inputMode="decimal" className="input" placeholder="1" /></Field>
-                <Field label="IDR received (optional, cross-currency)" hint="Leave blank when both sides are the same currency."><input name="toAmountIDR" inputMode="decimal" className="input text-right" /></Field>
-                <Field label="Bank fee (IDR)"><input name="feeIDR" inputMode="decimal" className="input text-right" placeholder="0" /></Field>
+                <Field label="IDR received (optional, cross-currency)" hint="Leave blank when both sides are the same currency."><MoneyInput name="toAmountIDR" currency="IDR" placeholder="" /></Field>
+                <Field label="Bank fee (IDR)"><MoneyInput name="feeIDR" currency="IDR" /></Field>
                 <Field label="Reference"><input name="reference" className="input" /></Field>
                 <div className="md:col-span-3"><SubmitButton>Post transfer</SubmitButton></div>
               </form>
@@ -88,8 +94,9 @@ export default async function Bank({ params, searchParams }: { params: Params; s
                 <Field label="Account number"><input name="accountNumber" className="input" /></Field>
                 <Field label="Currency"><Select name="currency" defaultValue="IDR" options={currencyOptions()} /></Field>
                 <Field label="Opening date"><input name="openingDate" type="date" className="input" /></Field>
+                <Field label="Opening balance" hint="Statement balance at the opening date." className="col-span-2"><MoneyInput name="openingBalance" currencyField="currency" allowNegative placeholder="" /></Field>
               </div>
-              <Field label="GL account" hint="Pick an unused bank/cash account or create one."><Select name="accountId" defaultValue={glOptions[0]?.value ?? "__new__"} options={[...glOptions, { value: "__new__", label: "+ Create a new GL account" }]} /></Field>
+              <Field label="GL account" hint="Type to search an unused bank/cash account, or choose “Create a new GL account”."><AccountPicker name="accountId" accounts={glOptions} defaultValue={glOptions[0].id} required /></Field>
               <div className="grid grid-cols-2 gap-3">
                 <Field label="New GL code" hint="Only when creating a new GL account."><input name="newCode" className="input" placeholder="1-1120" pattern="\d-\d{4}" /></Field>
                 <Field label="New GL subtype"><Select name="newSubtype" defaultValue="bank" options={["bank", "cash"]} /></Field>

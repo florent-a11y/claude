@@ -1,11 +1,12 @@
 "use client";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 /**
  * Amount fields with live thousands separators ("1000000" shows as 1,000,000 while typing). Two flavours:
  *
  * - <MoneyInput name="amount" defaultValue={…} currency="IDR" />: for plain forms. The visible box is formatted;
  *   a hidden input carries the raw number under `name`, so server actions keep using `num(fd, "amount")`.
+ *   When the form has a currency <select>, `currencyField="currency"` follows its choice for the decimals.
  * - <MoneyField value={raw} onChange={(raw) => …} />: for client-side line editors that keep amounts in React state
  *   as strings. `raw` is the unformatted digits ("1000000.5"), ready for Number().
  *
@@ -13,8 +14,10 @@ import { useEffect, useId, useState } from "react";
  * two. A leading minus is accepted when `allowNegative` is set.
  */
 
+const MAX_DECIMALS = 2;
+
 function decimalsFor(currency: string | undefined): number {
-  return !currency || currency === "IDR" ? 0 : 2;
+  return !currency || currency === "IDR" ? 0 : MAX_DECIMALS;
 }
 
 /** Keeps digits, one decimal dot and an optional leading minus; drops everything else (letters, stray commas). */
@@ -27,7 +30,8 @@ export function cleanRaw(input: string, decimals: number, allowNegative = false)
   if (decimals === 0) s = s.replace(/\..*$/, "");
   else if (dot >= 0) s = s.slice(0, dot + 1 + decimals);
   s = s.replace(/^0+(?=\d)/, "");
-  return (neg && s ? "-" : "") + s;
+  // A lone minus is kept so a negative amount can be typed sign first; MoneyInput submits it as empty.
+  return (neg ? "-" : "") + s;
 }
 
 /** "1234567.8" → "1,234,567.8"; keeps a trailing dot while the user is typing the decimals. */
@@ -36,7 +40,7 @@ export function formatRaw(raw: string): string {
   const neg = raw.startsWith("-");
   const body = neg ? raw.slice(1) : raw;
   const [int, dec] = body.split(".");
-  const grouped = (int || "0").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const grouped = int ? int.replace(/\B(?=(\d{3})+(?!\d))/g, ",") : dec !== undefined ? "0" : "";
   return `${neg ? "-" : ""}${grouped}${dec !== undefined ? `.${dec}` : ""}`;
 }
 
@@ -100,19 +104,35 @@ export interface MoneyInputProps extends Omit<MoneyFieldProps, "value" | "onChan
   defaultValue?: number | string | null;
   /** Called with the numeric value whenever it changes (optional, for dependent fields such as FX totals). */
   onValueChange?: (value: number) => void;
+  /** Plain forms: `name` of a currency <select> (or input) in the same form; its current choice sets the decimals. */
+  currencyField?: string;
 }
 
-export function MoneyInput({ name, defaultValue, onValueChange, currency, ...props }: MoneyInputProps) {
-  const decimals = decimalsFor(currency);
-  const initial = defaultValue === undefined || defaultValue === null || defaultValue === "" ? "" : cleanRaw(String(defaultValue), decimals, props.allowNegative);
+export function MoneyInput({ name, defaultValue, onValueChange, currency, currencyField, ...props }: MoneyInputProps) {
+  const hiddenRef = useRef<HTMLInputElement>(null);
+  const [formCurrency, setFormCurrency] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    if (!currencyField) return;
+    const el = hiddenRef.current?.form?.elements.namedItem(currencyField);
+    if (!(el instanceof HTMLSelectElement) && !(el instanceof HTMLInputElement)) return;
+    const sync = () => setFormCurrency(el.value.toUpperCase());
+    sync();
+    el.addEventListener("change", sync);
+    return () => el.removeEventListener("change", sync);
+  }, [currencyField]);
+  const known = !currencyField || formCurrency !== undefined;
+  const effective = currencyField ? formCurrency ?? currency : currency;
+  const decimals = decimalsFor(effective);
+  // Until the form's currency has been read, keep any decimals of the default value rather than truncating them.
+  const initial = defaultValue === undefined || defaultValue === null || defaultValue === "" ? "" : cleanRaw(String(defaultValue), known ? decimals : MAX_DECIMALS, props.allowNegative);
   const [raw, setRaw] = useState(initial);
   const uid = useId();
   // Re-sync if the surrounding form changes currency (decimals) after mount.
-  useEffect(() => { setRaw((r) => cleanRaw(r, decimals, props.allowNegative)); }, [decimals, props.allowNegative]);
+  useEffect(() => { if (known) setRaw((r) => cleanRaw(r, decimals, props.allowNegative)); }, [known, decimals, props.allowNegative]);
   return (
     <>
-      <MoneyField {...props} id={props.id ?? uid} currency={currency} value={raw} onChange={(r) => { setRaw(r); onValueChange?.(r === "" || r === "-" ? 0 : Number(r)); }} />
-      <input type="hidden" name={name} value={raw === "-" ? "" : raw} />
+      <MoneyField {...props} id={props.id ?? uid} currency={effective} value={raw} onChange={(r) => { setRaw(r); onValueChange?.(r === "" || r === "-" ? 0 : Number(r)); }} />
+      <input ref={hiddenRef} type="hidden" name={name} value={raw === "-" ? "" : raw} />
     </>
   );
 }

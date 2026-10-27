@@ -8,6 +8,7 @@ import { PTKP_TABLE, TER_CATEGORY, TER_TABLES, BIAYA_JABATAN_MAX_ANNUAL } from "
 import { pph21Annual, pph21Monthly } from "@/lib/tax/pph21";
 import { payrollRunsOfYear } from "@/lib/tax/services";
 import { Card, Cols, Dash, Field, Select, Money, DL, Chips, Notice, EmptyState, TableCard } from "@/components/ui";
+import { MoneyInput } from "@/components/MoneyInput";
 
 export const dynamic = "force-dynamic";
 
@@ -43,7 +44,7 @@ export default async function Pph21Page({ params, searchParams }: { params: Prom
       <div className="grid gap-4 lg:grid-cols-3">
         <Card title="PPh 21 calculator (TER, PP 58/2023)">
           <form method="get" className="space-y-3">
-            <Field label="Monthly gross" hint="Salary + taxable allowances + employer BPJS Kesehatan / JKK / JKM."><input name="gross" type="number" min={0} step={1000} defaultValue={gross} className="input" /></Field>
+            <Field label="Monthly gross" hint="Salary + taxable allowances + employer BPJS Kesehatan / JKK / JKM."><MoneyInput name="gross" defaultValue={gross} currency="IDR" /></Field>
             <div className="grid grid-cols-2 gap-3">
               <Field label="PTKP status"><Select name="ptkp" defaultValue={ptkp} options={PTKP_STATUSES.map((s) => ({ value: s, label: `${s} · ${PTKP_TABLE[s].toLocaleString("en-US")}` }))} /></Field>
               <Field label="NPWP"><Select name="npwp" defaultValue={hasNpwp ? "yes" : "no"} options={[{ value: "yes", label: "Has NPWP" }, { value: "no", label: "No NPWP (+20%)" }]} /></Field>

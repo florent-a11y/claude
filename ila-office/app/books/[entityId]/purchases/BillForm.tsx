@@ -6,6 +6,8 @@ import { currencyOptions, fmtNumber } from "@/lib/money";
 import { billTotals, WITHHOLDING_LABELS, WITHHOLDING_TYPES, defaultWithholdingRate } from "@/lib/ledger";
 import { SubmitButton } from "@/components/client";
 import { Cols, TableCard } from "@/components/ui";
+import { AccountPicker } from "@/components/AccountPicker";
+import { MoneyField } from "@/components/MoneyInput";
 import type { Bill, TaxCode, WithholdingType } from "@/lib/types";
 
 export interface VendorOpt { key: string; type: "vendor" | "company" | "contact"; id: string; name: string; npwp?: string; country?: string }
@@ -36,7 +38,6 @@ export function BillForm({ action, entity, vendors, accounts, defaultAccountId, 
   const update = (key: number, patch: Partial<Line>) => setLines((ls) => ls.map((l) => (l.key === key ? { ...l, ...patch } : l)));
   const dec = currency === "IDR" ? 0 : 2;
   const fmt = (x: number) => fmtNumber(x, dec);
-  const grouped = useMemo(() => ["expense", "asset", "liability", "equity", "revenue"].map((t) => ({ t, items: accounts.filter((a) => a.type === t) })).filter((g) => g.items.length), [accounts]);
   const valid = vendor.name.trim().length > 0 && lines.some((l) => l.description && n(l.amount) > 0) && (currency === "IDR" || n(fxRate) > 0);
   const payload = JSON.stringify(lines.filter((l) => l.description.trim()).map((l) => ({ description: l.description, amount: n(l.amount), accountId: l.accountId, taxCode: l.taxCode, withholding: l.withholding, withholdingRate: l.withholding === "none" ? undefined : l.withholdingRate === "" ? undefined : n(l.withholdingRate) / 100 })));
   return (
@@ -79,8 +80,8 @@ export function BillForm({ action, entity, vendors, accounts, defaultAccountId, 
             {lines.map((l, i) => (
               <tr key={l.key}>
                 <td><input value={l.description} onChange={(e) => update(l.key, { description: e.target.value })} className="input !py-1" placeholder="What was purchased" /></td>
-                <td><input value={l.amount} onChange={(e) => update(l.key, { amount: e.target.value })} className="input !py-1 text-right" inputMode="decimal" placeholder="0" /></td>
-                <td><select value={l.accountId} onChange={(e) => update(l.key, { accountId: e.target.value })} className="input !py-1">{grouped.map((g) => <optgroup key={g.t} label={g.t}>{g.items.map((a) => <option key={a.id} value={a.id}>{a.code} · {a.name}</option>)}</optgroup>)}</select></td>
+                <td><MoneyField value={l.amount} onChange={(raw) => update(l.key, { amount: raw })} currency={currency} className="input !py-1" aria-label="Amount (DPP)" /></td>
+                <td><AccountPicker accounts={accounts} value={l.accountId} onChange={(id) => update(l.key, { accountId: id })} className="input !py-1" aria-label="Account" /></td>
                 <td><select value={l.taxCode} onChange={(e) => update(l.key, { taxCode: e.target.value as TaxCode })} className="input !py-1">{TAX_CODES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}</select></td>
                 <td><select value={l.withholding} onChange={(e) => { const w = e.target.value as WithholdingType; update(l.key, { withholding: w, withholdingRate: w === "none" ? "" : String(defaultWithholdingRate(w) * 100) }); }} className="input !py-1">{WITHHOLDING_TYPES.map((w) => <option key={w} value={w}>{WITHHOLDING_LABELS[w]}</option>)}</select></td>
                 <td><input value={l.withholdingRate} onChange={(e) => update(l.key, { withholdingRate: e.target.value })} disabled={l.withholding === "none"} className="input !py-1 text-right" inputMode="decimal" /></td>

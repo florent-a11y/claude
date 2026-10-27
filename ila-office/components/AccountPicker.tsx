@@ -70,6 +70,14 @@ export function AccountPicker({ accounts, value, onChange, name, defaultValue, p
     setOpen(false);
   }
 
+  /** Opens the full list with the current selection highlighted, so Enter or the arrows start from it instead of the first row. */
+  function openList() {
+    setQuery("");
+    setOpen(true);
+    const i = selectedId ? flat.findIndex((a) => a.id === selectedId) : -1;
+    setActive(i >= 0 ? i : 0);
+  }
+
   function place() {
     const el = inputRef.current;
     if (!el) return;
@@ -95,10 +103,10 @@ export function AccountPicker({ accounts, value, onChange, name, defaultValue, p
   }, [open]);
   useEffect(() => { setActive(0); }, [query]);
   useEffect(() => {
-    if (!open) return;
+    if (!open || !rect) return;
     const el = listRef.current?.querySelector<HTMLElement>(`[data-index="${active}"]`);
     el?.scrollIntoView({ block: "nearest" });
-  }, [active, open]);
+  }, [active, open, rect]);
 
   const shown = open ? query : selected ? label(selected) : "";
 
@@ -114,16 +122,16 @@ export function AccountPicker({ accounts, value, onChange, name, defaultValue, p
         aria-autocomplete="list"
         aria-label={rest["aria-label"]}
         autoComplete="off"
-        className={`${className} ${selected && !open ? "" : ""}`}
+        className={className}
         placeholder={selected ? label(selected) : placeholder}
         value={shown}
         disabled={disabled}
         required={required && !selectedId}
-        onFocus={() => { setOpen(true); setQuery(""); }}
-        onClick={() => { if (!open) { setOpen(true); setQuery(""); } }}
+        onFocus={() => { if (!open) openList(); }}
+        onClick={() => { if (!open) openList(); }}
         onChange={(e) => { setQuery(e.target.value); if (!open) setOpen(true); }}
         onKeyDown={(e) => {
-          if (e.key === "ArrowDown") { e.preventDefault(); if (!open) setOpen(true); else setActive((i) => Math.min(flat.length - 1, i + 1)); }
+          if (e.key === "ArrowDown") { e.preventDefault(); if (!open) openList(); else setActive((i) => Math.min(flat.length - 1, i + 1)); }
           else if (e.key === "ArrowUp") { e.preventDefault(); setActive((i) => Math.max(0, i - 1)); }
           else if (e.key === "Enter") { if (open && flat[active]) { e.preventDefault(); choose(flat[active]); } }
           else if (e.key === "Escape") { if (open) { e.preventDefault(); setOpen(false); setQuery(""); } }
