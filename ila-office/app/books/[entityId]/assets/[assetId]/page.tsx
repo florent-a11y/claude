@@ -8,6 +8,8 @@ import { fmtDate, todayISO, periodLabel } from "@/lib/dates";
 import { fmtMoney } from "@/lib/money";
 import { Card, Badge, statusTone, DL, Field, Select, CardTable, Cols, Dash } from "@/components/ui";
 import { SubmitButton } from "@/components/client";
+import { Attachments } from "@/components/Attachments";
+import { MoneyInput } from "@/components/MoneyInput";
 import { ErrorNotice, base, first, requireEntity, type Search } from "../../shared";
 import { disposeAssetAction } from "../actions";
 
@@ -25,6 +27,7 @@ export default async function AssetPage({ params, searchParams }: { params: Prom
   const schedule = depreciationSchedule(asset, { fiscalYearStartMonth: entity.fiscalYearStartMonth });
   const writable = can(user, "books:write");
   const b = base(entityId);
+  const here = `${b}/assets/${asset.id}`;
   return (
     <div className="space-y-4 pb-8">
       <ErrorNotice error={first(sp.error)} ok={first(sp.ok)} />
@@ -32,30 +35,33 @@ export default async function AssetPage({ params, searchParams }: { params: Prom
         <div><p className="text-xs text-ink-500"><Link href={`${b}/assets`} className="hover:underline">Assets</Link> / {asset.name}</p><h2 className="text-xl font-bold">{asset.name} <Badge tone={statusTone(asset.status === "fully_depreciated" ? "done" : asset.status === "disposed" ? "cancelled" : asset.status)}>{asset.status.replace("_", " ")}</Badge></h2></div>
       </div>
       <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
-        <Card title={`Depreciation schedule (${schedule.length} months)`} className="min-w-0">
-          {schedule.length === 0 ? <p className="text-sm text-ink-500">Not depreciated.</p> : (
-            <CardTable>
-              <table className="table table-data min-w-[600px]">
-                <Cols widths={[undefined, 140, 140, 140, 80]} />
-                <thead><tr><th>Period</th><th className="num">Depreciation</th><th className="num">Accumulated</th><th className="num">NBV</th><th>Posted</th></tr></thead>
-                <tbody>
-                  {schedule.map((r) => {
-                    const posted = Boolean(asset.depreciatedThrough && r.period <= asset.depreciatedThrough);
-                    return (
-                      <tr key={r.period} className={posted ? "" : "row-muted"}>
-                        <td className="whitespace-nowrap">{periodLabel(r.period)}</td>
-                        <td className="num"><span className="money">{fmtMoney(r.amount)}</span></td>
-                        <td className="num"><span className="money">{fmtMoney(r.accumulated)}</span></td>
-                        <td className="num"><span className="money">{fmtMoney(r.nbv)}</span></td>
-                        <td className="text-xs">{posted ? "✓" : <Dash />}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </CardTable>
-          )}
-        </Card>
+        <div className="min-w-0 space-y-4">
+          <Card title={`Depreciation schedule (${schedule.length} months)`} className="min-w-0">
+            {schedule.length === 0 ? <p className="text-sm text-ink-500">Not depreciated.</p> : (
+              <CardTable>
+                <table className="table table-data min-w-[600px]">
+                  <Cols widths={[undefined, 140, 140, 140, 80]} />
+                  <thead><tr><th>Period</th><th className="num">Depreciation</th><th className="num">Accumulated</th><th className="num">NBV</th><th>Posted</th></tr></thead>
+                  <tbody>
+                    {schedule.map((r) => {
+                      const posted = Boolean(asset.depreciatedThrough && r.period <= asset.depreciatedThrough);
+                      return (
+                        <tr key={r.period} className={posted ? "" : "row-muted"}>
+                          <td className="whitespace-nowrap">{periodLabel(r.period)}</td>
+                          <td className="num"><span className="money">{fmtMoney(r.amount)}</span></td>
+                          <td className="num"><span className="money">{fmtMoney(r.accumulated)}</span></td>
+                          <td className="num"><span className="money">{fmtMoney(r.nbv)}</span></td>
+                          <td className="text-xs">{posted ? "✓" : <Dash />}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </CardTable>
+            )}
+          </Card>
+          <Attachments entityId={entityId} docType="asset" docId={asset.id} items={asset.attachments ?? []} canWrite={writable} backTo={here} />
+        </div>
         <div className="space-y-4">
           <Card title="Details">
             <DL items={[["Acquired", fmtDate(asset.acquisitionDate)], ["Cost", fmtMoney(asset.cost)], ["Salvage", fmtMoney(asset.salvageValue)], ["Group", FISCAL_ASSET_GROUPS[asset.fiscalGroup].label], ["Method", asset.method.replace("_", " ")], ["Useful life", `${asset.usefulLifeMonths} months`], ["Accumulated", fmtMoney(asset.accumulatedDepreciation)], ["Net book value", <strong key="n">{fmtMoney(netBookValue(asset))}</strong>], ["Depreciated through", asset.depreciatedThrough ?? "—"], ["Asset account", accName(asset.assetAccountId)], ["Accum. account", accName(asset.accumDeprAccountId)], ["Expense account", accName(asset.deprExpenseAccountId)], ["Disposed", asset.disposedAt ? `${fmtDate(asset.disposedAt)} for ${fmtMoney(asset.disposalProceeds ?? 0)}` : "—"]]} />
@@ -65,7 +71,7 @@ export default async function AssetPage({ params, searchParams }: { params: Prom
             <Card title="Dispose / write off">
               <form action={disposeAssetAction.bind(null, entityId, asset.id)} className="space-y-3">
                 <Field label="Disposal date"><input name="date" type="date" defaultValue={todayISO()} required className="input" /></Field>
-                <Field label="Proceeds (IDR)" hint="0 for a write-off."><input name="proceeds" inputMode="numeric" defaultValue="0" className="input text-right" /></Field>
+                <Field label="Proceeds (IDR)" hint="0 for a write-off."><MoneyInput name="proceeds" defaultValue={0} currency="IDR" /></Field>
                 <Field label="Proceeds received in" hint="Leave blank to book to other receivables."><Select name="bankAccountId" defaultValue="" options={[{ value: "", label: "— other receivables —" }, ...banks.map((x) => ({ value: x.id, label: x.name }))]} /></Field>
                 <SubmitButton className="btn-danger" pendingText="Posting…">Dispose</SubmitButton>
                 <p className="text-xs text-ink-500">Run depreciation through the disposal month first. Posts Dr accumulated depreciation / Dr proceeds / Cr asset cost, gain or loss to other income/expenses.</p>

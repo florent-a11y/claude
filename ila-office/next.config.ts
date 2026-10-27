@@ -17,6 +17,8 @@ const nextConfig: NextConfig = {
   /** pdfkit reads its font metrics from disk at runtime; keep it out of the bundle and trace its data files. */
   serverExternalPackages: ["pdfkit", "xlsx", "pdfjs-dist"],
   outputFileTracingIncludes: { "/**": ["./node_modules/pdfkit/js/data/**/*", "./node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs"] },
+  /** Attachment uploads go through server actions (default limit 1 MB): allow a few files per submit. Vercel still caps a request at 4.5 MB. */
+  experimental: { serverActions: { bodySizeLimit: "5mb" } },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
   },

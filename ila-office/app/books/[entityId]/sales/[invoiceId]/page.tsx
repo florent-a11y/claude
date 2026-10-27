@@ -7,6 +7,8 @@ import { fmtDate, todayISO } from "@/lib/dates";
 import { fmtMoney } from "@/lib/money";
 import { Card, Badge, statusTone, DL, Field, Select, Money, CardTable, Cols, Dash, TableCard } from "@/components/ui";
 import { ConfirmForm, SubmitButton } from "@/components/client";
+import { Attachments } from "@/components/Attachments";
+import { MoneyInput } from "@/components/MoneyInput";
 import { ErrorNotice, base, first, requireEntity, type Search } from "../../shared";
 import { postInvoiceAction, receiptAction, voidInvoiceAction, voidPaymentAction } from "../actions";
 import { SendPanel } from "./SendPanel";
@@ -115,6 +117,7 @@ export default async function InvoicePage({ params, searchParams }: { params: Pr
               </CardTable>
             )}
           </Card>
+          <Attachments entityId={entityId} docType="invoice" docId={invoice.id} items={invoice.attachments ?? []} canWrite={writable} backTo={here} />
         </div>
         <div className="space-y-4">
           <SendPanel entity={entity} invoice={invoice} to={to} greetingName={greetingName} paymentInstructions={paymentInstructions} writable={writable} />
@@ -128,7 +131,7 @@ export default async function InvoicePage({ params, searchParams }: { params: Pr
                   <Field label="Bank account"><Select name="bankAccountId" options={bankOpts} required /></Field>
                   <div className="grid grid-cols-2 gap-3">
                     <Field label="Date"><input name="date" type="date" defaultValue={today} required className="input" /></Field>
-                    <Field label={`Amount (${ccy})`}><input name="amount" defaultValue={String(outstanding)} inputMode="decimal" required className="input text-right" /></Field>
+                    <Field label={`Amount (${ccy})`}><MoneyInput name="amount" defaultValue={outstanding} currency={ccy} required /></Field>
                   </div>
                   {ccy !== "IDR" && <Field label={`Rate on receipt (IDR per 1 ${ccy})`} hint="Difference with the invoice rate posts to FX gain/loss."><input name="fxRate" defaultValue={String(invoice.fxRate)} inputMode="decimal" className="input" /></Field>}
                   <Field label="Reference"><input name="reference" className="input" placeholder="Bank reference / remittance" /></Field>
