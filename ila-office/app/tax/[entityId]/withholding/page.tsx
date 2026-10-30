@@ -36,7 +36,7 @@ export default async function WithholdingList({ params, searchParams }: { params
           <Link href={`/tax/${entityId}/withholding?period=${nextPeriod(period)}`} className="btn-secondary !px-3">›</Link>
         </div>
         <div className="flex flex-wrap gap-2">
-          <a href={`/tax/${entityId}/withholding/export?period=${period}`} className="btn-secondary">Export e-Bupot CSV</a>
+          <span className="inline-flex items-center gap-1 rounded-lg bg-white px-2 py-1 text-xs ring-1 ring-slate-300"><span className="text-ink-500">Coretax import:</span><a href={`/tax/${entityId}/withholding/export?period=${period}&format=csv`} className="font-semibold text-brand-700 hover:underline">CSV</a><span className="text-ink-500">·</span><a href={`/tax/${entityId}/withholding/export?period=${period}&format=xlsx`} className="font-semibold text-brand-700 hover:underline">Excel</a><span className="text-ink-500">·</span><a href={`/tax/${entityId}/withholding/export?period=${period}&format=xml&kind=BPPU`} className="font-semibold text-brand-700 hover:underline">XML BPPU</a><span className="text-ink-500">·</span><a href={`/tax/${entityId}/withholding/export?period=${period}&format=xml&kind=BP21`} className="font-semibold text-brand-700 hover:underline">XML BP21</a></span>
           {canWrite && <Link href={`/tax/${entityId}/withholding/new?period=${period}`} className="btn-primary">New bukti potong</Link>}
         </div>
       </div>
@@ -99,7 +99,7 @@ export default async function WithholdingList({ params, searchParams }: { params
           </CardTable>
         </Card>
       )}
-      <p className="text-xs text-ink-500">The withholding liability was posted with each bill; slips document it for the recipient and for e-Bupot. The CSV export follows the e-Bupot Unifikasi import layout (check column order against the current DJP template before uploading).</p>
+      <p className="text-xs text-ink-500">The withholding liability was posted with each bill; slips document it for the recipient and feed the Coretax filing. Reporting itself happens in Coretax: the exports carry one row per slip in the Coretax import layout (BPPU for PPh 23/26/4(2)/15/22, BP21 for PPh 21 non-employees). Check the columns against the template downloaded from Coretax (e-Bupot › Impor) before the first upload.</p>
     </div>
   );
 }

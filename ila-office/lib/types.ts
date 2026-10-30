@@ -87,7 +87,11 @@ export interface Entity {
     payroll: boolean;
     kppOffice?: string;
     taxRegimeStartYear?: number;
+    /** Nama penandatangan printed on bukti potong (C.5). */
+    signerName?: string;
   };
+  /** NITKU of the head office (NPWP 16 digits + "000000"); derived from the NPWP when empty. */
+  nitku?: string;
   /** CRM link: the client company these books belong to. */
   crmCompanyId?: string;
   /** Portal/ops links. */
@@ -96,6 +100,7 @@ export interface Entity {
   status: "active" | "dormant" | "closed";
   createdAt: string;
   updatedAt?: string;
+  attachments?: Attachment[];
 }
 
 // ---------- Clients directory (customers, contacts, vendors, price list) ----------
@@ -124,6 +129,7 @@ export interface Contact {
   driveFolderUrl?: string;
   createdAt: string;
   updatedAt?: string;
+  attachments?: Attachment[];
 }
 
 export type CompanyStatus = "lead" | "active" | "inactive";
@@ -152,6 +158,7 @@ export interface Company {
   notes?: string;
   createdAt: string;
   updatedAt?: string;
+  attachments?: Attachment[];
 }
 
 export const SERVICE_CATEGORIES = ["corporate", "visa", "tax_accounting", "payroll_eor", "legal_property", "licensing", "advisory", "disbursement"] as const;
@@ -199,6 +206,7 @@ export interface Vendor {
   notes?: string;
   active: boolean;
   createdAt: string;
+  attachments?: Attachment[];
 }
 
 export type ActivityKind = "note" | "call" | "email" | "whatsapp" | "meeting" | "status" | "system";
@@ -545,6 +553,8 @@ export interface Employee {
   taxMethod?: PayrollTaxMethod;
   /** The company pays the employee's own BPJS share as a taxable allowance (the deduction still appears on the slip). */
   bpjsAllowance?: { kesehatan: boolean; jht: boolean; jp: boolean };
+  /** Fixed wage reported to BPJS when the actual salary fluctuates; empty = basic salary + fixed allowances. */
+  bpjsWageBase?: number;
   basicSalary: number;
   allowances: Array<{ name: string; amount: number; taxable: boolean }>;
   /** Fixed monthly deductions (loan repayment, etc.). */
@@ -556,6 +566,7 @@ export interface Employee {
   contractType: "pkwtt" | "pkwt" | "freelance";
   active: boolean;
   createdAt: string;
+  attachments?: Attachment[];
 }
 
 export interface PayslipLine {
@@ -606,6 +617,7 @@ export interface PayrollRun {
   paidAt?: string;
   createdAt: string;
   updatedAt?: string;
+  attachments?: Attachment[];
 }
 
 export type WithholdingSlipType = "pph21" | "pph23" | "pph26" | "pph4_2" | "pph15" | "pph22";
@@ -618,21 +630,40 @@ export interface WithholdingSlip {
   number: string; // BP-2026-0001
   period: string; // YYYY-MM
   date: string;
-  counterparty: { name: string; npwp?: string; nik?: string; country?: string; address?: string; id?: string };
+  counterparty: { name: string; npwp?: string; nik?: string; country?: string; address?: string; id?: string; /** Nomor Identitas Tempat Kegiatan Usaha (NPWP 16 digits + 6-digit branch). */ nitku?: string };
   objectCode: string; // DJP income type code, e.g. 24-104-02 (jasa manajemen)
   objectLabel: string;
   description?: string;
+  /** Penghasilan bruto. Equals `baseAmount` unless the object has a deemed DPP (PPh 21 non-employees: 50%). */
+  grossAmount?: number;
+  /** DPP as a percentage of gross (100 unless deemed). */
+  dppPercent?: number;
   baseAmount: number; // DPP
   rate: number;
   taxAmount: number;
   /** Treaty relief applied (PPh 26) with DGT form on file. */
   treatyApplied?: boolean;
+  /** Jenis fasilitas on the bukti potong: none, SKB (exemption certificate), DTP (borne by government), P3B (treaty). */
+  facility?: WithholdingFacility;
+  /** Dokumen dasar pemotongan (B.8/B.9 on the form). */
+  document?: { type: WithholdingDocumentType; number?: string; date?: string };
+  /** Status bukti pemotongan: normal or pembetulan (correction of an earlier slip). */
+  correction?: boolean;
+  /** Number assigned by Coretax once the slip is filed (printed as NOMOR when present). */
+  coretaxNumber?: string;
   billId?: string;
   payrollRunId?: string;
   status: "draft" | "issued" | "reported";
   ntpn?: string;
   createdAt: string;
+  attachments?: Attachment[];
 }
+
+export type WithholdingFacility = "none" | "skb" | "dtp" | "p3b";
+export const WITHHOLDING_FACILITY_LABELS: Record<WithholdingFacility, string> = { none: "Tanpa Fasilitas", skb: "SKB (Surat Keterangan Bebas)", dtp: "PPh Ditanggung Pemerintah", p3b: "P3B / tax treaty (DGT form)" };
+export type WithholdingDocumentType = "invoice" | "surat_tagihan" | "faktur_pajak" | "kontrak" | "bukti_pembayaran" | "lainnya";
+export const WITHHOLDING_DOCUMENT_TYPES: readonly WithholdingDocumentType[] = ["invoice", "surat_tagihan", "faktur_pajak", "kontrak", "bukti_pembayaran", "lainnya"];
+export const WITHHOLDING_DOCUMENT_LABELS: Record<WithholdingDocumentType, string> = { invoice: "Invoice", surat_tagihan: "Surat Tagihan", faktur_pajak: "Faktur Pajak", kontrak: "Kontrak / perjanjian", bukti_pembayaran: "Bukti Pembayaran", lainnya: "Lainnya" };
 
 export interface VatTransaction {
   id: string;
@@ -692,6 +723,7 @@ export interface TaxObligation {
   notes?: string;
   generated: boolean;
   updatedAt?: string;
+  attachments?: Attachment[];
 }
 
 // ---------- Imports & misc ----------
@@ -707,6 +739,7 @@ export interface ImportBatch {
   errors: string[];
   byUserId?: string;
   createdAt: string;
+  attachments?: Attachment[];
 }
 
 export interface Counter {

@@ -6,7 +6,7 @@ import { pph21Annual, pph21Monthly, usesAnnualMethod } from "./tax/pph21";
 /**
  * Payroll computation. Pure: employees + period + prior runs of the year → payslip lines and totals.
  * - Gross = basic salary + allowances + BPJS allowance + overtime + bonus (+ tax allowance under gross-up).
- * - BPJS on the fixed wage (basic + allowances) per the employee's flags.
+ * - BPJS on the fixed wage (basic + allowances, or the employee's `bpjsWageBase` when set) per the employee's flags.
  * - PPh 21 base = basic + taxable allowances + BPJS allowance + overtime + bonus + employer BPJS Kesehatan/JKK/JKM
  *   premiums (+ the tax allowance under gross-up). January–November: TER. December or termination month: annual
  *   progressive true-up against the prior runs.
@@ -86,7 +86,7 @@ export function computePayslipLine(e: Employee, period: string, priorRuns: Payro
   const taxableAllowances = e.allowances.filter((a) => a.taxable).reduce((s, a) => s + a.amount, 0);
   const overtime = Math.max(0, Math.round(override.overtime ?? 0));
   const bonus = Math.max(0, Math.round(override.bonus ?? 0));
-  const bpjs = computeBpjs(e.basicSalary + allowancesTotal, e.bpjs);
+  const bpjs = computeBpjs(e.bpjsWageBase && e.bpjsWageBase > 0 ? e.bpjsWageBase : e.basicSalary + allowancesTotal, e.bpjs);
   const cover = e.bpjsAllowance;
   const bpjsAllowance = (cover?.kesehatan ? bpjs.employee.bpjsKesehatan : 0) + (cover?.jht ? bpjs.employee.jht : 0) + (cover?.jp ? bpjs.employee.jp : 0);
   const grossBeforeTaxAllowance = e.basicSalary + allowancesTotal + bpjsAllowance + overtime + bonus;

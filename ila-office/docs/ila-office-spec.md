@@ -105,6 +105,9 @@ CSV or Excel file goes through manual column mapping. Scanned PDFs (no text laye
 - PPN register (output/input, e-Faktur numbers), PPh 25, annual CIT computation with fiscal reconciliation (deductible flag on accounts), LKPM data pack.
 - All-clients view: every entity's obligations for the month, by status and assignee. This is the Google Sheet, with owners.
 
+**Withholding slips, second round (October 2026).** Entry works the Coretax way: one search box finds the recipient by NPWP, NIK or name across vendors, client companies, contacts, employees and earlier recipients and fills the rest; a second box finds the object code by code or description (unlisted codes are accepted with a manual rate); then gross amount, reference document (type, number, date), tax period (follows the document date) and withholding date. Facility (SKB, DTP, P3B), treaty rate, rate override, DPP override and the correction flag sit under "More options". PPh 21 non-employee objects (21-100-07/08/09/10/04) carry a deemed DPP of 50% where the rules say so; the slip stores gross, DPP %, DPP, rate and tax. The slip page and the PDF (`lib/tax/bupot-pdf.ts`, `/api/tax/[entityId]/withholding/[slipId]/pdf`) follow the Coretax forms: BPPU for PPh 23/26/4(2)/15/22 and BP21 for PPh 21, with the A/B/C sections, NITKU (NPWP 16 digits + 000000 unless set), the signatory from the entity settings and the Coretax number once filed. Reporting stays in Coretax; the period export (`/withholding/export?period=&format=csv|xlsx|xml&kind=BPPU|BP21`) produces one row per slip in the Coretax import layout. The XML tag names follow DJP's published format as far as known and must be compared with the template downloaded from Coretax before the first upload.
+
+
 ### 3.5 Payroll (`/payroll/[entityId]`)
 - Employees with PTKP status, BPJS options, allowances and deductions, contract type.
 - Monthly runs: gross, employer and employee BPJS, PPh 21 (TER Jan–Nov, annual true-up in December), net pay, cost to company. Approval, payslips, journal posting.
@@ -115,6 +118,8 @@ CSV or Excel file goes through manual column mapping. Scanned PDFs (no text laye
 - *Gross-up*: the company adds a tax allowance (tunjangan PPh 21) that is itself taxable, solved so that the tax on the grossed-up income equals the allowance (fixed-point iteration on the TER rate, and on the annual art. 17 computation in December or the termination month). The allowance is part of gross salary expense and of the PPh 21 base; take-home pay equals the agreed salary.
 
 Independently of the method, the company can pay the employee's own BPJS shares (Kesehatan 1%, JHT 2%, JP 1%) as a taxable allowance: the allowance is added to gross and to the PPh 21 base, the deduction still appears on the payslip, so the employee's pay is unchanged and the company bears the contribution and the extra tax. Payslip lines store `taxMethod`, `bpjsAllowance`, `taxAllowance` and split `pph21` into `deducted` and `borneByCompany`; runs computed before this option read as gross.
+
+**BPJS wage base.** An employee can carry a fixed BPJS wage base (`bpjsWageBase`); contributions are then computed on it instead of the actual basic salary plus allowances, for clients whose pay fluctuates while the reported wage is fixed. PPh 21 still follows the actual pay.
 
 
 ### 3.6 Settings (`/settings`)

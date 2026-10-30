@@ -71,6 +71,7 @@ export function EmployeeForm({ employee: e, action }: { employee?: Employee; act
           <label className="flex items-center gap-2"><input type="checkbox" name="bpjs_jkk" defaultChecked={e?.bpjs.jkk ?? true} className="checkbox" /> JKK (employer, by risk class)</label>
           <label className="flex items-center gap-2"><input type="checkbox" name="bpjs_jkm" defaultChecked={e?.bpjs.jkm ?? true} className="checkbox" /> JKM 0.3% (employer)</label>
         </div>
+        <Field label="BPJS wage base (IDR / month, optional)" hint="Fixed wage reported to BPJS when the actual salary fluctuates. Empty = basic salary + fixed allowances."><MoneyInput name="bpjsWageBase" defaultValue={e?.bpjsWageBase} currency="IDR" placeholder="" /></Field>
         <Field label="JKK risk class"><Select name="jkkRiskClass" defaultValue={String(e?.bpjs.jkkRiskClass ?? 1)} options={([1, 2, 3, 4, 5] as const).map((c) => ({ value: String(c), label: `Class ${c} · ${(BPJS_JKK_RATES[c] * 100).toFixed(2)}%` }))} /></Field>
         <p className="text-xs text-ink-500">Foreign employees on a KITAS of 6+ months must join BPJS Kesehatan and Ketenagakerjaan (JKK, JKM, JHT); JP is optional for them.</p>
         <SubmitButton>{e ? "Save employee" : "Add employee"}</SubmitButton>

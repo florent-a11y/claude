@@ -16,6 +16,8 @@ const entitySchema = z.object({
   region: z.string().max(60).optional(),
   npwp: z.string().max(40).optional(),
   nib: z.string().max(40).optional(),
+  nitku: z.string().max(30).optional(),
+  signerName: z.string().max(120).optional(),
   aktaNumber: z.string().max(80).optional(),
   address: z.string().max(300).optional(),
   city: z.string().max(80).optional(),
@@ -37,7 +39,7 @@ const entitySchema = z.object({
 function readEntity(fd: FormData) {
   return entitySchema.parse({
     name: str(fd, "name"), legalName: str(fd, "legalName") ?? str(fd, "name"), type: str(fd, "type"), country: (str(fd, "country") ?? "ID").toUpperCase(),
-    region: str(fd, "region"), npwp: str(fd, "npwp"), nib: str(fd, "nib"), aktaNumber: str(fd, "aktaNumber"), address: str(fd, "address"), city: str(fd, "city"),
+    region: str(fd, "region"), npwp: str(fd, "npwp"), nib: str(fd, "nib"), nitku: str(fd, "nitku"), signerName: str(fd, "signerName"), aktaNumber: str(fd, "aktaNumber"), address: str(fd, "address"), city: str(fd, "city"),
     baseCurrency: (str(fd, "baseCurrency") ?? "IDR").toUpperCase(), fiscalYearStartMonth: num(fd, "fiscalYearStartMonth", 1),
     regime: str(fd, "regime") ?? "normal_22", pkp: bool(fd, "pkp"), ppnRate: num(fd, "ppnRate", 11) / 100,
     pph25Monthly: num(fd, "pph25Monthly", 0) || undefined, localTaxRate: num(fd, "localTaxRate", 0) / 100 || undefined,
@@ -51,9 +53,9 @@ export async function createEntity(fd: FormData) {
   const v = readEntity(fd);
   const now = new Date().toISOString();
   const entity: Entity = {
-    id: db.newId(), name: v.name, legalName: v.legalName, type: v.type, country: v.country, isOwn: v.isOwn, npwp: v.npwp, nib: v.nib,
+    id: db.newId(), name: v.name, legalName: v.legalName, type: v.type, country: v.country, isOwn: v.isOwn, npwp: v.npwp, nib: v.nib, nitku: v.nitku,
     aktaNumber: v.aktaNumber, address: v.address, city: v.city, region: v.region, baseCurrency: v.baseCurrency, fiscalYearStartMonth: v.fiscalYearStartMonth,
-    tax: { regime: v.regime, pkp: v.pkp, ppnRate: v.ppnRate, pph25Monthly: v.pph25Monthly, localTaxRate: v.localTaxRate, lkpm: v.lkpm, payroll: v.payroll },
+    tax: { regime: v.regime, pkp: v.pkp, ppnRate: v.ppnRate, pph25Monthly: v.pph25Monthly, localTaxRate: v.localTaxRate, lkpm: v.lkpm, payroll: v.payroll, signerName: v.signerName },
     crmCompanyId: v.crmCompanyId, driveFolderUrl: v.driveFolderUrl || undefined, status: v.status, createdAt: now,
   };
   await db.insert("entities", entity);
@@ -70,9 +72,9 @@ export async function updateEntity(id: string, fd: FormData) {
   const v = readEntity(fd);
   const now = new Date().toISOString();
   await db.update("entities", id, {
-    name: v.name, legalName: v.legalName, type: v.type, country: v.country, isOwn: v.isOwn, npwp: v.npwp, nib: v.nib, aktaNumber: v.aktaNumber,
+    name: v.name, legalName: v.legalName, type: v.type, country: v.country, isOwn: v.isOwn, npwp: v.npwp, nib: v.nib, nitku: v.nitku, aktaNumber: v.aktaNumber,
     address: v.address, city: v.city, region: v.region, baseCurrency: v.baseCurrency, fiscalYearStartMonth: v.fiscalYearStartMonth,
-    tax: { ...current.tax, regime: v.regime, pkp: v.pkp, ppnRate: v.ppnRate, pph25Monthly: v.pph25Monthly, localTaxRate: v.localTaxRate, lkpm: v.lkpm, payroll: v.payroll },
+    tax: { ...current.tax, regime: v.regime, pkp: v.pkp, ppnRate: v.ppnRate, pph25Monthly: v.pph25Monthly, localTaxRate: v.localTaxRate, lkpm: v.lkpm, payroll: v.payroll, signerName: v.signerName },
     crmCompanyId: v.crmCompanyId, driveFolderUrl: v.driveFolderUrl || undefined, status: v.status, updatedAt: now,
   });
   if (v.crmCompanyId && v.crmCompanyId !== current.crmCompanyId) await db.update("companies", v.crmCompanyId, { entityId: id, updatedAt: now });

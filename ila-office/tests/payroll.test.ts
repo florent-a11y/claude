@@ -203,3 +203,16 @@ test("runs stored before the tax-method option read as gross", () => {
   assert.equal(t.pph21Company, 0);
   assert.equal(t.costToCompany, t.gross + t.employerBpjs);
 });
+
+
+test("BPJS wage base: contributions follow the fixed reported wage, tax follows the actual pay", () => {
+  const actual = computePayslipLine(grossEmp, "2026-03", []);
+  const fixed = computePayslipLine({ ...grossEmp, bpjsWageBase: 5_000_000 }, "2026-03", []);
+  assert.equal(fixed.gross, actual.gross);
+  assert.equal(fixed.employee.jht, 100_000); // 2% of the fixed 5 M, not of the 12 M salary
+  assert.equal(fixed.employer.jht, 185_000);
+  assert.ok(fixed.employee.bpjsKesehatan < actual.employee.bpjsKesehatan);
+  assert.ok(fixed.pph21.base < actual.pph21.base, "smaller employer premiums → smaller PPh 21 base");
+  const zero = computePayslipLine({ ...grossEmp, bpjsWageBase: 0 }, "2026-03", []);
+  assert.deepEqual(zero.employee, actual.employee); // 0 / empty falls back to the actual wage
+});
