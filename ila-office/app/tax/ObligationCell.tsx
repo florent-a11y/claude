@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import type { ReactNode } from "react";
 import { useApi } from "@/components/client";
 import { OBLIGATION_STATUSES, OBLIGATION_STATUS_LABELS, type ObligationStatus } from "@/lib/types";
@@ -21,10 +22,11 @@ function initials(name: string): string {
  * Two compact lines: the status pill, then a small grey line with `hint` and/or `children` (links, amounts) and the
  * assignee as initials. Both controls are native selects laid transparently over their label, so the cell stays one
  * line per item while the dropdowns keep the full texts. When nobody is assigned the assignee control only shows
- * (as "+") while the cell is hovered or focused.
+ * (as "+") while the cell is hovered or focused. `docsHref` adds a small "docs" link to the obligation's detail page
+ * (supporting documents), with the number of files already attached when there are any.
  */
-export function ObligationCell({ id, status, assigneeUserId, users, canWrite, overdue, hint, title, children }: {
-  id: string; status: ObligationStatus; assigneeUserId?: string; users: CellUser[]; canWrite: boolean; overdue?: boolean; hint?: string; title?: string; children?: ReactNode;
+export function ObligationCell({ id, status, assigneeUserId, users, canWrite, overdue, hint, title, docsHref, docsCount = 0, children }: {
+  id: string; status: ObligationStatus; assigneeUserId?: string; users: CellUser[]; canWrite: boolean; overdue?: boolean; hint?: string; title?: string; docsHref?: string; docsCount?: number; children?: ReactNode;
 }) {
   const { call, busy, error } = useApi();
   const url = `/api/tax/obligations/${encodeURIComponent(id)}`;
@@ -48,6 +50,7 @@ export function ObligationCell({ id, status, assigneeUserId, users, canWrite, ov
       <div className="relative mt-0.5 flex flex-wrap items-center gap-x-1 px-1 text-[10px] leading-4 text-ink-500">
         {hint && <span className="min-w-0 max-w-full truncate">{hint}</span>}
         {children}
+        {docsHref && <Link href={docsHref} className={`underline ${docsCount ? "font-semibold text-brand-700" : ""}`} title={docsCount ? `${docsCount} supporting document${docsCount === 1 ? "" : "s"}` : "Supporting documents"}>docs{docsCount ? ` (${docsCount})` : ""}</Link>}
         {assignee ? (
           <span className="relative ml-auto inline-flex shrink-0 items-center rounded bg-slate-100 px-1 font-semibold text-ink-700 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-500" title={`Assigned to ${assignee.name}`}>
             {initials(assignee.name)}

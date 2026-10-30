@@ -42,11 +42,12 @@ export default async function EntityCalendar({ params, searchParams }: { params:
   const counts = { total: obligations.length, done: obligations.filter((o) => ["paid", "reported", "nil"].includes(o.status)).length, overdue: obligations.filter((o) => isOverdue(o, today)).length, amount: obligations.reduce((s, o) => s + (o.amount ?? 0), 0) };
   const periods = Array.from({ length: 12 }, (_, i) => `${year}-${String(i + 1).padStart(2, "0")}`);
 
+  const docsHref = (o: TaxObligation) => `/tax/${entityId}/obligations/${encodeURIComponent(o.id)}`;
   const cell = (o: TaxObligation | undefined) => {
     if (!o) return <Dash />;
     const link = relatedLink(o);
     return (
-      <ObligationCell id={o.id} status={o.status} assigneeUserId={o.assigneeUserId} users={cellUsers} canWrite={canWrite} overdue={isOverdue(o, today)}>
+      <ObligationCell id={o.id} status={o.status} assigneeUserId={o.assigneeUserId} users={cellUsers} canWrite={canWrite} overdue={isOverdue(o, today)} docsHref={docsHref(o)} docsCount={o.attachments?.length ?? 0}>
         <Link href={`/tax/${entityId}?year=${year}&o=${encodeURIComponent(o.id)}`} className={`underline ${selected?.id === o.id ? "font-semibold text-brand-700" : ""}`}>edit</Link>
         {link && <Link href={link.href} className="underline">{link.label}</Link>}
         {o.amount ? <span className="tabular-nums">{o.amount.toLocaleString("en-US")}</span> : null}
@@ -123,7 +124,8 @@ export default async function EntityCalendar({ params, searchParams }: { params:
       {selected && (
         <Card className="mt-4" title={<>Edit · {selected.label} · {periodLabel(selected.period)} <Badge tone={statusTone(selected.status)}>{OBLIGATION_STATUS_LABELS[selected.status]}</Badge></>} actions={<Link href={`/tax/${entityId}?year=${year}`} className="text-xs underline">close</Link>}>
           <p className="mb-3 text-xs text-ink-500">Data due {fmtDate(selected.dataDue)} · payment due {fmtDate(selected.paymentDue)} · report due {fmtDate(selected.reportDue)}{isOverdue(selected, today) && <span className="ml-2 font-semibold text-red-700">OVERDUE</span>}
-            {relatedLink(selected) && <> · <Link className="underline" href={relatedLink(selected)!.href}>open {relatedLink(selected)!.label}</Link></>}</p>
+            {relatedLink(selected) && <> · <Link className="underline" href={relatedLink(selected)!.href}>open {relatedLink(selected)!.label}</Link></>}
+            {" · "}<Link className="underline" href={docsHref(selected)}>supporting documents{selected.attachments?.length ? ` (${selected.attachments.length})` : ""}</Link></p>
           <form action={updateObligation.bind(null, selected.id)} className="grid gap-3 md:grid-cols-4">
             <input type="hidden" name="back" value={`/tax/${entityId}?year=${year}&o=${encodeURIComponent(selected.id)}`} />
             <Field label="Status"><Select name="status" defaultValue={selected.status} options={OBLIGATION_STATUSES.map((s) => ({ value: s, label: OBLIGATION_STATUS_LABELS[s] }))} /></Field>

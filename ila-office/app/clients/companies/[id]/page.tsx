@@ -6,18 +6,20 @@ import { db } from "@/lib/db";
 import { fmtDate, todayISO } from "@/lib/dates";
 import { fullName } from "@/lib/util";
 import { ENTITY_TYPE_LABELS } from "@/lib/types";
-import { Page, Card, DL, Badge, Cols, Field, Select, Money, statusTone } from "@/components/ui";
+import { Page, Card, DL, Badge, Cols, Field, Select, Money, Notice, statusTone } from "@/components/ui";
 import { currencyOptions } from "@/lib/money";
 import { SubmitButton, ConfirmForm } from "@/components/client";
+import { Attachments, CRM_SCOPE } from "@/components/Attachments";
 import { activeServices, activitiesFor, lookups } from "../../_lib/server";
 import { Timeline } from "../../_components/Timeline";
 import { addSubscription, endSubscription, removeSubscription } from "../actions";
 
 export const dynamic = "force-dynamic";
 
-export default async function CompanyDetail({ params }: { params: Promise<{ id: string }> }) {
+export default async function CompanyDetail({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<Record<string, string | undefined>> }) {
   const me = await requireUser();
   const { id } = await params;
+  const sp = await searchParams;
   const company = await db.get("companies", id);
   if (!company || !canAccessEntity(me, company.entityId)) notFound();
   const client = isClient(me);
@@ -39,6 +41,7 @@ export default async function CompanyDetail({ params }: { params: Promise<{ id: 
         {company.entityId && <Link href={`/tax/${company.entityId}`} className="btn-secondary">Tax</Link>}
         {write && <Link href={`/clients/companies/${id}/edit`} className="btn-primary">Edit</Link>}
       </>}>
+      {!client && (sp.error ? <div className="mb-4"><Notice tone="red">{sp.error}</Notice></div> : sp.ok ? <div className="mb-4"><Notice tone="green">{sp.ok}</Notice></div> : null)}
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
         <div className="min-w-0 space-y-4">
           <Card title="Details">
@@ -73,6 +76,8 @@ export default async function CompanyDetail({ params }: { params: Promise<{ id: 
               </ul>
             )}
           </Card>
+          {/* Internal documents (engagement letter, KYC, deed, NIB): never shown to client logins. */}
+          {!client && <Attachments entityId={CRM_SCOPE} docType="company" docId={company.id} items={company.attachments ?? []} canWrite={write} backTo={path} />}
         </div>
         <div className="min-w-0 space-y-4">
           <Card title={`Subscriptions (${recurring.length} active)`}>
