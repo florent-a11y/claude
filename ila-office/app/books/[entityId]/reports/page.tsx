@@ -18,7 +18,7 @@ export default async function Reports({ params }: { params: Params }) {
     { href: `${b}/trial-balance?asOf=${today}`, title: "Trial balance", text: "Every account with a balance as of a date; debits must equal credits." },
     { href: `${b}/profit-loss?from=${fy}&to=${today}&compare=1`, title: "Profit & loss", text: "Revenue, cost of sales, operating expenses and net profit for a range, with a comparison column." },
     { href: `${b}/balance-sheet?asOf=${today}`, title: "Balance sheet", text: "Assets, liabilities and equity including retained and current-year earnings." },
-    { href: `${b}/general-ledger?from=${fy}&to=${today}`, title: "General ledger", text: "Movements of one account with opening balance and running balance." },
+    { href: `${b}/general-ledger?from=${fy}&to=${today}`, title: "General ledger", text: "Movements of one account, or of every account in one file grouped by account, with opening and running balances." },
     { href: `${b}/ar-aging?asOf=${today}`, title: "AR aging", text: "Open invoices by customer and days past due (current, 1-30, 31-60, 61-90, 90+)." },
     { href: `${b}/ap-aging?asOf=${today}`, title: "AP aging", text: "Open bills by vendor and days past due." },
   ];

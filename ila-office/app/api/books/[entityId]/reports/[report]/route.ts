@@ -4,7 +4,7 @@ import { csvResponse } from "@/lib/csv";
 import { xlsxResponse, type XlsxSheet } from "@/lib/report-xlsx";
 import { renderStatementPdf, pdfNumber, type StatementColumn, type StatementRow } from "@/lib/report-pdf";
 import { entityAccounts, entityEntries } from "@/lib/books";
-import { trialBalance, profitAndLoss, profitAndLossMonthly, balanceSheet, generalLedger, arAging, apAging, fiscalYearStartOf, AGING_BUCKETS, entryTotal, type ProfitAndLoss, type ReportSection } from "@/lib/ledger";
+import { trialBalance, profitAndLoss, profitAndLossMonthly, balanceSheet, generalLedger, generalLedgerAll, arAging, apAging, fiscalYearStartOf, AGING_BUCKETS, entryTotal, type ProfitAndLoss, type ReportSection } from "@/lib/ledger";
 import { addDays, fmtDate, todayISO } from "@/lib/dates";
 import { naturalBalance, accountBalances } from "@/lib/balances";
 import type { Account, Entity, JournalEntry } from "@/lib/types";
@@ -100,8 +100,9 @@ export async function GET(req: Request, ctx: { params: Promise<{ entityId: strin
       break;
     }
     case "general-ledger": {
+      if (q.get("accountId") === "all") { out = glAllOutput(accounts, entries, from, to, q.get("zero") === "1", slug); break; }
       const account = accounts.find((a) => a.id === q.get("accountId"));
-      if (!account) return new Response("accountId required", { status: 400 });
+      if (!account) return new Response("accountId required (or all)", { status: 400 });
       const gl = generalLedger(account, entries, { from, to });
       const headers = ["Date", "Entry", "Memo", "Description", "Counterparty", "Debit", "Credit", "Balance"];
       const rows: unknown[][] = [
@@ -271,5 +272,45 @@ function plMonthlyOutput(accounts: Account[], entries: JournalEntry[], from: str
         rows: pdfRows,
       };
     },
+  };
+}
+
+/** Every account's ledger in one file, grouped by account: a header row, opening, movements, closing per account. */
+function glAllOutput(accounts: Account[], entries: JournalEntry[], from: string, to: string, includeInactive: boolean, slug: string): ReportOutput {
+  const all = generalLedgerAll(accounts, entries, { from, to }, { includeInactive });
+  const n = (v: number) => pdfNumber(v);
+  const headers = ["Account code", "Account name", "Date", "Entry", "Memo", "Description", "Counterparty", "Debit", "Credit", "Balance"];
+  const rows: unknown[][] = [];
+  const pdfRows: StatementRow[] = [];
+  for (const gl of all.ledgers) {
+    const a = gl.account;
+    rows.push([a.code, a.name, "", "", `Opening balance ${from}`, "", "", "", "", gl.opening]);
+    for (const r of gl.rows) rows.push([a.code, a.name, r.date, r.number, r.memo, r.description ?? "", r.counterpartyName ?? "", r.debit, r.credit, r.balance]);
+    rows.push([a.code, a.name, "", "", `Closing balance ${to}`, "", "", gl.totalDebit, gl.totalCredit, gl.closing]);
+    rows.push([]);
+    pdfRows.push({ cells: [`${a.code} · ${a.name}`, "", "", "", "", "", "", ""], style: "section" });
+    pdfRows.push({ cells: ["", "", `Opening balance at ${fmtDate(from)}`, "", "", "", "", n(gl.opening)], style: "total" });
+    for (const r of gl.rows) pdfRows.push({ cells: [fmtDate(r.date), r.number, r.memo, r.description && r.description !== r.memo ? r.description : "", r.counterpartyName ?? "", r.debit ? n(r.debit) : "", r.credit ? n(r.credit) : "", n(r.balance)] });
+    pdfRows.push({ cells: ["", "", `Closing balance at ${fmtDate(to)}`, "", "", n(gl.totalDebit), n(gl.totalCredit), n(gl.closing)], style: "total" });
+  }
+  pdfRows.push({ cells: [`${all.ledgers.length} accounts`, "", "Total movements", "", "", n(all.totalDebit), n(all.totalCredit), ""], style: "grand" });
+  const summaryHeaders = ["Code", "Account", "Type", "Normal balance", "Opening balance", "Total debit", "Total credit", "Closing balance"];
+  const summary: unknown[][] = all.ledgers.map((g) => [g.account.code, g.account.name, g.account.type, g.account.normalBalance, g.opening, g.totalDebit, g.totalCredit, g.closing]);
+  summary.push(["", `Total (${all.ledgers.length} accounts)`, "", "", "", all.totalDebit, all.totalCredit, ""]);
+  return {
+    file: `${slug}-general-ledger-all-${from}-${to}`, csv: { headers, rows },
+    sheets: [
+      { name: "General ledger", headers, rows, colWidths: [12, 30, 12, 14, 36, 36, 24, 18, 18, 18] },
+      { name: "Summary", headers: summaryHeaders, rows: summary, colWidths: [10, 36, 10, 14, 18, 18, 18, 18] },
+    ],
+    pdf: () => ({
+      title: "General ledger", subtitle: `All accounts${includeInactive ? "" : " with activity"} · ${fmtDate(from)} – ${fmtDate(to)}`, landscape: true, fontSize: 7.5,
+      columns: [
+        { label: "Date", width: 64, align: "left" }, { label: "Entry", width: 64, align: "left" }, { label: "Memo", width: 150, align: "left" }, { label: "Description", width: 140, align: "left" },
+        { label: "Counterparty", width: 104, align: "left" }, { label: "Debit", width: 74, align: "right" }, { label: "Credit", width: 74, align: "right" }, { label: "Balance", width: 80, align: "right" },
+      ],
+      rows: pdfRows,
+      note: all.accountsSkipped ? `${all.accountsSkipped} account(s) without opening balance or movement in the range are not shown.` : undefined,
+    }),
   };
 }

@@ -588,6 +588,23 @@ export function generalLedger(account: Account, entries: JournalEntry[], range: 
   return { account, from: range.from, to: range.to, opening, rows, totalDebit: roundMoney(totalDebit), totalCredit: roundMoney(totalCredit), closing: rows.length ? rows[rows.length - 1].balance : opening };
 }
 
+export interface GeneralLedgerAll { from?: string; to?: string; ledgers: GeneralLedger[]; totalDebit: number; totalCredit: number; accountsSkipped: number }
+
+/**
+ * The general ledger of every account in one pass, sorted by code. Accounts with no opening balance, no movement
+ * and no closing balance in the range are left out unless `includeInactive` is set.
+ */
+export function generalLedgerAll(accounts: Account[], entries: JournalEntry[], range: { from?: string; to?: string } = {}, opts: { includeInactive?: boolean } = {}): GeneralLedgerAll {
+  const sorted = [...accounts].sort((a, b) => a.code.localeCompare(b.code));
+  const all = sorted.map((a) => generalLedger(a, entries, range));
+  const ledgers = opts.includeInactive ? all : all.filter((g) => g.opening !== 0 || g.rows.length > 0 || g.closing !== 0);
+  return {
+    from: range.from, to: range.to, ledgers,
+    totalDebit: roundMoney(ledgers.reduce((s, g) => s + g.totalDebit, 0)), totalCredit: roundMoney(ledgers.reduce((s, g) => s + g.totalCredit, 0)),
+    accountsSkipped: all.length - ledgers.length,
+  };
+}
+
 export const AGING_BUCKETS = ["current", "1-30", "31-60", "61-90", "90+"] as const;
 export type AgingBucket = (typeof AGING_BUCKETS)[number];
 export interface AgingRow { id: string; number: string; name: string; date: string; dueDate: string; currency: string; outstanding: number; outstandingIDR: number; daysOverdue: number; bucket: AgingBucket }
