@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { fmtDate, fmtDateTime, periodLabel } from "@/lib/dates";
 import { Card, Badge, Notice, DL } from "@/components/ui";
 import { ConfirmForm, SubmitButton, Flash } from "@/components/client";
+import { Attachments } from "@/components/Attachments";
 import { PayslipTable } from "../PayslipTable";
 import { approveRunAction, deleteRunAction, markPaidAction, recalculateRunAction } from "../../../actions";
 
@@ -20,10 +21,12 @@ export default async function RunDetail({ params, searchParams }: { params: Prom
   const journal = run.journalId ? await db.get("journal_entries", run.journalId) : null;
   const approver = run.approvedByUserId ? await db.get("users", run.approvedByUserId) : null;
   const tone = run.status === "paid" ? "green" : run.status === "approved" ? "blue" : "slate";
+  const here = `/payroll/${entityId}/runs/${runId}`;
   const overrides = Object.fromEntries(run.lines.map((l) => [l.employeeId, { overtime: l.overtime, bonus: l.bonus, notes: l.notes }]));
   return (
     <div className="space-y-4 pb-8">
-      <Flash message={sp.approved ? "Run approved and journal posted." : sp.paid ? "Run marked as paid." : sp.saved ? "Run recalculated." : undefined} />
+      <Flash message={sp.approved ? "Run approved and journal posted." : sp.paid ? "Run marked as paid." : sp.saved ? "Run recalculated." : sp.ok} />
+      {sp.error && <Notice tone="red">{sp.error}</Notice>}
       <div className="flex flex-wrap items-center justify-between gap-2 no-print">
         <div className="flex items-center gap-2"><Link href={`/payroll/${entityId}`} className="btn-ghost">‹ Runs</Link><h2 className="text-lg font-semibold">Payroll {periodLabel(run.period)}</h2><Badge tone={tone}>{run.status}</Badge></div>
         {canWrite && (
@@ -36,7 +39,7 @@ export default async function RunDetail({ params, searchParams }: { params: Prom
       </div>
       <div className="grid gap-4 md:grid-cols-3">
         <Card title="Run"><DL items={[["Period", periodLabel(run.period)], ["Pay date", fmtDate(run.payDate)], ["Employees", run.lines.length], ["Created", fmtDateTime(run.createdAt)], ["Approved", run.approvedAt ? `${fmtDateTime(run.approvedAt)}${approver ? ` by ${approver.name}` : ""}` : "—"], ["Paid", run.paidAt ? fmtDateTime(run.paidAt) : "—"]]} /></Card>
-        <Card title="Journal">{journal ? <DL items={[["Entry", <Link key="j" className="underline" href={`/books/${entityId}/journal/${journal.id}`}>{journal.number}</Link>], ["Date", fmtDate(journal.date)], ["Memo", journal.memo], ["Lines", journal.lines.length]]} /> : <p className="text-sm text-ink-500">Posted on approval: Dr salaries (gross) and BPJS employer expense; Cr PPh 21 payable, BPJS payable, employee deductions, salaries payable (net).</p>}</Card>
+        <Card title="Journal">{journal ? <DL items={[["Entry", <Link key="j" className="underline" href={`/books/${entityId}/journal/${journal.id}`}>{journal.number}</Link>], ["Date", fmtDate(journal.date)], ["Memo", journal.memo], ["Lines", journal.lines.length]]} /> : <p className="text-sm text-ink-500">Posted on approval: Dr salaries (gross, including BPJS and tax allowances), BPJS employer expense and, for nett-method employees, PPh 21 borne by company (non-deductible); Cr PPh 21 payable, BPJS payable, employee deductions, salaries payable (net).</p>}</Card>
         <Card title="Next steps"><ul className="list-disc space-y-1 pl-4 text-sm"><li>Client approval 26th–28th, salaries paid on the 1st.</li><li>PPh 21 {run.totals.pph21.toLocaleString("en-US")}: pay by the 10th, report (SPT Masa 21/26) by the 20th.</li><li>BPJS {(run.totals.employerBpjs + run.totals.employeeBpjs).toLocaleString("en-US")}: pay by the 15th.</li><li><Link className="underline" href={`/tax/${entityId}?year=${run.period.slice(0, 4)}`}>Update the compliance calendar</Link></li></ul></Card>
       </div>
       {run.status === "draft" && canWrite ? (
@@ -50,6 +53,10 @@ export default async function RunDetail({ params, searchParams }: { params: Prom
         <Card title="Payslips"><PayslipTable lines={run.lines} totals={run.totals} entityId={entityId} runId={run.id} /></Card>
       )}
       {run.lines.some((l) => l.pph21.amount < 0) && <Notice tone="amber">At least one employee has a negative PPh 21 (annual tax below the TER amounts withheld): the difference is refunded through net pay and reduces the PPh 21 payable.</Notice>}
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+        <Attachments entityId={entityId} docType="payroll_run" docId={run.id} items={run.attachments ?? []} canWrite={canWrite} backTo={here} />
+        <Card title="What to attach"><ul className="list-disc space-y-1 pl-4 text-sm text-ink-700"><li>The client's approval of this run (email or signed summary).</li><li>PPh 21 payment proof (NTPN / BPE) and the SPT Masa 21/26 receipt.</li><li>BPJS Kesehatan and Ketenagakerjaan payment proofs.</li><li>Salary transfer confirmations.</li></ul></Card>
+      </div>
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { PTKP_STATUSES, type Entity } from "../lib/types";
 import { PTKP_TABLE, ptkpAnnual, TER_CATEGORY, BPJS_JP } from "../lib/tax/constants";
 import { pph21Annual, pph21Monthly, terCategoryOf, terRate, progressiveTax } from "../lib/tax/pph21";
 import { computeBpjs } from "../lib/tax/bpjs";
-import { computeWithholding } from "../lib/tax/withholding";
+import { computeWithholding, npwp16, nitkuOf, formatTaxId, bupotKind, coretaxRows, coretaxXml, isFinal } from "../lib/tax/withholding";
 import { buildPpnRegister } from "../lib/tax/ppn";
 import { computeCit, taxByRegime } from "../lib/tax/cit";
 import { generateObligations, obligationTypesFor, rollToWorkingDay } from "../lib/tax/calendar";
@@ -197,4 +197,50 @@ test("calendar respects the profile: UMKM client without payroll, individual, Ho
   assert.deepEqual([...new Set(indiv.map((o) => o.type))], ["bookkeeping", "spt_op"]);
   const hk = generateObligations({ ...entity, id: "h", type: "hk_ltd", country: "HK", tax: { ...entity.tax, regime: "hk_profits_tax", payroll: false, lkpm: false, pkp: false, pph25Monthly: 0 } }, 2026);
   assert.deepEqual([...new Set(hk.map((o) => o.type))], ["bookkeeping", "annual_report"]);
+});
+
+
+test("withholding: deemed DPP for PPh 21 non-employees and identifier helpers", () => {
+  const r = computeWithholding({ type: "pph21", objectCode: "21-100-07", baseAmount: 40_000_000, grossAmount: 40_000_000, hasNpwp: true });
+  assert.equal(r.dppPercent, 50);
+  assert.equal(r.baseAmount, 20_000_000);
+  assert.equal(r.rate, 0.05);
+  assert.equal(r.taxAmount, 1_000_000);
+  const plain = computeWithholding({ type: "pph23", objectCode: "24-104-03", baseAmount: 9_000_000, hasNpwp: true });
+  assert.equal(plain.grossAmount, 9_000_000);
+  assert.equal(plain.dppPercent, 100);
+  assert.equal(plain.taxAmount, 180_000);
+  assert.equal(npwp16("12.345.678.9-012.000"), "0123456789012000");
+  assert.equal(npwp16("3171234567890001"), "3171234567890001");
+  assert.equal(nitkuOf("12.345.678.9-012.000"), "0123456789012000000000");
+  assert.equal(nitkuOf("3171234567890001", "3171234567890001000001"), "3171234567890001000001");
+  assert.equal(formatTaxId("123456789012345"), "12.345.678.9-012.345");
+  assert.equal(bupotKind("pph21"), "BP21");
+  assert.equal(bupotKind("pph23"), "BPPU");
+  assert.ok(isFinal({ objectCode: "28-403-01", type: "pph4_2" }));
+  assert.ok(!isFinal({ objectCode: "24-104-03", type: "pph23" }));
+});
+
+test("withholding: Coretax rows and XML carry the form fields", () => {
+  const entity = { npwp: "01.234.567.8-901.000", tax: { signerName: "Test Signer" } } as unknown as Parameters<typeof coretaxRows>[1];
+  const slip = {
+    id: "s1", entityId: "e", type: "pph23" as const, number: "BP-2026-0001", period: "2026-02", date: "2026-02-23",
+    counterparty: { name: "PT Contoh Jaya", npwp: "0123456789012000" }, objectCode: "24-104-03", objectLabel: "Jasa manajemen", grossAmount: 12_000_000, dppPercent: 100,
+    baseAmount: 12_000_000, rate: 0.02, taxAmount: 240_000, facility: "none" as const, document: { type: "surat_tagihan" as const, number: "TEST-0042", date: "2026-02-23" }, status: "issued" as const, createdAt: "",
+  };
+  const [row] = coretaxRows([slip], entity);
+  assert.equal(row[0], "BPPU");
+  assert.equal(row[1], "0012345678901000");
+  assert.equal(row[3], 2);
+  assert.equal(row[5], "TIDAK FINAL");
+  assert.equal(row[13], "24-104-03");
+  assert.equal(row[17], 12_000_000);
+  assert.equal(row[19], 240_000);
+  assert.equal(row[21], "Surat Tagihan");
+  const xml = coretaxXml([slip], entity, "BPPU");
+  assert.ok(xml.startsWith("<?xml"));
+  assert.ok(xml.includes("<TaxObjectCode>24-104-03</TaxObjectCode>"));
+  assert.ok(xml.includes("<CounterpartTin>0123456789012000</CounterpartTin>"));
+  assert.ok(xml.includes("<DocumentNumber>TEST-0042</DocumentNumber>"));
+  assert.equal(coretaxXml([slip], entity, "BP21").includes("<Bupot>"), false);
 });

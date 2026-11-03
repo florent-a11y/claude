@@ -63,14 +63,19 @@ export interface NewSlipInput extends WithholdingInput {
   description?: string;
   billId?: string;
   payrollRunId?: string;
+  facility?: WithholdingSlip["facility"];
+  document?: WithholdingSlip["document"];
+  correction?: boolean;
 }
 
 export async function createSlip(input: NewSlipInput): Promise<WithholdingSlip> {
   const calc = computeWithholding(input);
   const slip: WithholdingSlip = {
     id: db.newId(), entityId: input.entityId, type: input.type, number: await db.nextNumber(input.entityId, "BP", new Date(input.date)), period: input.period, date: input.date,
-    counterparty: input.counterparty, objectCode: calc.objectCode, objectLabel: calc.objectLabel, description: input.description, baseAmount: calc.baseAmount, rate: calc.rate,
-    taxAmount: calc.taxAmount, treatyApplied: calc.treatyApplied || undefined, billId: input.billId, payrollRunId: input.payrollRunId, status: "draft", createdAt: new Date().toISOString(),
+    counterparty: input.counterparty, objectCode: calc.objectCode, objectLabel: calc.objectLabel, description: input.description,
+    grossAmount: calc.grossAmount, dppPercent: calc.dppPercent, baseAmount: calc.baseAmount, rate: calc.rate,
+    taxAmount: calc.taxAmount, treatyApplied: calc.treatyApplied || undefined, facility: input.facility ?? (calc.treatyApplied ? "p3b" : "none"), document: input.document, correction: input.correction || undefined,
+    billId: input.billId, payrollRunId: input.payrollRunId, status: "draft", createdAt: new Date().toISOString(),
   };
   await db.insert("withholding_slips", slip);
   return slip;

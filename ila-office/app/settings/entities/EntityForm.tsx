@@ -19,6 +19,8 @@ export function EntityForm({ entity, companies, action }: { entity?: Entity; com
           <Field label="City"><input name="city" defaultValue={e?.city} className="input" /></Field>
           <Field label="NPWP"><input name="npwp" defaultValue={e?.npwp} className="input" placeholder="00.000.000.0-000.000" /></Field>
           <Field label="NIB"><input name="nib" defaultValue={e?.nib} className="input" /></Field>
+          <Field label="NITKU" hint="Empty = NPWP (16 digits) + 000000."><input name="nitku" defaultValue={e?.nitku} className="input" placeholder="22 digits" /></Field>
+          <Field label="Signatory (bukti potong)" hint="Nama penandatangan printed on withholding slips."><input name="signerName" defaultValue={e?.tax.signerName} className="input" /></Field>
         </div>
         <Field label="Deed (akta) number"><input name="aktaNumber" defaultValue={e?.aktaNumber} className="input" /></Field>
         <Field label="Address"><textarea name="address" defaultValue={e?.address} rows={2} className="input" /></Field>

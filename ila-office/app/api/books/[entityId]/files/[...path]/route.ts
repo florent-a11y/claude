@@ -1,4 +1,5 @@
 import { guard } from "@/lib/auth";
+import { isClient } from "@/lib/access";
 import { isSafePath, readAttachment } from "@/lib/files";
 
 export const runtime = "nodejs";
@@ -14,8 +15,10 @@ const INLINE_TYPES = /^(application\/pdf|image\/)/;
  */
 export async function GET(_req: Request, ctx: { params: Promise<{ entityId: string; path: string[] }> }) {
   const { entityId, path: parts } = await ctx.params;
-  const user = await guard("read", entityId);
+  // Directory files ("crm" scope) belong to no entity and are for the team only; everything else is entity-scoped.
+  const user = entityId === "crm" ? await guard("read") : await guard("read", entityId);
   if (user instanceof Response) return user;
+  if (entityId === "crm" && isClient(user)) return new Response("Not found", { status: 404 });
   const key = (parts ?? []).join("/");
   if (!isSafePath(key) || !key.startsWith(`${entityId}/`)) return new Response("Not found", { status: 404 });
   const file = await readAttachment(key);

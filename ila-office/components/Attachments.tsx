@@ -10,7 +10,14 @@ import { deleteAttachmentAction, uploadAttachmentAction } from "@/app/books/[ent
  * Contract used by every detail page; the implementation (upload form, list with download links, delete) lives
  * here and the storage logic in lib/files.ts. Server component: pass the current list and whether the user may edit.
  */
-export type AttachmentDocType = "invoice" | "bill" | "journal" | "payment" | "asset";
+export type AttachmentDocType =
+  | "invoice" | "bill" | "journal" | "payment" | "asset" | "import"            // books (scope = entity id)
+  | "slip" | "obligation" | "payroll_run" | "employee"                          // tax & payroll (scope = entity id)
+  | "entity"                                                                    // settings (scope = entity id)
+  | "company" | "contact" | "vendor";                                           // directory (scope = "crm")
+
+/** Storage scope for directory records, which belong to no entity. */
+export const CRM_SCOPE = "crm";
 
 export interface AttachmentsProps {
   entityId: string;
@@ -23,15 +30,21 @@ export interface AttachmentsProps {
   className?: string;
 }
 
-const SECTION: Record<AttachmentDocType, string> = { invoice: "sales", bill: "purchases", journal: "journal", asset: "assets", payment: "bank" };
+const SECTION: Partial<Record<AttachmentDocType, string>> = { invoice: "sales", bill: "purchases", journal: "journal", asset: "assets" };
 
-/** The record's detail page; payments have no page of their own, so callers pass `backTo` (defaults to the bank tab). */
+/** The record's detail page for books records; every other caller passes `backTo`. */
 function defaultBackTo(entityId: string, docType: AttachmentDocType, docId: string): string {
-  return docType === "payment" ? `/books/${entityId}/${SECTION.payment}` : `/books/${entityId}/${SECTION[docType]}/${docId}`;
+  const section = SECTION[docType];
+  if (section) return `/books/${entityId}/${section}/${docId}`;
+  if (docType === "payment" || docType === "import") return `/books/${entityId}/bank`;
+  if (docType === "company" || docType === "contact" || docType === "vendor") return "/clients";
+  return "/";
 }
 
-export function attachmentUrl(entityId: string, a: Pick<Attachment, "path">): string {
-  return `/api/books/${entityId}/files/${a.path}`;
+/** The download URL; the key's first segment is the scope the route checks (an entity id, or "crm"). */
+export function attachmentUrl(_entityId: string, a: Pick<Attachment, "path">): string {
+  const scope = a.path.split("/")[0];
+  return `/api/books/${scope}/files/${a.path}`;
 }
 
 export function Attachments({ entityId, docType, docId, items, canWrite, backTo, className }: AttachmentsProps) {

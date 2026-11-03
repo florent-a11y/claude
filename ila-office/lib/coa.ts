@@ -74,6 +74,7 @@ export const COA_TEMPLATE: Row[] = [
   ["6-1010", "Allowances and bonuses", "Tunjangan dan bonus", "expense", "payroll"],
   ["6-1020", "BPJS employer contributions", "BPJS beban perusahaan", "expense", "payroll", "bpjs_expense"],
   ["6-1030", "Severance and benefits", "Pesangon dan imbalan kerja", "expense", "payroll"],
+  ["6-1040", "PPh 21 borne by company (non-deductible)", "PPh 21 ditanggung perusahaan (tidak dapat dikurangkan)", "expense", "payroll", "pph21_company_expense", false],
   ["6-1100", "Office rent", "Sewa kantor", "expense", "opex"],
   ["6-1110", "Virtual office / commercial address", "Alamat usaha / kantor virtual", "expense", "opex"],
   ["6-1200", "Utilities and internet", "Listrik, air, internet", "expense", "opex"],

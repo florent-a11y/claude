@@ -121,7 +121,7 @@ export function Select({ name, value, defaultValue, options, className = "input"
   const opts = (options as ReadonlyArray<string | { value: string; label: string; disabled?: boolean }>).map((o) => (typeof o === "string" ? { value: o, label: o } : o));
   return (
     <select name={name} id={id} value={value} defaultValue={defaultValue} className={className} required={required}>
-      {opts.map((o) => <option key={o.value} value={o.value} disabled={o.disabled}>{o.label}</option>)}
+      {opts.map((o, i) => <option key={`${i}-${o.value}`} value={o.value} disabled={o.disabled}>{o.label}</option>)}
     </select>
   );
 }

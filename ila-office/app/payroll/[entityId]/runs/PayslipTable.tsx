@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { PayslipLine, PayrollRun } from "@/lib/types";
 import type { LineOverride } from "@/lib/payroll";
-import { employeeTotal, employerTotal } from "@/lib/payroll";
+import { employeeTotal, employerTotal, pphBorne, pphDeducted } from "@/lib/payroll";
 import { CardTable, Cols } from "@/components/ui";
 import { MoneyInput } from "@/components/MoneyInput";
 
@@ -14,18 +14,22 @@ export function PayslipTable({ lines, totals, editable = false, overrides = {}, 
   const showOvertime = editable || lines.some((l) => l.overtime !== 0);
   const showBonus = editable || lines.some((l) => l.bonus !== 0);
   const showOther = lines.some((l) => l.otherDeductions !== 0);
+  const showBpjsAllow = lines.some((l) => (l.bpjsAllowance ?? 0) !== 0);
+  const showTaxAllow = lines.some((l) => (l.taxAllowance ?? 0) !== 0);
+  const anyBorne = lines.some((l) => pphBorne(l) !== 0);
   const otherTotal = lines.reduce((s, l) => s + l.otherDeductions, 0);
+  const borneTotal = lines.reduce((s, l) => s + pphBorne(l), 0);
   const optional = editable ? 120 : 100;
-  const widths: Array<number | undefined> = [undefined, 100, 100, ...(showOvertime ? [optional] : []), ...(showBonus ? [optional] : []), 110, 128, 128, 110, ...(showOther ? [100] : []), 112, ...(runId ? [70] : [])];
+  const widths: Array<number | undefined> = [undefined, 100, 100, ...(showBpjsAllow ? [100] : []), ...(showTaxAllow ? [100] : []), ...(showOvertime ? [optional] : []), ...(showBonus ? [optional] : []), 110, 128, 128, 110, ...(showOther ? [100] : []), 112, ...(runId ? [70] : [])];
   const minWidth = widths.reduce<number>((s, w) => s + (w ?? 180), 0);
-  const leading = 3 + (showOvertime ? 1 : 0) + (showBonus ? 1 : 0); // columns before Gross, spanned by the totals label
+  const leading = 3 + (showBpjsAllow ? 1 : 0) + (showTaxAllow ? 1 : 0) + (showOvertime ? 1 : 0) + (showBonus ? 1 : 0); // columns before Gross, spanned by the totals label
   return (
     <>
       <CardTable bottom={false}>
         <table className="table table-data" style={{ minWidth }}>
           <Cols widths={widths} />
           <thead>
-            <tr><th>Employee</th><th className="num">Basic</th><th className="num">Allow.</th>{showOvertime && <th className="num">Overtime</th>}{showBonus && <th className="num">Bonus</th>}<th className="num">Gross</th><th className="num">BPJS employer</th><th className="num">BPJS employee</th><th className="num">PPh 21</th>{showOther && <th className="num">Other ded.</th>}<th className="num">Net pay</th>{runId && <th></th>}</tr>
+            <tr><th>Employee</th><th className="num">Basic</th><th className="num">Allow.</th>{showBpjsAllow && <th className="num">BPJS allow.</th>}{showTaxAllow && <th className="num">Tax allow.</th>}{showOvertime && <th className="num">Overtime</th>}{showBonus && <th className="num">Bonus</th>}<th className="num">Gross</th><th className="num">BPJS employer</th><th className="num">BPJS employee</th><th className="num">PPh 21</th>{showOther && <th className="num">Other ded.</th>}<th className="num">Net pay</th>{runId && <th></th>}</tr>
           </thead>
           <tbody>
             {lines.map((l) => (
@@ -43,6 +47,8 @@ export function PayslipTable({ lines, totals, editable = false, overrides = {}, 
                 </td>
                 <td className="num">{f(l.basicSalary)}</td>
                 <td className="num">{f(l.allowances)}</td>
+                {showBpjsAllow && <td className="num" title="Employee BPJS share paid by the company (taxable)">{f(l.bpjsAllowance ?? 0)}</td>}
+                {showTaxAllow && <td className="num" title="Tunjangan PPh 21 (gross-up)">{f(l.taxAllowance ?? 0)}</td>}
                 {showOvertime && <td className="num">{editable ? <MoneyInput name={`ot_${l.employeeId}`} defaultValue={l.overtime || ""} currency="IDR" className="input !w-24 !px-2 !py-1" aria-label={`Overtime ${l.employeeName}`} /> : f(l.overtime)}</td>}
                 {showBonus && <td className="num">{editable ? <MoneyInput name={`bonus_${l.employeeId}`} defaultValue={l.bonus || ""} currency="IDR" className="input !w-24 !px-2 !py-1" aria-label={`Bonus ${l.employeeName}`} /> : f(l.bonus)}</td>}
                 <td className="num font-semibold">{f(l.gross)}</td>
@@ -50,7 +56,7 @@ export function PayslipTable({ lines, totals, editable = false, overrides = {}, 
                 <td className="num" title={`Kesehatan ${f(l.employee.bpjsKesehatan)} · JHT ${f(l.employee.jht)} · JP ${f(l.employee.jp)}`}>{f(employeeTotal(l))}</td>
                 <td className={`num ${l.pph21.amount < 0 ? "text-red-700" : ""}`} title={l.pph21.method === "ter" ? `TER ${l.pph21.terCategory} ${((l.pph21.rate ?? 0) * 100).toFixed(2)}% on ${f(l.pph21.base)}` : `Annual true-up on taxable income ${f(l.pph21.base)}`}>
                   {f(l.pph21.amount)}
-                  <span className="cell-sub">{pphNote(l)}</span>
+                  <span className="cell-sub">{pphNote(l)}{pphBorne(l) !== 0 ? " · company" : l.taxMethod === "grossup" ? " · gross-up" : ""}</span>
                 </td>
                 {showOther && <td className="num">{f(l.otherDeductions)}</td>}
                 <td className="num font-semibold">{f(l.netPay)}</td>
@@ -59,11 +65,11 @@ export function PayslipTable({ lines, totals, editable = false, overrides = {}, 
             ))}
           </tbody>
           <tfoot>
-            <tr><td colSpan={leading}>Totals · {lines.length} employees</td><td className="num">{f(totals.gross)}</td><td className="num">{f(totals.employerBpjs)}</td><td className="num">{f(totals.employeeBpjs)}</td><td className="num">{f(totals.pph21)}</td>{showOther && <td className="num">{f(otherTotal)}</td>}<td className="num">{f(totals.netPay)}</td>{runId && <td />}</tr>
+            <tr><td colSpan={3}>Totals · {lines.length} employees</td>{showBpjsAllow && <td className="num">{f(totals.bpjsAllowance ?? 0)}</td>}{showTaxAllow && <td className="num">{f(totals.taxAllowance ?? 0)}</td>}{leading > 3 + (showBpjsAllow ? 1 : 0) + (showTaxAllow ? 1 : 0) && <td colSpan={leading - 3 - (showBpjsAllow ? 1 : 0) - (showTaxAllow ? 1 : 0)} />}<td className="num">{f(totals.gross)}</td><td className="num">{f(totals.employerBpjs)}</td><td className="num">{f(totals.employeeBpjs)}</td><td className="num">{f(totals.pph21)}</td>{showOther && <td className="num">{f(otherTotal)}</td>}<td className="num">{f(totals.netPay)}</td>{runId && <td />}</tr>
           </tfoot>
         </table>
       </CardTable>
-      <p className="text-xs text-ink-500">Cost to company (gross + employer BPJS): <b className="text-ink-900">{f(totals.costToCompany)}</b> · BPJS to remit (employer + employee): {f(totals.employerBpjs + totals.employeeBpjs)} · PPh 21 to remit: {f(totals.pph21)}</p>
+      <p className="text-xs text-ink-500">Cost to company (gross + employer BPJS{anyBorne ? " + PPh 21 borne by company" : ""}): <b className="text-ink-900">{f(totals.costToCompany)}</b> · BPJS to remit (employer + employee): {f(totals.employerBpjs + totals.employeeBpjs)} · PPh 21 to remit: {f(totals.pph21)}{anyBorne ? ` (of which borne by company ${f(borneTotal)}, deducted from pay ${f(lines.reduce((s, l) => s + pphDeducted(l), 0))})` : ""}</p>
     </>
   );
 }

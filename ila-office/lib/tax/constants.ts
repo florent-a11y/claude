@@ -111,6 +111,8 @@ export const BPJS_JKM_RATE = 0.003;
 export type WithholdingKind = "pph21" | "pph23" | "pph26" | "pph4_2" | "pph15" | "pph22";
 
 export interface WithholdingObject {
+  /** Deemed DPP as a percentage of gross (PPh 21 non-employees: 50). Missing = 100. */
+  dppPercent?: number;
   code: string;
   type: WithholdingKind;
   label: string;
@@ -151,7 +153,13 @@ export const WITHHOLDING_OBJECTS: readonly WithholdingObject[] = [
   { code: "28-423-01", type: "pph4_2", label: "PPh final UMKM PP 55/2022 (0.5% of gross turnover)", rate: 0.005, final: true },
   { code: "28-404-01", type: "pph4_2", label: "Hadiah undian (lottery prizes)", rate: 0.25, final: true },
   // PPh 21 non-employee (bukan pegawai, PER-16/PJ/2016): 50% of gross × art. 17 rate (5% on the first 60 M); +20% without NPWP.
-  { code: "21-100-03", type: "pph21", label: "Bukan pegawai: imbalan jasa (non-employee fees, 50% × 5%)", rate: 0.025, noNpwpSurcharge: "plus20" },
+  { code: "21-100-03", type: "pph21", label: "Bukan pegawai: imbalan jasa (legacy code)", rate: 0.025, noNpwpSurcharge: "plus20" },
+  // PER-2/PJ/2024 object codes for non-employees: DPP = 50% of gross, art. 17 first bracket 5%; +20% without NPWP.
+  { code: "21-100-07", type: "pph21", label: "Imbalan kepada tenaga ahli (professional fees: lawyer, accountant, architect, doctor, consultant, notary, appraiser, actuary)", rate: 0.05, dppPercent: 50, noNpwpSurcharge: "plus20" },
+  { code: "21-100-08", type: "pph21", label: "Bukan pegawai: imbalan berkesinambungan (non-employee, recurring fees)", rate: 0.05, dppPercent: 50, noNpwpSurcharge: "plus20" },
+  { code: "21-100-09", type: "pph21", label: "Bukan pegawai: imbalan tidak berkesinambungan (non-employee, one-off fees)", rate: 0.05, dppPercent: 50, noNpwpSurcharge: "plus20" },
+  { code: "21-100-10", type: "pph21", label: "Peserta kegiatan (event participants: prizes, honoraria)", rate: 0.05, noNpwpSurcharge: "plus20" },
+  { code: "21-100-04", type: "pph21", label: "Anggota dewan komisaris / pengawas bukan pegawai tetap (board fees)", rate: 0.05, noNpwpSurcharge: "plus20" },
   // PPh 15 (shipping) and PPh 22 (import) — rarely used by ILA clients; included for completeness.
   { code: "28-407-01", type: "pph15", label: "Pelayaran dalam negeri (domestic shipping)", rate: 0.012, final: true },
   { code: "28-408-01", type: "pph15", label: "Pelayaran/penerbangan luar negeri (foreign shipping/airline)", rate: 0.0264, final: true },

@@ -74,29 +74,44 @@ const slipSchema = z.object({
   address: z.string().max(300).optional(),
   country: z.string().max(2).optional(),
   counterpartyId: z.string().optional(),
+  nitku: z.string().max(30).optional(),
   baseAmount: z.number().min(0),
+  grossAmount: z.number().min(0).optional(),
+  dppPercent: z.number().min(1).max(100).optional(),
   hasNpwp: z.boolean(),
   treatyRate: z.number().min(0).max(1).optional(),
   rateOverride: z.number().min(0).max(1).optional(),
+  facility: z.enum(["none", "skb", "dtp", "p3b"]).optional(),
+  documentType: z.enum(["invoice", "surat_tagihan", "faktur_pajak", "kontrak", "bukti_pembayaran", "lainnya"]).optional(),
+  documentNumber: z.string().max(80).optional(),
+  documentDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+  correction: z.boolean().optional(),
   description: z.string().max(500).optional(),
   billId: z.string().optional(),
 });
 
 export async function createWithholdingSlip(entityId: string, fd: FormData) {
   await requirePermission("tax:write");
-  const treaty = bool(fd, "treatyApplied");
+  const facility = (str(fd, "facility") ?? (bool(fd, "treatyApplied") ? "p3b" : "none")) as "none" | "skb" | "dtp" | "p3b";
   const override = str(fd, "rateOverride");
-  const objectCode = str(fd, "objectCode") ?? "";
+  const objectCode = (str(fd, "objectCode") ?? "").trim();
+  const obj = withholdingObject(objectCode);
+  const gross = str(fd, "grossAmount") !== undefined ? num(fd, "grossAmount") : undefined;
+  const npwpDigits = (str(fd, "npwp") ?? "").replace(/\D/g, "");
   const v = slipSchema.parse({
-    type: withholdingObject(objectCode)?.type ?? str(fd, "type"), objectCode, period: str(fd, "period"), date: str(fd, "date"), name: str(fd, "name"), npwp: str(fd, "npwp"), nik: str(fd, "nik"),
-    address: str(fd, "address"), country: (str(fd, "country") ?? "ID").toUpperCase().slice(0, 2), counterpartyId: str(fd, "counterpartyId"), baseAmount: num(fd, "baseAmount"),
-    hasNpwp: Boolean(str(fd, "npwp")), treatyRate: treaty ? num(fd, "treatyRate") / 100 : undefined, rateOverride: override ? num(fd, "rateOverride") / 100 : undefined,
+    type: obj?.type ?? str(fd, "type"), objectCode, period: str(fd, "period"), date: str(fd, "date"), name: str(fd, "name"), npwp: str(fd, "npwp"), nik: str(fd, "nik"), nitku: str(fd, "nitku"),
+    address: str(fd, "address"), country: (str(fd, "country") ?? "ID").toUpperCase().slice(0, 2), counterpartyId: str(fd, "counterpartyId") || undefined,
+    baseAmount: gross ?? num(fd, "baseAmount"), grossAmount: gross, dppPercent: str(fd, "dppPercent") ? num(fd, "dppPercent") : undefined,
+    hasNpwp: npwpDigits.length >= 15, treatyRate: facility === "p3b" && (obj?.type ?? str(fd, "type")) === "pph26" ? num(fd, "treatyRate") / 100 : undefined, rateOverride: override ? num(fd, "rateOverride") / 100 : undefined,
+    facility, documentType: str(fd, "documentType"), documentNumber: str(fd, "documentNumber"), documentDate: str(fd, "documentDate"), correction: bool(fd, "correction"),
     description: str(fd, "description"), billId: str(fd, "billId"),
   });
-  if (!withholdingObject(v.objectCode) && v.rateOverride === undefined) throw new Error("Unknown object code: enter a rate override for non-listed objects.");
+  if (!obj && v.rateOverride === undefined) throw new Error("Unknown object code: enter a rate override for non-listed objects.");
   const slip = await createSlip({
-    entityId, type: v.type, objectCode: v.objectCode, baseAmount: v.baseAmount, hasNpwp: v.hasNpwp, treatyRate: v.treatyRate, rateOverride: v.rateOverride, period: v.period, date: v.date,
-    counterparty: { name: v.name, npwp: v.npwp, nik: v.nik, address: v.address, country: v.country, id: v.counterpartyId }, description: v.description, billId: v.billId,
+    entityId, type: v.type, objectCode: v.objectCode, baseAmount: v.baseAmount, grossAmount: v.grossAmount, dppPercent: v.dppPercent, hasNpwp: v.hasNpwp, treatyRate: v.treatyRate, rateOverride: v.rateOverride, period: v.period, date: v.date,
+    counterparty: { name: v.name, npwp: v.npwp, nik: v.nik, nitku: v.nitku, address: v.address, country: v.country, id: v.counterpartyId },
+    description: v.description, billId: v.billId, facility: v.facility, correction: v.correction,
+    document: v.documentType ? { type: v.documentType, number: v.documentNumber, date: v.documentDate } : undefined,
   });
   revalidatePath(`/tax/${entityId}/withholding`);
   redirect(`/tax/${entityId}/withholding/${slip.id}`);
@@ -110,6 +125,8 @@ export async function setSlipStatus(slipId: string, fd: FormData) {
   const patch: Partial<WithholdingSlip> = { status };
   const ntpn = str(fd, "ntpn");
   if (ntpn) patch.ntpn = ntpn;
+  const coretaxNumber = str(fd, "coretaxNumber");
+  if (coretaxNumber) patch.coretaxNumber = coretaxNumber.slice(0, 40);
   await db.update("withholding_slips", slipId, patch);
   revalidatePath(`/tax/${slip.entityId}/withholding`);
 }

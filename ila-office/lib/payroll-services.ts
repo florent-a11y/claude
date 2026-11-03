@@ -1,6 +1,8 @@
 import { db } from "./db";
 import { postJournal } from "./posting";
 import { computePayroll, payrollJournalLines, type LineOverride } from "./payroll";
+import { createAccount } from "./books";
+import { findByTag } from "./balances";
 import type { PayrollRun } from "./types";
 
 /** Payroll runs: create (draft), recalculate, approve (posts the journal), mark paid, delete draft. */
@@ -38,7 +40,14 @@ export async function approveRun(runId: string, userId: string): Promise<Payroll
   const run = await db.get("payroll_runs", runId);
   if (!run) throw new Error("Payroll run not found");
   if (run.status !== "draft") throw new Error("Run is already approved");
-  const accounts = await db.list("accounts", { where: { entityId: run.entityId } });
+  let accounts = await db.list("accounts", { where: { entityId: run.entityId } });
+  // Nett-method runs post the company-borne tax to a non-deductible expense account; books opened before this
+  // option existed do not have it, so create the template row on first use.
+  if ((run.totals.pph21Company ?? 0) !== 0 && !findByTag(accounts, "pph21_company_expense")) {
+    const code = accounts.some((a) => a.code === "6-1040") ? "6-1041" : "6-1040";
+    await createAccount(run.entityId, { code, name: "PPh 21 borne by company (non-deductible)", nameId: "PPh 21 ditanggung perusahaan (tidak dapat dikurangkan)", type: "expense", subtype: "payroll", taxTag: "pph21_company_expense", deductible: false });
+    accounts = await db.list("accounts", { where: { entityId: run.entityId } });
+  }
   const lines = payrollJournalLines(run, accounts);
   const entry = await postJournal(run.entityId, { date: run.payDate, memo: `Payroll ${run.period}`, source: "payroll", sourceId: run.id, lines, createdByUserId: userId });
   const now = new Date().toISOString();
