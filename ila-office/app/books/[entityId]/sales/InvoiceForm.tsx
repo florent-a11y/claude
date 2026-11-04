@@ -8,6 +8,7 @@ import { Cols, TableCard } from "@/components/ui";
 import { AccountPicker } from "@/components/AccountPicker";
 import { MoneyField } from "@/components/MoneyInput";
 import type { Invoice, TaxCode } from "@/lib/types";
+import { FxRateField } from "@/components/FxRateField";
 
 export interface CustomerOpt { key: string; type: "company" | "contact"; id: string; name: string; email?: string; npwp?: string; address?: string }
 export interface AccountOpt { id: string; code: string; name: string; type?: string }
@@ -79,7 +80,7 @@ export function InvoiceForm({ action, entity, customers, accounts, services, def
           <label className="block"><span className="label">Invoice date</span><input name="date" type="date" value={date} required className="input" onChange={(e) => { setDate(e.target.value); if (!dueTouched && e.target.value) setDueDate(addWorkingDays(e.target.value, 3)); }} /></label>
           <label className="block"><span className="label">Due date</span><input name="dueDate" type="date" value={dueDate} required className="input" onChange={(e) => { setDueDate(e.target.value); setDueTouched(true); }} /><span className="mt-1 block text-xs text-ink-500">Default: 3 working days after the invoice date.</span></label>
           <label className="block"><span className="label">Currency</span><select name="currency" value={currency} onChange={(e) => setCurrency(e.target.value)} className="input">{currencyOptions().map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}</select></label>
-          <label className="block"><span className="label">FX rate (IDR per 1 {currency})</span><input name="fxRate" value={currency === "IDR" ? "1" : fxRate} onChange={(e) => setFxRate(e.target.value)} disabled={currency === "IDR"} className="input" inputMode="decimal" placeholder="16500" /></label>
+          <label className="block"><span className="label">FX rate (IDR per 1 {currency})</span><FxRateField name="fxRate" currency={currency} date={date} defaultValue={fxRate} onValueChange={(r) => setFxRate(r > 0 ? String(r) : "")} /></label>
           <label className="block"><span className="label">e-Faktur number (PKP)</span><input name="fakturNumber" defaultValue={invoice?.fakturNumber} className="input" /></label>
         </div>
       </div>

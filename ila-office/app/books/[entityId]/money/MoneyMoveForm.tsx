@@ -4,6 +4,7 @@ import { fmtNumber, roundMoney } from "@/lib/money";
 import { AccountPicker, type AccountOption } from "@/components/AccountPicker";
 import { MoneyField } from "@/components/MoneyInput";
 import { Cols, TableCard } from "@/components/ui";
+import { FxRateField } from "@/components/FxRateField";
 
 export type MoneyMoveKind = "expense" | "deposit";
 export interface BankOpt { id: string; name: string; currency: string; accountId: string }
@@ -94,7 +95,7 @@ export function MoneyMoveForm({ kind, action, banks, accounts, defaultDate, pref
             <label className="block"><span className="label">Method</span><select name="method" defaultValue="transfer" className="input">{METHODS.map((m) => <option key={m.value} value={m.value}>{m.label}</option>)}</select></label>
           </div>
           {currency !== "IDR" && (
-            <label className="block"><span className="label">FX rate (IDR per 1 {currency})</span><input name="fxRate" value={fxRate} onChange={(e) => setFxRate(e.target.value)} inputMode="decimal" className="input" required placeholder="e.g. 16500" /></label>
+            <label className="block"><span className="label">FX rate (IDR per 1 {currency})</span><FxRateField name="fxRate" currency={currency} dateField="date" required onValueChange={(r) => setFxRate(r > 0 ? String(r) : "")} /></label>
           )}
         </div>
         <div className="card space-y-3">

@@ -3,7 +3,7 @@ import { z } from "zod";
 import { requirePermission } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { createBankAccount, transfer, matchBankTransaction, postBankTransaction, linkBankTransaction, setBankTransactionStatus, unmatchBankTransaction } from "@/lib/books";
-import { bool, num, str } from "@/lib/util";
+import { bool, num, str, rateOf } from "@/lib/util";
 import { act, base } from "../shared";
 
 const bankSchema = z.object({
@@ -42,7 +42,7 @@ export async function transferAction(entityId: string, fd: FormData) {
   const to = `${base(entityId)}/bank`;
   await act(entityId, async () => {
     const user = await requirePermission("books:write");
-    const v = transferSchema.parse({ fromBankAccountId: str(fd, "fromBankAccountId"), toBankAccountId: str(fd, "toBankAccountId"), date: str(fd, "date"), amount: num(fd, "amount", 0), currency: (str(fd, "currency") ?? "IDR").toUpperCase(), fxRate: num(fd, "fxRate", 0) || undefined, toAmountIDR: num(fd, "toAmountIDR", 0) || undefined, feeIDR: num(fd, "feeIDR", 0) || undefined, reference: str(fd, "reference") });
+    const v = transferSchema.parse({ fromBankAccountId: str(fd, "fromBankAccountId"), toBankAccountId: str(fd, "toBankAccountId"), date: str(fd, "date"), amount: num(fd, "amount", 0), currency: (str(fd, "currency") ?? "IDR").toUpperCase(), fxRate: rateOf(fd, "fxRate") || undefined, toAmountIDR: num(fd, "toAmountIDR", 0) || undefined, feeIDR: num(fd, "feeIDR", 0) || undefined, reference: str(fd, "reference") });
     const r = await transfer(entityId, v, user.id);
     return `${to}?ok=${encodeURIComponent(`Transfer posted (${r.journal.number})`)}`;
   }, to);
@@ -52,7 +52,7 @@ export async function matchAction(entityId: string, bankAccountId: string, txId:
   const back = `${base(entityId)}/bank/${bankAccountId}/tx/${txId}`;
   await act(entityId, async () => {
     const user = await requirePermission("books:write");
-    const v = z.object({ type: z.enum(["invoice", "bill"]), id: z.string().min(1), amount: z.number().min(0).optional(), fxRate: z.number().min(0).optional() }).parse({ type: str(fd, "type"), id: str(fd, "id"), amount: num(fd, "amount", 0) || undefined, fxRate: num(fd, "fxRate", 0) || undefined });
+    const v = z.object({ type: z.enum(["invoice", "bill"]), id: z.string().min(1), amount: z.number().min(0).optional(), fxRate: z.number().min(0).optional() }).parse({ type: str(fd, "type"), id: str(fd, "id"), amount: num(fd, "amount", 0) || undefined, fxRate: rateOf(fd, "fxRate") || undefined });
     const j = await matchBankTransaction(entityId, txId, v, user.id);
     return `${base(entityId)}/bank/${bankAccountId}?status=unmatched&ok=${encodeURIComponent(`Matched: ${j.number} posted`)}`;
   }, back);
@@ -62,7 +62,7 @@ export async function postBankTxAction(entityId: string, bankAccountId: string, 
   const back = `${base(entityId)}/bank/${bankAccountId}/tx/${txId}`;
   await act(entityId, async () => {
     const user = await requirePermission("books:write");
-    const v = z.object({ counterAccountId: z.string().min(1, "Pick a counter account"), description: z.string().max(300).optional(), fxRate: z.number().min(0).optional(), counterpartyName: z.string().max(120).optional() }).parse({ counterAccountId: str(fd, "counterAccountId"), description: str(fd, "description"), fxRate: num(fd, "fxRate", 0) || undefined, counterpartyName: str(fd, "counterpartyName") });
+    const v = z.object({ counterAccountId: z.string().min(1, "Pick a counter account"), description: z.string().max(300).optional(), fxRate: z.number().min(0).optional(), counterpartyName: z.string().max(120).optional() }).parse({ counterAccountId: str(fd, "counterAccountId"), description: str(fd, "description"), fxRate: rateOf(fd, "fxRate") || undefined, counterpartyName: str(fd, "counterpartyName") });
     const j = await postBankTransaction(entityId, txId, v, user.id);
     return `${base(entityId)}/bank/${bankAccountId}?status=unmatched&ok=${encodeURIComponent(`${j.number} posted`)}`;
   }, back);

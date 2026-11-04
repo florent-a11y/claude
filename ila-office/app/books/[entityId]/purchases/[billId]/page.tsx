@@ -11,6 +11,7 @@ import { Attachments } from "@/components/Attachments";
 import { MoneyInput } from "@/components/MoneyInput";
 import { ErrorNotice, base, first, requireEntity, type Search } from "../../shared";
 import { postBillAction, disbursementAction, voidBillAction, voidBillPaymentAction } from "../actions";
+import { FxRateField } from "@/components/FxRateField";
 
 export const dynamic = "force-dynamic";
 
@@ -120,7 +121,7 @@ export default async function BillPage({ params, searchParams }: { params: Promi
                     <Field label="Date"><input name="date" type="date" defaultValue={today} required className="input" /></Field>
                     <Field label={`Amount (${ccy})`}><MoneyInput name="amount" defaultValue={outstanding} currency={ccy} required /></Field>
                   </div>
-                  {ccy !== "IDR" && <Field label={`Rate on payment (IDR per 1 ${ccy})`}><input name="fxRate" defaultValue={String(bill.fxRate)} inputMode="decimal" className="input" /></Field>}
+                  {ccy !== "IDR" && <Field label={`Rate on payment (IDR per 1 ${ccy})`}><FxRateField name="fxRate" currency={ccy} dateField="date" defaultValue={bill.fxRate} /></Field>}
                   <Field label="Reference"><input name="reference" className="input" placeholder="Transfer reference" /></Field>
                   <SubmitButton pendingText="Recording…">Record payment</SubmitButton>
                 </form>

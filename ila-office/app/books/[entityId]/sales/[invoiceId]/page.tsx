@@ -14,6 +14,7 @@ import { postInvoiceAction, receiptAction, voidInvoiceAction, voidPaymentAction 
 import { SendPanel } from "./SendPanel";
 import { defaultPaymentInstructions } from "../_data";
 import { fullName } from "@/lib/util";
+import { FxRateField } from "@/components/FxRateField";
 
 export const dynamic = "force-dynamic";
 
@@ -133,7 +134,7 @@ export default async function InvoicePage({ params, searchParams }: { params: Pr
                     <Field label="Date"><input name="date" type="date" defaultValue={today} required className="input" /></Field>
                     <Field label={`Amount (${ccy})`}><MoneyInput name="amount" defaultValue={outstanding} currency={ccy} required /></Field>
                   </div>
-                  {ccy !== "IDR" && <Field label={`Rate on receipt (IDR per 1 ${ccy})`} hint="Difference with the invoice rate posts to FX gain/loss."><input name="fxRate" defaultValue={String(invoice.fxRate)} inputMode="decimal" className="input" /></Field>}
+                  {ccy !== "IDR" && <Field label={`Rate on receipt (IDR per 1 ${ccy})`} hint="Difference with the invoice rate posts to FX gain/loss."><FxRateField name="fxRate" currency={ccy} dateField="date" defaultValue={invoice.fxRate} /></Field>}
                   <Field label="Reference"><input name="reference" className="input" placeholder="Bank reference / remittance" /></Field>
                   <SubmitButton pendingText="Recording…">Record receipt</SubmitButton>
                 </form>

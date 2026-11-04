@@ -2,7 +2,7 @@ import { z } from "zod";
 import { requirePermission } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { periodOf } from "@/lib/dates";
-import { num, str } from "@/lib/util";
+import { num, str, rateOf } from "@/lib/util";
 import { isMoneyMove, recordMoneyMove, voidMoneyMove, type MoneyMoveInput, type MoneyMoveKind } from "@/lib/money-moves";
 import type { Account, AccountType, Payment, TaxTag } from "@/lib/types";
 import type { AccountOption } from "@/components/AccountPicker";
@@ -99,7 +99,7 @@ export function readMoneyMoveForm(kind: MoneyMoveKind, fd: FormData): MoneyMoveI
   try { lines = JSON.parse(String(fd.get("lines") ?? "[]")); } catch { throw new Error("Lines could not be read."); }
   const v = schema.parse({
     bankAccountId: str(fd, "bankAccountId"), date: str(fd, "date"), payee: str(fd, "payee"), memo: str(fd, "memo"), reference: str(fd, "reference"),
-    method: str(fd, "method"), fxRate: num(fd, "fxRate", 0) || undefined, lines, bankTransactionId: str(fd, "bankTransactionId"),
+    method: str(fd, "method"), fxRate: rateOf(fd, "fxRate") || undefined, lines, bankTransactionId: str(fd, "bankTransactionId"),
   });
   return { kind, ...v };
 }

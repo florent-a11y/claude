@@ -11,6 +11,7 @@ import { AccountPicker } from "@/components/AccountPicker";
 import { MoneyInput } from "@/components/MoneyInput";
 import { ErrorNotice, base, first, requireEntity, type Params, type Search } from "../shared";
 import { createBankAccountAction, transferAction } from "./actions";
+import { FxRateField } from "@/components/FxRateField";
 
 export const dynamic = "force-dynamic";
 
@@ -76,7 +77,7 @@ export default async function Bank({ params, searchParams }: { params: Params; s
                 <Field label="Date"><input name="date" type="date" defaultValue={todayISO()} className="input" required /></Field>
                 <Field label="Amount sent"><MoneyInput name="amount" currencyField="currency" required /></Field>
                 <Field label="Currency of amount"><Select name="currency" defaultValue="IDR" options={currencyOptions()} /></Field>
-                <Field label="FX rate (IDR per unit, non-IDR)"><input name="fxRate" inputMode="decimal" className="input" placeholder="1" /></Field>
+                <Field label="FX rate (IDR per unit, non-IDR)"><FxRateField name="fxRate" currencyField="currency" dateField="date" /></Field>
                 <Field label="IDR received (optional, cross-currency)" hint="Leave blank when both sides are the same currency."><MoneyInput name="toAmountIDR" currency="IDR" placeholder="" /></Field>
                 <Field label="Bank fee (IDR)"><MoneyInput name="feeIDR" currency="IDR" /></Field>
                 <Field label="Reference"><input name="reference" className="input" /></Field>

@@ -11,7 +11,7 @@ begin
   foreach t in array array[
     'users','entities','contacts','companies','services','vendors','activities',
     'accounts','journal_entries','periods','bank_accounts','bank_transactions','invoices','bills','payments','fixed_assets',
-    'employees','payroll_runs','withholding_slips','vat_transactions','tax_obligations','import_batches','counters','settings'
+    'employees','payroll_runs','withholding_slips','vat_transactions','tax_obligations','import_batches','counters','settings','fx_rates'
   ] loop
     execute format('create table if not exists public.%I (
       id text primary key,

@@ -12,6 +12,7 @@ import { AccountPicker } from "@/components/AccountPicker";
 import { MoneyInput } from "@/components/MoneyInput";
 import { ErrorNotice, base, first, requireEntity, type Search } from "../../../../shared";
 import { matchAction, postBankTxAction, linkJournalAction, excludeTxAction } from "../../../actions";
+import { FxRateField } from "@/components/FxRateField";
 
 export const dynamic = "force-dynamic";
 
@@ -75,7 +76,7 @@ export default async function MatchTransaction({ params, searchParams }: { param
                             <form action={matchAction.bind(null, entityId, bank.id, tx.id)} className="flex flex-wrap items-center justify-end gap-1">
                               <input type="hidden" name="type" value={moneyIn ? "invoice" : "bill"} /><input type="hidden" name="id" value={d.id} />
                               <span className="inline-block w-28" title={`Amount in ${d.ccy}`}><MoneyInput name="amount" defaultValue={defaultAmount} currency={d.ccy} className="input !py-1 text-xs" aria-label={`Amount in ${d.ccy}`} /></span>
-                              {d.ccy !== "IDR" && bank.currency !== "IDR" && <span className="inline-block w-24" title="IDR per unit"><MoneyInput name="fxRate" defaultValue={d.fxRate} currency={d.ccy} className="input !py-1 text-xs" aria-label="IDR per unit" /></span>}
+                              {d.ccy !== "IDR" && bank.currency !== "IDR" && <span className="inline-block w-28" title="IDR per unit"><FxRateField name="fxRate" currency={d.ccy} date={tx.date} defaultValue={d.fxRate} className="input !py-1 text-xs" aria-label="IDR per unit" autoFetch={false} /></span>}
                               <button className="btn-primary !px-2 !py-1 text-xs" type="submit">Match</button>
                             </form>
                           )}
@@ -98,7 +99,7 @@ export default async function MatchTransaction({ params, searchParams }: { param
                 <Field label="Memo"><input name="description" defaultValue={tx.description.slice(0, 120)} className="input" /></Field>
                 <div className="grid grid-cols-2 gap-3">
                   <Field label="Counterparty (optional)"><input name="counterpartyName" className="input" /></Field>
-                  {bank.currency !== "IDR" && <Field label={`FX rate (IDR per 1 ${bank.currency})`}><MoneyInput name="fxRate" currency={bank.currency} required placeholder="e.g. 16500" /></Field>}
+                  {bank.currency !== "IDR" && <Field label={`FX rate (IDR per 1 ${bank.currency})`}><FxRateField name="fxRate" currency={bank.currency} date={tx.date} required /></Field>}
                 </div>
                 <SubmitButton pendingText="Posting…">{moneyIn ? "Post Dr bank / Cr counter" : "Post Dr counter / Cr bank"}</SubmitButton>
               </form>
