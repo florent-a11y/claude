@@ -1,3 +1,4 @@
+import { parseRate } from "./fx-core";
 import { createHash } from "node:crypto";
 
 export function sha256(s: string): string {
@@ -45,6 +46,12 @@ export function num(fd: FormData, key: string, fallback = 0): number {
   if (typeof v !== "string" || v.trim() === "") return fallback;
   const n = Number(v.replace(/[^0-9.\-]/g, ""));
   return Number.isFinite(n) ? n : fallback;
+}
+
+/** Reads an FX rate (IDR per unit) typed either way ("16,245.50" or "16.245,50"); 0 when empty. See lib/fx-core.ts. */
+export function rateOf(fd: FormData, key: string): number {
+  const v = fd.get(key);
+  return typeof v === "string" ? parseRate(v) : 0;
 }
 
 export function bool(fd: FormData, key: string): boolean {

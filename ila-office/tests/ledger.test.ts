@@ -7,6 +7,7 @@ import {
   depreciationJournalLines, depreciationSchedule, depreciationDue, trialBalance, profitAndLoss, balanceSheet, generalLedger, arAging, apAging,
   agingBucket, docDisplayStatus, fiscalYearStartOf, bankJournalLines, disposalJournalLines,
 } from "../lib/ledger";
+import { transferFxLegs } from "../lib/books";
 import type { Account, Bill, FixedAsset, Invoice, JournalEntry, JournalLine } from "../lib/types";
 
 let seq = 0;
@@ -161,6 +162,39 @@ test("disbursement, transfer and bank quick journals balance", () => {
   assert.equal(validateLines(charge), null);
   assert.equal(charge[0].accountId, code("6-2000").id);
   assert.equal(charge[1].credit, 15_000);
+});
+
+test("transfer legs carry the bank accounts' own currency so the reconciliation can show them", () => {
+  const idr = code("1-1100"), fxBank = code("1-1110"), fee = code("6-2000");
+  // USD → IDR: 1,000 USD sent at 16,000; the USD line keeps its original amount, the IDR line stays plain.
+  const legsOut = transferFxLegs({ fromCurrency: "USD", toCurrency: "IDR", amount: 1000, currency: "USD", fxRate: 16_000, amountIDR: 16_000_000 });
+  assert.deepEqual(legsOut, { fromFx: { currency: "USD", amount: 1000, rate: 16_000 }, toFx: undefined });
+  const usdOut = transferJournalLines({ from: fxBank, to: idr, amountIDR: 16_000_000, accounts, ...legsOut });
+  assert.equal(validateLines(usdOut), null);
+  const usdLine = on(usdOut, fxBank)[0];
+  assert.equal(usdLine.credit, 16_000_000);
+  assert.deepEqual([usdLine.currency, usdLine.fxAmount, usdLine.fxRate], ["USD", 1000, 16_000]);
+  assert.deepEqual([on(usdOut, idr)[0].currency, on(usdOut, idr)[0].fxAmount], [undefined, undefined]);
+  // IDR → EUR: 16,600,000 IDR sent, 100,000 fee, 1,000 EUR arrived; the EUR line carries the amount received and the rate derived from the IDR that reached it.
+  const legsIn = transferFxLegs({ fromCurrency: "IDR", toCurrency: "EUR", amount: 16_600_000, currency: "IDR", fxRate: 1, amountIDR: 16_600_000, feeIDR: 100_000, toAmount: 1000 });
+  assert.equal(legsIn.fromFx, undefined);
+  assert.deepEqual(legsIn.toFx, { currency: "EUR", amount: 1000, rate: 16_500 });
+  const eurIn = transferJournalLines({ from: idr, to: fxBank, amountIDR: 16_600_000, feeIDR: 100_000, feeAccount: fee, accounts, ...legsIn });
+  assert.equal(validateLines(eurIn), null);
+  const eurLine = on(eurIn, fxBank)[0];
+  assert.equal(eurLine.debit, 16_500_000);
+  assert.deepEqual([eurLine.currency, eurLine.fxAmount, eurLine.fxRate], ["EUR", 1000, 16_500]);
+  assert.equal(on(eurIn, fee)[0].debit, 100_000);
+  assert.equal(on(eurIn, idr)[0].currency, undefined);
+  // A typed "IDR received" wins over amount − fee; rates keep 4 decimals; the same currency on both sides needs no toAmount; a third currency without it gets no leg.
+  assert.equal(transferFxLegs({ fromCurrency: "IDR", toCurrency: "EUR", amount: 10_000_000, currency: "IDR", fxRate: 1, amountIDR: 10_000_000, toAmountIDR: 9_950_000, toAmount: 603 }).toFx?.rate, 16_500.8292);
+  assert.deepEqual(transferFxLegs({ fromCurrency: "USD", toCurrency: "USD", amount: 250, currency: "USD", fxRate: 16_000, amountIDR: 4_000_000 }), { fromFx: { currency: "USD", amount: 250, rate: 16_000 }, toFx: { currency: "USD", amount: 250, rate: 16_000 } });
+  assert.deepEqual(transferFxLegs({ fromCurrency: "USD", toCurrency: "EUR", amount: 100, currency: "USD", fxRate: 16_000, amountIDR: 1_600_000 }), { fromFx: { currency: "USD", amount: 100, rate: 16_000 }, toFx: undefined });
+  // IDR → IDR carries no fx fields at all.
+  const plain = transferJournalLines({ from: idr, to: code("1-1000"), amountIDR: 5_000_000, accounts, ...transferFxLegs({ fromCurrency: "IDR", toCurrency: "IDR", amount: 5_000_000, currency: "IDR", fxRate: 1, amountIDR: 5_000_000 }) });
+  assert.equal(validateLines(plain), null);
+  assert.equal(plain.length, 2);
+  for (const l of plain) assert.deepEqual([l.currency, l.fxAmount, l.fxRate], [undefined, undefined, undefined]);
 });
 
 const assetBase: FixedAsset = {

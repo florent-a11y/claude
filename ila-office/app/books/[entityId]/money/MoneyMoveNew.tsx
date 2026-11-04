@@ -8,7 +8,7 @@ import { fmtMoney } from "@/lib/money";
 import type { MoneyMoveKind } from "@/lib/money-moves";
 import { Notice } from "@/components/ui";
 import { ErrorNotice, base, first, requireEntity, type Params, type Search } from "../shared";
-import { MONEY_MOVE_META, counterAccountOptions, moneyMoveBase } from "./shared";
+import { MONEY_MOVE_META, counterAccountOptions, moneyMoveBase, withholdingLineOptions } from "./shared";
 import { MoneyMoveForm, type Prefill } from "./MoneyMoveForm";
 
 /** "New expense" / "New deposit" page; `?tx=<bankTransactionId>` prefills the form from a statement line and links it. */
@@ -45,7 +45,7 @@ export async function MoneyMoveNewPage({ kind, action, params, searchParams }: {
       <div className="flex items-center justify-between"><h2 className="text-base font-semibold">{meta.newLabel}</h2><Link href={here} className="text-xs text-brand-600 underline">Back to {meta.plural.toLowerCase()}</Link></div>
       {notice && <Notice tone={tone}>{notice}</Notice>}
       {banks.length === 0 ? <Notice tone="amber">Add a <Link href={`${b}/bank`} className="underline">bank or cash account</Link> first.</Notice> : (
-        <MoneyMoveForm kind={kind} action={action.bind(null, entityId)} banks={banks} accounts={counterAccountOptions(accounts, kind)} defaultDate={todayISO()} prefill={prefill} />
+        <MoneyMoveForm kind={kind} action={action.bind(null, entityId)} banks={banks} accounts={counterAccountOptions(accounts, kind)} defaultDate={todayISO()} prefill={prefill} withholding={kind === "expense" ? withholdingLineOptions(accounts) : undefined} />
       )}
       <p className="text-xs text-ink-500">{meta.hint}</p>
     </div>

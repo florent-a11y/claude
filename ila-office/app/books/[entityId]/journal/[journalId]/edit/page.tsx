@@ -25,7 +25,10 @@ export default async function EditJournalEntry({ params, searchParams }: { param
   const lock = await db.get("periods", `${entityId}:${entry.period}`);
   const problem = editProblem(entry) ?? (lock?.locked ? `Period ${periodLabel(entry.period)} is locked; unlock it under Periods before editing this entry` : null);
   const used = new Set(entry.lines.map((l) => l.accountId));
-  const accounts = (await entityAccounts(entityId)).filter((a) => a.active || used.has(a.id)).map((a) => ({ id: a.id, code: a.code, name: a.name, type: a.type }));
+  const [allAccounts, banks] = await Promise.all([entityAccounts(entityId), db.list("bank_accounts", { where: { entityId } })]);
+  const accounts = allAccounts.filter((a) => a.active || used.has(a.id)).map((a) => ({ id: a.id, code: a.code, name: a.name, type: a.type }));
+  // GL account → currency of the foreign-currency bank accounts: their lines take the amount in that currency (prefilled from `fxAmount`).
+  const fxAccounts = Object.fromEntries(banks.filter((bk) => bk.currency !== "IDR").map((bk) => [bk.accountId, bk.currency]));
   return (
     <div className="space-y-4 pb-8">
       <ErrorNotice error={first(sp.error)} />
@@ -38,7 +41,7 @@ export default async function EditJournalEntry({ params, searchParams }: { param
       ) : (
         <>
           <p className="text-sm text-ink-500">Changes replace the current lines; the previous version is kept in the entry&apos;s revision history, with who changed it and when.</p>
-          <JournalForm accounts={accounts} action={updateJournalAction.bind(null, entityId, journalId)} defaultDate={entry.date} initial={{ date: entry.date, memo: entry.memo, source: entry.source, lines: entry.lines }} submitLabel="Save changes" cancelHref={detail} />
+          <JournalForm accounts={accounts} action={updateJournalAction.bind(null, entityId, journalId)} defaultDate={entry.date} initial={{ date: entry.date, memo: entry.memo, source: entry.source, lines: entry.lines }} submitLabel="Save changes" cancelHref={detail} fxAccounts={fxAccounts} />
         </>
       )}
     </div>

@@ -236,6 +236,9 @@ export function disbursementJournalLines(p: DisbursementInput): JournalLine[] {
   return compact(lines);
 }
 
+/** Foreign-currency side of one transfer leg: the amount in the bank account's own currency and the IDR per unit it was booked at. */
+export interface TransferFxLeg { currency: string; amount: number; rate: number }
+
 export interface TransferInput {
   from: Account;
   to: Account;
@@ -247,6 +250,9 @@ export interface TransferInput {
   feeAccount?: Account;
   accounts: Account[];
   memo?: string;
+  /** Original amounts when the source / destination bank account is not in IDR, so the reconciliation can show the lines in that currency. */
+  fromFx?: TransferFxLeg;
+  toFx?: TransferFxLeg;
 }
 
 /** Dr destination bank / Cr source bank, optional fee line, FX difference to fx_gain/fx_loss. */
@@ -254,7 +260,8 @@ export function transferJournalLines(p: TransferInput): JournalLine[] {
   const out = roundMoney(p.amountIDR);
   const fee = roundMoney(p.feeIDR ?? 0);
   const inAmt = roundMoney(p.toAmountIDR ?? out - fee);
-  const lines = [jl(p.to, inAmt, 0, { description: p.memo ?? "Transfer in" }), jl(p.from, 0, out, { description: p.memo ?? "Transfer out" })];
+  const fx = (leg?: TransferFxLeg): LineExtra => (leg && leg.currency !== "IDR" && leg.amount ? { currency: leg.currency, fxAmount: Math.abs(leg.amount), fxRate: leg.rate } : {});
+  const lines = [jl(p.to, inAmt, 0, { description: p.memo ?? "Transfer in", ...fx(p.toFx) }), jl(p.from, 0, out, { description: p.memo ?? "Transfer out", ...fx(p.fromFx) })];
   if (fee > 0 && p.feeAccount) lines.push(jl(p.feeAccount, fee, 0, { description: "Transfer fee" }));
   const diff = roundMoney(out - inAmt - fee);
   if (diff > 0) lines.push(jl(requireTag(p.accounts, "fx_loss"), diff, 0, { description: "FX difference on transfer" }));
@@ -377,27 +384,43 @@ export function netBookValue(asset: Pick<FixedAsset, "cost" | "accumulatedDeprec
 
 // ---------- Reports ----------
 
-export interface TrialBalanceRow { account: Account; debit: number; credit: number }
-export interface TrialBalance { asOf?: string; rows: TrialBalanceRow[]; totalDebit: number; totalCredit: number; balanced: boolean }
+/**
+ * Zero-balance handling shared by the statements: "hide" (the default) leaves out accounts whose balance is zero and
+ * sections that end up without rows, so clients only see accounts with actual balances; "show" lists every account
+ * of the chart and keeps every section. Totals and summary lines are identical in both modes.
+ */
+export type ZeroMode = "hide" | "show";
+export interface ReportOptions { zero?: ZeroMode }
 
-/** Cumulative balances of every account with activity up to `asOf` (debit column when net > 0). */
-export function trialBalance(accounts: Account[], entries: JournalEntry[], asOf?: string): TrialBalance {
+export interface TrialBalanceRow { account: Account; debit: number; credit: number }
+export interface TrialBalance {
+  asOf?: string; rows: TrialBalanceRow[]; totalDebit: number; totalCredit: number; balanced: boolean;
+  /** Accounts with a zero net balance left out of `rows` (always 0 with `zero: "show"`). */
+  accountsSkipped: number;
+}
+
+/** Cumulative balances of every account up to `asOf` (debit column when net > 0); zero balances are skipped unless `opts.zero` is "show". */
+export function trialBalance(accounts: Account[], entries: JournalEntry[], asOf?: string, opts: ReportOptions = {}): TrialBalance {
   const bal = accountBalances(entries, { to: asOf });
   const rows: TrialBalanceRow[] = [];
+  let accountsSkipped = 0;
   for (const a of [...accounts].sort((x, y) => x.code.localeCompare(y.code))) {
-    const b = bal.get(a.id);
-    if (!b || b.net === 0) continue;
-    rows.push({ account: a, debit: b.net > 0 ? b.net : 0, credit: b.net < 0 ? -b.net : 0 });
+    const net = bal.get(a.id)?.net ?? 0;
+    if (net === 0 && opts.zero !== "show") { accountsSkipped++; continue; }
+    rows.push({ account: a, debit: net > 0 ? net : 0, credit: net < 0 ? -net : 0 });
   }
   const totalDebit = roundMoney(rows.reduce((s, r) => s + r.debit, 0));
   const totalCredit = roundMoney(rows.reduce((s, r) => s + r.credit, 0));
-  return { asOf, rows, totalDebit, totalCredit, balanced: totalDebit === totalCredit };
+  return { asOf, rows, totalDebit, totalCredit, balanced: totalDebit === totalCredit, accountsSkipped };
 }
 
 export interface ReportRow { account: Account; amount: number }
 export interface ReportSection { key: string; label: string; subtypes: AccountSubtype[]; rows: ReportRow[]; total: number }
 
-const PL_SECTIONS: Array<Pick<ReportSection, "key" | "label" | "subtypes">> = [
+type SectionDef = Pick<ReportSection, "key" | "label" | "subtypes">;
+
+/** The income statement's sections in print order. Pages and exports walk this list, not `sections`, so the summary lines keep their place when an empty section is hidden. */
+export const PL_SECTIONS: readonly SectionDef[] = [
   { key: "revenue", label: "Revenue", subtypes: ["sales"] },
   { key: "cogs", label: "Cost of sales", subtypes: ["cogs"] },
   { key: "opex", label: "Operating expenses", subtypes: ["opex", "payroll", "depreciation"] },
@@ -408,29 +431,43 @@ const PL_SECTIONS: Array<Pick<ReportSection, "key" | "label" | "subtypes">> = [
 
 export interface ProfitAndLoss {
   from?: string; to?: string;
+  /** The sections with rows (every section with `zero: "show"`), in PL_SECTIONS order. */
   sections: ReportSection[];
+  /** Labels of the sections hidden because none of their accounts had a balance (empty with `zero: "show"`). */
+  emptySections: string[];
   revenue: number; cogs: number; grossProfit: number; opex: number; operatingProfit: number;
   otherIncome: number; otherExpense: number; profitBeforeTax: number; tax: number; netProfit: number;
 }
 
-function buildSections(defs: Array<Pick<ReportSection, "key" | "label" | "subtypes">>, accounts: Account[], bal: Map<string, Balance>, keepZero = false): ReportSection[] {
+/** One section per definition with the accounts of its subtypes in code order; zero rows are dropped unless `keepZero` (an untouched credit account's -0 is listed as 0). */
+function buildSections(defs: readonly SectionDef[], accounts: Account[], bal: Map<string, Balance>, keepZero = false): ReportSection[] {
   const sorted = [...accounts].sort((x, y) => x.code.localeCompare(y.code));
   return defs.map((d) => {
-    const rows = sorted.filter((a) => d.subtypes.includes(a.subtype)).map((a) => ({ account: a, amount: naturalBalance(a, bal.get(a.id)) })).filter((r) => keepZero || r.amount !== 0);
+    const rows = sorted.filter((a) => d.subtypes.includes(a.subtype)).map((a) => ({ account: a, amount: naturalBalance(a, bal.get(a.id)) || 0 })).filter((r) => keepZero || r.amount !== 0);
     return { ...d, rows, total: roundMoney(rows.reduce((s, r) => s + r.amount, 0)) };
   });
 }
 
-/** Income statement for a date range (natural signs: revenue and expenses positive). */
-export function profitAndLoss(accounts: Account[], entries: JournalEntry[], range: { from?: string; to?: string }): ProfitAndLoss {
+/** Splits sections into the ones to print and the labels of those left out: with "hide" a section without rows is dropped, with "show" everything stays. */
+function dropEmptySections<S extends { label: string; rows: unknown[] }>(sections: S[], zero: ZeroMode | undefined): { sections: S[]; emptySections: string[] } {
+  if (zero === "show") return { sections, emptySections: [] };
+  return { sections: sections.filter((s) => s.rows.length > 0), emptySections: sections.filter((s) => s.rows.length === 0).map((s) => s.label) };
+}
+
+/**
+ * Income statement for a date range (natural signs: revenue and expenses positive). Zero rows and sections without
+ * rows are hidden unless `opts.zero` is "show"; the section totals and summary lines always cover every section.
+ */
+export function profitAndLoss(accounts: Account[], entries: JournalEntry[], range: { from?: string; to?: string }, opts: ReportOptions = {}): ProfitAndLoss {
   const bal = accountBalances(entries, range);
-  const sections = buildSections(PL_SECTIONS, accounts.filter((a) => a.type === "revenue" || a.type === "expense"), bal);
-  const t = (k: string) => sections.find((s) => s.key === k)?.total ?? 0;
+  const all = buildSections(PL_SECTIONS, accounts.filter((a) => a.type === "revenue" || a.type === "expense"), bal, opts.zero === "show");
+  const t = (k: string) => all.find((s) => s.key === k)?.total ?? 0;
   const revenue = t("revenue"), cogs = t("cogs"), opex = t("opex"), otherIncome = t("other_income"), otherExpense = t("other_expense"), tax = t("tax");
   const grossProfit = roundMoney(revenue - cogs);
   const operatingProfit = roundMoney(grossProfit - opex);
   const profitBeforeTax = roundMoney(operatingProfit + otherIncome - otherExpense);
-  return { from: range.from, to: range.to, sections, revenue, cogs, grossProfit, opex, operatingProfit, otherIncome, otherExpense, profitBeforeTax, tax, netProfit: roundMoney(profitBeforeTax - tax) };
+  const { sections, emptySections } = dropEmptySections(all, opts.zero);
+  return { from: range.from, to: range.to, sections, emptySections, revenue, cogs, grossProfit, opex, operatingProfit, otherIncome, otherExpense, profitBeforeTax, tax, netProfit: roundMoney(profitBeforeTax - tax) };
 }
 
 // ---------- Monthly P&L ----------
@@ -447,7 +484,10 @@ export interface ProfitAndLossMonthly {
   /** Effective range (the first day of the first column when the requested range was trimmed). */
   from: string; to: string;
   columns: MonthlyColumn[];
+  /** The sections with rows in at least one column (every section with `zero: "show"`), in PL_SECTIONS order. */
   sections: MonthlyReportSection[];
+  /** Labels of the sections hidden because no column had a row for them (empty with `zero: "show"`). */
+  emptySections: string[];
   /** Gross profit, operating profit, profit before tax, net profit — per column and total. */
   summary: MonthlySummaryLine[];
   /** The underlying statements: one per column, clipped to the range, and one for the whole range. */
@@ -474,9 +514,10 @@ const PL_SUMMARY_LINES: Array<Pick<MonthlySummaryLine, "key" | "label" | "afterS
 /**
  * Income statement with one column per calendar month of the range (each month clipped to the range) and a Total
  * column equal to the P&L of the whole range, so the month columns always add up to the total. Ranges longer than
- * MONTHLY_PL_MAX_COLUMNS months are trimmed to their last months and `note` says so.
+ * MONTHLY_PL_MAX_COLUMNS months are trimmed to their last months and `note` says so. `opts.zero` works as in
+ * profitAndLoss: by default a section without a row in any column is hidden (its summary lines are unaffected).
  */
-export function profitAndLossMonthly(accounts: Account[], entries: JournalEntry[], range: { from: string; to: string }): ProfitAndLossMonthly {
+export function profitAndLossMonthly(accounts: Account[], entries: JournalEntry[], range: { from: string; to: string }, opts: ReportOptions = {}): ProfitAndLossMonthly {
   let from = range.from <= range.to ? range.from : range.to;
   const to = range.from <= range.to ? range.to : range.from;
   let periods: string[] = [];
@@ -492,33 +533,39 @@ export function profitAndLossMonthly(accounts: Account[], entries: JournalEntry[
     const start = firstDayOfMonth(p), end = lastDayOfMonth(p);
     return { period: p, label: monthColumnLabel(p), from: start > from ? start : from, to: end < to ? end : to };
   });
-  const months = columns.map((c) => profitAndLoss(accounts, entries, { from: c.from, to: c.to }));
-  const total = profitAndLoss(accounts, entries, { from, to });
+  const months = columns.map((c) => profitAndLoss(accounts, entries, { from: c.from, to: c.to }, opts));
+  const total = profitAndLoss(accounts, entries, { from, to }, opts);
   const sorted = [...accounts].sort((x, y) => x.code.localeCompare(y.code));
-  const sections: MonthlyReportSection[] = PL_SECTIONS.map((d, i) => {
+  // Sections are looked up by key: a month that had nothing in a section has dropped it (hide mode), which reads as zero.
+  const sectionOf = (pl: ProfitAndLoss, key: string) => pl.sections.find((s) => s.key === key);
+  const all: MonthlyReportSection[] = PL_SECTIONS.map((d) => {
     const ids = new Set<string>();
-    for (const pl of [...months, total]) for (const r of pl.sections[i].rows) ids.add(r.account.id);
-    const amountOf = (pl: ProfitAndLoss, accountId: string) => pl.sections[i].rows.find((r) => r.account.id === accountId)?.amount ?? 0;
+    for (const pl of [...months, total]) for (const r of sectionOf(pl, d.key)?.rows ?? []) ids.add(r.account.id);
+    const amountOf = (pl: ProfitAndLoss, accountId: string) => sectionOf(pl, d.key)?.rows.find((r) => r.account.id === accountId)?.amount ?? 0;
     const rows: MonthlyReportRow[] = sorted.filter((a) => ids.has(a.id)).map((a) => ({ account: a, amounts: months.map((m) => amountOf(m, a.id)), total: amountOf(total, a.id) }));
-    return { key: d.key, label: d.label, subtypes: d.subtypes, rows, totals: months.map((m) => m.sections[i].total), total: total.sections[i].total };
+    return { key: d.key, label: d.label, subtypes: d.subtypes, rows, totals: months.map((m) => sectionOf(m, d.key)?.total ?? 0), total: sectionOf(total, d.key)?.total ?? 0 };
   });
   const summary: MonthlySummaryLine[] = PL_SUMMARY_LINES.map((s) => ({ ...s, amounts: months.map((m) => m[s.key]), total: total[s.key] }));
-  return { from, to, columns, sections, summary, months, total, note };
+  const { sections, emptySections } = dropEmptySections(all, opts.zero);
+  return { from, to, columns, sections, emptySections, summary, months, total, note };
 }
 
-const BS_ASSET_SECTIONS: Array<Pick<ReportSection, "key" | "label" | "subtypes">> = [
+const BS_ASSET_SECTIONS: readonly SectionDef[] = [
   { key: "current_assets", label: "Current assets", subtypes: ["cash", "bank", "ar", "other_receivable", "inventory", "prepaid", "prepaid_tax"] },
   { key: "fixed_assets", label: "Fixed assets", subtypes: ["fixed_asset", "accum_depr"] },
   { key: "other_assets", label: "Other assets", subtypes: ["other_asset"] },
 ];
-const BS_LIABILITY_SECTIONS: Array<Pick<ReportSection, "key" | "label" | "subtypes">> = [
+const BS_LIABILITY_SECTIONS: readonly SectionDef[] = [
   { key: "current_liabilities", label: "Current liabilities", subtypes: ["ap", "tax_payable", "accrued", "customer_deposit", "other_liability"] },
   { key: "loans", label: "Loans", subtypes: ["loan"] },
 ];
 
 export interface BalanceSheet {
   asOf: string; fiscalYearStart: string;
+  /** Asset and liability sections with rows (every section with `zero: "show"`); equity is always the one section. */
   assets: ReportSection[]; liabilities: ReportSection[]; equity: ReportSection[];
+  /** Labels of the asset and liability sections hidden because none of their accounts had a balance. */
+  emptySections: string[];
   totalAssets: number; totalLiabilities: number; totalEquity: number;
   retainedEarnings: number; currentYearEarnings: number; balanced: boolean;
 }
@@ -526,16 +573,18 @@ export interface BalanceSheet {
 /**
  * Statement of financial position as of a date. Equity shows retained earnings (account balance + profit of all
  * prior fiscal years not yet closed) and current-year earnings (account balance + profit since the fiscal year
- * start), so assets = liabilities + equity even when no closing entries were posted.
+ * start), so assets = liabilities + equity even when no closing entries were posted. Zero rows and sections without
+ * rows are hidden unless `opts.zero` is "show" (retained and current-year earnings always show); totals cover everything.
  */
-export function balanceSheet(accounts: Account[], entries: JournalEntry[], asOf: string, fiscalYearStartMonth = 1): BalanceSheet {
+export function balanceSheet(accounts: Account[], entries: JournalEntry[], asOf: string, fiscalYearStartMonth = 1, opts: ReportOptions = {}): BalanceSheet {
+  const showZero = opts.zero === "show";
   const bal = accountBalances(entries, { to: asOf });
   const fiscalYearStart = fiscalYearStartOf(asOf, fiscalYearStartMonth);
   const plAccounts = accounts.filter((a) => a.type === "revenue" || a.type === "expense");
   const priorEarnings = netProfit(plAccounts, entries, { to: addDays(fiscalYearStart, -1) });
   const currentYearEarnings = netProfit(plAccounts, entries, { from: fiscalYearStart, to: asOf });
-  const assets = buildSections(BS_ASSET_SECTIONS, accounts.filter((a) => a.type === "asset"), bal);
-  const liabilities = buildSections(BS_LIABILITY_SECTIONS, accounts.filter((a) => a.type === "liability"), bal);
+  const allAssets = buildSections(BS_ASSET_SECTIONS, accounts.filter((a) => a.type === "asset"), bal, showZero);
+  const allLiabilities = buildSections(BS_LIABILITY_SECTIONS, accounts.filter((a) => a.type === "liability"), bal, showZero);
   const equityAccounts = [...accounts.filter((a) => a.type === "equity")].sort((x, y) => x.code.localeCompare(y.code));
   const reAccount = findByTag(accounts, "retained_earnings");
   const cyeAccount = findByTag(accounts, "current_earnings");
@@ -543,18 +592,22 @@ export function balanceSheet(accounts: Account[], entries: JournalEntry[], asOf:
   let retainedEarnings = priorEarnings;
   let cye = currentYearEarnings;
   for (const a of equityAccounts) {
-    let amount = naturalBalance(a, bal.get(a.id));
+    let amount = naturalBalance(a, bal.get(a.id)) || 0;
     if (a.id === reAccount?.id) { amount = roundMoney(amount + priorEarnings); retainedEarnings = amount; }
     if (a.id === cyeAccount?.id) { amount = roundMoney(amount + currentYearEarnings); cye = amount; }
-    if (amount !== 0 || a.id === reAccount?.id || a.id === cyeAccount?.id) rows.push({ account: a, amount });
+    if (showZero || amount !== 0 || a.id === reAccount?.id || a.id === cyeAccount?.id) rows.push({ account: a, amount });
   }
   if (!reAccount && priorEarnings !== 0) rows.push({ account: syntheticAccount(accounts, "3-2000", "Retained earnings", "retained_earnings"), amount: priorEarnings });
   if (!cyeAccount) rows.push({ account: syntheticAccount(accounts, "3-2100", "Current year earnings", "current_earnings"), amount: currentYearEarnings });
   const equity: ReportSection[] = [{ key: "equity", label: "Equity", subtypes: ["share_capital", "retained_earnings", "current_earnings", "dividend"], rows, total: roundMoney(rows.reduce((s, r) => s + r.amount, 0)) }];
-  const totalAssets = roundMoney(assets.reduce((s, x) => s + x.total, 0));
-  const totalLiabilities = roundMoney(liabilities.reduce((s, x) => s + x.total, 0));
+  const totalAssets = roundMoney(allAssets.reduce((s, x) => s + x.total, 0));
+  const totalLiabilities = roundMoney(allLiabilities.reduce((s, x) => s + x.total, 0));
   const totalEquity = equity[0].total;
-  return { asOf, fiscalYearStart, assets, liabilities, equity, totalAssets, totalLiabilities, totalEquity, retainedEarnings, currentYearEarnings: cye, balanced: totalAssets === roundMoney(totalLiabilities + totalEquity) };
+  const assets = dropEmptySections(allAssets, opts.zero), liabilities = dropEmptySections(allLiabilities, opts.zero);
+  return {
+    asOf, fiscalYearStart, assets: assets.sections, liabilities: liabilities.sections, equity, emptySections: [...assets.emptySections, ...liabilities.emptySections],
+    totalAssets, totalLiabilities, totalEquity, retainedEarnings, currentYearEarnings: cye, balanced: totalAssets === roundMoney(totalLiabilities + totalEquity),
+  };
 }
 
 function syntheticAccount(accounts: Account[], code: string, name: string, subtype: AccountSubtype): Account {

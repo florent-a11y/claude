@@ -9,6 +9,7 @@ import { Cols, TableCard } from "@/components/ui";
 import { AccountPicker } from "@/components/AccountPicker";
 import { MoneyField } from "@/components/MoneyInput";
 import type { Bill, TaxCode, WithholdingType } from "@/lib/types";
+import { FxRateField } from "@/components/FxRateField";
 
 export interface VendorOpt { key: string; type: "vendor" | "company" | "contact"; id: string; name: string; npwp?: string; country?: string }
 export interface AccountOpt { id: string; code: string; name: string; type: string }
@@ -68,7 +69,7 @@ export function BillForm({ action, entity, vendors, accounts, defaultAccountId, 
           <label className="block"><span className="label">Bill date</span><input name="date" type="date" defaultValue={bill?.date ?? defaultDate} required className="input" /></label>
           <label className="block"><span className="label">Due date</span><input name="dueDate" type="date" defaultValue={bill?.dueDate ?? addDays(defaultDate, 14)} className="input" /></label>
           <label className="block"><span className="label">Currency</span><select name="currency" value={currency} onChange={(e) => setCurrency(e.target.value)} className="input">{currencyOptions().map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}</select></label>
-          <label className="block"><span className="label">FX rate (IDR per 1 {currency})</span><input name="fxRate" value={currency === "IDR" ? "1" : fxRate} onChange={(e) => setFxRate(e.target.value)} disabled={currency === "IDR"} className="input" inputMode="decimal" /></label>
+          <label className="block"><span className="label">FX rate (IDR per 1 {currency})</span><FxRateField name="fxRate" currency={currency} dateField="date" defaultValue={fxRate} onValueChange={(r) => setFxRate(r > 0 ? String(r) : "")} /></label>
           <label className="block"><span className="label">Vendor e-Faktur number</span><input name="fakturNumber" defaultValue={bill?.fakturNumber} className="input" /></label>
         </div>
       </div>

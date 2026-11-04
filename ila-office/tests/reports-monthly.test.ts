@@ -88,7 +88,10 @@ test("monthly P&L: an account that nets to zero over the range still shows its m
   const row = m.sections.find((s) => s.key === "revenue")!.rows.find((r) => r.account.id === sales.id)!;
   assert.deepEqual(row.amounts, [1_000_000, -1_000_000]);
   assert.equal(row.total, 0);
-  assert.equal(m.total.sections.find((s) => s.key === "revenue")!.rows.length, 0);
+  // The whole-range statement has no revenue row at all, so by default it hides the section (and says so).
+  assert.equal(m.total.sections.find((s) => s.key === "revenue"), undefined);
+  assert.ok(m.total.emptySections.includes("Revenue"));
+  assert.equal(profitAndLoss(accounts, swing, { from: "2026-04-01", to: "2026-05-31" }, { zero: "show" }).sections.find((s) => s.key === "revenue")!.rows.find((r) => r.account.id === sales.id)!.amount, 0);
 });
 
 test("monthly P&L: ranges longer than 13 months keep the last 13 months and say so", () => {

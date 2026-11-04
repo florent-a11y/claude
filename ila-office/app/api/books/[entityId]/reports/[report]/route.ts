@@ -4,7 +4,7 @@ import { csvResponse } from "@/lib/csv";
 import { xlsxResponse, type XlsxSheet } from "@/lib/report-xlsx";
 import { renderStatementPdf, pdfNumber, type StatementColumn, type StatementRow } from "@/lib/report-pdf";
 import { entityAccounts, entityEntries } from "@/lib/books";
-import { trialBalance, profitAndLoss, profitAndLossMonthly, balanceSheet, generalLedger, generalLedgerAll, arAging, apAging, fiscalYearStartOf, AGING_BUCKETS, entryTotal, type ProfitAndLoss, type ReportSection } from "@/lib/ledger";
+import { trialBalance, profitAndLoss, profitAndLossMonthly, balanceSheet, generalLedger, generalLedgerAll, arAging, apAging, fiscalYearStartOf, AGING_BUCKETS, PL_SECTIONS, entryTotal, type ProfitAndLoss, type ReportSection, type ZeroMode } from "@/lib/ledger";
 import { addDays, fmtDate, todayISO } from "@/lib/dates";
 import { naturalBalance, accountBalances } from "@/lib/balances";
 import type { Account, Entity, JournalEntry } from "@/lib/types";
@@ -29,6 +29,8 @@ interface ReportOutput {
  * working). Reports: trial-balance (asOf), profit-loss (from, to, compare | view=monthly), balance-sheet (asOf),
  * general-ledger (accountId, from, to), ar-aging (asOf), ap-aging (asOf), accounts, journal (from, to).
  * PDF is available for the four statements: profit-loss, balance-sheet, trial-balance and general-ledger.
+ * `zero=1` lists zero balances and empty sections on the three statements (and idle accounts on the all-accounts ledger);
+ * by default they are hidden, as on the report pages.
  */
 export async function GET(req: Request, ctx: { params: Promise<{ entityId: string; report: string }> }) {
   const user = await guard("read", (await ctx.params).entityId);
@@ -39,6 +41,7 @@ export async function GET(req: Request, ctx: { params: Promise<{ entityId: strin
   const q = new URL(req.url).searchParams;
   const format = parseFormat(q.get("format"));
   if (!format) return new Response("format must be csv, xlsx or pdf", { status: 400 });
+  const zero: ZeroMode = q.get("zero") === "1" ? "show" : "hide";
   const today = todayISO();
   const asOf = q.get("asOf") ?? q.get("to") ?? today;
   const to = q.get("to") ?? asOf;
@@ -50,7 +53,7 @@ export async function GET(req: Request, ctx: { params: Promise<{ entityId: strin
 
   switch (report) {
     case "trial-balance": {
-      const tb = trialBalance(accounts, entries, asOf);
+      const tb = trialBalance(accounts, entries, asOf, { zero });
       const headers = ["Code", "Account", "Type", "Debit", "Credit"];
       const rows: unknown[][] = [...tb.rows.map((r) => [r.account.code, r.account.name, r.account.type, r.debit, r.credit]), ["", "Total", "", tb.totalDebit, tb.totalCredit]];
       out = {
@@ -64,11 +67,11 @@ export async function GET(req: Request, ctx: { params: Promise<{ entityId: strin
       break;
     }
     case "profit-loss": {
-      out = q.get("view") === "monthly" ? plMonthlyOutput(accounts, entries, from, to, slug) : plPeriodOutput(accounts, entries, from, to, q.get("compare") === "1", slug);
+      out = q.get("view") === "monthly" ? plMonthlyOutput(accounts, entries, from, to, zero, slug) : plPeriodOutput(accounts, entries, from, to, q.get("compare") === "1", zero, slug);
       break;
     }
     case "balance-sheet": {
-      const bs = balanceSheet(accounts, entries, asOf, entity.fiscalYearStartMonth);
+      const bs = balanceSheet(accounts, entries, asOf, entity.fiscalYearStartMonth, { zero });
       const groups = [["Assets", bs.assets, bs.totalAssets], ["Liabilities", bs.liabilities, bs.totalLiabilities], ["Equity", bs.equity, bs.totalEquity]] as const;
       const rows: unknown[][] = [];
       for (const [group, sections, total] of groups) {
@@ -82,6 +85,7 @@ export async function GET(req: Request, ctx: { params: Promise<{ entityId: strin
           const pdfRows: StatementRow[] = [];
           for (const [group, sections, total] of groups) {
             pdfRows.push({ cells: [group, ""], style: "section" });
+            if (sections.length === 0) pdfRows.push({ cells: ["No balances", ""], style: "indent" });
             for (const s of sections) {
               if (sections.length > 1) pdfRows.push({ cells: [s.label, ""], style: "section" });
               for (const r of s.rows) pdfRows.push({ cells: [`${r.account.code}  ${r.account.name}${r.account.taxTag === "current_earnings" ? ` (from ${fmtDate(bs.fiscalYearStart)})` : ""}`, n(r.amount)], style: "indent" });
@@ -189,27 +193,30 @@ async function send(format: Format, out: ReportOutput, entity: Entity): Promise<
 const PL_SUMMARY: Array<[string, (p: ProfitAndLoss) => number, string]> = [["Gross profit", (p) => p.grossProfit, "cogs"], ["Operating profit", (p) => p.operatingProfit, "opex"], ["Profit before tax", (p) => p.profitBeforeTax, "other_expense"], ["Net profit", (p) => p.netProfit, "tax"]];
 
 /** Accounts of a section in code order, including those that only have a figure in the comparison column. */
-function sectionAccounts(accounts: Account[], s: ReportSection, ps?: ReportSection): Account[] {
-  const ids = new Set([...s.rows.map((r) => r.account.id), ...(ps?.rows.map((r) => r.account.id) ?? [])]);
+function sectionAccounts(accounts: Account[], s?: ReportSection, ps?: ReportSection): Account[] {
+  const ids = new Set([...(s?.rows.map((r) => r.account.id) ?? []), ...(ps?.rows.map((r) => r.account.id) ?? [])]);
   return accounts.filter((x) => ids.has(x.id)).sort((x, y) => x.code.localeCompare(y.code));
 }
 
-function plPeriodOutput(accounts: Account[], entries: JournalEntry[], from: string, to: string, compare: boolean, slug: string): ReportOutput {
-  const pl = profitAndLoss(accounts, entries, { from, to });
+/** Period P&L. Sections are walked in PL_SECTIONS order: one hidden in the period (and in the comparison, if any) is left out while its summary line keeps its place. */
+function plPeriodOutput(accounts: Account[], entries: JournalEntry[], from: string, to: string, compare: boolean, zero: ZeroMode, slug: string): ReportOutput {
+  const pl = profitAndLoss(accounts, entries, { from, to }, { zero });
   let prev: ProfitAndLoss | undefined;
   if (compare) {
     const len = Math.round((Date.parse(to) - Date.parse(from)) / 864e5) + 1;
     const pTo = addDays(from, -1);
-    prev = profitAndLoss(accounts, entries, { from: addDays(pTo, -(len - 1)), to: pTo });
+    prev = profitAndLoss(accounts, entries, { from: addDays(pTo, -(len - 1)), to: pTo }, { zero });
   }
+  const sectionPair = (key: string) => [pl.sections.find((x) => x.key === key), prev?.sections.find((x) => x.key === key)] as const;
   const rows: unknown[][] = [];
-  for (const s of pl.sections) {
-    const ps = prev?.sections.find((x) => x.key === s.key);
+  for (const d of PL_SECTIONS) {
+    const [s, ps] = sectionPair(d.key);
+    if (!s && !ps) continue;
     for (const a of sectionAccounts(accounts, s, ps)) {
-      const cur = s.rows.find((r) => r.account.id === a.id)?.amount ?? 0;
-      rows.push([s.label, a.code, a.name, cur, ...(prev ? [ps?.rows.find((r) => r.account.id === a.id)?.amount ?? 0] : [])]);
+      const cur = s?.rows.find((r) => r.account.id === a.id)?.amount ?? 0;
+      rows.push([d.label, a.code, a.name, cur, ...(prev ? [ps?.rows.find((r) => r.account.id === a.id)?.amount ?? 0] : [])]);
     }
-    rows.push([s.label, "", `Total ${s.label}`, s.total, ...(prev ? [ps?.total ?? 0] : [])]);
+    rows.push([d.label, "", `Total ${d.label}`, s?.total ?? 0, ...(prev ? [ps?.total ?? 0] : [])]);
   }
   for (const [label, pick] of PL_SUMMARY) rows.push(["", "", label, pick(pl), ...(prev ? [pick(prev)] : [])]);
   const headers = ["Section", "Code", "Account", `${from} to ${to}`, ...(prev ? [`${prev.from} to ${prev.to}`] : [])];
@@ -219,14 +226,16 @@ function plPeriodOutput(accounts: Account[], entries: JournalEntry[], from: stri
     pdf: () => {
       const pdfRows: StatementRow[] = [];
       const amounts = (cur: number, pv?: number): string[] => (prev ? [n(cur), n(pv ?? 0), n(cur - (pv ?? 0))] : [n(cur)]);
-      for (const s of pl.sections) {
-        const ps = prev?.sections.find((x) => x.key === s.key);
-        pdfRows.push({ cells: [s.label], style: "section" });
-        const list = sectionAccounts(accounts, s, ps);
-        for (const a of list) pdfRows.push({ cells: [`${a.code}  ${a.name}`, ...amounts(s.rows.find((r) => r.account.id === a.id)?.amount ?? 0, ps?.rows.find((r) => r.account.id === a.id)?.amount)], style: "indent" });
-        if (list.length === 0) pdfRows.push({ cells: ["No entries"], style: "indent" });
-        pdfRows.push({ cells: [`Total ${s.label.toLowerCase()}`, ...amounts(s.total, ps?.total)], style: "total" });
-        const sum = PL_SUMMARY.find((x) => x[2] === s.key);
+      for (const d of PL_SECTIONS) {
+        const [s, ps] = sectionPair(d.key);
+        if (s || ps) {
+          pdfRows.push({ cells: [d.label], style: "section" });
+          const list = sectionAccounts(accounts, s, ps);
+          for (const a of list) pdfRows.push({ cells: [`${a.code}  ${a.name}`, ...amounts(s?.rows.find((r) => r.account.id === a.id)?.amount ?? 0, ps?.rows.find((r) => r.account.id === a.id)?.amount)], style: "indent" });
+          if (list.length === 0) pdfRows.push({ cells: ["No entries"], style: "indent" });
+          pdfRows.push({ cells: [`Total ${d.label.toLowerCase()}`, ...amounts(s?.total ?? 0, ps?.total)], style: "total" });
+        }
+        const sum = PL_SUMMARY.find((x) => x[2] === d.key);
         if (sum) pdfRows.push({ cells: [sum[0], ...amounts(sum[1](pl), prev ? sum[1](prev) : undefined)], style: sum[0] === "Net profit" ? "grand" : "total" });
       }
       const period = `${fmtDate(from)} – ${fmtDate(to)}`;
@@ -239,15 +248,19 @@ function plPeriodOutput(accounts: Account[], entries: JournalEntry[], from: stri
   };
 }
 
-function plMonthlyOutput(accounts: Account[], entries: JournalEntry[], from: string, to: string, slug: string): ReportOutput {
-  const m = profitAndLossMonthly(accounts, entries, { from, to });
+/** Monthly P&L. Sections are walked in PL_SECTIONS order so a hidden (empty) section still has its summary line printed in place. */
+function plMonthlyOutput(accounts: Account[], entries: JournalEntry[], from: string, to: string, zero: ZeroMode, slug: string): ReportOutput {
+  const m = profitAndLossMonthly(accounts, entries, { from, to }, { zero });
   const labels = m.columns.map((c) => c.label);
   const headers = ["Section", "Code", "Account", ...labels, "Total"];
   const rows: unknown[][] = [];
-  for (const s of m.sections) {
-    for (const r of s.rows) rows.push([s.label, r.account.code, r.account.name, ...r.amounts, r.total]);
-    rows.push([s.label, "", `Total ${s.label}`, ...s.totals, s.total]);
-    const sum = m.summary.find((x) => x.afterSection === s.key);
+  for (const d of PL_SECTIONS) {
+    const s = m.sections.find((x) => x.key === d.key);
+    if (s) {
+      for (const r of s.rows) rows.push([s.label, r.account.code, r.account.name, ...r.amounts, r.total]);
+      rows.push([s.label, "", `Total ${s.label}`, ...s.totals, s.total]);
+    }
+    const sum = m.summary.find((x) => x.afterSection === d.key);
     if (sum) rows.push(["", "", sum.label, ...sum.amounts, sum.total]);
   }
   const n = pdfNumber;
@@ -257,12 +270,15 @@ function plMonthlyOutput(accounts: Account[], entries: JournalEntry[], from: str
     sheets: [{ name: "Monthly P&L", headers, rows, colWidths: [20, 10, 36, ...labels.map(() => 14), 16] }],
     pdf: () => {
       const pdfRows: StatementRow[] = [];
-      for (const s of m.sections) {
-        pdfRows.push({ cells: [s.label], style: "section" });
-        for (const r of s.rows) pdfRows.push({ cells: [`${r.account.code}  ${r.account.name}`, ...r.amounts.map((a) => n(a)), n(r.total)], style: "indent" });
-        if (s.rows.length === 0) pdfRows.push({ cells: ["No entries"], style: "indent" });
-        pdfRows.push({ cells: [`Total ${s.label.toLowerCase()}`, ...s.totals.map((a) => n(a)), n(s.total)], style: "total" });
-        const sum = m.summary.find((x) => x.afterSection === s.key);
+      for (const d of PL_SECTIONS) {
+        const s = m.sections.find((x) => x.key === d.key);
+        if (s) {
+          pdfRows.push({ cells: [s.label], style: "section" });
+          for (const r of s.rows) pdfRows.push({ cells: [`${r.account.code}  ${r.account.name}`, ...r.amounts.map((a) => n(a)), n(r.total)], style: "indent" });
+          if (s.rows.length === 0) pdfRows.push({ cells: ["No entries"], style: "indent" });
+          pdfRows.push({ cells: [`Total ${s.label.toLowerCase()}`, ...s.totals.map((a) => n(a)), n(s.total)], style: "total" });
+        }
+        const sum = m.summary.find((x) => x.afterSection === d.key);
         if (sum) pdfRows.push({ cells: [sum.label, ...sum.amounts.map((a) => n(a)), n(sum.total)], style: sum.key === "netProfit" ? "grand" : "total" });
       }
       return {

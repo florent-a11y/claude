@@ -2,7 +2,7 @@
 import { z } from "zod";
 import { requirePermission } from "@/lib/auth";
 import { createInvoice, updateInvoice, postInvoice, recordReceipt, voidInvoice, voidPayment, type InvoiceInput } from "@/lib/books";
-import { num, str } from "@/lib/util";
+import { num, str, rateOf } from "@/lib/util";
 import { db } from "@/lib/db";
 import { emailConfigured, defaultBcc, sendEmail } from "@/lib/email";
 import { renderInvoicePdf } from "@/lib/invoice-pdf";
@@ -32,7 +32,7 @@ function readInvoice(fd: FormData): InvoiceInput {
   try { customer = JSON.parse(String(fd.get("customer") ?? "{}")); lines = JSON.parse(String(fd.get("lines") ?? "[]")); } catch { throw new Error("Form data could not be read."); }
   const currency = (str(fd, "currency") ?? "IDR").toUpperCase();
   const v = schema.parse({
-    customer, date: str(fd, "date"), dueDate: str(fd, "dueDate"), currency, fxRate: currency === "IDR" ? 1 : num(fd, "fxRate", 0), lines, discount: num(fd, "discount", 0),
+    customer, date: str(fd, "date"), dueDate: str(fd, "dueDate"), currency, fxRate: currency === "IDR" ? 1 : rateOf(fd, "fxRate"), lines, discount: num(fd, "discount", 0),
     notes: str(fd, "notes"), paymentInstructions: str(fd, "paymentInstructions"), fakturNumber: str(fd, "fakturNumber"),
   });
   if (v.currency !== "IDR" && v.fxRate <= 0) throw new Error("An FX rate (IDR per 1 unit) is required for foreign-currency invoices.");
@@ -70,7 +70,7 @@ export async function receiptAction(entityId: string, invoiceId: string, fd: For
   const to = `${base(entityId)}/sales/${invoiceId}`;
   await act(entityId, async () => {
     const user = await requirePermission("books:write");
-    const v = receiptSchema.parse({ bankAccountId: str(fd, "bankAccountId"), date: str(fd, "date"), amount: num(fd, "amount", 0), fxRate: num(fd, "fxRate", 0) || undefined, reference: str(fd, "reference"), notes: str(fd, "notes") });
+    const v = receiptSchema.parse({ bankAccountId: str(fd, "bankAccountId"), date: str(fd, "date"), amount: num(fd, "amount", 0), fxRate: rateOf(fd, "fxRate") || undefined, reference: str(fd, "reference"), notes: str(fd, "notes") });
     const r = await recordReceipt(entityId, { invoiceId, ...v }, user.id);
     return `${to}?ok=${encodeURIComponent(`Receipt recorded (${r.journal.number}); invoice ${r.invoice.status}`)}`;
   }, to);

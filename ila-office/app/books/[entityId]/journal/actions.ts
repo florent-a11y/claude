@@ -6,10 +6,11 @@ import { postJournal, updateJournal, voidJournal } from "@/lib/posting";
 import { entityAccounts } from "@/lib/books";
 import { accountById } from "@/lib/ledger";
 import { str } from "@/lib/util";
+import { roundMoney } from "@/lib/money";
 import type { JournalLine } from "@/lib/types";
 import { act, base } from "../shared";
 
-const lineSchema = z.object({ accountId: z.string().min(1, "Every line needs an account"), description: z.string().max(200).optional(), debit: z.number().min(0), credit: z.number().min(0), counterpartyName: z.string().max(120).optional() });
+const lineSchema = z.object({ accountId: z.string().min(1, "Every line needs an account"), description: z.string().max(200).optional(), debit: z.number().min(0), credit: z.number().min(0), counterpartyName: z.string().max(120).optional(), fxAmount: z.number().min(0).optional() });
 const schema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date is required"),
   memo: z.string().min(1, "Memo is required").max(300),
@@ -17,16 +18,25 @@ const schema = z.object({
   lines: z.array(lineSchema).min(2, "At least two lines"),
 });
 
-/** Reads the journal form (date, memo, source and the JSON `lines` payload) and resolves the lines against the chart of accounts. */
+/**
+ * Reads the journal form (date, memo, source and the JSON `lines` payload) and resolves the lines against the chart of accounts.
+ * A line on a foreign-currency bank account may carry `fxAmount` (the amount in that currency): it is kept with the implied rate so the
+ * bank reconciliation can show the entry in the account's currency; on any other account it is ignored.
+ */
 async function readJournalForm(entityId: string, fd: FormData, allowInactive: ReadonlySet<string> = new Set()) {
   let raw: unknown;
   try { raw = JSON.parse(String(fd.get("lines") ?? "[]")); } catch { throw new Error("Lines could not be read."); }
   const v = schema.parse({ date: str(fd, "date"), memo: str(fd, "memo"), source: str(fd, "source") ?? "manual", lines: raw });
-  const accounts = await entityAccounts(entityId);
+  const [accounts, banks] = await Promise.all([entityAccounts(entityId), db.list("bank_accounts", { where: { entityId } })]);
+  const fxAccounts = new Map(banks.filter((bk) => bk.currency !== "IDR").map((bk) => [bk.accountId, bk.currency]));
   const lines: JournalLine[] = v.lines.filter((l) => l.debit > 0 || l.credit > 0).map((l) => {
     const a = accountById(accounts, l.accountId);
     if (!a.active && !allowInactive.has(a.id)) throw new Error(`Account ${a.code} is inactive.`);
-    return { accountId: a.id, accountCode: a.code, description: l.description || undefined, debit: Math.round(l.debit), credit: Math.round(l.credit), counterpartyName: l.counterpartyName || undefined };
+    const debit = Math.round(l.debit), credit = Math.round(l.credit);
+    const ccy = fxAccounts.get(a.id);
+    const fxAmount = ccy && l.fxAmount ? roundMoney(l.fxAmount, ccy) : 0;
+    const fx = ccy && fxAmount > 0 ? { currency: ccy, fxAmount, fxRate: Math.round(((debit || credit) / fxAmount) * 10000) / 10000 } : {};
+    return { accountId: a.id, accountCode: a.code, description: l.description || undefined, debit, credit, counterpartyName: l.counterpartyName || undefined, ...fx };
   });
   return { date: v.date, memo: v.memo, source: v.source, lines };
 }

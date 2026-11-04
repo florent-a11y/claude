@@ -240,7 +240,7 @@ export type TaxTag =
   | "ppn_output" | "ppn_input" | "pph21_payable" | "pph23_payable" | "pph26_payable" | "pph4_2_payable" | "pph25_prepaid"
   | "pph23_prepaid" | "pph22_prepaid" | "cit_payable" | "bpjs_payable" | "local_tax_payable" | "ar_trade" | "ap_trade"
   | "bank_default" | "sales_default" | "salary_expense" | "bpjs_expense" | "pph21_company_expense" | "cit_expense" | "retained_earnings" | "current_earnings"
-  | "fx_gain" | "fx_loss" | "suspense";
+  | "fx_gain" | "fx_loss" | "fx_unrealised_gain" | "fx_unrealised_loss" | "suspense";
 
 export interface Account {
   id: string;
@@ -753,6 +753,25 @@ export interface Setting {
   updatedAt: string;
 }
 
+/**
+ * A Bank Indonesia reference rate (kurs transaksi) for one currency and one calendar day, cached by lib/fx.ts.
+ * `date` is the day that was looked up and `rateDate` the day BI published the rate (the previous working day for a
+ * weekend or holiday). Buy, sell and mid are IDR per ONE unit of the currency (BI quotes JPY per 100: already divided).
+ */
+export interface FxRate {
+  id: string; // "bi:USD:2026-10-30"
+  source: "bi";
+  currency: string;
+  date: string;
+  rateDate: string;
+  buy: number;
+  sell: number;
+  mid: number;
+  /** BI's quotation unit (1, or 100 for JPY). */
+  units: number;
+  fetchedAt: string;
+}
+
 /** Table registry: every collection stored by lib/db.ts. */
 export type TableMap = {
   users: User;
@@ -779,10 +798,11 @@ export type TableMap = {
   import_batches: ImportBatch;
   counters: Counter;
   settings: Setting;
+  fx_rates: FxRate;
 };
 export type Table = keyof TableMap;
 export const TABLES = [
   "users", "entities", "contacts", "companies", "services", "vendors", "activities",
   "accounts", "journal_entries", "periods", "bank_accounts", "bank_transactions", "invoices", "bills", "payments", "fixed_assets",
-  "employees", "payroll_runs", "withholding_slips", "vat_transactions", "tax_obligations", "import_batches", "counters", "settings",
+  "employees", "payroll_runs", "withholding_slips", "vat_transactions", "tax_obligations", "import_batches", "counters", "settings", "fx_rates",
 ] as const satisfies readonly Table[];

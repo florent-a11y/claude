@@ -2,7 +2,7 @@
 import { z } from "zod";
 import { requirePermission } from "@/lib/auth";
 import { createBill, updateBill, postBill, recordDisbursement, voidBill, voidPayment, type BillInput } from "@/lib/books";
-import { num, str } from "@/lib/util";
+import { num, str, rateOf } from "@/lib/util";
 import { act, base } from "../shared";
 
 const lineSchema = z.object({
@@ -21,7 +21,7 @@ function readBill(fd: FormData): BillInput {
   let vendor: unknown, lines: unknown;
   try { vendor = JSON.parse(String(fd.get("vendor") ?? "{}")); lines = JSON.parse(String(fd.get("lines") ?? "[]")); } catch { throw new Error("Form data could not be read."); }
   const currency = (str(fd, "currency") ?? "IDR").toUpperCase();
-  const v = schema.parse({ vendor, vendorInvoiceNumber: str(fd, "vendorInvoiceNumber"), date: str(fd, "date"), dueDate: str(fd, "dueDate"), currency, fxRate: currency === "IDR" ? 1 : num(fd, "fxRate", 0), lines, notes: str(fd, "notes"), fakturNumber: str(fd, "fakturNumber") });
+  const v = schema.parse({ vendor, vendorInvoiceNumber: str(fd, "vendorInvoiceNumber"), date: str(fd, "date"), dueDate: str(fd, "dueDate"), currency, fxRate: currency === "IDR" ? 1 : rateOf(fd, "fxRate"), lines, notes: str(fd, "notes"), fakturNumber: str(fd, "fakturNumber") });
   if (v.currency !== "IDR" && v.fxRate <= 0) throw new Error("An FX rate (IDR per 1 unit) is required for foreign-currency bills.");
   return v;
 }
@@ -57,7 +57,7 @@ export async function disbursementAction(entityId: string, billId: string, fd: F
   const to = `${base(entityId)}/purchases/${billId}`;
   await act(entityId, async () => {
     const user = await requirePermission("books:write");
-    const v = paySchema.parse({ bankAccountId: str(fd, "bankAccountId"), date: str(fd, "date"), amount: num(fd, "amount", 0), fxRate: num(fd, "fxRate", 0) || undefined, reference: str(fd, "reference") });
+    const v = paySchema.parse({ bankAccountId: str(fd, "bankAccountId"), date: str(fd, "date"), amount: num(fd, "amount", 0), fxRate: rateOf(fd, "fxRate") || undefined, reference: str(fd, "reference") });
     const r = await recordDisbursement(entityId, { billId, ...v }, user.id);
     return `${to}?ok=${encodeURIComponent(`Payment recorded (${r.journal.number}); bill ${r.bill.status}`)}`;
   }, to);
