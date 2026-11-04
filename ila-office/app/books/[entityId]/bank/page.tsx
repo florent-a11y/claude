@@ -29,6 +29,8 @@ export default async function Bank({ params, searchParams }: { params: Params; s
     ...accounts.filter((a) => a.active && (a.subtype === "bank" || a.subtype === "cash") && !banks.some((x) => x.accountId === a.id)).map((a) => ({ id: a.id, code: a.code, name: a.name })),
     { id: "__new__", code: "NEW", name: "+ Create a new GL account" },
   ];
+  // Decimals for the "amount received" box of a transfer: it only matters for a foreign-currency destination, and any non-IDR currency gives two.
+  const fxCurrency = banks.find((x) => x.active && x.currency !== "IDR")?.currency ?? "USD";
   const rows = banks.map((bk) => {
     const gl = accounts.find((a) => a.id === bk.accountId);
     const mine = txs.filter((t) => t.bankAccountId === bk.id);
@@ -79,6 +81,7 @@ export default async function Bank({ params, searchParams }: { params: Params; s
                 <Field label="Currency of amount"><Select name="currency" defaultValue="IDR" options={currencyOptions()} /></Field>
                 <Field label="FX rate (IDR per unit, non-IDR)"><FxRateField name="fxRate" currencyField="currency" dateField="date" /></Field>
                 <Field label="IDR received (optional, cross-currency)" hint="Leave blank when both sides are the same currency."><MoneyInput name="toAmountIDR" currency="IDR" placeholder="" /></Field>
+                <Field label="Amount received (destination currency)" hint="Only when the destination account is in another currency than the amount sent."><MoneyInput name="toAmount" currency={fxCurrency} placeholder="" /></Field>
                 <Field label="Bank fee (IDR)"><MoneyInput name="feeIDR" currency="IDR" /></Field>
                 <Field label="Reference"><input name="reference" className="input" /></Field>
                 <div className="md:col-span-3"><SubmitButton>Post transfer</SubmitButton></div>

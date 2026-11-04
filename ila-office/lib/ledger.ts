@@ -236,6 +236,9 @@ export function disbursementJournalLines(p: DisbursementInput): JournalLine[] {
   return compact(lines);
 }
 
+/** Foreign-currency side of one transfer leg: the amount in the bank account's own currency and the IDR per unit it was booked at. */
+export interface TransferFxLeg { currency: string; amount: number; rate: number }
+
 export interface TransferInput {
   from: Account;
   to: Account;
@@ -247,6 +250,9 @@ export interface TransferInput {
   feeAccount?: Account;
   accounts: Account[];
   memo?: string;
+  /** Original amounts when the source / destination bank account is not in IDR, so the reconciliation can show the lines in that currency. */
+  fromFx?: TransferFxLeg;
+  toFx?: TransferFxLeg;
 }
 
 /** Dr destination bank / Cr source bank, optional fee line, FX difference to fx_gain/fx_loss. */
@@ -254,7 +260,8 @@ export function transferJournalLines(p: TransferInput): JournalLine[] {
   const out = roundMoney(p.amountIDR);
   const fee = roundMoney(p.feeIDR ?? 0);
   const inAmt = roundMoney(p.toAmountIDR ?? out - fee);
-  const lines = [jl(p.to, inAmt, 0, { description: p.memo ?? "Transfer in" }), jl(p.from, 0, out, { description: p.memo ?? "Transfer out" })];
+  const fx = (leg?: TransferFxLeg): LineExtra => (leg && leg.currency !== "IDR" && leg.amount ? { currency: leg.currency, fxAmount: Math.abs(leg.amount), fxRate: leg.rate } : {});
+  const lines = [jl(p.to, inAmt, 0, { description: p.memo ?? "Transfer in", ...fx(p.toFx) }), jl(p.from, 0, out, { description: p.memo ?? "Transfer out", ...fx(p.fromFx) })];
   if (fee > 0 && p.feeAccount) lines.push(jl(p.feeAccount, fee, 0, { description: "Transfer fee" }));
   const diff = roundMoney(out - inAmt - fee);
   if (diff > 0) lines.push(jl(requireTag(p.accounts, "fx_loss"), diff, 0, { description: "FX difference on transfer" }));

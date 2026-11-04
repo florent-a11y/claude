@@ -8,8 +8,8 @@ import { MoneyField } from "@/components/MoneyInput";
 
 export interface AccountOpt { id: string; code: string; name: string; type: string }
 /** Values to prefill when editing an existing entry. */
-export interface JournalInitial { date: string; memo: string; source: string; lines: Array<{ accountId: string; description?: string; debit: number; credit: number }> }
-interface Line { key: number; accountId: string; description: string; debit: string; credit: string }
+export interface JournalInitial { date: string; memo: string; source: string; lines: Array<{ accountId: string; description?: string; debit: number; credit: number; fxAmount?: number }> }
+interface Line { key: number; accountId: string; description: string; debit: string; credit: string; fxAmount: string }
 
 const SOURCES = [{ value: "manual", label: "Manual" }, { value: "adjustment", label: "Adjustment" }, { value: "opening", label: "Opening balances" }, { value: "fx", label: "FX revaluation" }, { value: "closing", label: "Year-end closing" }];
 
@@ -19,16 +19,19 @@ function num(s: string): number {
 }
 
 let seq = 0;
-const blank = (): Line => ({ key: ++seq, accountId: "", description: "", debit: "", credit: "" });
-const fromInitial = (l: JournalInitial["lines"][number]): Line => ({ key: ++seq, accountId: l.accountId, description: l.description ?? "", debit: l.debit > 0 ? String(Math.round(l.debit)) : "", credit: l.credit > 0 ? String(Math.round(l.credit)) : "" });
+const blank = (): Line => ({ key: ++seq, accountId: "", description: "", debit: "", credit: "", fxAmount: "" });
+const fromInitial = (l: JournalInitial["lines"][number]): Line => ({ key: ++seq, accountId: l.accountId, description: l.description ?? "", debit: l.debit > 0 ? String(Math.round(l.debit)) : "", credit: l.credit > 0 ? String(Math.round(l.credit)) : "", fxAmount: l.fxAmount ? String(l.fxAmount) : "" });
 
 /**
  * Manual journal entry editor: dynamic lines, one side per line, running totals, submit only when balanced.
  * Pass `initial` to edit an existing entry (the lines are prefilled); the lines travel as a JSON payload in the hidden `lines` input.
+ * `fxAccounts` maps the GL accounts of foreign-currency bank accounts to their currency: a line on one of them gets a "Foreign amount"
+ * box (the amount in that currency), which the reconciliation shows instead of the IDR.
  */
-export function JournalForm({ accounts, action, defaultDate, initial, submitLabel = "Post entry", cancelHref }: {
-  accounts: AccountOpt[]; action: (fd: FormData) => Promise<void>; defaultDate: string; initial?: JournalInitial; submitLabel?: string; cancelHref?: string;
+export function JournalForm({ accounts, action, defaultDate, initial, submitLabel = "Post entry", cancelHref, fxAccounts = {} }: {
+  accounts: AccountOpt[]; action: (fd: FormData) => Promise<void>; defaultDate: string; initial?: JournalInitial; submitLabel?: string; cancelHref?: string; fxAccounts?: Record<string, string>;
 }) {
+  const hasFx = Object.keys(fxAccounts).length > 0;
   const [lines, setLines] = useState<Line[]>(() => {
     const seeded = initial ? initial.lines.map(fromInitial) : [];
     while (seeded.length < (initial ? 2 : 4)) seeded.push(blank());
@@ -41,7 +44,7 @@ export function JournalForm({ accounts, action, defaultDate, initial, submitLabe
   }, [lines]);
   const filled = lines.filter((l) => l.accountId && (num(l.debit) > 0 || num(l.credit) > 0));
   const ok = filled.length >= 2 && totals.diff === 0 && totals.d > 0;
-  const payload = JSON.stringify(filled.map((l) => ({ accountId: l.accountId, description: l.description, debit: num(l.debit), credit: num(l.credit) })));
+  const payload = JSON.stringify(filled.map((l) => ({ accountId: l.accountId, description: l.description, debit: num(l.debit), credit: num(l.credit), fxAmount: fxAccounts[l.accountId] && num(l.fxAmount) > 0 ? num(l.fxAmount) : undefined })));
   const update = (key: number, patch: Partial<Line>) => setLines((ls) => ls.map((l) => (l.key === key ? { ...l, ...patch } : l)));
   return (
     <form action={action} className="space-y-4">
@@ -52,19 +55,23 @@ export function JournalForm({ accounts, action, defaultDate, initial, submitLabe
         <label className="block"><span className="label">Source</span><select name="source" defaultValue={initial?.source ?? "manual"} className="input">{SOURCES.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}</select></label>
       </div>
       <TableCard>
-        <table className="table table-data min-w-[860px]">
-          <Cols widths={[300, undefined, 160, 160, 44]} />
-          <thead><tr><th>Account</th><th>Description</th><th className="num">Debit (IDR)</th><th className="num">Credit (IDR)</th><th></th></tr></thead>
+        <table className={`table table-data ${hasFx ? "min-w-[1020px]" : "min-w-[860px]"}`}>
+          <Cols widths={hasFx ? [300, undefined, 160, 160, 170, 44] : [300, undefined, 160, 160, 44]} />
+          <thead><tr><th>Account</th><th>Description</th><th className="num">Debit (IDR)</th><th className="num">Credit (IDR)</th>{hasFx && <th className="num" title="Foreign-currency bank accounts only: the amount in the account's currency">Foreign amount</th>}<th></th></tr></thead>
           <tbody>
-            {lines.map((l) => (
-              <tr key={l.key}>
-                <td><AccountPicker accounts={accounts} value={l.accountId} onChange={(id) => update(l.key, { accountId: id })} className="input !py-1" aria-label="Account" /></td>
-                <td><input value={l.description} onChange={(e) => update(l.key, { description: e.target.value })} className="input !py-1" placeholder="optional" aria-label="Description" /></td>
-                <td><MoneyField value={l.debit} onChange={(raw) => update(l.key, { debit: raw, credit: raw ? "" : l.credit })} currency="IDR" className="input !py-1" aria-label="Debit" /></td>
-                <td><MoneyField value={l.credit} onChange={(raw) => update(l.key, { credit: raw, debit: raw ? "" : l.debit })} currency="IDR" className="input !py-1" aria-label="Credit" /></td>
-                <td className="text-center"><button type="button" className="text-ink-500 hover:text-red-600" onClick={() => setLines((ls) => (ls.length > 2 ? ls.filter((x) => x.key !== l.key) : ls))} aria-label="Remove line">×</button></td>
-              </tr>
-            ))}
+            {lines.map((l) => {
+              const ccy = fxAccounts[l.accountId];
+              return (
+                <tr key={l.key}>
+                  <td><AccountPicker accounts={accounts} value={l.accountId} onChange={(id) => update(l.key, { accountId: id, fxAmount: fxAccounts[id] ? l.fxAmount : "" })} className="input !py-1" aria-label="Account" /></td>
+                  <td><input value={l.description} onChange={(e) => update(l.key, { description: e.target.value })} className="input !py-1" placeholder="optional" aria-label="Description" /></td>
+                  <td><MoneyField value={l.debit} onChange={(raw) => update(l.key, { debit: raw, credit: raw ? "" : l.credit })} currency="IDR" className="input !py-1" aria-label="Debit" /></td>
+                  <td><MoneyField value={l.credit} onChange={(raw) => update(l.key, { credit: raw, debit: raw ? "" : l.debit })} currency="IDR" className="input !py-1" aria-label="Credit" /></td>
+                  {hasFx && <td>{ccy && <span className="flex items-center gap-1.5"><span className="shrink-0 text-xs text-ink-500" title={`Amount in ${ccy}`}>{ccy}</span><MoneyField value={l.fxAmount} onChange={(raw) => update(l.key, { fxAmount: raw })} currency={ccy} className="input !py-1" placeholder="0.00" aria-label={`Amount in ${ccy}`} /></span>}</td>}
+                  <td className="text-center"><button type="button" className="text-ink-500 hover:text-red-600" onClick={() => setLines((ls) => (ls.length > 2 ? ls.filter((x) => x.key !== l.key) : ls))} aria-label="Remove line">×</button></td>
+                </tr>
+              );
+            })}
           </tbody>
           <tfoot>
             <tr>
@@ -72,6 +79,7 @@ export function JournalForm({ accounts, action, defaultDate, initial, submitLabe
               <td className="text-right !text-xs !font-normal text-ink-500">Totals</td>
               <td className="num">{fmtNumber(totals.d)}</td>
               <td className="num">{fmtNumber(totals.c)}</td>
+              {hasFx && <td></td>}
               <td></td>
             </tr>
           </tfoot>

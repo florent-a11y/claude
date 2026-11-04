@@ -13,7 +13,7 @@ import { sha256 } from "./util";
 import {
   invoiceTotals, billTotals, invoiceJournalLines, billJournalLines, receiptJournalLines, disbursementJournalLines, transferJournalLines,
   bankJournalLines, depreciationJournalLines, depreciationDue, disposalJournalLines, invoiceOutstanding, billOutstanding, requireTag, accountById, defaultUsefulLifeMonths,
-  type ParsedBankRow,
+  type ParsedBankRow, type TransferFxLeg,
 } from "./ledger";
 export { parseStatementDate, mapBankRows, type CsvMapping, type DateFormat, type ParsedBankRow } from "./ledger";
 import type {
@@ -330,7 +330,28 @@ export async function createBankAccount(entityId: string, input: BankAccountInpu
   return bank;
 }
 
-export interface TransferInput { fromBankAccountId: string; toBankAccountId: string; date: string; amount: number; currency: string; fxRate?: number; toAmountIDR?: number; feeIDR?: number; reference?: string; bankTransactionId?: string }
+export interface TransferInput {
+  fromBankAccountId: string; toBankAccountId: string; date: string;
+  /** Amount sent, in `currency` (usually the source account's currency), converted at `fxRate` (IDR per unit). */
+  amount: number; currency: string; fxRate?: number;
+  /** Cross-currency transfers: what arrived on the destination, in IDR and/or in the destination account's own currency. */
+  toAmountIDR?: number; toAmount?: number;
+  feeIDR?: number; reference?: string; bankTransactionId?: string;
+}
+
+/**
+ * Foreign-currency legs of a transfer (the bank lines' `currency` / `fxAmount` / `fxRate`, shown by the reconciliation). The source
+ * amount is known only when the money was sent in the source account's currency; the destination amount is the amount sent when both
+ * sides are in the same currency, else `toAmount` when given. The destination rate is derived from the IDR that reached it, 4 decimals.
+ */
+export function transferFxLegs(p: { fromCurrency: string; toCurrency: string; amount: number; currency: string; fxRate: number; amountIDR: number; toAmountIDR?: number; toAmount?: number; feeIDR?: number }): { fromFx?: TransferFxLeg; toFx?: TransferFxLeg } {
+  const rate4 = (idr: number, amt: number) => Math.round((idr / amt) * 10000) / 10000;
+  const inIDR = roundMoney(p.toAmountIDR ?? p.amountIDR - (p.feeIDR ?? 0));
+  const fromFx = p.fromCurrency !== "IDR" && p.currency === p.fromCurrency && p.amount > 0 ? { currency: p.fromCurrency, amount: p.amount, rate: p.fxRate } : undefined;
+  const toAmount = p.toCurrency === p.currency ? p.toAmount ?? p.amount : p.toAmount;
+  const toFx = p.toCurrency !== "IDR" && toAmount && toAmount > 0 && inIDR > 0 ? { currency: p.toCurrency, amount: toAmount, rate: rate4(inIDR, toAmount) } : undefined;
+  return { fromFx, toFx };
+}
 
 export async function transfer(entityId: string, input: TransferInput, userId?: string): Promise<{ payment: Payment; journal: JournalEntry }> {
   const [accounts, from, to] = await Promise.all([entityAccounts(entityId), db.get("bank_accounts", input.fromBankAccountId), db.get("bank_accounts", input.toBankAccountId)]);
@@ -341,7 +362,8 @@ export async function transfer(entityId: string, input: TransferInput, userId?: 
   const amountIDR = toIDR(input.amount, input.currency, fxRate);
   if (amountIDR <= 0) throw new BooksError("Amount must be positive.");
   const feeAccount = findByCode(accounts, "6-2000");
-  const lines = transferJournalLines({ from: accountById(accounts, from.accountId), to: accountById(accounts, to.accountId), amountIDR, toAmountIDR: input.toAmountIDR, feeIDR: input.feeIDR, feeAccount, accounts, memo: `Transfer ${from.name} → ${to.name}${input.reference ? ` ${input.reference}` : ""}` });
+  const legs = transferFxLegs({ fromCurrency: from.currency, toCurrency: to.currency, amount: input.amount, currency: input.currency, fxRate, amountIDR, toAmountIDR: input.toAmountIDR, toAmount: input.toAmount, feeIDR: input.feeIDR });
+  const lines = transferJournalLines({ from: accountById(accounts, from.accountId), to: accountById(accounts, to.accountId), amountIDR, toAmountIDR: input.toAmountIDR, feeIDR: input.feeIDR, feeAccount, accounts, memo: `Transfer ${from.name} → ${to.name}${input.reference ? ` ${input.reference}` : ""}`, ...legs });
   const journal = await postJournal(entityId, { date: input.date, memo: `Transfer ${from.name} → ${to.name}`, source: "bank", lines, createdByUserId: userId });
   const payment: Payment = { id: db.newId(), entityId, kind: "transfer", date: input.date, amount: input.amount, currency: input.currency, fxRate, bankAccountId: from.id, toBankAccountId: to.id, journalId: journal.id, bankTransactionId: input.bankTransactionId, reference: input.reference, method: "transfer", createdAt: new Date().toISOString() };
   await db.insert("payments", payment);

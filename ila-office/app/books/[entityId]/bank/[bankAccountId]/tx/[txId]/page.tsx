@@ -6,7 +6,8 @@ import { entityAccounts, openInvoices, openBills } from "@/lib/books";
 import { invoiceOutstanding, billOutstanding } from "@/lib/ledger";
 import { fmtDate } from "@/lib/dates";
 import { fmtMoney, roundMoney } from "@/lib/money";
-import { Card, Badge, DL, Field, Select, Notice, CardTable, Cols } from "@/components/ui";
+import { bankLineAmount } from "@/lib/reconciliation";
+import { Card, Badge, DL, Field, Notice, CardTable, Cols } from "@/components/ui";
 import { SubmitButton } from "@/components/client";
 import { AccountPicker } from "@/components/AccountPicker";
 import { MoneyInput } from "@/components/MoneyInput";
@@ -33,6 +34,14 @@ export default async function MatchTransaction({ params, searchParams }: { param
   const [accounts, invoices, bills, journals] = await Promise.all([entityAccounts(entityId), moneyIn ? openInvoices(entityId) : Promise.resolve([]), moneyIn ? Promise.resolve([]) : openBills(entityId), db.list("journal_entries", { where: (j) => j.entityId === entityId && j.status === "posted" && j.period === tx.date.slice(0, 7) && j.lines.some((l) => l.accountId === bank.accountId) })]);
   const linkedIds = new Set((await db.list("bank_transactions", { where: (t) => t.entityId === entityId && t.status === "matched" && Boolean(t.matchedJournalId) })).map((t) => t.matchedJournalId));
   const candidateJournals = journals.filter((j) => !linkedIds.has(j.id)).sort((x, y) => y.date.localeCompare(x.date));
+  // Each candidate's movement on the bank account in the bank's currency (exact from the lines' fxAmount, else converted at the journal rate), plus the IDR posted.
+  const candidates = candidateJournals.map((j) => {
+    let amount = 0, idr = 0, approximate = false;
+    for (const l of j.lines) if (l.accountId === bank.accountId) { const a = bankLineAmount(l, bank.currency); amount += a.amount; idr += l.debit - l.credit; approximate ||= a.approximate; }
+    return { j, amount: roundMoney(amount, bank.currency), idr, approximate };
+  });
+  const preselected = candidates.find((c) => Math.abs(c.amount - tx.amount) < 0.5)?.j.id;
+  const fxBank = bank.currency !== "IDR";
   const near = (x: number) => Math.abs(roundMoney(x, bank.currency) - amt) < 0.5;
   const invSuggested = invoices.filter((i) => i.currency === bank.currency && near(invoiceOutstanding(i)));
   const billSuggested = bills.filter((x) => x.currency === bank.currency && near(billOutstanding(x)));
@@ -108,9 +117,29 @@ export default async function MatchTransaction({ params, searchParams }: { param
           {writable && candidateJournals.length > 0 && (
             <Card title="Link to an existing journal entry">
               <form action={linkJournalAction.bind(null, entityId, bank.id, tx.id)} className="space-y-3">
-                <Field label={`Posted entries touching this bank account in ${tx.date.slice(0, 7)}`}>
-                  <Select name="journalId" options={candidateJournals.map((j) => { const l = j.lines.find((x) => x.accountId === bank.accountId); return { value: j.id, label: `${j.number} ${fmtDate(j.date)} · ${j.memo.slice(0, 50)} · ${l ? fmtMoney(l.debit - l.credit) : ""}` }; })} />
-                </Field>
+                <p className="text-xs text-ink-500">Posted entries touching this bank account in {tx.date.slice(0, 7)}, amounts in {bank.currency}{preselected ? "; the one with the same amount is pre-selected" : ""}.</p>
+                <CardTable bottom={false}>
+                  <table className="table table-data min-w-[560px]">
+                    <Cols widths={fxBank ? [30, 96, 120, undefined, 132, 132] : [30, 96, 120, undefined, 150]} />
+                    <thead><tr><th></th><th>Date</th><th>Entry</th><th>Memo</th><th className="num">{bank.currency}</th>{fxBank && <th className="num">IDR posted</th>}</tr></thead>
+                    <tbody>
+                      {candidates.map(({ j, amount, idr, approximate }) => {
+                        const id = `link-${j.id}`;
+                        const same = j.id === preselected;
+                        return (
+                          <tr key={j.id} className={same ? "row-highlight" : ""}>
+                            <td className="text-center"><input type="radio" name="journalId" value={j.id} id={id} defaultChecked={same} required aria-label={`Link ${j.number}`} /></td>
+                            <td className="whitespace-nowrap"><label htmlFor={id}>{fmtDate(j.date)}</label></td>
+                            <td><Link href={`${b}/journal/${j.id}`} className="cell-primary" title={j.number}>{j.number}</Link>{same && <Badge tone="green">same amount</Badge>}</td>
+                            <td><label htmlFor={id} className="cell" title={j.memo}>{j.memo}</label></td>
+                            <td className={`num money${amount < 0 ? " text-red-700" : ""}`}>{fmtMoney(amount, bank.currency)}{approximate && <span className="ml-1 text-xs text-ink-500" title="Converted from IDR at the journal rate">≈</span>}</td>
+                            {fxBank && <td className={`num money ${idr < 0 ? "text-red-700" : "text-ink-500"}`}>{fmtMoney(idr)}</td>}
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </CardTable>
                 <SubmitButton>Link (no new posting)</SubmitButton>
                 <p className="text-xs text-ink-500">Use this for transfers, payroll or receipts that were already posted.</p>
               </form>

@@ -36,13 +36,13 @@ export async function setBankActiveAction(entityId: string, bankAccountId: strin
   }, to);
 }
 
-const transferSchema = z.object({ fromBankAccountId: z.string().min(1), toBankAccountId: z.string().min(1), date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), amount: z.number().positive(), currency: z.string().length(3), fxRate: z.number().min(0).optional(), toAmountIDR: z.number().min(0).optional(), feeIDR: z.number().min(0).optional(), reference: z.string().max(120).optional() });
+const transferSchema = z.object({ fromBankAccountId: z.string().min(1), toBankAccountId: z.string().min(1), date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), amount: z.number().positive(), currency: z.string().length(3), fxRate: z.number().min(0).optional(), toAmountIDR: z.number().min(0).optional(), toAmount: z.number().min(0).optional(), feeIDR: z.number().min(0).optional(), reference: z.string().max(120).optional() });
 
 export async function transferAction(entityId: string, fd: FormData) {
   const to = `${base(entityId)}/bank`;
   await act(entityId, async () => {
     const user = await requirePermission("books:write");
-    const v = transferSchema.parse({ fromBankAccountId: str(fd, "fromBankAccountId"), toBankAccountId: str(fd, "toBankAccountId"), date: str(fd, "date"), amount: num(fd, "amount", 0), currency: (str(fd, "currency") ?? "IDR").toUpperCase(), fxRate: rateOf(fd, "fxRate") || undefined, toAmountIDR: num(fd, "toAmountIDR", 0) || undefined, feeIDR: num(fd, "feeIDR", 0) || undefined, reference: str(fd, "reference") });
+    const v = transferSchema.parse({ fromBankAccountId: str(fd, "fromBankAccountId"), toBankAccountId: str(fd, "toBankAccountId"), date: str(fd, "date"), amount: num(fd, "amount", 0), currency: (str(fd, "currency") ?? "IDR").toUpperCase(), fxRate: rateOf(fd, "fxRate") || undefined, toAmountIDR: num(fd, "toAmountIDR", 0) || undefined, toAmount: num(fd, "toAmount", 0) || undefined, feeIDR: num(fd, "feeIDR", 0) || undefined, reference: str(fd, "reference") });
     const r = await transfer(entityId, v, user.id);
     return `${to}?ok=${encodeURIComponent(`Transfer posted (${r.journal.number})`)}`;
   }, to);
