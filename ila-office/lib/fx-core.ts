@@ -11,7 +11,8 @@ export const RATE_DECIMALS = 4;
 /**
  * Parses a rate typed by a person: "16500", "16,500.25", "16.500,25", "16500,25", "Rp 16.500" → 16500.25 / 16500.
  * A single dot or comma followed by exactly three digits is a thousands separator ("16.500" is sixteen thousand five
- * hundred, the Indonesian way), anything else a decimal mark. Returns 0 when nothing usable was typed.
+ * hundred, the Indonesian way) unless the part before it already has three digits or more ("118.705" is a JPY rate
+ * with three decimals: no currency is worth 118,705 rupiah); anything else is a decimal mark. 0 when nothing usable.
  */
 export function parseRate(input: string | number | null | undefined): number {
   if (typeof input === "number") return Number.isFinite(input) ? input : 0;
@@ -23,8 +24,8 @@ export function parseRate(input: string | number | null | undefined): number {
   if (commas && dots) s = lastComma > lastDot ? s.replace(/\./g, "").replace(",", ".") : s.replace(/,/g, "");
   else if (commas || dots) {
     const sep = commas ? "," : ".";
-    const tail = s.slice(s.lastIndexOf(sep) + 1);
-    const thousands = (commas || dots) > 1 || tail.length === 3;
+    const head = s.slice(0, s.lastIndexOf(sep)), tail = s.slice(s.lastIndexOf(sep) + 1);
+    const thousands = (commas || dots) > 1 || (tail.length === 3 && head.replace(/\D/g, "").length < 3);
     s = thousands ? s.split(sep).join("") : s.replace(sep, ".");
   }
   const n = Number(s);

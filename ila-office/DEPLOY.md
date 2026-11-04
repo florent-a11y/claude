@@ -102,3 +102,7 @@ dashboard (upcoming filings, cash position), its books, tax calendar and bank re
 | `/api/health` says `missing-schema` | Run `supabase/schema.sql` in the Supabase SQL editor. |
 | Nobody can sign in | On your Mac, put `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in `ila-office/.env.local`, then `npm run reset-password -- you@ilaglobalconsulting.com "new password"`. It works against the online database. |
 | Invoice email does not send | Resend is not configured (see §6); the mailto fallback still works. |
+
+## Bank Indonesia rates (cron)
+
+`vercel.json` schedules `GET /api/fx/sync` every weekday at 12:00 WIB (05:00 UTC): it reads Bank Indonesia's Kurs Transaksi table of the day and caches every currency in the `fx_rates` table, so the forms and the month-end revaluation find past dates without calling BI again. Vercel authenticates the call with the `CRON_SECRET` environment variable (production; already set): keep it, and rotate it from the project's Environment Variables page if it ever leaks. An admin can also call the route from a signed-in browser (`/api/fx/sync?date=YYYY-MM-DD`) to backfill one day. If BI changes its page, the forms simply ask for the rate by hand until `lib/fx-core.ts` is adjusted.

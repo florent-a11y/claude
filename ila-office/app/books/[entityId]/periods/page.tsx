@@ -74,6 +74,10 @@ export default async function Periods({ params, searchParams }: { params: Params
           <p className="text-sm">Revenue {fmtMoney(pl.revenue)} · expenses {fmtMoney(pl.cogs + pl.opex + pl.otherExpense + pl.tax)} · <strong>net profit {fmtMoney(pl.netProfit)}</strong></p>
           <p className="mt-2 text-xs text-ink-500">Locking is enforced when posting or voiding any journal (invoices, bills, bank, payroll, depreciation). Admins and accountants can lock; locked months stay visible in reports.</p>
         </Card>
+        <Card title="Month-end: FX revaluation">
+          <p className="text-sm text-ink-500">Bank and cash accounts kept in a foreign currency are restated at Bank Indonesia&apos;s closing rate at the end of each month; the unrealised difference posts in one entry dated the last day of the month.</p>
+          <div className="mt-3"><Link href={`${b}/revaluation`} className="btn-secondary">Open FX revaluation</Link></div>
+        </Card>
         <Card title="Year-end close (optional)">
           {closed ? <Notice tone="green">A closing entry dated {fyEnd} exists: the result was moved to retained earnings.</Notice> : (
             <>

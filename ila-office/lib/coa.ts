@@ -63,6 +63,7 @@ export const COA_TEMPLATE: Row[] = [
   ["4-1900", "Sales discounts", "Potongan penjualan", "revenue", "sales"],
   ["7-1000", "Interest income", "Pendapatan bunga", "revenue", "other_income"],
   ["7-1100", "Foreign exchange gain", "Laba selisih kurs", "revenue", "fx_gain", "fx_gain"],
+  ["7-1110", "Unrealised foreign exchange gain", "Laba selisih kurs belum direalisasi", "revenue", "fx_gain", "fx_unrealised_gain"],
   ["7-1200", "Other income", "Pendapatan lain-lain", "revenue", "other_income"],
   // Cost of sales
   ["5-1000", "Cost of services - government fees and disbursements", "Beban jasa - biaya pemerintah", "expense", "cogs"],
@@ -96,6 +97,7 @@ export const COA_TEMPLATE: Row[] = [
   ["6-9000", "Other operating expenses", "Beban operasional lainnya", "expense", "opex"],
   ["8-1000", "Interest expense", "Beban bunga", "expense", "other_expense"],
   ["8-1100", "Foreign exchange loss", "Rugi selisih kurs", "expense", "fx_loss", "fx_loss"],
+  ["8-1110", "Unrealised foreign exchange loss", "Rugi selisih kurs belum direalisasi", "expense", "fx_loss", "fx_unrealised_loss"],
   ["8-1200", "Other expenses", "Beban lain-lain", "expense", "other_expense"],
   ["9-1000", "Corporate income tax expense", "Beban PPh Badan", "expense", "tax_expense", "cit_expense", false],
   ["9-1100", "Final tax expense (PPh final)", "Beban PPh final", "expense", "tax_expense", undefined, false],

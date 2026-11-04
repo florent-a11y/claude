@@ -12,6 +12,8 @@ test("parseRate reads rates typed the English or the Indonesian way, with or wit
   assert.equal(parseRate("16.500"), 16500, "a single separator before three digits groups thousands");
   assert.equal(parseRate("Rp 16.500"), 16500);
   assert.equal(parseRate("105.1234"), 105.1234, "four decimals are kept");
+  assert.equal(parseRate("118.705"), 118.705, "three digits before the mark: a decimal, not thousands");
+  assert.equal(parseRate("1.500"), 1500);
   assert.equal(parseRate("105.12345"), 105.1235, "more are rounded to four");
   assert.equal(parseRate(""), 0);
   assert.equal(parseRate("abc"), 0);
