@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { periodOf } from "@/lib/dates";
 import { num, str } from "@/lib/util";
 import { isMoneyMove, recordMoneyMove, voidMoneyMove, type MoneyMoveInput, type MoneyMoveKind } from "@/lib/money-moves";
-import type { Account, AccountType, Payment } from "@/lib/types";
+import type { Account, AccountType, Payment, TaxTag } from "@/lib/types";
 import type { AccountOption } from "@/components/AccountPicker";
 import { act, base } from "../shared";
 
@@ -23,7 +23,7 @@ export interface MoneyMoveMeta {
 export const MONEY_MOVE_META: Record<MoneyMoveKind, MoneyMoveMeta> = {
   expense: {
     kind: "expense", label: "Expense", plural: "Expenses", seg: "expenses", paymentKind: "disbursement", party: "Payee", newLabel: "New expense", txButton: "Record as expense",
-    hint: "Money paid straight from a bank or cash account with no bill behind it: bank charges, loan repayments, tax payments, owner drawings. Bill payments are recorded from Purchases, customer receipts from Sales.",
+    hint: "Money paid straight from a bank or cash account with no bill behind it: bank charges, loan repayments, tax payments, owner drawings. Bill payments are recorded from Purchases, customer receipts from Sales. A withholding tax (PPh 21/23/26/4(2)) deducted from the payment goes on a negative line to the PPh payable account; the bank line is the net amount.",
     emptyHint: "Record bank charges, loan repayments, tax payments and other outgoings paid without a bill.",
   },
   deposit: {
@@ -37,14 +37,31 @@ export function moneyMoveBase(entityId: string, kind: MoneyMoveKind): string {
   return `${base(entityId)}/${MONEY_MOVE_META[kind].seg}`;
 }
 
+/** Expense accounts are offered on a deposit too, for a charge deducted from the money received (a negative line). */
 export function counterAccountTypes(kind: MoneyMoveKind): AccountType[] {
-  return kind === "expense" ? ["expense", "asset", "liability", "equity"] : ["revenue", "liability", "equity", "asset"];
+  return kind === "expense" ? ["expense", "asset", "liability", "equity"] : ["revenue", "liability", "equity", "asset", "expense"];
 }
 
 /** Active accounts of the types that make sense as counter accounts; the form also hides the chosen bank's own GL account. */
 export function counterAccountOptions(accounts: Account[], kind: MoneyMoveKind): AccountOption[] {
   const types = counterAccountTypes(kind);
   return accounts.filter((a) => a.active && types.includes(a.type)).map(({ id, code, name, type, subtype }) => ({ id, code, name, type, subtype }));
+}
+
+/** The PPh payable accounts the "+ PPh withheld" button can post to, in the order the form offers them; the rate is the usual one (0 when it depends on the case). */
+const WITHHOLDING_TAGS: Array<{ tag: TaxTag; label: string; rate: number }> = [
+  { tag: "pph23_payable", label: "PPh 23 (2%)", rate: 0.02 },
+  { tag: "pph21_payable", label: "PPh 21", rate: 0 },
+  { tag: "pph26_payable", label: "PPh 26 (20%)", rate: 0.2 },
+  { tag: "pph4_2_payable", label: "PPh 4(2) final (10%)", rate: 0.1 },
+];
+
+/** Withholding options for an expense form: only the tagged accounts present and active in the entity's chart. */
+export function withholdingLineOptions(accounts: Account[]): Array<{ accountId: string; label: string; rate: number }> {
+  return WITHHOLDING_TAGS.flatMap(({ tag, label, rate }) => {
+    const a = accounts.find((x) => x.active && x.taxTag === tag);
+    return a ? [{ accountId: a.id, label, rate }] : [];
+  });
 }
 
 /** Expenses or deposits of one entity, newest first (bill payments, invoice receipts and transfers are left out). */
@@ -61,7 +78,8 @@ export function monthOptions(rows: Payment[], current: string): string[] {
 const lineSchema = z.object({
   accountId: z.string().min(1, "Every line needs an account"),
   description: z.string().max(200).optional(),
-  amount: z.number().positive("Amounts must be greater than zero"),
+  // Negative for a withholding tax or a deduction (the bank line is the net); lib/money-moves checks the total.
+  amount: z.number().refine((v) => v !== 0, "Amounts must not be zero"),
 });
 const schema = z.object({
   bankAccountId: z.string().min(1, "Choose a bank or cash account"),

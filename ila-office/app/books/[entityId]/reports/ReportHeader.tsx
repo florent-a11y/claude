@@ -37,3 +37,18 @@ export function exportHrefs(base: string, withPdf: boolean): { csvHref: string; 
   const sep = base.includes("?") ? "&" : "?";
   return { csvHref: base, xlsxHref: `${base}${sep}format=xlsx`, pdfHref: withPdf ? `${base}${sep}format=pdf` : undefined };
 }
+
+/** The "Show zero balances" switch of the statements (`?zero=1`): off by default, so zero rows and sections without balances are hidden. */
+export function ZeroBalancesToggle({ checked }: { checked: boolean }) {
+  return <label className="flex items-center gap-2 pb-2 text-sm" title="List every account of the chart, including those without a balance"><input type="checkbox" name="zero" value="1" defaultChecked={checked} className="checkbox" /> Show zero balances</label>;
+}
+
+/** Footnote under a statement saying what the default view left out; renders nothing when nothing was hidden. */
+export function HiddenZeroNote({ sections = [], accounts = 0 }: { sections?: string[]; accounts?: number }) {
+  const parts = [
+    sections.length ? `${sections.length} section${sections.length === 1 ? "" : "s"} without balances (${sections.join(", ")})` : "",
+    accounts ? `${accounts} account${accounts === 1 ? "" : "s"} with a zero balance` : "",
+  ].filter(Boolean);
+  if (parts.length === 0) return null;
+  return <p className="no-print mt-2 text-xs text-ink-500">Hidden: {parts.join(" and ")}. Tick “Show zero balances” to list every account.</p>;
+}

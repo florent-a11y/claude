@@ -4,8 +4,14 @@
  * contributions, loans received, interest income, refunds…
  *
  * - An expense posts Dr each line's account / Cr the bank GL account; a deposit posts Dr bank / Cr each line.
+ * - A line may be negative (never zero): it posts on the opposite side and reduces what the bank pays or receives.
+ *   This is how a withholding tax deducted from a payment is entered: professional fee 2,000,000 to an expense
+ *   account and PPh 23 −40,000 to "PPh 23 payable" gives Dr expense 2,000,000 / Cr PPh 23 payable 40,000 /
+ *   Cr bank 1,960,000. Mirrored for deposits: a bank charge −5,000 taken from money received posts Dr the charge
+ *   account. The sum of the lines (the bank amount, `Payment.amount`) must stay positive and at least one line must
+ *   be positive.
  * - Each one is a `Payment` row (kind "disbursement" for an expense, "receipt" for a deposit, no billId/invoiceId)
- *   that carries its own `lines`, plus a journal with `source: "bank"` and `sourceId` = the payment id.
+ *   that carries its own signed `lines`, plus a journal with `source: "bank"` and `sourceId` = the payment id.
  * - Voiding voids the journal, keeps the payment row as `status: "void"` for the audit trail and releases any
  *   statement line that was matched to the journal.
  *
@@ -61,13 +67,15 @@ export interface MoneyMoveLinesInput {
 }
 
 /**
- * Expense: Dr each line / Cr bank. Deposit: Dr bank / Cr each line. Amounts are in `currency`; each line is
- * converted to IDR on its own and the bank line carries the sum of the rounded lines, so the entry always balances
- * even when converting the total would round differently.
+ * Expense: Dr each line / Cr bank. Deposit: Dr bank / Cr each line. A negative line posts on the other side
+ * (an expense's withholding line is a credit, a deposit's charge line a debit) for its absolute value. Amounts are
+ * in `currency`; each line is converted to IDR on its own and the bank line carries the signed sum of the rounded
+ * lines, so the entry always balances even when converting the total would round differently. `fxAmount` is always
+ * the absolute amount: the side is given by debit/credit.
  */
 export function moneyMoveJournalLines(p: MoneyMoveLinesInput): JournalLine[] {
   const ccy = p.currency;
-  const fx = (amount: number) => (ccy === "IDR" ? {} : { currency: ccy, fxAmount: roundMoney(amount, ccy), fxRate: p.fxRate });
+  const fx = (amount: number) => (ccy === "IDR" ? {} : { currency: ccy, fxAmount: roundMoney(Math.abs(amount), ccy), fxRate: p.fxRate });
   const cp = p.payee ? { counterpartyName: p.payee } : {};
   const counter: JournalLine[] = [];
   let total = 0;
@@ -78,16 +86,23 @@ export function moneyMoveJournalLines(p: MoneyMoveLinesInput): JournalLine[] {
     total += amount;
     totalIDR += idr;
     const extra = { description: l.description?.trim() || p.memo, ...cp, ...fx(amount) };
-    counter.push(p.kind === "expense" ? jl(l.account, idr, 0, extra) : jl(l.account, 0, idr, extra));
+    // Positive lines take the kind's own side; negative ones the opposite side for |amount|.
+    const debitSide = (p.kind === "expense") === (amount > 0);
+    counter.push(debitSide ? jl(l.account, Math.abs(idr), 0, extra) : jl(l.account, 0, Math.abs(idr), extra));
   }
   const bankExtra = { description: p.memo, ...cp, ...fx(total) };
   const bank = p.kind === "expense" ? jl(p.bankGl, 0, totalIDR, bankExtra) : jl(p.bankGl, totalIDR, 0, bankExtra);
   return p.kind === "expense" ? [...counter, bank] : [bank, ...counter];
 }
 
-/** Describes the first problem with the input, or returns null when it can be posted. */
+/**
+ * Describes the first problem with the input, or returns null when it can be posted. Lines may be negative
+ * (withholding, deductions) but never zero once rounded to the bank's currency; at least one line must be positive
+ * and the signed total, which is what the bank pays or receives, must be greater than zero.
+ */
 export function validateMoneyMove(input: Pick<MoneyMoveInput, "kind" | "lines" | "fxRate">, accounts: Account[], bank: Pick<BankAccount, "accountId" | "currency">): string | null {
   if (!input.lines || input.lines.length === 0) return "Add at least one line.";
+  let total = 0;
   for (let i = 0; i < input.lines.length; i++) {
     const l = input.lines[i];
     const n = i + 1;
@@ -96,8 +111,11 @@ export function validateMoneyMove(input: Pick<MoneyMoveInput, "kind" | "lines" |
     if (!a) return `Line ${n}: account not found.`;
     if (!a.active) return `Line ${n}: account ${a.code} ${a.name} is inactive.`;
     if (a.id === bank.accountId) return `Line ${n}: ${a.code} ${a.name} is the bank account's own GL account; pick the ${input.kind === "expense" ? "expense, liability or asset" : "income, liability or equity"} account instead.`;
-    if (typeof l.amount !== "number" || !Number.isFinite(l.amount) || l.amount <= 0) return `Line ${n}: the amount must be greater than zero.`;
+    if (typeof l.amount !== "number" || !Number.isFinite(l.amount) || roundMoney(l.amount, bank.currency) === 0) return `Line ${n}: the amount must not be zero.`;
+    total += roundMoney(l.amount, bank.currency);
   }
+  if (!input.lines.some((l) => l.amount > 0)) return `Add at least one positive line: a negative line only records a deduction from the amount ${input.kind === "expense" ? "paid" : "received"}.`;
+  if (roundMoney(total, bank.currency) <= 0) return `The total must be greater than zero (${input.kind === "expense" ? "withholding lines cannot exceed the amount paid" : "deductions cannot exceed the amount received"}).`;
   if (bank.currency !== "IDR" && !(typeof input.fxRate === "number" && Number.isFinite(input.fxRate) && input.fxRate > 0)) return `An FX rate (IDR per 1 ${bank.currency}) is required for a ${bank.currency} account.`;
   return null;
 }

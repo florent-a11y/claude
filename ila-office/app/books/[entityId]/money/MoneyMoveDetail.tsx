@@ -46,6 +46,9 @@ export async function MoneyMoveDetailPage({ kind, voidAction, params, searchPara
   const here = `${list}/${p.id}`;
   const accName = (id: string) => { const a = accounts.find((x) => x.id === id); return a ? `${a.code} ${a.name}` : id; };
   const lines = p.lines ?? [];
+  // A negative line is a withholding tax or a deduction taken out of the payment: `p.amount` is the net.
+  const hasNeg = lines.some((l) => l.amount < 0);
+  const gross = lines.filter((l) => l.amount > 0).reduce((s, l) => s + l.amount, 0);
   const bankLabel = bank ? `${bank.name} (${bank.currency})` : p.bankAccountId;
   const txMatched = Boolean(tx && tx.status === "matched" && tx.matchedJournalId === p.journalId);
   const details: Array<[ReactNode, ReactNode]> = [
@@ -87,17 +90,22 @@ export async function MoneyMoveDetailPage({ kind, voidAction, params, searchPara
               <Cols widths={ccy === "IDR" ? [260, undefined, 150] : [240, undefined, 140, 150]} />
               <thead><tr><th>Account</th><th>Description</th><th className="num">Amount ({ccy})</th>{ccy !== "IDR" && <th className="num">IDR @ {p.fxRate}</th>}</tr></thead>
               <tbody>
-                {lines.map((l, i) => (
-                  <tr key={i}>
-                    <td><Link href={`${b}/reports/general-ledger?accountId=${l.accountId}`} className="cell" title={accName(l.accountId)}>{accName(l.accountId)}</Link></td>
-                    <td>{l.description ? <span className="cell" title={l.description}>{l.description}</span> : <Dash />}</td>
-                    <td className="num"><span className="money">{fmtMoney(l.amount, ccy)}</span></td>
-                    {ccy !== "IDR" && <td className="num"><span className="money">{fmtMoney(toIDR(l.amount, ccy, p.fxRate))}</span></td>}
-                  </tr>
-                ))}
+                {lines.map((l, i) => {
+                  const neg = l.amount < 0;
+                  const red = neg ? " text-red-700" : "";
+                  return (
+                    <tr key={i}>
+                      <td><Link href={`${b}/reports/general-ledger?accountId=${l.accountId}`} className={`cell${red}`} title={accName(l.accountId)}>{accName(l.accountId)}{neg && " (deducted)"}</Link></td>
+                      <td>{l.description ? <span className="cell" title={l.description}>{l.description}</span> : <Dash />}</td>
+                      <td className={`num${red}`}><span className="money">{fmtMoney(l.amount, ccy)}</span></td>
+                      {ccy !== "IDR" && <td className={`num${red}`}><span className="money">{fmtMoney(toIDR(l.amount, ccy, p.fxRate))}</span></td>}
+                    </tr>
+                  );
+                })}
               </tbody>
               <tfoot>
-                <tr><td colSpan={2} className="text-right">{kind === "expense" ? `Total paid from ${bank?.name ?? "bank"}` : `Total received into ${bank?.name ?? "bank"}`}</td><td className="num">{fmtMoney(p.amount, ccy)}</td>{ccy !== "IDR" && <td className="num">{fmtMoney(toIDR(p.amount, ccy, p.fxRate))}</td>}</tr>
+                {hasNeg && <tr><td colSpan={2} className="text-right !font-normal text-ink-500">Gross</td><td className="num !font-normal text-ink-500">{fmtMoney(gross, ccy)}</td>{ccy !== "IDR" && <td className="num !font-normal text-ink-500">{fmtMoney(toIDR(gross, ccy, p.fxRate))}</td>}</tr>}
+                <tr><td colSpan={2} className="text-right">{kind === "expense" ? `${hasNeg ? "Net" : "Total"} paid from ${bank?.name ?? "bank"}` : `${hasNeg ? "Net" : "Total"} received into ${bank?.name ?? "bank"}`}</td><td className="num">{fmtMoney(p.amount, ccy)}</td>{ccy !== "IDR" && <td className="num">{fmtMoney(toIDR(p.amount, ccy, p.fxRate))}</td>}</tr>
               </tfoot>
             </table>
           </TableCard>
