@@ -2,12 +2,20 @@ import { guard } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { errorMessage } from "@/lib/books";
 import { chooseSheet, sheetsFromFile } from "@/lib/statement-file";
-import { filterCurrency, presetById, PRESETS, type PresetId } from "@/lib/bank-formats";
+import { presetById, PRESETS, type PresetId } from "@/lib/bank-formats";
+import type { ParsedBankRow } from "@/lib/ledger";
 import { extractPdfPages } from "@/lib/pdf-text";
 import { parseBankPdf, PDF_PRESET_OPTIONS } from "@/lib/bank-pdf";
 
 export const runtime = "nodejs";
 const MAX_BYTES = 15 * 1024 * 1024;
+
+/** Rows per currency when the statement carries one (multi-currency OCBC PDFs, Aspire exports); the screen lets the user pick the section. */
+function currencyCounts(rows: ParsedBankRow[]): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const r of rows) if (r.currency) out[r.currency.toUpperCase()] = (out[r.currency.toUpperCase()] ?? 0) + 1;
+  return out;
+}
 const GRID_ROWS_RETURNED = 6000;
 
 /**
@@ -33,7 +41,6 @@ export async function POST(req: Request, ctx: { params: Promise<{ entityId: stri
       const pages = await extractPdfPages(buf);
       const r = parseBankPdf(pages, { preset: forced || undefined });
       if (r.scanned) return Response.json({ error: "This PDF has no text layer (it is a scanned image), so it cannot be read. Ask the bank for the e-statement PDF, or export CSV / Excel from internet banking." }, { status: 400 });
-      const f = filterCurrency(r.rows, bank.currency);
       const errors = r.errors.filter((e) => !e.startsWith("Running balance"));
       const warnings = r.errors.filter((e) => e.startsWith("Running balance"));
       const digits = (s?: string) => (s ?? "").replace(/\D/g, "");
@@ -43,7 +50,7 @@ export async function POST(req: Request, ctx: { params: Promise<{ entityId: stri
       if (r.rows.length === 0) note += " · No transactions recognised: pick another bank format above, or export the statement as CSV / Excel.";
       return Response.json({
         fileName: file.name, sheet: "PDF", sheets: [], preset: r.preset, presetLabel: r.label, presets: PDF_PRESET_OPTIONS,
-        rows: f.rows, errors, warnings, headerRow: -1, note, dropped: f.dropped, grid: [], truncated: false,
+        rows: r.rows, currencies: currencyCounts(r.rows), errors, warnings, headerRow: -1, note, dropped: 0, grid: [], truncated: false,
         pdf: { pages: r.pages, opening: r.opening, closing: r.closing, periodFrom: r.periodFrom, periodTo: r.periodTo, accountNumber: r.accountNumber },
       });
     }
@@ -51,16 +58,15 @@ export async function POST(req: Request, ctx: { params: Promise<{ entityId: stri
     if (sheets.length === 0 || sheets.every((s) => s.grid.length === 0)) return Response.json({ error: "The file has no rows." }, { status: 400 });
     const chosen = chooseSheet(sheets, file.name, forced || undefined);
     const preset = presetById(chosen.preset);
-    let rows: unknown[] = [], errors: string[] = [], headerRow = -1, note = "", dropped = 0;
+    let rows: ParsedBankRow[] = [], errors: string[] = [], headerRow = -1, note = "";
     if (preset) {
       const ex = preset.extract(chosen.grid);
-      const f = filterCurrency(ex.rows, bank.currency);
-      rows = f.rows; dropped = f.dropped; errors = ex.errors; headerRow = ex.headerRow; note = ex.note;
+      rows = ex.rows; errors = ex.errors; headerRow = ex.headerRow; note = ex.note;
     }
     return Response.json({
       fileName: file.name, sheet: chosen.sheet, sheets: sheets.map((s) => s.name), preset: chosen.preset, presetLabel: preset?.label ?? "Generic (map the columns)",
       presets: [...PRESETS.map((p) => ({ id: p.id, label: p.label })), { id: "generic", label: "Generic CSV / spreadsheet (map the columns)" }],
-      rows, errors, headerRow, note, dropped, grid: chosen.grid.slice(0, GRID_ROWS_RETURNED), truncated: chosen.grid.length > GRID_ROWS_RETURNED,
+      rows, currencies: currencyCounts(rows), errors, headerRow, note, dropped: 0, grid: chosen.grid.slice(0, GRID_ROWS_RETURNED), truncated: chosen.grid.length > GRID_ROWS_RETURNED,
     });
   } catch (e) {
     return Response.json({ error: errorMessage(e) }, { status: 400 });

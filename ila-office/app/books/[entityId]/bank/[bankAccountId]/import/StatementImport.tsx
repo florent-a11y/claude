@@ -15,12 +15,14 @@ const GUESS: Record<Col, RegExp> = {
   amount: /^(amount|jumlah|nominal|mutasi)$/i, debit: /^(debit|debet|debit amount|withdrawal|money out|out|dr)/i, credit: /^(credit|kredit|credit amount|deposit|money in|in|cr)/i, balance: /^(balance|saldo|running balance|closing balance|close balance)/i, reference: /^(ref|reference|no\.? ref|reference no\.?|transaction id|id|trx id|journal)/i,
 };
 
-interface Parsed { fileName: string; sheet: string; sheets: string[]; preset: string; presetLabel: string; presets: Array<{ id: string; label: string }>; rows: ParsedBankRow[]; errors: string[]; headerRow: number; note: string; dropped: number; grid: string[][]; truncated: boolean; warnings?: string[]; pdf?: { pages: number; opening?: number; closing?: number; periodFrom?: string; periodTo?: string; accountNumber?: string } }
+interface Parsed { fileName: string; sheet: string; sheets: string[]; preset: string; presetLabel: string; presets: Array<{ id: string; label: string }>; rows: ParsedBankRow[]; /** Rows per currency when the statement carries one (OCBC multi-currency PDFs, Aspire exports). */ currencies?: Record<string, number>; errors: string[]; headerRow: number; note: string; dropped: number; grid: string[][]; truncated: boolean; warnings?: string[]; pdf?: { pages: number; opening?: number; closing?: number; periodFrom?: string; periodTo?: string; accountNumber?: string } }
 
 /**
  * Statement import: the file (a PDF e-statement from BCA, BNI, BRI, CIMB Niaga or Mandiri; a CSV/XLS/XLSX export from OCBC,
  * Mandiri, BNI, Aspire or any bank) is parsed on the server, the bank format is detected, the rows are previewed here and
- * then stored. Unknown spreadsheet formats fall back to column mapping.
+ * then stored. Unknown spreadsheet formats fall back to column mapping. A statement that lists several currencies (one OCBC
+ * PDF carries the IDR, USD and EUR accounts) comes back with every row tagged: the user picks the currency section, which
+ * must be the bank account's own currency; the other sections are imported from their own bank accounts.
  */
 export function StatementImport({ entityId, bankAccountId, currency, listHref }: { entityId: string; bankAccountId: string; currency: string; listHref: string }) {
   const [file, setFile] = useState<File | null>(null);
@@ -31,6 +33,7 @@ export function StatementImport({ entityId, bankAccountId, currency, listHref }:
   const [invert, setInvert] = useState(false);
   const [flipPdf, setFlipPdf] = useState(false);
   const [busy, setBusy] = useState<"parse" | "import" | null>(null);
+  const [section, setSection] = useState<string>("");
   const [result, setResult] = useState<{ inserted: number; skipped: number; errors: string[] } | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -44,6 +47,9 @@ export function StatementImport({ entityId, bankAccountId, currency, listHref }:
       if (!res.ok) { setError(String(data.error ?? "Could not read the file")); setParsed(null); return; }
       const p = data as Parsed;
       setParsed(p);
+      // Multi-currency statement: start on the account's own currency when the file has it, else on the largest section.
+      const found = Object.entries(p.currencies ?? {}).sort((a, b) => b[1] - a[1]);
+      setSection(found.length ? (found.find(([c]) => c === currency.toUpperCase())?.[0] ?? found[0][0]) : "");
       if (p.preset === "generic") {
         const first = p.grid[0] ?? [];
         const guess: Record<Col, number> = { date: -1, description: -1, amount: -1, debit: -1, credit: -1, balance: -1, reference: -1 };
@@ -65,9 +71,16 @@ export function StatementImport({ entityId, bankAccountId, currency, listHref }:
   const colLabel = (i: number) => (hasHeader ? header[i] || `Column ${i + 1}` : `Column ${i + 1}`);
   const csvMapping: CsvMapping = { date: mapping.date, description: mapping.description, amount: mapping.amount >= 0 ? mapping.amount : undefined, debit: mapping.debit >= 0 ? mapping.debit : undefined, credit: mapping.credit >= 0 ? mapping.credit : undefined, balance: mapping.balance >= 0 ? mapping.balance : undefined, reference: mapping.reference >= 0 ? mapping.reference : undefined, dateFormat, invertAmount: invert };
   const genericPreview = useMemo(() => (generic && body.length ? mapBankRows(body, csvMapping) : { rows: [] as ParsedBankRow[], errors: [] as string[] }), [generic, body, csvMapping]);
-  const rows = useMemo(() => (generic ? genericPreview.rows : isPdf && flipPdf ? (parsed?.rows ?? []).map((r) => ({ ...r, amount: -r.amount })) : parsed?.rows ?? []), [generic, genericPreview.rows, isPdf, flipPdf, parsed]);
+  const sections = useMemo(() => Object.entries(parsed?.currencies ?? {}).sort((a, b) => b[1] - a[1]), [parsed]);
+  const multi = sections.length > 0;
+  const sectionMismatch = multi && section !== "" && section !== currency.toUpperCase();
+  const rows = useMemo(() => {
+    const base = generic ? genericPreview.rows : parsed?.rows ?? [];
+    const picked = multi ? base.filter((r) => (r.currency ?? "").toUpperCase() === section) : base;
+    return isPdf && flipPdf ? picked.map((r) => ({ ...r, amount: -r.amount })) : picked;
+  }, [generic, genericPreview.rows, isPdf, flipPdf, parsed, multi, section]);
   const errors = generic ? genericPreview.errors : parsed?.errors ?? [];
-  const ready = parsed && rows.length > 0 && (!generic || (mapping.date >= 0 && mapping.description >= 0 && (mapping.amount >= 0 || mapping.debit >= 0 || mapping.credit >= 0)));
+  const ready = parsed && rows.length > 0 && !sectionMismatch && (!generic || (mapping.date >= 0 && mapping.description >= 0 && (mapping.amount >= 0 || mapping.debit >= 0 || mapping.credit >= 0)));
   const totals = useMemo(() => rows.reduce((t, r) => ({ in: t.in + (r.amount > 0 ? r.amount : 0), out: t.out + (r.amount < 0 ? -r.amount : 0) }), { in: 0, out: 0 }), [rows]);
   const range = rows.length ? `${rows.reduce((a, r) => (r.date < a ? r.date : a), rows[0].date)} → ${rows.reduce((a, r) => (r.date > a ? r.date : a), rows[0].date)}` : "";
 
@@ -87,7 +100,7 @@ export function StatementImport({ entityId, bankAccountId, currency, listHref }:
     <div className="space-y-4">
       <div className="card space-y-3">
         <label className="block"><span className="label">Statement file</span><input type="file" accept=".pdf,application/pdf,.csv,.txt,.xls,.xlsx,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange={(e) => onFile(e.target.files?.[0])} className="input" /></label>
-        <p className="-mt-2 text-xs text-ink-500">PDF e-statements from BCA, BNI, BRI, CIMB Niaga and Mandiri are read directly. Exports from OCBC (xlsx), Mandiri Kopra (csv), BNI (xls) and Aspire (xlsx) are recognised too; any other CSV or Excel file can be mapped column by column.</p>
+        <p className="-mt-2 text-xs text-ink-500">PDF e-statements from BCA, BNI, BRI, CIMB Niaga and Mandiri are read directly. Exports from OCBC (xlsx), Mandiri Kopra (csv), BNI (xls) and Aspire (xlsx) are recognised too; any other CSV or Excel file can be mapped column by column. A statement that covers several currencies (OCBC) is split by section: pick the one in this account&apos;s currency.</p>
         {busy === "parse" && <p className="text-sm text-ink-500">Reading the file…</p>}
         {parsed && (
           <>
@@ -99,6 +112,15 @@ export function StatementImport({ entityId, bankAccountId, currency, listHref }:
               {!generic && parsed.note && <span className="text-xs text-ink-500">{parsed.note}</span>}
               {isPdf && rows.length > 0 && <label className="flex items-center gap-2 text-xs"><input type="checkbox" checked={flipPdf} onChange={(e) => setFlipPdf(e.target.checked)} className="checkbox" /> Flip all signs (if money in and out look swapped)</label>}
             </div>
+            {multi && (
+              <div className="flex flex-wrap items-center gap-3 text-sm">
+                <label className="flex items-center gap-2"><span>Currency section</span>
+                  <select value={section} onChange={(e) => setSection(e.target.value)} className="input !w-auto !py-1">{sections.map(([c, n]) => <option key={c} value={c}>{c} · {n} line{n === 1 ? "" : "s"}</option>)}</select>
+                </label>
+                <span className="text-xs text-ink-500">This statement lists {sections.length} currenc{sections.length === 1 ? "y" : "ies"}; only the section in this account&apos;s currency ({currency}) can be imported here.</span>
+              </div>
+            )}
+            {sectionMismatch && <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">These are {section} lines, but this bank account is kept in {currency}. Open the {section} bank account from <Link href={`/books/${entityId}/bank`} className="font-semibold underline">Bank</Link> and import the same file there; it will start on the {section} section.</div>}
             {(parsed.warnings?.length ?? 0) > 0 && (
               <ul className="list-disc space-y-0.5 pl-5 text-xs text-amber-800">{parsed.warnings!.slice(0, 5).map((e, i) => <li key={i}>{e}</li>)}{parsed.warnings!.length > 5 && <li>… and {parsed.warnings!.length - 5} more</li>}</ul>
             )}
@@ -123,7 +145,7 @@ export function StatementImport({ entityId, bankAccountId, currency, listHref }:
             )}
             <p className="text-xs text-ink-500">
               {rows.length} transaction{rows.length === 1 ? "" : "s"}{range && ` · ${range}`} · in {fmtNumber(totals.in, dec)} · out {fmtNumber(totals.out, dec)}
-              {errors.length > 0 && ` · ${errors.length} line${errors.length === 1 ? "" : "s"} skipped`}{parsed.dropped > 0 && ` · ${parsed.dropped} in another currency ignored`}.
+              {errors.length > 0 && ` · ${errors.length} line${errors.length === 1 ? "" : "s"} skipped`}{multi && ` · ${sections.filter(([c]) => c !== section).reduce((s, [, n]) => s + n, 0)} line${sections.filter(([c]) => c !== section).reduce((s, [, n]) => s + n, 0) === 1 ? "" : "s"} in other currencies left out`}.
               Lines already imported (same date, amount and description) are skipped automatically.
             </p>
           </>

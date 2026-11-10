@@ -49,11 +49,13 @@ export function counterAccountOptions(accounts: Account[], kind: MoneyMoveKind):
 }
 
 /** The PPh payable accounts the "+ PPh withheld" button can post to, in the order the form offers them; the rate is the usual one (0 when it depends on the case). */
+// PP 55 (0.5% final on an UMKM vendor) is paid and reported with PPh 4(2), so it shares that payable account.
 const WITHHOLDING_TAGS: Array<{ tag: TaxTag; label: string; rate: number }> = [
   { tag: "pph23_payable", label: "PPh 23 (2%)", rate: 0.02 },
   { tag: "pph21_payable", label: "PPh 21", rate: 0 },
   { tag: "pph26_payable", label: "PPh 26 (20%)", rate: 0.2 },
   { tag: "pph4_2_payable", label: "PPh 4(2) final (10%)", rate: 0.1 },
+  { tag: "pph4_2_payable", label: "PPh final PP 55 (0.5%)", rate: 0.005 },
 ];
 
 /** Withholding options for an expense form: only the tagged accounts present and active in the entity's chart. */

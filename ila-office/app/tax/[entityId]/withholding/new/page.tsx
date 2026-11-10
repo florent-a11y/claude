@@ -48,8 +48,10 @@ export default async function NewSlip({ params, searchParams }: { params: Promis
   if (bill && bill.entityId === entityId) {
     const fx = bill.fxRate || 1;
     const withLines = bill.lines.filter((l) => l.withholding !== "none" && (l.withholdingAmount ?? 0) > 0);
-    const type = (withLines[0]?.withholding ?? "pph23") as WithholdingKind;
-    const lines = withLines.filter((l) => l.withholding === type);
+    const first = withLines[0]?.withholding ?? "pph23";
+    // PP 55 (0.5% final on an UMKM vendor) is reported as PPh 4(2) with its own object code.
+    const type = (first === "pp55" ? "pph4_2" : first) as WithholdingKind;
+    const lines = withLines.filter((l) => l.withholding === first);
     const rate = lines[0]?.withholdingRate;
     const match = WITHHOLDING_OBJECTS.find((o) => o.type === type && rate !== undefined && Math.abs(o.rate * (o.dppPercent ?? 100) / 100 - rate) < 1e-9);
     const vendorKey = digits(bill.vendor.npwp);

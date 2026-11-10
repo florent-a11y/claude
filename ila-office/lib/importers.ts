@@ -1,7 +1,8 @@
 /**
- * Pure CSV → draft mappers for the migration imports: HubSpot contacts, QuickBooks Online customers and
- * QuickBooks Online invoices. No I/O, no Next.js, no database, so the functions run in tests and could run in
- * the browser. lib/import-services.ts dedupes the drafts against the store and writes rows.
+ * Pure CSV → draft mappers for the migration imports: HubSpot contacts, QuickBooks Online customers and invoices
+ * (CRM + ILA's own books) and, per client entity, the QuickBooks account list, trial balance, journal and bills.
+ * No I/O, no Next.js, no database, so the functions run in tests and could run in the browser.
+ * lib/import-services.ts dedupes the drafts against the store and writes rows.
  *
  * Export formats in the wild are messy: HubSpot and QBO rename columns per locale and report, QBO report
  * exports start with a few title lines, dates come as dd/mm/yyyy, mm/dd/yyyy or yyyy-mm-dd, and QBO customer
@@ -9,7 +10,7 @@
  * Every mapper is forgiving on input and strict on output.
  */
 import { parseCSV } from "./csv";
-import type { Contact, Company, EntityType, Invoice } from "./types";
+import type { Account, AccountSubtype, AccountType, Bill, Contact, Company, EntityType, Invoice, JournalLine } from "./types";
 
 export type DateFormat = "auto" | "dmy" | "mdy" | "ymd";
 export const DATE_FORMAT_LABELS: Record<DateFormat, string> = { auto: "Detect from the file", dmy: "dd/mm/yyyy", mdy: "mm/dd/yyyy (US)", ymd: "yyyy-mm-dd" };
@@ -26,18 +27,22 @@ export interface ParsedTable {
   rows: Array<{ line: number; cells: Record<string, string> }>;
 }
 
-/** "Memo/Description" → "memo description", "Open Balance (IDR)" → "open balance". */
+/** "Memo/Description" → "memo description", "Open Balance (IDR)" → "open balance", "Account #" → "account number". */
 export function normHeader(h: string): string {
-  return h.replace(/^﻿/, "").replace(/\(.*?\)/g, " ").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  return h.replace(/^﻿/, "").replace(/\(.*?\)/g, " ").replace(/#/g, " number ").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 }
 
 const HEADER_HINTS = new Set([
   "date", "transaction date", "num", "no", "number", "customer", "name", "amount", "email", "first name", "last name", "record id", "company",
   "open balance", "balance", "memo description", "memo", "description", "phone", "phone number", "phone numbers", "currency", "due date", "type",
   "full name", "billing address", "lead status", "create date", "status", "total",
+  "account", "account type", "detail type", "account number", "debit", "credit", "transaction type", "vendor", "supplier", "payee", "bill no",
 ]);
 
-/** Parses a CSV and locates the header row (QBO report exports start with a company name, a title and a date range). */
+/**
+ * Parses a CSV and locates the header row (QBO report exports start with a company name, a title and a date range).
+ * A column whose header is blank (QBO reports leave the account column unnamed) is readable as "column N" (1-based).
+ */
 export function tableFromCSV(text: string): ParsedTable {
   const rows = parseCSV(text);
   let headerIndex = 0;
@@ -52,7 +57,7 @@ export function tableFromCSV(text: string): ParsedTable {
     const r = rows[i];
     if (!r.some((c) => c.trim() !== "")) continue;
     const cells: Record<string, string> = {};
-    headers.forEach((h, j) => { if (h) cells[h] = (r[j] ?? "").trim(); });
+    headers.forEach((h, j) => { cells[h || `column ${j + 1}`] = (r[j] ?? "").trim(); });
     out.rows.push({ line: i + 1, cells });
   }
   return out;
@@ -596,6 +601,394 @@ export function parseQboInvoices(text: string, opts: QboInvoiceOptions = {}): In
   return result;
 }
 
+// ---------- QuickBooks account list (per entity) ----------
+
+export interface AccountDraft {
+  /** Account exactly as QBO exports it ("Parent:Child"); stored on the matched/created account as `qboName`. */
+  qboName: string;
+  /** Leaf name ("Child"). */
+  name: string;
+  parentQboName?: string;
+  qboType: string;
+  detailType?: string;
+  /** Account number column, when the QBO file has numbers turned on. */
+  number?: string;
+  balance?: number;
+  type: AccountType;
+  subtype: AccountSubtype;
+  line: number;
+  warnings: string[];
+}
+
+/**
+ * QBO account type (+ detail type, + name as a last hint) → our type/subtype. Detail types refine the broad QBO
+ * groups: "Accumulated depreciation" under Fixed Assets, tax payables under Other Current Liabilities, Retained
+ * Earnings under Equity, FX gains/losses, payroll and depreciation under Expenses. Unknown types → undefined.
+ */
+export function mapQboAccount(qboType: string, detailType = "", name = ""): { type: AccountType; subtype: AccountSubtype } | undefined {
+  const t = ` ${normName(qboType)} `;
+  const d = normName(`${detailType} ${name}`);
+  const pick = (type: AccountType, subtype: AccountSubtype) => ({ type, subtype });
+  if (/ bank | cash and cash equivalents /.test(t)) return pick("asset", /\bcash\b|\bpetty\b|\bkas\b/.test(d) ? "cash" : "bank");
+  if (/ accounts receivable | a r | receivable /.test(t) && !/other current/.test(t)) return pick("asset", "ar");
+  if (/ other current asset/.test(t)) {
+    if (/prepaid|dibayar di muka/.test(d) && !/tax|pajak|vat|ppn|pph/.test(d)) return pick("asset", "prepaid");
+    if (/inventory|persediaan|stock/.test(d)) return pick("asset", "inventory");
+    if (/tax|pajak|vat|ppn|pph|gst/.test(d)) return pick("asset", "prepaid_tax");
+    if (/deposit|jaminan/.test(d)) return pick("asset", "prepaid");
+    return pick("asset", "other_receivable");
+  }
+  if (/ fixed asset| property plant | tangible /.test(t)) return pick("asset", /accumulated|akumulasi/.test(d) ? "accum_depr" : "fixed_asset");
+  if (/ other asset/.test(t)) return pick("asset", /accumulated|akumulasi/.test(d) ? "accum_depr" : /deposit|jaminan/.test(d) ? "prepaid" : "other_asset");
+  if (/ accounts payable | a p /.test(t) || (/ payable /.test(t) && !/other current/.test(t))) return pick("liability", "ap");
+  if (/ credit card /.test(t)) return pick("liability", "other_liability");
+  if (/ other current liabilit/.test(t)) {
+    if (/tax|pajak|vat|ppn|pph|gst|bpjs/.test(d)) return pick("liability", "tax_payable");
+    if (/accru|masih harus/.test(d)) return pick("liability", "accrued");
+    if (/deposit|unearned|deferred|uang muka/.test(d)) return pick("liability", "customer_deposit");
+    if (/loan|line of credit|pinjaman/.test(d)) return pick("liability", "loan");
+    return pick("liability", "other_liability");
+  }
+  if (/ long term liabilit| long-term /.test(t) || / liabilit/.test(t)) return pick("liability", "loan");
+  if (/ equity | modal /.test(t)) {
+    if (/retained|laba ditahan|current year|net income|laba tahun/.test(d)) return pick("equity", "retained_earnings");
+    if (/dividend|distribution|draw|prive/.test(d)) return pick("equity", "dividend");
+    return pick("equity", "share_capital");
+  }
+  if (/ other income | other revenue /.test(t)) return pick("revenue", /exchange|currency|kurs|fx/.test(d) ? "fx_gain" : "other_income");
+  if (/ income | revenue | sales | pendapatan /.test(t)) return pick("revenue", "sales");
+  if (/ cost of goods | cost of sales | cogs | harga pokok /.test(t)) return pick("expense", "cogs");
+  if (/ other expense/.test(t)) {
+    if (/exchange|currency|kurs|fx/.test(d)) return pick("expense", "fx_loss");
+    if (/depreciation|amorti|penyusutan/.test(d)) return pick("expense", "depreciation");
+    if (/income tax|corporate tax|pph badan|profits tax/.test(d)) return pick("expense", "tax_expense");
+    return pick("expense", "other_expense");
+  }
+  if (/ expense| beban /.test(t)) {
+    if (/payroll|salar|wage|gaji|upah/.test(d)) return pick("expense", "payroll");
+    if (/depreciation|amorti|penyusutan/.test(d)) return pick("expense", "depreciation");
+    if (/exchange|currency|kurs|fx/.test(d)) return pick("expense", "fx_loss");
+    if (/income tax|corporate tax|pph badan|profits tax/.test(d)) return pick("expense", "tax_expense");
+    return pick("expense", "opex");
+  }
+  return undefined;
+}
+
+/** Leading digit of our codes by type (revenue 4/7, expense 5/6/8/9 by subtype, matching lib/coa.ts). */
+export function accountGroupDigit(type: AccountType, subtype: AccountSubtype): string {
+  if (type === "revenue") return subtype === "other_income" || subtype === "fx_gain" ? "7" : "4";
+  if (type === "expense") return subtype === "cogs" ? "5" : subtype === "other_expense" || subtype === "fx_loss" ? "8" : subtype === "tax_expense" ? "9" : "6";
+  return type === "asset" ? "1" : type === "liability" ? "2" : "3";
+}
+
+/** First code tried per subtype (then +10 until free), chosen to sit next to the template accounts of lib/coa.ts. */
+const CODE_START: Record<AccountSubtype, number> = {
+  cash: 1010, bank: 1120, ar: 1230, other_receivable: 1230, inventory: 1510, prepaid: 1320, prepaid_tax: 1440, fixed_asset: 2600, accum_depr: 2610, other_asset: 2700,
+  ap: 1010, tax_payable: 1370, accrued: 1110, customer_deposit: 1210, loan: 2110, other_liability: 2300,
+  share_capital: 1200, retained_earnings: 2010, current_earnings: 2110, dividend: 3100,
+  sales: 1400, other_income: 1300, fx_gain: 1120,
+  cogs: 1400, opex: 3000, payroll: 1050, depreciation: 2120, tax_expense: 1300, fx_loss: 1120, other_expense: 1300,
+};
+
+/** Next free "D-NNNN" code for the type/subtype, skipping codes in `taken` (existing accounts and earlier allocations). */
+export function allocateAccountCode(type: AccountType, subtype: AccountSubtype, taken: Set<string>): string {
+  const digit = accountGroupDigit(type, subtype);
+  for (let n = CODE_START[subtype]; n <= 9999; n += 10) { const code = `${digit}-${n}`; if (!taken.has(code)) return code; }
+  for (let n = 1000; n <= 9999; n++) { const code = `${digit}-${n}`; if (!taken.has(code)) return code; }
+  throw new Error(`No free account code left in group ${digit}.`);
+}
+
+/** QBO account number → our "D-NNNN" code: "1-1100" kept, "1100" prefixed with the group digit, "11100" split; anything else → undefined. */
+export function qboNumberToCode(number: string | undefined, type: AccountType, subtype: AccountSubtype): string | undefined {
+  const s = (number ?? "").trim();
+  if (/^\d-\d{4}$/.test(s)) return s;
+  if (/^\d{4}$/.test(s)) return `${accountGroupDigit(type, subtype)}-${s}`;
+  if (/^\d{5}$/.test(s)) return `${s[0]}-${s.slice(1)}`;
+  return undefined;
+}
+
+const ACC_NAME = ["account", "account name", "full name", "account full name", "name", "column 1"];
+
+/** Maps a QBO Reports → Account List export (Account, Type, Detail type, Account number, Balance) to drafts. */
+export function parseQboAccounts(text: string): ParseResult<AccountDraft> {
+  const table = tableFromCSV(text);
+  const result: ParseResult<AccountDraft> = { drafts: [], errors: [], skipped: [], warnings: [], headers: table.rawHeaders, headerLine: table.headerLine, rowCount: table.rows.length };
+  if (!hasCol(table.headers, "type", "account type")) result.warnings.push("no Type column: every row will be rejected (export Reports → Account List with the Type column)");
+  if (!hasCol(table.headers, "account number", "number", "account no", "acct no")) result.warnings.push("no Account number column: new accounts get the next free code in their group");
+  for (const { line, cells } of table.rows) {
+    const qboName = col(cells, ...ACC_NAME).replace(/\s+/g, " ").trim();
+    if (!qboName) { result.skipped.push({ line, reason: "no account name" }); continue; }
+    if (/^total\b/i.test(qboName)) { result.skipped.push({ line, reason: "report total line" }); continue; }
+    const qboType = col(cells, "account type", "type");
+    const detailType = col(cells, "detail type", "detail") || undefined;
+    const segments = qboName.split(":").map((s) => s.trim()).filter(Boolean);
+    const name = segments[segments.length - 1] ?? qboName;
+    const parentQboName = segments.length > 1 ? segments.slice(0, -1).join(":") : undefined;
+    const mapped = qboType ? mapQboAccount(qboType, detailType, name) : undefined;
+    if (!mapped) { result.errors.push({ line, message: qboType ? `unknown QuickBooks account type "${qboType}" for ${qboName}` : `${qboName}: no account type` }); continue; }
+    const number = col(cells, "account number", "number", "account no", "acct no") || undefined;
+    const balanceRaw = col(cells, "balance", "current balance", "total balance", "quickbooks balance");
+    result.drafts.push({ qboName, name, parentQboName, qboType, detailType, number, balance: balanceRaw ? parseAmount(balanceRaw) : undefined, ...mapped, line, warnings: [] });
+  }
+  return result;
+}
+
+// ---------- QuickBooks trial balance (opening balances) ----------
+
+export interface TrialBalanceRow { account: string; debit: number; credit: number; line: number }
+
+export interface TrialBalanceParseResult extends ParseResult<TrialBalanceRow> {
+  /** "As of" date read from the report title lines, when present. */
+  asOf?: string;
+  totalDebit: number;
+  totalCredit: number;
+}
+
+const DEBIT_COLS = ["debit", "debit amount", "dr", "debet"];
+const CREDIT_COLS = ["credit", "credit amount", "cr", "kredit"];
+
+/** Maps a QBO Reports → Trial Balance export (Account, Debit, Credit; totals dropped) to one row per account. */
+export function parseQboTrialBalance(text: string): TrialBalanceParseResult {
+  const table = tableFromCSV(text);
+  const result: TrialBalanceParseResult = { drafts: [], errors: [], skipped: [], warnings: [], headers: table.rawHeaders, headerLine: table.headerLine, rowCount: table.rows.length, totalDebit: 0, totalCredit: 0 };
+  const title = text.split(/\r?\n/).slice(0, Math.max(0, table.headerLine - 1)).join("\n").match(/as of\s+"?([A-Za-z0-9 ,./-]+)/i);
+  if (title) result.asOf = parseDate(title[1].trim());
+  if (!hasCol(table.headers, ...DEBIT_COLS) || !hasCol(table.headers, ...CREDIT_COLS)) result.warnings.push("no Debit / Credit columns found: check that this is the Trial Balance report");
+  for (const { line, cells } of table.rows) {
+    const account = col(cells, ...ACC_NAME).replace(/\s+/g, " ").trim();
+    const debitRaw = col(cells, ...DEBIT_COLS);
+    const creditRaw = col(cells, ...CREDIT_COLS);
+    if (/^total\b/i.test(account)) { result.skipped.push({ line, reason: "report total line" }); continue; }
+    if (!account) { if (debitRaw || creditRaw) result.skipped.push({ line, reason: "amounts without an account (report total)" }); continue; }
+    let debit = parseAmount(debitRaw), credit = parseAmount(creditRaw);
+    if (debit < 0) { credit += -debit; debit = 0; }
+    if (credit < 0) { debit += -credit; credit = 0; }
+    if (debit === 0 && credit === 0) { result.skipped.push({ line, reason: `${account}: zero balance` }); continue; }
+    result.drafts.push({ account, debit, credit, line });
+    result.totalDebit += debit; result.totalCredit += credit;
+  }
+  if (result.drafts.length && Math.round(result.totalDebit) !== Math.round(result.totalCredit)) result.warnings.push(`debits (${result.totalDebit}) and credits (${result.totalCredit}) do not balance in the file`);
+  return result;
+}
+
+export interface OpeningLinesResult { lines: JournalLine[]; unmatched: TrialBalanceRow[]; /** debits − credits before balancing (IDR, rounded). */ difference: number }
+
+/**
+ * Trial balance rows → opening journal lines in IDR (one line per resolved account, rows on the same account
+ * netted). Rows whose account cannot be resolved come back in `unmatched`. A residual rounding difference is
+ * booked to `balanceTo` when given, else left in `difference` for the caller to refuse.
+ */
+export function openingLinesFromTrialBalance(rows: TrialBalanceRow[], resolve: (qboName: string) => Account | undefined, opts: { balanceTo?: Account; description?: string } = {}): OpeningLinesResult {
+  const net = new Map<string, { account: Account; net: number }>();
+  const unmatched: TrialBalanceRow[] = [];
+  for (const r of rows) {
+    const account = resolve(r.account);
+    if (!account) { unmatched.push(r); continue; }
+    const cur = net.get(account.id) ?? { account, net: 0 };
+    cur.net += Math.round(r.debit) - Math.round(r.credit);
+    net.set(account.id, cur);
+  }
+  const lines: JournalLine[] = [];
+  let difference = 0;
+  for (const { account, net: n } of net.values()) {
+    if (n === 0) continue;
+    lines.push({ accountId: account.id, accountCode: account.code, description: opts.description, debit: n > 0 ? n : 0, credit: n < 0 ? -n : 0 });
+    difference += n;
+  }
+  if (difference !== 0 && opts.balanceTo) {
+    const b = opts.balanceTo;
+    lines.push({ accountId: b.id, accountCode: b.code, description: "Rounding difference on opening balances", debit: difference < 0 ? -difference : 0, credit: difference > 0 ? difference : 0 });
+    difference = 0;
+  }
+  return { lines, unmatched, difference };
+}
+
+// ---------- QuickBooks journal (full history) ----------
+
+export interface JournalDraftLine { account: string; debit: number; credit: number; description?: string; name?: string; line: number }
+
+export interface JournalDraft {
+  date: string;
+  type: string;
+  num: string;
+  name: string;
+  /** First memo of the transaction, for display. */
+  memo?: string;
+  lines: JournalDraftLine[];
+  totalDebit: number;
+  totalCredit: number;
+  balanced: boolean;
+  line: number;
+  warnings: string[];
+}
+
+export interface QboJournalOptions { dateFormat?: DateFormat }
+
+/** "Invoice 1041 PT Example", skipping empty parts. */
+export function journalLabel(d: Pick<JournalDraft, "type" | "num" | "name">): string {
+  return [d.type, d.num, d.name].filter(Boolean).join(" ");
+}
+
+const JRN_TYPE = ["transaction type", "type", "txn type"];
+const JRN_NAME = ["name", "customer", "vendor", "supplier", "payee", "customer vendor"];
+const JRN_ACCOUNT = ["account", "account name", "account full name", "split"];
+const JRN_MEMO = ["memo description", "memo", "description", "line description"];
+
+/**
+ * Maps a QBO Reports → Journal export to one draft per transaction. The report shows Date / Type / Num / Name on
+ * the first line of a transaction only and repeats its header per group; a group ends on its subtotal line (amounts
+ * without an account). Consecutive dated rows with the same (date, type, num, name) are the same transaction, so
+ * flat exports that repeat the date on every line work too. Debits in parentheses or negative are credits.
+ */
+export function parseQboJournal(text: string, opts: QboJournalOptions = {}): ParseResult<JournalDraft> {
+  const table = tableFromCSV(text);
+  const result: ParseResult<JournalDraft> = { drafts: [], errors: [], skipped: [], warnings: [], headers: table.rawHeaders, headerLine: table.headerLine, rowCount: table.rows.length };
+  const fmt = resolveFormat(opts.dateFormat, table.rows.map((r) => col(r.cells, ...INV_DATE)));
+  if (!hasCol(table.headers, ...JRN_ACCOUNT)) result.warnings.push("no Account column: every row will be rejected (export Reports → Journal)");
+  if (opts.dateFormat === "auto" || !opts.dateFormat) result.warnings.push(`numeric dates read as ${DATE_FORMAT_LABELS[fmt]}`);
+  let current: JournalDraft | null = null;
+  let currentKey = "";
+  for (const { line, cells } of table.rows) {
+    const dateRaw = col(cells, ...INV_DATE);
+    const account = col(cells, ...JRN_ACCOUNT).replace(/\s+/g, " ").trim();
+    const debitRaw = col(cells, ...DEBIT_COLS), creditRaw = col(cells, ...CREDIT_COLS), amountRaw = col(cells, "amount");
+    const firstCell = Object.values(cells).find((v) => v !== "") ?? "";
+    if (/^total\b/i.test(firstCell) || /^total\b/i.test(dateRaw)) { result.skipped.push({ line, reason: "report total line" }); current = null; continue; }
+    // QBO repeats the header row before each transaction group.
+    if (normHeader(dateRaw) === "date" && normHeader(account) === "account") { result.skipped.push({ line, reason: "repeated header" }); continue; }
+    if (!account) {
+      if (!dateRaw) { if (debitRaw || creditRaw) current = null; continue; } // group subtotal (amounts only) or spacer line
+      result.errors.push({ line, message: "line without an account" }); continue;
+    }
+    if (dateRaw) {
+      const date = parseDate(dateRaw, fmt);
+      if (!date) { result.errors.push({ line, message: `unreadable date "${dateRaw}"` }); current = null; continue; }
+      const type = col(cells, ...JRN_TYPE).trim(), num = col(cells, "num", "no", "number", "ref no", "reference").trim(), name = col(cells, ...JRN_NAME).trim();
+      const key = `${date}|${normName(type)}|${num}|${normName(name)}`;
+      if (!current || key !== currentKey) {
+        current = { date, type, num, name, lines: [], totalDebit: 0, totalCredit: 0, balanced: false, line, warnings: [] };
+        currentKey = key;
+        result.drafts.push(current);
+      }
+    } else if (!current) { result.errors.push({ line, message: "line without a date and no transaction above it" }); continue; }
+    let debit = parseAmount(debitRaw), credit = parseAmount(creditRaw);
+    if (!debitRaw && !creditRaw && amountRaw) { const a = parseAmount(amountRaw); if (a >= 0) debit = a; else credit = -a; }
+    if (debit < 0) { credit += -debit; debit = 0; }
+    if (credit < 0) { debit += -credit; credit = 0; }
+    const memo = col(cells, ...JRN_MEMO).trim();
+    const lineName = col(cells, ...JRN_NAME).trim();
+    current.lines.push({ account, debit, credit, description: memo || undefined, name: lineName || undefined, line });
+    if (!current.memo && memo) current.memo = memo;
+  }
+  const drafts: JournalDraft[] = [];
+  for (const d of result.drafts) {
+    d.lines = d.lines.filter((l) => l.debit !== 0 || l.credit !== 0);
+    if (d.lines.length === 0) { result.skipped.push({ line: d.line, reason: `${d.type} ${d.num}: no amounts` }); continue; }
+    d.totalDebit = d.lines.reduce((s, l) => s + l.debit, 0);
+    d.totalCredit = d.lines.reduce((s, l) => s + l.credit, 0);
+    d.balanced = Math.round(d.totalDebit) === Math.round(d.totalCredit);
+    if (!d.balanced) result.errors.push({ line: d.line, message: `${journalLabel(d)}: debits ${d.totalDebit} ≠ credits ${d.totalCredit}` });
+    else drafts.push(d);
+  }
+  result.drafts = drafts;
+  return result;
+}
+
+// ---------- QuickBooks bills ----------
+
+export interface BillDraftLine { description: string; amount: number }
+
+export interface BillDraft {
+  qboDocNumber: string;
+  date: string;
+  dueDate: string;
+  vendorName: string;
+  currency: string;
+  fxRate?: number;
+  lines: BillDraftLine[];
+  total: number;
+  openBalance: number;
+  amountPaid: number;
+  status: "sent" | "partial" | "paid" | "void";
+  memo?: string;
+  line: number;
+  warnings: string[];
+}
+
+export interface QboBillOptions { dateFormat?: DateFormat }
+
+export interface BillParseResult extends ParseResult<BillDraft> { currencies: string[]; hasOpenBalanceColumn: boolean }
+
+const BILL_NUM = ["num", "no", "number", "bill no", "bill number", "ref no", "reference", "doc number", "vendor invoice no", "supplier invoice no"];
+const BILL_VENDOR = ["vendor", "supplier", "vendor name", "supplier name", "payee", "name"];
+
+/**
+ * Maps a QBO bill export (Expenses → Bills export, Reports → Unpaid Bills or Bill List) to one draft per bill
+ * number; several rows with the same number become lines. Bills without a number are keyed by date, vendor and
+ * amount so re-running the file still skips them. Bill payments and other transaction types are skipped.
+ */
+export function parseQboBills(text: string, opts: QboBillOptions = {}): BillParseResult {
+  const table = tableFromCSV(text);
+  const result: BillParseResult = { drafts: [], errors: [], skipped: [], warnings: [], headers: table.rawHeaders, headerLine: table.headerLine, rowCount: table.rows.length, currencies: [], hasOpenBalanceColumn: hasCol(table.headers, ...INV_OPEN) };
+  const fmt = resolveFormat(opts.dateFormat, table.rows.map((r) => col(r.cells, ...INV_DATE, "bill date")));
+  const hasTotalCol = hasCol(table.headers, "total", "total amount", "bill total");
+  if (!result.hasOpenBalanceColumn) result.warnings.push("no Open Balance column: bills are imported as unpaid unless a Status column says paid");
+  if (!hasCol(table.headers, ...BILL_VENDOR)) result.warnings.push("no Vendor / Supplier column found: check that this is a bill export");
+  if (opts.dateFormat === "auto" || !opts.dateFormat) result.warnings.push(`numeric dates read as ${DATE_FORMAT_LABELS[fmt]}`);
+  const byNumber = new Map<string, BillDraft>();
+  for (const { line, cells } of table.rows) {
+    const type = col(cells, ...JRN_TYPE);
+    const numRaw = col(cells, ...BILL_NUM).trim();
+    const dateRaw = col(cells, ...INV_DATE, "bill date");
+    const vendorRaw = col(cells, ...BILL_VENDOR).trim();
+    const firstCell = Object.values(cells).find((v) => v !== "") ?? "";
+    if (/^total\b/i.test(firstCell) && !numRaw) { result.skipped.push({ line, reason: "report total line" }); continue; }
+    if (!numRaw && !dateRaw && !vendorRaw) continue;
+    if (type && (!/^bill\b/i.test(type) || /payment/i.test(type))) { result.skipped.push({ line, reason: `transaction type "${type}"` }); continue; }
+    const date = parseDate(dateRaw, fmt);
+    if (!date) { result.errors.push({ line, message: dateRaw ? `unreadable date "${dateRaw}"` : "missing date" }); continue; }
+    if (!vendorRaw) { result.errors.push({ line, message: "missing vendor" }); continue; }
+    const amount = parseAmount(col(cells, "amount", "line amount", "total", "total amount", "bill total"));
+    const memo = col(cells, ...JRN_MEMO).trim();
+    const description = memo || "Purchases";
+    const key = numRaw || `${date}/${normName(vendorRaw)}/${amount}`;
+    const existing = byNumber.get(key);
+    if (existing) { existing.lines.push({ description, amount }); continue; }
+    const warnings: string[] = [];
+    if (!numRaw) warnings.push("no bill number: keyed by date, vendor and amount");
+    const currency = normCurrency(col(cells, "currency", "currency code")) ?? stripCurrencySuffix(vendorRaw).currency ?? "IDR";
+    const fx = parseAmount(col(cells, "exchange rate", "fx rate", "rate of exchange"));
+    const statusCol = col(cells, "status", "a p paid", "paid status", "payment status").toLowerCase();
+    const openRaw = col(cells, ...INV_OPEN);
+    const draft: BillDraft = {
+      qboDocNumber: key, date, dueDate: parseDate(col(cells, "due date", "due"), fmt) ?? date, vendorName: stripCurrencySuffix(vendorRaw).name, currency, fxRate: currency !== "IDR" && fx > 1 ? fx : undefined,
+      lines: [{ description, amount }], total: hasTotalCol ? parseAmount(col(cells, "total", "total amount", "bill total")) || amount : amount,
+      openBalance: openRaw ? parseAmount(openRaw) : Number.NaN, amountPaid: 0, status: /void|delet/.test(statusCol) ? "void" : "sent", memo: memo && memo !== description ? memo : undefined, line, warnings,
+    };
+    if (!openRaw) {
+      if (/paid/.test(statusCol) && !/partial|unpaid|not paid/.test(statusCol)) draft.openBalance = 0;
+      else if (/partial/.test(statusCol)) warnings.push("partially paid but no open balance column: imported as unpaid");
+    }
+    byNumber.set(key, draft);
+  }
+  const currencies = new Set<string>();
+  for (const d of byNumber.values()) {
+    if (d.lines.length > 1 || !hasTotalCol) d.total = d.lines.reduce((s, l) => s + l.amount, 0);
+    if (Number.isNaN(d.openBalance)) d.openBalance = d.status === "void" ? 0 : d.total;
+    if (d.status === "void") { result.skipped.push({ line: d.line, reason: `bill ${d.qboDocNumber} is voided` }); continue; }
+    if (d.total < 0) { result.skipped.push({ line: d.line, reason: `bill ${d.qboDocNumber} has a negative total (vendor credit?)` }); continue; }
+    d.openBalance = Math.max(0, Math.min(d.total, d.openBalance));
+    d.amountPaid = Math.max(0, d.total - d.openBalance);
+    d.status = d.openBalance <= 0 ? "paid" : d.openBalance >= d.total ? "sent" : "partial";
+    if (d.total === 0) d.warnings.push("zero amount");
+    currencies.add(d.currency);
+    result.drafts.push(d);
+  }
+  result.drafts.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : a.qboDocNumber.localeCompare(b.qboDocNumber, undefined, { numeric: true })));
+  result.currencies = [...currencies].sort();
+  return result;
+}
+
 // ---------- Dedupe ----------
 
 export type KeyFn<T> = (item: T) => Array<[label: string, value: string | undefined]>;
@@ -644,6 +1037,11 @@ export const companyKeys: KeyFn<Pick<Company, "name" | "hubspotId" | "qboCustome
 ];
 
 export const invoiceKeys: KeyFn<Pick<Invoice, "qboDocNumber">> = (i) => [["qbo-doc", (i.qboDocNumber ?? "").trim().toLowerCase()]];
+
+export const billKeys: KeyFn<Pick<Bill, "qboDocNumber">> = (b) => [["qbo-doc", (b.qboDocNumber ?? "").trim().toLowerCase()]];
+
+/** Journals imported from QBO are keyed by their `sourceId` ("qbo:<type>:<num>:<date>", or "qbo:tb:<date>" for opening balances). */
+export const journalKeys: KeyFn<{ sourceId?: string }> = (j) => [["source", j.sourceId]];
 
 /** Convenience wrappers used by the import service and the tests. */
 export function dedupeContacts<T extends Pick<Contact, "email" | "hubspotId" | "qboCustomerId">>(drafts: T[], existing: Array<Pick<Contact, "email" | "hubspotId" | "qboCustomerId">>): DedupeResult<T> {

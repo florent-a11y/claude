@@ -4,9 +4,9 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { requirePermission, hashPassword } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { buildAccounts } from "@/lib/coa";
-import { ENTITY_TYPES, ROLES, type Entity, type User } from "@/lib/types";
+import { ENTITY_TYPES, ROLES, type User } from "@/lib/types";
 import { bool, num, str } from "@/lib/util";
+import { createEntityFromInput } from "./entities/create-entity";
 
 const entitySchema = z.object({
   name: z.string().min(1).max(120),
@@ -51,17 +51,14 @@ function readEntity(fd: FormData) {
 export async function createEntity(fd: FormData) {
   await requirePermission("admin");
   const v = readEntity(fd);
-  const now = new Date().toISOString();
-  const entity: Entity = {
-    id: db.newId(), name: v.name, legalName: v.legalName, type: v.type, country: v.country, isOwn: v.isOwn, npwp: v.npwp, nib: v.nib, nitku: v.nitku,
+  const entity = await createEntityFromInput({
+    name: v.name, legalName: v.legalName, type: v.type, country: v.country, isOwn: v.isOwn, npwp: v.npwp, nib: v.nib, nitku: v.nitku,
     aktaNumber: v.aktaNumber, address: v.address, city: v.city, region: v.region, baseCurrency: v.baseCurrency, fiscalYearStartMonth: v.fiscalYearStartMonth,
     tax: { regime: v.regime, pkp: v.pkp, ppnRate: v.ppnRate, pph25Monthly: v.pph25Monthly, localTaxRate: v.localTaxRate, lkpm: v.lkpm, payroll: v.payroll, signerName: v.signerName },
-    crmCompanyId: v.crmCompanyId, driveFolderUrl: v.driveFolderUrl || undefined, status: v.status, createdAt: now,
-  };
-  await db.insert("entities", entity);
-  await db.insertMany("accounts", buildAccounts(entity.id, () => db.newId(), { country: entity.country }));
-  if (v.crmCompanyId) await db.update("companies", v.crmCompanyId, { entityId: entity.id, updatedAt: now });
+    crmCompanyId: v.crmCompanyId, driveFolderUrl: v.driveFolderUrl || undefined, status: v.status,
+  });
   revalidatePath("/settings/entities");
+  if (v.crmCompanyId) revalidatePath(`/clients/companies/${v.crmCompanyId}`);
   redirect(`/settings/entities/${entity.id}`);
 }
 

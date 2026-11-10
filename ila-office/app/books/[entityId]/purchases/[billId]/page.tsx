@@ -44,6 +44,7 @@ export default async function BillPage({ params, searchParams }: { params: Promi
           <p className="text-sm text-ink-700">{bill.vendor.name}{bill.vendorInvoiceNumber ? ` · ${bill.vendorInvoiceNumber}` : ""} · {fmtDate(bill.date)} · due {fmtDate(bill.dueDate)}</p>
         </div>
         <div className="flex flex-wrap gap-2 no-print">
+          {writable && <Link href={`${b}/recurring/new?from=bill:${bill.id}`} className="btn-secondary" title="Repeat this bill every week, month, quarter or year">Make recurring</Link>}
           {writable && bill.status === "draft" && <Link href={`${here}/edit`} className="btn-secondary">Edit</Link>}
           {writable && bill.status === "draft" && <ConfirmForm action={postBillAction.bind(null, entityId, bill.id)} message={`Post ${bill.number}? This books Dr expense${entity.tax.pkp && bill.ppnInput ? " / Dr PPN input" : ""} / Cr AP${bill.withholdingTotal ? " / Cr withholding payable" : ""} dated ${bill.date}.`}><button className="btn-primary" type="submit">Post bill</button></ConfirmForm>}
           {writable && bill.status !== "void" && bill.amountPaid === 0 && <ConfirmForm action={voidBillAction.bind(null, entityId, bill.id)} message={`Void ${bill.number}?${bill.journalId ? " Its journal entry will be voided too." : ""}`}><button className="btn-danger" type="submit">Void</button></ConfirmForm>}

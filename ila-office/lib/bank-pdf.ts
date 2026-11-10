@@ -98,6 +98,38 @@ const inRange = (t: PdfToken, r: Range | undefined) => !!r && center(t) >= r.min
 const MARKER = /^(D|K|DB|CR|DR|C)$/i;
 const DEBIT_MARK = /^(D|DB|DR)$/i;
 
+// ---------- Multi-currency statements ----------
+
+const CCY_CODES = ["IDR", "USD", "EUR", "SGD", "AUD", "GBP", "JPY", "HKD", "CNY", "CHF", "MYR", "THB", "NZD", "CAD"];
+const SECTION_CCY = new RegExp(`\\b(${CCY_CODES.join("|")})\\b`);
+
+/**
+ * A statement that lists several accounts in one PDF (OCBC prints the IDR, USD and EUR accounts one after the other)
+ * announces each section with a header such as "Account No 1234567 USD", "Currency: USD" or "USD Current Account".
+ * Returns that currency for a header-like line (account / currency words, no money amounts), else undefined.
+ */
+export function sectionCurrency(line: PdfLine): string | undefined {
+  const t = N(line.text);
+  if (!/(CURRENCY|MATAUANG|ACCOUNT|REKENING|STATEMENT|SALDO|BALANCE|CURRENT|SAVINGS|GIRO|TABUNGAN|VALAS)/.test(t)) return undefined;
+  if (line.tokens.some((tk) => /^-?[0-9.,]+$/.test(tk.s) && /[.,]\d{2}$/.test(tk.s))) return undefined;
+  // The code must stand as its own word in the original text ("IDR Current Account", "Currency: USD").
+  return line.text.toUpperCase().match(SECTION_CCY)?.[1];
+}
+
+/** The currency section each line belongs to, following the headers in reading order across pages. */
+export function lineCurrencies(pages: PdfPage[]): Map<PdfLine, string | undefined> {
+  const out = new Map<PdfLine, string | undefined>();
+  let current: string | undefined;
+  for (const p of pages) for (const l of p.lines) { const c = sectionCurrency(l); if (c) current = c; out.set(l, current); }
+  return out;
+}
+
+/** Keeps the section currencies only when the statement really mixes several; a single tag is more likely a stray mention. */
+export function keepSectionCurrencies(rows: ParsedBankRow[]): ParsedBankRow[] {
+  const found = new Set(rows.map((r) => r.currency).filter(Boolean));
+  return found.size >= 2 ? rows : rows.map((r) => (r.currency ? { ...r, currency: undefined } : r));
+}
+
 /** Builds one statement row from the lines of a transaction block. */
 function buildRow(block: PdfLine[], cols: Cols, date: string, preset: Preset): RowOut {
   const desc: string[] = [], refs: string[] = [];
@@ -296,6 +328,7 @@ function runPreset(pages: PdfPage[], preset: Preset): { rows: ParsedBankRow[]; e
   const errors: string[] = [];
   let opening: number | undefined;
   let cols: Cols | null = null;
+  const sections = lineCurrencies(pages);
   for (const page of pages) {
     const headerIdx = page.lines.findIndex((l) => preset.headerRe.test(N(l.text)));
     if (headerIdx >= 0) cols = preset.columns(page.lines[headerIdx], page) ?? cols;
@@ -325,7 +358,7 @@ function runPreset(pages: PdfPage[], preset: Preset): { rows: ParsedBankRow[]; e
       }
       const out = buildRow(block, cols as Cols, a.date, preset);
       if (out.opening !== undefined && opening === undefined) opening = out.opening;
-      if (out.row) rows.push(out.row);
+      if (out.row) rows.push({ ...out.row, currency: sections.get(line) });
       if (out.error) errors.push(out.error);
     });
   }
@@ -337,6 +370,7 @@ function runGeneric(pages: PdfPage[]): { rows: ParsedBankRow[]; errors: string[]
   const rows: ParsedBankRow[] = [];
   const errors: string[] = [];
   let prevBalance: number | undefined;
+  const sections = lineCurrencies(pages);
   for (const page of pages) {
     const numMinX = page.width * 0.5;
     const lines = page.lines;
@@ -368,7 +402,7 @@ function runGeneric(pages: PdfPage[]): { rows: ParsedBankRow[]; errors: string[]
       const description = descTokens.join(" ").replace(/\s+/g, " ").trim();
       if (/^(SALDOAWAL|OPENINGBALANCE)/.test(N(description))) { prevBalance = balance ?? Math.abs(values[values.length - 1]); continue; }
       if (amount === 0) { errors.push(`${date}: no amount`); continue; }
-      rows.push({ date, description: description || "(no description)", amount: round2(amount), balance: balance === undefined ? undefined : round2(balance) });
+      rows.push({ date, description: description || "(no description)", amount: round2(amount), balance: balance === undefined ? undefined : round2(balance), currency: sections.get(line) });
       if (balance !== undefined) prevBalance = balance;
     }
   }
@@ -403,6 +437,7 @@ export function parseBankPdf(pages: PdfPage[], opts: { preset?: string } = {}): 
   const id: PdfPresetId = (PDF_PRESET_OPTIONS.some((p) => p.id === opts.preset) ? (opts.preset as PdfPresetId) : detectPdfPreset(pages));
   const preset = PDF_PRESETS.find((p) => p.id === id);
   const base = preset ? runPreset(pages, preset) : runGeneric(pages);
+  base.rows = keepSectionCurrencies(base.rows);
   const meta = preset?.meta?.(pages) ?? {};
   const ctx = preset?.context?.(pages) ?? {};
   const opening = meta.opening ?? base.opening;
@@ -411,7 +446,9 @@ export function parseBankPdf(pages: PdfPage[], opts: { preset?: string } = {}): 
   const acc = text.match(/(?:NO\.?REKENING|ACCOUNTNO\.?|ACCOUNTNUMBER)[^0-9]{0,12}(\d{8,20})/)?.[1];
   const label = preset?.label ?? "Other bank PDF";
   const dates = base.rows.map((r) => r.date).sort();
+  const currencies = [...new Set(base.rows.map((r) => r.currency).filter(Boolean))] as string[];
   const bits = [`${pages.length} page${pages.length === 1 ? "" : "s"}`, `${base.rows.length} transaction${base.rows.length === 1 ? "" : "s"}`];
+  if (currencies.length > 1) bits.push(`${currencies.length} currency sections (${currencies.join(", ")})`);
   if (dates.length) bits.push(`${dates[0]} → ${dates[dates.length - 1]}`);
   if (opening !== undefined) bits.push(`opening ${opening.toLocaleString("en-US")}`);
   if (meta.closing !== undefined) bits.push(`closing ${meta.closing.toLocaleString("en-US")}`);

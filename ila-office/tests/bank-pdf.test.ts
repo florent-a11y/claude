@@ -211,3 +211,32 @@ test("a scanned PDF (no text layer) is flagged", () => {
   assert.equal(r.scanned, true);
   assert.equal(r.rows.length, 0);
 });
+
+// ---------- Multi-currency statements (one OCBC PDF carrying the IDR, USD and EUR accounts) ----------
+
+import { keepSectionCurrencies, lineCurrencies, sectionCurrency, type PdfLine } from "../lib/bank-pdf";
+
+function textLine(y: number, ...words: string[]): PdfLine {
+  return { y, tokens: words.map((s, i) => ({ x: 20 + i * 70, y, w: s.length * 5, h: 10, s })), text: words.join(" ") };
+}
+
+test("sectionCurrency reads the currency of an account header line and ignores transaction rows", () => {
+  assert.equal(sectionCurrency(textLine(10, "Account", "No", "1234567890", "USD")), "USD");
+  assert.equal(sectionCurrency(textLine(10, "Currency", ":", "EUR")), "EUR");
+  assert.equal(sectionCurrency(textLine(10, "IDR", "Current", "Account")), "IDR");
+  assert.equal(sectionCurrency(textLine(10, "Rekening", "Giro", "Valas", "SGD", "987654321")), "SGD");
+  assert.equal(sectionCurrency(textLine(10, "01/10/2026", "Transfer", "to", "USD", "account", "1,000.00", "5,000.00")), undefined, "a row with money amounts is not a header");
+  assert.equal(sectionCurrency(textLine(10, "Closing", "Balance", "12,345.67")), undefined);
+  assert.equal(sectionCurrency(textLine(10, "Transaction", "Date", "Description", "Debit", "Credit")), undefined, "no currency code");
+});
+
+test("lineCurrencies follows the section headers in reading order across pages; keepSectionCurrencies keeps tags only when currencies mix", () => {
+  const p1 = { number: 1, width: 595, height: 842, lines: [textLine(10, "Account", "No", "111", "IDR"), textLine(30, "01/10/2026", "Payment", "100,000.00"), textLine(50, "Account", "No", "222", "USD"), textLine(70, "02/10/2026", "Wire", "1,000.00")] };
+  const p2 = { number: 2, width: 595, height: 842, lines: [textLine(10, "03/10/2026", "Wire", "2,000.00"), textLine(30, "Account", "No", "333", "EUR"), textLine(50, "04/10/2026", "Fee", "5.00")] };
+  const map = lineCurrencies([p1, p2]);
+  assert.deepEqual([...p1.lines, ...p2.lines].map((l) => map.get(l)), ["IDR", "IDR", "USD", "USD", "USD", "EUR", "EUR"]);
+  const mixed = [{ date: "2026-10-01", description: "a", amount: 1, currency: "IDR" }, { date: "2026-10-02", description: "b", amount: 1, currency: "USD" }];
+  assert.deepEqual(keepSectionCurrencies(mixed).map((r) => r.currency), ["IDR", "USD"]);
+  const single = [{ date: "2026-10-01", description: "a", amount: 1, currency: "USD" }, { date: "2026-10-02", description: "b", amount: 1, currency: "USD" }];
+  assert.deepEqual(keepSectionCurrencies(single).map((r) => r.currency), [undefined, undefined], "one stray code is not a section");
+});
