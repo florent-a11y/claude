@@ -4,14 +4,16 @@ import { db } from "@/lib/db";
 import { matchesSearch } from "../_lib/search";
 import { fmtMoney } from "@/lib/money";
 import { ENTITY_TYPE_SHORT, REGIONS, type Company } from "@/lib/types";
-import { Page, Badge, Chips, Cols, Dash, EmptyState, TableCard, statusTone, withParams } from "@/components/ui";
-import { AutoSubmitInput } from "@/components/client";
+import { Page, Badge, Chips, Cols, Dash, EmptyState, Notice, TableCard, statusTone, withParams } from "@/components/ui";
+import { AutoSubmitInput, ConfirmForm, SubmitButton } from "@/components/client";
 import { lookups } from "../_lib/server";
+import { companyNeedsBooks } from "@/app/settings/entities/create-entity";
+import { createBooksForCompanies } from "./actions";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Client companies" };
 
-type SP = { q?: string; status?: string; region?: string };
+type SP = { q?: string; status?: string; region?: string; ok?: string; error?: string };
 const STATUS_LABELS = { lead: "Leads", active: "Active", inactive: "Inactive" } as const;
 
 /** Monthly equivalent (IDR) of the active IDR subscriptions: monthly + quarterly / 3 + annual / 12. */
@@ -25,8 +27,11 @@ export default async function Companies({ searchParams }: { searchParams: Promis
   const l = await lookups();
   const all = scopeByEntity(user, await db.list("companies", { orderBy: "name" }), (c) => c.entityId);
   const write = can(user, "crm:write");
+  const admin = can(user, "admin");
   const client = isClient(user);
   const q = sp.q?.trim() ?? "";
+  const withoutBooks = admin ? all.filter(companyNeedsBooks).length : 0;
+  const filters: SP = { q: sp.q, status: sp.status, region: sp.region };
   const rows = all.filter((c) => {
     if (sp.status && c.status !== sp.status) return false;
     if (sp.region && (c.region ?? "Other") !== sp.region) return false;
@@ -37,17 +42,27 @@ export default async function Companies({ searchParams }: { searchParams: Promis
   const regions = REGIONS.filter((r) => all.some((c) => (c.region ?? "Other") === r));
   const totalMonthly = rows.reduce((a, c) => a + monthlyIDR(c), 0);
   return (
-    <Page title={client ? "My companies" : "Client companies"} subtitle={client ? `${all.length} compan${all.length === 1 ? "y" : "ies"} managed by ILA for you` : `${counts.active} active clients · ${counts.lead} leads · ${counts.inactive} inactive`} actions={write && <Link href="/clients/companies/new" className="btn-primary">New company</Link>}>
+    <Page title={client ? "My companies" : "Client companies"} subtitle={client ? `${all.length} compan${all.length === 1 ? "y" : "ies"} managed by ILA for you` : `${counts.active} active clients · ${counts.lead} leads · ${counts.inactive} inactive`} actions={<>
+      {/* Admins: one set of books (entity + standard chart of accounts) per active client company that has none yet. */}
+      {withoutBooks > 0 && (
+        <ConfirmForm action={createBooksForCompanies} message={`Create books for ${withoutBooks} active compan${withoutBooks === 1 ? "y" : "ies"} without books? Each gets an entity with the standard chart of accounts and a default tax profile (normal CIT, not PKP, LKPM for PT PMA) that you can refine in Settings → Entities. Prospects are skipped.`}>
+          <SubmitButton className="btn-secondary" pendingText="Creating books…">Create books for {withoutBooks} compan{withoutBooks === 1 ? "y" : "ies"} without books</SubmitButton>
+        </ConfirmForm>
+      )}
+      {write && <Link href="/clients/companies/new" className="btn-primary">New company</Link>}
+    </>}>
+      {!client && sp.error && <div className="mb-3"><Notice tone="red">{sp.error}</Notice></div>}
+      {!client && sp.ok && <div className="mb-3"><Notice tone="green">{sp.ok}</Notice></div>}
       <div className="mb-3 space-y-2 no-print">
         <form className="flex flex-wrap items-center gap-2">
           {sp.status && <input type="hidden" name="status" value={sp.status} />}
           {sp.region && <input type="hidden" name="region" value={sp.region} />}
           <AutoSubmitInput name="q" defaultValue={q} placeholder="Search name, NPWP, NIB, contact, tag…" className="input max-w-sm" />
-          <Chips items={[{ href: withParams(base, sp, { status: undefined }), label: <>All <span className="opacity-60">{all.length}</span></>, active: !sp.status }, ...(["active", "lead", "inactive"] as const).map((s) => ({ href: withParams(base, sp, { status: s }), label: <>{STATUS_LABELS[s]} <span className="opacity-60">{counts[s]}</span></>, active: sp.status === s }))]} />
+          <Chips items={[{ href: withParams(base, filters, { status: undefined }), label: <>All <span className="opacity-60">{all.length}</span></>, active: !sp.status }, ...(["active", "lead", "inactive"] as const).map((s) => ({ href: withParams(base, filters, { status: s }), label: <>{STATUS_LABELS[s]} <span className="opacity-60">{counts[s]}</span></>, active: sp.status === s }))]} />
           {(q || sp.status || sp.region) && <Link href={base} className="btn-ghost !px-2 !py-1 text-xs">Clear</Link>}
           <span className="ml-auto text-xs text-ink-500">{rows.length} shown</span>
         </form>
-        {regions.length > 1 && <Chips items={[{ href: withParams(base, sp, { region: undefined }), label: "All regions", active: !sp.region }, ...regions.map((r) => ({ href: withParams(base, sp, { region: r }), label: r, active: sp.region === r }))]} />}
+        {regions.length > 1 && <Chips items={[{ href: withParams(base, filters, { region: undefined }), label: "All regions", active: !sp.region }, ...regions.map((r) => ({ href: withParams(base, filters, { region: r }), label: r, active: sp.region === r }))]} />}
       </div>
       {rows.length === 0 ? <EmptyState title="No company matches" action={write && <Link href="/clients/companies/new" className="btn-primary">New company</Link>} /> : (
         <TableCard footer={totalMonthly > 0 && <span>Recurring fees of the companies shown: <span className="money font-medium text-ink-700">{fmtMoney(totalMonthly, "IDR")}</span> per month (IDR subscriptions, monthly equivalent).</span>}>
@@ -72,7 +87,7 @@ export default async function Companies({ searchParams }: { searchParams: Promis
                     </td>
                     <td>{c.ownerUserId ? <span className="cell" title={l.user(c.ownerUserId)}>{l.user(c.ownerUserId)}</span> : <Dash />}</td>
                     <td><Badge tone={statusTone(c.status)}>{c.status}</Badge></td>
-                    <td className="whitespace-nowrap text-right text-xs">{c.entityId ? <><Link className="text-brand-600 hover:underline" href={`/books/${c.entityId}`}>Books</Link><span className="mx-1 text-slate-300">·</span><Link className="text-brand-600 hover:underline" href={`/tax/${c.entityId}`}>Tax</Link></> : null}</td>
+                    <td className="whitespace-nowrap text-right text-xs">{c.entityId ? <><Link className="text-brand-600 hover:underline" href={`/books/${c.entityId}`}>Books</Link><span className="mx-1 text-slate-300">·</span><Link className="text-brand-600 hover:underline" href={`/tax/${c.entityId}`}>Tax</Link></> : admin && companyNeedsBooks(c) ? <Link className="text-ink-500 hover:underline" href={`/settings/entities/new?companyId=${c.id}`} title="Create a set of books for this company">create books</Link> : null}</td>
                   </tr>
                 );
               })}

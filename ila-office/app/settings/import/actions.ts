@@ -4,16 +4,17 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { requirePermission } from "@/lib/auth";
 import { bool, num, str } from "@/lib/util";
-import { FX_CURRENCIES, clearImportDraft, commitImport, loadImportDraft, prepareImport, saveImportDraft, type ImportKind, type ImportOptions } from "@/lib/import-services";
+import { FX_CURRENCIES, IMPORT_KINDS, clearImportDraft, commitImport, loadImportDraft, prepareImport, saveImportDraft, type ImportKind, type ImportOptions } from "@/lib/import-services";
 
 /** Admin-only: upload → preview (dry run) → import. The file is kept server-side between the two steps. */
 
-const kindSchema = z.enum(["hubspot_contacts", "qbo_customers", "qbo_invoices"]);
+const kindSchema = z.enum(IMPORT_KINDS as [ImportKind, ...ImportKind[]]);
 const optionsSchema = z.object({
   dateFormat: z.enum(["auto", "dmy", "mdy", "ymd"]),
   postToLedger: z.boolean(),
   fxRates: z.record(z.string().regex(/^[A-Z]{3}$/), z.number().positive()),
   fromDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+  entityId: z.string().max(80).optional(),
 });
 
 const MAX_BYTES = 8 * 1024 * 1024;
@@ -30,13 +31,17 @@ function readOptions(fd: FormData): ImportOptions {
     const m = part.trim().match(/^([A-Za-z]{3})\s*[=:]\s*([0-9.,]+)$/);
     if (m) { const v = Number(m[2].replace(/,/g, "")); if (v > 0) fxRates[m[1].toUpperCase()] = v; }
   }
-  return optionsSchema.parse({ dateFormat: str(fd, "dateFormat") ?? "auto", postToLedger: bool(fd, "postToLedger"), fxRates, fromDate: str(fd, "fromDate") });
+  return optionsSchema.parse({ dateFormat: str(fd, "dateFormat") ?? "auto", postToLedger: bool(fd, "postToLedger"), fxRates, fromDate: str(fd, "fromDate"), entityId: str(fd, "entityId") });
 }
 
 const PATHS_TOUCHED: Record<ImportKind, string[]> = {
   hubspot_contacts: ["/clients/contacts", "/clients/companies"],
   qbo_customers: ["/clients/contacts", "/clients/companies"],
   qbo_invoices: ["/books", "/"],
+  qbo_accounts: ["/books", "/"],
+  qbo_trial_balance: ["/books", "/"],
+  qbo_journal: ["/books", "/"],
+  qbo_bills: ["/books", "/"],
 };
 
 /** Step 1: read the uploaded CSV, store it with the chosen options and show the dry run. */
@@ -84,7 +89,7 @@ export async function runPendingImport(fd: FormData) {
   if (plan.blocking) back(plan.blocking);
   const batch = await commitImport(plan, draft.fileName, user.id);
   await clearImportDraft(user.id, kind);
-  for (const p of ["/settings/import", ...PATHS_TOUCHED[kind]]) revalidatePath(p);
+  for (const p of ["/settings/import", ...PATHS_TOUCHED[kind], ...(plan.entityId ? [`/books/${plan.entityId}`] : [])]) revalidatePath(p);
   redirect(`/settings/import?done=${batch.id}`);
 }
 

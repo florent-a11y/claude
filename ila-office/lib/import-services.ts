@@ -1,35 +1,52 @@
 /**
  * Runs the migration imports against the store: parses the file with lib/importers.ts, dedupes against existing
- * rows, resolves links (contacts ↔ companies, invoices ↔ customers, owners ↔ users), writes the rows and records
- * an ImportBatch. `prepareImport` is the dry run shown on the preview screen; `commitImport` writes the same plan.
+ * rows, resolves links (contacts ↔ companies, invoices ↔ customers, owners ↔ users, QBO accounts ↔ our chart),
+ * writes the rows and records an ImportBatch. `prepareImport` is the dry run shown on the preview screen;
+ * `commitImport` writes the same plan.
  *
- * QBO invoices land in ILA's own entity (isOwn) as Invoice rows keyed by qboDocNumber. Optionally each invoice is
- * posted as Dr Accounts receivable / Cr Service revenue (IDR at the rate given per currency). An invoice whose
- * qboDocNumber already exists is never inserted or posted again.
+ * Books imports (invoices, account list, trial balance, journal, bills) target one entity: `options.entityId`,
+ * defaulting to ILA's own entity (isOwn). Invoices and bills are keyed by qboDocNumber and optionally posted
+ * (Dr AR / Cr revenue, Dr expense / Cr AP, IDR at the rate given per currency). QBO accounts are matched to ours by
+ * number, then by name, and remembered on `Account.qboName`; the trial balance becomes one "opening" journal and
+ * the journal report one "manual" entry per transaction, both keyed by `sourceId` so a file can be re-run safely.
  */
 import { db } from "./db";
 import { postJournal } from "./posting";
-import { findByTag } from "./balances";
+import { findByCode, findByTag } from "./balances";
+import { billJournalLines } from "./ledger";
+import { normalBalanceOf } from "./coa";
 import { toIDR } from "./money";
 import { fullName } from "./util";
 import {
-  parseHubspotContacts, parseQboCustomers, parseQboInvoices, dedupeBy, existingKeys, contactKeys, companyKeys, invoiceKeys, normName, normEmail,
-  stripCurrencySuffix, guessEntityType, type ContactDraft, type QboCustomerDraft, type InvoiceDraft, type DateFormat,
+  parseHubspotContacts, parseQboCustomers, parseQboInvoices, parseQboAccounts, parseQboTrialBalance, parseQboJournal, parseQboBills, openingLinesFromTrialBalance,
+  allocateAccountCode, qboNumberToCode, journalLabel, dedupeBy, existingKeys, contactKeys, companyKeys, invoiceKeys, billKeys, journalKeys, normName, normEmail,
+  stripCurrencySuffix, guessEntityType, type ContactDraft, type QboCustomerDraft, type InvoiceDraft, type DateFormat, type AccountDraft,
 } from "./importers";
-import type { Account, Company, Contact, Entity, ImportBatch, Invoice, JournalLine, User } from "./types";
+import type { Account, Bill, Company, Contact, Entity, ImportBatch, Invoice, JournalLine, JournalSource, User } from "./types";
 
-export type ImportKind = Extract<ImportBatch["kind"], "hubspot_contacts" | "qbo_customers" | "qbo_invoices">;
-export const IMPORT_KINDS: ImportKind[] = ["hubspot_contacts", "qbo_customers", "qbo_invoices"];
-export const IMPORT_KIND_LABELS: Record<ImportKind, string> = { hubspot_contacts: "HubSpot contacts", qbo_customers: "QuickBooks customers", qbo_invoices: "QuickBooks invoices" };
+export type ImportKind = Extract<ImportBatch["kind"], "hubspot_contacts" | "qbo_customers" | "qbo_invoices" | "qbo_accounts" | "qbo_trial_balance" | "qbo_journal" | "qbo_bills">;
+export const IMPORT_KINDS: ImportKind[] = ["hubspot_contacts", "qbo_customers", "qbo_invoices", "qbo_accounts", "qbo_trial_balance", "qbo_journal", "qbo_bills"];
+export const IMPORT_KIND_LABELS: Record<ImportKind, string> = {
+  hubspot_contacts: "HubSpot contacts", qbo_customers: "QuickBooks customers", qbo_invoices: "QuickBooks invoices",
+  qbo_accounts: "QuickBooks account list", qbo_trial_balance: "QuickBooks trial balance", qbo_journal: "QuickBooks journal", qbo_bills: "QuickBooks bills",
+};
+/** Imports that write into one entity's books (the others feed the CRM). */
+export const BOOKS_IMPORT_KINDS: ImportKind[] = ["qbo_invoices", "qbo_accounts", "qbo_trial_balance", "qbo_journal", "qbo_bills"];
+export const isBooksImport = (kind: ImportKind): boolean => BOOKS_IMPORT_KINDS.includes(kind);
 
 export interface ImportOptions {
   dateFormat: DateFormat;
-  /** QBO invoices: post Dr AR / Cr revenue for every imported invoice. */
+  /** QBO invoices / bills: post Dr AR / Cr revenue (Dr expense / Cr AP) for every imported document. */
   postToLedger: boolean;
-  /** QBO invoices: IDR per unit of each foreign currency, e.g. { USD: 16500, EUR: 18000 }. */
+  /** QBO invoices / bills: IDR per unit of each foreign currency, e.g. { USD: 16500, EUR: 18000 }. */
   fxRates: Record<string, number>;
-  /** QBO invoices: ignore invoices dated before this ISO date (migration cut-over). */
+  /**
+   * Cut-over date (ISO). Invoices, bills and journal entries dated before it are ignored; for the trial balance it is
+   * the "as of" date of the opening journal (read from the report title when empty).
+   */
   fromDate?: string;
+  /** Books imports: the entity written to; empty = ILA's own entity. */
+  entityId?: string;
 }
 
 export const DEFAULT_IMPORT_OPTIONS: ImportOptions = { dateFormat: "auto", postToLedger: false, fxRates: {} };
@@ -54,11 +71,13 @@ export interface ImportPlan {
   /** Preview table: column labels and the first rows that will be inserted. */
   columns: string[];
   sample: PreviewRow[];
-  /** QBO invoices: currencies in the file and those still lacking an IDR rate. */
+  /** QBO invoices / bills: currencies in the file and those still lacking an IDR rate. */
   currencies: string[];
   missingRates: string[];
   /** When set, the import cannot run at all (no own entity, missing accounts…). */
   blocking?: string;
+  /** Books imports: the entity written to. */
+  entityName?: string;
   /** Rows to write. */
   contacts: Contact[];
   companies: Company[];
@@ -67,12 +86,48 @@ export interface ImportPlan {
   invoices: Invoice[];
   /** Invoices to post (subset of `invoices`), with the AR and revenue accounts. */
   posting?: { ar: Account; sales: Account; invoices: Invoice[] };
+  /** QBO account list: accounts to create and existing accounts to tag with their QBO name. */
+  accounts: Account[];
+  accountPatches: Array<{ id: string; patch: Partial<Account> }>;
+  /** QBO trial balance / journal: entries to post (`label` names them in messages). */
+  journals: Array<{ label: string; date: string; memo: string; source: JournalSource; sourceId: string; lines: JournalLine[] }>;
+  /** QBO bills, and those to post (Dr expense / Cr AP) with the entity's accounts. */
+  bills: Bill[];
+  billPosting?: { ap: Account; accounts: Account[]; bills: Bill[] };
 }
 
 const SAMPLE = 20;
 
 function emptyPlan(kind: ImportKind): ImportPlan {
-  return { kind, headers: [], rows: 0, toInsert: 0, duplicates: [], skipped: [], errors: [], warnings: [], columns: [], sample: [], currencies: [], missingRates: [], contacts: [], companies: [], contactPatches: [], companyPatches: [], invoices: [] };
+  return { kind, headers: [], rows: 0, toInsert: 0, duplicates: [], skipped: [], errors: [], warnings: [], columns: [], sample: [], currencies: [], missingRates: [], contacts: [], companies: [], contactPatches: [], companyPatches: [], invoices: [], accounts: [], accountPatches: [], journals: [], bills: [] };
+}
+
+/** Number of records a plan writes or posts (what the Import button announces). */
+export function planCount(plan: ImportPlan): number {
+  return plan.toInsert + plan.companyPatches.length + plan.contactPatches.length + plan.accountPatches.length;
+}
+
+/** The entity a books import writes to: `options.entityId`, else ILA's own entity. Null when neither exists. */
+async function booksEntity(options: ImportOptions): Promise<Entity | null> {
+  if (options.entityId) return db.get("entities", options.entityId);
+  return ((await db.list("entities", { where: { isOwn: true } }))[0] as Entity | undefined) ?? null;
+}
+
+const NO_ENTITY = "Choose the entity to import into (none selected and ILA's own entity does not exist yet: Settings → Entities, tick \"ILA's own books\").";
+
+/** Account lookups for one entity: by code, by stored QBO name, by full name and by leaf name ("Parent:Child" → "Child"). */
+function accountResolver(accounts: Account[]): (qboName: string, number?: string) => Account | undefined {
+  const byCode = new Map(accounts.map((a) => [a.code, a] as const));
+  const byQbo = new Map(accounts.flatMap((a) => (a.qboName ? [[normName(a.qboName), a] as const] : [])));
+  const byName = new Map<string, Account>();
+  for (const a of [...accounts].reverse()) { byName.set(normName(a.name), a); if (a.nameId) byName.set(normName(a.nameId), a); }
+  return (qboName, number) => {
+    const code = number && /^\d-\d{4}$/.test(number.trim()) ? byCode.get(number.trim()) : undefined;
+    if (code) return code;
+    const key = normName(qboName);
+    const leaf = normName(qboName.split(":").pop() ?? qboName);
+    return byQbo.get(key) ?? byQbo.get(leaf) ?? byName.get(key) ?? byName.get(leaf);
+  };
 }
 
 function resolveOwner(users: User[], ownerName: string | undefined): string | undefined {
@@ -209,9 +264,9 @@ async function planQboCustomers(text: string): Promise<ImportPlan> {
 
 async function planQboInvoices(text: string, options: ImportOptions): Promise<ImportPlan> {
   const plan = emptyPlan("qbo_invoices");
-  const own = (await db.list("entities", { where: { isOwn: true } }))[0] as Entity | undefined;
-  if (!own) { plan.blocking = "Create ILA's own entity first (Settings → Entities, tick \"ILA's own books\")."; return plan; }
-  plan.entityId = own.id;
+  const own = await booksEntity(options);
+  if (!own) { plan.blocking = NO_ENTITY; return plan; }
+  plan.entityId = own.id; plan.entityName = own.name;
   const parsed = parseQboInvoices(text, { dateFormat: options.dateFormat });
   plan.headers = parsed.headers; plan.rows = parsed.rowCount; plan.errors = [...parsed.errors]; plan.skipped = [...parsed.skipped]; plan.warnings = [...parsed.warnings]; plan.currencies = parsed.currencies;
   const [accounts, invoices, companies, contacts] = await Promise.all([
@@ -219,7 +274,7 @@ async function planQboInvoices(text: string, options: ImportOptions): Promise<Im
   ]);
   const ar = findByTag(accounts, "ar_trade");
   const sales = findByTag(accounts, "sales_default");
-  if (options.postToLedger && (!ar || !sales)) { plan.blocking = "The own entity's chart of accounts has no account tagged ar_trade / sales_default; posting is not possible."; return plan; }
+  if (options.postToLedger && (!ar || !sales)) { plan.blocking = `${own.name}'s chart of accounts has no account tagged ar_trade / sales_default; posting is not possible.`; return plan; }
   if (!sales) plan.warnings.push("no revenue account tagged sales_default: invoice lines are imported without an account");
   let drafts = parsed.drafts;
   if (options.fromDate) {
@@ -268,16 +323,207 @@ async function planQboInvoices(text: string, options: ImportOptions): Promise<Im
   return plan;
 }
 
+// ---------- QuickBooks account list ----------
+
+async function planQboAccounts(text: string, options: ImportOptions): Promise<ImportPlan> {
+  const plan = emptyPlan("qbo_accounts");
+  const entity = await booksEntity(options);
+  if (!entity) { plan.blocking = NO_ENTITY; return plan; }
+  plan.entityId = entity.id; plan.entityName = entity.name;
+  const parsed = parseQboAccounts(text);
+  plan.headers = parsed.headers; plan.rows = parsed.rowCount; plan.errors = [...parsed.errors]; plan.skipped = [...parsed.skipped]; plan.warnings = [...parsed.warnings];
+  const accounts = await db.list("accounts", { where: { entityId: entity.id } });
+  const resolve = accountResolver(accounts);
+  const taken = new Set(accounts.map((a) => a.code));
+  const created = new Map<string, Account>(); // by normalised QBO name, so children can find a parent created above
+  let existingCount = 0;
+  const qboSeen = new Set<string>();
+  for (const d of parsed.drafts) {
+    const key = normName(d.qboName);
+    if (qboSeen.has(key)) { plan.duplicates.push({ line: d.line, label: d.qboName, reason: "repeated in the file" }); continue; }
+    qboSeen.add(key);
+    const match = resolve(d.qboName, d.number) ?? created.get(key);
+    const typeLabel = `${d.type} / ${d.subtype}`;
+    if (match) {
+      let action = "existing";
+      if (match.qboName && normName(match.qboName) !== key) d.warnings.push(`our account is already mapped to QBO "${match.qboName}"`);
+      if (!match.qboName) plan.accountPatches.push({ id: match.id, patch: { qboName: d.qboName } });
+      else if (!plan.accounts.includes(match)) { action = "already mapped"; plan.duplicates.push({ line: d.line, label: d.qboName, reason: `already mapped to ${match.code} ${match.name}` }); }
+      if (match.type !== d.type) d.warnings.push(`QBO type ${d.qboType} but ours is ${match.type}`);
+      created.set(key, match);
+      existingCount++;
+      if (plan.sample.length < SAMPLE) plan.sample.push({ line: d.line, cells: [d.qboName, d.qboType, d.detailType ?? "", match.code, match.name, `${match.type} / ${match.subtype}`, action], warnings: d.warnings });
+      continue;
+    }
+    let code = qboNumberToCode(d.number, d.type, d.subtype);
+    if (code && taken.has(code)) { d.warnings.push(`QBO number ${d.number} is already used by another account: next free code allocated`); code = undefined; }
+    if (d.number && !code && !d.warnings.length) d.warnings.push(`QBO number "${d.number}" does not fit the 1-1100 format: next free code allocated`);
+    code = code ?? allocateAccountCode(d.type, d.subtype, taken);
+    taken.add(code);
+    const parent = d.parentQboName ? resolve(d.parentQboName) ?? created.get(normName(d.parentQboName)) : undefined;
+    const account: Account = {
+      id: db.newId(), entityId: entity.id, code, name: d.name, type: d.type, subtype: d.subtype, normalBalance: normalBalanceOf(d.type), parentCode: parent?.code,
+      deductible: d.type === "expense" ? true : undefined, qboName: d.qboName, isSystem: false, active: true,
+    };
+    plan.accounts.push(account);
+    created.set(key, account);
+    if (plan.sample.length < SAMPLE) plan.sample.push({ line: d.line, cells: [d.qboName, d.qboType, d.detailType ?? "", code, account.name, typeLabel, "new"], warnings: d.warnings });
+  }
+  plan.columns = ["QBO account", "QBO type", "Detail type", "Code", "Our account", "Type / subtype", "Action"];
+  plan.toInsert = plan.accounts.length;
+  if (existingCount) plan.warnings.push(`${existingCount} QBO account${existingCount === 1 ? "" : "s"} matched existing accounts (${plan.accountPatches.length} will be tagged with their QBO name)`);
+  if (plan.accounts.length) plan.warnings.push(`${plan.accounts.length} new account${plan.accounts.length === 1 ? "" : "s"} will be created in ${entity.name} with the next free code in their group; rename or renumber them in Books → Accounts afterwards`);
+  return plan;
+}
+
+// ---------- QuickBooks trial balance → opening journal ----------
+
+async function planQboTrialBalance(text: string, options: ImportOptions): Promise<ImportPlan> {
+  const plan = emptyPlan("qbo_trial_balance");
+  const entity = await booksEntity(options);
+  if (!entity) { plan.blocking = NO_ENTITY; return plan; }
+  plan.entityId = entity.id; plan.entityName = entity.name;
+  const parsed = parseQboTrialBalance(text);
+  plan.headers = parsed.headers; plan.rows = parsed.rowCount; plan.errors = [...parsed.errors]; plan.skipped = [...parsed.skipped]; plan.warnings = [...parsed.warnings];
+  const asOf = options.fromDate ?? parsed.asOf;
+  if (!asOf) { plan.blocking = "Set the cut-over date in the options: it is the \"as of\" date of the trial balance and the date of the opening journal."; return plan; }
+  if (parsed.asOf && options.fromDate && parsed.asOf !== options.fromDate) plan.warnings.push(`the report says "as of ${parsed.asOf}" but the cut-over date is ${options.fromDate}: the journal is dated ${options.fromDate}`);
+  const [accounts, entries] = await Promise.all([db.list("accounts", { where: { entityId: entity.id } }), db.list("journal_entries", { where: { entityId: entity.id, source: "opening" } })]);
+  const sourceId = `qbo:tb:${asOf}`;
+  const resolve = accountResolver(accounts);
+  const { lines, unmatched, difference } = openingLinesFromTrialBalance(parsed.drafts, (n) => resolve(n), { balanceTo: findByTag(accounts, "retained_earnings"), description: `Opening balance (QuickBooks trial balance as of ${asOf})` });
+  for (const r of unmatched) plan.errors.push({ line: r.line, message: `account "${r.account}" is not mapped to ${entity.name}'s chart of accounts` });
+  for (const r of parsed.drafts) {
+    const a = resolve(r.account);
+    if (plan.sample.length < SAMPLE) plan.sample.push({ line: r.line, cells: [r.account, a?.code ?? "", a?.name ?? "", r.debit ? String(r.debit) : "", r.credit ? String(r.credit) : ""], warnings: a ? [] : ["not mapped"] });
+  }
+  plan.columns = ["QBO account", "Code", "Our account", "Debit", "Credit"];
+  if (unmatched.length) { plan.blocking = `${unmatched.length} account${unmatched.length === 1 ? "" : "s"} in the trial balance ${unmatched.length === 1 ? "is" : "are"} not in ${entity.name}'s chart of accounts. Import the QuickBooks account list first (card 4), or create the missing accounts in Books → Accounts, then upload again.`; return plan; }
+  if (difference !== 0) { plan.blocking = `The trial balance does not balance (debits − credits = ${difference}) and no retained-earnings account exists to absorb a rounding difference.`; return plan; }
+  if (lines.some((l) => l.description?.startsWith("Rounding"))) plan.warnings.push("a rounding difference is booked to retained earnings");
+  if (entries.some((e) => e.sourceId === sourceId && e.status !== "void")) { plan.duplicates.push({ line: parsed.headerLine, label: `Opening balances as of ${asOf}`, reason: `already imported (journal ${entries.find((e) => e.sourceId === sourceId)!.number})` }); return plan; }
+  if (lines.length < 2) { if (parsed.drafts.length) plan.warnings.push("fewer than two non-zero lines: nothing to post"); return plan; }
+  plan.journals.push({ label: `Opening balances as of ${asOf}`, date: asOf, memo: `Opening balances from QuickBooks as of ${asOf}`, source: "opening", sourceId, lines });
+  plan.toInsert = 1;
+  const debit = lines.reduce((s, l) => s + l.debit, 0);
+  plan.warnings.push(`one opening journal dated ${asOf} with ${lines.length} lines (${debit.toLocaleString("en-US")} IDR each side) will be posted; P&L balances are carried as they are, so a mid-year cut-over keeps the year-to-date result`);
+  return plan;
+}
+
+// ---------- QuickBooks journal → manual entries ----------
+
+async function planQboJournal(text: string, options: ImportOptions): Promise<ImportPlan> {
+  const plan = emptyPlan("qbo_journal");
+  const entity = await booksEntity(options);
+  if (!entity) { plan.blocking = NO_ENTITY; return plan; }
+  plan.entityId = entity.id; plan.entityName = entity.name;
+  const parsed = parseQboJournal(text, { dateFormat: options.dateFormat });
+  plan.headers = parsed.headers; plan.rows = parsed.rowCount; plan.errors = [...parsed.errors]; plan.skipped = [...parsed.skipped]; plan.warnings = [...parsed.warnings];
+  const [accounts, entries] = await Promise.all([db.list("accounts", { where: { entityId: entity.id } }), db.list("journal_entries", { where: { entityId: entity.id } })]);
+  const resolve = accountResolver(accounts);
+  let drafts = parsed.drafts;
+  if (options.fromDate) {
+    for (const d of drafts.filter((d) => d.date < options.fromDate!)) plan.skipped.push({ line: d.line, reason: `dated ${d.date}, before ${options.fromDate}` });
+    drafts = drafts.filter((d) => d.date >= options.fromDate!);
+  }
+  const sourceIdOf = (d: typeof drafts[number]) => `qbo:${d.type.trim() || "txn"}:${d.num || normName(d.name).replace(/ /g, "-") || "-"}:${d.date}`;
+  const keyed = drafts.map((d) => ({ d, sourceId: sourceIdOf(d) }));
+  const { fresh, duplicates } = dedupeBy(keyed, (k) => journalKeys({ sourceId: k.sourceId }), existingKeys(entries.filter((e) => e.status !== "void"), journalKeys));
+  plan.duplicates = duplicates.map(({ draft, reason }) => ({ line: draft.d.line, label: journalLabel(draft.d), reason: reason.startsWith("already") ? "already imported" : reason }));
+  const unmatched = new Set<string>();
+  for (const { d, sourceId } of fresh) {
+    const lines: JournalLine[] = [];
+    let missing = false;
+    for (const l of d.lines) {
+      const a = resolve(l.account);
+      if (!a) { unmatched.add(l.account); missing = true; continue; }
+      lines.push({ accountId: a.id, accountCode: a.code, description: l.description, debit: Math.round(l.debit), credit: Math.round(l.credit), counterpartyName: l.name || d.name || undefined });
+    }
+    if (missing) { plan.errors.push({ line: d.line, message: `${journalLabel(d)}: account not mapped (${d.lines.filter((l) => !resolve(l.account)).map((l) => l.account).join(", ")})` }); continue; }
+    const td = lines.reduce((s, l) => s + l.debit, 0), tc = lines.reduce((s, l) => s + l.credit, 0);
+    if (td !== tc) { plan.errors.push({ line: d.line, message: `${journalLabel(d)}: debits ${td} ≠ credits ${tc} after rounding` }); continue; }
+    plan.journals.push({ label: journalLabel(d), date: d.date, memo: `QBO ${journalLabel(d)}`, source: "manual", sourceId, lines });
+    if (plan.sample.length < SAMPLE) plan.sample.push({ line: d.line, cells: [d.date, d.type, d.num, d.name, d.memo ?? "", String(lines.length), String(td), String(tc)], warnings: d.warnings });
+  }
+  plan.columns = ["Date", "Type", "Num", "Name", "Memo", "Lines", "Debit", "Credit"];
+  plan.toInsert = plan.journals.length;
+  if (unmatched.size) plan.warnings.push(`${unmatched.size} QBO account${unmatched.size === 1 ? "" : "s"} not mapped to ${entity.name}'s chart (${[...unmatched].slice(0, 8).join(", ")}${unmatched.size > 8 ? "…" : ""}): import the account list first (card 4) or create them in Books → Accounts; the entries using them are rejected`);
+  if (plan.journals.length) plan.warnings.push(`${plan.journals.length} journal entries will be posted as manual entries (memo "QBO <type> <num> <name>"); locked periods reject their entries`);
+  return plan;
+}
+
+// ---------- QuickBooks bills ----------
+
+async function planQboBills(text: string, options: ImportOptions): Promise<ImportPlan> {
+  const plan = emptyPlan("qbo_bills");
+  const entity = await booksEntity(options);
+  if (!entity) { plan.blocking = NO_ENTITY; return plan; }
+  plan.entityId = entity.id; plan.entityName = entity.name;
+  const parsed = parseQboBills(text, { dateFormat: options.dateFormat });
+  plan.headers = parsed.headers; plan.rows = parsed.rowCount; plan.errors = [...parsed.errors]; plan.skipped = [...parsed.skipped]; plan.warnings = [...parsed.warnings]; plan.currencies = parsed.currencies;
+  const [accounts, bills, vendors, companies] = await Promise.all([
+    db.list("accounts", { where: { entityId: entity.id } }), db.list("bills", { where: { entityId: entity.id } }), db.list("vendors"), db.list("companies"),
+  ]);
+  const ap = findByTag(accounts, "ap_trade");
+  const expense = findByCode(accounts, "6-9000") ?? accounts.find((a) => a.active && a.type === "expense" && a.subtype === "opex");
+  if (!expense) { plan.blocking = `${entity.name}'s chart of accounts has no operating-expense account (6-9000 or any opex account) to receive the bill lines.`; return plan; }
+  if (options.postToLedger && !ap) { plan.blocking = `${entity.name}'s chart of accounts has no account tagged ap_trade; posting is not possible.`; return plan; }
+  let drafts = parsed.drafts;
+  if (options.fromDate) {
+    for (const d of drafts.filter((d) => d.date < options.fromDate!)) plan.skipped.push({ line: d.line, reason: `dated ${d.date}, before ${options.fromDate}` });
+    drafts = drafts.filter((d) => d.date >= options.fromDate!);
+  }
+  const { fresh, duplicates } = dedupeBy(drafts, billKeys, existingKeys(bills, billKeys));
+  plan.duplicates = duplicates.map(({ draft, reason }) => ({ line: draft.line, label: `Bill ${draft.qboDocNumber} ${draft.vendorName}`, reason }));
+  const vendorsByName = new Map(vendors.map((v) => [normName(v.name), v] as const));
+  const companiesByName = new Map(companies.map((c) => [normName(c.name), c] as const));
+  const missing = new Set<string>();
+  const now = new Date().toISOString();
+  let unresolved = 0;
+  for (const d of fresh) {
+    const rate = d.currency === "IDR" ? 1 : d.fxRate ?? options.fxRates[d.currency];
+    if (!rate || rate <= 0) { missing.add(d.currency); plan.errors.push({ line: d.line, message: `bill ${d.qboDocNumber}: no IDR rate for ${d.currency}` }); continue; }
+    const key = normName(d.vendorName);
+    const vendor = vendorsByName.get(key);
+    const company = vendor ? undefined : companiesByName.get(key);
+    const party: Bill["vendor"] = vendor ? { type: "vendor", id: vendor.id, name: vendor.name, npwp: vendor.npwp } : company ? { type: "company", id: company.id, name: company.name, npwp: company.npwp, country: company.country } : { type: "other", name: d.vendorName };
+    if (party.type === "other") { unresolved++; d.warnings.push("vendor not in the directory"); }
+    const bill: Bill = {
+      id: db.newId(), entityId: entity.id, number: d.qboDocNumber, vendor: party, vendorInvoiceNumber: d.qboDocNumber, date: d.date, dueDate: d.dueDate, currency: d.currency, fxRate: rate,
+      lines: d.lines.map((l) => ({ id: db.newId(), description: l.description, amount: l.amount, accountId: expense.id, taxCode: "out_of_scope" as const, withholding: "none" as const })),
+      subtotal: d.total, ppnInput: 0, withholdingTotal: 0, total: d.total, amountPayable: d.total, amountPaid: d.amountPaid, status: d.status, qboDocNumber: d.qboDocNumber,
+      notes: [d.memo, "Imported from QuickBooks Online."].filter(Boolean).join("\n"), createdAt: now,
+    };
+    plan.bills.push(bill);
+    if (plan.sample.length < SAMPLE) plan.sample.push({ line: d.line, cells: [d.qboDocNumber, d.date, party.name + (party.type === "other" ? " (new)" : ""), d.currency, String(d.total), String(d.openBalance), d.status, rate === 1 ? "" : String(rate), d.lines[0]?.description ?? ""], warnings: d.warnings });
+  }
+  plan.columns = ["Num", "Date", "Vendor", "Currency", "Total", "Open balance", "Status", "IDR rate", "Description"];
+  plan.missingRates = [...missing].sort();
+  plan.toInsert = plan.bills.length;
+  if (plan.bills.length) plan.warnings.push(`bill lines go to ${expense.code} ${expense.name}; reclassify them in Books → Purchases when needed`);
+  if (unresolved) plan.warnings.push(`${unresolved} bill${unresolved === 1 ? "" : "s"} reference a vendor that is not in the directory (Clients → Vendors) and keep the name only`);
+  if (options.postToLedger && ap) {
+    const postable = plan.bills.filter((b) => b.total > 0);
+    plan.billPosting = { ap, accounts, bills: postable };
+    plan.warnings.push(`${postable.length} journal entries will be posted (Dr ${expense.code} ${expense.name} / Cr ${ap.code} ${ap.name}); payments are not posted, reconcile them from the bank import`);
+  }
+  return plan;
+}
+
 // ---------- Public API ----------
 
 /** Dry run: parses, dedupes and resolves links without writing anything. */
 export async function prepareImport(kind: ImportKind, text: string, options: ImportOptions = DEFAULT_IMPORT_OPTIONS): Promise<ImportPlan> {
   if (kind === "hubspot_contacts") return planHubspotContacts(text, options);
   if (kind === "qbo_customers") return planQboCustomers(text);
+  if (kind === "qbo_accounts") return planQboAccounts(text, options);
+  if (kind === "qbo_trial_balance") return planQboTrialBalance(text, options);
+  if (kind === "qbo_journal") return planQboJournal(text, options);
+  if (kind === "qbo_bills") return planQboBills(text, options);
   return planQboInvoices(text, options);
 }
 
-/** Writes a plan and records the batch. Posting errors (locked period, unbalanced) are captured per invoice. */
+/** Writes a plan and records the batch. Posting errors (locked period, unbalanced) are captured per document or entry. */
 export async function commitImport(plan: ImportPlan, fileName: string, byUserId?: string): Promise<ImportBatch> {
   if (plan.blocking) throw new Error(plan.blocking);
   const errors = plan.errors.map((e) => `line ${e.line}: ${e.message}`);
@@ -286,6 +532,24 @@ export async function commitImport(plan: ImportPlan, fileName: string, byUserId?
   if (plan.contacts.length) inserted += await db.insertMany("contacts", plan.contacts);
   for (const p of plan.companyPatches) await db.update("companies", p.id, p.patch);
   for (const p of plan.contactPatches) await db.update("contacts", p.id, p.patch);
+  if (plan.accounts.length) inserted += await db.insertMany("accounts", plan.accounts);
+  for (const p of plan.accountPatches) await db.update("accounts", p.id, p.patch);
+  for (const j of plan.journals) {
+    try { await postJournal(plan.entityId!, { date: j.date, memo: j.memo, source: j.source, sourceId: j.sourceId, lines: j.lines, createdByUserId: byUserId }); inserted++; }
+    catch (e) { errors.push(`${j.label}: not posted (${e instanceof Error ? e.message : String(e)})`); }
+  }
+  if (plan.bills.length) inserted += await db.insertMany("bills", plan.bills);
+  if (plan.billPosting) {
+    const { accounts } = plan.billPosting;
+    for (const bill of plan.billPosting.bills) {
+      try {
+        const je = await postJournal(bill.entityId, { date: bill.date, memo: `QBO bill ${bill.number} - ${bill.vendor.name}`, source: "bill", sourceId: bill.id, lines: billJournalLines(bill, accounts, { ppnCreditable: false }), createdByUserId: byUserId });
+        await db.update("bills", bill.id, { journalId: je.id, updatedAt: new Date().toISOString() });
+      } catch (e) {
+        errors.push(`bill ${bill.number}: not posted (${e instanceof Error ? e.message : String(e)})`);
+      }
+    }
+  }
   if (plan.invoices.length) inserted += await db.insertMany("invoices", plan.invoices);
   if (plan.posting) {
     const { ar, sales } = plan.posting;
@@ -344,4 +608,4 @@ export async function listImportBatches(limit = 30): Promise<ImportBatch[]> {
   return db.list("import_batches", { orderBy: "createdAt", desc: true, limit });
 }
 
-export { type ContactDraft, type QboCustomerDraft, type InvoiceDraft };
+export { type ContactDraft, type QboCustomerDraft, type InvoiceDraft, type AccountDraft };

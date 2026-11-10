@@ -51,7 +51,7 @@ export default async function CompanyDetail({ params, searchParams }: { params: 
               ...(client ? [] : [["Owner", l.user(company.ownerUserId)] as [string, ReactNode]]),
               ["NIB", company.nib ?? "—"], ["Deed", company.aktaNumber ?? "—"],
               ["Address", company.address ?? "—"],
-              ["Books", entity ? <span><Link className="text-brand-600 underline" href={`/books/${entity.id}`}>{entity.name}</Link> · <Link className="text-brand-600 underline" href={`/tax/${entity.id}`}>tax calendar</Link></span> : <span className="text-ink-500">not managed by ILA{can(me, "admin") && <> · <Link className="underline" href="/settings/entities/new">create entity</Link></>}</span>],
+              ["Books", entity ? <span><Link className="text-brand-600 underline" href={`/books/${entity.id}`}>{entity.name}</Link> · <Link className="text-brand-600 underline" href={`/tax/${entity.id}`}>tax calendar</Link></span> : <span className="text-ink-500">not managed by ILA{can(me, "admin") && <> · <Link className="underline" href={`/settings/entities/new?companyId=${id}`}>create books</Link></>}</span>],
               ...(client ? [] : [
                 ["Drive", company.driveFolderUrl ? <a className="text-brand-600 underline" href={company.driveFolderUrl} target="_blank" rel="noreferrer">Open folder</a> : "—"],
                 ["HubSpot / QBO", [company.hubspotId, company.qboCustomerId].filter(Boolean).join(" / ") || "—"],

@@ -8,6 +8,7 @@ import { nowISO, todayISO } from "@/lib/dates";
 import { num, str } from "@/lib/util";
 import { ENTITY_TYPES, type Company } from "@/lib/types";
 import { logActivity, parseTags } from "../_lib/server";
+import { companyNeedsBooks, createEntityFromInput, entityInputFromCompany } from "@/app/settings/entities/create-entity";
 
 const schema = z.object({
   name: z.string().min(1).max(160),
@@ -105,4 +106,31 @@ export async function removeSubscription(companyId: string, index: number) {
   if (!company) throw new Error("Company not found");
   await db.update("companies", companyId, { subscriptions: company.subscriptions.filter((_, i) => i !== index), updatedAt: nowISO() });
   revalidatePath(`/clients/companies/${companyId}`);
+}
+
+/**
+ * Admin: one set of books per active client company that has a legal form and no entity yet (prospects skipped).
+ * A company whose entity already exists but was never linked back is linked instead of duplicated.
+ */
+export async function createBooksForCompanies() {
+  const user = await requirePermission("admin");
+  const [companies, entities] = await Promise.all([db.list("companies", { orderBy: "name" }), db.list("entities")]);
+  const byCompany = new Map(entities.flatMap((e) => (e.crmCompanyId ? [[e.crmCompanyId, e] as const] : [])));
+  let created = 0, linked = 0;
+  const failed: string[] = [];
+  for (const c of companies.filter(companyNeedsBooks)) {
+    try {
+      const existing = byCompany.get(c.id);
+      if (existing) { await db.update("companies", c.id, { entityId: existing.id, updatedAt: nowISO() }); linked++; continue; }
+      const entity = await createEntityFromInput(entityInputFromCompany(c));
+      await logActivity({ kind: "system", subject: "Books created", body: `Entity ${entity.name} with the standard chart of accounts`, user, companyId: c.id, entityId: entity.id });
+      created++;
+    } catch (e) {
+      failed.push(`${c.name}: ${e instanceof Error ? e.message : String(e)}`);
+    }
+  }
+  revalidatePath("/clients/companies");
+  revalidatePath("/settings/entities");
+  const parts = [`${created} set${created === 1 ? "" : "s"} of books created`, ...(linked ? [`${linked} linked to existing books`] : []), ...(failed.length ? [`${failed.length} failed (${failed.slice(0, 3).join("; ")})`] : [])];
+  redirect(`/clients/companies?${failed.length ? "error" : "ok"}=${encodeURIComponent(parts.join(", ") + ". Review each entity's tax profile in Settings → Entities, then import its QuickBooks data from Settings → Import.")}`);
 }

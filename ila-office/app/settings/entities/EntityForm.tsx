@@ -3,9 +3,11 @@ import { countryOptions } from "@/lib/countries";
 import { Field, Select } from "@/components/ui";
 import { currencyOptions } from "@/lib/money";
 import { SubmitButton } from "@/components/client";
+import type { EntityInput } from "./create-entity";
 
-export function EntityForm({ entity, companies, action }: { entity?: Entity; companies: Company[]; action: (fd: FormData) => Promise<void> }) {
-  const e = entity;
+/** `entity` edits an existing set of books; `prefill` seeds a new one (from a client company, see create-entity.ts). */
+export function EntityForm({ entity, prefill, companies, action }: { entity?: Entity; prefill?: EntityInput; companies: Company[]; action: (fd: FormData) => Promise<void> }) {
+  const e: EntityInput | undefined = entity ?? prefill;
   return (
     <form action={action} className="grid gap-4 md:grid-cols-2">
       <div className="card space-y-3">
@@ -49,7 +51,7 @@ export function EntityForm({ entity, companies, action }: { entity?: Entity; com
           <label className="flex items-center gap-2"><input type="checkbox" name="payroll" defaultChecked={e?.tax.payroll} className="checkbox" /> Has employees (PPh 21 and BPJS)</label>
         </div>
         <p className="text-xs text-ink-500">Creating an entity initialises its chart of accounts (PSAK-style, bilingual) and the compliance calendar follows this profile.</p>
-        <SubmitButton>{e ? "Save entity" : "Create entity and books"}</SubmitButton>
+        <SubmitButton>{entity ? "Save entity" : "Create entity and books"}</SubmitButton>
       </div>
     </form>
   );
