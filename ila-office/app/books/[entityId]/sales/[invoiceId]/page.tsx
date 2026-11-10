@@ -60,6 +60,7 @@ export default async function InvoicePage({ params, searchParams }: { params: Pr
         </div>
         <div className="flex flex-wrap gap-2 no-print">
           <Link href={`${here}/print`} className="btn-secondary">Print / PDF</Link>
+          {writable && <Link href={`${b}/recurring/new?from=invoice:${invoice.id}`} className="btn-secondary" title="Repeat this invoice every week, month, quarter or year">Make recurring</Link>}
           {writable && invoice.status === "draft" && <Link href={`${here}/edit`} className="btn-secondary">Edit</Link>}
           {writable && invoice.status === "draft" && <ConfirmForm action={postInvoiceAction.bind(null, entityId, invoice.id)} message={`Post ${invoice.number}? This books Dr AR / Cr revenue${invoice.ppnAmount ? " / Cr PPN output" : ""} dated ${invoice.date}.`}><button className="btn-primary" type="submit">Post invoice</button></ConfirmForm>}
           {writable && invoice.status !== "void" && invoice.amountPaid === 0 && <ConfirmForm action={voidInvoiceAction.bind(null, entityId, invoice.id)} message={`Void ${invoice.number}?${invoice.journalId ? " Its journal entry will be voided too." : ""}`}><button className="btn-danger" type="submit">Void</button></ConfirmForm>}

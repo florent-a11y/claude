@@ -80,6 +80,7 @@ export async function MoneyMoveDetailPage({ kind, voidAction, params, searchPara
               <button className="btn-danger" type="submit">Void</button>
             </ConfirmForm>
           )}
+          {writable && <Link href={`${b}/recurring/new?from=payment:${p.id}`} className="btn-secondary" title={`Repeat this ${meta.label.toLowerCase()} every week, month, quarter or year`}>Make recurring</Link>}
           {writable && <Link href={`${list}/new`} className="btn-secondary">{meta.newLabel}</Link>}
         </div>
       </div>

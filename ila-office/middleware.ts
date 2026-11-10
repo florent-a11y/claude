@@ -37,6 +37,8 @@ export async function middleware(req: NextRequest) {
   if (PUBLIC.some((re) => re.test(path))) return NextResponse.next();
   // The Bank Indonesia rate sync is called by the Vercel cron with a bearer token that the route itself verifies.
   if (path === "/api/fx/sync" && req.headers.get("authorization")?.startsWith("Bearer ")) return NextResponse.next();
+  // Same for the daily run of recurring transactions (app/api/recurring/run verifies the token).
+  if (path === "/api/recurring/run" && req.headers.get("authorization")?.startsWith("Bearer ")) return NextResponse.next();
   if (await verify(req.cookies.get(COOKIE)?.value)) {
     const res = NextResponse.next();
     res.headers.set("cache-control", "private, no-store");

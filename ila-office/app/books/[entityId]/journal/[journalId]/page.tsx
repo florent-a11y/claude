@@ -71,6 +71,7 @@ export default async function JournalEntryPage({ params, searchParams }: { param
           <p className="text-sm text-ink-700">{entry.memo}</p>
         </div>
         <div className="flex gap-2 no-print">
+          {writer && editProblem(entry) === null && <Link href={`${b}/recurring/new?from=journal:${entry.id}`} className="btn-secondary" title="Repeat this manual entry every week, month, quarter or year">Make recurring</Link>}
           {editable && <Link href={`${here}/edit`} className="btn-secondary">Edit</Link>}
           {writer && entry.status === "posted" && !locked && (
             <ConfirmForm action={voidJournalAction.bind(null, entityId, journalId)} message={`Void ${entry.number}? It stays in the audit trail but no longer affects balances.`}><button className="btn-danger" type="submit">Void</button></ConfirmForm>
