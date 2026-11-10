@@ -20,6 +20,22 @@ test("cleanRaw: pasted '1,000,000' and 'Rp'-style junk become raw digits", () =>
   assert.equal(cleanRaw("1,000,000.50", 2), "1000000.50");
 });
 
+test("cleanRaw with two decimals (every currency, IDR included): Indonesian and English thousands groups are read, decimals kept", () => {
+  assert.equal(cleanRaw("8.500.000", 2), "8500000");
+  assert.equal(cleanRaw("8,500,000", 2), "8500000");
+  assert.equal(cleanRaw("8.500", 2), "8500", "a single separator before exactly three digits groups thousands");
+  assert.equal(cleanRaw("1,500", 2), "1500");
+  assert.equal(cleanRaw("8.50", 2), "8.50");
+  assert.equal(cleanRaw("8.5", 2), "8.5");
+  assert.equal(cleanRaw("1500,25", 2), "1500.25", "a comma before one or two digits is a decimal mark");
+  assert.equal(cleanRaw("1500.5", 2), "1500.5");
+  assert.equal(cleanRaw("1.000.000,50", 2), "1000000.50");
+  assert.equal(cleanRaw("1,000,000.50", 2), "1000000.50");
+  assert.equal(cleanRaw("1234.567", 2), "1234.56", "four digits before the mark cannot be a thousands group: decimals, truncated to two");
+  assert.equal(cleanRaw("1500.", 2), "1500.");
+  assert.equal(cleanRaw("-1.500,25", 2, true), "-1500.25");
+});
+
 test("cleanRaw: USD keeps at most two decimals and a single dot", () => {
   assert.equal(cleanRaw("1234.5", 2), "1234.5");
   assert.equal(cleanRaw("1234.567", 2), "1234.56");
@@ -36,7 +52,7 @@ test("cleanRaw: negative only when allowed; a lone minus is kept so the sign can
   assert.equal(cleanRaw("-", 0, true), "-");
   assert.equal(cleanRaw("-", 0, false), "");
   assert.equal(cleanRaw("15-00", 0, true), "1500"); // minus only counts at the start
-  assert.equal(cleanRaw("-12.345", 2, true), "-12.34");
+  assert.equal(cleanRaw("-12.345", 2, true), "-12345", "12.345 is twelve thousand the Indonesian way (money never has three decimals)");
 });
 
 test("cleanRaw: leading zeros are dropped, a single zero and 0.x survive", () => {

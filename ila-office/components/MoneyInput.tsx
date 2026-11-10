@@ -10,14 +10,24 @@ import { useEffect, useId, useRef, useState } from "react";
  * - <MoneyField value={raw} onChange={(raw) => …} />: for client-side line editors that keep amounts in React state
  *   as strings. `raw` is the unformatted digits ("1000000.5"), ready for Number().
  *
- * Grouping always uses commas (en-US), the decimal mark is a dot. IDR amounts take no decimals; other currencies
- * two. A leading minus is accepted when `allowNegative` is set.
+ * Grouping always uses commas (en-US), the decimal mark is a dot. Every currency, IDR included, accepts up to two
+ * decimals as typed (the ledger rounds IDR to whole rupiah when posting). Pasted or typed separators are read the
+ * way Indonesian and English users write them: "8.500.000", "8,500,000", "8.500" and "1,500" are thousands groups
+ * (every group after the first separator has exactly three digits and the first has at most three); "8.50",
+ * "1500,25" and "1,000,000.50" carry decimals. A leading minus is accepted when `allowNegative` is set.
  */
 
 const MAX_DECIMALS = 2;
 
-function decimalsFor(currency: string | undefined): number {
-  return !currency || currency === "IDR" ? 0 : MAX_DECIMALS;
+/** Two decimals for every currency: IDR amounts may be typed with cents too (posting rounds them to whole rupiah). */
+function decimalsFor(_currency: string | undefined): number {
+  return MAX_DECIMALS;
+}
+
+/** "8.500.000" / "8.500" / "1,500": a single separator kind whose groups are 1-3 digits then exactly 3 digits each. */
+function isThousandsGrouping(s: string, sep: "." | ","): boolean {
+  const groups = s.split(sep);
+  return groups.length >= 2 && /^\d{1,3}$/.test(groups[0]) && groups.slice(1).every((g) => /^\d{3}$/.test(g));
 }
 
 /** Keeps digits, one decimal dot and an optional leading minus; drops everything else (letters, stray commas). */
@@ -34,12 +44,20 @@ export function cleanRaw(input: string, decimals: number, allowNegative = false)
     const tail = lastDot >= 0 ? s.slice(lastDot + 1).replace(/,/g, "") : "";
     if (dots === 1 && tail.length !== 3) s = s.slice(0, lastDot).replace(/[.,]/g, "") + ".";
     else s = s.replace(/[.,]/g, "");
-  } else {
-    // Decimal currency: the en-US convention (dot = decimal mark) unless a comma comes after the last dot ("1.234,56").
-    if (lastComma > lastDot) s = s.replace(/\./g, "").replace(",", ".");
-    s = s.replace(/,/g, "");
+  } else if (lastDot >= 0 && lastComma >= 0) {
+    // Both separators: the last one is the decimal mark ("1,000,000.50" or "1.000.000,50").
+    s = lastComma > lastDot ? s.replace(/\./g, "").replace(",", ".") : s.replace(/,/g, "");
     const dot = s.indexOf(".");
     if (dot >= 0) s = s.slice(0, dot + 1) + s.slice(dot + 1).replace(/\./g, "").slice(0, decimals);
+  } else if (lastDot >= 0 || lastComma >= 0) {
+    // One separator kind: thousands groups when they look like groups ("8.500.000", "8.500", "1,500"), else a decimal
+    // mark ("8.50", "1500,25", "1500.5"); extra separators after the first decimal mark are dropped ("12.34.56" → 12.34).
+    const sep = lastDot >= 0 ? "." : ",";
+    if (isThousandsGrouping(s, sep)) s = s.split(sep).join("");
+    else {
+      const i = s.indexOf(sep);
+      s = s.slice(0, i) + "." + s.slice(i + 1).replace(/[.,]/g, "").slice(0, decimals);
+    }
   }
   s = s.replace(/^0+(?=\d)/, "");
   // A lone minus is kept so a negative amount can be typed sign first; MoneyInput submits it as empty.
