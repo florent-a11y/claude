@@ -15,14 +15,14 @@ import { accountBalances, findByCode, findByTag, naturalBalance, netProfit, type
 
 // ---------- Withholding defaults ----------
 
-export const WITHHOLDING_TYPES: WithholdingType[] = ["none", "pph23", "pph4_2", "pph26", "pph21", "pph15", "pph22"];
-export const WITHHOLDING_RATES: Record<WithholdingType, number> = { none: 0, pph21: 0.05, pph23: 0.02, pph26: 0.2, pph4_2: 0.1, pph15: 0.012, pph22: 0.015 };
+export const WITHHOLDING_TYPES: WithholdingType[] = ["none", "pph23", "pph4_2", "pp55", "pph26", "pph21", "pph15", "pph22"];
+export const WITHHOLDING_RATES: Record<WithholdingType, number> = { none: 0, pph21: 0.05, pph23: 0.02, pph26: 0.2, pph4_2: 0.1, pp55: 0.005, pph15: 0.012, pph22: 0.015 };
 export const WITHHOLDING_LABELS: Record<WithholdingType, string> = {
-  none: "No withholding", pph23: "PPh 23 (services, 2%)", pph4_2: "PPh 4(2) final (land/building rent, 10%)", pph26: "PPh 26 (foreign vendor, 20%)",
+  none: "No withholding", pph23: "PPh 23 (services, 2%)", pph4_2: "PPh 4(2) final (land/building rent, 10%)", pp55: "PPh final PP 55 (UMKM vendor, 0.5%)", pph26: "PPh 26 (foreign vendor, 20%)",
   pph21: "PPh 21 (individual, non-employee)", pph15: "PPh 15 (shipping/air, 1.2%)", pph22: "PPh 22 (imports/goods, 1.5%)",
 };
 /** Tax tag of the payable account per withholding type (pph15/pph22 have no dedicated tag in the chart). */
-export const WITHHOLDING_TAGS: Partial<Record<WithholdingType, TaxTag>> = { pph21: "pph21_payable", pph23: "pph23_payable", pph26: "pph26_payable", pph4_2: "pph4_2_payable" };
+export const WITHHOLDING_TAGS: Partial<Record<WithholdingType, TaxTag>> = { pph21: "pph21_payable", pph23: "pph23_payable", pph26: "pph26_payable", pph4_2: "pph4_2_payable", pp55: "pph4_2_payable" };
 
 export function defaultWithholdingRate(type: WithholdingType): number {
   return WITHHOLDING_RATES[type] ?? 0;

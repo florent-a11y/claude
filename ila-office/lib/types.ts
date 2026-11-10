@@ -255,6 +255,8 @@ export interface Account {
   parentCode?: string;
   /** Deductible for corporate income tax (fiscal reconciliation). */
   deductible?: boolean;
+  /** QuickBooks account this one was mapped from ("Parent:Child" as exported), set by the migration imports. */
+  qboName?: string;
   isSystem: boolean;
   active: boolean;
 }
@@ -414,7 +416,8 @@ export interface Invoice {
   attachments?: Attachment[];
 }
 
-export type WithholdingType = "none" | "pph21" | "pph23" | "pph26" | "pph4_2" | "pph15" | "pph22";
+/** `pp55`: PPh final 0.5% withheld from an UMKM vendor (PP 55/2022), paid and reported with PPh 4(2). */
+export type WithholdingType = "none" | "pph21" | "pph23" | "pph26" | "pph4_2" | "pp55" | "pph15" | "pph22";
 
 export interface BillLine {
   id: string;
@@ -448,6 +451,7 @@ export interface Bill {
   status: DocStatus;
   journalId?: string;
   fakturNumber?: string;
+  qboDocNumber?: string;
   notes?: string;
   createdAt: string;
   updatedAt?: string;
@@ -730,7 +734,7 @@ export interface TaxObligation {
 
 export interface ImportBatch {
   id: string;
-  kind: "hubspot_contacts" | "qbo_customers" | "qbo_invoices" | "bank_csv" | "other";
+  kind: "hubspot_contacts" | "qbo_customers" | "qbo_invoices" | "qbo_accounts" | "qbo_trial_balance" | "qbo_journal" | "qbo_bills" | "bank_csv" | "other";
   entityId?: string;
   fileName: string;
   rows: number;
@@ -772,6 +776,31 @@ export interface FxRate {
   fetchedAt: string;
 }
 
+// ---------- Recurring transactions ----------
+
+export type RecurringKind = "invoice" | "bill" | "expense" | "deposit" | "journal";
+export type RecurringFrequency = "weekly" | "monthly" | "quarterly" | "semiannual" | "annual";
+export const RECURRING_FREQUENCY_LABELS: Record<RecurringFrequency, string> = { weekly: "Every week", monthly: "Every month", quarterly: "Every quarter", semiannual: "Every six months", annual: "Every year" };
+
+/** One execution of a template: the document it produced (or the reason it could not), dated `date`. */
+export interface RecurringRun { date: string; at: string; docId?: string; journalId?: string; number?: string; error?: string }
+
+/**
+ * A document repeated on a schedule (lib/recurring.ts for the dates, lib/recurring-services.ts for the posting). Made
+ * from an existing invoice, bill, expense, deposit or manual journal with "Make recurring"; the daily cron and the
+ * "Run due now" button create every occurrence dated on or before today, then move `nextDate` forward.
+ */
+export interface RecurringTemplate {
+  id: string; entityId: string; kind: RecurringKind; name: string;
+  frequency: RecurringFrequency; /** Day of month the document is dated (1-31, clamped to the month); weekly uses the start date's weekday. */ dayOfMonth?: number;
+  startDate: string; nextDate: string; endDate?: string; status: "active" | "paused" | "ended";
+  /** Invoices and bills: post immediately (true) or create as draft (false). Expenses, deposits and journals always post. */ autoPost: boolean;
+  /** Days after the document date for the due date (invoices, bills). */ dueDays?: number;
+  /** The document to repeat, in the shape of the matching input type (lib/books.ts InvoiceInput / BillInput, lib/money-moves.ts MoneyMoveInput, or { memo, source, lines } for journals), without dates. */ payload: unknown;
+  /** Document the template was made from. */ sourceDocId?: string;
+  runs: RecurringRun[]; lastRunAt?: string; createdByUserId?: string; createdAt: string; updatedAt?: string;
+}
+
 /** Table registry: every collection stored by lib/db.ts. */
 export type TableMap = {
   users: User;
@@ -799,10 +828,11 @@ export type TableMap = {
   counters: Counter;
   settings: Setting;
   fx_rates: FxRate;
+  recurring_templates: RecurringTemplate;
 };
 export type Table = keyof TableMap;
 export const TABLES = [
   "users", "entities", "contacts", "companies", "services", "vendors", "activities",
   "accounts", "journal_entries", "periods", "bank_accounts", "bank_transactions", "invoices", "bills", "payments", "fixed_assets",
-  "employees", "payroll_runs", "withholding_slips", "vat_transactions", "tax_obligations", "import_batches", "counters", "settings", "fx_rates",
+  "employees", "payroll_runs", "withholding_slips", "vat_transactions", "tax_obligations", "import_batches", "counters", "settings", "fx_rates", "recurring_templates",
 ] as const satisfies readonly Table[];
