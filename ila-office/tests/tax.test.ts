@@ -4,7 +4,7 @@ import { PTKP_STATUSES, type Entity } from "../lib/types";
 import { PTKP_TABLE, ptkpAnnual, TER_CATEGORY, BPJS_JP } from "../lib/tax/constants";
 import { pph21Annual, pph21Monthly, terCategoryOf, terRate, progressiveTax } from "../lib/tax/pph21";
 import { computeBpjs } from "../lib/tax/bpjs";
-import { computeWithholding, npwp16, nitkuOf, formatTaxId, bupotKind, coretaxRows, coretaxXml, isFinal } from "../lib/tax/withholding";
+import { computeWithholding, npwp16, nitkuOf, formatTaxId, bupotKind, coretaxRows, coretaxXml, coretaxPayrollXml, isFinal } from "../lib/tax/withholding";
 import { buildPpnRegister } from "../lib/tax/ppn";
 import { computeCit, taxByRegime } from "../lib/tax/cit";
 import { generateObligations, obligationTypesFor, rollToWorkingDay } from "../lib/tax/calendar";
@@ -238,9 +238,78 @@ test("withholding: Coretax rows and XML carry the form fields", () => {
   assert.equal(row[19], 240_000);
   assert.equal(row[21], "Surat Tagihan");
   const xml = coretaxXml([slip], entity, "BPPU");
-  assert.ok(xml.startsWith("<?xml"));
-  assert.ok(xml.includes("<TaxObjectCode>24-104-03</TaxObjectCode>"));
+  assert.ok(xml.startsWith('<?xml version="1.0" encoding="utf-8"?>'));
+  assert.ok(xml.includes('<BpuBulk xsi:noNamespaceSchemaLocation="schema.xsd"'), "root element of BPU_Template.xml");
+  assert.ok(xml.includes("<TIN>0012345678901000</TIN>"));
+  // Field order of the Coretax template.
+  const order = ["TaxPeriodMonth", "TaxPeriodYear", "CounterpartTin", "IDPlaceOfBusinessActivityOfIncomeRecipient", "TaxCertificate", "TaxObjectCode", "TaxBase", "Rate", "Document", "DocumentNumber", "DocumentDate", "IDPlaceOfBusinessActivity", "GovTreasurerOpt", "SP2DNumber", "WithholdingDate"];
+  const body = xml.slice(xml.indexOf("<Bpu>"), xml.indexOf("</Bpu>"));
+  const tags = [...body.matchAll(/<([A-Za-z0-9]+)(?: \/)?>/g)].map((m) => m[1]).filter((t) => t !== "Bpu");
+  assert.deepEqual(tags, order);
+  assert.ok(xml.includes("<TaxPeriodMonth>2</TaxPeriodMonth>"));
   assert.ok(xml.includes("<CounterpartTin>0123456789012000</CounterpartTin>"));
+  assert.ok(xml.includes("<IDPlaceOfBusinessActivityOfIncomeRecipient>000000</IDPlaceOfBusinessActivityOfIncomeRecipient>"));
+  assert.ok(xml.includes("<TaxCertificate>N/A</TaxCertificate>"));
+  assert.ok(xml.includes("<TaxBase>12000000</TaxBase>"));
+  assert.ok(xml.includes("<Rate>2</Rate>"), "rate in percent without trailing zeros");
+  assert.ok(xml.includes("<Document>StatementLetter</Document>"));
   assert.ok(xml.includes("<DocumentNumber>TEST-0042</DocumentNumber>"));
-  assert.equal(coretaxXml([slip], entity, "BP21").includes("<Bupot>"), false);
+  assert.ok(xml.includes("<DocumentDate>2026-02-23</DocumentDate>"));
+  assert.ok(xml.includes("<GovTreasurerOpt>N/A</GovTreasurerOpt>"));
+  assert.ok(xml.includes("<SP2DNumber />"));
+  assert.ok(xml.includes("<WithholdingDate>2026-02-23</WithholdingDate>"));
+  assert.equal(coretaxXml([slip], entity, "BP21").includes("<Bpu>"), false, "a PPh 23 slip is not in the BP21 file");
+});
+
+test("withholding: the BP21 file carries the PTKP status, gross and deemed DPP in the template's order", () => {
+  const entity = { npwp: "01.234.567.8-901.000", nitku: "0012345678901000000001", tax: {} } as unknown as Parameters<typeof coretaxXml>[1];
+  const slip = {
+    id: "s2", entityId: "e", type: "pph21" as const, number: "BP-2026-0002", period: "2026-03", date: "2026-03-10",
+    counterparty: { name: "Budi Contoh", nik: "3171000000000001", nitku: "3171000000000001000000" }, objectCode: "21-100-07", objectLabel: "Tenaga ahli", grossAmount: 20_000_000, dppPercent: 50,
+    baseAmount: 10_000_000, rate: 0.05, taxAmount: 500_000, facility: "none" as const, ptkpStatus: "K/1" as const, document: { type: "kontrak" as const, number: "CTR-7", date: "2026-03-01" }, status: "issued" as const, createdAt: "",
+  };
+  const xml = coretaxXml([slip], entity, "BP21");
+  assert.ok(xml.includes('<Bp21Bulk xsi:noNamespaceSchemaLocation="schema.xsd"'));
+  const body = xml.slice(xml.indexOf("<Bp21>"), xml.indexOf("</Bp21>"));
+  const tags = [...body.matchAll(/<([A-Za-z0-9]+)(?: \/)?>/g)].map((m) => m[1]).filter((t) => t !== "Bp21");
+  assert.deepEqual(tags, ["TaxPeriodMonth", "TaxPeriodYear", "CounterpartTin", "IDPlaceOfBusinessActivityOfIncomeRecipient", "StatusTaxExemption", "TaxCertificate", "TaxObjectCode", "Gross", "Deemed", "Rate", "Document", "DocumentNumber", "DocumentDate", "IDPlaceOfBusinessActivity", "WithholdingDate"]);
+  assert.ok(xml.includes("<StatusTaxExemption>K/1</StatusTaxExemption>"));
+  assert.ok(xml.includes("<Gross>20000000</Gross>"));
+  assert.ok(xml.includes("<Deemed>50</Deemed>"));
+  assert.ok(xml.includes("<Rate>5</Rate>"));
+  assert.ok(xml.includes("<Document>Contract</Document>"));
+  assert.ok(xml.includes("<IDPlaceOfBusinessActivity>000001</IDPlaceOfBusinessActivity>"), "the agent's branch from its NITKU");
+  assert.ok(xml.includes("<IDPlaceOfBusinessActivityOfIncomeRecipient>000000</IDPlaceOfBusinessActivityOfIncomeRecipient>"));
+});
+
+test("payroll: the monthly employee file (BPMP) lists TER-taxed employees and leaves annual-method lines for the A1 form", () => {
+  const entity = { npwp: "01.234.567.8-901.000" } as unknown as Parameters<typeof coretaxPayrollXml>[2];
+  const employees = [
+    { id: "e1", name: "Ani Contoh", npwp: "0123456789012000", ptkpStatus: "K/1" as const, isForeign: false, position: "Manager" },
+    { id: "e2", name: "John Sample", nik: undefined, npwp: "0987654321098000", ptkpStatus: "TK/0" as const, isForeign: true, passportNumber: "X1234567", position: "" },
+    { id: "e3", name: "No Id", ptkpStatus: "TK/0" as const, isForeign: false },
+  ];
+  const run = { period: "2026-10", payDate: "2026-10-25", lines: [
+    { employeeId: "e1", gross: 15_000_000, pph21: { method: "ter" as const, rate: 0.0175, base: 15_000_000, amount: 262_500 } },
+    { employeeId: "e2", gross: 40_000_000, pph21: { method: "ter" as const, rate: 0.09, base: 40_000_000, amount: 3_600_000 } },
+    { employeeId: "e3", gross: 5_000_000, pph21: { method: "ter" as const, rate: 0, base: 5_000_000, amount: 0 } },
+    { employeeId: "e1", gross: 15_000_000, pph21: { method: "annual" as const, base: 180_000_000, amount: 1_000_000 } },
+  ] };
+  const r = coretaxPayrollXml(run, employees, entity);
+  assert.equal(r.included, 2);
+  assert.equal(r.skipped.length, 2);
+  assert.ok(r.xml.includes('<MmPayrollBulk xsi:noNamespaceSchemaLocation="schema.xsd"'));
+  const first = r.xml.slice(r.xml.indexOf("<MmPayroll>"), r.xml.indexOf("</MmPayroll>"));
+  const tags = [...first.matchAll(/<([A-Za-z0-9]+)(?: \/)?>/g)].map((m) => m[1]).filter((t) => t !== "MmPayroll");
+  assert.deepEqual(tags, ["TaxPeriodMonth", "TaxPeriodYear", "CounterpartOpt", "CounterpartPassport", "CounterpartTin", "StatusTaxExemption", "Position", "TaxCertificate", "TaxObjectCode", "Gross", "Rate", "IDPlaceOfBusinessActivity", "WithholdingDate"]);
+  assert.ok(first.includes("<CounterpartOpt>Resident</CounterpartOpt>"));
+  assert.ok(first.includes("<CounterpartPassport />"));
+  assert.ok(first.includes("<TaxObjectCode>21-100-01</TaxObjectCode>"));
+  assert.ok(first.includes("<Rate>1.75</Rate>"));
+  assert.ok(r.xml.includes("<CounterpartOpt>Foreign</CounterpartOpt>"));
+  assert.ok(r.xml.includes("<CounterpartPassport>X1234567</CounterpartPassport>"));
+  assert.ok(r.xml.includes("<TaxObjectCode>21-100-32</TaxObjectCode>"));
+  assert.ok(r.xml.includes("<Position>Staff</Position>"), "empty position falls back to Staff");
+  assert.ok(r.skipped.some((s) => s.startsWith("No Id")));
+  assert.ok(r.skipped.some((s) => s.includes("annual")));
 });

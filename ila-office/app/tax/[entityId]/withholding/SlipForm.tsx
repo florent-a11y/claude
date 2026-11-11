@@ -130,6 +130,7 @@ export function SlipForm({ action, directory, prefill, cancelHref }: { action: (
             <Field label="Treaty rate % (PPh 26 with DGT form)"><input value={treatyRate} onChange={(e) => setTreatyRate(e.target.value)} inputMode="decimal" className="input" disabled={facility !== "p3b" || effectiveType !== "pph26"} /></Field>
             <Field label="Rate override % (SKB, special cases)"><input value={rateOverride} onChange={(e) => setRateOverride(e.target.value)} inputMode="decimal" className="input" placeholder="statutory" /></Field>
             <Field label="DPP % override" hint={`Object default ${obj?.dppPercent ?? 100}%.`}><input value={dppOverride} onChange={(e) => setDppOverride(e.target.value)} inputMode="numeric" className="input" placeholder={String(obj?.dppPercent ?? 100)} /></Field>
+            {effectiveType === "pph21" && <Field label="PTKP status (Coretax StatusTaxExemption)"><select name="ptkpStatus" defaultValue="TK/0" className="input">{["TK/0", "TK/1", "TK/2", "TK/3", "K/0", "K/1", "K/2", "K/3"].map((p) => <option key={p} value={p}>{p}</option>)}</select></Field>}
             <label className="flex items-center gap-2 self-end pb-2"><input type="checkbox" name="correction" className="checkbox" /> Pembetulan (corrects an earlier slip)</label>
           </div>
         </details>

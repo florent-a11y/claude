@@ -66,6 +66,8 @@ export interface NewSlipInput extends WithholdingInput {
   facility?: WithholdingSlip["facility"];
   document?: WithholdingSlip["document"];
   correction?: boolean;
+  /** PPh 21 slips: recipient's PTKP status for the Coretax file. */
+  ptkpStatus?: WithholdingSlip["ptkpStatus"];
 }
 
 export async function createSlip(input: NewSlipInput): Promise<WithholdingSlip> {
@@ -74,7 +76,7 @@ export async function createSlip(input: NewSlipInput): Promise<WithholdingSlip> 
     id: db.newId(), entityId: input.entityId, type: input.type, number: await db.nextNumber(input.entityId, "BP", new Date(input.date)), period: input.period, date: input.date,
     counterparty: input.counterparty, objectCode: calc.objectCode, objectLabel: calc.objectLabel, description: input.description,
     grossAmount: calc.grossAmount, dppPercent: calc.dppPercent, baseAmount: calc.baseAmount, rate: calc.rate,
-    taxAmount: calc.taxAmount, treatyApplied: calc.treatyApplied || undefined, facility: input.facility ?? (calc.treatyApplied ? "p3b" : "none"), document: input.document, correction: input.correction || undefined,
+    taxAmount: calc.taxAmount, treatyApplied: calc.treatyApplied || undefined, facility: input.facility ?? (calc.treatyApplied ? "p3b" : "none"), document: input.document, correction: input.correction || undefined, ptkpStatus: input.type === "pph21" ? input.ptkpStatus ?? "TK/0" : undefined,
     billId: input.billId, payrollRunId: input.payrollRunId, status: "draft", createdAt: new Date().toISOString(),
   };
   await db.insert("withholding_slips", slip);

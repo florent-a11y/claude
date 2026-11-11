@@ -86,6 +86,7 @@ const slipSchema = z.object({
   documentNumber: z.string().max(80).optional(),
   documentDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   correction: z.boolean().optional(),
+  ptkpStatus: z.enum(["TK/0", "TK/1", "TK/2", "TK/3", "K/0", "K/1", "K/2", "K/3"]).optional(),
   description: z.string().max(500).optional(),
   billId: z.string().optional(),
 });
@@ -104,13 +105,13 @@ export async function createWithholdingSlip(entityId: string, fd: FormData) {
     baseAmount: gross ?? num(fd, "baseAmount"), grossAmount: gross, dppPercent: str(fd, "dppPercent") ? num(fd, "dppPercent") : undefined,
     hasNpwp: npwpDigits.length >= 15, treatyRate: facility === "p3b" && (obj?.type ?? str(fd, "type")) === "pph26" ? num(fd, "treatyRate") / 100 : undefined, rateOverride: override ? num(fd, "rateOverride") / 100 : undefined,
     facility, documentType: str(fd, "documentType"), documentNumber: str(fd, "documentNumber"), documentDate: str(fd, "documentDate"), correction: bool(fd, "correction"),
-    description: str(fd, "description"), billId: str(fd, "billId"),
+    ptkpStatus: str(fd, "ptkpStatus"), description: str(fd, "description"), billId: str(fd, "billId"),
   });
   if (!obj && v.rateOverride === undefined) throw new Error("Unknown object code: enter a rate override for non-listed objects.");
   const slip = await createSlip({
     entityId, type: v.type, objectCode: v.objectCode, baseAmount: v.baseAmount, grossAmount: v.grossAmount, dppPercent: v.dppPercent, hasNpwp: v.hasNpwp, treatyRate: v.treatyRate, rateOverride: v.rateOverride, period: v.period, date: v.date,
     counterparty: { name: v.name, npwp: v.npwp, nik: v.nik, nitku: v.nitku, address: v.address, country: v.country, id: v.counterpartyId },
-    description: v.description, billId: v.billId, facility: v.facility, correction: v.correction,
+    description: v.description, billId: v.billId, facility: v.facility, correction: v.correction, ptkpStatus: v.ptkpStatus,
     document: v.documentType ? { type: v.documentType, number: v.documentNumber, date: v.documentDate } : undefined,
   });
   revalidatePath(`/tax/${entityId}/withholding`);
