@@ -32,6 +32,7 @@ export default async function RunDetail({ params, searchParams }: { params: Prom
         {canWrite && (
           <div className="flex flex-wrap gap-2">
             {run.status === "draft" && <ConfirmForm action={approveRunAction.bind(null, run.id)} message={`Approve payroll ${run.period} and post the journal? Lines can no longer be edited.`}><button className="btn-primary">Approve & post journal</button></ConfirmForm>}
+            {run.status !== "draft" && <a href={`/api/payroll/${entityId}/runs/${run.id}/coretax`} className="btn-secondary" title="Monthly PPh 21 employee file (BPMP) in Coretax's bulk-import layout">Coretax XML (BPMP)</a>}
             {run.status === "approved" && <ConfirmForm action={markPaidAction.bind(null, run.id)} message="Mark salaries as paid?"><button className="btn-primary">Mark paid</button></ConfirmForm>}
             {run.status === "draft" && <ConfirmForm action={deleteRunAction.bind(null, run.id)} message="Delete this draft run?"><button className="btn-danger">Delete draft</button></ConfirmForm>}
           </div>

@@ -653,6 +653,8 @@ export interface WithholdingSlip {
   document?: { type: WithholdingDocumentType; number?: string; date?: string };
   /** Status bukti pemotongan: normal or pembetulan (correction of an earlier slip). */
   correction?: boolean;
+  /** PPh 21 slips: the recipient's PTKP status (Coretax StatusTaxExemption), default TK/0. */
+  ptkpStatus?: PtkpStatus;
   /** Number assigned by Coretax once the slip is filed (printed as NOMOR when present). */
   coretaxNumber?: string;
   billId?: string;

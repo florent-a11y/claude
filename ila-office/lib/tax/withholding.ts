@@ -1,4 +1,4 @@
-import type { Entity, WithholdingFacility, WithholdingSlip } from "../types";
+import type { Employee, Entity, WithholdingDocumentType, WithholdingFacility, WithholdingSlip } from "../types";
 import { WITHHOLDING_DOCUMENT_LABELS, WITHHOLDING_FACILITY_LABELS } from "../types";
 import { NO_NPWP_PPH21_MULTIPLIER, NO_NPWP_PPH23_MULTIPLIER, PPH26_RATE, WITHHOLDING_OBJECTS, type WithholdingKind, type WithholdingObject } from "./constants";
 
@@ -189,32 +189,111 @@ function xmlEscape(v: unknown): string {
   return String(v ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
+// ---------- Coretax XML import (templates downloaded from Coretax: BPU_Template, BP21_Template, BPMP_Template) ----------
+
+/** The 6-digit branch suffix of a NITKU ("000000" for the head office or when no NITKU is known). */
+export function branchCode(id?: string | null, nitku?: string | null): string {
+  const n = (nitku ?? "").replace(/\D/g, "");
+  if (n.length === 22) return n.slice(16);
+  if (n.length === 6) return n;
+  void id;
+  return "000000";
+}
+
 /**
- * Draft XML in the shape of the Coretax bukti potong import (one file per form kind: BPPU and BP21).
- * Tag names follow DJP's published import format as far as known; compare with the template from Coretax before
- * uploading and report differences so the tags can be corrected.
+ * Coretax `Document` tokens for the dokumen dasar pemotongan. Invoice, Contract and StatementLetter appear in DJP's
+ * templates; the others follow the same naming and are rejected by Coretax on upload if wrong (then tell us).
+ */
+export const CORETAX_DOCUMENT: Record<WithholdingDocumentType, string> = {
+  invoice: "Invoice", surat_tagihan: "StatementLetter", faktur_pajak: "TaxInvoice", kontrak: "Contract", bukti_pembayaran: "PaymentProof", lainnya: "Others",
+};
+
+/** Coretax `TaxCertificate` (fasilitas): "N/A" without a facility; the certificate kind otherwise (confirm on first upload). */
+export function coretaxTaxCertificate(slip: Pick<WithholdingSlip, "facility" | "treatyApplied">): string {
+  const f = facilityOf(slip);
+  return f === "none" ? "N/A" : f === "skb" ? "SKB" : f === "dtp" ? "DTP" : "SKD";
+}
+
+/** Percent with up to 7 decimals and no trailing zeros, the way the templates print rates (20, 12.2349058). */
+export function coretaxPercent(fraction: number): string {
+  return String(Number((fraction * 100).toFixed(7)));
+}
+
+function xmlTag(k: string, v: unknown): string {
+  const t = String(v ?? "");
+  return t === "" ? `      <${k} />` : `      <${k}>${xmlEscape(t)}</${k}>`;
+}
+
+function xmlDocument(root: string, listTag: string, tin: string, items: string[]): string {
+  return `<?xml version="1.0" encoding="utf-8"?>\n<${root} xsi:noNamespaceSchemaLocation="schema.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n  <TIN>${xmlEscape(tin)}</TIN>\n  <${listTag}>\n${items.join("\n")}\n  </${listTag}>\n</${root}>\n`;
+}
+
+/**
+ * The period's slips in the layout of Coretax's bulk import, one file per form:
+ * - BPPU → `BpuBulk/ListOfBpu/Bpu` (BPU_Template.xml): TaxPeriodMonth, TaxPeriodYear, CounterpartTin,
+ *   IDPlaceOfBusinessActivityOfIncomeRecipient, TaxCertificate, TaxObjectCode, TaxBase, Rate, Document, DocumentNumber,
+ *   DocumentDate, IDPlaceOfBusinessActivity, GovTreasurerOpt, SP2DNumber, WithholdingDate.
+ * - BP21 → `Bp21Bulk/ListOfBp21/Bp21` (BP21_Template.xml): the same with StatusTaxExemption (PTKP) after the recipient,
+ *   and Gross + Deemed (DPP %) in place of TaxBase.
+ * TIN and CounterpartTin are 16-digit NPWP/NIK, dates ISO, rates in percent.
  */
 export function coretaxXml(slips: WithholdingSlip[], entity: Pick<Entity, "npwp" | "nitku" | "tax">, kind: "BPPU" | "BP21", billNumbers: Map<string, string> = new Map()): string {
   const rows = slips.filter((s) => bupotKind(s.type) === kind);
   const tin = npwp16(entity.npwp);
+  const agentBranch = branchCode(entity.npwp, entity.nitku);
   const items = rows.map((s) => {
     const [year, month] = s.period.split("-");
     const docNumber = s.document?.number ?? (s.billId ? billNumbers.get(s.billId) ?? s.billId : "");
     const docDate = s.document?.date ?? s.date;
-    const fac = facilityOf(s);
-    const facilityCode = fac === "none" ? "N" : fac === "skb" ? "SKB" : fac === "dtp" ? "DTP" : "P3B";
-    const fields: Array<[string, unknown]> = [
+    const recipient: Array<[string, unknown]> = [
       ["TaxPeriodMonth", Number(month)], ["TaxPeriodYear", Number(year)],
       ["CounterpartTin", npwp16(s.counterparty.npwp ?? s.counterparty.nik)],
-      ["IDPlaceOfBusinessActivityOfIncomeRecipient", nitkuOf(s.counterparty.npwp ?? s.counterparty.nik, s.counterparty.nitku)],
-      ["TaxCertificate", facilityCode], ["TaxObjectCode", s.objectCode],
-      ...(kind === "BP21" ? [["Gross", s.grossAmount ?? s.baseAmount] as [string, unknown], ["Deemed", s.dppPercent ?? 100] as [string, unknown]] : []),
-      ["TaxBase", s.baseAmount], ["Rate", Number((s.rate * 100).toFixed(2))], ["WithholdingDate", s.date],
-      ["DocumentType", documentLabel(s)], ["DocumentNumber", docNumber], ["DocumentDate", docDate],
-      ["IDPlaceOfBusinessActivity", nitkuOf(entity.npwp, entity.nitku)], ["Signer", entity.tax.signerName ?? ""],
-      ...(s.correction ? [["Status", "PEMBETULAN"] as [string, unknown]] : []),
+      ["IDPlaceOfBusinessActivityOfIncomeRecipient", branchCode(s.counterparty.npwp ?? s.counterparty.nik, s.counterparty.nitku)],
     ];
-    return `    <Bupot>\n${fields.map(([k, v]) => `      <${k}>${xmlEscape(v)}</${k}>`).join("\n")}\n    </Bupot>`;
+    const document: Array<[string, unknown]> = [
+      ["Document", CORETAX_DOCUMENT[s.document?.type ?? "invoice"]], ["DocumentNumber", docNumber], ["DocumentDate", docDate],
+      ["IDPlaceOfBusinessActivity", agentBranch],
+    ];
+    const fields: Array<[string, unknown]> = kind === "BP21"
+      ? [...recipient, ["StatusTaxExemption", s.ptkpStatus ?? "TK/0"], ["TaxCertificate", coretaxTaxCertificate(s)], ["TaxObjectCode", s.objectCode], ["Gross", s.grossAmount ?? s.baseAmount], ["Deemed", s.dppPercent ?? 100], ["Rate", coretaxPercent(s.rate)], ...document, ["WithholdingDate", s.date]]
+      : [...recipient, ["TaxCertificate", coretaxTaxCertificate(s)], ["TaxObjectCode", s.objectCode], ["TaxBase", s.baseAmount], ["Rate", coretaxPercent(s.rate)], ...document, ["GovTreasurerOpt", "N/A"], ["SP2DNumber", ""], ["WithholdingDate", s.date]];
+    const tag = kind === "BP21" ? "Bp21" : "Bpu";
+    return `    <${tag}>\n${fields.map(([k, v]) => xmlTag(k, v)).join("\n")}\n    </${tag}>`;
   });
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<!-- Draft of the Coretax ${kind} import: check the tag names against the template from Coretax (e-Bupot › Impor) before uploading. -->\n<${kind}>\n  <TIN>${xmlEscape(tin)}</TIN>\n  <ListOfBupot>\n${items.join("\n")}\n  </ListOfBupot>\n</${kind}>\n`;
+  return kind === "BP21" ? xmlDocument("Bp21Bulk", "ListOfBp21", tin, items) : xmlDocument("BpuBulk", "ListOfBpu", tin, items);
+}
+
+/** Minimal views of the payroll records the monthly employee file needs (lib/types.ts PayrollRun / PayslipLine / Employee). */
+export interface CoretaxPayrollLine { employeeId: string; gross: number; pph21: { method: "ter" | "annual"; rate?: number; base: number; amount: number } }
+export interface CoretaxPayrollRun { period: string; payDate: string; lines: CoretaxPayrollLine[] }
+export type CoretaxEmployee = Pick<Employee, "id" | "name" | "npwp" | "nik" | "ptkpStatus" | "isForeign" | "passportNumber" | "position">;
+
+/**
+ * A payroll run as Coretax's monthly employee file (BPMP_Template.xml: `MmPayrollBulk/ListOfMmPayroll/MmPayroll`), one
+ * record per employee taxed with the monthly TER: CounterpartOpt Resident/Foreign (+ passport), CounterpartTin, PTKP
+ * status, position, object 21-100-01 (21-100-32 for a foreign employee, as in the template), gross and the TER rate in
+ * percent. December and termination months are taxed with the annual method and belong on the annual form (A1), so
+ * they are left out and listed in `skipped`.
+ */
+export function coretaxPayrollXml(run: CoretaxPayrollRun, employees: CoretaxEmployee[], entity: Pick<Entity, "npwp" | "nitku">): { xml: string; included: number; skipped: string[] } {
+  const [year, month] = run.period.split("-");
+  const byId = new Map(employees.map((e) => [e.id, e]));
+  const skipped: string[] = [];
+  const items: string[] = [];
+  for (const l of run.lines) {
+    const e = byId.get(l.employeeId);
+    if (!e) { skipped.push(`${l.employeeId}: employee not found`); continue; }
+    if (l.pph21.method !== "ter") { skipped.push(`${e.name}: taxed with the annual method (December or termination): report on the annual form`); continue; }
+    const tin = npwp16(e.npwp ?? e.nik);
+    if (!tin) { skipped.push(`${e.name}: no NPWP or NIK`); continue; }
+    const fields: Array<[string, unknown]> = [
+      ["TaxPeriodMonth", Number(month)], ["TaxPeriodYear", Number(year)],
+      ["CounterpartOpt", e.isForeign ? "Foreign" : "Resident"], ["CounterpartPassport", e.isForeign ? e.passportNumber ?? "" : ""], ["CounterpartTin", tin],
+      ["StatusTaxExemption", e.ptkpStatus], ["Position", e.position?.trim() || "Staff"], ["TaxCertificate", "N/A"],
+      ["TaxObjectCode", e.isForeign ? "21-100-32" : "21-100-01"], ["Gross", Math.round(l.pph21.base || l.gross)], ["Rate", coretaxPercent(l.pph21.rate ?? (l.pph21.base ? l.pph21.amount / l.pph21.base : 0))],
+      ["IDPlaceOfBusinessActivity", branchCode(entity.npwp, entity.nitku)], ["WithholdingDate", run.payDate],
+    ];
+    items.push(`    <MmPayroll>\n${fields.map(([k, v]) => xmlTag(k, v)).join("\n")}\n    </MmPayroll>`);
+  }
+  return { xml: xmlDocument("MmPayrollBulk", "ListOfMmPayroll", npwp16(entity.npwp), items), included: items.length, skipped };
 }
