@@ -39,6 +39,8 @@ export async function middleware(req: NextRequest) {
   if (path === "/api/fx/sync" && req.headers.get("authorization")?.startsWith("Bearer ")) return NextResponse.next();
   // Same for the daily run of recurring transactions (app/api/recurring/run verifies the token).
   if (path === "/api/recurring/run" && req.headers.get("authorization")?.startsWith("Bearer ")) return NextResponse.next();
+  // And for the weekly AI visibility run (app/api/visibility/run verifies the token).
+  if (path === "/api/visibility/run" && req.method === "GET" && req.headers.get("authorization")?.startsWith("Bearer ")) return NextResponse.next();
   if (await verify(req.cookies.get(COOKIE)?.value)) {
     const res = NextResponse.next();
     res.headers.set("cache-control", "private, no-store");
