@@ -803,6 +803,113 @@ export interface RecurringTemplate {
   runs: RecurringRun[]; lastRunAt?: string; createdByUserId?: string; createdAt: string; updatedAt?: string;
 }
 
+// ---------- AI visibility ----------
+
+/** The AI assistants the visibility module can question. Each one runs only when its API key is configured. */
+export const AI_ENGINES = ["chatgpt", "claude", "gemini", "perplexity"] as const;
+export type AiEngine = (typeof AI_ENGINES)[number];
+export const AI_ENGINE_LABELS: Record<AiEngine, string> = { chatgpt: "ChatGPT", claude: "Claude", gemini: "Gemini", perplexity: "Perplexity" };
+
+export interface VisibilityCompetitor {
+  name: string;
+  /** Other spellings the assistants use ("InCorp", "Cekindo"). */
+  aliases?: string[];
+  /** Bare host names ("emerhub.com"). A citation on one of them counts for this competitor. */
+  domains: string[];
+}
+
+/** Stored in `settings` under the id "visibility" (lib/visibility/config.ts). */
+export interface VisibilityConfig {
+  brandName: string;
+  brandAliases: string[];
+  /** ILA's own host names, without scheme or "www.". */
+  domains: string[];
+  /** What ILA sells and to whom: given to Claude when it suggests prompts and drafts articles. */
+  description: string;
+  competitors: VisibilityCompetitor[];
+}
+
+/** A buyer question asked to every assistant on each run. */
+export interface VisibilityPrompt {
+  id: string;
+  text: string;
+  topic?: string;
+  active: boolean;
+  createdAt: string;
+}
+
+export interface VisibilityCitation { url: string; title?: string; domain: string }
+
+/** One assistant's answer to one prompt in one run. The id is `${runId}:${promptId}:${engine}` so a retry overwrites. */
+export interface VisibilityAnswer {
+  id: string;
+  runId: string;
+  promptId: string;
+  engine: AiEngine;
+  model: string;
+  askedAt: string;
+  text: string;
+  citations: VisibilityCitation[];
+  /** ILA named in the answer text. */
+  brandMentioned: boolean;
+  /** One of ILA's domains among the cited sources. */
+  brandCited: boolean;
+  /** Competitor names found in the text or among the citations, in order of first appearance. */
+  competitors: string[];
+  /** Only when the brand is mentioned. */
+  sentiment?: "positive" | "neutral" | "negative";
+  sentimentNote?: string;
+  /** The call failed: the answer is kept so the run can finish, and left out of every metric. */
+  error?: string;
+}
+
+export interface VisibilityRunSummary { answers: number; errors: number; visibility: number; shareOfVoice: number; positive: number | null }
+
+/** One pass over every active prompt and every configured assistant (lib/visibility/run.ts). */
+export interface VisibilityRun {
+  id: string;
+  startedAt: string;
+  finishedAt?: string;
+  status: "running" | "done";
+  promptIds: string[];
+  engines: AiEngine[];
+  /** Filled in when the run completes; the trend on the overview reads it. */
+  summary?: VisibilityRunSummary;
+  startedBy?: string;
+}
+
+export interface VisibilityAuditCheck { id: string; label: string; status: "pass" | "warn" | "fail"; detail: string; fix?: string }
+export interface VisibilityAuditPage {
+  url: string; status: number; ms: number; title?: string; description?: string; h1?: string; canonical?: string;
+  noindex: boolean; words: number; schemaTypes: string[]; error?: string;
+}
+/** A crawl of ILA's public site as an AI crawler sees it (lib/visibility/audit.ts). */
+export interface VisibilityAudit {
+  id: string;
+  domain: string;
+  createdAt: string;
+  score: number;
+  checks: VisibilityAuditCheck[];
+  /** Whether robots.txt lets each AI crawler in, and what the server answers to its user agent. */
+  bots: Array<{ agent: string; owner: string; allowed: boolean; httpStatus?: number }>;
+  pages: VisibilityAuditPage[];
+}
+
+/** An article drafted to answer a prompt where ILA is missing. Always a draft for a consultant to check. */
+export interface VisibilityArticle {
+  id: string;
+  promptId?: string;
+  question: string;
+  title: string;
+  metaDescription?: string;
+  markdown: string;
+  sources: VisibilityCitation[];
+  status: "draft" | "published";
+  publishedUrl?: string;
+  createdAt: string;
+  createdBy?: string;
+}
+
 /** Table registry: every collection stored by lib/db.ts. */
 export type TableMap = {
   users: User;
@@ -831,10 +938,16 @@ export type TableMap = {
   settings: Setting;
   fx_rates: FxRate;
   recurring_templates: RecurringTemplate;
+  visibility_prompts: VisibilityPrompt;
+  visibility_runs: VisibilityRun;
+  visibility_answers: VisibilityAnswer;
+  visibility_audits: VisibilityAudit;
+  visibility_articles: VisibilityArticle;
 };
 export type Table = keyof TableMap;
 export const TABLES = [
   "users", "entities", "contacts", "companies", "services", "vendors", "activities",
   "accounts", "journal_entries", "periods", "bank_accounts", "bank_transactions", "invoices", "bills", "payments", "fixed_assets",
   "employees", "payroll_runs", "withholding_slips", "vat_transactions", "tax_obligations", "import_batches", "counters", "settings", "fx_rates", "recurring_templates",
+  "visibility_prompts", "visibility_runs", "visibility_answers", "visibility_audits", "visibility_articles",
 ] as const satisfies readonly Table[];
