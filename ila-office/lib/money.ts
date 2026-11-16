@@ -1,4 +1,9 @@
-/** Formatting and arithmetic helpers for money. IDR amounts are whole rupiah; other currencies keep 2 decimals. */
+/**
+ * Formatting and arithmetic helpers for money. Every currency, rupiah included, is kept to two decimals in the
+ * ledger (bank statements carry cents in IDR too, and reconciliation needs the exact amount). Whole rupiah are used
+ * only where the rules ask for them: tax amounts (`roundTax`, `roundTaxDown`) and the figures printed on financial
+ * statements (`roundRupiah` at presentation time). Screens show IDR cents only when there are some.
+ */
 
 export const CURRENCIES = ["IDR", "USD", "EUR", "HKD", "SGD", "AUD", "GBP", "PHP"] as const;
 export type Currency = (typeof CURRENCIES)[number] | string;
@@ -8,15 +13,45 @@ export const CURRENCY_NAMES: Record<(typeof CURRENCIES)[number], string> = {
 /** Options for a currency dropdown: "IDR · Indonesian rupiah". */
 export const currencyOptions = (codes: readonly string[] = CURRENCIES) => codes.map((c) => ({ value: c, label: c in CURRENCY_NAMES ? `${c} · ${CURRENCY_NAMES[c as keyof typeof CURRENCY_NAMES]}` : c }));
 
-export function decimalsFor(currency: string): number {
-  return currency === "IDR" ? 0 : 2;
+/** Ledger precision: two decimals for every currency. */
+export const MONEY_DECIMALS = 2;
+export function decimalsFor(_currency?: string): number {
+  return MONEY_DECIMALS;
 }
 
-/** Rounds to the currency's precision (IDR → integer, others → 2 dp), half away from zero. */
-export function roundMoney(amount: number, currency = "IDR"): number {
-  const d = decimalsFor(currency);
-  const f = 10 ** d;
-  return Math.sign(amount) * Math.round(Math.abs(amount) * f + Number.EPSILON) / f;
+/** Half away from zero at `decimals`; the relative epsilon absorbs binary noise (1.005 → 1.01), and -0 becomes 0. */
+function roundAt(amount: number, decimals: number): number {
+  if (!Number.isFinite(amount)) return 0;
+  const f = 10 ** decimals;
+  const v = (Math.sign(amount) * Math.round(Math.abs(amount) * f * (1 + 2 * Number.EPSILON))) / f;
+  return v === 0 ? 0 : v;
+}
+
+/** Rounds to the ledger precision (two decimals, every currency), half away from zero. */
+export function roundMoney(amount: number, _currency = "IDR"): number {
+  return roundAt(amount, MONEY_DECIMALS);
+}
+
+/** Whole rupiah, half away from zero: the figures of financial statements and whole-rupiah schedules. */
+export function roundRupiah(amount: number): number {
+  return roundAt(amount, 0);
+}
+
+/** Tax amounts on documents (PPN, withholding): whole rupiah in IDR, two decimals in other currencies. */
+export function roundTax(amount: number, currency = "IDR"): number {
+  return currency === "IDR" ? roundRupiah(amount) : roundMoney(amount, currency);
+}
+
+/** Decimals to print for one amount: IDR shows cents only when there are some; other currencies always two. */
+export function displayDecimals(amount: number, currency = "IDR"): number {
+  if (currency !== "IDR") return MONEY_DECIMALS;
+  return Number.isInteger(roundMoney(amount)) ? 0 : MONEY_DECIMALS;
+}
+
+/** Decimals for a column or a form footer: two as soon as one IDR value has cents, so the column lines up. */
+export function columnDecimals(currency: string, values: Array<number | undefined | null>): number {
+  if (currency !== "IDR") return MONEY_DECIMALS;
+  return values.some((v) => typeof v === "number" && Number.isFinite(v) && !Number.isInteger(roundMoney(v))) ? MONEY_DECIMALS : 0;
 }
 
 /** Indonesian tax rules round rupiah down to the whole rupiah for tax bases and amounts. */
@@ -25,16 +60,18 @@ export function roundTaxDown(amount: number): number {
 }
 
 /**
- * Money for screens and documents. IDR follows the Indonesian convention ("Rp 2.500.000", no decimals); other
- * currencies use their symbol with two decimals ("$1,315.00", "€955.00", "HK$8,200.00"). The space after the
- * symbol is non-breaking so an amount never wraps in the middle.
+ * Money for screens and documents. IDR follows the Indonesian convention ("Rp 2.500.000", and "Rp 2.500.000,50" when
+ * the amount has cents); other currencies use their symbol with two decimals ("$1,315.00", "€955.00",
+ * "HK$8,200.00"). The space after the symbol is non-breaking so an amount never wraps in the middle.
  */
 export function fmtMoney(amount: number, currency = "IDR", locale = "en-US"): string {
   const d = decimalsFor(currency);
-  const neg = amount < 0;
-  const abs = Math.abs(amount);
+  const rounded = roundMoney(amount, currency);
+  const neg = rounded < 0;
+  const abs = Math.abs(rounded);
   if (currency === "IDR") {
-    return `${neg ? "\u2212" : ""}Rp\u00a0${new Intl.NumberFormat("id-ID", { maximumFractionDigits: 0 }).format(Math.round(abs))}`;
+    const dd = displayDecimals(abs, "IDR");
+    return `${neg ? "\u2212" : ""}Rp\u00a0${new Intl.NumberFormat("id-ID", { minimumFractionDigits: dd, maximumFractionDigits: dd }).format(abs)}`;
   }
   try {
     const s = new Intl.NumberFormat(locale, { style: "currency", currency, minimumFractionDigits: d, maximumFractionDigits: d }).format(abs).replace(/ /g, "\u00a0");
@@ -49,12 +86,18 @@ export function fmtNumber(n: number, decimals = 0, locale = "en-US"): string {
   return new Intl.NumberFormat(locale, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(n);
 }
 
-/** "Rp 2.500.000" in Indonesian style for client-facing documents. */
+/** "Rp 2.500.000" in Indonesian style for client-facing documents ("Rp 2.500.000,50" when there are cents). */
 export function fmtIDR(n: number): string {
-  return `Rp ${new Intl.NumberFormat("id-ID", { maximumFractionDigits: 0 }).format(n)}`;
+  const d = displayDecimals(n, "IDR");
+  return `Rp ${new Intl.NumberFormat("id-ID", { minimumFractionDigits: d, maximumFractionDigits: d }).format(roundMoney(n))}`;
 }
 
-/** Converts a foreign amount to IDR with the given rate (IDR per 1 unit). */
+/** Amount without symbol for forms and tables (en-US grouping): IDR cents only when present, others two decimals. */
+export function fmtAmount(n: number, currency = "IDR"): string {
+  return fmtNumber(roundMoney(n, currency), displayDecimals(n, currency));
+}
+
+/** Converts a foreign amount to IDR with the given rate (IDR per 1 unit), to the cent. */
 export function toIDR(amount: number, currency: string, fxRate: number): number {
   if (currency === "IDR") return roundMoney(amount, "IDR");
   return roundMoney(amount * fxRate, "IDR");

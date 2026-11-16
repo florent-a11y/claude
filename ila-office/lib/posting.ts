@@ -1,6 +1,7 @@
 import { db } from "./db";
 import { periodOf } from "./dates";
 import { validateLines } from "./balances";
+import { roundMoney } from "./money";
 import type { JournalEntry, JournalLine, JournalSource } from "./types";
 
 /**
@@ -25,7 +26,7 @@ export async function assertPeriodOpen(entityId: string, date: string): Promise<
 }
 
 export async function postJournal(entityId: string, input: PostJournalInput): Promise<JournalEntry> {
-  const lines = input.lines.map((l) => ({ ...l, debit: Math.round(l.debit || 0), credit: Math.round(l.credit || 0) })).filter((l) => l.debit !== 0 || l.credit !== 0);
+  const lines = input.lines.map((l) => ({ ...l, debit: roundMoney(l.debit || 0), credit: roundMoney(l.credit || 0) })).filter((l) => l.debit !== 0 || l.credit !== 0);
   const problem = validateLines(lines);
   if (problem) throw new Error(problem);
   await assertPeriodOpen(entityId, input.date);
@@ -84,7 +85,7 @@ function normaliseEditedLines(lines: JournalLine[], previous: JournalLine[]): Jo
   const pool = new Map<string, JournalLine[]>();
   for (const p of previous) { const k = lineKey(p); pool.set(k, [...(pool.get(k) ?? []), p]); }
   return lines
-    .map((l) => ({ ...l, debit: Math.round(l.debit || 0), credit: Math.round(l.credit || 0) }))
+    .map((l) => ({ ...l, debit: roundMoney(l.debit || 0), credit: roundMoney(l.credit || 0) }))
     .filter((l) => l.debit !== 0 || l.credit !== 0)
     .map((l) => {
       const old = pool.get(lineKey(l))?.shift();

@@ -62,7 +62,7 @@ export interface Revaluation {
   /** Sum of the positive differences / of the negative ones (as a positive number). */
   unrealisedGain: number;
   unrealisedLoss: number;
-  /** Rows with a rate and a difference of at least one rupiah: what the entry will carry. */
+  /** Rows with a rate and a difference of at least one cent: what the entry will carry. */
   postable: RevaluationRow[];
   /** Currencies in use without a closing rate. */
   missingRates: string[];
@@ -104,7 +104,7 @@ export function buildRevaluation(input: RevaluationInput): Revaluation {
       bookRate: fcBalance !== 0 ? Math.round((bal.idr / fcBalance) * 10000) / 10000 : null,
     });
   }
-  const postable = rows.filter((r) => r.difference !== null && Math.abs(r.difference) >= 1);
+  const postable = rows.filter((r) => r.difference !== null && Math.abs(r.difference) >= 0.01);
   const unrealisedGain = roundMoney(postable.filter((r) => (r.difference as number) > 0).reduce((s, r) => s + (r.difference as number), 0));
   const unrealisedLoss = roundMoney(postable.filter((r) => (r.difference as number) < 0).reduce((s, r) => s - (r.difference as number), 0));
   const missingRates = [...new Set(rows.filter((r) => r.rate === null).map((r) => r.currency))];

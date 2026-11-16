@@ -40,9 +40,9 @@ export default async function MatchTransaction({ params, searchParams }: { param
     for (const l of j.lines) if (l.accountId === bank.accountId) { const a = bankLineAmount(l, bank.currency); amount += a.amount; idr += l.debit - l.credit; approximate ||= a.approximate; }
     return { j, amount: roundMoney(amount, bank.currency), idr, approximate };
   });
-  const preselected = candidates.find((c) => Math.abs(c.amount - tx.amount) < 0.5)?.j.id;
+  const preselected = candidates.find((c) => Math.abs(c.amount - tx.amount) < 0.005)?.j.id;
   const fxBank = bank.currency !== "IDR";
-  const near = (x: number) => Math.abs(roundMoney(x, bank.currency) - amt) < 0.5;
+  const near = (x: number) => Math.abs(roundMoney(x, bank.currency) - amt) < 0.005;
   const invSuggested = invoices.filter((i) => i.currency === bank.currency && near(invoiceOutstanding(i)));
   const billSuggested = bills.filter((x) => x.currency === bank.currency && near(billOutstanding(x)));
   const counterAccounts = accounts.filter((a) => a.active && a.id !== bank.accountId).map(({ id, code, name, type, subtype }) => ({ id, code, name, type, subtype }));

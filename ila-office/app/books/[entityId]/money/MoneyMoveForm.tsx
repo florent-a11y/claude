@@ -1,6 +1,6 @@
 "use client";
 import { useMemo, useState } from "react";
-import { fmtNumber, roundMoney } from "@/lib/money";
+import { columnDecimals, fmtNumber, roundMoney } from "@/lib/money";
 import { AccountPicker, type AccountOption } from "@/components/AccountPicker";
 import { MoneyField } from "@/components/MoneyInput";
 import { Cols, TableCard } from "@/components/ui";
@@ -50,11 +50,12 @@ export function MoneyMoveForm({ kind, action, banks, accounts, defaultDate, pref
   const [lines, setLines] = useState<Line[]>(() => [blank({ accountId: prefill?.accountId ?? "", amount: prefill?.amount ? String(prefill.amount) : "" })]);
   const [whIdx, setWhIdx] = useState(0);
   const options = useMemo(() => accounts.filter((a) => a.id !== bank?.accountId), [accounts, bank?.accountId]);
-  const dec = currency === "IDR" ? 0 : 2;
   const amounts = lines.map((l) => n(l.amount));
   const gross = amounts.filter((a) => a > 0).reduce((s, a) => s + a, 0);
   const deductions = amounts.filter((a) => a < 0).reduce((s, a) => s + a, 0);
   const total = roundMoney(gross + deductions, currency);
+  // Rupiah cents show as soon as one amount has some, so the footer lines up.
+  const dec = columnDecimals(currency, [gross, deductions, total]);
   const rate = n(fxRate);
   const filled = lines.filter((l) => l.accountId && n(l.amount) !== 0);
   const touched = lines.filter((l) => l.accountId || n(l.amount) !== 0 || l.description.trim());

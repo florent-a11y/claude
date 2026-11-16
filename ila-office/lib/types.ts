@@ -3,9 +3,11 @@
  * types, and every record is stored as a JSON document keyed by `id` (see lib/db.ts).
  *
  * Conventions
- * - Money: integer minor units are NOT used. IDR has no cents, so amounts are plain numbers of rupiah
- *   (integers). Foreign-currency documents keep their own `currency` + `fxRate` (units of IDR per 1 unit
- *   of the foreign currency) and the ledger always posts the IDR equivalent.
+ * - Money: integer minor units are NOT used. Amounts are plain numbers kept to two decimals in every
+ *   currency, rupiah included (bank statements carry IDR cents and the reconciliation needs the exact
+ *   amount); only tax amounts and the printed financial statements are whole rupiah (see lib/money.ts).
+ *   Foreign-currency documents keep their own `currency` + `fxRate` (units of IDR per 1 unit of the
+ *   foreign currency) and the ledger always posts the IDR equivalent.
  * - Dates: ISO `YYYY-MM-DD` strings. Timestamps: ISO 8601 strings. Periods: `YYYY-MM`, `YYYY-Qn`, `YYYY`.
  * - `entityId`: the set of books a record belongs to. ILA itself is an entity (`isOwn: true`); each
  *   client company whose accounting ILA manages is another entity.

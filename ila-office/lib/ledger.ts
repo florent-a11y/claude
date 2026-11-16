@@ -4,12 +4,12 @@
  * balanced JournalLine[] sets, fiscal depreciation schedules, and report builders (trial balance, P&L, balance
  * sheet, general ledger, AR/AP aging) computed from an entity's accounts and posted journal entries.
  *
- * All ledger amounts are IDR integers; documents keep their currency + fxRate and are converted with toIDR().
+ * Ledger amounts are IDR to the cent; documents keep their currency + fxRate and are converted with toIDR().
  */
 import type { Account, AccountSubtype, Bill, BillLine, DocStatus, FixedAsset, Invoice, InvoiceLine, JournalEntry, JournalLine, TaxTag, WithholdingType } from "./types";
 import { FISCAL_ASSET_GROUPS } from "./types";
-import { roundMoney, toIDR, parseMoney } from "./money";
-import { addDays, daysBetween, firstDayOfMonth, lastDayOfMonth, nextPeriod, periodOf } from "./dates";
+import { roundMoney, roundRupiah, roundTax, toIDR, parseMoney } from "./money";
+import { addDays, daysBetween, firstDayOfMonth, lastDayOfMonth, nextPeriod, periodOf, prevPeriod } from "./dates";
 import { parseAnyDate } from "./bank-formats";
 import { accountBalances, findByCode, findByTag, naturalBalance, netProfit, type Balance } from "./balances";
 
@@ -43,7 +43,7 @@ export function invoiceTotals(lines: Array<Pick<InvoiceLine, "qty" | "unitPrice"
   const discount = Math.min(Math.max(roundMoney(opts.discount ?? 0, ccy), 0), subtotal);
   const taxable = lineAmounts.reduce((s, a, i) => s + (lines[i].taxCode === "ppn" ? a : 0), 0);
   const taxableBase = opts.pkp && subtotal > 0 ? roundMoney(taxable * (1 - discount / subtotal), ccy) : 0;
-  const ppnAmount = opts.pkp ? roundMoney(taxableBase * opts.ppnRate, ccy) : 0;
+  const ppnAmount = opts.pkp ? roundTax(taxableBase * opts.ppnRate, ccy) : 0;
   const total = roundMoney(subtotal - discount + ppnAmount, ccy);
   return { lineAmounts, subtotal, discount, taxableBase, ppnAmount, total };
 }
@@ -59,10 +59,10 @@ export function billTotals(lines: Array<Pick<BillLine, "amount" | "taxCode" | "w
   const ccy = opts.currency ?? "IDR";
   const out: BillLineTotals[] = lines.map((l) => {
     const amount = roundMoney(Number(l.amount) || 0, ccy);
-    const ppn = l.taxCode === "ppn" ? roundMoney(amount * opts.ppnRate, ccy) : 0;
+    const ppn = l.taxCode === "ppn" ? roundTax(amount * opts.ppnRate, ccy) : 0;
     const type = l.withholding ?? "none";
     const withholdingRate = type === "none" ? 0 : (l.withholdingRate ?? defaultWithholdingRate(type));
-    const withholdingAmount = type === "none" ? 0 : roundMoney(amount * withholdingRate, ccy);
+    const withholdingAmount = type === "none" ? 0 : roundTax(amount * withholdingRate, ccy);
     return { amount, ppn, withholdingRate, withholdingAmount };
   });
   const subtotal = roundMoney(out.reduce((s, l) => s + l.amount, 0), ccy);
@@ -338,7 +338,7 @@ export function depreciationSchedule(asset: ScheduleInput, opts: { fiscalYearSta
   const n = Math.max(0, Math.round(asset.usefulLifeMonths));
   const cost = roundMoney(asset.cost);
   const salvage = roundMoney(asset.salvageValue ?? 0);
-  const base = cost - salvage;
+  const base = roundMoney(cost - salvage);
   if (n <= 0 || base <= 0 || asset.fiscalGroup === "land") return [];
   const rate = FISCAL_ASSET_GROUPS[asset.fiscalGroup]?.decliningRate ?? 0;
   const declining = asset.method === "declining_balance" && rate > 0;
@@ -346,7 +346,8 @@ export function depreciationSchedule(asset: ScheduleInput, opts: { fiscalYearSta
   const rows: DepreciationRow[] = [];
   let period = periodOf(asset.acquisitionDate);
   let accumulated = 0;
-  const slMonthly = roundMoney(base / n);
+  // Monthly amounts are whole rupiah; a cost with cents is absorbed by the last month.
+  const slMonthly = roundRupiah(base / n);
   // Fiscal year of the last month of the schedule (declining balance writes off the remainder within it).
   let lastPeriod = period;
   for (let i = 1; i < n; i++) lastPeriod = nextPeriod(lastPeriod);
@@ -358,11 +359,11 @@ export function depreciationSchedule(asset: ScheduleInput, opts: { fiscalYearSta
     if (!declining) amount = slMonthly;
     else {
       const fy = fiscalYearStartOf(`${period}-01`, fyStart);
-      if (fy !== currentFY) { currentFY = fy; monthly = roundMoney(((cost - accumulated) * rate) / 12); }
-      amount = fy === lastFY ? roundMoney((cost - accumulated - salvage) / (n - i)) : monthly;
+      if (fy !== currentFY) { currentFY = fy; monthly = roundRupiah(((cost - accumulated) * rate) / 12); }
+      amount = fy === lastFY ? roundRupiah((cost - accumulated - salvage) / (n - i)) : monthly;
     }
-    if (i === n - 1) amount = base - accumulated;
-    amount = Math.max(0, Math.min(amount, base - accumulated));
+    if (i === n - 1) amount = roundMoney(base - accumulated);
+    amount = Math.max(0, Math.min(amount, roundMoney(base - accumulated)));
     accumulated = roundMoney(accumulated + amount);
     rows.push({ period, amount, accumulated, nbv: roundMoney(cost - accumulated) });
     period = nextPeriod(period);
@@ -567,6 +568,8 @@ export interface BalanceSheet {
   /** Labels of the asset and liability sections hidden because none of their accounts had a balance. */
   emptySections: string[];
   totalAssets: number; totalLiabilities: number; totalEquity: number;
+  /** Liabilities plus equity, from the exact figures (pages print this rather than adding two rounded totals). */
+  totalLiabilitiesAndEquity: number;
   retainedEarnings: number; currentYearEarnings: number; balanced: boolean;
 }
 
@@ -606,7 +609,48 @@ export function balanceSheet(accounts: Account[], entries: JournalEntry[], asOf:
   const assets = dropEmptySections(allAssets, opts.zero), liabilities = dropEmptySections(allLiabilities, opts.zero);
   return {
     asOf, fiscalYearStart, assets: assets.sections, liabilities: liabilities.sections, equity, emptySections: [...assets.emptySections, ...liabilities.emptySections],
-    totalAssets, totalLiabilities, totalEquity, retainedEarnings, currentYearEarnings: cye, balanced: totalAssets === roundMoney(totalLiabilities + totalEquity),
+    totalAssets, totalLiabilities, totalEquity, totalLiabilitiesAndEquity: roundMoney(totalLiabilities + totalEquity),
+    retainedEarnings, currentYearEarnings: cye, balanced: totalAssets === roundMoney(totalLiabilities + totalEquity),
+  };
+}
+
+// ---------- Whole-rupiah presentation ----------
+
+/**
+ * The ledger keeps cents; the financial statements (balance sheet, profit & loss) are presented in whole rupiah.
+ * These return a copy of a statement with every figure rounded half away from zero. Each line and each total is
+ * rounded from its own exact amount, so a column of rounded lines can differ from its rounded total by a rupiah, as
+ * on any rounded statement, while total assets always equals total liabilities and equity. `balanced`, the hidden
+ * sections and the row selection still come from the exact figures. The trial balance and the general ledger are
+ * not rounded: they are the working papers the reconciliation is checked against.
+ */
+function sectionsInRupiah(sections: ReportSection[]): ReportSection[] {
+  return sections.map((s) => ({ ...s, rows: s.rows.map((r) => ({ ...r, amount: roundRupiah(r.amount) })), total: roundRupiah(s.total) }));
+}
+
+export function balanceSheetInRupiah(bs: BalanceSheet): BalanceSheet {
+  return {
+    ...bs, assets: sectionsInRupiah(bs.assets), liabilities: sectionsInRupiah(bs.liabilities), equity: sectionsInRupiah(bs.equity),
+    totalAssets: roundRupiah(bs.totalAssets), totalLiabilities: roundRupiah(bs.totalLiabilities), totalEquity: roundRupiah(bs.totalEquity),
+    totalLiabilitiesAndEquity: roundRupiah(bs.totalLiabilitiesAndEquity), retainedEarnings: roundRupiah(bs.retainedEarnings), currentYearEarnings: roundRupiah(bs.currentYearEarnings),
+  };
+}
+
+export function profitAndLossInRupiah(pl: ProfitAndLoss): ProfitAndLoss {
+  const r = roundRupiah;
+  return {
+    ...pl, sections: sectionsInRupiah(pl.sections), revenue: r(pl.revenue), cogs: r(pl.cogs), grossProfit: r(pl.grossProfit), opex: r(pl.opex), operatingProfit: r(pl.operatingProfit),
+    otherIncome: r(pl.otherIncome), otherExpense: r(pl.otherExpense), profitBeforeTax: r(pl.profitBeforeTax), tax: r(pl.tax), netProfit: r(pl.netProfit),
+  };
+}
+
+export function profitAndLossMonthlyInRupiah(m: ProfitAndLossMonthly): ProfitAndLossMonthly {
+  const r = roundRupiah;
+  return {
+    ...m,
+    sections: m.sections.map((s) => ({ ...s, rows: s.rows.map((row) => ({ ...row, amounts: row.amounts.map(r), total: r(row.total) })), totals: s.totals.map(r), total: r(s.total) })),
+    summary: m.summary.map((s) => ({ ...s, amounts: s.amounts.map(r), total: r(s.total) })),
+    months: m.months.map(profitAndLossInRupiah), total: profitAndLossInRupiah(m.total),
   };
 }
 
@@ -692,6 +736,9 @@ function aging(docs: Array<{ id: string; number: string; name: string; date: str
     byName.set(r.name, g);
     totals[r.bucket] += r.outstandingIDR;
   }
+  // Sums of cents are rounded once so binary noise never reaches a report.
+  for (const g of byName.values()) { g.total = roundMoney(g.total); for (const k of AGING_BUCKETS) g.buckets[k] = roundMoney(g.buckets[k]); }
+  for (const k of AGING_BUCKETS) totals[k] = roundMoney(totals[k]);
   const groups = [...byName.values()].sort((a, b) => b.total - a.total);
   return { asOf, rows, groups, totals, total: roundMoney(rows.reduce((s, r) => s + r.outstandingIDR, 0)) };
 }

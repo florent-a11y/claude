@@ -2,7 +2,7 @@
 import { useMemo, useState } from "react";
 import { countryOptions } from "@/lib/countries";
 import { addDays } from "@/lib/dates";
-import { currencyOptions, fmtNumber } from "@/lib/money";
+import { columnDecimals, currencyOptions, fmtNumber } from "@/lib/money";
 import { billTotals, WITHHOLDING_LABELS, WITHHOLDING_TYPES, defaultWithholdingRate } from "@/lib/ledger";
 import { SubmitButton } from "@/components/client";
 import { Cols, TableCard } from "@/components/ui";
@@ -37,7 +37,7 @@ export function BillForm({ action, entity, vendors, accounts, defaultAccountId, 
   const vendor = selected ? { type: selected.type, id: selected.id, name: selected.name, npwp: selected.npwp, country: selected.country } : { type: "other" as const, name: other.name, npwp: other.npwp || undefined, country: other.country || undefined };
   const totals = useMemo(() => billTotals(lines.map((l) => ({ amount: n(l.amount), taxCode: l.taxCode, withholding: l.withholding, withholdingRate: l.withholdingRate === "" ? undefined : n(l.withholdingRate) / 100 })), { ppnRate: entity.ppnRate, currency }), [lines, entity, currency]);
   const update = (key: number, patch: Partial<Line>) => setLines((ls) => ls.map((l) => (l.key === key ? { ...l, ...patch } : l)));
-  const dec = currency === "IDR" ? 0 : 2;
+  const dec = columnDecimals(currency, [...totals.lines.map((l) => l.amount), totals.subtotal, totals.total, totals.amountPayable]);
   const fmt = (x: number) => fmtNumber(x, dec);
   const valid = vendor.name.trim().length > 0 && lines.some((l) => l.description && n(l.amount) > 0) && (currency === "IDR" || n(fxRate) > 0);
   const payload = JSON.stringify(lines.filter((l) => l.description.trim()).map((l) => ({ description: l.description, amount: n(l.amount), accountId: l.accountId, taxCode: l.taxCode, withholding: l.withholding, withholdingRate: l.withholding === "none" ? undefined : l.withholdingRate === "" ? undefined : n(l.withholdingRate) / 100 })));

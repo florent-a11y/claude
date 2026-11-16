@@ -43,6 +43,19 @@ export function ZeroBalancesToggle({ checked }: { checked: boolean }) {
   return <label className="flex items-center gap-2 pb-2 text-sm" title="List every account of the chart, including those without a balance"><input type="checkbox" name="zero" value="1" defaultChecked={checked} className="checkbox" /> Show zero balances</label>;
 }
 
+/**
+ * The "Show cents" switch of the balance sheet and the profit & loss (`?cents=1`): off by default, so the statements
+ * print whole rupiah as financial statements do; on, they print the ledger's exact amounts.
+ */
+export function CentsToggle({ checked }: { checked: boolean }) {
+  return <label className="flex items-center gap-2 pb-2 text-sm" title="The ledger keeps rupiah cents; statements are rounded to whole rupiah unless this is ticked"><input type="checkbox" name="cents" value="1" defaultChecked={checked} className="checkbox" /> Show cents</label>;
+}
+
+/** Small print under a statement presented in whole rupiah. */
+export function RoundedNote({ cents }: { cents: boolean }) {
+  return <p className="no-print mt-2 text-xs text-ink-500">{cents ? "Exact amounts from the ledger, to the cent." : "Amounts are rounded to whole rupiah for presentation; the ledger, the trial balance and the general ledger keep the exact amounts. Tick “Show cents” to print them here."}</p>;
+}
+
 /** Footnote under a statement saying what the default view left out; renders nothing when nothing was hidden. */
 export function HiddenZeroNote({ sections = [], accounts = 0 }: { sections?: string[]; accounts?: number }) {
   const parts = [

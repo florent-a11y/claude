@@ -51,11 +51,10 @@ test("USD deposit: each line converted on its own, bank line is the sum of the r
   assert.equal(sumD(lines), sumC(lines));
   const bank = lines[0];
   assert.equal(bank.accountCode, "1-1110", "a deposit debits the bank first");
-  // 33.33 × rate = 544,390.12 → 544,390 (twice); 33.34 × rate = 544,553.46 → 544,553; the sum is 1,633,333 while
-  // converting the 100.00 total directly would give 1,633,334.
-  assert.deepEqual(on(lines, code("7-1000")).map((l) => l.credit), [544_390, 544_390]);
-  assert.equal(on(lines, code("7-1200"))[0].credit, 544_553);
-  assert.equal(bank.debit, 1_633_333);
+  // 33.33 × rate = 544,390.12 (twice); 33.34 × rate = 544,553.46; the bank line is their sum, to the cent.
+  assert.deepEqual(on(lines, code("7-1000")).map((l) => l.credit), [544_390.12, 544_390.12]);
+  assert.equal(on(lines, code("7-1200"))[0].credit, 544_553.46);
+  assert.equal(bank.debit, 1_633_333.7);
   assert.equal(bank.credit, 0);
   assert.equal(bank.currency, "USD");
   assert.equal(bank.fxAmount, 100);
@@ -70,10 +69,11 @@ test("USD deposit: each line converted on its own, bank line is the sum of the r
 });
 
 test("expense without a payee carries no counterparty; amounts are rounded to the currency", () => {
-  const lines = moneyMoveJournalLines({ kind: "expense", bankGl: code("1-1100"), currency: "IDR", fxRate: 1, memo: "Rounding", lines: [{ account: code("6-2000"), amount: 1000.4 }, { account: code("6-2000"), amount: 2000.6 }] });
-  assert.equal(on(lines, code("1-1100"))[0].credit, 3001);
-  assert.equal(lines[0].debit, 1000);
-  assert.equal(lines[1].debit, 2001);
+  const lines = moneyMoveJournalLines({ kind: "expense", bankGl: code("1-1100"), currency: "IDR", fxRate: 1, memo: "Rounding", lines: [{ account: code("6-2000"), amount: 1000.404 }, { account: code("6-2000"), amount: 2000.606 }] });
+  // Rupiah keep their cents: 1,000.40 + 2,000.61 = 3,001.01.
+  assert.equal(on(lines, code("1-1100"))[0].credit, 3001.01);
+  assert.equal(lines[0].debit, 1000.4);
+  assert.equal(lines[1].debit, 2000.61);
   for (const l of lines) assert.equal("counterpartyName" in l && l.counterpartyName !== undefined, false);
 });
 
@@ -124,16 +124,16 @@ test("USD expense with a withholding line: fxAmount stays positive on the credit
   assert.equal(lines.length, 4);
   assert.equal(validateLines(lines), null);
   assert.equal(sumD(lines), sumC(lines));
-  // 66.67 × rate = 1,088,943.58 → 1,088,944; 33.33 × rate = 544,390.12 → 544,390; 1.99 × rate = 32,503.34 → 32,503.
-  assert.deepEqual(on(lines, code("6-1300")).map((l) => l.debit), [1_088_944, 544_390]);
+  // 66.67 × rate = 1,088,943.58; 33.33 × rate = 544,390.12; 1.99 × rate = 32,503.34.
+  assert.deepEqual(on(lines, code("6-1300")).map((l) => l.debit), [1_088_943.58, 544_390.12]);
   const pph = on(lines, code("2-1310"))[0];
-  assert.deepEqual([pph.debit, pph.credit], [0, 32_503]);
+  assert.deepEqual([pph.debit, pph.credit], [0, 32_503.34]);
   assert.equal(pph.fxAmount, 1.99, "the original-currency amount is a magnitude; the side is given by the credit");
   assert.equal(pph.currency, "USD");
   assert.equal(pph.fxRate, rate);
   const bank = on(lines, code("1-1110"))[0];
-  // 1,088,944 + 544,390 − 32,503 = 1,600,831, while converting the 98.01 net directly would give 1,600,830.
-  assert.deepEqual([bank.debit, bank.credit], [0, 1_600_831]);
+  // 1,088,943.58 + 544,390.12 − 32,503.34 = 1,600,830.36.
+  assert.deepEqual([bank.debit, bank.credit], [0, 1_600_830.36]);
   assert.equal(bank.fxAmount, 98.01);
   for (const l of lines) assert.ok((l.fxAmount ?? 0) > 0, "no negative fxAmount anywhere");
 });
@@ -144,7 +144,8 @@ test("validateMoneyMove with negative lines: no zero lines, at least one positiv
   const v = (lines: Array<{ accountId: string; amount: number }>) => validateMoneyMove({ kind: "expense", lines }, accounts, idrBank);
   assert.equal(v([fee, pph]), null);
   assert.equal(v([fee, { ...pph, amount: 0 }]), "Line 2: the amount must not be zero.");
-  assert.match(v([fee, { ...pph, amount: 0.4 }]) ?? "", /must not be zero/, "an amount that rounds to zero rupiah counts as zero");
+  assert.match(v([fee, { ...pph, amount: 0.004 }]) ?? "", /must not be zero/, "an amount that rounds to zero cents counts as zero");
+  assert.equal(v([fee, { ...pph, amount: -0.4 }]), null, "forty cents is an amount");
   assert.match(v([pph]) ?? "", /at least one positive line/i, "a withholding line on its own");
   assert.match(v([pph, { ...pph, accountId: code("2-1300").id }]) ?? "", /at least one positive line/i);
   assert.equal(v([fee, { ...pph, amount: -2_000_000 }]), "The total must be greater than zero (withholding lines cannot exceed the amount paid).");

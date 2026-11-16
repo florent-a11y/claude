@@ -52,8 +52,10 @@ export function bankLineAmount(line: JournalLine, currency: string): { amount: n
   return { amount: idr, approximate: true };
 }
 
-export function roundMoney(n: number, currency: string): number {
-  return currency === "IDR" ? Math.round(n) : Math.round(n * 100) / 100;
+/** Two decimals in every currency: rupiah statements carry cents too. */
+export function roundMoney(n: number, _currency: string): number {
+  const v = Math.sign(n) * Math.round(Math.abs(n) * 100 * (1 + 2 * Number.EPSILON)) / 100;
+  return v === 0 ? 0 : v;
 }
 
 export function buildReconciliation(input: { bank: BankAccount; transactions: BankTransaction[]; entries: JournalEntry[]; period: string; statementBalance?: number }): Reconciliation {
@@ -108,7 +110,8 @@ export function buildReconciliation(input: { bank: BankAccount; transactions: Ba
   const adjustedBooks = round(ledger + sumUnbooked);
   const adjustedBank = statementBalance === null ? null : round(statementBalance + sumUnpresented);
   const difference = adjustedBank === null ? null : round(adjustedBank - adjustedBooks);
-  const tolerance = ccy === "IDR" ? 1 : 0.01;
+  // Exact to the cent in every currency.
+  const tolerance = 0.005;
   return {
     period, endDate, currency: ccy, statementBalance, statementBalanceSource, lastStatementDate: upTo.at(-1)?.date,
     ledgerBalance: ledger, ledgerApproximate, unbookedStatement, unpresentedLedger, clearedLedger, sumUnbooked, sumUnpresented,

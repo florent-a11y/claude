@@ -32,7 +32,7 @@ async function readJournalForm(entityId: string, fd: FormData, allowInactive: Re
   const lines: JournalLine[] = v.lines.filter((l) => l.debit > 0 || l.credit > 0).map((l) => {
     const a = accountById(accounts, l.accountId);
     if (!a.active && !allowInactive.has(a.id)) throw new Error(`Account ${a.code} is inactive.`);
-    const debit = Math.round(l.debit), credit = Math.round(l.credit);
+    const debit = roundMoney(l.debit), credit = roundMoney(l.credit);
     const ccy = fxAccounts.get(a.id);
     const fxAmount = ccy && l.fxAmount ? roundMoney(l.fxAmount, ccy) : 0;
     const fx = ccy && fxAmount > 0 ? { currency: ccy, fxAmount, fxRate: Math.round(((debit || credit) / fxAmount) * 10000) / 10000 } : {};

@@ -4,9 +4,10 @@ import { csvResponse } from "@/lib/csv";
 import { xlsxResponse, type XlsxSheet } from "@/lib/report-xlsx";
 import { renderStatementPdf, pdfNumber, type StatementColumn, type StatementRow } from "@/lib/report-pdf";
 import { entityAccounts, entityEntries } from "@/lib/books";
-import { trialBalance, profitAndLoss, profitAndLossMonthly, balanceSheet, generalLedger, generalLedgerAll, arAging, apAging, fiscalYearStartOf, AGING_BUCKETS, PL_SECTIONS, entryTotal, type ProfitAndLoss, type ReportSection, type ZeroMode } from "@/lib/ledger";
+import { trialBalance, profitAndLoss, profitAndLossInRupiah, profitAndLossMonthly, profitAndLossMonthlyInRupiah, balanceSheet, balanceSheetInRupiah, generalLedger, generalLedgerAll, arAging, apAging, fiscalYearStartOf, AGING_BUCKETS, PL_SECTIONS, entryTotal, type ProfitAndLoss, type ReportSection, type ZeroMode } from "@/lib/ledger";
 import { addDays, fmtDate, todayISO } from "@/lib/dates";
 import { naturalBalance, accountBalances } from "@/lib/balances";
+import { columnDecimals } from "@/lib/money";
 import type { Account, Entity, JournalEntry } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -31,6 +32,9 @@ interface ReportOutput {
  * PDF is available for the four statements: profit-loss, balance-sheet, trial-balance and general-ledger.
  * `zero=1` lists zero balances and empty sections on the three statements (and idle accounts on the all-accounts ledger);
  * by default they are hidden, as on the report pages.
+ * The ledger keeps rupiah cents. The balance sheet and the profit & loss are rounded to whole rupiah unless `cents=1`;
+ * the trial balance, the general ledger and the data exports always carry the exact amounts (the PDFs print two
+ * decimals as soon as one figure has cents).
  */
 export async function GET(req: Request, ctx: { params: Promise<{ entityId: string; report: string }> }) {
   const user = await guard("read", (await ctx.params).entityId);
@@ -42,6 +46,7 @@ export async function GET(req: Request, ctx: { params: Promise<{ entityId: strin
   const format = parseFormat(q.get("format"));
   if (!format) return new Response("format must be csv, xlsx or pdf", { status: 400 });
   const zero: ZeroMode = q.get("zero") === "1" ? "show" : "hide";
+  const cents = q.get("cents") === "1";
   const today = todayISO();
   const asOf = q.get("asOf") ?? q.get("to") ?? today;
   const to = q.get("to") ?? asOf;
@@ -58,20 +63,25 @@ export async function GET(req: Request, ctx: { params: Promise<{ entityId: strin
       const rows: unknown[][] = [...tb.rows.map((r) => [r.account.code, r.account.name, r.account.type, r.debit, r.credit]), ["", "Total", "", tb.totalDebit, tb.totalCredit]];
       out = {
         file: `${slug}-trial-balance-${asOf}`, csv: { headers, rows }, sheets: [{ name: "Trial balance", headers, rows, colWidths: [10, 40, 12, 18, 18] }],
-        pdf: () => ({
-          title: "Trial balance", subtitle: `As of ${fmtDate(asOf)} · ${tb.rows.length} accounts${tb.balanced ? "" : " · OUT OF BALANCE"}`,
-          columns: [{ label: "Code", width: 55, align: "left" }, { label: "Account", width: 230, align: "left" }, { label: "Type", width: 60, align: "left" }, { label: "Debit", width: 85, align: "right" }, { label: "Credit", width: 85, align: "right" }],
-          rows: [...tb.rows.map((r): StatementRow => ({ cells: [r.account.code, r.account.name, r.account.type, r.debit ? n(r.debit) : "", r.credit ? n(r.credit) : ""] })), { cells: ["", "Total", "", n(tb.totalDebit), n(tb.totalCredit)], style: "grand" }],
-        }),
+        pdf: () => {
+          const d = columnDecimals("IDR", [...tb.rows.flatMap((r) => [r.debit, r.credit]), tb.totalDebit, tb.totalCredit]);
+          return {
+            title: "Trial balance", subtitle: `As of ${fmtDate(asOf)} · ${tb.rows.length} accounts${tb.balanced ? "" : " · OUT OF BALANCE"}`,
+            columns: [{ label: "Code", width: 55, align: "left" }, { label: "Account", width: 230, align: "left" }, { label: "Type", width: 60, align: "left" }, { label: "Debit", width: 85, align: "right" }, { label: "Credit", width: 85, align: "right" }],
+            rows: [...tb.rows.map((r): StatementRow => ({ cells: [r.account.code, r.account.name, r.account.type, r.debit ? n(r.debit, d) : "", r.credit ? n(r.credit, d) : ""] })), { cells: ["", "Total", "", n(tb.totalDebit, d), n(tb.totalCredit, d)], style: "grand" }],
+          };
+        },
       };
       break;
     }
     case "profit-loss": {
-      out = q.get("view") === "monthly" ? plMonthlyOutput(accounts, entries, from, to, zero, slug) : plPeriodOutput(accounts, entries, from, to, q.get("compare") === "1", zero, slug);
+      out = q.get("view") === "monthly" ? plMonthlyOutput(accounts, entries, from, to, zero, slug, cents) : plPeriodOutput(accounts, entries, from, to, q.get("compare") === "1", zero, slug, cents);
       break;
     }
     case "balance-sheet": {
-      const bs = balanceSheet(accounts, entries, asOf, entity.fiscalYearStartMonth, { zero });
+      const exact = balanceSheet(accounts, entries, asOf, entity.fiscalYearStartMonth, { zero });
+      const bs = cents ? exact : balanceSheetInRupiah(exact);
+      const d = cents ? columnDecimals("IDR", [...[...bs.assets, ...bs.liabilities, ...bs.equity].flatMap((s) => [...s.rows.map((r) => r.amount), s.total]), bs.totalAssets, bs.totalLiabilities, bs.totalEquity]) : 0;
       const groups = [["Assets", bs.assets, bs.totalAssets], ["Liabilities", bs.liabilities, bs.totalLiabilities], ["Equity", bs.equity, bs.totalEquity]] as const;
       const rows: unknown[][] = [];
       for (const [group, sections, total] of groups) {
@@ -88,16 +98,17 @@ export async function GET(req: Request, ctx: { params: Promise<{ entityId: strin
             if (sections.length === 0) pdfRows.push({ cells: ["No balances", ""], style: "indent" });
             for (const s of sections) {
               if (sections.length > 1) pdfRows.push({ cells: [s.label, ""], style: "section" });
-              for (const r of s.rows) pdfRows.push({ cells: [`${r.account.code}  ${r.account.name}${r.account.taxTag === "current_earnings" ? ` (from ${fmtDate(bs.fiscalYearStart)})` : ""}`, n(r.amount)], style: "indent" });
+              for (const r of s.rows) pdfRows.push({ cells: [`${r.account.code}  ${r.account.name}${r.account.taxTag === "current_earnings" ? ` (from ${fmtDate(bs.fiscalYearStart)})` : ""}`, n(r.amount, d)], style: "indent" });
               if (s.rows.length === 0) pdfRows.push({ cells: ["No balances", ""], style: "indent" });
-              if (sections.length > 1) pdfRows.push({ cells: [`Total ${s.label.toLowerCase()}`, n(s.total)], style: "total" });
+              if (sections.length > 1) pdfRows.push({ cells: [`Total ${s.label.toLowerCase()}`, n(s.total, d)], style: "total" });
             }
-            pdfRows.push({ cells: [`Total ${group.toLowerCase()}`, n(total)], style: "grand" });
+            pdfRows.push({ cells: [`Total ${group.toLowerCase()}`, n(total, d)], style: "grand" });
           }
-          pdfRows.push({ cells: ["Total liabilities and equity", n(bs.totalLiabilities + bs.totalEquity)], style: "grand" });
+          pdfRows.push({ cells: ["Total liabilities and equity", n(bs.totalLiabilitiesAndEquity, d)], style: "grand" });
           return {
             title: "Balance sheet", subtitle: `As of ${fmtDate(asOf)} · fiscal year from ${fmtDate(bs.fiscalYearStart)}${bs.balanced ? "" : " · OUT OF BALANCE"}`,
             columns: [{ label: "Account", width: 300, align: "left" }, { label: `As of ${fmtDate(asOf)}`, width: 110, align: "right" }], rows: pdfRows,
+            note: cents ? undefined : ROUNDED_NOTE,
           };
         },
       };
@@ -127,11 +138,11 @@ export async function GET(req: Request, ctx: { params: Promise<{ entityId: strin
             { label: "Date", width: 68, align: "left" }, { label: "Entry", width: 66, align: "left" }, { label: "Memo", width: 146, align: "left" }, { label: "Description", width: 144, align: "left" },
             { label: "Counterparty", width: 110, align: "left" }, { label: "Debit", width: 74, align: "right" }, { label: "Credit", width: 74, align: "right" }, { label: "Balance", width: 80, align: "right" },
           ],
-          rows: [
-            { cells: ["", "", `Opening balance at ${fmtDate(from)}`, "", "", "", "", n(gl.opening)], style: "total" },
-            ...gl.rows.map((r): StatementRow => ({ cells: [fmtDate(r.date), r.number, r.memo, r.description && r.description !== r.memo ? r.description : "", r.counterpartyName ?? "", r.debit ? n(r.debit) : "", r.credit ? n(r.credit) : "", n(r.balance)] })),
-            { cells: ["", "", `Closing balance at ${fmtDate(to)}`, "", "", n(gl.totalDebit), n(gl.totalCredit), n(gl.closing)], style: "grand" },
-          ],
+          rows: ((d: number): StatementRow[] => [
+            { cells: ["", "", `Opening balance at ${fmtDate(from)}`, "", "", "", "", n(gl.opening, d)], style: "total" },
+            ...gl.rows.map((r): StatementRow => ({ cells: [fmtDate(r.date), r.number, r.memo, r.description && r.description !== r.memo ? r.description : "", r.counterpartyName ?? "", r.debit ? n(r.debit, d) : "", r.credit ? n(r.credit, d) : "", n(r.balance, d)] })),
+            { cells: ["", "", `Closing balance at ${fmtDate(to)}`, "", "", n(gl.totalDebit, d), n(gl.totalCredit, d), n(gl.closing, d)], style: "grand" },
+          ])(glDecimals([gl])),
         }),
       };
       break;
@@ -190,6 +201,13 @@ async function send(format: Format, out: ReportOutput, entity: Entity): Promise<
   });
 }
 
+const ROUNDED_NOTE = "Amounts are rounded to whole rupiah for presentation; the ledger keeps the exact amounts.";
+
+/** Decimals for a general-ledger PDF: two as soon as one figure of the ledgers has cents. */
+function glDecimals(ledgers: Array<{ opening: number; closing: number; totalDebit: number; totalCredit: number; rows: Array<{ debit: number; credit: number; balance: number }> }>): number {
+  return columnDecimals("IDR", ledgers.flatMap((g) => [g.opening, g.closing, g.totalDebit, g.totalCredit, ...g.rows.flatMap((r) => [r.debit, r.credit, r.balance])]));
+}
+
 const PL_SUMMARY: Array<[string, (p: ProfitAndLoss) => number, string]> = [["Gross profit", (p) => p.grossProfit, "cogs"], ["Operating profit", (p) => p.operatingProfit, "opex"], ["Profit before tax", (p) => p.profitBeforeTax, "other_expense"], ["Net profit", (p) => p.netProfit, "tax"]];
 
 /** Accounts of a section in code order, including those that only have a figure in the comparison column. */
@@ -199,13 +217,14 @@ function sectionAccounts(accounts: Account[], s?: ReportSection, ps?: ReportSect
 }
 
 /** Period P&L. Sections are walked in PL_SECTIONS order: one hidden in the period (and in the comparison, if any) is left out while its summary line keeps its place. */
-function plPeriodOutput(accounts: Account[], entries: JournalEntry[], from: string, to: string, compare: boolean, zero: ZeroMode, slug: string): ReportOutput {
-  const pl = profitAndLoss(accounts, entries, { from, to }, { zero });
+function plPeriodOutput(accounts: Account[], entries: JournalEntry[], from: string, to: string, compare: boolean, zero: ZeroMode, slug: string, cents = false): ReportOutput {
+  const present = (p: ProfitAndLoss) => (cents ? p : profitAndLossInRupiah(p));
+  const pl = present(profitAndLoss(accounts, entries, { from, to }, { zero }));
   let prev: ProfitAndLoss | undefined;
   if (compare) {
     const len = Math.round((Date.parse(to) - Date.parse(from)) / 864e5) + 1;
     const pTo = addDays(from, -1);
-    prev = profitAndLoss(accounts, entries, { from: addDays(pTo, -(len - 1)), to: pTo }, { zero });
+    prev = present(profitAndLoss(accounts, entries, { from: addDays(pTo, -(len - 1)), to: pTo }, { zero }));
   }
   const sectionPair = (key: string) => [pl.sections.find((x) => x.key === key), prev?.sections.find((x) => x.key === key)] as const;
   const rows: unknown[][] = [];
@@ -220,7 +239,9 @@ function plPeriodOutput(accounts: Account[], entries: JournalEntry[], from: stri
   }
   for (const [label, pick] of PL_SUMMARY) rows.push(["", "", label, pick(pl), ...(prev ? [pick(prev)] : [])]);
   const headers = ["Section", "Code", "Account", `${from} to ${to}`, ...(prev ? [`${prev.from} to ${prev.to}`] : [])];
-  const n = pdfNumber;
+  // With cents, every figure prints two decimals as soon as one has some.
+  const d = cents ? columnDecimals("IDR", rows.flatMap((r) => r.slice(3) as number[])) : 0;
+  const n = (v: number) => pdfNumber(v, d);
   return {
     file: `${slug}-profit-loss-${from}-${to}`, csv: { headers, rows }, sheets: [{ name: "Profit & loss", headers, rows, colWidths: [20, 10, 40, 18, 18] }],
     pdf: () => {
@@ -242,15 +263,16 @@ function plPeriodOutput(accounts: Account[], entries: JournalEntry[], from: stri
       return {
         title: "Profit & loss", subtitle: prev ? `${period} · compared with ${fmtDate(prev.from)} – ${fmtDate(prev.to)}` : period,
         columns: [{ label: "Account", width: prev ? 220 : 300, align: "left" }, { label: period, width: 100, align: "right" }, ...(prev ? [{ label: "Previous", width: 100, align: "right" as const }, { label: "Change", width: 100, align: "right" as const }] : [])],
-        rows: pdfRows,
+        rows: pdfRows, note: cents ? undefined : ROUNDED_NOTE,
       };
     },
   };
 }
 
 /** Monthly P&L. Sections are walked in PL_SECTIONS order so a hidden (empty) section still has its summary line printed in place. */
-function plMonthlyOutput(accounts: Account[], entries: JournalEntry[], from: string, to: string, zero: ZeroMode, slug: string): ReportOutput {
-  const m = profitAndLossMonthly(accounts, entries, { from, to }, { zero });
+function plMonthlyOutput(accounts: Account[], entries: JournalEntry[], from: string, to: string, zero: ZeroMode, slug: string, cents = false): ReportOutput {
+  const exact = profitAndLossMonthly(accounts, entries, { from, to }, { zero });
+  const m = cents ? exact : profitAndLossMonthlyInRupiah(exact);
   const labels = m.columns.map((c) => c.label);
   const headers = ["Section", "Code", "Account", ...labels, "Total"];
   const rows: unknown[][] = [];
@@ -263,7 +285,8 @@ function plMonthlyOutput(accounts: Account[], entries: JournalEntry[], from: str
     const sum = m.summary.find((x) => x.afterSection === d.key);
     if (sum) rows.push(["", "", sum.label, ...sum.amounts, sum.total]);
   }
-  const n = pdfNumber;
+  const d = cents ? columnDecimals("IDR", rows.flatMap((r) => r.slice(3) as number[])) : 0;
+  const n = (v: number) => pdfNumber(v, d);
   const count = m.columns.length;
   return {
     file: `${slug}-profit-loss-monthly-${m.from}-${m.to}`, csv: { headers, rows },
@@ -282,7 +305,7 @@ function plMonthlyOutput(accounts: Account[], entries: JournalEntry[], from: str
         if (sum) pdfRows.push({ cells: [sum.label, ...sum.amounts.map((a) => n(a)), n(sum.total)], style: sum.key === "netProfit" ? "grand" : "total" });
       }
       return {
-        title: "Profit & loss by month", subtitle: `${fmtDate(m.from)} – ${fmtDate(m.to)} · amounts in IDR`, landscape: true, note: m.note,
+        title: "Profit & loss by month", subtitle: `${fmtDate(m.from)} – ${fmtDate(m.to)} · amounts in IDR`, landscape: true, note: [m.note, cents ? undefined : ROUNDED_NOTE].filter(Boolean).join(" ") || undefined,
         fontSize: count <= 6 ? 9 : count <= 9 ? 8 : count <= 12 ? 7 : 6.5,
         columns: [{ label: "Account", width: count <= 6 ? 200 : 150, align: "left" }, ...labels.map((label) => ({ label, width: 50, align: "right" as const })), { label: "Total", width: 58, align: "right" }],
         rows: pdfRows,
@@ -294,7 +317,8 @@ function plMonthlyOutput(accounts: Account[], entries: JournalEntry[], from: str
 /** Every account's ledger in one file, grouped by account: a header row, opening, movements, closing per account. */
 function glAllOutput(accounts: Account[], entries: JournalEntry[], from: string, to: string, includeInactive: boolean, slug: string): ReportOutput {
   const all = generalLedgerAll(accounts, entries, { from, to }, { includeInactive });
-  const n = (v: number) => pdfNumber(v);
+  const d = glDecimals(all.ledgers);
+  const n = (v: number) => pdfNumber(v, d);
   const headers = ["Account code", "Account name", "Date", "Entry", "Memo", "Description", "Counterparty", "Debit", "Credit", "Balance"];
   const rows: unknown[][] = [];
   const pdfRows: StatementRow[] = [];
