@@ -4,6 +4,7 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import { hashPassword, verifyPassword } from "./password";
 export { hashPassword, verifyPassword };
 import { db } from "./db";
+import { setAuditActorResolver, type AuditActor } from "./audit";
 import type { User } from "./types";
 import { can as canDo, canAccessEntity, isClient, type Permission } from "./access";
 export { allowedEntityIds, canAccessEntity, isClient, scopeByEntity, scopeEntities, type Permission } from "./access";
@@ -70,6 +71,28 @@ export async function getUser(): Promise<SessionUser | null> {
   if (!user || !user.active) return null;
   return { id: user.id, email: user.email, name: user.name, role: user.role, entityIds: user.role === "client" ? user.entityIds ?? [] : undefined };
 }
+
+/**
+ * Audit trail (lib/audit.ts): every write made during a request is attributed to its signed-in user. Outside a
+ * request (seed, scripts, cron) and before sign-in there is none, and the log says "System". The actor is remembered
+ * for a minute per user so that a burst of writes costs one lookup.
+ */
+const auditActors = new Map<string, { actor: AuditActor; until: number }>();
+setAuditActorResolver(async () => {
+  try {
+    const parsed = parseSessionToken((await cookies()).get(SESSION_COOKIE)?.value);
+    if (!parsed) return null;
+    const known = auditActors.get(parsed.userId);
+    if (known && known.until > Date.now()) return known.actor;
+    const user = await getUser();
+    if (!user) return null;
+    const actor = { id: user.id, name: user.name, email: user.email };
+    auditActors.set(user.id, { actor, until: Date.now() + 60_000 });
+    return actor;
+  } catch {
+    return null;
+  }
+});
 
 /** Redirects to /login when not signed in. */
 export async function requireUser(): Promise<SessionUser> {

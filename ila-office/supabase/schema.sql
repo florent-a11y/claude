@@ -11,7 +11,7 @@ begin
   foreach t in array array[
     'users','entities','contacts','companies','services','vendors','activities',
     'accounts','journal_entries','periods','bank_accounts','bank_transactions','invoices','bills','payments','fixed_assets',
-    'employees','payroll_runs','withholding_slips','vat_transactions','tax_obligations','import_batches','counters','settings','fx_rates','recurring_templates'
+    'employees','payroll_runs','withholding_slips','vat_transactions','tax_obligations','import_batches','counters','settings','fx_rates','recurring_templates','audit_log'
   ] loop
     execute format('create table if not exists public.%I (
       id text primary key,
@@ -32,6 +32,7 @@ create index if not exists journal_entries_period_idx on public.journal_entries 
 create index if not exists tax_obligations_period_idx on public.tax_obligations ((data->>'period'));
 create index if not exists users_email_idx on public.users ((lower(data->>'email')));
 create index if not exists bank_transactions_hash_idx on public.bank_transactions ((data->>'hash'));
+create index if not exists audit_log_created_idx on public.audit_log (created_at desc);
 
 -- Optional: private bucket for attachments (invoices, bukti potong PDFs, bank statements).
 insert into storage.buckets (id, name, public, file_size_limit)

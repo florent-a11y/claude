@@ -8,6 +8,7 @@ import { BUPOT_TITLES, JENIS_PPH, bupotKind, documentLabel, facilityLabel, isFin
 import { Badge, statusTone, Field } from "@/components/ui";
 import { ConfirmForm, PrintButton, SubmitButton } from "@/components/client";
 import { Attachments } from "@/components/Attachments";
+import { AuditTrail } from "@/components/AuditTrail";
 import { deleteSlip, setSlipStatus } from "../../../actions";
 
 export const dynamic = "force-dynamic";
@@ -121,6 +122,7 @@ export default async function SlipPage({ params }: { params: Promise<{ entityId:
       <div className="mx-auto mt-4 max-w-[210mm] no-print">
         <Attachments entityId={entityId} docType="slip" docId={slip.id} items={slip.attachments ?? []} canWrite={canWrite} backTo={here} />
         {canWrite && slip.status !== "draft" && <Field label="Notes" hint="Slips are immutable once issued; delete and recreate while still draft." className="mt-3"><span className="text-xs text-ink-500">Status {slip.status}{slip.coretaxNumber ? ` · Coretax ${slip.coretaxNumber}` : ""}{slip.ntpn ? ` · NTPN ${slip.ntpn}` : ""}</span></Field>}
+        <AuditTrail table="withholding_slips" docId={slip.id} className="mt-4" />
       </div>
     </div>
   );

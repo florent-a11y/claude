@@ -8,6 +8,7 @@ import { fmtMoney } from "@/lib/money";
 import { Card, Badge, statusTone, DL, Field, Select, Money, CardTable, Cols, Dash, TableCard } from "@/components/ui";
 import { ConfirmForm, SubmitButton } from "@/components/client";
 import { Attachments } from "@/components/Attachments";
+import { AuditTrail } from "@/components/AuditTrail";
 import { MoneyInput } from "@/components/MoneyInput";
 import { ErrorNotice, base, first, requireEntity, type Search } from "../../shared";
 import { postInvoiceAction, receiptAction, voidInvoiceAction, voidPaymentAction } from "../actions";
@@ -144,6 +145,7 @@ export default async function InvoicePage({ params, searchParams }: { params: Pr
           )}
         </div>
       </div>
+      <AuditTrail table="invoices" docId={invoice.id} />
     </div>
   );
 }

@@ -10,6 +10,7 @@ import type { JournalEntry, JournalLine } from "@/lib/types";
 import { Card, Badge, statusTone, DL, Cols, Dash, TableCard, CardTable } from "@/components/ui";
 import { ConfirmForm } from "@/components/client";
 import { Attachments } from "@/components/Attachments";
+import { AuditTrail } from "@/components/AuditTrail";
 import { ErrorNotice, base, first, requireEntity, type Search } from "../../shared";
 import { voidJournalAction } from "../actions";
 
@@ -138,6 +139,7 @@ export default async function JournalEntryPage({ params, searchParams }: { param
           </CardTable>
         </Card>
       )}
+      <AuditTrail table="journal_entries" docId={entry.id} />
     </div>
   );
 }
