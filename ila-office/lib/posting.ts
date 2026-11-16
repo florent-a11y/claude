@@ -147,3 +147,62 @@ export async function updateJournal(entityId: string, id: string, input: Journal
   if (!updated) throw new Error("Journal entry not found");
   return updated;
 }
+
+// ---------- Bulk posting (migrations) ----------
+
+/**
+ * Posts many entries in a handful of round trips instead of three or more per entry (a QuickBooks journal history is
+ * thousands of entries and must fit in one serverless request). Same rules as `postJournal`: every entry is checked
+ * with `validateLines` and refused when its period is locked (the entity's locks are loaded once); the JE numbers of
+ * a year are reserved in one counter update, in input order; the entries are stored with `insertMany` in chunks of
+ * 500, built chunk by chunk so memory stays bounded. An entry that fails validation is reported by its index in
+ * `inputs` and does not stop the others; a chunk the database refuses is reported for each of its entries.
+ */
+export async function postJournalsBulk(entityId: string, inputs: PostJournalInput[], opts: { createdByUserId?: string } = {}): Promise<{ posted: number; errors: Array<{ index: number; message: string }> }> {
+  const CHUNK = 500;
+  const errors: Array<{ index: number; message: string }> = [];
+  if (inputs.length === 0) return { posted: 0, errors };
+  const locked = new Set((await db.list("periods", { where: { entityId } })).filter((p) => p.locked).map((p) => p.period));
+  // Pass 1: validate, and count the numbers needed per year (same year rule as postJournal → db.nextNumber).
+  const valid: number[] = [];
+  const perYear = new Map<number, number>();
+  const yearOf = (date: string) => new Date(date).getFullYear();
+  const linesOf = (input: PostJournalInput) => input.lines.map((l) => ({ ...l, debit: roundMoney(l.debit || 0), credit: roundMoney(l.credit || 0) })).filter((l) => l.debit !== 0 || l.credit !== 0);
+  inputs.forEach((input, index) => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(input.date ?? "")) { errors.push({ index, message: "Date is required (YYYY-MM-DD)." }); return; }
+    const problem = validateLines(linesOf(input));
+    if (problem) { errors.push({ index, message: problem }); return; }
+    const period = periodOf(input.date);
+    if (locked.has(period)) { errors.push({ index, message: `Period ${period} is locked for this entity.` }); return; }
+    valid.push(index);
+    perYear.set(yearOf(input.date), (perYear.get(yearOf(input.date)) ?? 0) + 1);
+  });
+  // One counter update per year.
+  const numbers = new Map<number, string[]>();
+  for (const [year, count] of [...perYear].sort((a, b) => a[0] - b[0])) numbers.set(year, await db.reserveNumbers(entityId, "JE", year, count));
+  const used = new Map<number, number>();
+  let posted = 0;
+  for (let i = 0; i < valid.length; i += CHUNK) {
+    const slice = valid.slice(i, i + CHUNK);
+    const now = new Date().toISOString();
+    const entries: JournalEntry[] = slice.map((index) => {
+      const input = inputs[index];
+      const year = yearOf(input.date);
+      const n = used.get(year) ?? 0;
+      used.set(year, n + 1);
+      return {
+        id: db.newId(), entityId, number: numbers.get(year)![n], date: input.date, period: periodOf(input.date), memo: input.memo, source: input.source, sourceId: input.sourceId,
+        lines: linesOf(input), status: input.draft ? "draft" : "posted", postedAt: input.draft ? undefined : now, createdByUserId: input.createdByUserId ?? opts.createdByUserId, createdAt: now,
+      };
+    });
+    try {
+      await db.insertMany("journal_entries", entries);
+      posted += entries.length;
+    } catch (e) {
+      const message = e instanceof Error ? e.message : String(e);
+      for (const index of slice) errors.push({ index, message });
+    }
+  }
+  errors.sort((a, b) => a.index - b.index);
+  return { posted, errors };
+}

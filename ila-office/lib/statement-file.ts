@@ -8,13 +8,14 @@ import { detectPreset, looksLikeStatement, presetById, type Grid, type PresetId 
  */
 export interface StatementSheet { name: string; grid: Grid }
 
+/** Rows kept per sheet for a bank statement; callers reading longer reports (a QuickBooks journal) pass their own limit. */
 const MAX_ROWS = 20_000;
 
-export function sheetsFromFile(fileName: string, bytes: Buffer): StatementSheet[] {
+export function sheetsFromFile(fileName: string, bytes: Buffer, maxRows = MAX_ROWS): StatementSheet[] {
   const ext = fileName.toLowerCase().split(".").pop() ?? "";
   if (ext === "csv" || ext === "txt" || ext === "tsv") {
     const text = decodeText(bytes);
-    return [{ name: "csv", grid: parseCSV(text).slice(0, MAX_ROWS) }];
+    return [{ name: "csv", grid: parseCSV(text).slice(0, maxRows) }];
   }
   // Some banks label HTML tables as .xls; SheetJS handles BIFF, OOXML and HTML alike.
   const wb = XLSX.read(bytes, { type: "buffer", raw: false, cellDates: false });
@@ -22,7 +23,7 @@ export function sheetsFromFile(fileName: string, bytes: Buffer): StatementSheet[
     const ws = wb.Sheets[name];
     const grid = (XLSX.utils.sheet_to_json(ws, { header: 1, raw: false, defval: "", blankrows: false }) as unknown[][])
       .map((row) => row.map((c) => (c === null || c === undefined ? "" : String(c))))
-      .slice(0, MAX_ROWS);
+      .slice(0, maxRows);
     return { name, grid };
   });
 }
