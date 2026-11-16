@@ -11,7 +11,7 @@ import { useEffect, useId, useRef, useState } from "react";
  *   as strings. `raw` is the unformatted digits ("1000000.5"), ready for Number().
  *
  * Grouping always uses commas (en-US), the decimal mark is a dot. Every currency, IDR included, accepts up to two
- * decimals as typed (the ledger rounds IDR to whole rupiah when posting). Pasted or typed separators are read the
+ * decimals as typed (the ledger keeps the cents). Pasted or typed separators are read the
  * way Indonesian and English users write them: "8.500.000", "8,500,000", "8.500" and "1,500" are thousands groups
  * (every group after the first separator has exactly three digits and the first has at most three); "8.50",
  * "1500,25" and "1,000,000.50" carry decimals. A leading minus is accepted when `allowNegative` is set.
@@ -19,7 +19,7 @@ import { useEffect, useId, useRef, useState } from "react";
 
 const MAX_DECIMALS = 2;
 
-/** Two decimals for every currency: IDR amounts may be typed with cents too (posting rounds them to whole rupiah). */
+/** Two decimals for every currency: IDR amounts may be typed with cents too (the ledger keeps them). */
 function decimalsFor(_currency: string | undefined): number {
   return MAX_DECIMALS;
 }

@@ -1,6 +1,7 @@
 "use server";
 import { z } from "zod";
 import { requirePermission } from "@/lib/auth";
+import { db } from "@/lib/db";
 import { createBill, updateBill, postBill, recordDisbursement, voidBill, voidPayment, type BillInput } from "@/lib/books";
 import { num, str, rateOf } from "@/lib/util";
 import { act, base } from "../shared";
@@ -47,7 +48,10 @@ export async function postBillAction(entityId: string, billId: string) {
   await act(entityId, async () => {
     const user = await requirePermission("books:write");
     const bill = await postBill(entityId, billId, user.id);
-    return `${to}?ok=${encodeURIComponent(`${bill.number} posted (Dr expense / Cr AP${bill.withholdingTotal ? " / Cr withholding payable" : ""})`)}`;
+    // Lines on a fixed-asset account were registered by postBill: say so, the accountant confirms them under Assets.
+    const registered = (await db.list("fixed_assets", { where: { entityId, billId } })).filter((a) => a.needsReview).length;
+    const note = registered ? `; ${registered} asset${registered === 1 ? "" : "s"} registered automatically (review under Assets)` : "";
+    return `${to}?ok=${encodeURIComponent(`${bill.number} posted (Dr expense / Cr AP${bill.withholdingTotal ? " / Cr withholding payable" : ""})${note}`)}`;
   }, to);
 }
 

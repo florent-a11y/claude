@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { fmtNumber } from "@/lib/money";
+import { columnDecimals, fmtNumber, roundMoney } from "@/lib/money";
 import { Cols, TableCard } from "@/components/ui";
 import { AccountPicker } from "@/components/AccountPicker";
 import { MoneyField } from "@/components/MoneyInput";
@@ -20,7 +20,7 @@ function num(s: string): number {
 
 let seq = 0;
 const blank = (): Line => ({ key: ++seq, accountId: "", description: "", debit: "", credit: "", fxAmount: "" });
-const fromInitial = (l: JournalInitial["lines"][number]): Line => ({ key: ++seq, accountId: l.accountId, description: l.description ?? "", debit: l.debit > 0 ? String(Math.round(l.debit)) : "", credit: l.credit > 0 ? String(Math.round(l.credit)) : "", fxAmount: l.fxAmount ? String(l.fxAmount) : "" });
+const fromInitial = (l: JournalInitial["lines"][number]): Line => ({ key: ++seq, accountId: l.accountId, description: l.description ?? "", debit: l.debit > 0 ? String(roundMoney(l.debit)) : "", credit: l.credit > 0 ? String(roundMoney(l.credit)) : "", fxAmount: l.fxAmount ? String(l.fxAmount) : "" });
 
 /**
  * Manual journal entry editor: dynamic lines, one side per line, running totals, submit only when balanced.
@@ -40,7 +40,9 @@ export function JournalForm({ accounts, action, defaultDate, initial, submitLabe
   const totals = useMemo(() => {
     const d = lines.reduce((s, l) => s + num(l.debit), 0);
     const c = lines.reduce((s, l) => s + num(l.credit), 0);
-    return { d, c, diff: Math.round(d - c) };
+    // Debits and credits are compared to the cent, as the ledger keeps them.
+    const diff = roundMoney(d - c);
+    return { d: roundMoney(d), c: roundMoney(c), diff, dec: columnDecimals("IDR", [d, c, diff]) };
   }, [lines]);
   const filled = lines.filter((l) => l.accountId && (num(l.debit) > 0 || num(l.credit) > 0));
   const ok = filled.length >= 2 && totals.diff === 0 && totals.d > 0;
@@ -77,8 +79,8 @@ export function JournalForm({ accounts, action, defaultDate, initial, submitLabe
             <tr>
               <td><button type="button" className="btn-secondary !py-1 text-xs" onClick={() => setLines((ls) => [...ls, blank()])}>+ Add line</button></td>
               <td className="text-right !text-xs !font-normal text-ink-500">Totals</td>
-              <td className="num">{fmtNumber(totals.d)}</td>
-              <td className="num">{fmtNumber(totals.c)}</td>
+              <td className="num">{fmtNumber(totals.d, totals.dec)}</td>
+              <td className="num">{fmtNumber(totals.c, totals.dec)}</td>
               {hasFx && <td></td>}
               <td></td>
             </tr>
@@ -88,7 +90,7 @@ export function JournalForm({ accounts, action, defaultDate, initial, submitLabe
       <div className="flex flex-wrap items-center gap-3">
         <button type="submit" className="btn-primary" disabled={!ok}>{submitLabel}</button>
         {cancelHref && <Link href={cancelHref} className="btn-secondary">Cancel</Link>}
-        {totals.diff !== 0 && <span className="text-sm text-red-600">Out of balance by {fmtNumber(Math.abs(totals.diff))} ({totals.diff > 0 ? "credits short" : "debits short"})</span>}
+        {totals.diff !== 0 && <span className="text-sm text-red-600">Out of balance by {fmtNumber(Math.abs(totals.diff), totals.dec)} ({totals.diff > 0 ? "credits short" : "debits short"})</span>}
         {totals.diff === 0 && totals.d > 0 && filled.length >= 2 && <span className="text-sm text-green-700">Balanced</span>}
         {filled.length < 2 && <span className="text-sm text-ink-500">Enter at least two lines with an account and an amount.</span>}
       </div>

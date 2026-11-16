@@ -114,7 +114,8 @@ export async function createMoneyMove(kind: MoneyMoveKind, entityId: string, fd:
   return act(entityId, async () => {
     const user = await requirePermission("books:write");
     const r = await recordMoneyMove(entityId, readMoneyMoveForm(kind, fd), user.id);
-    return `${to}/${r.payment.id}?ok=${encodeURIComponent(`${meta.label} recorded: ${r.journal.number} posted${tx ? " and the statement line matched" : ""}`)}`;
+    const assets = r.assets.length ? `; ${r.assets.length} asset${r.assets.length === 1 ? "" : "s"} registered automatically (review under Assets)` : "";
+    return `${to}/${r.payment.id}?ok=${encodeURIComponent(`${meta.label} recorded: ${r.journal.number} posted${tx ? " and the statement line matched" : ""}${assets}`)}`;
   }, `${to}/new${tx ? `?tx=${encodeURIComponent(tx)}` : ""}`);
 }
 

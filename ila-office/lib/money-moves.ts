@@ -22,7 +22,8 @@ import { assertPeriodOpen, postJournal, voidJournal } from "./posting";
 import { accountById, jl } from "./ledger";
 import { roundMoney, toIDR } from "./money";
 import { BooksError, entityAccounts, linkBankTransaction } from "./books";
-import type { Account, BankAccount, BankTransaction, JournalEntry, JournalLine, Payment } from "./types";
+import { autoRegisterAssets, releaseAssetsOfJournal } from "./asset-auto";
+import type { Account, BankAccount, BankTransaction, FixedAsset, JournalEntry, JournalLine, Payment } from "./types";
 
 export type MoneyMoveKind = "expense" | "deposit";
 export const MONEY_MOVE_LABEL: Record<MoneyMoveKind, string> = { expense: "Expense", deposit: "Deposit" };
@@ -120,8 +121,11 @@ export function validateMoneyMove(input: Pick<MoneyMoveInput, "kind" | "lines" |
   return null;
 }
 
-/** Posts the journal, stores the payment and, when a statement line was given, matches it to the new journal. */
-export async function recordMoneyMove(entityId: string, input: MoneyMoveInput, userId?: string): Promise<{ payment: Payment; journal: JournalEntry }> {
+/**
+ * Posts the journal, stores the payment and, when a statement line was given, matches it to the new journal. An
+ * expense line on a fixed-asset account registers the asset for review (lib/asset-auto.ts); they come back as `assets`.
+ */
+export async function recordMoneyMove(entityId: string, input: MoneyMoveInput, userId?: string): Promise<{ payment: Payment; journal: JournalEntry; assets: FixedAsset[] }> {
   const [bank, accounts] = await Promise.all([db.get("bank_accounts", input.bankAccountId), entityAccounts(entityId)]);
   if (!bank || bank.entityId !== entityId) throw new BooksError("Bank account not found.");
   if (!bank.active) throw new BooksError(`${bank.name} is inactive; reactivate it under Bank first.`);
@@ -158,7 +162,9 @@ export async function recordMoneyMove(entityId: string, input: MoneyMoveInput, u
   };
   await db.insert("payments", payment);
   if (tx) await linkBankTransaction(entityId, tx.id, journal.id);
-  return { payment, journal };
+  // A problem in the register never undoes the posting: `autoRegisterAssets` does not throw.
+  const assets = input.kind === "expense" ? (await autoRegisterAssets(entityId, journal, { paymentId }, accounts)).created : [];
+  return { payment, journal, assets };
 }
 
 /**
@@ -179,6 +185,8 @@ export async function voidMoneyMove(entityId: string, paymentId: string): Promis
   if (p.journalId) {
     const linked = await db.list("bank_transactions", { where: { entityId, status: "matched", matchedJournalId: p.journalId } });
     for (const tx of linked) await db.update("bank_transactions", tx.id, { status: "unmatched", matchedJournalId: undefined, matchedDocument: undefined });
+    // Assets registered from this expense leave the register, or are flagged when depreciation was already posted.
+    if (p.kind === "disbursement") await releaseAssetsOfJournal(entityId, p.journalId, "expense");
   }
   return updated;
 }

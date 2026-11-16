@@ -2,13 +2,13 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { requirePermission } from "@/lib/auth";
+import { requirePermission, type SessionUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { nowISO, todayISO } from "@/lib/dates";
-import { num, str } from "@/lib/util";
+import { bool, num, str } from "@/lib/util";
 import { ENTITY_TYPES, type Company } from "@/lib/types";
 import { logActivity, parseTags } from "../_lib/server";
-import { companyNeedsBooks, createEntityFromInput, entityInputFromCompany } from "@/app/settings/entities/create-entity";
+import { companyNeedsBooks, ensureBooksForCompany, syncLegalDetails } from "@/app/settings/entities/create-entity";
 
 const schema = z.object({
   name: z.string().min(1).max(160),
@@ -44,6 +44,23 @@ async function linkPrimaryContact(companyId: string, contactId?: string) {
   if (c && !c.companyIds.includes(companyId)) await db.update("contacts", contactId, { companyIds: [...c.companyIds, companyId], updatedAt: nowISO() });
 }
 
+/**
+ * "ILA keeps the books" ticked on the company form: the company gets its set of books (entity + standard chart of
+ * accounts, default tax profile) or is linked to the books that already exist for it, whatever its status or type
+ * (a lead, even a prospect: the box is the user's decision). Allowed to everyone who may write the directory; an empty
+ * set of books is harmless. Never throws: the company is saved either way, the result is the flash for its page.
+ */
+async function keepBooks(company: Company, user: SessionUser): Promise<string> {
+  try {
+    const { entity, created } = await ensureBooksForCompany(company);
+    await logActivity({ kind: "system", subject: created ? "Books created" : "Books linked", body: created ? `Entity ${entity.name} with the standard chart of accounts and the default tax profile` : `Existing entity ${entity.name}`, user, companyId: company.id, entityId: entity.id });
+    return `?ok=${encodeURIComponent(created ? `Books created: ${company.name} is now available under Books, Tax and Payroll.` : `Linked to the existing books ${entity.name}: no second set was created.`)}`;
+  } catch (e) {
+    return `?error=${encodeURIComponent(`The company is saved, but its books were not created: ${e instanceof Error ? e.message : String(e)}`)}`;
+  }
+}
+
+/** One creation, both records: with "ILA keeps the books" ticked the new company gets its books in the same step. */
 export async function createCompany(fd: FormData) {
   const user = await requirePermission("crm:write");
   const v = read(fd);
@@ -51,20 +68,30 @@ export async function createCompany(fd: FormData) {
   await db.insert("companies", company);
   await linkPrimaryContact(company.id, v.primaryContactId);
   await logActivity({ kind: "system", subject: "Company created", user, companyId: company.id, contactId: v.primaryContactId });
+  const flash = bool(fd, "keepBooks") ? await keepBooks(company, user) : "";
   revalidatePath("/clients/companies");
-  redirect(`/clients/companies/${company.id}`);
+  revalidatePath("/settings/entities");
+  redirect(`/clients/companies/${company.id}${flash}`);
 }
 
+/**
+ * Saves the company; while it has no books the "ILA keeps the books" box creates them, and once it has books the legal
+ * details changed here (name, NPWP, NIB, deed, address, region, Drive folder) are copied to its entity.
+ */
 export async function updateCompany(id: string, fd: FormData) {
-  await requirePermission("crm:write");
+  const user = await requirePermission("crm:write");
   const current = await db.get("companies", id);
   if (!current) throw new Error("Company not found");
   const v = read(fd);
-  await db.update("companies", id, { ...v, ownerUserId: v.ownerUserId || undefined, updatedAt: nowISO() });
+  const company = await db.update("companies", id, { ...v, ownerUserId: v.ownerUserId || undefined, updatedAt: nowISO() });
   await linkPrimaryContact(id, v.primaryContactId);
+  let flash = "";
+  if (company?.entityId) await syncLegalDetails({ company, before: current });
+  else if (company && bool(fd, "keepBooks")) flash = await keepBooks(company, user);
   revalidatePath("/clients/companies");
+  revalidatePath("/settings/entities");
   revalidatePath(`/clients/companies/${id}`);
-  redirect(`/clients/companies/${id}`);
+  redirect(`/clients/companies/${id}${flash}`);
 }
 
 const subSchema = z.object({
@@ -110,20 +137,19 @@ export async function removeSubscription(companyId: string, index: number) {
 
 /**
  * Admin: one set of books per active client company that has a legal form and no entity yet (prospects skipped).
- * A company whose entity already exists but was never linked back is linked instead of duplicated.
+ * A company whose books already exist (an entity pointing at it, or the one unlinked entity with the same name or
+ * NPWP) is linked to them instead of getting a duplicate; see ensureBooksForCompany.
  */
 export async function createBooksForCompanies() {
   const user = await requirePermission("admin");
   const [companies, entities] = await Promise.all([db.list("companies", { orderBy: "name" }), db.list("entities")]);
-  const byCompany = new Map(entities.flatMap((e) => (e.crmCompanyId ? [[e.crmCompanyId, e] as const] : [])));
   let created = 0, linked = 0;
   const failed: string[] = [];
   for (const c of companies.filter(companyNeedsBooks)) {
     try {
-      const existing = byCompany.get(c.id);
-      if (existing) { await db.update("companies", c.id, { entityId: existing.id, updatedAt: nowISO() }); linked++; continue; }
-      const entity = await createEntityFromInput(entityInputFromCompany(c));
-      await logActivity({ kind: "system", subject: "Books created", body: `Entity ${entity.name} with the standard chart of accounts`, user, companyId: c.id, entityId: entity.id });
+      const made = await ensureBooksForCompany(c, entities);
+      if (!made.created) { linked++; continue; }
+      await logActivity({ kind: "system", subject: "Books created", body: `Entity ${made.entity.name} with the standard chart of accounts`, user, companyId: c.id, entityId: made.entity.id });
       created++;
     } catch (e) {
       failed.push(`${c.name}: ${e instanceof Error ? e.message : String(e)}`);
@@ -131,6 +157,7 @@ export async function createBooksForCompanies() {
   }
   revalidatePath("/clients/companies");
   revalidatePath("/settings/entities");
+  revalidatePath("/books");
   const parts = [`${created} set${created === 1 ? "" : "s"} of books created`, ...(linked ? [`${linked} linked to existing books`] : []), ...(failed.length ? [`${failed.length} failed (${failed.slice(0, 3).join("; ")})`] : [])];
   redirect(`/clients/companies?${failed.length ? "error" : "ok"}=${encodeURIComponent(parts.join(", ") + ". Review each entity's tax profile in Settings → Entities, then import its QuickBooks data from Settings → Import.")}`);
 }

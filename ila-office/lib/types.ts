@@ -3,9 +3,11 @@
  * types, and every record is stored as a JSON document keyed by `id` (see lib/db.ts).
  *
  * Conventions
- * - Money: integer minor units are NOT used. IDR has no cents, so amounts are plain numbers of rupiah
- *   (integers). Foreign-currency documents keep their own `currency` + `fxRate` (units of IDR per 1 unit
- *   of the foreign currency) and the ledger always posts the IDR equivalent.
+ * - Money: integer minor units are NOT used. Amounts are plain numbers kept to two decimals in every
+ *   currency, rupiah included (bank statements carry IDR cents and the reconciliation needs the exact
+ *   amount); only tax amounts and the printed financial statements are whole rupiah (see lib/money.ts).
+ *   Foreign-currency documents keep their own `currency` + `fxRate` (units of IDR per 1 unit of the
+ *   foreign currency) and the ledger always posts the IDR equivalent.
  * - Dates: ISO `YYYY-MM-DD` strings. Timestamps: ISO 8601 strings. Periods: `YYYY-MM`, `YYYY-Qn`, `YYYY`.
  * - `entityId`: the set of books a record belongs to. ILA itself is an entity (`isOwn: true`); each
  *   client company whose accounting ILA manages is another entity.
@@ -98,6 +100,8 @@ export interface Entity {
   driveFolderUrl?: string;
   qboRealmId?: string;
   status: "active" | "dormant" | "closed";
+  /** Fixed assets: post last month's depreciation automatically with the daily run (lib/asset-auto.ts). On when undefined. */
+  autoDepreciation?: boolean;
   createdAt: string;
   updatedAt?: string;
   attachments?: Attachment[];
@@ -522,6 +526,20 @@ export interface FixedAsset {
   disposalProceeds?: number;
   status: "active" | "fully_depreciated" | "disposed";
   billId?: string;
+  /**
+   * Automatic registration (lib/asset-auto.ts): the posted journal and the line in it (a debit on a fixed-asset
+   * account) this asset was created from, plus the expense (`Payment`) behind it when there is one. `billId` is
+   * set the same way for a bill.
+   */
+  sourceJournalId?: string;
+  sourceLineIndex?: number;
+  paymentId?: string;
+  /** Registered automatically and not yet confirmed by an accountant (fiscal group, useful life, accounts): not depreciated and not disposable until it is. */
+  needsReview?: boolean;
+  disposalJournalId?: string;
+  /** Result of the sale or disposal in IDR: proceeds − net book value after catch-up depreciation. Positive = gain, negative = loss. */
+  disposalGainLoss?: number;
+  notes?: string;
   createdAt: string;
   attachments?: Attachment[];
 }
@@ -736,16 +754,43 @@ export interface TaxObligation {
 
 export interface ImportBatch {
   id: string;
-  kind: "hubspot_contacts" | "qbo_customers" | "qbo_invoices" | "qbo_accounts" | "qbo_trial_balance" | "qbo_journal" | "qbo_bills" | "bank_csv" | "other";
+  kind: "hubspot_contacts" | "qbo_customers" | "qbo_invoices" | "qbo_accounts" | "qbo_trial_balance" | "qbo_journal" | "qbo_bills" | "qbo_vendors" | "bank_csv" | "other";
   entityId?: string;
   fileName: string;
   rows: number;
   inserted: number;
   skipped: number;
+  /** Bank statements: lines already stored whose amount was corrected to the statement's exact figure (rupiah cents restored on a re-import). */
+  updated?: number;
   errors: string[];
+  /** What `inserted` is made of, per record type (`books`: sets of books created for imported client companies). */
+  counts?: ImportCounts;
   byUserId?: string;
   createdAt: string;
   attachments?: Attachment[];
+}
+
+export type ImportCounts = Partial<Record<"companies" | "contacts" | "vendors" | "accounts" | "accountsMapped" | "journals" | "invoices" | "bills" | "books", number>>;
+
+/**
+ * One company's migration from QuickBooks (Settings → Import → Migrate a company), stored in `settings` under
+ * `qbo_migration:<entityId>`: the files imported so far, what they wrote, and the last comparison of the app's
+ * trial balance with the QuickBooks one. The QuickBooks trial balance is kept so the check can be run again later.
+ */
+export interface QboMigration {
+  entityId: string;
+  status: "in_progress" | "checked_ok" | "differences";
+  files: Array<{ name: string; kind: string; rows: number; from?: string; to?: string; at: string; byUserId?: string; byName?: string }>;
+  counts: { accountsCreated: number; accountsMapped: number; journalEntries: number; openingEntries: number; invoices: number; bills: number; vendors: number; customers: number };
+  /** QuickBooks trial balance the books are checked against (debit / credit per QuickBooks account). */
+  trialBalance?: { fileName: string; asOf: string; from?: string; rows: Array<{ account: string; debit: number; credit: number }> };
+  lastCheck?: {
+    at: string; byUserId?: string; asOf: string;
+    /** First day income and expense accounts are summed from (QuickBooks shows the financial year to date); empty = since the first entry. */
+    plFrom?: string;
+    accounts: number; differences: number; qboDebit: number; qboCredit: number; appDebit: number; appCredit: number;
+  };
+  updatedAt: string;
 }
 
 export interface Counter {
@@ -801,6 +846,38 @@ export interface RecurringTemplate {
   /** The document to repeat, in the shape of the matching input type (lib/books.ts InvoiceInput / BillInput, lib/money-moves.ts MoneyMoveInput, or { memo, source, lines } for journals), without dates. */ payload: unknown;
   /** Document the template was made from. */ sourceDocId?: string;
   runs: RecurringRun[]; lastRunAt?: string; createdByUserId?: string; createdAt: string; updatedAt?: string;
+}
+
+// ---------- Audit trail ----------
+
+export const AUDIT_ACTIONS = ["create", "update", "delete", "post", "void", "approve", "pay", "lock", "unlock", "import"] as const;
+export type AuditAction = (typeof AUDIT_ACTIONS)[number];
+
+/**
+ * One line of the audit trail: who did what to which record, and when. Written by lib/db.ts after every successful
+ * write (rules in lib/audit.ts), never edited afterwards. `counters`, `settings`, `fx_rates` and the log itself are
+ * not recorded, and secret fields (password hashes…) never appear in `changes` or `summary`.
+ */
+export interface AuditEntry {
+  id: string;
+  at: string; // ISO timestamp
+  userId?: string;
+  /** The signed-in user's name, a job name ("Recurring job"), or "System" outside a request (seed, scripts, cron). */
+  userName: string;
+  userEmail?: string;
+  entityId?: string;
+  table: Table;
+  /** Id of the record; empty on a bulk entry (`count` rows written in one call). */
+  docId: string;
+  action: AuditAction;
+  /** Human reference: journal / invoice / bill number, name, period… or "37 journal entries" on a bulk entry. */
+  label: string;
+  /** One line, e.g. "status draft → posted · total 1,500,000 → 1,750,000". */
+  summary?: string;
+  /** Scalar fields with their values (stringified, truncated to ~120 characters); arrays and nested objects by name only. */
+  changes?: Array<{ field: string; from?: string; to?: string }>;
+  /** Bulk writes: number of rows. */
+  count?: number;
 }
 
 // ---------- AI visibility ----------
@@ -938,6 +1015,7 @@ export type TableMap = {
   settings: Setting;
   fx_rates: FxRate;
   recurring_templates: RecurringTemplate;
+  audit_log: AuditEntry;
   visibility_prompts: VisibilityPrompt;
   visibility_runs: VisibilityRun;
   visibility_answers: VisibilityAnswer;
@@ -948,6 +1026,6 @@ export type Table = keyof TableMap;
 export const TABLES = [
   "users", "entities", "contacts", "companies", "services", "vendors", "activities",
   "accounts", "journal_entries", "periods", "bank_accounts", "bank_transactions", "invoices", "bills", "payments", "fixed_assets",
-  "employees", "payroll_runs", "withholding_slips", "vat_transactions", "tax_obligations", "import_batches", "counters", "settings", "fx_rates", "recurring_templates",
+  "employees", "payroll_runs", "withholding_slips", "vat_transactions", "tax_obligations", "import_batches", "counters", "settings", "fx_rates", "recurring_templates", "audit_log",
   "visibility_prompts", "visibility_runs", "visibility_answers", "visibility_audits", "visibility_articles",
 ] as const satisfies readonly Table[];

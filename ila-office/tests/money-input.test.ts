@@ -3,12 +3,12 @@ import assert from "node:assert/strict";
 import { cleanRaw, formatRaw, rawToSubmit } from "../components/MoneyInput";
 import { accountMatches, type AccountOption } from "../components/AccountPicker";
 
-test("cleanRaw: typing digits keeps only digits for IDR (no decimals)", () => {
+test("cleanRaw: typing digits keeps only digits in a zero-decimal field", () => {
   assert.equal(cleanRaw("1", 0), "1");
   assert.equal(cleanRaw("1500000", 0), "1500000");
   assert.equal(cleanRaw("1,500,000", 0), "1500000"); // the box re-feeds its own formatted value
   assert.equal(cleanRaw("15abc00", 0), "1500");
-  assert.equal(cleanRaw("1500.75", 0), "1500."); // IDR takes no decimals: the dot stays, the digits after it are refused
+  assert.equal(cleanRaw("1500.75", 0), "1500."); // a zero-decimal field: the dot stays, the digits after it are refused
   assert.equal(cleanRaw("", 0), "");
   assert.equal(cleanRaw("abc", 0), "");
 });

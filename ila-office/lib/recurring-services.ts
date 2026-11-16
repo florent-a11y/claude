@@ -150,6 +150,8 @@ async function createOccurrence(t: RecurringTemplate, date: string, run: Recurri
       });
       const j = await postJournal(entityId, { date, memo: p.memo, source: p.source ?? "manual", sourceId: t.id, lines, createdByUserId: userId });
       run.docId = j.id; run.journalId = j.id; run.number = j.number;
+      // A fixed-asset debit registers the asset for review, as for a journal typed by hand; never throws.
+      await (await import("./asset-auto")).autoRegisterAssets(entityId, j, {}, accounts);
       return;
     }
     default: {

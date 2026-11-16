@@ -240,3 +240,235 @@ test("lineCurrencies follows the section headers in reading order across pages; 
   const single = [{ date: "2026-10-01", description: "a", amount: 1, currency: "USD" }, { date: "2026-10-02", description: "b", amount: 1, currency: "USD" }];
   assert.deepEqual(keepSectionCurrencies(single).map((r) => r.currency), [undefined, undefined], "one stray code is not a section");
 });
+
+// ---------- OCBC NISP "Rekening Koran Giro" and what the reader reports about its own coverage ----------
+// Synthetic pages laid out like the e-statement; every name, account number, reference and amount is invented.
+
+import { explode, findWord, toAmount } from "../lib/bank-pdf";
+
+/** A figure right-aligned on `r`, the way amount columns print them. */
+const fig = (r: number, s: string): PdfToken => tok(r - s.length * 4.4, s, s.length * 4.4);
+const ocbcTop = (pageNo: string, period: string): Array<[number, PdfToken[]]> => [
+  [40, [tok(200, "REKENING KORAN GIRO / CURRENT ACCOUNT STATEMENT", 230)]],
+  [60, [tok(300, "NOMOR REKENING / ACCOUNT NUMBER", 150), tok(460, ": 123400005678 - Giro Contoh", 120)]],
+  [72, [tok(300, "PERIODE / PERIOD", 80), tok(460, `: ${period}`, 130)]],
+  // The page header names the account's base currency on every page, whatever section the page continues.
+  [84, [tok(300, "MATA UANG / CURRENCY", 100), tok(460, ": IDR", 20)]],
+  [96, [tok(300, "HALAMAN / PAGE", 70), tok(460, `: ${pageNo}`, 30)]],
+];
+const ocbcHeader: Array<[number, PdfToken[]]> = [[130, [tok(28, "TGL TRANS / TRANS DATE", 52), tok(84, "TGL VALUTA / VALUE DATE", 54), tok(200, "URAIAN / DESCRIPTION", 80), tok(345, "DEBET / DEBIT", 50), tok(422, "KREDIT / CREDIT", 56), tok(502, "SALDO / BALANCE", 56)]]];
+/** The same header with the date labels wrapped over two lines and the others centred between them. */
+const ocbcStacked: Array<[number, PdfToken[]]> = [
+  [126, [tok(28, "TGL TRANS /", 50), tok(84, "TGL VALUTA /", 54)]],
+  [131, [tok(200, "URAIAN / DESCRIPTION", 80), tok(345, "DEBET / DEBIT", 50), tok(422, "KREDIT / CREDIT", 56), tok(502, "SALDO / BALANCE", 56)]],
+  [136, [tok(28, "TRANS DATE", 46), tok(84, "VALUE DATE", 46)]],
+];
+const ocbcFooter: Array<[number, PdfToken[]]> = [
+  [700, [tok(28, "BILAMANA DALAM 14 HARI KALENDER TIDAK ADA SANGGAHAN, NASABAH DIANGGAP MENYETUJUI REKENING KORAN INI.", 540)]],
+  [760, [tok(28, "PT. Bank OCBC NISP Tbk", 100)]],
+];
+const ocbcSection = (y: number, ccy: string, opening: string): [number, PdfToken[]] => [y, [tok(28, `Currency Code : ${ccy}`, 80), tok(142, "Beginning Balance", 70), fig(566, opening)]];
+const ocbcRow = (y: number, date: string, desc: string, debit: string, credit: string, balance: string): [number, PdfToken[]] =>
+  [y, [tok(28, date, 44), tok(84, date, 44), tok(142, desc, desc.length * 4.5), fig(406, debit), fig(486, credit), fig(566, balance)]];
+const ocbcClosing = (y: number, rows: Array<[string, string, string, string]>): Array<[number, PdfToken[]]> => [
+  [y, [tok(28, "Mata Uang / Currency", 80), tok(150, "Kurs Valas IDR / IDR Exchange Rate", 140), tok(330, "Saldo / Balance", 60), tok(440, "Saldo Dalam IDR / Balance in IDR", 120)]],
+  ...rows.map(([ccy, rate, bal, idr], k): [number, PdfToken[]] => [y + 14 + k * 12, [tok(28, ccy, 15), fig(250, rate), fig(400, bal), fig(566, idr)]]),
+];
+
+const OCT = "01 Oktober 2026 - 31 Oktober 2026", NOV = "01 November 2026 - 30 November 2026";
+const OCBC_PAGES: PdfPage[] = [
+  page(1, [...ocbcTop("1 of 2", OCT), ...ocbcHeader,
+    ocbcSection(150, "IDR", "2,500,000,000.00"),
+    ocbcRow(166, "02/10/2026", "SETORAN KLIRING/CLEARING DEPOSIT", "0.00", "12,500,000.00", "2,512,500,000.00"),
+    [176, [tok(142, "PT CONTOH KLIEN/INV 0042", 110)]],
+    // The transaction type wraps: the figures sit between its two text lines, then comes the remark.
+    [192, [tok(28, "05/10/2026", 44), tok(84, "05/10/2026", 44), tok(142, "Pembayaran Tagihan Listrik Perusahaan/Company Power Bill", 185)]],
+    [197, [fig(406, "1,250,000.00"), fig(486, "0.00"), fig(566, "2,511,250,000.00")]],
+    [202, [tok(142, "Payment", 32)]],
+    [212, [tok(142, "Berita : 0071 880012345678901 PLN DEMO", 160)]],
+    // A debit too wide for its cell wraps onto the next line; the remark of this row continues on page 2.
+    [228, [tok(28, "09/10/2026", 44), tok(84, "09/10/2026", 44), tok(142, "PELUNASAN PINJAMAN/LOAN REPAYMENT", 140), tok(332, "1,200,300,400.5", 74), fig(486, "0.00"), fig(566, "1,310,949,599.50")]],
+    [238, [tok(142, "PT CONTOH VENDOR/TERMIN 2", 110), tok(400, "0", 6)]],
+    ...ocbcFooter,
+  ]),
+  page(2, [...ocbcTop("2 of 2", OCT), ...ocbcHeader,
+    [150, [tok(142, "Berita : PROYEK DEMO TAHAP DUA", 120)]],
+    ocbcRow(166, "25/10/2026", "BUNGA GIRO/CURRENT ACCOUNT INTEREST", "0.00", "150,400.00", "1,311,099,999.50"),
+    ocbcRow(182, "25/10/2026", "PAJAK BUNGA/INTEREST TAX", "30,080.00", "0.00", "1,311,069,919.50"),
+    ...ocbcClosing(210, [["IDR", "1.000", "1,311,069,919.50", "1,311,069,919.50"]]),
+    ...ocbcFooter,
+  ]),
+];
+
+// Two currencies in one file: the USD section opens in the middle of page 1 and continues on page 2, where one line is missing.
+const OCBC_MULTI: PdfPage[] = [
+  page(1, [...ocbcTop("1 of 2", NOV), ...ocbcStacked,
+    ocbcSection(150, "IDR", "10,000,000.00"),
+    ocbcRow(166, "03/11/2026", "SETORAN TUNAI/CASH DEPOSIT", "0.00", "2,000,000.00", "12,000,000.00"),
+    ocbcRow(182, "04/11/2026", "BIAYA ADMIN/ADMIN FEE", "15,000.00", "0.00", "11,985,000.00"),
+    ocbcSection(198, "USD", "1,000.00"),
+    ocbcRow(214, "05/11/2026", "KIRIMAN MASUK/INWARD REMITTANCE", "0.00", "500.00", "1,500.00"),
+    [224, [tok(142, "PT CONTOH EKSPOR/INV 77", 100)]],
+    ...ocbcFooter,
+  ]),
+  page(2, [...ocbcTop("2 of 2", NOV), ...ocbcStacked,
+    ocbcRow(150, "10/11/2026", "KIRIMAN KELUAR/OUTWARD REMITTANCE", "200.00", "0.00", "1,300.00"),
+    ocbcRow(166, "20/11/2026", "SETORAN TUNAI/CASH DEPOSIT", "0.00", "50.00", "1,450.00"),
+    ...ocbcClosing(194, [["EUR", "17,500.000", "300.00", "5,250,000.00"], ["IDR", "1.000", "11,985,000.00", "11,985,000.00"], ["USD", "16,000.000", "1,450.00", "23,200,000.00"]]),
+    ...ocbcFooter,
+  ]),
+];
+
+test("helpers: amounts with their sign marks, runs holding several cells, labels inside a longer run", () => {
+  assert.deepEqual(toAmount("1.234.567,89"), { v: 1234567.89, sign: undefined });
+  assert.deepEqual(toAmount("250,000.00 DB"), { v: 250000, sign: -1 });
+  assert.deepEqual(toAmount("1,000.00CR"), { v: 1000, sign: 1 });
+  assert.deepEqual(toAmount("15.00-"), { v: 15, sign: -1 });
+  assert.deepEqual(toAmount("(35.00)"), { v: 35, sign: -1 });
+  assert.equal(toAmount("REF1"), null);
+  assert.equal(toAmount("12/09"), null);
+  const run = page(1, [[10, [tok(20, "09/10/2026 09/10/2026 Biaya transfer 1,500.00 0.00 98,500.00", 300)]]]).lines[0];
+  assert.deepEqual(explode(run).tokens.map((t) => t.s), ["09/10/2026", "09/10/2026", "Biaya transfer", "1,500.00", "0.00", "98,500.00"]);
+  const xs = explode(run).tokens.map((t) => t.x);
+  assert.ok(xs.every((x, i) => i === 0 || x > xs[i - 1]), "pieces keep their order on the line");
+  // Outside a preset, a figure is only cut from the words before it across a column gap (two spaces or more).
+  const glued = page(1, [[10, [tok(20, "Payment of invoice 1,500.00", 130), tok(400, "0.00 98,500.00", 70)]]]).lines[0];
+  assert.deepEqual(explode(glued, false).tokens.map((t) => t.s), ["Payment of invoice 1,500.00", "0.00", "98,500.00"]);
+  const header = page(1, [[10, [tok(100, "DEBET / DEBIT KREDIT / CREDIT", 144)]]]).lines[0];
+  assert.deepEqual(findWord(header, "Debet"), { x: 100, right: 130, center: 115 });
+  assert.equal(findWord(header, "Kredit")?.x, 166);
+});
+
+test("OCBC NISP: figures on the first or second text line, a wrapped amount, a remark continued on the next page, opening and closing per currency", () => {
+  assert.equal(detectPdfPreset(OCBC_PAGES), "pdf-ocbc");
+  const r = parseBankPdf(OCBC_PAGES);
+  assert.equal(r.preset, "pdf-ocbc");
+  assert.deepEqual(r.rows.map((x) => [x.date, x.amount, x.balance, x.currency]), [
+    ["2026-10-02", 12_500_000, 2_512_500_000, "IDR"], ["2026-10-05", -1_250_000, 2_511_250_000, "IDR"], ["2026-10-09", -1_200_300_400.5, 1_310_949_599.5, "IDR"],
+    ["2026-10-25", 150_400, 1_311_099_999.5, "IDR"], ["2026-10-25", -30_080, 1_311_069_919.5, "IDR"],
+  ]);
+  assert.deepEqual(r.rows.map((x) => x.description), [
+    "SETORAN KLIRING/CLEARING DEPOSIT PT CONTOH KLIEN/INV 0042",
+    "Pembayaran Tagihan Listrik Perusahaan/Company Power Bill Payment Berita : 0071 880012345678901 PLN DEMO",
+    "PELUNASAN PINJAMAN/LOAN REPAYMENT PT CONTOH VENDOR/TERMIN 2 Berita : PROYEK DEMO TAHAP DUA",
+    "BUNGA GIRO/CURRENT ACCOUNT INTEREST", "PAJAK BUNGA/INTEREST TAX",
+  ]);
+  assert.deepEqual(r.rows.map((x) => x.reference), [undefined, "880012345678901", undefined, undefined, undefined]);
+  assert.equal(r.opening, 2_500_000_000);
+  assert.equal(r.closing, 1_311_069_919.5);
+  assert.equal(r.accountNumber, "123400005678");
+  assert.deepEqual([r.periodFrom, r.periodTo], ["2026-10-01", "2026-10-31"]);
+  assert.deepEqual(r.errors, []);
+  assert.deepEqual(r.warnings, []);
+  assert.deepEqual(r.coverage.map((c) => [c.currency, c.rows, c.balanced, c.gaps, c.ok, c.text]), [["IDR", 5, true, 0, true, "IDR: 5 lines read, opening + movements = closing ✓"]]);
+});
+
+test("OCBC NISP, two currencies: rows follow the section lines (not the page header), each section has its own balance check, and a gap is located", () => {
+  const r = parseBankPdf(OCBC_MULTI);
+  assert.equal(r.preset, "pdf-ocbc");
+  assert.deepEqual(r.rows.map((x) => [x.date, x.amount, x.balance, x.currency]), [
+    ["2026-11-03", 2_000_000, 12_000_000, "IDR"], ["2026-11-04", -15_000, 11_985_000, "IDR"],
+    ["2026-11-05", 500, 1_500, "USD"], ["2026-11-10", -200, 1_300, "USD"], ["2026-11-20", 50, 1_450, "USD"],
+  ]);
+  assert.equal(r.rows[2].description, "KIRIMAN MASUK/INWARD REMITTANCE PT CONTOH EKSPOR/INV 77");
+  assert.deepEqual(r.errors, []);
+  assert.deepEqual(r.warnings, ["USD: between 2026-11-10 and 2026-11-20 the balance moves by 100 more than the lines read: a line may be missing or misread."]);
+  assert.deepEqual(r.coverage.map((c) => [c.currency, c.rows, c.opening, c.closing, c.ok, c.text]), [
+    ["IDR", 2, 10_000_000, 11_985_000, true, "IDR: 2 lines read, opening + movements = closing ✓"],
+    ["USD", 3, 1_000, 1_450, false, "USD: 3 lines read, 1 gap in the running balance (see warnings)"],
+    ["EUR", 0, undefined, 300, true, "EUR: no transactions (balance 300)"],
+  ]);
+  assert.deepEqual([r.opening, r.closing], [undefined, undefined], "no single opening or closing for a file with several sections");
+  assert.deepEqual([r.periodFrom, r.periodTo], ["2026-11-01", "2026-11-30"]);
+  // The generic reader on the same file: the page header's "MATA UANG / CURRENCY : IDR" repeats on every page and is not a section.
+  const g = parseBankPdf(OCBC_MULTI, { preset: "pdf-generic" });
+  assert.deepEqual(g.rows.map((x) => [x.date, x.amount, x.currency]), r.rows.map((x) => [x.date, x.amount, x.currency]));
+  assert.equal(g.warnings.length, 1);
+  assert.match(g.warnings[0], /^USD: between 2026-11-10 and 2026-11-20/);
+});
+
+test("the running-balance check never chains one currency section into the next", () => {
+  const rows = [
+    { date: "2026-10-01", description: "a", amount: 10, balance: 110, currency: "IDR" }, { date: "2026-10-02", description: "b", amount: -20, balance: 90, currency: "IDR" },
+    { date: "2026-10-01", description: "c", amount: 5, balance: 55, currency: "USD" }, { date: "2026-10-03", description: "d", amount: 2, balance: 53, currency: "USD" },
+  ];
+  assert.deepEqual(checkBalances(rows, { IDR: 100, USD: 50 }), []);
+  assert.equal(rows[3].amount, -2, "a lone row with the wrong sign is still flipped inside its own section");
+  const broken = rows.map((r) => ({ ...r }));
+  broken[1].balance = 80.5;
+  assert.deepEqual(checkBalances(broken, { IDR: 100, USD: 50 }), ["IDR: between 2026-10-01 and 2026-10-02 the balance moves by 9.50 less than the lines read: a line may be missing or misread."]);
+});
+
+test("generic reader: day-month dates take the year of the period; amounts left of the page middle, on the line below the date, with DB / CR, a trailing minus or parentheses", () => {
+  const r = parseBankPdf([page(1, [
+    [60, [tok(30, "Statement period: 01 Sep 2026 - 30 Sep 2026", 200)]],
+    [100, [tok(30, "Date", 20), tok(90, "Details", 35), tok(200, "Amount", 30), tok(262, "Balance", 35)]],
+    [120, [tok(30, "01 Sep", 28), tok(90, "Balance brought forward", 100), tok(262, "5,000.00", 40)]],
+    [140, [tok(30, "02 Sep", 28), tok(90, "Card purchase", 60), tok(196, "250.00 DB", 45), tok(262, "4,750.00", 40)]],
+    [160, [tok(30, "03 Sep", 28), tok(90, "Incoming wire", 60)]],
+    [170, [tok(90, "REF 2291", 40), tok(190, "1,000.00CR", 50), tok(262, "5,750.00", 40)]],
+    [190, [tok(30, "05 Sep", 28), tok(90, "Monthly fee", 50), tok(205, "15.00-", 28)]],
+    [210, [tok(30, "06 Sep", 28), tok(90, "Reversal", 40), tok(200, "(35.00)", 32), tok(262, "5,700.00", 40)]],
+  ])]);
+  assert.equal(r.preset, "pdf-generic");
+  assert.deepEqual(r.rows.map((x) => [x.date, x.amount, x.balance, x.description]), [
+    ["2026-09-02", -250, 4750, "Card purchase"], ["2026-09-03", 1000, 5750, "Incoming wire REF 2291"], ["2026-09-05", -15, undefined, "Monthly fee"], ["2026-09-06", -35, 5700, "Reversal"],
+  ]);
+  assert.equal(r.opening, 5000);
+  assert.deepEqual([r.errors, r.warnings], [[], []]);
+  assert.equal(r.coverage[0].text, "4 lines read, running balance adds up (no closing balance found to check the total)");
+});
+
+test("generic reader: a text report printing each line as one run (dd/mm, year from \"Periode\"), and dd-MMM-yy dates with a D marker", () => {
+  const report = parseBankPdf([page(1, [
+    [50, [tok(30, "Periode : Oktober 2026", 110)]],
+    [100, [tok(30, "01/10 SALDO AWAL                         1,000,000.00", 318)]],
+    [112, [tok(30, "02/10 TRANSFER KE 008      250,000.00 DB    750,000.00", 318)]],
+    [124, [tok(30, "03/10 SETORAN TUNAI        100,000.00 CR    850,000.00", 318)]],
+    [150, [tok(30, "SALDO AKHIR                              850,000.00", 318)]],
+  ])]);
+  assert.deepEqual(report.rows.map((x) => [x.date, x.amount, x.balance, x.description]), [["2026-10-02", -250_000, 750_000, "TRANSFER KE 008"], ["2026-10-03", 100_000, 850_000, "SETORAN TUNAI"]]);
+  assert.deepEqual([report.opening, report.closing], [1_000_000, 850_000]);
+  assert.equal(report.coverage[0].text, "2 lines read, opening + movements = closing ✓");
+  const dashed = parseBankPdf([page(1, [
+    [100, [tok(30, "05-Nov-26", 45), tok(100, "Payment received", 80), tok(430, "1,500.00", 40), tok(520, "1,500.00", 40)]],
+    [116, [tok(30, "06-Nov-26", 45), tok(100, "Bank charge", 60), tok(436, "12.50", 25), tok(480, "D", 6), tok(520, "1,487.50", 40)]],
+  ])]);
+  assert.deepEqual(dashed.rows.map((x) => [x.date, x.amount, x.balance]), [["2026-11-05", 1500, 1500], ["2026-11-06", -12.5, 1487.5]]);
+  const noYear = parseBankPdf([page(1, [[100, [tok(30, "02/10", 22), tok(100, "Transfer", 40), tok(430, "100.00", 30), tok(520, "900.00", 30)]]])]);
+  assert.equal(noYear.rows.length, 0);
+  assert.match(noYear.errors[0], /dates have no year/);
+});
+
+test("coverage: totals that do not reach the closing balance are reported, and an unrecognised layout of a known bank falls back to the generic reader", () => {
+  const short = OCBC_PAGES.map((p) => ({ ...p, lines: p.lines.filter((l) => !(p.number === 2 && l.y === 182)) }));
+  const r = parseBankPdf(short);
+  assert.equal(r.rows.length, 4);
+  assert.deepEqual(r.warnings, ["Opening 2,500,000,000 + lines read -1,188,900,000.50 = 1,311,099,999.50, but the statement closes at 1,311,069,919.50: lines are missing or misread."]);
+  assert.deepEqual([r.coverage[0].ok, r.coverage[0].text], [false, "IDR: 4 lines read, opening + movements ≠ closing (see warnings)"]);
+  const other = parseBankPdf([page(1, [
+    [40, [tok(30, "PT Bank OCBC NISP Tbk - Rekening Koran", 200)]],
+    [100, [tok(30, "Date", 20), tok(120, "Description", 50), tok(420, "Amount", 30), tok(520, "Balance", 35)]],
+    [120, [tok(30, "2026-03-02", 50), tok(120, "Card payment", 60), tok(420, "250.00", 30), tok(520, "750.00", 40)]],
+  ])]);
+  assert.equal(other.preset, "pdf-generic");
+  assert.equal(other.rows.length, 1);
+  assert.match(other.note, /layout was not recognised/);
+});
+
+test("a page with two account sections reads the columns again at each header row and keeps their balances apart", () => {
+  const head = (debet: number): PdfToken[] => [tok(37, "Tanggal Transaksi", 64), tok(170, "Uraian Transaksi", 59), tok(305, "Teller", 20), tok(debet, "Debet", 21), tok(debet + 101, "Kredit", 21), tok(debet + 198, "Saldo", 19)];
+  const account = (y: number, no: string, ccy: string): [number, PdfToken[]] => [y, [tok(34, "No. Rekening", 48), tok(116, ":"), tok(125, no, 65), tok(200, ccy, 15)]];
+  const r = parseBankPdf([page(1, [
+    [33, [tok(458, "LAPORAN TRANSAKSI FINANSIAL", 187)]],
+    account(223, "461200011122", "IDR"), [323, head(382)],
+    [352, [tok(38, "01/09/25 15:42:03", 62), tok(110, "IBIZ PT DEMO TO BUDI", 150), tok(299, "8890405", 29), tok(398, "2,400,000.00", 44), tok(522, "0.00", 15), tok(587, "7,600,000.00", 48)]],
+    [430, [tok(86, "Saldo Awal", 40), tok(543, "Saldo Akhir", 40)]],
+    // Second account: its table sits 50 points further right, so its figures only fall in the right columns once its own header is read.
+    account(470, "461200011133", "USD"), [500, head(432)],
+    [520, [tok(38, "15/09/25 23:59:59", 62), tok(110, "Interest on Account", 70), tok(477, "0.00", 15), tok(558, "5,276.00", 29), tok(637, "1,005,276.00", 48)]],
+  ], 740, 842)], { preset: "pdf-bri" });
+  assert.deepEqual(r.rows.map((x) => [x.date, x.amount, x.balance, x.currency]), [["2025-09-01", -2_400_000, 7_600_000, "IDR"], ["2025-09-15", 5_276, 1_005_276, "USD"]]);
+  assert.deepEqual([r.errors, r.warnings], [[], []]);
+  assert.deepEqual(r.coverage.map((c) => [c.currency, c.rows]), [["IDR", 1], ["USD", 1]]);
+});

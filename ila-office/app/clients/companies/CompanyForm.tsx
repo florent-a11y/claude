@@ -4,9 +4,17 @@ import { fullName } from "@/lib/util";
 import { Field, Select } from "@/components/ui";
 import { SubmitButton } from "@/components/client";
 import { userOptions } from "../_lib/server";
+import { booksByDefault } from "@/app/settings/entities/entity-sync";
+import { BooksCheckbox } from "./BooksCheckbox";
 
-export function CompanyForm({ company, contacts, users, action, defaultContactId }: { company?: Company; contacts: Contact[]; users: User[]; action: (fd: FormData) => Promise<void>; defaultContactId?: string }) {
+/**
+ * New and edit form of a client company. `asClient` opens the new form for a client ILA keeps the books of (the
+ * dashboard's "New client": legal form, active, books ticked) instead of a prospect. While the company has no books the
+ * form carries the "ILA keeps the books" box; once it has them, the legal details saved here are shared with its entity.
+ */
+export function CompanyForm({ company, contacts, users, action, defaultContactId, asClient }: { company?: Company; contacts: Contact[]; users: User[]; action: (fd: FormData) => Promise<void>; defaultContactId?: string; asClient?: boolean }) {
   const c = company;
+  const type = c?.type ?? (asClient ? "pt_pma" : "prospect");
   const typeOptions = [{ value: "prospect", label: "Prospect (not incorporated yet)" }, ...ENTITY_TYPES.map((t) => ({ value: t, label: ENTITY_TYPE_LABELS[t] }))];
   return (
     <form action={action} className="grid gap-4 md:grid-cols-2">
@@ -14,8 +22,8 @@ export function CompanyForm({ company, contacts, users, action, defaultContactId
         <h2 className="text-sm font-semibold text-ink-700">Company</h2>
         <Field label="Name"><input name="name" defaultValue={c?.name} required className="input" placeholder="PT Example Bali Investama" /></Field>
         <div className="grid grid-cols-2 gap-3">
-          <Field label="Type"><Select name="type" defaultValue={c?.type ?? "prospect"} options={typeOptions} /></Field>
-          <Field label="Status"><Select name="status" defaultValue={c?.status ?? "lead"} options={["lead", "active", "inactive"]} /></Field>
+          <Field label="Type"><Select name="type" defaultValue={type} options={typeOptions} /></Field>
+          <Field label="Status"><Select name="status" defaultValue={c?.status ?? (asClient ? "active" : "lead")} options={["lead", "active", "inactive"]} /></Field>
           <Field label="Country"><Select name="country" defaultValue={c?.country ?? "ID"} options={countryOptions()} /></Field>
           <Field label="Region"><Select name="region" defaultValue={c?.region ?? "Bali"} options={[...REGIONS]} /></Field>
           <Field label="NPWP"><input name="npwp" defaultValue={c?.npwp} className="input" /></Field>
@@ -35,7 +43,9 @@ export function CompanyForm({ company, contacts, users, action, defaultContactId
           <Field label="HubSpot id"><input name="hubspotId" defaultValue={c?.hubspotId} className="input" /></Field>
           <Field label="QuickBooks customer id"><input name="qboCustomerId" defaultValue={c?.qboCustomerId} className="input" /></Field>
         </div>
-        {c?.entityId && <p className="text-xs text-ink-500">Books entity linked: <code>{c.entityId}</code> (managed in Settings → Entities).</p>}
+        {c?.entityId
+          ? <p className="text-xs text-ink-500">ILA keeps the books of this company: the name, NPWP, NIB, deed, address, region and Drive folder saved here are copied to its entity. The tax profile is managed in Settings → Entities.</p>
+          : <BooksCheckbox defaultChecked={!c && booksByDefault(type)} isNew={!c} />}
         <SubmitButton>{c ? "Save company" : "Create company"}</SubmitButton>
       </div>
     </form>

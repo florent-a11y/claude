@@ -7,7 +7,9 @@ const CLIENTS: Item[] = [
   { href: "/clients/companies", label: "Client companies" }, { href: "/clients/contacts", label: "Contacts" },
   { href: "/clients/vendors", label: "Vendors" }, { href: "/clients/services", label: "Price list" },
 ];
-const SETTINGS: Item[] = [{ href: "/settings/entities", label: "Entities (books)" }, { href: "/settings/users", label: "Users" }, { href: "/settings/import", label: "Import data" }];
+const SETTINGS: Item[] = [{ href: "/settings/entities", label: "Entities (books)" }, { href: "/settings/users", label: "Users" }, { href: "/settings/import", label: "Import data" }, { href: "/settings/audit", label: "Audit log" }];
+/** Settings pages shown to admins only. */
+const ADMIN_ONLY = ["/settings/users", "/settings/audit"];
 
 type EntityItem = { id: string; name: string; isOwn: boolean; payroll?: boolean };
 
@@ -75,7 +77,7 @@ export function ShellNav({ entities, ownEntityId, role, companies = [] }: { enti
       {section("Marketing")}
       {link("/visibility", "AI visibility")}
       {section("Settings")}
-      {SETTINGS.filter((i) => role === "admin" || i.href !== "/settings/users").map((i) => link(i.href, i.label))}
+      {SETTINGS.filter((i) => role === "admin" || !ADMIN_ONLY.includes(i.href)).map((i) => link(i.href, i.label))}
     </nav>
   );
 }

@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { addWorkingDays, addMonths, quarterOf, nextPeriod } from "../lib/dates";
-import { parseMoney, roundMoney, fmtIDR } from "../lib/money";
+import { parseMoney, roundMoney, fmtIDR, roundRupiah, roundTax, toIDR, fmtMoney, fmtAmount, displayDecimals, columnDecimals } from "../lib/money";
 import { parseCSV } from "../lib/csv";
 import { hashPassword, verifyPassword } from "../lib/password";
 import { buildAccounts } from "../lib/coa";
@@ -23,9 +23,30 @@ test("money parsing handles Indonesian and English separators", () => {
   assert.equal(parseMoney("2,500,000.50"), 2_500_000.5);
   assert.equal(parseMoney("2.500.000,50"), 2_500_000.5);
   assert.equal(parseMoney("Rp 1.000"), 1000);
-  assert.equal(roundMoney(1234.5, "IDR"), 1235);
+  assert.equal(roundMoney(1234.5, "IDR"), 1234.5, "the ledger keeps rupiah cents");
+  assert.equal(roundMoney(1234.567, "IDR"), 1234.57);
+  assert.equal(roundMoney(1.005), 1.01, "binary noise does not round a half down");
+  assert.equal(roundMoney(-0.004), 0);
+  assert.ok(Object.is(roundMoney(-0.004), 0), "never -0");
   assert.equal(roundMoney(12.345, "USD"), 12.35);
+  assert.equal(roundRupiah(1234.5), 1235, "statements and tax amounts are whole rupiah");
+  assert.equal(roundRupiah(-1234.5), -1235);
+  assert.equal(roundTax(110.4, "IDR"), 110);
+  assert.equal(roundTax(110.456, "USD"), 110.46);
+  assert.equal(toIDR(33.33, "USD", 16_333.337), 544_390.12, "conversions keep the cents");
   assert.equal(fmtIDR(2_500_000), "Rp 2.500.000");
+  assert.equal(fmtIDR(2_500_000.5), "Rp 2.500.000,50");
+  assert.equal(fmtMoney(2_500_000), "Rp\u00a02.500.000");
+  assert.equal(fmtMoney(2_500_000.5), "Rp\u00a02.500.000,50", "cents show only when there are some");
+  assert.equal(fmtMoney(-1_000.25), "\u2212Rp\u00a01.000,25");
+  assert.equal(fmtAmount(1_500_000), "1,500,000");
+  assert.equal(fmtAmount(1_500_000.5), "1,500,000.50");
+  assert.equal(fmtAmount(1500, "USD"), "1,500.00");
+  assert.equal(displayDecimals(10), 0);
+  assert.equal(displayDecimals(10.1), 2);
+  assert.equal(columnDecimals("IDR", [1, 2, 3.5]), 2);
+  assert.equal(columnDecimals("IDR", [1, 2, 3]), 0);
+  assert.equal(columnDecimals("EUR", [1]), 2);
 });
 
 test("csv parser handles quotes, embedded newlines and semicolons", () => {

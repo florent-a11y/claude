@@ -1,5 +1,5 @@
 import { fmtDate } from "./dates";
-import { decimalsFor, fmtNumber } from "./money";
+import { fmtAmount } from "./money";
 import type { Entity, Invoice } from "./types";
 
 /**
@@ -16,7 +16,7 @@ export function invoiceDescription(invoice: Invoice): string {
 }
 
 export function invoiceAmountText(invoice: Invoice): string {
-  return `${invoice.currency} ${fmtNumber(invoice.total, decimalsFor(invoice.currency))}`;
+  return `${invoice.currency} ${fmtAmount(invoice.total, invoice.currency)}`;
 }
 
 export function invoiceEmailDraft(invoice: Invoice, entity: Entity, opts: { greetingName?: string; to?: string; paymentInstructions?: string } = {}): InvoiceEmailDraft {

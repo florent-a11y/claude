@@ -6,6 +6,7 @@ import { fmtDate, fmtDateTime, periodLabel } from "@/lib/dates";
 import { Card, Badge, Notice, DL } from "@/components/ui";
 import { ConfirmForm, SubmitButton, Flash } from "@/components/client";
 import { Attachments } from "@/components/Attachments";
+import { AuditTrail } from "@/components/AuditTrail";
 import { PayslipTable } from "../PayslipTable";
 import { approveRunAction, deleteRunAction, markPaidAction, recalculateRunAction } from "../../../actions";
 
@@ -58,6 +59,7 @@ export default async function RunDetail({ params, searchParams }: { params: Prom
         <Attachments entityId={entityId} docType="payroll_run" docId={run.id} items={run.attachments ?? []} canWrite={canWrite} backTo={here} />
         <Card title="What to attach"><ul className="list-disc space-y-1 pl-4 text-sm text-ink-700"><li>The client's approval of this run (email or signed summary).</li><li>PPh 21 payment proof (NTPN / BPE) and the SPT Masa 21/26 receipt.</li><li>BPJS Kesehatan and Ketenagakerjaan payment proofs.</li><li>Salary transfer confirmations.</li></ul></Card>
       </div>
+      <AuditTrail table="payroll_runs" docId={run.id} />
     </div>
   );
 }

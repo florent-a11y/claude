@@ -48,6 +48,7 @@ export async function MoneyMoveNewPage({ kind, action, params, searchParams }: {
         <MoneyMoveForm kind={kind} action={action.bind(null, entityId)} banks={banks} accounts={counterAccountOptions(accounts, kind)} defaultDate={todayISO()} prefill={prefill} withholding={kind === "expense" ? withholdingLineOptions(accounts) : undefined} />
       )}
       <p className="text-xs text-ink-500">{meta.hint}</p>
+      {kind === "deposit" && <p className="text-xs text-ink-500">Selling a fixed asset? Record it from <Link href={`${b}/assets`} className="underline">Assets</Link> › the asset › Sell / dispose so the gain or loss is calculated.</p>}
     </div>
   );
 }

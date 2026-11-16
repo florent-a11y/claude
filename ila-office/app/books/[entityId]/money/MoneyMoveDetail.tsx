@@ -10,6 +10,7 @@ import { isMoneyMove, moneyMoveKindOf, type MoneyMoveKind } from "@/lib/money-mo
 import { Badge, statusTone, Card, Cols, Dash, DL, TableCard } from "@/components/ui";
 import { ConfirmForm } from "@/components/client";
 import { Attachments } from "@/components/Attachments";
+import { AuditTrail } from "@/components/AuditTrail";
 import { ErrorNotice, base, first, requireEntity, type Search } from "../shared";
 import { MONEY_MOVE_META, moneyMoveBase } from "./shared";
 
@@ -116,6 +117,7 @@ export async function MoneyMoveDetailPage({ kind, voidAction, params, searchPara
           <DL items={details} />
         </Card>
       </div>
+      <AuditTrail table="payments" docId={p.id} />
     </div>
   );
 }

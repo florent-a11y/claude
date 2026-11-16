@@ -77,11 +77,11 @@ test("applyJournalEdit: a second edit appends to revisions (newest last) and kee
   assert.equal(v3.number, v1.number);
 });
 
-test("applyJournalEdit: rounds to whole rupiah, drops empty lines, and keeps line details for unchanged lines", () => {
+test("applyJournalEdit: rounds to the cent, drops empty lines, and keeps line details for unchanged lines", () => {
   const before = entry({ lines: [dr(RENT, 5_000_000, { description: "Rent", counterpartyName: "PT Landlord" }), cr(BANK, 5_000_000, { description: "OCBC transfer" })] });
   const after = applyJournalEdit(before, {
     date: before.date, memo: before.memo, source: "manual",
-    lines: [{ accountId: RENT, accountCode: CODES[RENT], debit: 5_000_000.4, credit: 0 }, { accountId: BANK, accountCode: CODES[BANK], debit: 0, credit: 4_999_999.6 }, { accountId: AR, accountCode: CODES[AR], debit: 0, credit: 0 }],
+    lines: [{ accountId: RENT, accountCode: CODES[RENT], debit: 5_000_000.004, credit: 0 }, { accountId: BANK, accountCode: CODES[BANK], debit: 0, credit: 4_999_999.996 }, { accountId: AR, accountCode: CODES[AR], debit: 0, credit: 0 }],
   }, META, OPTS);
   assert.equal(after.lines.length, 2);
   assert.deepEqual(after.lines.map((l) => [l.debit, l.credit]), [[5_000_000, 0], [0, 5_000_000]]);

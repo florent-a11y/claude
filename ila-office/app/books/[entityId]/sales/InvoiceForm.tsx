@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
 import { addWorkingDays } from "@/lib/dates";
-import { currencyOptions, fmtNumber } from "@/lib/money";
+import { columnDecimals, currencyOptions, fmtNumber } from "@/lib/money";
 import { invoiceTotals } from "@/lib/ledger";
 import { SubmitButton } from "@/components/client";
 import { Cols, TableCard } from "@/components/ui";
@@ -49,7 +49,7 @@ export function InvoiceForm({ action, entity, customers, accounts, services, def
     const price = currency === "USD" ? s.priceUSD ?? 0 : currency === "EUR" ? s.priceEUR ?? 0 : currency === "IDR" ? s.priceIDR : 0;
     setLines((ls) => [...ls.filter((l) => l.description || n(l.unitPrice)), { ...blank(), description: s.name, unitPrice: String(price), serviceId: s.id, taxCode: entity.pkp && s.taxTreatment === "ppn" ? "ppn" : "out_of_scope" }]);
   };
-  const dec = currency === "IDR" ? 0 : 2;
+  const dec = columnDecimals(currency, [...totals.lineAmounts, totals.subtotal, totals.discount, totals.total]);
   const fmt = (x: number) => fmtNumber(x, dec);
   const valid = customer.name.trim().length > 0 && lines.some((l) => l.description && n(l.qty) > 0) && (currency === "IDR" || n(fxRate) > 0);
   const payload = JSON.stringify(lines.filter((l) => l.description.trim()).map((l) => ({ description: l.description, qty: n(l.qty), unitPrice: n(l.unitPrice), accountId: l.accountId, taxCode: l.taxCode, serviceId: l.serviceId })));

@@ -5,15 +5,16 @@ import { matchesSearch } from "../_lib/search";
 import { fmtMoney } from "@/lib/money";
 import { ENTITY_TYPE_SHORT, REGIONS, type Company } from "@/lib/types";
 import { Page, Badge, Chips, Cols, Dash, EmptyState, Notice, TableCard, statusTone, withParams } from "@/components/ui";
-import { AutoSubmitInput, ConfirmForm, SubmitButton } from "@/components/client";
+import { AutoSubmitInput } from "@/components/client";
 import { lookups } from "../_lib/server";
 import { companyNeedsBooks } from "@/app/settings/entities/create-entity";
-import { createBooksForCompanies } from "./actions";
+import { CreateBooksButton } from "./CreateBooksButton";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Client companies" };
 
-type SP = { q?: string; status?: string; region?: string; ok?: string; error?: string };
+/** `books=none` keeps the active companies still without books (the link of the notice on the Books list). */
+type SP = { q?: string; status?: string; region?: string; books?: string; ok?: string; error?: string };
 const STATUS_LABELS = { lead: "Leads", active: "Active", inactive: "Inactive" } as const;
 
 /** Monthly equivalent (IDR) of the active IDR subscriptions: monthly + quarterly / 3 + annual / 12. */
@@ -31,8 +32,10 @@ export default async function Companies({ searchParams }: { searchParams: Promis
   const client = isClient(user);
   const q = sp.q?.trim() ?? "";
   const withoutBooks = admin ? all.filter(companyNeedsBooks).length : 0;
-  const filters: SP = { q: sp.q, status: sp.status, region: sp.region };
+  const noBooks = !client && sp.books === "none";
+  const filters: SP = { q: sp.q, status: sp.status, region: sp.region, books: noBooks ? "none" : undefined };
   const rows = all.filter((c) => {
+    if (noBooks && !companyNeedsBooks(c)) return false;
     if (sp.status && c.status !== sp.status) return false;
     if (sp.region && (c.region ?? "Other") !== sp.region) return false;
     return matchesSearch([c.name, c.npwp, c.nib, c.address, c.region, l.contact(c.primaryContactId), ...c.tags], q);
@@ -44,11 +47,7 @@ export default async function Companies({ searchParams }: { searchParams: Promis
   return (
     <Page title={client ? "My companies" : "Client companies"} subtitle={client ? `${all.length} compan${all.length === 1 ? "y" : "ies"} managed by ILA for you` : `${counts.active} active clients · ${counts.lead} leads · ${counts.inactive} inactive`} actions={<>
       {/* Admins: one set of books (entity + standard chart of accounts) per active client company that has none yet. */}
-      {withoutBooks > 0 && (
-        <ConfirmForm action={createBooksForCompanies} message={`Create books for ${withoutBooks} active compan${withoutBooks === 1 ? "y" : "ies"} without books? Each gets an entity with the standard chart of accounts and a default tax profile (normal CIT, not PKP, LKPM for PT PMA) that you can refine in Settings → Entities. Prospects are skipped.`}>
-          <SubmitButton className="btn-secondary" pendingText="Creating books…">Create books for {withoutBooks} compan{withoutBooks === 1 ? "y" : "ies"} without books</SubmitButton>
-        </ConfirmForm>
-      )}
+      {withoutBooks > 0 && <CreateBooksButton count={withoutBooks} />}
       {write && <Link href="/clients/companies/new" className="btn-primary">New company</Link>}
     </>}>
       {!client && sp.error && <div className="mb-3"><Notice tone="red">{sp.error}</Notice></div>}
@@ -59,8 +58,9 @@ export default async function Companies({ searchParams }: { searchParams: Promis
           {sp.region && <input type="hidden" name="region" value={sp.region} />}
           <AutoSubmitInput name="q" defaultValue={q} placeholder="Search name, NPWP, NIB, contact, tag…" className="input max-w-sm" />
           <Chips items={[{ href: withParams(base, filters, { status: undefined }), label: <>All <span className="opacity-60">{all.length}</span></>, active: !sp.status }, ...(["active", "lead", "inactive"] as const).map((s) => ({ href: withParams(base, filters, { status: s }), label: <>{STATUS_LABELS[s]} <span className="opacity-60">{counts[s]}</span></>, active: sp.status === s }))]} />
-          {(q || sp.status || sp.region) && <Link href={base} className="btn-ghost !px-2 !py-1 text-xs">Clear</Link>}
-          <span className="ml-auto text-xs text-ink-500">{rows.length} shown</span>
+          {noBooks && <input type="hidden" name="books" value="none" />}
+          {(q || sp.status || sp.region || noBooks) && <Link href={base} className="btn-ghost !px-2 !py-1 text-xs">Clear</Link>}
+          <span className="ml-auto text-xs text-ink-500">{rows.length} shown{noBooks ? " · active clients without books" : ""}</span>
         </form>
         {regions.length > 1 && <Chips items={[{ href: withParams(base, filters, { region: undefined }), label: "All regions", active: !sp.region }, ...regions.map((r) => ({ href: withParams(base, filters, { region: r }), label: r, active: sp.region === r }))]} />}
       </div>

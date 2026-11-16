@@ -6,7 +6,8 @@ import { requirePermission, hashPassword } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { ENTITY_TYPES, ROLES, type User } from "@/lib/types";
 import { bool, num, str } from "@/lib/util";
-import { createEntityFromInput } from "./entities/create-entity";
+import { logActivity } from "@/app/clients/_lib/server";
+import { createEntityFromInput, ensureCompanyForEntity, syncLegalDetails } from "./entities/create-entity";
 
 const entitySchema = z.object({
   name: z.string().min(1).max(120),
@@ -48,8 +49,13 @@ function readEntity(fd: FormData) {
   });
 }
 
+/**
+ * One creation, both records: books created here without picking a client company get their directory record
+ * (Clients → Client companies, status active, tag "books"), or are linked to the client company of the same name or
+ * NPWP that has no books yet. ILA's own entity has no client record. With a company picked, the two are linked.
+ */
 export async function createEntity(fd: FormData) {
-  await requirePermission("admin");
+  const user = await requirePermission("admin");
   const v = readEntity(fd);
   const entity = await createEntityFromInput({
     name: v.name, legalName: v.legalName, type: v.type, country: v.country, isOwn: v.isOwn, npwp: v.npwp, nib: v.nib, nitku: v.nitku,
@@ -57,9 +63,22 @@ export async function createEntity(fd: FormData) {
     tax: { regime: v.regime, pkp: v.pkp, ppnRate: v.ppnRate, pph25Monthly: v.pph25Monthly, localTaxRate: v.localTaxRate, lkpm: v.lkpm, payroll: v.payroll, signerName: v.signerName },
     crmCompanyId: v.crmCompanyId, driveFolderUrl: v.driveFolderUrl || undefined, status: v.status,
   });
+  let flash = "";
+  if (!v.crmCompanyId && !v.isOwn) {
+    try {
+      const made = await ensureCompanyForEntity(entity);
+      if (made) {
+        await logActivity({ kind: "system", subject: made.created ? "Company created with its books" : "Books linked", body: `Entity ${entity.name} created in Settings → Entities`, user, companyId: made.company.id, entityId: entity.id });
+        flash = `?ok=${encodeURIComponent(made.created ? `Books created. ${entity.name} was also added to Clients → Client companies.` : `Books created and linked to the existing client company ${made.company.name}.`)}`;
+      }
+    } catch (e) {
+      flash = `?error=${encodeURIComponent(`The books are created, but not the client record: ${e instanceof Error ? e.message : String(e)}`)}`;
+    }
+  }
   revalidatePath("/settings/entities");
+  revalidatePath("/clients/companies");
   if (v.crmCompanyId) revalidatePath(`/clients/companies/${v.crmCompanyId}`);
-  redirect(`/settings/entities/${entity.id}`);
+  redirect(`/settings/entities/${entity.id}${flash}`);
 }
 
 export async function updateEntity(id: string, fd: FormData) {
@@ -68,14 +87,22 @@ export async function updateEntity(id: string, fd: FormData) {
   if (!current) throw new Error("Entity not found");
   const v = readEntity(fd);
   const now = new Date().toISOString();
-  await db.update("entities", id, {
+  const entity = await db.update("entities", id, {
     name: v.name, legalName: v.legalName, type: v.type, country: v.country, isOwn: v.isOwn, npwp: v.npwp, nib: v.nib, nitku: v.nitku, aktaNumber: v.aktaNumber,
     address: v.address, city: v.city, region: v.region, baseCurrency: v.baseCurrency, fiscalYearStartMonth: v.fiscalYearStartMonth,
     tax: { ...current.tax, regime: v.regime, pkp: v.pkp, ppnRate: v.ppnRate, pph25Monthly: v.pph25Monthly, localTaxRate: v.localTaxRate, lkpm: v.lkpm, payroll: v.payroll, signerName: v.signerName },
     crmCompanyId: v.crmCompanyId, driveFolderUrl: v.driveFolderUrl || undefined, status: v.status, updatedAt: now,
   });
-  if (v.crmCompanyId && v.crmCompanyId !== current.crmCompanyId) await db.update("companies", v.crmCompanyId, { entityId: id, updatedAt: now });
+  if (v.crmCompanyId !== current.crmCompanyId) {
+    // Relinked: the new company points here, and the previous one no longer shows these books as its own.
+    if (v.crmCompanyId) await db.update("companies", v.crmCompanyId, { entityId: id, updatedAt: now });
+    const previous = current.crmCompanyId ? await db.get("companies", current.crmCompanyId) : null;
+    if (previous?.entityId === id) await db.update("companies", previous.id, { entityId: undefined, updatedAt: now });
+  }
+  // Legal details are entered once: what this save changed goes to the client company (see syncLegalDetails).
+  if (entity) await syncLegalDetails({ entity, before: current });
   revalidatePath("/settings/entities");
+  if (entity?.crmCompanyId) revalidatePath(`/clients/companies/${entity.crmCompanyId}`);
   redirect(`/settings/entities/${id}`);
 }
 

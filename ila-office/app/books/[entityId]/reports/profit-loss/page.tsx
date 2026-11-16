@@ -1,13 +1,13 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { requireUser } from "@/lib/auth";
-import { profitAndLoss, profitAndLossMonthly, PL_SECTIONS, type ProfitAndLoss, type ZeroMode } from "@/lib/ledger";
+import { profitAndLoss, profitAndLossInRupiah, profitAndLossMonthly, profitAndLossMonthlyInRupiah, PL_SECTIONS, type ProfitAndLoss, type ZeroMode } from "@/lib/ledger";
 import { fmtDate } from "@/lib/dates";
-import { fmtMoney, fmtNumber } from "@/lib/money";
+import { columnDecimals, fmtMoney, fmtNumber } from "@/lib/money";
 import { Dash, Notice, TableCard } from "@/components/ui";
 import { base, first, requireEntity, type Params, type Search } from "../../shared";
 import { loadReportData, defaultRange, previousRange } from "../_data";
-import { ReportHeader, exportHrefs, ZeroBalancesToggle, HiddenZeroNote } from "../ReportHeader";
+import { ReportHeader, exportHrefs, ZeroBalancesToggle, HiddenZeroNote, CentsToggle, RoundedNote } from "../ReportHeader";
 
 export const dynamic = "force-dynamic";
 
@@ -28,8 +28,10 @@ export default async function ProfitLossPage({ params, searchParams }: { params:
   // Zero balances and sections without balances are hidden unless ?zero=1 ("Show zero balances").
   const showZero = first(sp.zero) === "1";
   const zero: ZeroMode = showZero ? "show" : "hide";
+  // The ledger keeps cents; the statement prints whole rupiah unless ?cents=1 ("Show cents").
+  const cents = first(sp.cents) === "1";
   const b = base(entityId);
-  const apiBase = `/api/books/${entityId}/reports/profit-loss?from=${from}&to=${to}${monthly ? "&view=monthly" : compare ? "&compare=1" : ""}${showZero ? "&zero=1" : ""}`;
+  const apiBase = `/api/books/${entityId}/reports/profit-loss?from=${from}&to=${to}${monthly ? "&view=monthly" : compare ? "&compare=1" : ""}${showZero ? "&zero=1" : ""}${cents ? "&cents=1" : ""}`;
   const filters = (
     <>
       <label className="block"><span className="label">From</span><input name="from" type="date" defaultValue={from} className="input !py-1" /></label>
@@ -37,13 +39,17 @@ export default async function ProfitLossPage({ params, searchParams }: { params:
       <label className="flex items-center gap-2 pb-2 text-sm"><input type="checkbox" name="view" value="monthly" defaultChecked={monthly} className="checkbox" /> Monthly columns</label>
       <label className="flex items-center gap-2 pb-2 text-sm" title="Period view only"><input type="checkbox" name="compare" value="1" defaultChecked={compare} className="checkbox" /> Previous period</label>
       <ZeroBalancesToggle checked={showZero} />
+      <CentsToggle checked={cents} />
     </>
   );
 
   if (monthly) {
-    const m = profitAndLossMonthly(data.accounts, data.entries, { from, to }, { zero });
+    const exactMonthly = profitAndLossMonthly(data.accounts, data.entries, { from, to }, { zero });
+    const m = cents ? exactMonthly : profitAndLossMonthlyInRupiah(exactMonthly);
     const cols = m.columns.length + 2;
-    const num = (n: number, strong = false) => <span className={`${n < 0 ? "text-red-700" : ""}${strong ? " font-semibold" : ""}`}>{fmtNumber(n)}</span>;
+    // With cents, every figure prints two decimals as soon as one has some, so the columns line up.
+    const dec = cents ? columnDecimals("IDR", m.sections.flatMap((s) => [...s.rows.flatMap((r) => [...r.amounts, r.total]), ...s.totals, s.total])) : 0;
+    const num = (n: number, strong = false) => <span className={`${n < 0 ? "text-red-700" : ""}${strong ? " font-semibold" : ""}`}>{fmtNumber(n, dec)}</span>;
     // The account column stays visible while the months scroll sideways; inline backgrounds keep it opaque on every row style.
     const sticky = (bg = "#fff"): CSSProperties => ({ position: "sticky", left: 0, backgroundColor: bg, boxShadow: "inset -1px 0 0 #e2e8f0" });
     return (
@@ -78,14 +84,16 @@ export default async function ProfitLossPage({ params, searchParams }: { params:
           </table>
         </TableCard>
         <HiddenZeroNote sections={m.emptySections} />
+        <RoundedNote cents={cents} />
         <p className="no-print mt-2 text-xs text-ink-500">Each column is the P&L of that calendar month (clipped to the selected range); Total is the P&L of the whole range. Natural signs: revenue and expenses positive.</p>
       </div>
     );
   }
 
-  const pl = profitAndLoss(data.accounts, data.entries, { from, to }, { zero });
+  const present = (p: ProfitAndLoss) => (cents ? p : profitAndLossInRupiah(p));
+  const pl = present(profitAndLoss(data.accounts, data.entries, { from, to }, { zero }));
   const prev = compare ? previousRange(from, to) : undefined;
-  const plPrev = prev ? profitAndLoss(data.accounts, data.entries, prev, { zero }) : undefined;
+  const plPrev = prev ? present(profitAndLoss(data.accounts, data.entries, prev, { zero })) : undefined;
   const money = (n: number) => <span className={n < 0 ? "text-red-700" : ""}>{fmtMoney(n)}</span>;
   const summary: Array<[string, (p: ProfitAndLoss) => number]> = [["Gross profit", (p) => p.grossProfit], ["Operating profit", (p) => p.operatingProfit], ["Profit before tax", (p) => p.profitBeforeTax], ["Net profit", (p) => p.netProfit]];
   const afterSection: Record<string, string> = { cogs: "Gross profit", opex: "Operating profit", other_expense: "Profit before tax", tax: "Net profit" };
@@ -125,6 +133,7 @@ export default async function ProfitLossPage({ params, searchParams }: { params:
         </table>
       </TableCard>
       <HiddenZeroNote sections={hidden} />
+      <RoundedNote cents={cents} />
       <p className="no-print mt-2 text-xs text-ink-500">Natural signs: revenue and expenses positive; a negative revenue line is a credit note or discount. Income tax shows the booked CIT/final tax expense.</p>
     </div>
   );

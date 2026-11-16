@@ -20,7 +20,7 @@ const GRID_ROWS_RETURNED = 6000;
 
 /**
  * POST multipart {file, bankAccountId, preset?}: parses a statement on the server and returns the rows.
- * PDF e-statements (BCA, BNI, BRI, CIMB Niaga, Mandiri) are read from their text layer; CSV/XLS/XLSX exports go through
+ * PDF e-statements (BCA, BNI, BRI, CIMB Niaga, Mandiri, OCBC) are read from their text layer; CSV/XLS/XLSX exports go through
  * the bank presets, or come back as a raw grid for manual column mapping.
  */
 export async function POST(req: Request, ctx: { params: Promise<{ entityId: string }> }) {
@@ -41,8 +41,9 @@ export async function POST(req: Request, ctx: { params: Promise<{ entityId: stri
       const pages = await extractPdfPages(buf);
       const r = parseBankPdf(pages, { preset: forced || undefined });
       if (r.scanned) return Response.json({ error: "This PDF has no text layer (it is a scanned image), so it cannot be read. Ask the bank for the e-statement PDF, or export CSV / Excel from internet banking." }, { status: 400 });
-      const errors = r.errors.filter((e) => !e.startsWith("Running balance"));
-      const warnings = r.errors.filter((e) => e.startsWith("Running balance"));
+      // Unreadable lines on one side, balance checks on the other; `coverage` says per currency section what was read.
+      const errors = r.errors;
+      const warnings = [...r.warnings];
       const digits = (s?: string) => (s ?? "").replace(/\D/g, "");
       const [a, b] = [digits(r.accountNumber), digits(bank.accountNumber)];
       if (a && b && !(a.endsWith(b) || b.endsWith(a))) warnings.unshift(`The statement is for account ${r.accountNumber}, but this bank account is ${bank.accountNumber}. Check you picked the right account.`);
@@ -50,7 +51,7 @@ export async function POST(req: Request, ctx: { params: Promise<{ entityId: stri
       if (r.rows.length === 0) note += " · No transactions recognised: pick another bank format above, or export the statement as CSV / Excel.";
       return Response.json({
         fileName: file.name, sheet: "PDF", sheets: [], preset: r.preset, presetLabel: r.label, presets: PDF_PRESET_OPTIONS,
-        rows: r.rows, currencies: currencyCounts(r.rows), errors, warnings, headerRow: -1, note, dropped: 0, grid: [], truncated: false,
+        rows: r.rows, currencies: currencyCounts(r.rows), coverage: r.coverage, errors, warnings, headerRow: -1, note, dropped: 0, grid: [], truncated: false,
         pdf: { pages: r.pages, opening: r.opening, closing: r.closing, periodFrom: r.periodFrom, periodTo: r.periodTo, accountNumber: r.accountNumber },
       });
     }

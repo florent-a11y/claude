@@ -3,16 +3,17 @@ import { notFound, redirect } from "next/navigation";
 import { requireUser, can } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { entityAccounts, openInvoices, openBills } from "@/lib/books";
-import { invoiceOutstanding, billOutstanding } from "@/lib/ledger";
+import { invoiceOutstanding, billOutstanding, netBookValue } from "@/lib/ledger";
 import { fmtDate } from "@/lib/dates";
 import { fmtMoney, roundMoney } from "@/lib/money";
 import { bankLineAmount } from "@/lib/reconciliation";
-import { Card, Badge, DL, Field, Notice, CardTable, Cols } from "@/components/ui";
+import { Card, Badge, DL, Field, Notice, CardTable, Cols, Select } from "@/components/ui";
 import { SubmitButton } from "@/components/client";
 import { AccountPicker } from "@/components/AccountPicker";
 import { MoneyInput } from "@/components/MoneyInput";
 import { ErrorNotice, base, first, requireEntity, type Search } from "../../../../shared";
 import { matchAction, postBankTxAction, linkJournalAction, excludeTxAction } from "../../../actions";
+import { sellAssetFromBankAction } from "../../../../assets/actions";
 import { FxRateField } from "@/components/FxRateField";
 
 export const dynamic = "force-dynamic";
@@ -34,15 +35,17 @@ export default async function MatchTransaction({ params, searchParams }: { param
   const [accounts, invoices, bills, journals] = await Promise.all([entityAccounts(entityId), moneyIn ? openInvoices(entityId) : Promise.resolve([]), moneyIn ? Promise.resolve([]) : openBills(entityId), db.list("journal_entries", { where: (j) => j.entityId === entityId && j.status === "posted" && j.period === tx.date.slice(0, 7) && j.lines.some((l) => l.accountId === bank.accountId) })]);
   const linkedIds = new Set((await db.list("bank_transactions", { where: (t) => t.entityId === entityId && t.status === "matched" && Boolean(t.matchedJournalId) })).map((t) => t.matchedJournalId));
   const candidateJournals = journals.filter((j) => !linkedIds.has(j.id)).sort((x, y) => y.date.localeCompare(x.date));
+  // Money in can be the sale of a fixed asset: the assets still in the register are offered below.
+  const sellableAssets = moneyIn ? (await db.list("fixed_assets", { where: { entityId } })).filter((a) => a.status !== "disposed").sort((x, y) => x.name.localeCompare(y.name)) : [];
   // Each candidate's movement on the bank account in the bank's currency (exact from the lines' fxAmount, else converted at the journal rate), plus the IDR posted.
   const candidates = candidateJournals.map((j) => {
     let amount = 0, idr = 0, approximate = false;
     for (const l of j.lines) if (l.accountId === bank.accountId) { const a = bankLineAmount(l, bank.currency); amount += a.amount; idr += l.debit - l.credit; approximate ||= a.approximate; }
     return { j, amount: roundMoney(amount, bank.currency), idr, approximate };
   });
-  const preselected = candidates.find((c) => Math.abs(c.amount - tx.amount) < 0.5)?.j.id;
+  const preselected = candidates.find((c) => Math.abs(c.amount - tx.amount) < 0.005)?.j.id;
   const fxBank = bank.currency !== "IDR";
-  const near = (x: number) => Math.abs(roundMoney(x, bank.currency) - amt) < 0.5;
+  const near = (x: number) => Math.abs(roundMoney(x, bank.currency) - amt) < 0.005;
   const invSuggested = invoices.filter((i) => i.currency === bank.currency && near(invoiceOutstanding(i)));
   const billSuggested = bills.filter((x) => x.currency === bank.currency && near(billOutstanding(x)));
   const counterAccounts = accounts.filter((a) => a.active && a.id !== bank.accountId).map(({ id, code, name, type, subtype }) => ({ id, code, name, type, subtype }));
@@ -111,6 +114,16 @@ export default async function MatchTransaction({ params, searchParams }: { param
                   {bank.currency !== "IDR" && <Field label={`FX rate (IDR per 1 ${bank.currency})`}><FxRateField name="fxRate" currency={bank.currency} date={tx.date} required /></Field>}
                 </div>
                 <SubmitButton pendingText="Posting…">{moneyIn ? "Post Dr bank / Cr counter" : "Post Dr counter / Cr bank"}</SubmitButton>
+              </form>
+            </Card>
+          )}
+          {writable && sellableAssets.length > 0 && (
+            <Card title="Sale of a fixed asset">
+              <form action={sellAssetFromBankAction.bind(null, entityId, bank.id, tx.id)} className="space-y-3">
+                <Field label="Asset sold" hint="Continues on the asset's Sell / dispose form with this line's date, amount and bank account: depreciation is caught up, the gain or loss is calculated, and the line is matched once the disposal is posted.">
+                  <Select name="assetId" defaultValue="" required options={[{ value: "", label: "— choose the asset —" }, ...sellableAssets.map((a) => ({ value: a.id, label: `${a.name} · book value ${fmtMoney(netBookValue(a))}${a.needsReview ? " (needs review)" : ""}` }))]} />
+                </Field>
+                <SubmitButton pendingText="Opening…">Continue on the asset</SubmitButton>
               </form>
             </Card>
           )}

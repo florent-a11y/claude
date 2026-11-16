@@ -3,6 +3,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
 import type { Table, TableMap } from "./types";
+import { isAudited, recordAudit, recordAuditMany } from "./audit";
 
 /**
  * Storage layer. Every table is a collection of JSON documents keyed by `id`.
@@ -13,6 +14,9 @@ import type { Table, TableMap } from "./types";
  * - Otherwise: `data/<table>.json` on disk (development only). Writes are serialised through a per-table queue.
  *
  * Keep this API small so both backends stay equivalent. Modules never touch Supabase or the filesystem directly.
+ *
+ * Audit trail: every successful insert, insertMany, upsert, update and remove is reported to lib/audit.ts (who, when,
+ * what changed), which appends to `audit_log`. The hook runs after the write and never makes it fail.
  */
 
 type Row<T extends Table> = TableMap[T];
@@ -125,6 +129,16 @@ function entityIdOf(row: unknown): string | null {
   return typeof v === "string" ? v : null;
 }
 
+/** The stored row before a write, for the audit trail; skipped for tables that are not logged and never fails the write. */
+async function previous<T extends Table>(table: T, id: string): Promise<Row<T> | null> {
+  if (!isAudited(table)) return null;
+  try {
+    return await db.get(table, id);
+  } catch {
+    return null;
+  }
+}
+
 // ---------- Public API ----------
 
 export const db = {
@@ -197,14 +211,16 @@ export const db = {
     if (client) {
       const { error } = await client.from(table).insert({ id, entity_id: entityIdOf(row), data: row });
       if (error) throw new Error(`${table} insert: ${error.message}`);
+      await recordAudit(table, null, row);
       return row;
     }
-    return serialise(table, async () => {
+    await serialise(table, async () => {
       const rows = await readTable<Row<T>>(table);
       if (rows.some((r) => (r as { id: string }).id === id)) throw new Error(`${table} insert: duplicate id ${id}`);
       await writeTable(table, [...rows, row]);
-      return row;
     });
+    await recordAudit(table, null, row);
+    return row;
   },
 
   async insertMany<T extends Table>(table: T, rows: Row<T>[]): Promise<number> {
@@ -214,11 +230,15 @@ export const db = {
       for (let i = 0; i < rows.length; i += 500) {
         const chunk = rows.slice(i, i + 500).map((row) => ({ id: (row as { id: string }).id, entity_id: entityIdOf(row), data: row }));
         const { error } = await client.from(table).insert(chunk);
-        if (error) throw new Error(`${table} insertMany: ${error.message}`);
+        if (error) {
+          await recordAuditMany(table, rows.slice(0, i)); // the chunks stored before this one
+          throw new Error(`${table} insertMany: ${error.message}`);
+        }
       }
+      await recordAuditMany(table, rows);
       return rows.length;
     }
-    return serialise(table, async () => {
+    await serialise(table, async () => {
       const existing = await readTable<Row<T>>(table);
       const ids = new Set(existing.map((r) => (r as { id: string }).id));
       for (const r of rows) {
@@ -227,8 +247,9 @@ export const db = {
         ids.add(id);
       }
       await writeTable(table, [...existing, ...rows]);
-      return rows.length;
     });
+    await recordAuditMany(table, rows);
+    return rows.length;
   },
 
   /** Insert or replace by id. */
@@ -236,17 +257,22 @@ export const db = {
     const id = (row as { id: string }).id;
     const client = sb();
     if (client) {
+      const before = await previous(table, id);
       const { error } = await client.from(table).upsert({ id, entity_id: entityIdOf(row), data: row, updated_at: new Date().toISOString() });
       if (error) throw new Error(`${table} upsert: ${error.message}`);
+      await recordAudit(table, before, row);
       return row;
     }
-    return serialise(table, async () => {
+    let before: Row<T> | null = null;
+    await serialise(table, async () => {
       const rows = await readTable<Row<T>>(table);
       const i = rows.findIndex((r) => (r as { id: string }).id === id);
+      before = i >= 0 ? rows[i] : null;
       if (i >= 0) rows[i] = row; else rows.push(row);
       await writeTable(table, rows);
-      return row;
     });
+    await recordAudit(table, before, row);
+    return row;
   },
 
   /** Shallow-merge `patch` into the stored row. Returns null when the row does not exist. */
@@ -258,30 +284,40 @@ export const db = {
       const next = { ...current, ...patch, id } as Row<T>;
       const { error } = await client.from(table).update({ entity_id: entityIdOf(next), data: next, updated_at: new Date().toISOString() }).eq("id", id);
       if (error) throw new Error(`${table} update: ${error.message}`);
+      await recordAudit(table, current, next);
       return next;
     }
-    return serialise(table, async () => {
+    let before: Row<T> | null = null;
+    const updated = await serialise(table, async () => {
       const rows = await readTable<Row<T>>(table);
       const i = rows.findIndex((r) => (r as { id: string }).id === id);
       if (i < 0) return null;
+      before = rows[i];
       const next = { ...rows[i], ...patch, id } as Row<T>;
       rows[i] = next;
       await writeTable(table, rows);
       return next;
     });
+    if (updated) await recordAudit(table, before, updated);
+    return updated;
   },
 
   async remove<T extends Table>(table: T, id: string): Promise<void> {
     const client = sb();
     if (client) {
+      const before = await previous(table, id);
       const { error } = await client.from(table).delete().eq("id", id);
       if (error) throw new Error(`${table} remove: ${error.message}`);
+      if (before) await recordAudit(table, before, null);
       return;
     }
+    let before: Row<T> | null = null;
     await serialise(table, async () => {
       const rows = await readTable<Row<T>>(table);
+      before = rows.find((r) => (r as { id: string }).id === id) ?? null;
       await writeTable(table, rows.filter((r) => (r as { id: string }).id !== id));
     });
+    if (before) await recordAudit(table, before, null);
   },
 
   async count<T extends Table>(table: T, where?: Partial<Row<T>>): Promise<number> {
@@ -319,6 +355,41 @@ export const db = {
       if (i >= 0) rows[i] = { id, value }; else rows.push({ id, value });
       await writeTable("counters", rows);
       return `${prefix}-${year}-${String(value).padStart(4, "0")}`;
+    });
+  },
+
+  /**
+   * Reserves `count` consecutive numbers of the same counter as `nextNumber` in one update (bulk posting of a
+   * migrated journal: thousands of entries, one counter write per year). Returns them in order.
+   */
+  async reserveNumbers(scope: string, prefix: string, year: number, count: number): Promise<string[]> {
+    if (!Number.isInteger(count) || count <= 0) return [];
+    const id = `${scope}:${prefix}:${year}`;
+    const format = (first: number) => Array.from({ length: count }, (_, i) => `${prefix}-${year}-${String(first + i).padStart(4, "0")}`);
+    const client = sb();
+    if (client) {
+      // Same optimistic increment as nextNumber, by `count` instead of 1.
+      for (let attempt = 0; attempt < 10; attempt++) {
+        const current = await this.get("counters", id);
+        const value = (current?.value ?? 0) + count;
+        if (!current) {
+          const { error } = await client.from("counters").insert({ id, data: { id, value } });
+          if (!error) return format(1);
+          continue;
+        }
+        const { data, error } = await client.from("counters").update({ data: { id, value } }).eq("id", id).eq("data->>value", String(current.value)).select("id");
+        if (error) throw new Error(`counters: ${error.message}`);
+        if (data && data.length > 0) return format(current.value + 1);
+      }
+      throw new Error("counters: could not reserve numbers");
+    }
+    return serialise("counters", async () => {
+      const rows = await readTable<{ id: string; value: number }>("counters");
+      const i = rows.findIndex((r) => r.id === id);
+      const before = i >= 0 ? rows[i].value : 0;
+      if (i >= 0) rows[i] = { id, value: before + count }; else rows.push({ id, value: count });
+      await writeTable("counters", rows);
+      return format(before + 1);
     });
   },
 

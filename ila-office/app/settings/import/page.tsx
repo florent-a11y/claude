@@ -7,15 +7,19 @@ import { FX_CURRENCIES, IMPORT_KINDS, IMPORT_KIND_LABELS, isBooksImport, listImp
 import type { Entity } from "@/lib/types";
 import { Page, Card, CardTable, Cols, Dash, Badge, Field, Select, Notice, EmptyState } from "@/components/ui";
 import { SubmitButton, ConfirmForm } from "@/components/client";
+import { companyNeedsBooks } from "../entities/create-entity";
 import { discardPendingImport, previewImport, runPendingImport, updateImportOptions } from "./actions";
 
 export const dynamic = "force-dynamic";
+/** The server actions of this page post a whole journal file or create books for many companies: allow the platform maximum. */
+export const maxDuration = 300;
 export const metadata = { title: "Import data" };
 
 const DATE_OPTIONS = (Object.keys(DATE_FORMAT_LABELS) as Array<keyof typeof DATE_FORMAT_LABELS>).map((v) => ({ value: v, label: DATE_FORMAT_LABELS[v] }));
-const KIND_TONE: Record<ImportKind, "brand" | "blue" | "indigo" | "green" | "amber" | "slate"> = { hubspot_contacts: "brand", qbo_customers: "blue", qbo_invoices: "indigo", qbo_accounts: "slate", qbo_trial_balance: "green", qbo_journal: "green", qbo_bills: "amber" };
+const KIND_TONE: Record<ImportKind, "brand" | "blue" | "indigo" | "green" | "amber" | "slate"> = { hubspot_contacts: "brand", qbo_customers: "blue", qbo_invoices: "indigo", qbo_accounts: "slate", qbo_trial_balance: "green", qbo_journal: "green", qbo_bills: "amber", qbo_vendors: "slate" };
 /** Where the imported records can be seen afterwards. */
 function doneLink(kind: ImportKind, entityId?: string): { href: string; label: string } {
+  if (kind === "qbo_vendors") return { href: "/clients/vendors", label: "Open vendors" };
   if (!entityId || !isBooksImport(kind)) return { href: "/clients/contacts", label: "Open contacts" };
   const base = `/books/${entityId}`;
   if (kind === "qbo_invoices") return { href: `${base}/sales`, label: "Open invoices" };
@@ -37,15 +41,16 @@ export default async function ImportPage({ searchParams }: { searchParams: Promi
   const done = sp.done ? batches.find((b) => b.id === sp.done) : undefined;
   const userName = (id?: string) => users.find((u) => u.id === id)?.name;
   const entityName = (id?: string) => entities.find((e) => e.id === id)?.name;
-  const file = <Field label="CSV file"><input type="file" name="file" accept=".csv,text/csv" required className="input" /></Field>;
+  const file = <Field label="CSV or Excel file"><input type="file" name="file" accept=".csv,.xlsx,.xls,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required className="input" /></Field>;
 
   return (
-    <Page title="Import data" subtitle="Bring HubSpot and QuickBooks Online across as CSV files. Every file is previewed first; rows that already exist are skipped, so re-running a file is safe." breadcrumbs={[{ href: "/settings/entities", label: "Settings" }, { label: "Import" }]}>
+    <Page title="Import data" subtitle="Bring HubSpot and QuickBooks Online across. A whole QuickBooks company is migrated in one guided pass; single files (CSV or Excel, up to 4 MB) are previewed first, and rows that already exist are skipped, so re-running a file is safe." breadcrumbs={[{ href: "/settings/entities", label: "Settings" }, { label: "Import" }]}>
       {sp.error && <div className="mb-4"><Notice tone="red">{sp.error}</Notice></div>}
       {done && (
         <div className="mb-4">
           <Notice tone={done.errors.length ? "amber" : "green"}>
             <span className="font-semibold">{IMPORT_KIND_LABELS[done.kind as ImportKind] ?? done.kind}</span>{done.entityId && entityName(done.entityId) ? <> into <span className="font-semibold">{entityName(done.entityId)}</span></> : null}: {done.inserted} inserted, {done.skipped} skipped out of {done.rows} rows in <span className="font-mono">{done.fileName}</span>.
+            {done.counts?.books !== undefined && <> {done.counts.books} set{done.counts.books === 1 ? "" : "s"} of books created{done.counts.books > 0 ? <> (<Link className="underline" href="/settings/entities">entities</Link>)</> : null}.</>}
             {done.errors.length > 0 && <details className="mt-1"><summary className="cursor-pointer">{done.errors.length} error{done.errors.length === 1 ? "" : "s"}</summary><ul className="mt-1 list-disc pl-5 text-xs">{done.errors.slice(0, 50).map((e, i) => <li key={i}>{e}</li>)}</ul></details>}
             <span className="ml-2 text-xs"><Link className="underline" href={doneLink(done.kind as ImportKind, done.entityId).href}>{doneLink(done.kind as ImportKind, done.entityId).label}</Link></span>
           </Notice>
@@ -54,6 +59,13 @@ export default async function ImportPage({ searchParams }: { searchParams: Promi
 
       {draft && plan && <PreviewPanel plan={plan} fileName={draft.fileName} options={draft.options} entities={books} own={own} />}
 
+      <Card className="mb-6 border-brand-500/40 ring-1 ring-brand-500/20" title="Migrate a company from QuickBooks: complete history" actions={<Link href="/settings/import/quickbooks" className="btn-primary">Start a migration</Link>}>
+        <p className="text-sm text-ink-700">Choose the company, drop all its QuickBooks exports at once (Account List, Journal, Trial Balance, Invoice List, Unpaid Bills, as Excel), review one plan and import: the chart of accounts, <span className="font-medium">every journal entry of the history</span>, the open invoices and bills. The files are recognised automatically and applied in the right order, and at the end the trial balance is compared with QuickBooks account by account.</p>
+        <p className="mt-1 text-xs text-ink-500">A client company without books gets them when its migration starts. Each company's status (not started, in progress, checked OK) is listed on that page.</p>
+      </Card>
+
+      <h2 className="mb-1 text-base font-semibold text-ink-900">Single files</h2>
+      <p className="mb-3 text-xs text-ink-500">One file at a time, each with its own preview: the directory imports, and the same QuickBooks imports as the migration for when a single report has to be added or repeated.</p>
       <h2 className="mb-2 text-sm font-semibold text-ink-700">Directory (CRM)</h2>
       <div className="grid gap-4 lg:grid-cols-3">
         <Card title="1 · HubSpot contacts">
@@ -68,13 +80,14 @@ export default async function ImportPage({ searchParams }: { searchParams: Promi
         <Card title="2 · QuickBooks customers">
           <form action={previewImport} className="space-y-3">
             <input type="hidden" name="kind" value="qbo_customers" />
-            <p className="text-xs text-ink-500">QuickBooks → Sales → Customers → Export to Excel (save as CSV), or Reports → Customer Contact List. Names with a company token (PT, CV, Ltd, Pty, GmbH, Inc…) become companies, the rest contacts; "Last, First" is split; currency suffixes (" - USD") are stripped and kept as a tag. Import this before invoices so they link to the right customer.</p>
+            <p className="text-xs text-ink-500">QuickBooks → Sales → Customers → Export to Excel, or Reports → Customer Contact List. Names with a company token (PT, CV, Ltd, Pty, GmbH, Inc…) become companies, the rest contacts; "Last, First" is split; currency suffixes (" - USD") are stripped and kept as a tag. Import this before invoices so they link to the right customer.</p>
             {file}
+            <CreateBooksOption checked />
             <SubmitButton pendingText="Reading…">Preview</SubmitButton>
           </form>
         </Card>
         <Card title="Then: books per company">
-          <p className="text-xs text-ink-500">Client companies imported from QuickBooks appear in the directory only. Each one whose accounting ILA keeps needs its own set of books: open the company and use <span className="font-medium">create books</span>, or <Link className="underline" href="/clients/companies">create books for every active client at once</Link>. Then, per company and in this order, import from its QuickBooks file: <span className="font-medium">(1)</span> the account list, <span className="font-medium">(2)</span> the trial balance at the cut-over date — or the journal for the full history, <span className="font-medium">(3)</span> open invoices, <span className="font-medium">(4)</span> open bills. Bank statements are then imported and reconciled from the Bank tab of the books.</p>
+          <p className="text-xs text-ink-500">Each client company whose accounting ILA keeps needs its own set of books. The customers import creates them when "Create books for the imported companies" is ticked; otherwise open the company and use <span className="font-medium">create books</span>, or <Link className="underline" href="/clients/companies">create books for every active client at once</Link>. Then bring each company's accounting across with <Link className="underline" href="/settings/import/quickbooks">Migrate a company from QuickBooks</Link> (all its exports in one pass), or file by file with the cards below, in this order: <span className="font-medium">(1)</span> the account list, <span className="font-medium">(2)</span> the journal for the full history — or the trial balance at the cut-over date, <span className="font-medium">(3)</span> open invoices, <span className="font-medium">(4)</span> open bills. Bank statements are then imported and reconciled from the Bank tab of the books.</p>
           {books.length === 0 ? <p className="mt-2 text-xs text-red-700">No entity yet: create ILA's own entity in Settings → Entities first.</p> : <p className="mt-2 text-xs text-ink-500">{books.length} set{books.length === 1 ? "" : "s"} of books available in the selectors below.</p>}
         </Card>
       </div>
@@ -84,7 +97,7 @@ export default async function ImportPage({ searchParams }: { searchParams: Promi
         <Card title="3 · QuickBooks invoices">
           <form action={previewImport} className="space-y-3">
             <input type="hidden" name="kind" value="qbo_invoices" />
-            <p className="text-xs text-ink-500">QuickBooks → Reports → Invoice List (or Sales → Invoices → Export to Excel, save as CSV). Columns used: Date, Num, Customer, Memo/Description, Amount, Open Balance, Due date, Currency, Exchange rate. Status is paid / partial / sent from the open balance; the customer is matched to the directory by QBO name.</p>
+            <p className="text-xs text-ink-500">QuickBooks → Reports → Invoice List (or Sales → Invoices → Export to Excel). Columns used: Date, Num, Customer, Memo/Description, Amount, Open Balance, Due date, Currency, Exchange rate. Status is paid / partial / sent from the open balance; the customer is matched to the directory by QBO name.</p>
             {file}
             <BooksOptions kind="qbo_invoices" entities={books} own={own} />
             <SubmitButton pendingText="Reading…">Preview</SubmitButton>
@@ -93,7 +106,7 @@ export default async function ImportPage({ searchParams }: { searchParams: Promi
         <Card title="4 · QuickBooks account list">
           <form action={previewImport} className="space-y-3">
             <input type="hidden" name="kind" value="qbo_accounts" />
-            <p className="text-xs text-ink-500">QuickBooks → Reports → Account List → Export → Export to Excel (save as CSV). Columns used: Account, Type, Detail type, Account number (when numbers are on), Balance. QBO types are mapped to our chart (Bank → asset/bank, Accounts receivable → AR, Other current liabilities → other liability or tax payable, Income → sales…); existing accounts are matched by number then by name and remembered under their QBO name; the rest are created with the next free code. Run this first: the trial balance and the journal need every account mapped.</p>
+            <p className="text-xs text-ink-500">QuickBooks → Reports → Account List → Export → Export to Excel. Columns used: Account, Type, Detail type, Account number (when numbers are on), Balance. QBO types are mapped to our chart (Bank → asset/bank, Accounts receivable → AR, Other current liabilities → other liability or tax payable, Income → sales…); existing accounts are matched by number then by name and remembered under their QBO name; the rest are created with the next free code. Run this first: the trial balance and the journal need every account mapped.</p>
             {file}
             <BooksOptions kind="qbo_accounts" entities={books} own={own} />
             <SubmitButton pendingText="Reading…">Preview</SubmitButton>
@@ -102,7 +115,7 @@ export default async function ImportPage({ searchParams }: { searchParams: Promi
         <Card title="5 · QuickBooks trial balance (opening balances)">
           <form action={previewImport} className="space-y-3">
             <input type="hidden" name="kind" value="qbo_trial_balance" />
-            <p className="text-xs text-ink-500">QuickBooks → Reports → Trial Balance, report period ending on the cut-over date → Export → Export to Excel (save as CSV). Columns used: Account (first column, often unnamed), Debit, Credit. One opening journal dated at the cut-over with one line per account; P&L balances are carried as they are, so a mid-year cut-over keeps the year-to-date result. Use this instead of the journal when QuickBooks history stays in QuickBooks.</p>
+            <p className="text-xs text-ink-500">QuickBooks → Reports → Trial Balance, report period ending on the cut-over date → Export → Export to Excel. Columns used: Account (first column, often unnamed), Debit, Credit. One opening journal dated at the cut-over with one line per account; P&L balances are carried as they are, so a mid-year cut-over keeps the year-to-date result. Use this instead of the journal when QuickBooks history stays in QuickBooks.</p>
             {file}
             <BooksOptions kind="qbo_trial_balance" entities={books} own={own} />
             <SubmitButton pendingText="Reading…">Preview</SubmitButton>
@@ -111,7 +124,7 @@ export default async function ImportPage({ searchParams }: { searchParams: Promi
         <Card title="6 · QuickBooks journal (full history)">
           <form action={previewImport} className="space-y-3">
             <input type="hidden" name="kind" value="qbo_journal" />
-            <p className="text-xs text-ink-500">QuickBooks → Reports → Journal, date range to import → Export → Export to Excel (save as CSV). Columns used: Date, Transaction Type, Num, Name, Memo/Description, Account, Debit, Credit. Each transaction becomes one manual journal entry (memo "QBO type num name"); entries already imported are skipped. Do not combine with the trial balance for the same period, or balances double.</p>
+            <p className="text-xs text-ink-500">QuickBooks → Reports → Journal, date range to import → Export → Export to Excel. Columns used: Date, Transaction Type, Num, Name, Memo/Description, Account, Debit, Credit. Each transaction becomes one manual journal entry (memo "QBO type num name · memo"), posted in bulk; entries already imported are skipped. Every account must be mapped first (card 4). Do not combine with the trial balance for the same period, or balances double.</p>
             {file}
             <BooksOptions kind="qbo_journal" entities={books} own={own} />
             <SubmitButton pendingText="Reading…">Preview</SubmitButton>
@@ -120,7 +133,7 @@ export default async function ImportPage({ searchParams }: { searchParams: Promi
         <Card title="7 · QuickBooks bills">
           <form action={previewImport} className="space-y-3">
             <input type="hidden" name="kind" value="qbo_bills" />
-            <p className="text-xs text-ink-500">QuickBooks → Expenses → Bills (filter, then Export to Excel, save as CSV), or Reports → Unpaid Bills / Bill List. Columns used: Date, Num (bill no.), Vendor/Supplier, Due date, Amount, Open balance, Memo, Currency, Exchange rate. One bill per number with one line to Other operating expenses (6-9000); the vendor is matched to the directory by name; status is paid / partial / sent from the open balance.</p>
+            <p className="text-xs text-ink-500">QuickBooks → Expenses → Bills (filter, then Export to Excel), or Reports → Unpaid Bills / Bill List. Columns used: Date, Num (bill no.), Vendor/Supplier, Due date, Amount, Open balance, Memo, Currency, Exchange rate. One bill per number with one line to Other operating expenses (6-9000); the vendor is matched to the directory by name; status is paid / partial / sent from the open balance.</p>
             {file}
             <BooksOptions kind="qbo_bills" entities={books} own={own} />
             <SubmitButton pendingText="Reading…">Preview</SubmitButton>
@@ -157,6 +170,13 @@ export default async function ImportPage({ searchParams }: { searchParams: Promi
         )}
       </Card>
     </Page>
+  );
+}
+
+/** QuickBooks customers: also create a set of books for every imported company that needs one (on by default). */
+function CreateBooksOption({ checked }: { checked?: boolean }) {
+  return (
+    <label className="flex items-start gap-2 text-sm"><input type="checkbox" name="createBooks" defaultChecked={checked} className="checkbox mt-0.5" /><span>Create books for the imported companies<span className="block text-xs text-ink-500">One set of books (standard chart of accounts, default tax profile) per company this import adds, when it is an active client with a legal form. Individuals are imported as contacts and never get books.</span></span></label>
   );
 }
 
@@ -242,6 +262,17 @@ function PreviewPanel({ plan, fileName, options, entities, own }: { plan: Import
           </form>
         </details>
       )}
+      {kind === "qbo_customers" && (
+        <details className="mb-3 rounded-lg border border-slate-200 p-3" open>
+          <summary className="cursor-pointer text-sm font-medium">Options (books for the imported companies)</summary>
+          <form action={updateImportOptions} className="mt-3 space-y-3">
+            <input type="hidden" name="kind" value={kind} />
+            <CreateBooksOption checked={options.createBooks} />
+            <p className="text-xs text-ink-500">{options.createBooks ? `${plan.companies.filter(companyNeedsBooks).length} of the ${plan.companies.length} new companies will get a set of books.` : "No books are created: do it later from Clients → Companies."}</p>
+            <SubmitButton className="btn-secondary" pendingText="Updating…">Update preview</SubmitButton>
+          </form>
+        </details>
+      )}
       {kind === "hubspot_contacts" && (
         <details className="mb-3 rounded-lg border border-slate-200 p-3">
           <summary className="cursor-pointer text-sm font-medium">Options (date format)</summary>
@@ -272,7 +303,7 @@ function PreviewPanel({ plan, fileName, options, entities, own }: { plan: Import
             </table>
           </CardTable>
         </>
-      ) : !plan.blocking && <p className="text-sm text-ink-500">Nothing new to {kind === "qbo_trial_balance" || kind === "qbo_journal" ? "post" : "insert"}{plan.rows === 0 ? ": no data rows were found. Check that the file is a CSV with a header line." : "."}</p>}
+      ) : !plan.blocking && <p className="text-sm text-ink-500">Nothing new to {kind === "qbo_trial_balance" || kind === "qbo_journal" ? "post" : "insert"}{plan.rows === 0 ? ": no data rows were found. Check that the file is a CSV or Excel export with a header line." : "."}</p>}
 
       <div className="mt-3 grid gap-3 md:grid-cols-3">
         {plan.duplicates.length > 0 && <details className="text-xs"><summary className="cursor-pointer font-medium">{plan.duplicates.length} duplicates (skipped)</summary><ul className="mt-1 max-h-48 list-disc overflow-y-auto pl-4">{plan.duplicates.slice(0, 200).map((d, i) => <li key={i}>line {d.line}: {d.label} — {d.reason}</li>)}</ul></details>}

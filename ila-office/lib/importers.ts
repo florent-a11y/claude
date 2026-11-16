@@ -1,15 +1,19 @@
 /**
- * Pure CSV → draft mappers for the migration imports: HubSpot contacts, QuickBooks Online customers and invoices
- * (CRM + ILA's own books) and, per client entity, the QuickBooks account list, trial balance, journal and bills.
- * No I/O, no Next.js, no database, so the functions run in tests and could run in the browser.
- * lib/import-services.ts dedupes the drafts against the store and writes rows.
+ * Pure table → draft mappers for the migration imports: HubSpot contacts, QuickBooks Online customers and invoices
+ * (CRM + ILA's own books) and, per client entity, the QuickBooks account list, trial balance, journal, bills and
+ * vendors. No I/O, no Next.js, no database, so the functions run in tests and could run in the browser.
+ * lib/import-services.ts dedupes the drafts against the store and writes rows; lib/qbo-migration-services.ts chains
+ * them for the "migrate a company" wizard.
  *
- * Export formats in the wild are messy: HubSpot and QBO rename columns per locale and report, QBO report
- * exports start with a few title lines, dates come as dd/mm/yyyy, mm/dd/yyyy or yyyy-mm-dd, and QBO customer
- * display names carry a currency suffix ("Jane Doe - USD") because QBO needs one customer record per currency.
- * Every mapper is forgiving on input and strict on output.
+ * Every mapper takes a CSV text or a table already read with `tableFromGrid` (Excel exports go through
+ * lib/statement-file.ts first). Export formats in the wild are messy: HubSpot and QBO rename columns per locale and
+ * report, QBO report exports start with title rows (company, report, period) and end with a "… Accrual Basis" footer,
+ * some reports are grouped under a customer or vendor heading, dates come as dd/mm/yyyy, mm/dd/yyyy or yyyy-mm-dd,
+ * and QBO customer display names carry a currency suffix ("Jane Doe - USD") because QBO needs one customer record
+ * per currency. Every mapper is forgiving on input and strict on output.
  */
 import { parseCSV } from "./csv";
+import { roundMoney } from "./money";
 import type { Account, AccountSubtype, AccountType, Bill, Contact, Company, EntityType, Invoice, JournalLine } from "./types";
 
 export type DateFormat = "auto" | "dmy" | "mdy" | "ymd";
@@ -25,7 +29,18 @@ export interface ParsedTable {
   /** 1-based line number of the header row in the file. */
   headerLine: number;
   rows: Array<{ line: number; cells: Record<string, string> }>;
+  /** Lines printed above the header row, cells joined (QuickBooks: company name, report title, period). */
+  titleLines?: string[];
+  /** The title line that names a QuickBooks report ("Journal", "Trial Balance"…). */
+  reportTitle?: string;
+  /** The company name printed above the header (the title line that is neither the report nor the period). */
+  companyName?: string;
+  /** The period line as printed ("As of October 31, 2026", "January - March 2026", "All Dates"). */
+  periodLine?: string;
 }
+
+/** What every mapper accepts: the CSV text, or a table already read from a grid (Excel sheet). */
+export type TableInput = string | ParsedTable;
 
 /** "Memo/Description" → "memo description", "Open Balance (IDR)" → "open balance", "Account #" → "account number". */
 export function normHeader(h: string): string {
@@ -37,30 +52,91 @@ const HEADER_HINTS = new Set([
   "open balance", "balance", "memo description", "memo", "description", "phone", "phone number", "phone numbers", "currency", "due date", "type",
   "full name", "billing address", "lead status", "create date", "status", "total",
   "account", "account type", "detail type", "account number", "debit", "credit", "transaction type", "vendor", "supplier", "payee", "bill no",
+  "split", "address", "terms", "past due", "posting", "total balance", "display name", "customer full name", "supplier full name", "vendor full name",
 ]);
 
+/** Title lines QuickBooks prints above a report's header row, by the report they announce. */
+const REPORT_TITLE = /^(journal|trial balance|general ledger|account list(ing)?|chart of accounts|invoice list( by date)?|open invoices|invoices and received payments|unpaid bills|bill list|bills and applied payments|customer contact list|customer list|(vendor|supplier) contact list|(vendor|supplier) list|transaction (list|detail) by .*|a\W?[rp] age?ing.*|profit and loss.*|balance sheet.*|statement of .*)$/i;
+/** Last row of a QuickBooks export: "Monday, Nov 16, 2026 02:13:22 AM GMT+8 - Accrual Basis". */
+const FOOTER_LINE = /\b(accrual|cash)\s+basis\b|^(mon|tues|wednes|thurs|fri|satur|sun)day,?\s.*\d{1,2}:\d{2}/i;
+
 /**
- * Parses a CSV and locates the header row (QBO report exports start with a company name, a title and a date range).
+ * Reads a grid of text cells (a CSV, or an Excel sheet from lib/statement-file.ts) as a table. QuickBooks report
+ * exports start with title rows (company name, report title, period): the header row is the first of the top 20
+ * rows with two known column names, and what stands above it comes back as `titleLines`, with the report title and
+ * the company name told apart (QuickBooks prints either one first). The "… Accrual Basis" footer row is dropped.
  * A column whose header is blank (QBO reports leave the account column unnamed) is readable as "column N" (1-based).
  */
-export function tableFromCSV(text: string): ParsedTable {
-  const rows = parseCSV(text);
+export function tableFromGrid(grid: string[][]): ParsedTable {
   let headerIndex = 0;
-  for (let i = 0; i < Math.min(rows.length, 20); i++) {
-    const hits = rows[i].map(normHeader).filter((h) => HEADER_HINTS.has(h)).length;
+  for (let i = 0; i < Math.min(grid.length, 20); i++) {
+    const hits = grid[i].map((c) => normHeader(String(c ?? ""))).filter((h) => HEADER_HINTS.has(h)).length;
     if (hits >= 2) { headerIndex = i; break; }
   }
-  const rawHeaders = rows[headerIndex] ?? [];
+  const rawHeaders = (grid[headerIndex] ?? []).map((c) => String(c ?? ""));
   const headers = rawHeaders.map(normHeader);
-  const out: ParsedTable = { headers, rawHeaders, headerLine: headerIndex + 1, rows: [] };
-  for (let i = headerIndex + 1; i < rows.length; i++) {
-    const r = rows[i];
-    if (!r.some((c) => c.trim() !== "")) continue;
+  const titleLines = grid.slice(0, headerIndex).map((r) => r.map((c) => String(c ?? "").trim()).filter(Boolean).join(", ")).filter(Boolean);
+  const periodLine = titleLines.find((l) => !REPORT_TITLE.test(l) && (/^(all dates|since)\b/i.test(l) || parseReportPeriod(l).to !== undefined));
+  const others = titleLines.filter((l) => l !== periodLine);
+  const reportTitle = others.find((l) => REPORT_TITLE.test(l)) ?? others[1];
+  const out: ParsedTable = { headers, rawHeaders, headerLine: headerIndex + 1, rows: [], titleLines, reportTitle, companyName: others.find((l) => l !== reportTitle), periodLine };
+  for (let i = headerIndex + 1; i < grid.length; i++) {
+    const r = grid[i].map((c) => String(c ?? "").trim());
+    const filled = r.filter((c) => c !== "");
+    if (filled.length === 0) continue;
+    if (filled.length === 1 && FOOTER_LINE.test(filled[0])) continue;
     const cells: Record<string, string> = {};
-    headers.forEach((h, j) => { cells[h || `column ${j + 1}`] = (r[j] ?? "").trim(); });
+    headers.forEach((h, j) => { cells[h || `column ${j + 1}`] = r[j] ?? ""; });
     out.rows.push({ line: i + 1, cells });
   }
   return out;
+}
+
+/** Parses a CSV and reads it with `tableFromGrid` (title rows skipped, header located). */
+export function tableFromCSV(text: string): ParsedTable {
+  return tableFromGrid(parseCSV(text));
+}
+
+/** The table behind a mapper's input: CSV text is parsed, a table passes through. */
+export function toTable(input: TableInput): ParsedTable {
+  return typeof input === "string" ? tableFromCSV(input) : input;
+}
+
+/** A grid back to CSV text (every cell quoted), so an Excel sheet can travel wherever a CSV text is expected. */
+export function gridToCSV(grid: string[][]): string {
+  return grid.map((r) => r.map((c) => `"${String(c ?? "").replace(/"/g, '""')}"`).join(",")).join("\n");
+}
+
+const MONTH_NAMES = "jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?";
+
+/**
+ * The period a QuickBooks report covers, from its period line: "As of October 31, 2026" → to; "January - March 2026",
+ * "January 1 - October 31, 2026", "01/01/2026 - 31/10/2026" → from and to; "October 2026" → that month; "All Dates"
+ * or anything unreadable → {}.
+ */
+export function parseReportPeriod(line: string | undefined): { from?: string; to?: string } {
+  const s = (line ?? "").replace(/\s+/g, " ").trim();
+  if (!s || /^all dates/i.test(s)) return {};
+  const asOf = s.match(/\bas of\s+(.+)$/i);
+  if (asOf) return { to: parseDate(asOf[1]) };
+  const monthYear = (t: string): { y: number; m: number } | undefined => {
+    const m = t.match(new RegExp(`^(${MONTH_NAMES})\\.?,?\\s+(\\d{4})$`, "i"));
+    return m ? { y: Number(m[2]), m: MONTHS[m[1].slice(0, 3).toLowerCase()] } : undefined;
+  };
+  const endOf = (t: string): string | undefined => { const my = monthYear(t); return my ? validDate(my.y, my.m, new Date(Date.UTC(my.y, my.m, 0)).getUTCDate()) : parseDate(t); };
+  const parts = s.split(/\s+(?:[-–—]|to|through)\s+/i);
+  if (parts.length === 2) {
+    const to = endOf(parts[1]);
+    if (!to) return {};
+    const year = to.slice(0, 4);
+    const a = parts[0].trim();
+    const my = monthYear(a) ?? monthYear(`${a} ${year}`);
+    const from = my ? validDate(my.y, my.m, 1) : parseDate(a) ?? parseDate(`${a}, ${year}`) ?? parseDate(`${a} ${year}`);
+    return { from, to };
+  }
+  const single = monthYear(s);
+  if (single) return { from: validDate(single.y, single.m, 1), to: endOf(s) };
+  return {};
 }
 
 /** First non-empty value among the given column aliases (aliases are normalised the same way as headers). */
@@ -126,7 +202,7 @@ function year4(y: string): number {
 
 /**
  * Parses one date cell to ISO `YYYY-MM-DD`. Accepts ISO, numeric d/m/y or m/d/y with `/`, `-` or `.`, "15 Jan 2026",
- * "Jan 15, 2026" and ISO timestamps. For numeric dates the caller picks the order; "auto" resolves an ambiguous
+ * "15-Jan-26", "Jan 15, 2026" and ISO timestamps. For numeric dates the caller picks the order; "auto" resolves an ambiguous
  * cell (both parts ≤ 12) as day-first, which is how QBO Indonesia and Google Sheets in Bali show dates.
  */
 export function parseDate(input: string | undefined | null, format: DateFormat = "auto"): string | undefined {
@@ -144,7 +220,7 @@ export function parseDate(input: string | undefined | null, format: DateFormat =
     else order = a > 12 ? "dmy" : b > 12 ? "mdy" : "dmy";
     return order === "dmy" ? validDate(y, b, a) : validDate(y, a, b);
   }
-  m = s.match(/^(\d{1,2})\s+([A-Za-z]{3,})\.?,?\s+(\d{2,4})/);
+  m = s.match(/^(\d{1,2})[\s\-/.]+([A-Za-z]{3,})\.?,?[\s\-/.]+(\d{2,4})/); // "15 Jan 2026", and Excel's "15-Jan-26"
   if (m) { const mo = MONTHS[m[2].slice(0, 3).toLowerCase()]; return mo ? validDate(year4(m[3]), mo, Number(m[1])) : undefined; }
   m = s.match(/^([A-Za-z]{3,})\.?\s+(\d{1,2}),?\s+(\d{4})/);
   if (m) { const mo = MONTHS[m[1].slice(0, 3).toLowerCase()]; return mo ? validDate(Number(m[3]), mo, Number(m[2])) : undefined; }
@@ -335,8 +411,8 @@ export interface ParseResult<T> {
 export interface HubspotOptions { dateFormat?: DateFormat }
 
 /** Maps a HubSpot "Export contacts" CSV to contact drafts. Lead status and lifecycle stage become tags. */
-export function parseHubspotContacts(text: string, opts: HubspotOptions = {}): ParseResult<ContactDraft> {
-  const table = tableFromCSV(text);
+export function parseHubspotContacts(input: TableInput, opts: HubspotOptions = {}): ParseResult<ContactDraft> {
+  const table = toTable(input);
   const result: ParseResult<ContactDraft> = { drafts: [], errors: [], skipped: [], warnings: [], headers: table.rawHeaders, headerLine: table.headerLine, rowCount: table.rows.length };
   if (!hasCol(table.headers, "email", "email address")) result.warnings.push("no Email column: contacts are deduplicated by Record ID only");
   const fmt = resolveFormat(opts.dateFormat, table.rows.map((r) => col(r.cells, "create date", "created date", "createdate").split(/\s+/)[0]));
@@ -428,8 +504,8 @@ export function guessEntityType(name: string, hint = ""): { type: EntityType | "
 }
 
 /** Maps a QBO customer export (Sales → Customers → Export, or the Customer Contact List report) to drafts. */
-export function parseQboCustomers(text: string): ParseResult<QboCustomerDraft> {
-  const table = tableFromCSV(text);
+export function parseQboCustomers(input: TableInput): ParseResult<QboCustomerDraft> {
+  const table = toTable(input);
   const result: ParseResult<QboCustomerDraft> = { drafts: [], errors: [], skipped: [], warnings: [], headers: table.rawHeaders, headerLine: table.headerLine, rowCount: table.rows.length };
   if (!hasCol(table.headers, "customer", "customer name", "display name", "customer full name", "name", "client")) result.warnings.push("no Customer column found: check that this is a QuickBooks customer export");
   for (const { line, cells } of table.rows) {
@@ -522,13 +598,27 @@ const INV_DATE = ["date", "transaction date", "txn date", "invoice date"];
 const INV_NUM = ["num", "no", "number", "invoice no", "invoice number", "invoice", "doc number", "doc no", "ref no", "reference"];
 const INV_CUSTOMER = ["customer", "customer name", "customer full name", "name", "client"];
 const INV_OPEN = ["open balance", "balance", "amount due", "balance due", "open amount"];
+const INV_AMOUNT = ["amount", "line amount", "total", "total amount", "invoice total"];
 
 /**
- * Maps a QBO invoice export (Invoice List report, Sales → Invoices export, or a Transaction List by Customer filtered
- * to invoices) to one draft per document number. Several rows with the same number become lines of one invoice.
+ * Grouped reports (Open Invoices, Unpaid Bills, Transaction List by Customer / Vendor) print the customer or vendor
+ * alone on a heading row, in the unnamed first column, above its lines. Returns that name for such a row.
  */
-export function parseQboInvoices(text: string, opts: QboInvoiceOptions = {}): InvoiceParseResult {
-  const table = tableFromCSV(text);
+function groupHeading(cells: Record<string, string>): string | undefined {
+  const filled = Object.entries(cells).filter(([, v]) => v !== "");
+  if (filled.length !== 1) return undefined;
+  const [key, value] = filled[0];
+  return /^column \d+$/.test(key) && !/^total\b/i.test(value) ? value : undefined;
+}
+
+/**
+ * Maps a QBO invoice export (Invoice List or Open Invoices report, Sales → Invoices export, or a Transaction List by
+ * Customer filtered to invoices) to one draft per document number. Several rows with the same number become lines of
+ * one invoice. In a report grouped by customer the heading row names the customer; a report with an Open Balance
+ * column only (Open Invoices) takes the open balance as the invoice total.
+ */
+export function parseQboInvoices(input: TableInput, opts: QboInvoiceOptions = {}): InvoiceParseResult {
+  const table = toTable(input);
   const result: InvoiceParseResult = { drafts: [], errors: [], skipped: [], warnings: [], headers: table.rawHeaders, headerLine: table.headerLine, rowCount: table.rows.length, currencies: [], hasOpenBalanceColumn: hasCol(table.headers, ...INV_OPEN) };
   const fmt = resolveFormat(opts.dateFormat, table.rows.map((r) => col(r.cells, ...INV_DATE)));
   const hasTotalCol = hasCol(table.headers, "total", "total amount", "invoice total");
@@ -536,20 +626,26 @@ export function parseQboInvoices(text: string, opts: QboInvoiceOptions = {}): In
   if (!result.hasOpenBalanceColumn) result.warnings.push("no Open Balance column: invoices are imported as unpaid unless a Status column says paid");
   if (!hasCol(table.headers, ...INV_NUM)) result.warnings.push("no invoice number column (Num / No.): every row will be rejected");
   if (opts.dateFormat === "auto" || !opts.dateFormat) result.warnings.push(`numeric dates read as ${DATE_FORMAT_LABELS[fmt]}`);
+  const amountFromOpen = !hasCol(table.headers, ...INV_AMOUNT) && result.hasOpenBalanceColumn;
+  if (amountFromOpen) result.warnings.push("no Amount column: the open balance is taken as the invoice total");
+  let group = "";
   for (const { line, cells } of table.rows) {
+    const heading = groupHeading(cells);
+    if (heading) { group = heading; continue; }
     const type = col(cells, "type", "transaction type");
     const num = col(cells, ...INV_NUM);
     const dateRaw = col(cells, ...INV_DATE);
-    const customerRaw = col(cells, ...INV_CUSTOMER);
+    const ownCustomer = col(cells, ...INV_CUSTOMER);
     const firstCell = Object.values(cells).find((v) => v !== "") ?? "";
     if (/^total\b/i.test(firstCell) && !num) { result.skipped.push({ line, reason: "report total line" }); continue; }
-    if (!num && !dateRaw && !customerRaw) continue;
+    if (!num && !dateRaw && !ownCustomer) continue;
     if (type && !/invoice/i.test(type)) { result.skipped.push({ line, reason: `transaction type "${type}"` }); continue; }
     if (!num) { result.errors.push({ line, message: "missing invoice number" }); continue; }
     const date = parseDate(dateRaw, fmt);
     if (!date) { result.errors.push({ line, message: dateRaw ? `unreadable date "${dateRaw}"` : "missing date" }); continue; }
+    const customerRaw = ownCustomer || group;
     if (!customerRaw) { result.errors.push({ line, message: "missing customer" }); continue; }
-    const amount = parseAmount(col(cells, "amount", "line amount", "total", "total amount", "invoice total"));
+    const amount = parseAmount(col(cells, ...(amountFromOpen ? INV_OPEN : INV_AMOUNT)));
     const qtyRaw = col(cells, "qty", "quantity");
     const qty = qtyRaw ? parseAmount(qtyRaw) || 1 : 1;
     const item = col(cells, "product service", "product/service", "item", "service");
@@ -585,12 +681,12 @@ export function parseQboInvoices(text: string, opts: QboInvoiceOptions = {}): In
   }
   const currencies = new Set<string>();
   for (const d of byNumber.values()) {
-    if (d.lines.length > 1 || !hasTotalCol) d.total = d.lines.reduce((s, l) => s + l.amount, 0);
+    if (d.lines.length > 1 || !hasTotalCol) d.total = roundMoney(d.lines.reduce((s, l) => s + l.amount, 0));
     if (Number.isNaN(d.openBalance)) d.openBalance = d.status === "void" ? 0 : d.total;
     if (d.status === "void") { result.skipped.push({ line: d.line, reason: `invoice ${d.qboDocNumber} is voided` }); continue; }
     if (d.total < 0) { result.skipped.push({ line: d.line, reason: `invoice ${d.qboDocNumber} has a negative total (credit memo?)` }); continue; }
     d.openBalance = Math.max(0, Math.min(d.total, d.openBalance));
-    d.amountPaid = Math.max(0, d.total - d.openBalance);
+    d.amountPaid = roundMoney(Math.max(0, d.total - d.openBalance));
     d.status = d.openBalance <= 0 ? "paid" : d.openBalance >= d.total ? "sent" : "partial";
     if (d.total === 0) d.warnings.push("zero amount");
     currencies.add(d.currency);
@@ -710,8 +806,8 @@ export function qboNumberToCode(number: string | undefined, type: AccountType, s
 const ACC_NAME = ["account", "account name", "full name", "account full name", "name", "column 1"];
 
 /** Maps a QBO Reports → Account List export (Account, Type, Detail type, Account number, Balance) to drafts. */
-export function parseQboAccounts(text: string): ParseResult<AccountDraft> {
-  const table = tableFromCSV(text);
+export function parseQboAccounts(input: TableInput): ParseResult<AccountDraft> {
+  const table = toTable(input);
   const result: ParseResult<AccountDraft> = { drafts: [], errors: [], skipped: [], warnings: [], headers: table.rawHeaders, headerLine: table.headerLine, rowCount: table.rows.length };
   if (!hasCol(table.headers, "type", "account type")) result.warnings.push("no Type column: every row will be rejected (export Reports → Account List with the Type column)");
   if (!hasCol(table.headers, "account number", "number", "account no", "acct no")) result.warnings.push("no Account number column: new accounts get the next free code in their group");
@@ -738,8 +834,10 @@ export function parseQboAccounts(text: string): ParseResult<AccountDraft> {
 export interface TrialBalanceRow { account: string; debit: number; credit: number; line: number }
 
 export interface TrialBalanceParseResult extends ParseResult<TrialBalanceRow> {
-  /** "As of" date read from the report title lines, when present. */
+  /** "As of" date read from the report title lines, when present (the last day when the report covers a range). */
   asOf?: string;
+  /** First day of the range, when the title gives one ("January - October, 2026"): income and expenses start there. */
+  from?: string;
   totalDebit: number;
   totalCredit: number;
 }
@@ -748,11 +846,12 @@ const DEBIT_COLS = ["debit", "debit amount", "dr", "debet"];
 const CREDIT_COLS = ["credit", "credit amount", "cr", "kredit"];
 
 /** Maps a QBO Reports → Trial Balance export (Account, Debit, Credit; totals dropped) to one row per account. */
-export function parseQboTrialBalance(text: string): TrialBalanceParseResult {
-  const table = tableFromCSV(text);
+export function parseQboTrialBalance(input: TableInput): TrialBalanceParseResult {
+  const table = toTable(input);
   const result: TrialBalanceParseResult = { drafts: [], errors: [], skipped: [], warnings: [], headers: table.rawHeaders, headerLine: table.headerLine, rowCount: table.rows.length, totalDebit: 0, totalCredit: 0 };
-  const title = text.split(/\r?\n/).slice(0, Math.max(0, table.headerLine - 1)).join("\n").match(/as of\s+"?([A-Za-z0-9 ,./-]+)/i);
-  if (title) result.asOf = parseDate(title[1].trim());
+  const period = parseReportPeriod(table.periodLine);
+  result.asOf = period.to;
+  result.from = period.from;
   if (!hasCol(table.headers, ...DEBIT_COLS) || !hasCol(table.headers, ...CREDIT_COLS)) result.warnings.push("no Debit / Credit columns found: check that this is the Trial Balance report");
   for (const { line, cells } of table.rows) {
     const account = col(cells, ...ACC_NAME).replace(/\s+/g, " ").trim();
@@ -767,11 +866,12 @@ export function parseQboTrialBalance(text: string): TrialBalanceParseResult {
     result.drafts.push({ account, debit, credit, line });
     result.totalDebit += debit; result.totalCredit += credit;
   }
-  if (result.drafts.length && Math.round(result.totalDebit) !== Math.round(result.totalCredit)) result.warnings.push(`debits (${result.totalDebit}) and credits (${result.totalCredit}) do not balance in the file`);
+  result.totalDebit = roundMoney(result.totalDebit); result.totalCredit = roundMoney(result.totalCredit);
+  if (result.drafts.length && result.totalDebit !== result.totalCredit) result.warnings.push(`debits (${result.totalDebit}) and credits (${result.totalCredit}) do not balance in the file`);
   return result;
 }
 
-export interface OpeningLinesResult { lines: JournalLine[]; unmatched: TrialBalanceRow[]; /** debits − credits before balancing (IDR, rounded). */ difference: number }
+export interface OpeningLinesResult { lines: JournalLine[]; unmatched: TrialBalanceRow[]; /** debits − credits before balancing (IDR, to the cent). */ difference: number }
 
 /**
  * Trial balance rows → opening journal lines in IDR (one line per resolved account, rows on the same account
@@ -785,15 +885,16 @@ export function openingLinesFromTrialBalance(rows: TrialBalanceRow[], resolve: (
     const account = resolve(r.account);
     if (!account) { unmatched.push(r); continue; }
     const cur = net.get(account.id) ?? { account, net: 0 };
-    cur.net += Math.round(r.debit) - Math.round(r.credit);
+    cur.net += roundMoney(r.debit) - roundMoney(r.credit);
     net.set(account.id, cur);
   }
   const lines: JournalLine[] = [];
   let difference = 0;
-  for (const { account, net: n } of net.values()) {
+  for (const { account, net: raw } of net.values()) {
+    const n = roundMoney(raw);
     if (n === 0) continue;
     lines.push({ accountId: account.id, accountCode: account.code, description: opts.description, debit: n > 0 ? n : 0, credit: n < 0 ? -n : 0 });
-    difference += n;
+    difference = roundMoney(difference + n);
   }
   if (difference !== 0 && opts.balanceTo) {
     const b = opts.balanceTo;
@@ -840,8 +941,8 @@ const JRN_MEMO = ["memo description", "memo", "description", "line description"]
  * without an account). Consecutive dated rows with the same (date, type, num, name) are the same transaction, so
  * flat exports that repeat the date on every line work too. Debits in parentheses or negative are credits.
  */
-export function parseQboJournal(text: string, opts: QboJournalOptions = {}): ParseResult<JournalDraft> {
-  const table = tableFromCSV(text);
+export function parseQboJournal(input: TableInput, opts: QboJournalOptions = {}): ParseResult<JournalDraft> {
+  const table = toTable(input);
   const result: ParseResult<JournalDraft> = { drafts: [], errors: [], skipped: [], warnings: [], headers: table.rawHeaders, headerLine: table.headerLine, rowCount: table.rows.length };
   const fmt = resolveFormat(opts.dateFormat, table.rows.map((r) => col(r.cells, ...INV_DATE)));
   if (!hasCol(table.headers, ...JRN_ACCOUNT)) result.warnings.push("no Account column: every row will be rejected (export Reports → Journal)");
@@ -884,14 +985,42 @@ export function parseQboJournal(text: string, opts: QboJournalOptions = {}): Par
   for (const d of result.drafts) {
     d.lines = d.lines.filter((l) => l.debit !== 0 || l.credit !== 0);
     if (d.lines.length === 0) { result.skipped.push({ line: d.line, reason: `${d.type} ${d.num}: no amounts` }); continue; }
-    d.totalDebit = d.lines.reduce((s, l) => s + l.debit, 0);
-    d.totalCredit = d.lines.reduce((s, l) => s + l.credit, 0);
-    d.balanced = Math.round(d.totalDebit) === Math.round(d.totalCredit);
+    d.totalDebit = roundMoney(d.lines.reduce((s, l) => s + l.debit, 0));
+    d.totalCredit = roundMoney(d.lines.reduce((s, l) => s + l.credit, 0));
+    d.balanced = d.totalDebit === d.totalCredit;
     if (!d.balanced) result.errors.push({ line: d.line, message: `${journalLabel(d)}: debits ${d.totalDebit} ≠ credits ${d.totalCredit}` });
     else drafts.push(d);
   }
   result.drafts = drafts;
   return result;
+}
+
+/** FNV-1a over a string, in base 36: a short, stable discriminator (no crypto: this module also runs in the browser). */
+function shortHash(s: string): string {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); }
+  return (h >>> 0).toString(36);
+}
+
+/**
+ * `sourceId` of each journal draft, the key that makes a re-run skip what is already posted: "qbo:<type>:<num or
+ * name>:<date>" (`base`, also what older imports stored). QuickBooks leaves many transactions unnumbered (deposits,
+ * transfers, expenses), so several of one day can share that key: those get a hash of their lines appended, and a
+ * running number when even the lines are equal, so every transaction of the file is posted exactly once.
+ */
+export function journalSourceIds(drafts: Array<Pick<JournalDraft, "type" | "num" | "name" | "date" | "lines">>): Array<{ base: string; sourceId: string }> {
+  const bases = drafts.map((d) => `qbo:${d.type.trim() || "txn"}:${d.num || normName(d.name).replace(/ /g, "-") || "-"}:${d.date}`);
+  const count = new Map<string, number>();
+  for (const b of bases) count.set(b, (count.get(b) ?? 0) + 1);
+  const seen = new Map<string, number>();
+  return drafts.map((d, i) => {
+    const base = bases[i];
+    if (count.get(base) === 1) return { base, sourceId: base };
+    const id = `${base}:${shortHash(d.lines.map((l) => `${normName(l.account)}|${roundMoney(l.debit)}|${roundMoney(l.credit)}`).sort().join(";"))}`;
+    const n = (seen.get(id) ?? 0) + 1;
+    seen.set(id, n);
+    return { base, sourceId: n === 1 ? id : `${id}:${n}` };
+  });
 }
 
 // ---------- QuickBooks bills ----------
@@ -921,34 +1050,41 @@ export interface BillParseResult extends ParseResult<BillDraft> { currencies: st
 
 const BILL_NUM = ["num", "no", "number", "bill no", "bill number", "ref no", "reference", "doc number", "vendor invoice no", "supplier invoice no"];
 const BILL_VENDOR = ["vendor", "supplier", "vendor name", "supplier name", "payee", "name"];
+const BILL_AMOUNT = ["amount", "line amount", "total", "total amount", "bill total"];
 
 /**
  * Maps a QBO bill export (Expenses → Bills export, Reports → Unpaid Bills or Bill List) to one draft per bill
  * number; several rows with the same number become lines. Bills without a number are keyed by date, vendor and
- * amount so re-running the file still skips them. Bill payments and other transaction types are skipped.
+ * amount so re-running the file still skips them. Bill payments and other transaction types are skipped. Unpaid
+ * Bills is grouped by vendor (the heading row names it) and may carry the open balance only, taken as the total.
  */
-export function parseQboBills(text: string, opts: QboBillOptions = {}): BillParseResult {
-  const table = tableFromCSV(text);
+export function parseQboBills(input: TableInput, opts: QboBillOptions = {}): BillParseResult {
+  const table = toTable(input);
   const result: BillParseResult = { drafts: [], errors: [], skipped: [], warnings: [], headers: table.rawHeaders, headerLine: table.headerLine, rowCount: table.rows.length, currencies: [], hasOpenBalanceColumn: hasCol(table.headers, ...INV_OPEN) };
   const fmt = resolveFormat(opts.dateFormat, table.rows.map((r) => col(r.cells, ...INV_DATE, "bill date")));
   const hasTotalCol = hasCol(table.headers, "total", "total amount", "bill total");
   if (!result.hasOpenBalanceColumn) result.warnings.push("no Open Balance column: bills are imported as unpaid unless a Status column says paid");
-  if (!hasCol(table.headers, ...BILL_VENDOR)) result.warnings.push("no Vendor / Supplier column found: check that this is a bill export");
   if (opts.dateFormat === "auto" || !opts.dateFormat) result.warnings.push(`numeric dates read as ${DATE_FORMAT_LABELS[fmt]}`);
+  const amountFromOpen = !hasCol(table.headers, ...BILL_AMOUNT) && result.hasOpenBalanceColumn;
+  if (amountFromOpen) result.warnings.push("no Amount column: the open balance is taken as the bill total");
   const byNumber = new Map<string, BillDraft>();
+  let group = "", grouped = false;
   for (const { line, cells } of table.rows) {
+    const heading = groupHeading(cells);
+    if (heading) { group = stripInactiveSuffix(heading).name; grouped = true; continue; }
     const type = col(cells, ...JRN_TYPE);
     const numRaw = col(cells, ...BILL_NUM).trim();
     const dateRaw = col(cells, ...INV_DATE, "bill date");
-    const vendorRaw = col(cells, ...BILL_VENDOR).trim();
+    const ownVendor = col(cells, ...BILL_VENDOR).trim();
     const firstCell = Object.values(cells).find((v) => v !== "") ?? "";
     if (/^total\b/i.test(firstCell) && !numRaw) { result.skipped.push({ line, reason: "report total line" }); continue; }
-    if (!numRaw && !dateRaw && !vendorRaw) continue;
+    if (!numRaw && !dateRaw && !ownVendor) continue;
     if (type && (!/^bill\b/i.test(type) || /payment/i.test(type))) { result.skipped.push({ line, reason: `transaction type "${type}"` }); continue; }
     const date = parseDate(dateRaw, fmt);
     if (!date) { result.errors.push({ line, message: dateRaw ? `unreadable date "${dateRaw}"` : "missing date" }); continue; }
+    const vendorRaw = ownVendor || group;
     if (!vendorRaw) { result.errors.push({ line, message: "missing vendor" }); continue; }
-    const amount = parseAmount(col(cells, "amount", "line amount", "total", "total amount", "bill total"));
+    const amount = parseAmount(col(cells, ...(amountFromOpen ? INV_OPEN : BILL_AMOUNT)));
     const memo = col(cells, ...JRN_MEMO).trim();
     const description = memo || "Purchases";
     const key = numRaw || `${date}/${normName(vendorRaw)}/${amount}`;
@@ -971,14 +1107,15 @@ export function parseQboBills(text: string, opts: QboBillOptions = {}): BillPars
     }
     byNumber.set(key, draft);
   }
+  if (!hasCol(table.headers, ...BILL_VENDOR) && !grouped) result.warnings.push("no Vendor / Supplier column found: check that this is a bill export");
   const currencies = new Set<string>();
   for (const d of byNumber.values()) {
-    if (d.lines.length > 1 || !hasTotalCol) d.total = d.lines.reduce((s, l) => s + l.amount, 0);
+    if (d.lines.length > 1 || !hasTotalCol) d.total = roundMoney(d.lines.reduce((s, l) => s + l.amount, 0));
     if (Number.isNaN(d.openBalance)) d.openBalance = d.status === "void" ? 0 : d.total;
     if (d.status === "void") { result.skipped.push({ line: d.line, reason: `bill ${d.qboDocNumber} is voided` }); continue; }
     if (d.total < 0) { result.skipped.push({ line: d.line, reason: `bill ${d.qboDocNumber} has a negative total (vendor credit?)` }); continue; }
     d.openBalance = Math.max(0, Math.min(d.total, d.openBalance));
-    d.amountPaid = Math.max(0, d.total - d.openBalance);
+    d.amountPaid = roundMoney(Math.max(0, d.total - d.openBalance));
     d.status = d.openBalance <= 0 ? "paid" : d.openBalance >= d.total ? "sent" : "partial";
     if (d.total === 0) d.warnings.push("zero amount");
     currencies.add(d.currency);
@@ -987,6 +1124,143 @@ export function parseQboBills(text: string, opts: QboBillOptions = {}): BillPars
   result.drafts.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : a.qboDocNumber.localeCompare(b.qboDocNumber, undefined, { numeric: true })));
   result.currencies = [...currencies].sort();
   return result;
+}
+
+// ---------- QuickBooks vendors ----------
+
+export interface VendorDraft { name: string; email?: string; phone?: string; npwp?: string; notes?: string; inactive: boolean; line: number; warnings: string[] }
+
+/** Maps a QBO Reports → Vendor (Supplier) Contact List export, or Expenses → Vendors → Export, to vendor drafts. */
+export function parseQboVendors(input: TableInput): ParseResult<VendorDraft> {
+  const table = toTable(input);
+  const result: ParseResult<VendorDraft> = { drafts: [], errors: [], skipped: [], warnings: [], headers: table.rawHeaders, headerLine: table.headerLine, rowCount: table.rows.length };
+  const NAME = ["vendor", "supplier", "vendor name", "supplier name", "display name", "vendor full name", "supplier full name", "name", "company", "company name"];
+  if (!hasCol(table.headers, ...NAME)) result.warnings.push("no Vendor / Supplier column found: check that this is the Vendor Contact List");
+  for (const { line, cells } of table.rows) {
+    const raw = col(cells, ...NAME);
+    if (!raw) { result.skipped.push({ line, reason: "no vendor name" }); continue; }
+    if (/^total\b/i.test(raw)) { result.skipped.push({ line, reason: "report total line" }); continue; }
+    const { name: noInactive, inactive } = stripInactiveSuffix(raw);
+    const stripped = stripCurrencySuffix(noInactive);
+    const warnings: string[] = [];
+    const rawEmail = col(cells, "email", "email address");
+    const email = normEmail(rawEmail.split(/[,;]/)[0]);
+    if (rawEmail && !email) warnings.push(`invalid email "${rawEmail}" dropped`);
+    const notes: string[] = [];
+    const contact = col(cells, "full name", "contact", "contact name");
+    if (contact && normName(contact) !== normName(stripped.name)) notes.push(`Contact: ${contact}`);
+    const address = col(cells, "address", "billing address", "bill address");
+    if (address) notes.push(`Address: ${address}`);
+    const accountNo = col(cells, "account number", "account no");
+    if (accountNo) notes.push(`Account no. at the vendor: ${accountNo}`);
+    if (stripped.currency && stripped.currency !== "IDR") notes.push(`Billed in ${stripped.currency}`);
+    result.drafts.push({
+      name: stripped.name, email, phone: cleanPhone(col(cells, "phone", "phone numbers", "phone number", "mobile", "telephone")),
+      npwp: col(cells, "tax id", "npwp", "tax registration number", "vat number", "business id no") || undefined, notes: notes.length ? notes.join("\n") : undefined, inactive, line, warnings,
+    });
+  }
+  return result;
+}
+
+// ---------- QuickBooks report detection (migration wizard) ----------
+
+/** What an uploaded QuickBooks export is. `general_ledger` and `unknown` are recognised but never imported. */
+export type QboReportKind = "accounts" | "journal" | "trial_balance" | "general_ledger" | "invoices" | "bills" | "customers" | "vendors" | "unknown";
+
+/**
+ * Tells which QuickBooks report a table is, from the report title printed above the header (when the export kept it)
+ * and otherwise from the column set: Debit + Credit with a Date is the Journal, without one the Trial Balance; Split +
+ * Balance is the General Ledger; Type + Detail type the Account List; a customer or vendor column with dates a
+ * document list, without dates a contact list.
+ */
+export function detectQboReport(table: ParsedTable): { kind: QboReportKind; reason: string } {
+  const title = normName(table.reportTitle);
+  const byTitle: Array<[RegExp, QboReportKind]> = [
+    [/^general ledger|^transaction detail by account/, "general_ledger"], [/^journal/, "journal"], [/^trial balance/, "trial_balance"], [/^account list|^chart of accounts/, "accounts"],
+    [/^invoice list|^open invoices|^invoices and received payments/, "invoices"], [/^unpaid bills|^bill list|^bills and applied payments/, "bills"],
+    [/^customer contact list|^customer list/, "customers"], [/^(vendor|supplier) contact list|^(vendor|supplier) list/, "vendors"],
+  ];
+  const titled = title ? byTitle.find(([re]) => re.test(title)) : undefined;
+  if (titled) return { kind: titled[1], reason: `report title "${table.reportTitle}"` };
+  const has = (...aliases: string[]) => hasCol(table.headers, ...aliases);
+  const date = has(...INV_DATE, "bill date");
+  const debitCredit = has(...DEBIT_COLS) && has(...CREDIT_COLS);
+  if (debitCredit && date) return { kind: "journal", reason: "Date, Account, Debit and Credit columns" };
+  if (debitCredit) return { kind: "trial_balance", reason: "Debit and Credit columns without dates" };
+  if (date && has("split") && !has("account", "account name")) return { kind: "general_ledger", reason: "Split column with running balances" };
+  if (!date && has("type", "account type") && (has("detail type") || has("account", "account name", "full name", "account full name"))) return { kind: "accounts", reason: "Type and Detail type columns" };
+  if (date && has("vendor", "supplier", "vendor name", "supplier name", "payee")) return { kind: "bills", reason: "Vendor column with dates" };
+  if (date && has(...INV_NUM) && (has("customer", "customer name", "customer full name", "client") || has("open balance", "due date"))) return { kind: "invoices", reason: "Customer / Num columns with dates" };
+  if (!date && has("vendor", "supplier", "vendor name", "supplier name")) return { kind: "vendors", reason: "Vendor column without dates" };
+  if (!date && has("customer", "customer name", "customer full name", "display name")) return { kind: "customers", reason: "Customer column without dates" };
+  return { kind: "unknown", reason: table.reportTitle ? `report "${table.reportTitle}" is not one the migration reads` : "no known column set" };
+}
+
+/** Legal-form words dropped before two company names are compared ("PT Demo Villa" ≡ "Demo Villa, PT"). */
+const LEGAL_FORM = new Set(["pt", "cv", "tbk", "pma", "pmdn", "ltd", "limited", "llc", "inc", "pty", "co", "corp", "company", "gmbh", "sarl", "sas", "bv", "opc"]);
+
+/** True when the company printed in a file and the company chosen in the app are plausibly the same one. */
+export function sameCompanyName(a: string | undefined, b: string | undefined): boolean {
+  const key = (s: string | undefined) => normName(s).split(" ").filter((t) => t && !LEGAL_FORM.has(t)).join(" ");
+  const x = key(a), y = key(b);
+  if (!x || !y) return true; // nothing to compare
+  return x === y || x.includes(y) || y.includes(x);
+}
+
+// ---------- Account names (matching and guessing) ----------
+
+/** "1100 Bank Demo" → "Bank Demo", "6000 Expenses:6100 Rent" → "Expenses:Rent", "Old bank (deleted)" → "Old bank". */
+export function cleanAccountName(qboName: string): string {
+  return qboName.split(":").map((s) => s.trim().replace(/\s*\((deleted|inactive)\)\s*$/i, "").replace(/^\d[\d.\-]*\s+(?=\D)/, "").trim()).filter(Boolean).join(":");
+}
+
+/**
+ * Account lookups for one entity: by code, by stored QBO name, by full name and by leaf name ("Parent:Child" →
+ * "Child"), then the same again without account numbers and "(deleted)" marks, which QuickBooks adds on reports
+ * ("1100 Bank Demo", "Old bank (deleted)") but not on the Account List.
+ */
+export function accountResolver(accounts: Account[]): (qboName: string, number?: string) => Account | undefined {
+  const byCode = new Map(accounts.map((a) => [a.code, a] as const));
+  const byQbo = new Map<string, Account>();
+  const byName = new Map<string, Account>();
+  for (const a of [...accounts].reverse()) {
+    byName.set(normName(a.name), a);
+    if (a.nameId) byName.set(normName(a.nameId), a);
+    if (a.qboName) { byQbo.set(normName(a.qboName), a); byQbo.set(normName(cleanAccountName(a.qboName)), a); }
+  }
+  const find = (name: string): Account | undefined => {
+    const key = normName(name);
+    const leaf = normName(name.split(":").pop() ?? name);
+    return byQbo.get(key) ?? byQbo.get(leaf) ?? byName.get(key) ?? byName.get(leaf);
+  };
+  return (qboName, number) => {
+    const code = number && /^\d-\d{4}$/.test(number.trim()) ? byCode.get(number.trim()) : undefined;
+    if (code) return code;
+    const cleaned = cleanAccountName(qboName);
+    return find(qboName) ?? (cleaned && cleaned !== qboName ? find(cleaned) : undefined);
+  };
+}
+
+/**
+ * Type of an account known by its name only (it is used in the journal or the trial balance but missing from the
+ * Account List, typically an account deleted in QuickBooks). Keywords in the name pick the QuickBooks type that
+ * `mapQboAccount` then refines; a name that says nothing becomes a neutral "other asset". Always to be checked.
+ */
+export function guessAccountFromName(qboName: string): { type: AccountType; subtype: AccountSubtype } {
+  const name = cleanAccountName(qboName).split(":").pop() ?? qboName;
+  const n = ` ${normName(name)} `;
+  const qboType =
+    / (accumulated|akumulasi) /.test(n) ? "Fixed Assets"
+    : / (receivable|receivables|piutang) /.test(n) ? (/ (other|lain) /.test(n) ? "Other Current Assets" : "Accounts receivable")
+    : / (payable|payables|hutang|utang) /.test(n) ? (/ (tax|pajak|vat|ppn|pph|bpjs|salar|gaji|dividend|other|lain) /.test(n) ? "Other Current Liabilities" : "Accounts payable")
+    : / (expense|expenses|cost|costs|fee|fees|charge|charges|beban|biaya|salary|salaries|wages|gaji|rent|sewa|depreciation|amortisation|amortization|penyusutan|utilities|insurance|travel|meals|supplies|subscriptions|repairs|maintenance|advertising|marketing) /.test(n) ? "Expenses"
+    : / (income|revenue|revenues|sales|pendapatan|penjualan) /.test(n) ? (/ (interest|other|lain|bunga|gain) /.test(n) ? "Other Income" : "Income")
+    : / (equity|capital|modal|retained|dividend|dividends|laba ditahan|drawings) /.test(n) ? "Equity"
+    : / (loan|loans|pinjaman|accrued|unearned|deferred) /.test(n) ? "Other Current Liabilities"
+    : / (bank|cash|kas|petty) /.test(n) ? "Bank"
+    : / (prepaid|deposit|deposits|inventory|persediaan|advance|advances|uang muka) /.test(n) ? "Other Current Assets"
+    : "";
+  return mapQboAccount(qboType, name, name) ?? { type: "asset", subtype: "other_asset" };
 }
 
 // ---------- Dedupe ----------
