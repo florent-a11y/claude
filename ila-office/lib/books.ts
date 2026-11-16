@@ -382,12 +382,29 @@ export function bankTransactionHash(bankAccountId: string, row: Pick<ParsedBankR
   return sha256(`${bankAccountId}|${row.date}|${row.amount}|${row.description.trim().toLowerCase()}`);
 }
 
-/** Stores parsed statement lines, skipping duplicates (same account, date, amount and description), and records an ImportBatch. */
+/**
+ * Stores parsed statement lines and records an ImportBatch. A line already stored is skipped: the same account,
+ * date, amount and description, or, for a statement that prints its running balance, the same date and balance
+ * with the same amount to the rupiah. The second rule recognises a statement imported before the reader improved
+ * (its descriptions were shorter, so the first rule alone would store every line twice) and before rupiah cents were
+ * kept: such a line gets the statement's exact amount back while it is not matched to anything
+ * (`ImportBatch.updated`); a matched line is left as booked.
+ */
 export async function importBankCsv(entityId: string, input: { bankAccountId: string; fileName: string; rows: ParsedBankRow[]; errors?: string[] }, userId?: string): Promise<ImportBatch> {
   const bank = await db.get("bank_accounts", input.bankAccountId);
   if (!bank || bank.entityId !== entityId) throw new BooksError("Bank account not found.");
   const existing = await db.list("bank_transactions", { where: { entityId, bankAccountId: bank.id } });
   const seen = new Set(existing.map((t) => t.hash));
+  const byHash = new Map(existing.map((t) => [t.hash, t]));
+  const balanceKey = (date: string, balance: number) => `${date}|${roundMoney(balance, bank.currency)}`;
+  const byBalance = new Map(existing.filter((t) => typeof t.balance === "number").map((t) => [balanceKey(t.date, t.balance as number), t]));
+  /** An amount stored in whole rupiah by an earlier import gets its cents back, unless the line is already matched. */
+  const restore = async (stored: BankTransaction | undefined, exact: number) => {
+    if (!stored || stored.status === "matched" || stored.amount === exact || Math.abs(stored.amount - exact) >= 1) return;
+    await db.update("bank_transactions", stored.id, { amount: exact });
+    stored.amount = exact;
+    batch.updated = (batch.updated ?? 0) + 1;
+  };
   const batch: ImportBatch = { id: db.newId(), kind: "bank_csv", entityId, fileName: input.fileName, rows: input.rows.length + (input.errors?.length ?? 0), inserted: 0, skipped: 0, errors: [...(input.errors ?? [])], byUserId: userId, createdAt: new Date().toISOString() };
   const toInsert: BankTransaction[] = [];
   // Duplicate lines within one statement (two identical charges on the same day) are kept apart with a sequence suffix.
@@ -397,9 +414,12 @@ export async function importBankCsv(entityId: string, input: { bankAccountId: st
     const n = (dupCounter.get(hash) ?? 0) + 1;
     dupCounter.set(hash, n);
     if (n > 1) hash = sha256(`${hash}|${n}`);
-    if (seen.has(hash)) { batch.skipped++; continue; }
+    const amount = roundMoney(r.amount, bank.currency);
+    if (seen.has(hash)) { batch.skipped++; await restore(byHash.get(hash), amount); continue; }
+    const twin = typeof r.balance === "number" ? byBalance.get(balanceKey(r.date, r.balance)) : undefined;
+    if (twin && Math.abs(twin.amount - amount) < 1) { batch.skipped++; await restore(twin, amount); continue; }
     seen.add(hash);
-    toInsert.push({ id: db.newId(), entityId, bankAccountId: bank.id, date: r.date, description: r.description, amount: roundMoney(r.amount, bank.currency), balance: r.balance, reference: r.reference, hash, importBatchId: batch.id, status: "unmatched", createdAt: batch.createdAt });
+    toInsert.push({ id: db.newId(), entityId, bankAccountId: bank.id, date: r.date, description: r.description, amount, balance: r.balance, reference: r.reference, hash, importBatchId: batch.id, status: "unmatched", createdAt: batch.createdAt });
   }
   batch.inserted = await db.insertMany("bank_transactions", toInsert);
   await db.insert("import_batches", batch);

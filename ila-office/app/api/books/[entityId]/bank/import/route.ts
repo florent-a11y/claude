@@ -42,7 +42,7 @@ export async function POST(req: Request, ctx: { params: Promise<{ entityId: stri
       ({ rows: mapped, errors } = mapBankRows(hasHeader ? all.slice(1) : all, mapping));
     }
     const batch = await importBankCsv(entityId, { bankAccountId, fileName, rows: mapped, errors }, user.id);
-    return Response.json({ id: batch.id, rows: batch.rows, inserted: batch.inserted, skipped: batch.skipped, errors: batch.errors });
+    return Response.json({ id: batch.id, rows: batch.rows, inserted: batch.inserted, skipped: batch.skipped, updated: batch.updated ?? 0, errors: batch.errors });
   } catch (e) {
     return Response.json({ error: errorMessage(e) }, { status: 400 });
   }

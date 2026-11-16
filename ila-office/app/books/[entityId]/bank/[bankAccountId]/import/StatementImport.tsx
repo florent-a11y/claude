@@ -34,7 +34,7 @@ export function StatementImport({ entityId, bankAccountId, currency, listHref }:
   const [flipPdf, setFlipPdf] = useState(false);
   const [busy, setBusy] = useState<"parse" | "import" | null>(null);
   const [section, setSection] = useState<string>("");
-  const [result, setResult] = useState<{ inserted: number; skipped: number; errors: string[] } | null>(null);
+  const [result, setResult] = useState<{ inserted: number; skipped: number; updated?: number; errors: string[] } | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const parse = async (f: File, preset?: string) => {
@@ -148,7 +148,7 @@ export function StatementImport({ entityId, bankAccountId, currency, listHref }:
             <p className="text-xs text-ink-500">
               {rows.length} transaction{rows.length === 1 ? "" : "s"}{range && ` · ${range}`} · in {fmtNumber(totals.in, dec)} · out {fmtNumber(totals.out, dec)}
               {errors.length > 0 && ` · ${errors.length} line${errors.length === 1 ? "" : "s"} skipped`}{multi && ` · ${sections.filter(([c]) => c !== section).reduce((s, [, n]) => s + n, 0)} line${sections.filter(([c]) => c !== section).reduce((s, [, n]) => s + n, 0) === 1 ? "" : "s"} in other currencies left out`}.
-              Lines already imported (same date, amount and description) are skipped automatically.
+              Lines already imported (same date, amount and description, or same date and running balance) are skipped automatically.
             </p>
           </>
         )}
@@ -177,7 +177,7 @@ export function StatementImport({ entityId, bankAccountId, currency, listHref }:
       {error && <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">{error}</div>}
       {result ? (
         <div className="rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-800">
-          Imported {result.inserted} line{result.inserted === 1 ? "" : "s"}, skipped {result.skipped} duplicate{result.skipped === 1 ? "" : "s"}{result.errors.length ? `, ${result.errors.length} unreadable` : ""}. <Link href={`${listHref}?status=unmatched`} className="font-semibold underline">Reconcile now →</Link>
+          Imported {result.inserted} line{result.inserted === 1 ? "" : "s"}, skipped {result.skipped} already imported{result.updated ? `, ${result.updated} of them corrected to the statement's exact amount (cents restored)` : ""}{result.errors.length ? `, ${result.errors.length} unreadable` : ""}. <Link href={`${listHref}?status=unmatched`} className="font-semibold underline">Reconcile now →</Link>
         </div>
       ) : <button type="button" className="btn-primary" disabled={!ready || busy !== null} onClick={submit}>{busy === "import" ? "Importing…" : `Import ${rows.length} line${rows.length === 1 ? "" : "s"}`}</button>}
     </div>

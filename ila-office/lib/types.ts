@@ -760,6 +760,8 @@ export interface ImportBatch {
   rows: number;
   inserted: number;
   skipped: number;
+  /** Bank statements: lines already stored whose amount was corrected to the statement's exact figure (rupiah cents restored on a re-import). */
+  updated?: number;
   errors: string[];
   /** What `inserted` is made of, per record type (`books`: sets of books created for imported client companies). */
   counts?: ImportCounts;
