@@ -2,7 +2,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { mapBankRows, type CsvMapping, type DateFormat, type ParsedBankRow } from "@/lib/ledger";
-import { fmtNumber } from "@/lib/money";
+import { columnDecimals, fmtNumber } from "@/lib/money";
 import { Cols, Dash, TableCard } from "@/components/ui";
 
 type Col = "date" | "description" | "amount" | "debit" | "credit" | "balance" | "reference";
@@ -15,10 +15,10 @@ const GUESS: Record<Col, RegExp> = {
   amount: /^(amount|jumlah|nominal|mutasi)$/i, debit: /^(debit|debet|debit amount|withdrawal|money out|out|dr)/i, credit: /^(credit|kredit|credit amount|deposit|money in|in|cr)/i, balance: /^(balance|saldo|running balance|closing balance|close balance)/i, reference: /^(ref|reference|no\.? ref|reference no\.?|transaction id|id|trx id|journal)/i,
 };
 
-interface Parsed { fileName: string; sheet: string; sheets: string[]; preset: string; presetLabel: string; presets: Array<{ id: string; label: string }>; rows: ParsedBankRow[]; /** Rows per currency when the statement carries one (OCBC multi-currency PDFs, Aspire exports). */ currencies?: Record<string, number>; errors: string[]; headerRow: number; note: string; dropped: number; grid: string[][]; truncated: boolean; warnings?: string[]; pdf?: { pages: number; opening?: number; closing?: number; periodFrom?: string; periodTo?: string; accountNumber?: string } }
+interface Parsed { fileName: string; sheet: string; sheets: string[]; preset: string; presetLabel: string; presets: Array<{ id: string; label: string }>; rows: ParsedBankRow[]; /** Rows per currency when the statement carries one (OCBC multi-currency PDFs, Aspire exports). */ currencies?: Record<string, number>; errors: string[]; headerRow: number; note: string; dropped: number; grid: string[][]; truncated: boolean; warnings?: string[]; /** PDF only: what was read from each currency section and whether its balances add up. */ coverage?: Array<{ currency?: string; ok: boolean; text: string }>; pdf?: { pages: number; opening?: number; closing?: number; periodFrom?: string; periodTo?: string; accountNumber?: string } }
 
 /**
- * Statement import: the file (a PDF e-statement from BCA, BNI, BRI, CIMB Niaga or Mandiri; a CSV/XLS/XLSX export from OCBC,
+ * Statement import: the file (a PDF e-statement from BCA, BNI, BRI, CIMB Niaga, Mandiri or OCBC; a CSV/XLS/XLSX export from OCBC,
  * Mandiri, BNI, Aspire or any bank) is parsed on the server, the bank format is detected, the rows are previewed here and
  * then stored. Unknown spreadsheet formats fall back to column mapping. A statement that lists several currencies (one OCBC
  * PDF carries the IDR, USD and EUR accounts) comes back with every row tagged: the user picks the currency section, which
@@ -95,12 +95,13 @@ export function StatementImport({ entityId, bankAccountId, currency, listHref }:
       setResult(data);
     } catch (e) { setError(String(e)); } finally { setBusy(null); }
   };
-  const dec = currency === "IDR" ? 0 : 2;
+  // IDR statements carry cents: the preview shows them as soon as one amount or balance has any.
+  const dec = columnDecimals(currency, [...rows.flatMap((r) => [r.amount, r.balance]), totals.in, totals.out]);
   return (
     <div className="space-y-4">
       <div className="card space-y-3">
         <label className="block"><span className="label">Statement file</span><input type="file" accept=".pdf,application/pdf,.csv,.txt,.xls,.xlsx,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange={(e) => onFile(e.target.files?.[0])} className="input" /></label>
-        <p className="-mt-2 text-xs text-ink-500">PDF e-statements from BCA, BNI, BRI, CIMB Niaga and Mandiri are read directly. Exports from OCBC (xlsx), Mandiri Kopra (csv), BNI (xls) and Aspire (xlsx) are recognised too; any other CSV or Excel file can be mapped column by column. A statement that covers several currencies (OCBC) is split by section: pick the one in this account&apos;s currency.</p>
+        <p className="-mt-2 text-xs text-ink-500">PDF e-statements from BCA, BNI, BRI, CIMB Niaga, Mandiri and OCBC are read directly. Exports from OCBC (xlsx), Mandiri Kopra (csv), BNI (xls) and Aspire (xlsx) are recognised too; any other CSV or Excel file can be mapped column by column. A statement that covers several currencies (OCBC) is split by section: pick the one in this account&apos;s currency.</p>
         {busy === "parse" && <p className="text-sm text-ink-500">Reading the file…</p>}
         {parsed && (
           <>
@@ -112,6 +113,7 @@ export function StatementImport({ entityId, bankAccountId, currency, listHref }:
               {!generic && parsed.note && <span className="text-xs text-ink-500">{parsed.note}</span>}
               {isPdf && rows.length > 0 && <label className="flex items-center gap-2 text-xs"><input type="checkbox" checked={flipPdf} onChange={(e) => setFlipPdf(e.target.checked)} className="checkbox" /> Flip all signs (if money in and out look swapped)</label>}
             </div>
+            {isPdf && (parsed.coverage?.length ?? 0) > 0 && <p className="text-xs text-ink-500">{parsed.coverage!.map((c, i) => <span key={i}>{i > 0 && " · "}<span className={c.ok ? undefined : "font-medium text-amber-800"}>{c.text}</span></span>)}</p>}
             {multi && (
               <div className="flex flex-wrap items-center gap-3 text-sm">
                 <label className="flex items-center gap-2"><span>Currency section</span>
