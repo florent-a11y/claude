@@ -106,3 +106,21 @@ textarea.input { min-height: 2.375rem; }
   .report .row-section td { break-after: avoid; }
   .report td[style*="sticky"], .report th[style*="sticky"] { position: static !important; box-shadow: none !important; }
 }
+
+/* Rendered Markdown (AI visibility: article drafts and assistant answers). */
+.prose-ila { @apply text-sm leading-6 text-ink-900; overflow-wrap: anywhere; }
+.prose-ila h1 { @apply mb-3 mt-1 text-2xl font-bold tracking-tight; }
+.prose-ila h2 { @apply mb-2 mt-6 text-lg font-bold; }
+.prose-ila h3, .prose-ila h4 { @apply mb-1 mt-4 text-base font-semibold; }
+.prose-ila p { @apply my-2; }
+.prose-ila ul { @apply my-2 list-disc pl-5; }
+.prose-ila ol { @apply my-2 list-decimal pl-5; }
+.prose-ila li { @apply my-0.5; }
+.prose-ila a { @apply text-brand-600 underline; }
+.prose-ila blockquote { @apply my-2 border-l-4 border-slate-200 pl-3 text-ink-700; }
+.prose-ila code { @apply rounded bg-slate-100 px-1 text-xs; }
+.prose-ila pre { @apply my-2 overflow-x-auto rounded-lg bg-slate-100 p-3 text-xs; }
+.prose-ila hr { @apply my-4 border-slate-200; }
+.prose-ila table { @apply my-3 block w-full overflow-x-auto text-sm; }
+.prose-ila th { @apply border-b border-slate-300 px-2 py-1.5 text-left font-semibold; }
+.prose-ila td { @apply border-b border-slate-100 px-2 py-1.5 align-top; }

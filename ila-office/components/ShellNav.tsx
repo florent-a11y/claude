@@ -74,6 +74,8 @@ export function ShellNav({ entities, ownEntityId, role, companies = [] }: { enti
         <p className="px-2 text-xs text-ink-500">No entity yet. <Link className="underline" href="/settings/entities/new">Create one</Link>.</p>
       )}
       {link("/tax", "All clients calendar")}
+      {section("Marketing")}
+      {link("/visibility", "AI visibility")}
       {section("Settings")}
       {SETTINGS.filter((i) => role === "admin" || !ADMIN_ONLY.includes(i.href)).map((i) => link(i.href, i.label))}
     </nav>

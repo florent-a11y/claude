@@ -8,7 +8,8 @@ import { AUDIT_ACTIONS, TABLES, type AuditAction, type AuditEntry, type Table } 
  * Audit trail: who created, edited, deleted, posted, voided, approved, paid, locked or imported each record, and when.
  *
  * lib/db.ts calls `recordAudit` / `recordAuditMany` after every successful write, so no feature has to remember to log.
- * - Not recorded: `audit_log` itself, `counters`, `settings`, `fx_rates` (machine state with no accounting meaning).
+ * - Not recorded: `audit_log` itself, `counters`, `settings`, `fx_rates` and the output of the AI visibility runs
+ *   (`visibility_runs`, `visibility_answers`, `visibility_audits`): machine state with no accounting meaning.
  * - Secrets never leave the row: a field whose name matches /password|secret|token|hash/i is never part of a diff
  *   (a password reset is logged as "password changed", without values).
  * - Noise (`updatedAt`, `createdAt`, `lastLoginAt`, the journal's own `revisions`) is ignored, and an update that
@@ -25,7 +26,8 @@ export type AuditChange = NonNullable<AuditEntry["changes"]>[number];
 export interface AuditActor { id?: string; name: string; email?: string }
 type ActorResolver = () => Promise<AuditActor | null>;
 
-const UNLOGGED: ReadonlySet<string> = new Set(["audit_log", "counters", "settings", "fx_rates"]);
+// Machine output is not logged either: the weekly AI visibility runs write hundreds of answers nobody edits.
+const UNLOGGED: ReadonlySet<string> = new Set(["audit_log", "counters", "settings", "fx_rates", "visibility_runs", "visibility_answers", "visibility_audits"]);
 const SECRET = /password|secret|token|hash/i;
 const NOISE: ReadonlySet<string> = new Set(["updatedAt", "createdAt", "lastLoginAt", "revisions"]);
 const MAX_VALUE = 120;

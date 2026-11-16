@@ -15,6 +15,7 @@
     "reset-password": "tsx scripts/reset-password.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0",
     "@supabase/supabase-js": "^2.117.0",
     "lucide-react": "^1.47.0",
     "next": "15.5.26",

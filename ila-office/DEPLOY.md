@@ -106,3 +106,13 @@ dashboard (upcoming filings, cash position), its books, tax calendar and bank re
 ## Bank Indonesia rates (cron)
 
 `vercel.json` schedules `GET /api/fx/sync` every weekday at 12:00 WIB (05:00 UTC): it reads Bank Indonesia's Kurs Transaksi table of the day and caches every currency in the `fx_rates` table, so the forms and the month-end revaluation find past dates without calling BI again. Vercel authenticates the call with the `CRON_SECRET` environment variable (production; already set): keep it, and rotate it from the project's Environment Variables page if it ever leaks. An admin can also call the route from a signed-in browser (`/api/fx/sync?date=YYYY-MM-DD`) to backfill one day. If BI changes its page, the forms simply ask for the rate by hand until `lib/fx-core.ts` is adjusted.
+
+## AI visibility
+
+The AI visibility module (`/visibility`) needs three things on a hosted installation:
+
+1. **Tables.** Re-run `supabase/schema.sql` in the Supabase SQL editor (safe to re-run): it adds `visibility_prompts`, `visibility_runs`, `visibility_answers`, `visibility_audits` and `visibility_articles`.
+2. **API keys**, one per assistant to track, as Vercel environment variables (Production), then redeploy: `ANTHROPIC_API_KEY` (Claude; also rates tone, suggests prompts and drafts articles), `OPENAI_API_KEY` (ChatGPT), `GEMINI_API_KEY` (Gemini), `PERPLEXITY_API_KEY` (Perplexity). An assistant without a key is skipped; the Settings tab shows which are connected. Each provider bills its own key.
+3. **Schedule.** `vercel.json` starts a run every Sunday 18:00 UTC (Monday 02:00 in Bali) and three later entries finish it, authenticated with `CRON_SECRET` like the other crons. A run is resumable: one invocation asks questions for about two minutes, so the route needs a function duration of 300 seconds (the default with Fluid Compute).
+
+If a provider retires a model, set `VISIBILITY_OPENAI_MODEL`, `VISIBILITY_GEMINI_MODEL`, `VISIBILITY_PERPLEXITY_MODEL` or `VISIBILITY_CLAUDE_MODEL` instead of changing code.
