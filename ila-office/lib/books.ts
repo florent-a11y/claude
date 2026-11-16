@@ -4,21 +4,22 @@
  * period locks and balanced entries).
  */
 import { db } from "./db";
-import { postJournal, voidJournal, postedEntries } from "./posting";
+import { assertPeriodOpen, postJournal, voidJournal, postedEntries } from "./posting";
 import { accountBalances, findByTag, findByCode } from "./balances";
 import { normalBalanceOf } from "./coa";
-import { addWorkingDays, periodOf, todayISO } from "./dates";
-import { roundMoney, toIDR } from "./money";
+import { addWorkingDays, lastDayOfMonth, periodOf, todayISO } from "./dates";
+import { fmtMoney, roundMoney, toIDR } from "./money";
 import { sha256 } from "./util";
 import {
   invoiceTotals, billTotals, invoiceJournalLines, billJournalLines, receiptJournalLines, disbursementJournalLines, transferJournalLines,
-  bankJournalLines, depreciationJournalLines, depreciationDue, disposalJournalLines, invoiceOutstanding, billOutstanding, requireTag, accountById, defaultUsefulLifeMonths,
+  bankJournalLines, depreciationJournalLines, depreciationDue, disposalJournalLines, disposalPreview, invoiceOutstanding, billOutstanding, requireTag, accountById, defaultUsefulLifeMonths,
   type ParsedBankRow, type TransferFxLeg,
 } from "./ledger";
 export { parseStatementDate, mapBankRows, type CsvMapping, type DateFormat, type ParsedBankRow } from "./ledger";
 import type {
   Account, AccountSubtype, AccountType, Bill, BillLine, BankAccount, BankTransaction, Entity, FixedAsset, ImportBatch, Invoice, InvoiceLine, JournalEntry, Payment, TaxCode, TaxTag, WithholdingType,
 } from "./types";
+import { FISCAL_ASSET_GROUPS } from "./types";
 
 export class BooksError extends Error {}
 
@@ -267,7 +268,10 @@ export async function postBill(entityId: string, id: string, userId?: string): P
   const lines = billJournalLines(bill, accounts, { ppnCreditable: entity.tax.pkp });
   const journal = await postJournal(entityId, { date: bill.date, memo: `Bill ${bill.number} — ${bill.vendor.name}`, source: "bill", sourceId: bill.id, lines, createdByUserId: userId });
   const now = new Date().toISOString();
-  return (await db.update("bills", id, { status: bill.amountPayable <= 0 ? "paid" : "sent", journalId: journal.id, updatedAt: now }))!;
+  const posted = (await db.update("bills", id, { status: bill.amountPayable <= 0 ? "paid" : "sent", journalId: journal.id, updatedAt: now }))!;
+  // A line on a fixed-asset account registers the asset for review (lib/asset-auto.ts); a problem there never undoes the posting.
+  await (await import("./asset-auto")).autoRegisterAssets(entityId, journal, { billId: bill.id }, accounts);
+  return posted;
 }
 
 export async function voidBill(entityId: string, id: string): Promise<Bill> {
@@ -276,7 +280,10 @@ export async function voidBill(entityId: string, id: string): Promise<Bill> {
   if (bill.status === "void") return bill;
   if (bill.amountPaid > 0) throw new BooksError("This bill has payments; void the payments first.");
   if (bill.journalId) await voidJournal(entityId, bill.journalId);
-  return (await db.update("bills", id, { status: "void", updatedAt: new Date().toISOString() }))!;
+  const voided = (await db.update("bills", id, { status: "void", updatedAt: new Date().toISOString() }))!;
+  // Assets registered from this bill leave the register, or are flagged when depreciation was already posted.
+  if (bill.journalId) await (await import("./asset-auto")).releaseAssetsOfJournal(entityId, bill.journalId, `bill ${bill.number}`);
+  return voided;
 }
 
 export interface DisbursementInput { billId: string; bankAccountId: string; date: string; amount: number; fxRate?: number; reference?: string; notes?: string; bankTransactionId?: string; method?: Payment["method"] }
@@ -445,6 +452,9 @@ export async function postBankTransaction(entityId: string, txId: string, input:
   const lines = bankJournalLines({ bankAccount: accountById(accounts, bank.accountId), counterAccount: counter, amountIDR, description, counterpartyName: input.counterpartyName, currency: bank.currency, fxAmount: tx.amount, fxRate });
   const journal = await postJournal(entityId, { date: tx.date, memo: description, source: "bank", sourceId: tx.id, lines, createdByUserId: userId });
   await db.update("bank_transactions", tx.id, { status: "matched", matchedJournalId: journal.id, matchedDocument: { type: "journal", id: journal.id } });
+  // A statement line booked straight to a fixed-asset account is a purchase: the asset is registered for review
+  // (lib/asset-auto.ts); a problem there never undoes the posting.
+  await (await import("./asset-auto")).autoRegisterAssets(entityId, journal, {}, accounts);
   return journal;
 }
 
@@ -472,7 +482,11 @@ export async function unmatchBankTransaction(entityId: string, txId: string): Pr
   for (const p of payments) await voidPayment(entityId, p.id);
   if (tx.matchedDocument?.type === "journal" && tx.matchedJournalId) {
     const j = await db.get("journal_entries", tx.matchedJournalId);
-    if (j && j.status === "posted" && j.sourceId === tx.id) await voidJournal(entityId, j.id);
+    if (j && j.status === "posted" && j.sourceId === tx.id) {
+      await voidJournal(entityId, j.id);
+      // An asset registered from that quick journal leaves the register, or is flagged when depreciation was posted.
+      await (await import("./asset-auto")).releaseAssetsOfJournal(entityId, j.id, `bank entry ${j.number}`);
+    }
   }
   await db.update("bank_transactions", txId, { status: "unmatched", matchedJournalId: undefined, matchedDocument: undefined });
 }
@@ -482,36 +496,101 @@ export async function unmatchBankTransaction(entityId: string, txId: string): Pr
 export interface AssetInput {
   name: string; assetAccountId: string; accumDeprAccountId: string; deprExpenseAccountId: string; acquisitionDate: string; cost: number; salvageValue?: number;
   fiscalGroup: FixedAsset["fiscalGroup"]; method?: FixedAsset["method"]; usefulLifeMonths?: number; billId?: string;
+  /** Set by lib/asset-auto.ts for an asset registered from a posted purchase: it waits for review and may still lack its depreciation accounts. */
+  sourceJournalId?: string; sourceLineIndex?: number; paymentId?: string; needsReview?: boolean; notes?: string;
 }
 
 export async function createAsset(entityId: string, input: AssetInput): Promise<FixedAsset> {
   const accounts = await entityAccounts(entityId);
-  for (const id of [input.assetAccountId, input.accumDeprAccountId, input.deprExpenseAccountId]) accountById(accounts, id);
+  for (const id of [input.assetAccountId, input.accumDeprAccountId, input.deprExpenseAccountId]) if (id || !input.needsReview) accountById(accounts, id);
   if (input.cost <= 0) throw new BooksError("Cost must be positive.");
   const usefulLifeMonths = input.fiscalGroup === "land" ? 0 : (input.usefulLifeMonths && input.usefulLifeMonths > 0 ? input.usefulLifeMonths : defaultUsefulLifeMonths(input.fiscalGroup));
   const asset: FixedAsset = {
     id: db.newId(), entityId, name: input.name, assetAccountId: input.assetAccountId, accumDeprAccountId: input.accumDeprAccountId, deprExpenseAccountId: input.deprExpenseAccountId,
     acquisitionDate: input.acquisitionDate, cost: roundMoney(input.cost), salvageValue: roundMoney(input.salvageValue ?? 0), fiscalGroup: input.fiscalGroup,
-    method: input.method ?? "straight_line", usefulLifeMonths, accumulatedDepreciation: 0, status: "active", billId: input.billId, createdAt: new Date().toISOString(),
+    method: input.method ?? "straight_line", usefulLifeMonths, accumulatedDepreciation: 0, status: "active", billId: input.billId,
+    sourceJournalId: input.sourceJournalId, sourceLineIndex: input.sourceLineIndex, paymentId: input.paymentId, needsReview: input.needsReview || undefined, notes: input.notes?.trim() || undefined,
+    createdAt: new Date().toISOString(),
   };
   await db.insert("fixed_assets", asset);
   return asset;
 }
 
+/** Depreciation has been posted on the asset: its schedule and its name (printed on those entries) are fixed from then on. */
+export function depreciationStarted(asset: Pick<FixedAsset, "accumulatedDepreciation" | "depreciatedThrough">): boolean {
+  return asset.accumulatedDepreciation > 0 || Boolean(asset.depreciatedThrough);
+}
+
+export interface AssetUpdate {
+  name?: string; fiscalGroup?: FixedAsset["fiscalGroup"]; method?: FixedAsset["method"]; usefulLifeMonths?: number; salvageValue?: number;
+  assetAccountId?: string; accumDeprAccountId?: string; deprExpenseAccountId?: string; notes?: string;
+  /** The accountant has checked the fiscal group, the useful life and the accounts: clears `needsReview`, so depreciation starts. */
+  confirm?: boolean;
+}
+
+/**
+ * Corrects or confirms an asset. What drives the schedule (fiscal group, method, useful life, salvage value) and the
+ * name carried by the depreciation entries can change only while nothing has been depreciated; the accounts and the
+ * notes until the asset is disposed of. Cost and acquisition date are not edited here: they come from the purchase.
+ */
+export async function updateAsset(entityId: string, id: string, patch: AssetUpdate): Promise<FixedAsset> {
+  const [accounts, asset] = await Promise.all([entityAccounts(entityId), db.get("fixed_assets", id)]);
+  if (!asset || asset.entityId !== entityId) throw new BooksError("Asset not found.");
+  if (asset.status === "disposed") throw new BooksError("A disposed asset can no longer be changed.");
+  const name = patch.name === undefined ? asset.name : patch.name.trim();
+  if (!name) throw new BooksError("Name is required.");
+  const fiscalGroup = patch.fiscalGroup ?? asset.fiscalGroup;
+  const land = fiscalGroup === "land";
+  const method = land || FISCAL_ASSET_GROUPS[fiscalGroup].decliningRate === 0 ? "straight_line" : patch.method ?? asset.method;
+  // A new group brings its own default life unless one is given with it.
+  const life = patch.usefulLifeMonths ?? (fiscalGroup === asset.fiscalGroup ? asset.usefulLifeMonths : 0);
+  const usefulLifeMonths = land ? 0 : life > 0 ? Math.trunc(life) : defaultUsefulLifeMonths(fiscalGroup);
+  const salvageValue = roundMoney(patch.salvageValue ?? asset.salvageValue);
+  if (salvageValue < 0 || salvageValue > asset.cost) throw new BooksError("The salvage value must be between zero and the cost.");
+  const fixed = name !== asset.name || fiscalGroup !== asset.fiscalGroup || method !== asset.method || usefulLifeMonths !== asset.usefulLifeMonths || Math.abs(salvageValue - asset.salvageValue) >= 0.005;
+  if (fixed && depreciationStarted(asset)) throw new BooksError("Depreciation is already posted on this asset: its name, fiscal group, method, useful life and salvage value can no longer change.");
+  const ids = { assetAccountId: patch.assetAccountId ?? asset.assetAccountId, accumDeprAccountId: patch.accumDeprAccountId ?? asset.accumDeprAccountId, deprExpenseAccountId: patch.deprExpenseAccountId ?? asset.deprExpenseAccountId };
+  for (const [key, accountId] of Object.entries(ids)) {
+    if (!accountId) throw new BooksError(`Choose the ${key === "assetAccountId" ? "asset (cost)" : key === "accumDeprAccountId" ? "accumulated depreciation" : "depreciation expense"} account.`);
+    accountById(accounts, accountId);
+  }
+  return (await db.update("fixed_assets", id, {
+    name, fiscalGroup, method, usefulLifeMonths, salvageValue, ...ids,
+    notes: patch.notes === undefined ? asset.notes : patch.notes.trim() || undefined, needsReview: patch.confirm ? false : asset.needsReview,
+  }))!;
+}
+
+/** Takes an asset out of the register (a line on a fixed-asset account that was not a new asset, a duplicate): only while nothing is posted or filed on it. */
+export async function deleteAsset(entityId: string, id: string): Promise<void> {
+  const asset = await db.get("fixed_assets", id);
+  if (!asset || asset.entityId !== entityId) throw new BooksError("Asset not found.");
+  if (asset.status === "disposed" || depreciationStarted(asset)) throw new BooksError("Depreciation or a disposal is already posted on this asset: sell or dispose of it instead.");
+  if (asset.attachments?.length) throw new BooksError("Remove the asset's attachments first.");
+  await db.remove("fixed_assets", id);
+}
+
 /**
  * Posts depreciation for every active asset up to and including `period` (one journal dated the period's last
  * day). Idempotent: assets already depreciated through that period are skipped; skipped months are caught up.
+ * Assets waiting for review (`needsReview`) and assets acquired after the period are left out. The automatic
+ * monthly run (`opts.automatic`, lib/asset-auto.ts) also holds back the hand-registered assets it must not start on
+ * its own and returns them under `held`.
  */
-export async function runDepreciation(entityId: string, period: string, userId?: string): Promise<{ journal?: JournalEntry; runs: Array<{ asset: FixedAsset; amount: number; periods: string[] }> }> {
+export async function runDepreciation(entityId: string, period: string, userId?: string, opts: { automatic?: boolean } = {}): Promise<{ journal?: JournalEntry; runs: Array<{ asset: FixedAsset; amount: number; periods: string[] }>; held: FixedAsset[] }> {
   const [entity, accounts, assets] = await Promise.all([loadEntity(entityId), entityAccounts(entityId), db.list("fixed_assets", { where: { entityId, status: "active" } })]);
   if (!entity) throw new BooksError("Entity not found.");
   if (!/^\d{4}-\d{2}$/.test(period)) throw new BooksError("Period must be YYYY-MM.");
   const runs: Array<{ asset: FixedAsset; amount: number; periods: string[] }> = [];
+  const held: FixedAsset[] = [];
+  const hold = opts.automatic ? (await import("./asset-auto")).heldForFirstRun : undefined;
   for (const asset of assets) {
+    if (asset.needsReview || periodOf(asset.acquisitionDate) > period) continue;
     const due = depreciationDue(asset, period, { fiscalYearStartMonth: entity.fiscalYearStartMonth });
-    if (due.amount > 0) runs.push({ asset, amount: due.amount, periods: due.periods });
+    if (due.amount <= 0) continue;
+    if (hold?.(asset, period)) { held.push(asset); continue; }
+    runs.push({ asset, amount: due.amount, periods: due.periods });
   }
-  if (runs.length === 0) return { runs };
+  if (runs.length === 0) return { runs, held };
   const [y, m] = period.split("-").map(Number);
   const date = new Date(Date.UTC(y, m, 0)).toISOString().slice(0, 10);
   const lines = depreciationJournalLines(runs, accounts);
@@ -521,28 +600,86 @@ export async function runDepreciation(entityId: string, period: string, userId?:
     const done = accumulated >= roundMoney(r.asset.cost - r.asset.salvageValue);
     await db.update("fixed_assets", r.asset.id, { accumulatedDepreciation: accumulated, depreciatedThrough: period, status: done ? "fully_depreciated" : "active" });
   }
-  return { journal, runs };
+  return { journal, runs, held };
 }
 
-export async function disposeAsset(entityId: string, assetId: string, input: { date: string; proceeds?: number; bankAccountId?: string }, userId?: string): Promise<JournalEntry> {
-  const [accounts, asset] = await Promise.all([entityAccounts(entityId), db.get("fixed_assets", assetId)]);
-  if (!asset || asset.entityId !== entityId) throw new BooksError("Asset not found.");
+export interface DisposalInput {
+  date: string;
+  /** IDR; zero or omitted when the asset is scrapped or written off. */
+  proceeds?: number;
+  /** Bank or cash account that received the proceeds; without one they go to other receivables (sold on credit). */
+  bankAccountId?: string;
+  /** The statement line (money in) that is the sale: its bank account receives the proceeds and the line is matched to the disposal entry. */
+  bankTransactionId?: string;
+}
+
+/**
+ * Sells, scraps or writes off an asset, with the figures of `disposalPreview` (lib/ledger.ts):
+ * 1. depreciation that is behind is posted through the month before the disposal month (one journal dated that
+ *    month's last day, source "depreciation", sourceId `<assetId>:catchup`), so the net book value is right;
+ * 2. the disposal entry takes out cost and accumulated depreciation, books the proceeds and sends the difference to
+ *    the dedicated gain or loss account, created on first use (lib/asset-auto.ts `disposalResultAccount`);
+ * 3. the asset stays in the register as "disposed" with the entry (`disposalJournalId`) and its result
+ *    (`disposalGainLoss`, positive = gain); a statement line given with the sale is matched to the entry.
+ * An asset still waiting for review must be confirmed first: the catch-up depends on its group and useful life.
+ */
+export async function disposeAsset(entityId: string, assetId: string, input: DisposalInput, userId?: string): Promise<JournalEntry> {
+  const [entity, accounts, found] = await Promise.all([loadEntity(entityId), entityAccounts(entityId), db.get("fixed_assets", assetId)]);
+  if (!entity) throw new BooksError("Entity not found.");
+  if (!found || found.entityId !== entityId) throw new BooksError("Asset not found.");
+  let asset = found;
   if (asset.status === "disposed") throw new BooksError("Asset already disposed.");
+  if (asset.needsReview) throw new BooksError("Confirm this asset first: it was registered automatically, and the depreciation up to the disposal depends on its fiscal group and useful life.");
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(input.date)) throw new BooksError("Disposal date is required.");
+  if (input.date < asset.acquisitionDate) throw new BooksError("The disposal date is before the acquisition date.");
   const proceeds = roundMoney(input.proceeds ?? 0);
+  if (proceeds < 0) throw new BooksError("Proceeds cannot be negative.");
+  let tx: BankTransaction | null = null;
+  let bankAccountId = input.bankAccountId;
+  if (input.bankTransactionId) {
+    tx = await db.get("bank_transactions", input.bankTransactionId);
+    if (!tx || tx.entityId !== entityId) throw new BooksError("Bank statement line not found.");
+    if (tx.status !== "unmatched") throw new BooksError(`This bank statement line is already ${tx.status}.`);
+    if (tx.amount <= 0) throw new BooksError("Only money in can be the sale of an asset.");
+    if (proceeds <= 0) throw new BooksError("Enter the proceeds received on the statement line.");
+    bankAccountId = tx.bankAccountId;
+  }
+  let bank: BankAccount | null = null;
   let proceedsAccount: Account | undefined;
   if (proceeds > 0) {
-    if (input.bankAccountId) {
-      const bank = await db.get("bank_accounts", input.bankAccountId);
+    if (bankAccountId) {
+      bank = await db.get("bank_accounts", bankAccountId);
       if (!bank || bank.entityId !== entityId) throw new BooksError("Bank account not found.");
       proceedsAccount = accountById(accounts, bank.accountId);
     } else proceedsAccount = findByCode(accounts, "1-1210") ?? requireTag(accounts, "ar_trade");
   }
-  const gain = findByCode(accounts, "7-1200") ?? accounts.find((a) => a.subtype === "other_income" && a.active);
-  const loss = findByCode(accounts, "8-1200") ?? accounts.find((a) => a.subtype === "other_expense" && a.active);
-  if (!gain || !loss) throw new BooksError("Add an 'Other income' and an 'Other expenses' account before disposing assets.");
-  const lines = disposalJournalLines({ asset, proceedsIDR: proceeds, proceedsAccount, gainAccount: gain, lossAccount: loss, accounts });
+  // The entry's bank line must be the statement line, or the reconciliation would not close (a foreign-currency line carries its own amount below).
+  if (tx && bank?.currency === "IDR" && Math.abs(tx.amount - proceeds) >= 0.005) throw new BooksError(`The proceeds must equal the statement line (${fmtMoney(tx.amount)}).`);
+  await assertPeriodOpen(entityId, input.date);
+
+  const preview = disposalPreview(asset, input.date, proceeds, { fiscalYearStartMonth: entity.fiscalYearStartMonth });
+  if (preview.catchUp.amount > 0) {
+    try {
+      await postJournal(entityId, { date: lastDayOfMonth(preview.through), memo: `Depreciation of ${asset.name} up to its disposal`, source: "depreciation", sourceId: `${asset.id}:catchup`, lines: depreciationJournalLines([{ asset, amount: preview.catchUp.amount }], accounts), createdByUserId: userId });
+    } catch (e) {
+      throw new BooksError(`Depreciation through ${preview.through} has to be posted before the disposal and could not be: ${errorMessage(e)}`);
+    }
+    const done = preview.accumulated >= roundMoney(asset.cost - asset.salvageValue);
+    asset = (await db.update("fixed_assets", asset.id, { accumulatedDepreciation: preview.accumulated, depreciatedThrough: preview.through, status: done ? "fully_depreciated" : "active" }))!;
+  }
+
+  const result = preview.gainLoss === 0 ? undefined : await (await import("./asset-auto")).disposalResultAccount(entityId, accounts, preview.gainLoss > 0 ? "gain" : "loss");
+  // Without a gain or a loss the template writes no result line, so the stand-in account is never used.
+  const resultAccount = result ?? accountById(accounts, asset.assetAccountId);
+  const lines = disposalJournalLines({ asset, proceedsIDR: proceeds, proceedsAccount, gainAccount: resultAccount, lossAccount: resultAccount, accounts });
+  if (tx && bank && bank.currency !== "IDR") {
+    // Sold into a foreign-currency account: the bank line keeps the statement amount and the implied rate for the reconciliation.
+    const bankLine = lines.find((l) => l.accountId === bank.accountId && l.debit > 0);
+    if (bankLine) Object.assign(bankLine, { currency: bank.currency, fxAmount: roundMoney(tx.amount, bank.currency), fxRate: Number((proceeds / tx.amount).toFixed(4)) });
+  }
   const journal = await postJournal(entityId, { date: input.date, memo: `Disposal of ${asset.name}`, source: "adjustment", sourceId: asset.id, lines, createdByUserId: userId });
-  await db.update("fixed_assets", assetId, { status: "disposed", disposedAt: input.date, disposalProceeds: proceeds });
+  await db.update("fixed_assets", assetId, { status: "disposed", disposedAt: input.date, disposalProceeds: proceeds, disposalJournalId: journal.id, disposalGainLoss: preview.gainLoss });
+  if (tx) await linkBankTransaction(entityId, tx.id, journal.id);
   return journal;
 }
 

@@ -4,6 +4,7 @@ import { requirePermission } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { postJournal, updateJournal, voidJournal } from "@/lib/posting";
 import { entityAccounts } from "@/lib/books";
+import { afterJournalVoided, autoRegisterAssets, registerNote, syncAssetsAfterJournalEdit } from "@/lib/asset-auto";
 import { accountById } from "@/lib/ledger";
 import { str } from "@/lib/util";
 import { roundMoney } from "@/lib/money";
@@ -47,7 +48,9 @@ export async function createJournalAction(entityId: string, fd: FormData) {
     const user = await requirePermission("books:write");
     const v = await readJournalForm(entityId, fd);
     const entry = await postJournal(entityId, { ...v, createdByUserId: user.id });
-    return `${base(entityId)}/journal/${entry.id}?ok=${encodeURIComponent(`${entry.number} posted`)}`;
+    // A manual or adjustment entry that debits a fixed-asset account registers the asset for review; this never undoes the posting.
+    const assets = await autoRegisterAssets(entityId, entry);
+    return `${base(entityId)}/journal/${entry.id}?ok=${encodeURIComponent(`${entry.number} posted${registerNote(assets)}`)}`;
   }, to);
 }
 
@@ -61,7 +64,9 @@ export async function updateJournalAction(entityId: string, journalId: string, f
     // An account that was deactivated after the entry was posted may stay on its existing lines.
     const v = await readJournalForm(entityId, fd, new Set(current.lines.map((l) => l.accountId)));
     const entry = await updateJournal(entityId, journalId, v, { byUserId: user.id, byName: user.name });
-    return `${detail}?ok=${encodeURIComponent(`${entry.number} updated`)}`;
+    // The assets registered from this entry follow its lines (new cost or date, a line removed or added).
+    const assets = await syncAssetsAfterJournalEdit(entityId, current, entry);
+    return `${detail}?ok=${encodeURIComponent(`${entry.number} updated${registerNote(assets)}`)}`;
   }, `${detail}/edit`);
 }
 
@@ -69,7 +74,9 @@ export async function voidJournalAction(entityId: string, journalId: string) {
   const to = `${base(entityId)}/journal/${journalId}`;
   await act(entityId, async () => {
     await requirePermission("books:write");
-    await voidJournal(entityId, journalId);
-    return `${to}?ok=${encodeURIComponent("Entry voided")}`;
+    const entry = await voidJournal(entityId, journalId);
+    // Assets registered from the entry leave the register (or are flagged); an asset it disposed of goes back in use.
+    const assets = await afterJournalVoided(entityId, entry);
+    return `${to}?ok=${encodeURIComponent(`Entry voided${registerNote(assets)}`)}`;
   }, to);
 }

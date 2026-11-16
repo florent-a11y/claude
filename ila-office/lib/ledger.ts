@@ -383,6 +383,37 @@ export function netBookValue(asset: Pick<FixedAsset, "cost" | "accumulatedDeprec
   return roundMoney(asset.cost - asset.accumulatedDepreciation);
 }
 
+export interface DisposalPreview {
+  /** Month before the disposal month: depreciation is caught up through it; the disposal month itself is not depreciated. */
+  through: string;
+  /** Depreciation still to post before the disposal entry (zero when the asset is up to date, land or fully depreciated). */
+  catchUp: { amount: number; periods: string[] };
+  cost: number;
+  /** Accumulated depreciation once the catch-up is posted. */
+  accumulated: number;
+  netBookValue: number;
+  proceeds: number;
+  /** Proceeds − net book value: positive = gain, negative = loss. */
+  gainLoss: number;
+  /** Depreciation is already posted for the disposal month or later (back-dated disposal): the books' figure is used as it stands. */
+  postedAhead: boolean;
+}
+
+/**
+ * Figures of a sale or disposal dated `date` for `proceedsIDR` (0 when scrapped): the same arithmetic drives the
+ * preview on the asset page and the posting in `disposeAsset` (lib/books.ts), so what the accountant sees is what
+ * is booked.
+ */
+export function disposalPreview(asset: ScheduleInput & Pick<FixedAsset, "depreciatedThrough" | "status" | "accumulatedDepreciation">, date: string, proceedsIDR: number, opts: { fiscalYearStartMonth?: number } = {}): DisposalPreview {
+  const through = prevPeriod(periodOf(date));
+  const catchUp = depreciationDue(asset, through, opts);
+  const cost = roundMoney(asset.cost);
+  const accumulated = roundMoney(asset.accumulatedDepreciation + catchUp.amount);
+  const nbv = roundMoney(cost - accumulated);
+  const proceeds = roundMoney(Math.max(0, proceedsIDR || 0));
+  return { through, catchUp, cost, accumulated, netBookValue: nbv, proceeds, gainLoss: roundMoney(proceeds - nbv), postedAhead: Boolean(asset.depreciatedThrough && asset.depreciatedThrough > through) };
+}
+
 // ---------- Reports ----------
 
 /**
