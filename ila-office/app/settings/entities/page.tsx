@@ -11,7 +11,7 @@ export default async function Entities() {
   await requireTeam();
   const entities = await db.list("entities", { orderBy: "name" });
   return (
-    <Page title="Entities" subtitle="One entity per set of books: ILA itself and every client company whose accounting ILA keeps." actions={<Link href="/settings/entities/new" className="btn-primary">New entity</Link>}>
+    <Page title="Entities" subtitle={<>One entity per set of books: ILA itself and every client company whose accounting ILA keeps.<br />Creating a client under Clients › Client companies also creates its books; use New entity for the tax profile or for an entity without a client record.</>} actions={<Link href="/settings/entities/new" className="btn-primary">New entity</Link>}>
       {entities.length === 0 ? <EmptyState title="No entity yet" hint="Create ILA's own entity first, then one per client." action={<Link href="/settings/entities/new" className="btn-primary">New entity</Link>} /> : (
         <TableCard>
           <table className="table table-data min-w-[980px]">

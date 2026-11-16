@@ -2,18 +2,26 @@ import Link from "next/link";
 import { can, requireUser, scopeEntities } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { ENTITY_TYPE_LABELS, ENTITY_TYPE_SHORT, TAX_REGIME_SHORT } from "@/lib/types";
-import { Page, Badge, Cols, Dash, EmptyState, TableCard, statusTone } from "@/components/ui";
+import { Page, Badge, Cols, Dash, EmptyState, Notice, TableCard, statusTone } from "@/components/ui";
+import { companyNeedsBooks } from "@/app/settings/entities/create-entity";
+import { CreateBooksButton } from "@/app/clients/companies/CreateBooksButton";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Books" };
 
-/** Entity picker: one set of books per entity (ILA itself and every client company). */
+/**
+ * Entity picker: one set of books per entity (ILA itself and every client company). A client created under Clients →
+ * Client companies gets its books in the same step; admins are told here about the active clients that still have none
+ * (created before that, or with the box unticked) and can create them all at once.
+ */
 export default async function BooksIndex() {
   const user = await requireUser();
-  const [entities, invoices, bankTx] = await Promise.all([
+  const admin = can(user, "admin");
+  const [entities, invoices, bankTx, withoutBooks] = await Promise.all([
     db.list("entities", { orderBy: "name" }).then((rows) => scopeEntities(user, rows)),
     db.list("invoices", { where: (i) => i.status === "sent" || i.status === "partial" }),
     db.list("bank_transactions", { where: { status: "unmatched" } }),
+    admin ? db.list("companies").then((rows) => rows.filter(companyNeedsBooks).length) : 0,
   ]);
   const openByEntity = new Map<string, number>();
   for (const i of invoices) openByEntity.set(i.entityId, (openByEntity.get(i.entityId) ?? 0) + 1);
@@ -22,7 +30,13 @@ export default async function BooksIndex() {
   const sorted = [...entities].sort((a, b) => Number(b.isOwn) - Number(a.isOwn) || a.name.localeCompare(b.name));
   return (
     <Page title="Books" subtitle="Pick the entity whose books you want to work on.">
-      {sorted.length === 0 ? <EmptyState title="No entity yet" hint="Create ILA's own entity first, then one per client." action={can(user, "admin") && <Link href="/settings/entities/new" className="btn-primary">New entity</Link>} /> : (
+      {withoutBooks > 0 && (
+        <div className="mb-4 no-print"><Notice tone="amber"><div className="flex flex-wrap items-center justify-between gap-3">
+          <span>{withoutBooks} client compan{withoutBooks === 1 ? "y has" : "ies have"} no books yet, so {withoutBooks === 1 ? "it does" : "they do"} not appear here or under Tax and Payroll. <Link href="/clients/companies?books=none" className="font-medium underline">See the list</Link> to create them one by one.</span>
+          <CreateBooksButton count={withoutBooks} />
+        </div></Notice></div>
+      )}
+      {sorted.length === 0 ? <EmptyState title="No entity yet" hint="Create ILA's own entity first, then one per client." action={admin && <Link href="/settings/entities/new" className="btn-primary">New entity</Link>} /> : (
         <TableCard>
           <table className="table table-data min-w-[950px]">
             <Cols widths={[undefined, 110, 120, 86, 116, 164, 186]} />

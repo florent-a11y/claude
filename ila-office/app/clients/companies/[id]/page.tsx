@@ -13,6 +13,7 @@ import { Attachments, CRM_SCOPE } from "@/components/Attachments";
 import { activeServices, activitiesFor, lookups } from "../../_lib/server";
 import { Timeline } from "../../_components/Timeline";
 import { addSubscription, endSubscription, removeSubscription } from "../actions";
+import { booksNeedReview } from "@/app/settings/entities/entity-sync";
 
 export const dynamic = "force-dynamic";
 
@@ -42,6 +43,12 @@ export default async function CompanyDetail({ params, searchParams }: { params: 
         {write && <Link href={`/clients/companies/${id}/edit`} className="btn-primary">Edit</Link>}
       </>}>
       {!client && (sp.error ? <div className="mb-4"><Notice tone="red">{sp.error}</Notice></div> : sp.ok ? <div className="mb-4"><Notice tone="green">{sp.ok}</Notice></div> : null)}
+      {/* Books created with the company (or in bulk) start with the default tax profile: say so for the first week, until it is changed. */}
+      {!client && entity && booksNeedReview(entity) && (
+        <div className="mb-4"><Notice tone="blue">
+          Books created with the default tax profile (normal CIT 22%, not PKP, no payroll, LKPM for a PT PMA): {can(me, "admin") ? <Link className="font-medium underline" href={`/settings/entities/${entity.id}`}>review it</Link> : "an administrator reviews it in Settings → Entities"}. <Link className="font-medium underline" href={`/books/${entity.id}`}>Open the books</Link>
+        </Notice></div>
+      )}
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
         <div className="min-w-0 space-y-4">
           <Card title="Details">

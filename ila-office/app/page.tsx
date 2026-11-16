@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { isClient, requireUser } from "@/lib/auth";
+import { can, isClient, requireUser } from "@/lib/auth";
 import { ClientHome } from "./ClientHome";
 import { db } from "@/lib/db";
 import { accountBalances, naturalBalance } from "@/lib/balances";
@@ -49,7 +49,7 @@ export default async function Home() {
 
   return (
     <Page title={`Good day, ${user.name.split(" ")[0]}`} subtitle={`${fmtDate(today)} · ${entities.length} entities · tax period ${periodLabel(period)}`}
-      actions={<>{own && <Link href={`/books/${own.id}/sales/new`} className="btn-secondary">New invoice</Link>}<Link href="/tax" className="btn-secondary">All clients calendar</Link><Link href="/settings/entities/new" className="btn-primary">New client entity</Link></>}>
+      actions={<>{own && <Link href={`/books/${own.id}/sales/new`} className="btn-secondary">New invoice</Link>}<Link href="/tax" className="btn-secondary">All clients calendar</Link>{can(user, "crm:write") && <Link href="/clients/companies/new?books=1" className="btn-primary" title="One form: the client record and its books (Books, Tax, Payroll)">New client</Link>}</>}>
       <div className="grid grid-cols-[repeat(auto-fit,minmax(11rem,1fr))] gap-3">
         <Stat label={`Obligations due ${periodLabel(period)}`} value={dueThisMonth.length} hint={<Link href="/tax" className="hover:underline">{byStatus.get("reported") ?? 0} reported · {byStatus.get("not_started") ?? 0} not started</Link>} />
         <Stat label="Overdue obligations" value={overdue.length} tone={overdue.length ? "text-red-700" : "text-green-700"} hint={overdue.length ? "past the reporting deadline" : "nothing late"} />
