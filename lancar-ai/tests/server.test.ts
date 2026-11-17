@@ -75,3 +75,23 @@ test("audit prices are formatted per language", () => {
   assert.equal(formatIdr(AUDIT_TIERS[0].priceIdr, "en"), "IDR 3,500,000");
   assert.deepEqual(AUDIT_TIERS.map((tier) => tier.priceIdr), [3_500_000, 7_500_000, 15_000_000]);
 });
+
+test("the site address follows NEXT_PUBLIC_SITE_URL, then the Vercel deployment, then localhost", async () => {
+  const load = async (env: Record<string, string>) => {
+    const saved = { ...process.env };
+    for (const key of ["NEXT_PUBLIC_SITE_URL", "VERCEL_ENV", "VERCEL_URL", "VERCEL_PROJECT_PRODUCTION_URL"]) delete process.env[key];
+    Object.assign(process.env, env);
+    try {
+      // A fresh copy of the module each time: the address is read once, when the module loads.
+      const mod = (await import(`../lib/config.ts?case=${Math.random()}`)) as typeof import("../lib/config");
+      return mod.site.url;
+    } finally {
+      process.env = saved;
+    }
+  };
+  assert.equal(await load({}), "http://localhost:3200");
+  assert.equal(await load({ NEXT_PUBLIC_SITE_URL: "https://lancar.example/" }), "https://lancar.example");
+  assert.equal(await load({ VERCEL_ENV: "preview", VERCEL_URL: "lancar-ai-abc.vercel.app", VERCEL_PROJECT_PRODUCTION_URL: "lancar-ai.vercel.app" }), "https://lancar-ai-abc.vercel.app");
+  assert.equal(await load({ VERCEL_ENV: "production", VERCEL_URL: "lancar-ai-abc.vercel.app", VERCEL_PROJECT_PRODUCTION_URL: "lancar-ai.vercel.app" }), "https://lancar-ai.vercel.app");
+  assert.equal(await load({ NEXT_PUBLIC_SITE_URL: "https://lancar.example", VERCEL_ENV: "preview", VERCEL_URL: "x.vercel.app" }), "https://lancar.example");
+});

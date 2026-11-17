@@ -7,9 +7,21 @@ function digitsOnly(value: string | undefined) {
   return (value ?? "").replace(/\D/g, "");
 }
 
+/**
+ * Public address of the site. NEXT_PUBLIC_SITE_URL wins when set (the real domain). Without it, a Vercel
+ * deployment uses its own address: the production domain in production, the preview's address in a preview,
+ * so links, the sitemap and link preview images work on a preview without any configuration.
+ */
+function siteUrl() {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (explicit) return explicit.replace(/\/$/, "");
+  const vercelHost = process.env.VERCEL_ENV === "production" ? process.env.VERCEL_PROJECT_PRODUCTION_URL : process.env.VERCEL_URL;
+  return vercelHost ? `https://${vercelHost}` : "http://localhost:3200";
+}
+
 export const site = {
   name: "Lancar AI",
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3200").replace(/\/$/, ""),
+  url: siteUrl(),
   /** WhatsApp number in international format, digits only (62812…). Empty until the business line exists. */
   whatsapp: digitsOnly(process.env.NEXT_PUBLIC_WHATSAPP_NUMBER),
   email: (process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "").trim(),
