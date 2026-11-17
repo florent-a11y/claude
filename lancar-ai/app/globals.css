@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@theme {
+  /* Deep lagoon ink: text and dark sections */
+  --color-ink-950: #06262b;
+  --color-ink-900: #0b3037;
+  --color-ink-800: #12404a;
+  --color-ink-700: #2a4f57;
+  --color-ink-600: #47666d;
+  --color-ink-400: #88a0a5;
+  /* Sea: brand colour */
+  --color-sea-50: #eaf7f5;
+  --color-sea-100: #cfeeea;
+  --color-sea-200: #a4ddd6;
+  --color-sea-400: #2bb3a6;
+  --color-sea-500: #0f9488;
+  --color-sea-600: #0b7a71;
+  --color-sea-700: #0a625b;
+  /* Marigold: the single accent, used for the main action */
+  --color-marigold-200: #fde6b0;
+  --color-marigold-300: #fcd581;
+  --color-marigold-400: #f9bd3b;
+  --color-marigold-500: #f2a30f;
+  --color-marigold-600: #c97f05;
+  /* Sand: page background and quiet surfaces */
+  --color-sand-50: #fbf8f3;
+  --color-sand-100: #f5efe4;
+  --color-sand-200: #eadfcc;
+  --color-sand-300: #dccdb2;
+  --font-sans: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { @apply bg-sand-50 text-ink-900 antialiased; }
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+
+@layer components {
+  .container-page { @apply mx-auto w-full max-w-6xl px-5 sm:px-8; }
+  .section { @apply py-16 sm:py-24; }
+  .eyebrow { @apply text-sm font-semibold uppercase tracking-[0.14em] text-sea-600; }
+  .h2 { @apply text-3xl font-extrabold tracking-tight text-ink-950 sm:text-4xl; }
+  .lead { @apply mt-4 max-w-2xl text-lg leading-relaxed text-ink-600; }
+
+  .btn { @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-base font-bold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60; }
+  .btn-primary { @apply bg-marigold-400 text-ink-950 hover:bg-marigold-300 focus-visible:ring-marigold-500; }
+  .btn-dark { @apply bg-ink-950 text-white hover:bg-ink-800 focus-visible:ring-ink-900; }
+  .btn-outline { @apply border border-ink-900/20 bg-transparent text-ink-900 hover:bg-ink-900/5 focus-visible:ring-ink-900; }
+  .btn-outline-light { @apply border border-white/30 bg-transparent text-white hover:bg-white/10 focus-visible:ring-white focus-visible:ring-offset-ink-950; }
+
+  .card { @apply rounded-3xl border border-sand-200 bg-white p-6 sm:p-7; }
+  .tag { @apply inline-flex items-center rounded-full bg-sea-50 px-3 py-1 text-sm font-semibold text-sea-700; }
+
+  .label { @apply mb-1.5 block text-sm font-semibold text-ink-800; }
+  .input { @apply w-full rounded-xl border border-sand-300 bg-white px-4 py-3 text-base text-ink-950 placeholder:text-ink-400 focus:border-sea-500 focus:outline-none focus:ring-2 focus:ring-sea-500/30; }
+  .input-error { @apply border-red-500 focus:border-red-500 focus:ring-red-500/30; }
+  .field-error { @apply mt-1.5 text-sm text-red-700; }
+}
+
+/* Long-form text: blog articles and the privacy notice */
+.prose-basic h2 { @apply mt-10 mb-3 text-2xl font-extrabold tracking-tight text-ink-950; }
+.prose-basic h3 { @apply mt-7 mb-2 text-lg font-bold text-ink-950; }
+.prose-basic p { @apply mb-5 text-lg leading-relaxed text-ink-700; }
+.prose-basic ul { @apply mb-5 list-disc space-y-2 pl-6 text-lg leading-relaxed text-ink-700; }
+.prose-basic ol { @apply mb-5 list-decimal space-y-2 pl-6 text-lg leading-relaxed text-ink-700; }
+.prose-basic a { @apply font-semibold text-sea-700 underline underline-offset-2; }
+.prose-basic strong { @apply font-bold text-ink-950; }
+.prose-basic blockquote { @apply my-6 border-l-4 border-marigold-400 pl-5 text-ink-700; }
+
+/* Hero chat: each new bubble rises into place */
+@keyframes bubble-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.bubble-in { animation: bubble-in 0.35s ease-out both; }
+@keyframes typing-dot {
+  0%, 60%, 100% { opacity: 0.25; }
+  30% { opacity: 1; }
+}
+.typing-dot { animation: typing-dot 1.2s infinite; }
+.typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-dot:nth-child(3) { animation-delay: 0.3s; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .bubble-in, .typing-dot { animation: none; }
+}
