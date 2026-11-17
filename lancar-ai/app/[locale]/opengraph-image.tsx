@@ -26,14 +26,14 @@ export default async function OpengraphImage({ params }: { params: Promise<{ loc
           flexDirection: "column",
           justifyContent: "space-between",
           padding: 72,
-          backgroundColor: "#04060c",
-          backgroundImage: "radial-gradient(circle at 12% 0%, rgba(47,107,255,0.55), rgba(4,6,12,0) 55%), radial-gradient(circle at 95% 100%, rgba(201,154,46,0.35), rgba(4,6,12,0) 50%)",
+          backgroundColor: "#0a1330",
+          backgroundImage: "radial-gradient(circle at 12% 0%, rgba(47,107,255,0.55), rgba(10,19,48,0) 55%), radial-gradient(circle at 95% 100%, rgba(201,154,46,0.35), rgba(10,19,48,0) 50%)",
           color: "#ffffff",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 22 }}>
           <svg width="84" height="84" viewBox="0 0 68 68">
-            <rect x="1" y="1" width="66" height="66" rx="20" fill="#0d1326" stroke="#dcb64a" strokeOpacity="0.6" strokeWidth="2" />
+            <rect x="1" y="1" width="66" height="66" rx="20" fill="#152552" stroke="#dcb64a" strokeOpacity="0.6" strokeWidth="2" />
             <path d={wave} fill="none" stroke="#ecd27f" strokeWidth="4.8" strokeLinecap="round" />
             <path d={wave} transform="translate(0 11)" fill="none" stroke="#5f8fff" strokeWidth="4.8" strokeLinecap="round" />
             <path d={wave} transform="translate(0 22)" fill="none" stroke="#ffffff" strokeWidth="4.8" strokeLinecap="round" />

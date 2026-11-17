@@ -616,6 +616,16 @@ export const en = {
     where: "On site across Bali and Greater Jakarta. Elsewhere in Indonesia on request.",
   },
 
+  founders: {
+    title: "Our *founders*",
+    intro: "The people behind Lancar AI.",
+    roles: {
+      ceo: { short: "CEO", full: "Chief Executive Officer" },
+      cto: { short: "CTO", full: "Chief Technology Officer" },
+      sales: { short: "Sales and Audit", full: "Client relations and on-site audits" },
+    },
+  },
+
   contact: {
     metaTitle: "Contact",
     metaDescription: "Book a free 30-minute call with Lancar AI, by WhatsApp or with the contact form.",

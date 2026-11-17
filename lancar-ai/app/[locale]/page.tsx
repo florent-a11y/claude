@@ -12,6 +12,7 @@ import { Backdrop } from "@/components/Backdrop";
 import { BookCallButton } from "@/components/Cta";
 import { Faq } from "@/components/Faq";
 import { FinalCta } from "@/components/FinalCta";
+import { Founders } from "@/components/Founders";
 import { FunctionGrid } from "@/components/FunctionGrid";
 import { HeroChat } from "@/components/HeroChat";
 import { delay, Reveal } from "@/components/Reveal";
@@ -282,6 +283,8 @@ export default async function HomePage({ params }: Props) {
           </Link>
         </div>
       </section>
+
+      <Founders dict={dict} />
 
       <section className="section section-alt">
         <div className="container-page max-w-4xl">

@@ -614,6 +614,16 @@ export const id: Dictionary = {
     where: "Kunjungan langsung di seluruh Bali dan Jabodetabek. Wilayah lain di Indonesia sesuai permintaan.",
   },
 
+  founders: {
+    title: "Para *pendiri* kami",
+    intro: "Orang-orang di balik Lancar AI.",
+    roles: {
+      ceo: { short: "CEO", full: "Direktur Utama" },
+      cto: { short: "CTO", full: "Direktur Teknologi" },
+      sales: { short: "Penjualan dan Audit", full: "Hubungan klien dan audit di lokasi" },
+    },
+  },
+
   contact: {
     metaTitle: "Kontak",
     metaDescription: "Jadwalkan konsultasi gratis 30 menit dengan Lancar AI lewat WhatsApp atau formulir kontak.",

@@ -5,6 +5,7 @@ import type { AppLocale } from "@/i18n/routing";
 import { getDictionary } from "@/content";
 import { pageMetadata } from "@/lib/seo";
 import { FinalCta } from "@/components/FinalCta";
+import { Founders } from "@/components/Founders";
 import { PageHeader } from "@/components/PageHeader";
 import { Reveal } from "@/components/Reveal";
 
@@ -60,7 +61,9 @@ export default async function AboutPage({ params }: Props) {
         </div>
       </section>
 
-      <section className="py-16 sm:py-20">
+      <Founders dict={dict} />
+
+      <section className="section-alt py-16 sm:py-20">
         <Reveal className="container-page flex max-w-3xl items-start gap-5">
           <span className="icon-chip-gold shrink-0">
             <MapPin size={24} aria-hidden="true" />
