@@ -25,13 +25,13 @@ export function SectorCards({ dict, locale, exclude }: { dict: Dictionary; local
               <span className="icon-chip-gold">
                 <Icon size={24} aria-hidden="true" />
               </span>
-              <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-mist-300 transition duration-300 group-hover:border-gold-400 group-hover:bg-gold-400 group-hover:text-night-950">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full border border-cloud-200 text-ink-600 transition duration-300 group-hover:border-gold-400 group-hover:bg-gold-400 group-hover:text-night-950">
                 <ArrowUpRight size={18} aria-hidden="true" />
               </span>
             </div>
-            <h3 className="mt-6 text-xl font-bold text-white">{item.name}</h3>
-            <p className="mt-2 flex-1 leading-relaxed text-mist-300">{item.short}</p>
-            <span className="mt-5 font-bold text-azure-300 transition group-hover:text-white">{dict.common.learnMore}</span>
+            <h3 className="mt-6 text-xl font-bold text-ink-900">{item.name}</h3>
+            <p className="mt-2 flex-1 leading-relaxed text-ink-600">{item.short}</p>
+            <span className="mt-5 font-bold text-azure-600 transition group-hover:text-azure-700">{dict.common.learnMore}</span>
           </Link>
         );
       })}

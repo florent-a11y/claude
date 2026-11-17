@@ -33,12 +33,12 @@ export default async function ContactPage({ params }: Props) {
           {hasDirectChannel && (
             <div className="space-y-5">
               {wa && (
-                <Reveal className="rounded-3xl border border-gold-400/30 bg-gradient-to-br from-gold-600/25 to-night-800 p-7 sm:p-8">
+                <Reveal className="rounded-3xl border border-gold-400/30 bg-gradient-to-br from-gold-400/25 to-white p-7 sm:p-8">
                   <span className="icon-chip-gold">
                     <MessageCircle size={24} aria-hidden="true" />
                   </span>
-                  <h2 className="mt-5 text-xl font-bold text-white">{contact.whatsappTitle}</h2>
-                  <p className="mt-2 leading-relaxed text-mist-200">{contact.whatsappBody}</p>
+                  <h2 className="mt-5 text-xl font-bold text-ink-900">{contact.whatsappTitle}</h2>
+                  <p className="mt-2 leading-relaxed text-ink-700">{contact.whatsappBody}</p>
                   <a href={wa} target="_blank" rel="noopener noreferrer" className="btn btn-primary mt-6">
                     {dict.common.whatsapp}
                   </a>
@@ -49,8 +49,8 @@ export default async function ContactPage({ params }: Props) {
                   <span className="icon-chip">
                     <Mail size={24} aria-hidden="true" />
                   </span>
-                  <h2 className="mt-5 text-xl font-bold text-white">{contact.emailTitle}</h2>
-                  <a href={`mailto:${site.email}`} className="mt-2 inline-block break-all text-lg font-semibold text-azure-300 underline underline-offset-2 hover:text-white">
+                  <h2 className="mt-5 text-xl font-bold text-ink-900">{contact.emailTitle}</h2>
+                  <a href={`mailto:${site.email}`} className="mt-2 inline-block break-all text-lg font-semibold text-azure-600 underline underline-offset-2 hover:text-azure-700">
                     {site.email}
                   </a>
                 </Reveal>
@@ -58,7 +58,7 @@ export default async function ContactPage({ params }: Props) {
             </div>
           )}
           <Reveal delay={hasDirectChannel ? 110 : 0} className="card sm:p-9">
-            <h2 className="mb-7 text-2xl font-extrabold tracking-tight text-white">{contact.formTitle}</h2>
+            <h2 className="mb-7 text-2xl font-extrabold tracking-tight text-ink-900">{contact.formTitle}</h2>
             <LeadForm labels={dict.form} locale={locale} />
           </Reveal>
         </div>

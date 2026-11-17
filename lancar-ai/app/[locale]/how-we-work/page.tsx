@@ -22,8 +22,8 @@ function CheckList({ items }: { items: string[] }) {
   return (
     <ul className="space-y-3">
       {items.map((item) => (
-        <li key={item} className="flex gap-3 leading-relaxed text-mist-200">
-          <Check size={20} aria-hidden="true" className="mt-1 shrink-0 text-gold-400" />
+        <li key={item} className="flex gap-3 leading-relaxed text-ink-700">
+          <Check size={20} aria-hidden="true" className="mt-1 shrink-0 text-gold-600" />
           {item}
         </li>
       ))}
@@ -60,8 +60,8 @@ export default async function HowWeWorkPage({ params }: Props) {
               <div className="card glow-card grid gap-7 sm:p-9 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12">
                 <div>
                   <span className="tag">{tags[index]}</span>
-                  <h2 className="mt-5 text-2xl font-extrabold tracking-tight text-white sm:text-3xl">{step.title}</h2>
-                  <p className="mt-3 text-lg leading-relaxed text-mist-300">{step.body}</p>
+                  <h2 className="mt-5 text-2xl font-extrabold tracking-tight text-ink-900 sm:text-3xl">{step.title}</h2>
+                  <p className="mt-3 text-lg leading-relaxed text-ink-600">{step.body}</p>
                 </div>
                 {index === AUDIT_STEP ? (
                   <div className="space-y-7">
@@ -73,7 +73,7 @@ export default async function HowWeWorkPage({ params }: Props) {
                       ] as const
                     ).map(([title, items]) => (
                       <div key={title}>
-                        <h3 className="mb-3 text-[13px] font-bold uppercase tracking-[0.16em] text-gold-300">{title}</h3>
+                        <h3 className="mb-3 text-[13px] font-bold uppercase tracking-[0.16em] text-gold-700">{title}</h3>
                         <CheckList items={items} />
                       </div>
                     ))}

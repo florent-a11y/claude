@@ -34,7 +34,7 @@ npm run typecheck && npm test && npm run build
 | Blog | `/blog`, `/blog/<slug>` | `/en/blog`, `/en/blog/<slug>` | Markdown articles |
 | About, Contact, Privacy | `/tentang`, `/kontak`, `/privasi` | `/en/about`, `/en/contact`, `/en/privacy` | |
 
-Design: black base, electric blue light and gold accents, with an italic serif (Instrument Serif) for highlighted
+Design: white background with blue, gold and black (dark chat windows, closing panel and footer), with an italic serif (Instrument Serif) for highlighted
 words. Sections fade up as they scroll into view, cards light up under the pointer, and the hero has drifting
 light and flowing lines. All motion is switched off for visitors who ask their device to reduce motion, and
 nothing depends on JavaScript to be readable.

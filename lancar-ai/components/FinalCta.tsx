@@ -17,7 +17,7 @@ export function FinalCta({ dict, title, body }: { dict: Dictionary; title?: stri
         <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-mist-300">{body ?? dict.home.cta.body}</p>
         <div className="mt-9 flex flex-wrap justify-center gap-3">
           <BookCallButton dict={dict} />
-          <Link href="/quiz" className="btn btn-ghost">
+          <Link href="/quiz" className="btn btn-ghost-dark">
             {dict.home.hero.secondaryCta}
           </Link>
         </div>

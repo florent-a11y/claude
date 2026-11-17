@@ -36,12 +36,12 @@ export default async function BlogPage({ params }: Props) {
               className="card glow-card reveal group sm:p-9"
               style={delay(index * 90)}
             >
-              <p className="text-sm font-semibold text-gold-300">
+              <p className="text-sm font-semibold text-gold-700">
                 <time dateTime={post.date}>{formatPostDate(post.date, locale)}</time> · {fill(dict.blog.minutes, { n: post.minutes })}
               </p>
-              <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-white sm:text-3xl">{post.title}</h2>
-              <p className="mt-3 text-lg leading-relaxed text-mist-300">{post.description}</p>
-              <span className="mt-5 inline-flex items-center gap-1.5 font-bold text-azure-300 transition group-hover:text-white">
+              <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-ink-900 sm:text-3xl">{post.title}</h2>
+              <p className="mt-3 text-lg leading-relaxed text-ink-600">{post.description}</p>
+              <span className="mt-5 inline-flex items-center gap-1.5 font-bold text-azure-600 transition group-hover:text-azure-700">
                 {dict.blog.readMore}
                 <ArrowRight size={18} aria-hidden="true" className="transition group-hover:translate-x-1" />
               </span>

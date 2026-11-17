@@ -46,24 +46,24 @@ export default async function ServicesPage({ params }: Props) {
             <p className="lead">{services.tools.body}</p>
             <ul className="mt-7 space-y-3.5">
               {services.tools.items.map((item) => (
-                <li key={item} className="flex gap-3 text-lg text-mist-200">
-                  <Check size={22} aria-hidden="true" className="mt-0.5 shrink-0 text-gold-400" />
+                <li key={item} className="flex gap-3 text-lg text-ink-700">
+                  <Check size={22} aria-hidden="true" className="mt-0.5 shrink-0 text-gold-600" />
                   {item}
                 </li>
               ))}
             </ul>
           </Reveal>
           <div className="space-y-5">
-            <Reveal className="rounded-3xl border border-azure-400/30 bg-gradient-to-br from-azure-700/40 to-night-800 p-7 sm:p-9">
-              <h2 className="text-2xl font-extrabold tracking-tight text-white">{services.models.title}</h2>
-              <p className="mt-3 text-lg leading-relaxed text-mist-200">{services.models.body}</p>
+            <Reveal className="rounded-3xl border border-azure-400/30 bg-gradient-to-br from-azure-500/12 to-white p-7 sm:p-9">
+              <h2 className="text-2xl font-extrabold tracking-tight text-ink-900">{services.models.title}</h2>
+              <p className="mt-3 text-lg leading-relaxed text-ink-700">{services.models.body}</p>
             </Reveal>
-            <Reveal delay={110} className="rounded-3xl border border-gold-400/30 bg-gradient-to-br from-gold-600/20 to-night-800 p-7 sm:p-9">
-              <h2 className="text-2xl font-extrabold tracking-tight text-white">{services.notFit.title}</h2>
+            <Reveal delay={110} className="rounded-3xl border border-gold-400/30 bg-gradient-to-br from-gold-400/25 to-white p-7 sm:p-9">
+              <h2 className="text-2xl font-extrabold tracking-tight text-ink-900">{services.notFit.title}</h2>
               <ul className="mt-5 space-y-3.5">
                 {services.notFit.items.map((item) => (
-                  <li key={item} className="flex gap-3 text-lg leading-relaxed text-mist-200">
-                    <CircleSlash size={20} aria-hidden="true" className="mt-1 shrink-0 text-gold-300" />
+                  <li key={item} className="flex gap-3 text-lg leading-relaxed text-ink-700">
+                    <CircleSlash size={20} aria-hidden="true" className="mt-1 shrink-0 text-gold-700" />
                     {item}
                   </li>
                 ))}

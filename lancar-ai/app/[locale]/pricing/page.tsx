@@ -34,30 +34,30 @@ export default async function PricingPage({ params }: Props) {
           <Reveal className="card flex flex-col gap-5 sm:flex-row sm:items-center sm:p-9">
             <span className="step-number">1</span>
             <div className="flex-1">
-              <h2 className="text-2xl font-extrabold tracking-tight text-white">{pricing.call.title}</h2>
-              <p className="mt-1 text-lg text-mist-300">{pricing.call.body}</p>
+              <h2 className="text-2xl font-extrabold tracking-tight text-ink-900">{pricing.call.title}</h2>
+              <p className="mt-1 text-lg text-ink-600">{pricing.call.body}</p>
             </div>
             <p className="text-3xl font-extrabold tracking-tight">
               <span className="text-gold">{pricing.call.price}</span>
             </p>
           </Reveal>
 
-          <Reveal className="rounded-3xl border border-gold-400/30 bg-gradient-to-b from-gold-600/[0.12] to-transparent p-6 sm:p-9">
+          <Reveal className="rounded-3xl border border-gold-400/30 bg-gradient-to-b from-gold-400/20 to-white p-6 sm:p-9">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
               <span className="step-number">2</span>
               <div>
-                <h2 className="text-2xl font-extrabold tracking-tight text-white">{pricing.audit.title}</h2>
-                <p className="mt-1 text-lg font-semibold text-gold-200">{pricing.audit.credit}</p>
+                <h2 className="text-2xl font-extrabold tracking-tight text-ink-900">{pricing.audit.title}</h2>
+                <p className="mt-1 text-lg font-semibold text-gold-700">{pricing.audit.credit}</p>
               </div>
             </div>
             <div className="mt-8">
               <AuditTiers dict={dict} locale={locale} />
             </div>
-            <h3 className="mt-10 text-[13px] font-bold uppercase tracking-[0.16em] text-gold-300">{pricing.audit.includesTitle}</h3>
+            <h3 className="mt-10 text-[13px] font-bold uppercase tracking-[0.16em] text-gold-700">{pricing.audit.includesTitle}</h3>
             <ul className="mt-4 grid gap-3 sm:grid-cols-2">
               {pricing.audit.includes.map((item) => (
-                <li key={item} className="flex gap-3 leading-relaxed text-mist-200">
-                  <Check size={20} aria-hidden="true" className="mt-1 shrink-0 text-gold-400" />
+                <li key={item} className="flex gap-3 leading-relaxed text-ink-700">
+                  <Check size={20} aria-hidden="true" className="mt-1 shrink-0 text-gold-600" />
                   {item}
                 </li>
               ))}
@@ -79,13 +79,13 @@ export default async function PricingPage({ params }: Props) {
                   <span className="step-number">{n}</span>
                   <span className="tag">{block.price}</span>
                 </div>
-                <h2 className="mt-6 text-2xl font-extrabold tracking-tight text-white">{block.title}</h2>
-                <p className="mt-2 text-lg leading-relaxed text-mist-300">{block.body}</p>
+                <h2 className="mt-6 text-2xl font-extrabold tracking-tight text-ink-900">{block.title}</h2>
+                <p className="mt-2 text-lg leading-relaxed text-ink-600">{block.body}</p>
               </Reveal>
             ))}
           </div>
 
-          <ul className="space-y-2 px-1 pt-3 text-mist-400">
+          <ul className="space-y-2 px-1 pt-3 text-ink-500">
             {pricing.notes.map((note) => (
               <li key={note} className="flex gap-2.5 leading-relaxed">
                 <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gold-400/70" />

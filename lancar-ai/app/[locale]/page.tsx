@@ -60,17 +60,17 @@ export default async function HomePage({ params }: Props) {
         <Backdrop variant="hero" />
         <div className="container-page grid items-center gap-14 pb-24 pt-14 sm:pt-20 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14 lg:pb-36 lg:pt-24">
           <div>
-            <p className="rise inline-flex items-center gap-2.5 rounded-full border border-gold-400/30 bg-gold-400/[0.08] px-4 py-1.5 text-[13px] font-semibold uppercase tracking-[0.14em] text-gold-200">
+            <p className="rise inline-flex items-center gap-2.5 rounded-full border border-gold-400/30 bg-gold-400/[0.08] px-4 py-1.5 text-[13px] font-semibold uppercase tracking-[0.14em] text-gold-700">
               <span className="pulse-dot h-2 w-2 shrink-0 rounded-full bg-gold-400" />
               {hero.eyebrow}
             </p>
             <h1
-              className="rise mt-7 text-[2.6rem] font-extrabold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-[3.9rem]"
+              className="rise mt-7 text-[2.6rem] font-extrabold leading-[1.05] tracking-tight text-ink-900 sm:text-6xl lg:text-[3.9rem]"
               style={delay(90)}
             >
               <Accent text={hero.title} />
             </h1>
-            <p className="rise mt-7 max-w-xl text-lg leading-relaxed text-mist-300 sm:text-xl" style={delay(180)}>
+            <p className="rise mt-7 max-w-xl text-lg leading-relaxed text-ink-600 sm:text-xl" style={delay(180)}>
               {hero.subtitle}
             </p>
             <div className="rise mt-10 flex flex-wrap gap-3" style={delay(270)}>
@@ -80,10 +80,10 @@ export default async function HomePage({ params }: Props) {
                 <ArrowRight size={18} aria-hidden="true" />
               </Link>
             </div>
-            <ul className="rise mt-10 flex flex-wrap gap-x-7 gap-y-3 text-[15px] font-semibold text-mist-200" style={delay(360)}>
+            <ul className="rise mt-10 flex flex-wrap gap-x-7 gap-y-3 text-[15px] font-semibold text-ink-700" style={delay(360)}>
               {hero.points.map((point) => (
                 <li key={point} className="flex items-center gap-2">
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gold-400/15 text-gold-300">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gold-400/15 text-gold-700">
                     <Check size={13} strokeWidth={3} aria-hidden="true" />
                   </span>
                   {point}
@@ -95,29 +95,29 @@ export default async function HomePage({ params }: Props) {
             <div className="float">
               <HeroChat labels={{ ...hero.chat, fictional: dict.common.fictional }} />
             </div>
-            <p className="mt-6 text-center text-[15px] text-mist-400">{hero.chat.caption}</p>
+            <p className="mt-6 text-center text-[15px] text-ink-500">{hero.chat.caption}</p>
           </div>
         </div>
       </section>
 
-      <section aria-label={languages.caption} className="border-y border-white/[0.07] bg-night-900 py-8">
+      <section aria-label={languages.caption} className="border-y border-cloud-200 bg-cloud-50 py-8">
         <div className="marquee edge-fade overflow-hidden" aria-hidden="true">
           <div className="marquee-track flex w-max items-center">
             {[0, 1].map((copy) => (
               <div key={copy} className={`flex shrink-0 items-center ${copy === 1 ? "marquee-copy" : ""}`}>
                 {WELCOMES.map((item) => (
-                  <span key={item.lang} className="flex items-center whitespace-nowrap text-2xl font-semibold text-mist-300 sm:text-3xl">
+                  <span key={item.lang} className="flex items-center whitespace-nowrap text-2xl font-semibold text-ink-600 sm:text-3xl">
                     <span lang={item.lang} className="px-6 sm:px-8">
                       {item.text}
                     </span>
-                    <span className="text-base text-gold-400">✦</span>
+                    <span className="text-base text-gold-600">✦</span>
                   </span>
                 ))}
               </div>
             ))}
           </div>
         </div>
-        <p className="container-page mt-6 text-center text-[15px] text-mist-400">{languages.caption}</p>
+        <p className="container-page mt-6 text-center text-[15px] text-ink-500">{languages.caption}</p>
       </section>
 
       <section className="section">
@@ -134,10 +134,10 @@ export default async function HomePage({ params }: Props) {
                 <Reveal key={item.title} delay={index * 90} className="card glow-card">
                   <div className="flex items-start justify-between">
                     <span className="font-serif text-5xl italic leading-none text-gold">0{index + 1}</span>
-                    <Icon size={22} aria-hidden="true" className="text-azure-300" />
+                    <Icon size={22} aria-hidden="true" className="text-azure-600" />
                   </div>
-                  <h3 className="mt-6 text-lg font-bold leading-snug text-white">{item.title}</h3>
-                  <p className="mt-2 leading-relaxed text-mist-300">{item.body}</p>
+                  <h3 className="mt-6 text-lg font-bold leading-snug text-ink-900">{item.title}</h3>
+                  <p className="mt-2 leading-relaxed text-ink-600">{item.body}</p>
                 </Reveal>
               );
             })}
@@ -179,8 +179,8 @@ export default async function HomePage({ params }: Props) {
                 <li key={step.title} className="relative flex flex-col">
                   <span className="step-number relative">{index + 1}</span>
                   <div className="card mt-5 flex flex-1 flex-col">
-                    <h3 className="text-xl font-bold text-white">{step.title}</h3>
-                    <p className="mt-2 flex-1 leading-relaxed text-mist-300">{step.short}</p>
+                    <h3 className="text-xl font-bold text-ink-900">{step.title}</h3>
+                    <p className="mt-2 flex-1 leading-relaxed text-ink-600">{step.short}</p>
                     <span className="tag mt-5 self-start">{stepTags[index]}</span>
                   </div>
                 </li>
@@ -207,8 +207,8 @@ export default async function HomePage({ params }: Props) {
               <Reveal as="li" key={point.title} delay={index * 110} className="card glow-card flex gap-6 sm:p-8">
                 <span className="font-serif text-5xl italic leading-none text-gold">{index + 1}</span>
                 <div>
-                  <h3 className="text-xl font-bold text-white">{point.title}</h3>
-                  <p className="mt-2 text-lg leading-relaxed text-mist-300">{point.body}</p>
+                  <h3 className="text-xl font-bold text-ink-900">{point.title}</h3>
+                  <p className="mt-2 text-lg leading-relaxed text-ink-600">{point.body}</p>
                 </div>
               </Reveal>
             ))}
@@ -238,25 +238,25 @@ export default async function HomePage({ params }: Props) {
             </h2>
           </Reveal>
           <div className="mt-12 grid gap-5 lg:grid-cols-2">
-            <Reveal className="relative isolate flex flex-col overflow-hidden rounded-3xl border border-azure-400/30 bg-gradient-to-br from-azure-700/60 via-night-800 to-night-900 p-8 sm:p-10">
+            <Reveal className="relative isolate flex flex-col overflow-hidden rounded-3xl border border-azure-400/30 bg-gradient-to-br from-azure-500/15 via-white to-white p-8 sm:p-10">
               <div aria-hidden="true" className="blob blob-azure -right-40 -top-40 -z-10 h-[28rem] w-[28rem] opacity-50" />
               <span className="icon-chip">
                 <Bot size={26} aria-hidden="true" />
               </span>
-              <h3 className="mt-6 text-2xl font-extrabold tracking-tight text-white sm:text-3xl">{dict.home.try.demoTitle}</h3>
-              <p className="mt-3 flex-1 text-lg leading-relaxed text-mist-200">{dict.home.try.demoBody}</p>
+              <h3 className="mt-6 text-2xl font-extrabold tracking-tight text-ink-900 sm:text-3xl">{dict.home.try.demoTitle}</h3>
+              <p className="mt-3 flex-1 text-lg leading-relaxed text-ink-700">{dict.home.try.demoBody}</p>
               <Link href="/demo" className="btn btn-primary mt-8 self-start">
                 {dict.home.try.demoCta}
                 <ArrowRight size={18} aria-hidden="true" />
               </Link>
             </Reveal>
-            <Reveal delay={110} className="relative isolate flex flex-col overflow-hidden rounded-3xl border border-gold-400/30 bg-gradient-to-br from-gold-600/25 via-night-800 to-night-900 p-8 sm:p-10">
+            <Reveal delay={110} className="relative isolate flex flex-col overflow-hidden rounded-3xl border border-gold-400/30 bg-gradient-to-br from-gold-400/25 via-white to-white p-8 sm:p-10">
               <div aria-hidden="true" className="blob blob-gold -right-40 -top-40 -z-10 h-[28rem] w-[28rem] opacity-35" />
               <span className="icon-chip-gold">
                 <ClipboardCheck size={26} aria-hidden="true" />
               </span>
-              <h3 className="mt-6 text-2xl font-extrabold tracking-tight text-white sm:text-3xl">{dict.home.try.quizTitle}</h3>
-              <p className="mt-3 flex-1 text-lg leading-relaxed text-mist-200">{dict.home.try.quizBody}</p>
+              <h3 className="mt-6 text-2xl font-extrabold tracking-tight text-ink-900 sm:text-3xl">{dict.home.try.quizTitle}</h3>
+              <p className="mt-3 flex-1 text-lg leading-relaxed text-ink-700">{dict.home.try.quizBody}</p>
               <Link href="/quiz" className="btn btn-ghost mt-8 self-start">
                 {dict.home.try.quizCta}
                 <ArrowRight size={18} aria-hidden="true" />

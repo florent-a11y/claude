@@ -5,21 +5,23 @@
 const WAVE = "M0 40 q 150 -34 300 0 t 300 0 t 300 0 t 300 0 t 300 0 t 300 0 t 300 0 t 300 0 t 300 0 t 300 0 t 300 0 t 300 0";
 
 export function Backdrop({ variant = "soft" }: { variant?: "hero" | "soft" | "cta" }) {
+  // The closing panel is dark, so its lights are stronger; on the white page they stay a soft tint.
+  const boost = variant === "cta" ? "brightness-150 saturate-150" : "";
   const lines = variant !== "soft";
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <div aria-hidden="true" className={`pointer-events-none absolute inset-0 -z-10 overflow-hidden ${boost}`}>
       <div
         className={`blob blob-blue ${
           variant === "hero"
-            ? "-left-56 -top-64 h-[34rem] w-[34rem] opacity-60 sm:-left-72 sm:-top-72 sm:h-[58rem] sm:w-[58rem] sm:opacity-70"
-            : "-left-56 -top-64 h-[30rem] w-[30rem] opacity-50 sm:-left-60 sm:-top-72 sm:h-[44rem] sm:w-[44rem] sm:opacity-55"
+            ? "-left-56 -top-64 h-[34rem] w-[34rem] opacity-25 sm:-left-72 sm:-top-72 sm:h-[58rem] sm:w-[58rem] sm:opacity-30"
+            : "-left-56 -top-64 h-[30rem] w-[30rem] opacity-20 sm:-left-60 sm:-top-72 sm:h-[44rem] sm:w-[44rem] sm:opacity-25"
         }`}
       />
       <div
         className={`blob blob-azure [animation-delay:-8s] ${
           variant === "hero"
-            ? "-right-56 top-40 h-[30rem] w-[30rem] opacity-40 sm:-right-64 sm:-top-10 sm:h-[52rem] sm:w-[52rem] sm:opacity-45"
-            : "-right-56 -top-56 h-[26rem] w-[26rem] opacity-30 sm:-right-64 sm:h-[38rem] sm:w-[38rem] sm:opacity-35"
+            ? "-right-56 top-40 h-[30rem] w-[30rem] opacity-20 sm:-right-64 sm:-top-10 sm:h-[52rem] sm:w-[52rem] sm:opacity-25"
+            : "-right-56 -top-56 h-[26rem] w-[26rem] opacity-15 sm:-right-64 sm:h-[38rem] sm:w-[38rem] sm:opacity-20"
         }`}
       />
       <div
@@ -37,7 +39,7 @@ export function Backdrop({ variant = "soft" }: { variant?: "hero" | "soft" | "ct
             <path d={WAVE} transform="translate(0 70)" stroke="#5f8fff" strokeOpacity="0.55" strokeWidth="1.5" />
           </g>
           <g>
-            <path d={WAVE} transform="translate(0 110)" stroke="#ffffff" strokeOpacity="0.18" strokeWidth="1.5" />
+            <path d={WAVE} transform="translate(0 110)" stroke="#8fa3d6" strokeOpacity="0.45" strokeWidth="1.5" />
           </g>
         </svg>
       )}

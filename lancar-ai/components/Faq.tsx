@@ -15,14 +15,14 @@ export function Faq({ items }: { items: { q: string; a: string }[] }) {
     <>
       <div className="space-y-3">
         {items.map((item) => (
-          <details key={item.q} className="group rounded-2xl border border-white/10 bg-white/[0.03] px-6 transition open:border-gold-400/40 open:bg-white/[0.05] sm:px-7">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-lg font-bold text-white [&::-webkit-details-marker]:hidden">
+          <details key={item.q} className="group rounded-2xl border border-cloud-200 bg-white px-6 transition open:border-gold-400/40 open:bg-white sm:px-7">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-lg font-bold text-ink-900 [&::-webkit-details-marker]:hidden">
               {item.q}
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/15 text-gold-300 transition duration-300 group-open:rotate-45 group-open:border-gold-400/60">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-cloud-200 text-gold-700 transition duration-300 group-open:rotate-45 group-open:border-gold-400/60">
                 <Plus size={18} aria-hidden="true" />
               </span>
             </summary>
-            <p className="pb-6 pr-8 text-lg leading-relaxed text-mist-300">{item.a}</p>
+            <p className="pb-6 pr-8 text-lg leading-relaxed text-ink-600">{item.a}</p>
           </details>
         ))}
       </div>

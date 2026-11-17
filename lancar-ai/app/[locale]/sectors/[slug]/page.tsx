@@ -66,14 +66,14 @@ export default async function SectorPage({ params }: Props) {
         <div className="container-page grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div className="self-start lg:sticky lg:top-28">
             <Reveal>
-              <h2 className="flex items-center gap-3 text-2xl font-extrabold tracking-tight text-white">
-                <Clock size={26} aria-hidden="true" className="text-gold-400" />
+              <h2 className="flex items-center gap-3 text-2xl font-extrabold tracking-tight text-ink-900">
+                <Clock size={26} aria-hidden="true" className="text-gold-600" />
                 {dict.sectors.painsTitle}
               </h2>
             </Reveal>
             <ul className="mt-6 space-y-3">
               {item.pains.map((pain, index) => (
-                <Reveal as="li" key={pain} delay={index * 80} className="rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-lg leading-snug text-mist-200">
+                <Reveal as="li" key={pain} delay={index * 80} className="rounded-2xl border border-cloud-200 bg-white px-5 py-4 text-lg leading-snug text-ink-700">
                   {pain}
                 </Reveal>
               ))}
@@ -81,8 +81,8 @@ export default async function SectorPage({ params }: Props) {
           </div>
           <div>
             <Reveal>
-              <h2 className="flex items-center gap-3 text-2xl font-extrabold tracking-tight text-white">
-                <Icon size={26} aria-hidden="true" className="text-azure-300" />
+              <h2 className="flex items-center gap-3 text-2xl font-extrabold tracking-tight text-ink-900">
+                <Icon size={26} aria-hidden="true" className="text-azure-600" />
                 {dict.sectors.solutionsTitle}
               </h2>
             </Reveal>
@@ -91,8 +91,8 @@ export default async function SectorPage({ params }: Props) {
                 <Reveal as="li" key={solution.title} delay={index * 80} className="card glow-card flex gap-5">
                   <span className="font-serif text-4xl italic leading-none text-gold">{index + 1}</span>
                   <div>
-                    <h3 className="text-xl font-bold text-white">{solution.title}</h3>
-                    <p className="mt-2 text-lg leading-relaxed text-mist-300">{solution.body}</p>
+                    <h3 className="text-xl font-bold text-ink-900">{solution.title}</h3>
+                    <p className="mt-2 text-lg leading-relaxed text-ink-600">{solution.body}</p>
                   </div>
                 </Reveal>
               ))}
@@ -104,9 +104,9 @@ export default async function SectorPage({ params }: Props) {
       <section className="section-alt py-16 sm:py-20">
         <div className="container-page">
           <Reveal as="figure" className="mx-auto max-w-3xl">
-            <Quote size={36} aria-hidden="true" className="text-gold-400" />
+            <Quote size={36} aria-hidden="true" className="text-gold-600" />
             <figcaption className="eyebrow mt-5">{dict.sectors.scenarioLabel}</figcaption>
-            <p className="mt-4 text-xl leading-relaxed text-white sm:text-2xl sm:leading-relaxed">{item.scenario}</p>
+            <p className="mt-4 text-xl leading-relaxed text-ink-900 sm:text-2xl sm:leading-relaxed">{item.scenario}</p>
           </Reveal>
         </div>
       </section>

@@ -28,7 +28,7 @@ export function Footer({ dict }: { dict: Dictionary }) {
       <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-400/70 to-transparent" />
       <div className="container-page grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr]">
         <div>
-          <Logo />
+          <Logo onDark />
           <p className="mt-4 max-w-xs leading-relaxed text-mist-400">{dict.footer.tagline}</p>
         </div>
         <div>

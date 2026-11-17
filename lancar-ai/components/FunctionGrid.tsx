@@ -31,13 +31,13 @@ export function FunctionGrid({ dict, examples, bento = false }: { dict: Dictiona
                 <span className={index === 0 ? "icon-chip-gold" : "icon-chip"}>
                   <Icon size={24} aria-hidden="true" />
                 </span>
-                <h3 className={`mt-5 font-bold text-white ${bento && index === 0 ? "text-2xl" : "text-xl"}`}>{item.title}</h3>
-                <p className="mt-2 leading-relaxed text-mist-300">{item.body}</p>
+                <h3 className={`mt-5 font-bold text-ink-900 ${bento && index === 0 ? "text-2xl" : "text-xl"}`}>{item.title}</h3>
+                <p className="mt-2 leading-relaxed text-ink-600">{item.body}</p>
               </div>
               <ul className={`mt-5 space-y-2.5 ${wide ? "lg:mt-1 lg:flex-1" : ""} ${fullWidth ? "lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0" : ""}`}>
                 {shown.map((example) => (
-                  <li key={example} className="flex gap-2.5 leading-snug text-mist-200">
-                    <Check size={18} aria-hidden="true" className="mt-0.5 shrink-0 text-gold-400" />
+                  <li key={example} className="flex gap-2.5 leading-snug text-ink-700">
+                    <Check size={18} aria-hidden="true" className="mt-0.5 shrink-0 text-gold-600" />
                     {example}
                   </li>
                 ))}

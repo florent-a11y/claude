@@ -18,7 +18,7 @@ export function LocaleSwitcher({ label }: { label: string }) {
   const href = (slug ? { pathname, params: { slug } } : pathname) as Parameters<typeof Link>[0]["href"];
 
   return (
-    <nav aria-label={label} className="flex items-center gap-0.5 rounded-full border border-white/10 bg-white/[0.04] p-1 text-sm font-bold">
+    <nav aria-label={label} className="flex items-center gap-0.5 rounded-full border border-cloud-200 bg-white p-1 text-sm font-bold">
       {LOCALES.map((locale: AppLocale) => {
         const active = locale === current;
         return (
@@ -31,7 +31,7 @@ export function LocaleSwitcher({ label }: { label: string }) {
             aria-current={active ? "true" : undefined}
             title={LOCALE_LABELS[locale]}
             className={`rounded-full px-2.5 py-1 uppercase transition ${
-              active ? "bg-gold-400 text-night-950" : "text-mist-300 hover:text-white"
+              active ? "bg-gold-400 text-night-950" : "text-ink-600 hover:text-azure-700"
             }`}
           >
             {locale}

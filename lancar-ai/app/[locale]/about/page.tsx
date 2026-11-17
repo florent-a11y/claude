@@ -32,7 +32,7 @@ export default async function AboutPage({ params }: Props) {
       <section className="section">
         <div className="container-page max-w-3xl space-y-7">
           {about.story.map((paragraph, index) => (
-            <Reveal as="p" key={paragraph} delay={index * 110} className={index === 0 ? "text-2xl leading-relaxed text-white" : "text-xl leading-relaxed text-mist-300"}>
+            <Reveal as="p" key={paragraph} delay={index * 110} className={index === 0 ? "text-2xl leading-relaxed text-ink-900" : "text-xl leading-relaxed text-ink-600"}>
               {paragraph}
             </Reveal>
           ))}
@@ -52,8 +52,8 @@ export default async function AboutPage({ params }: Props) {
                   <span className={index % 2 === 0 ? "icon-chip-gold" : "icon-chip"}>
                     <Icon size={24} aria-hidden="true" />
                   </span>
-                  <h3 className="mt-5 text-xl font-bold text-white">{principle.title}</h3>
-                  <p className="mt-2 text-lg leading-relaxed text-mist-300">{principle.body}</p>
+                  <h3 className="mt-5 text-xl font-bold text-ink-900">{principle.title}</h3>
+                  <p className="mt-2 text-lg leading-relaxed text-ink-600">{principle.body}</p>
                 </Reveal>
               );
             })}
@@ -69,8 +69,8 @@ export default async function AboutPage({ params }: Props) {
             <MapPin size={24} aria-hidden="true" />
           </span>
           <div>
-            <h2 className="text-2xl font-extrabold tracking-tight text-white">{about.whereTitle}</h2>
-            <p className="mt-2 text-xl leading-relaxed text-mist-300">{about.where}</p>
+            <h2 className="text-2xl font-extrabold tracking-tight text-ink-900">{about.whereTitle}</h2>
+            <p className="mt-2 text-xl leading-relaxed text-ink-600">{about.where}</p>
           </div>
         </Reveal>
       </section>

@@ -103,7 +103,7 @@ export function DemoChat({
   return (
     <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-12">
       <div>
-        <h2 className="text-[13px] font-bold uppercase tracking-[0.16em] text-gold-300">{labels.choose}</h2>
+        <h2 className="text-[13px] font-bold uppercase tracking-[0.16em] text-gold-700">{labels.choose}</h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
           {PERSONA_IDS.map((id) => {
             const item = labels.personas[id];
@@ -114,22 +114,22 @@ export function DemoChat({
                 type="button"
                 aria-pressed={selected}
                 onClick={() => reset(id)}
-                className={`rounded-2xl border-2 px-5 py-4 text-left transition focus:outline-none focus-visible:ring-2 focus-visible:ring-azure-400 focus-visible:ring-offset-2 focus-visible:ring-offset-night-950 ${
-                  selected ? "border-gold-400 bg-gold-400/10" : "border-white/10 bg-white/[0.03] hover:border-azure-400/70 hover:bg-white/[0.06]"
+                className={`rounded-2xl border-2 px-5 py-4 text-left transition focus:outline-none focus-visible:ring-2 focus-visible:ring-azure-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
+                  selected ? "border-gold-400 bg-gold-400/10" : "border-cloud-200 bg-white hover:border-azure-400/70 hover:bg-white"
                 }`}
               >
-                <span className="block text-lg font-bold text-white">{item.name}</span>
-                <span className="block text-mist-300">
+                <span className="block text-lg font-bold text-ink-900">{item.name}</span>
+                <span className="block text-ink-600">
                   {item.kind} · {item.place}
                 </span>
               </button>
             );
           })}
         </div>
-        <details className="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4">
-          <summary className="cursor-pointer font-bold text-azure-300">{labels.factSheet}</summary>
-          <p className="mt-3 text-sm text-mist-400">{labels.factSheetNote}</p>
-          <pre lang="en" className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap font-sans text-sm leading-relaxed text-mist-200">
+        <details className="mt-6 rounded-2xl border border-cloud-200 bg-white px-5 py-4">
+          <summary className="cursor-pointer font-bold text-azure-600">{labels.factSheet}</summary>
+          <p className="mt-3 text-sm text-ink-500">{labels.factSheetNote}</p>
+          <pre lang="en" className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap font-sans text-sm leading-relaxed text-ink-700">
             {PERSONAS[business].factSheet}
           </pre>
         </details>
@@ -138,19 +138,19 @@ export function DemoChat({
       <div>
         {live === false ? (
           <>
-            <p className="mb-4 flex gap-2.5 rounded-2xl border border-gold-400/40 bg-gold-400/10 px-4 py-3 font-semibold text-gold-100">
+            <p className="mb-4 flex gap-2.5 rounded-2xl border border-gold-400/40 bg-gold-400/10 px-4 py-3 font-semibold text-gold-700">
               <Info size={20} aria-hidden="true" className="mt-0.5 shrink-0" />
               {labels.offline}
             </p>
             <HeroChat labels={heroLabels} animated={false} />
           </>
         ) : (
-          <div className="rounded-[2.1rem] bg-gradient-to-br from-azure-400/80 via-white/10 to-gold-400/80 p-px shadow-[0_40px_120px_-40px_rgba(47,107,255,0.7)]">
-          <div className="overflow-hidden rounded-[2.05rem] bg-night-900">
-            <div className="flex items-center gap-3 border-b border-white/10 bg-white/[0.04] px-5 py-4 text-white">
+          <div className="rounded-[2.1rem] bg-gradient-to-br from-azure-400/80 via-cloud-300 to-gold-400/80 p-px shadow-[0_40px_120px_-40px_rgba(47,107,255,0.7)]">
+          <div className="overflow-hidden rounded-[2.05rem] bg-cloud-50">
+            <div className="flex items-center gap-3 border-b border-cloud-200 bg-white px-5 py-4 text-ink-900">
               <div className="min-w-0 flex-1">
                 <p className="truncate font-bold leading-tight">{persona.name}</p>
-                <p className="truncate text-sm text-mist-300">
+                <p className="truncate text-sm text-ink-600">
                   {persona.kind} · {heroLabels.fictional}
                 </p>
               </div>
@@ -158,7 +158,7 @@ export function DemoChat({
                 type="button"
                 onClick={() => reset()}
                 disabled={turns.length === 0}
-                className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/15 px-3 py-1.5 text-sm font-semibold hover:bg-white/10 disabled:opacity-40"
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-cloud-200 px-3 py-1.5 text-sm font-semibold hover:bg-cloud-100 disabled:opacity-40"
               >
                 <RotateCcw size={14} aria-hidden="true" />
                 {labels.reset}
@@ -166,30 +166,30 @@ export function DemoChat({
             </div>
 
             <div ref={scroller} role="log" aria-live="polite" className="flex h-[26rem] flex-col gap-2.5 overflow-y-auto px-4 py-4">
-              <p className="max-w-[85%] self-start rounded-2xl rounded-tl-md bg-white/10 px-3.5 py-2.5 text-[15px] leading-snug text-white">
+              <p className="max-w-[85%] self-start rounded-2xl rounded-tl-md bg-cloud-100 px-3.5 py-2.5 text-[15px] leading-snug text-ink-900">
                 {fill(labels.greeting, { name: persona.name })}
               </p>
               {turns.map((turn, index) => (
                 <p
                   key={index}
                   dir="auto"
-                  className={`bubble-in max-w-[85%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-[15px] leading-snug text-white ${
-                    turn.role === "assistant" ? "self-start rounded-tl-md bg-white/10" : "self-end rounded-tr-md bg-azure-600"
+                  className={`bubble-in max-w-[85%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-[15px] leading-snug ${
+                    turn.role === "assistant" ? "self-start rounded-tl-md bg-cloud-100 text-ink-900" : "self-end rounded-tr-md bg-azure-600 text-white"
                   }`}
                 >
                   {turn.content}
                 </p>
               ))}
               {waiting && (
-                <p className="bubble-in flex gap-1 self-start rounded-2xl rounded-tl-md bg-white/10 px-4 py-3.5" aria-label={labels.typing}>
-                  <span className="typing-dot h-2 w-2 rounded-full bg-white" />
-                  <span className="typing-dot h-2 w-2 rounded-full bg-white" />
-                  <span className="typing-dot h-2 w-2 rounded-full bg-white" />
+                <p className="bubble-in flex gap-1 self-start rounded-2xl rounded-tl-md bg-cloud-100 px-4 py-3.5" aria-label={labels.typing}>
+                  <span className="typing-dot h-2 w-2 rounded-full bg-ink-600" />
+                  <span className="typing-dot h-2 w-2 rounded-full bg-ink-600" />
+                  <span className="typing-dot h-2 w-2 rounded-full bg-ink-600" />
                 </p>
               )}
               {turns.length === 0 && !waiting && (
                 <div className="mt-auto">
-                  <p className="mb-2 text-sm font-semibold text-mist-400">{labels.suggestionsLabel}</p>
+                  <p className="mb-2 text-sm font-semibold text-ink-500">{labels.suggestionsLabel}</p>
                   <div className="flex flex-wrap gap-2">
                     {PERSONAS[business].suggestions.map((suggestion) => (
                       <button
@@ -197,7 +197,7 @@ export function DemoChat({
                         type="button"
                         disabled={live !== true}
                         onClick={() => send(suggestion)}
-                        className="rounded-full border border-azure-400/40 bg-azure-500/10 px-3.5 py-2 text-left text-[15px] font-semibold text-azure-200 transition hover:border-gold-400/60 hover:bg-gold-400/10 hover:text-white disabled:opacity-50"
+                        className="rounded-full border border-azure-400/40 bg-azure-500/10 px-3.5 py-2 text-left text-[15px] font-semibold text-azure-600 transition hover:border-gold-400/60 hover:bg-gold-400/10 hover:text-azure-700 disabled:opacity-50"
                       >
                         {suggestion}
                       </button>
@@ -208,7 +208,7 @@ export function DemoChat({
             </div>
 
             {noticeText && (
-              <p role="alert" className="border-t border-gold-400/30 bg-gold-400/10 px-5 py-3 font-semibold text-gold-100">
+              <p role="alert" className="border-t border-gold-400/30 bg-gold-400/10 px-5 py-3 font-semibold text-gold-700">
                 {noticeText}
               </p>
             )}
@@ -217,7 +217,7 @@ export function DemoChat({
                 event.preventDefault();
                 send(draft);
               }}
-              className="flex items-center gap-2 border-t border-white/10 bg-white/[0.03] p-3"
+              className="flex items-center gap-2 border-t border-cloud-200 bg-white p-3"
             >
               <input
                 ref={inputRef}
@@ -229,7 +229,7 @@ export function DemoChat({
                 aria-label={labels.placeholder}
                 autoComplete="off"
                 dir="auto"
-                className="min-w-0 flex-1 rounded-full border border-white/15 bg-white/[0.06] px-4 py-3 text-base text-white placeholder:text-mist-400 focus:border-azure-400 focus:outline-none focus:ring-2 focus:ring-azure-400/30"
+                className="min-w-0 flex-1 rounded-full border border-cloud-200 bg-white px-4 py-3 text-base text-ink-900 placeholder:text-ink-500 focus:border-azure-400 focus:outline-none focus:ring-2 focus:ring-azure-400/30"
               />
               <button
                 type="submit"
@@ -243,7 +243,7 @@ export function DemoChat({
           </div>
           </div>
         )}
-        <p className="mt-4 text-sm leading-relaxed text-mist-400">{labels.disclaimer}</p>
+        <p className="mt-4 text-sm leading-relaxed text-ink-500">{labels.disclaimer}</p>
       </div>
     </div>
   );

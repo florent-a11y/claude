@@ -60,17 +60,17 @@ export default async function BlogPostPage({ params }: Props) {
     <>
       <article className="container-page relative isolate max-w-3xl py-14 sm:py-20">
         <div aria-hidden="true" className="blob blob-blue -top-40 left-[calc(50%-28rem)] -z-10 h-[32rem] w-[56rem] opacity-40" />
-        <Link href="/blog" className="rise inline-flex items-center gap-1.5 font-bold text-azure-300 hover:text-white">
+        <Link href="/blog" className="rise inline-flex items-center gap-1.5 font-bold text-azure-600 hover:text-azure-700">
           <ArrowLeft size={18} aria-hidden="true" />
           {dict.blog.back}
         </Link>
-        <h1 className="rise mt-7 text-4xl font-extrabold leading-[1.1] tracking-tight text-white sm:text-5xl" style={delay(70)}>
+        <h1 className="rise mt-7 text-4xl font-extrabold leading-[1.1] tracking-tight text-ink-900 sm:text-5xl" style={delay(70)}>
           {post.title}
         </h1>
-        <p className="rise mt-6 text-sm font-semibold text-gold-300" style={delay(140)}>
+        <p className="rise mt-6 text-sm font-semibold text-gold-700" style={delay(140)}>
           {dict.blog.published} <time dateTime={post.date}>{formatPostDate(post.date, locale)}</time> · {fill(dict.blog.minutes, { n: post.minutes })}
         </p>
-        <p className="rise mt-6 border-l-2 border-gold-400 pl-5 text-xl leading-relaxed text-mist-200" style={delay(210)}>
+        <p className="rise mt-6 border-l-2 border-gold-400 pl-5 text-xl leading-relaxed text-ink-700" style={delay(210)}>
           {post.description}
         </p>
         <div className="prose-basic rise mt-10" style={delay(280)} dangerouslySetInnerHTML={{ __html: post.html }} />

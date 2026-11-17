@@ -19,13 +19,13 @@ export function Founders({ dict }: { dict: Dictionary }) {
           {FOUNDERS.map((person, index) => (
             <Reveal as="li" key={person.name} delay={index * 110} className="card glow-card flex flex-col items-center text-center sm:p-9">
               <span className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-gold-200 via-gold-400 to-azure-500 p-[2px]">
-                <span className="flex h-full w-full items-center justify-center rounded-full bg-night-800 font-serif text-4xl italic text-white">
+                <span className="flex h-full w-full items-center justify-center rounded-full bg-night-950 font-serif text-4xl italic text-white">
                   {initials(person.name)}
                 </span>
               </span>
-              <h3 className="mt-6 text-xl font-bold text-white">{person.name}</h3>
-              <p className="mt-1.5 text-[13px] font-semibold uppercase tracking-[0.16em] text-gold-300">{founders.roles[person.role].short}</p>
-              <p className="mt-1 text-mist-300">{founders.roles[person.role].full}</p>
+              <h3 className="mt-6 text-xl font-bold text-ink-900">{person.name}</h3>
+              <p className="mt-1.5 text-[13px] font-semibold uppercase tracking-[0.16em] text-gold-700">{founders.roles[person.role].short}</p>
+              <p className="mt-1 text-ink-600">{founders.roles[person.role].full}</p>
             </Reveal>
           ))}
         </ul>

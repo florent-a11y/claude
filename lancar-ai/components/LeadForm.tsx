@@ -80,9 +80,9 @@ export function LeadForm({ labels, locale, quiz }: { labels: Labels; locale: App
   if (status === "sent") {
     return (
       <div role="status" className="bubble-in rounded-3xl border border-gold-400/40 bg-gold-400/10 p-7">
-        <CircleCheck size={32} aria-hidden="true" className="text-gold-300" />
-        <h3 className="mt-3 text-xl font-bold text-white">{labels.successTitle}</h3>
-        <p className="mt-2 text-lg text-mist-200">{labels.successBody}</p>
+        <CircleCheck size={32} aria-hidden="true" className="text-gold-700" />
+        <h3 className="mt-3 text-xl font-bold text-ink-900">{labels.successTitle}</h3>
+        <p className="mt-2 text-lg text-ink-700">{labels.successBody}</p>
       </div>
     );
   }
@@ -132,7 +132,7 @@ export function LeadForm({ labels, locale, quiz }: { labels: Labels; locale: App
           className={inputClass("whatsapp")}
         />
         {errorFor("whatsapp") || (
-          <p id={`${formId}-whatsapp-hint`} className="mt-1.5 text-sm text-mist-400">
+          <p id={`${formId}-whatsapp-hint`} className="mt-1.5 text-sm text-ink-500">
             {labels.whatsappHint}
           </p>
         )}
@@ -214,9 +214,9 @@ export function LeadForm({ labels, locale, quiz }: { labels: Labels; locale: App
             type="checkbox"
             className="mt-1 h-5 w-5 shrink-0 rounded accent-gold-400"
           />
-          <label htmlFor={`${formId}-consent`} className="leading-relaxed text-mist-300">
+          <label htmlFor={`${formId}-consent`} className="leading-relaxed text-ink-600">
             {labels.consent}{" "}
-            <Link href="/privacy" className="font-semibold text-azure-300 underline underline-offset-2 hover:text-white">
+            <Link href="/privacy" className="font-semibold text-azure-600 underline underline-offset-2 hover:text-azure-700">
               {labels.consentLink}
             </Link>
             .
