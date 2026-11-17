@@ -8,6 +8,7 @@ import { BookCallButton } from "@/components/Cta";
 import { FinalCta } from "@/components/FinalCta";
 import { FunctionGrid } from "@/components/FunctionGrid";
 import { PageHeader } from "@/components/PageHeader";
+import { Reveal } from "@/components/Reveal";
 
 type Props = { params: Promise<{ locale: AppLocale }> };
 
@@ -35,42 +36,46 @@ export default async function ServicesPage({ params }: Props) {
         </div>
       </section>
 
-      <section className="section border-y border-sand-200 bg-white">
+      <section className="section section-alt">
         <div className="container-page grid gap-12 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <Plug size={30} aria-hidden="true" className="text-sea-600" />
-            <h2 className="h2 mt-4">{services.tools.title}</h2>
+          <Reveal>
+            <span className="icon-chip">
+              <Plug size={24} aria-hidden="true" />
+            </span>
+            <h2 className="h2 mt-6">{services.tools.title}</h2>
             <p className="lead">{services.tools.body}</p>
-            <ul className="mt-6 space-y-3">
+            <ul className="mt-7 space-y-3.5">
               {services.tools.items.map((item) => (
-                <li key={item} className="flex gap-3 text-lg text-ink-800">
-                  <Check size={22} aria-hidden="true" className="mt-0.5 shrink-0 text-sea-600" />
+                <li key={item} className="flex gap-3 text-lg text-mist-200">
+                  <Check size={22} aria-hidden="true" className="mt-0.5 shrink-0 text-gold-400" />
                   {item}
                 </li>
               ))}
             </ul>
-          </div>
-          <div className="space-y-6">
-            <div className="rounded-3xl bg-sea-50 p-7 sm:p-8">
-              <h2 className="text-2xl font-extrabold tracking-tight text-ink-950">{services.models.title}</h2>
-              <p className="mt-3 text-lg leading-relaxed text-ink-700">{services.models.body}</p>
-            </div>
-            <div className="rounded-3xl bg-sand-100 p-7 sm:p-8">
-              <h2 className="text-2xl font-extrabold tracking-tight text-ink-950">{services.notFit.title}</h2>
-              <ul className="mt-4 space-y-3">
+          </Reveal>
+          <div className="space-y-5">
+            <Reveal className="rounded-3xl border border-azure-400/30 bg-gradient-to-br from-azure-700/40 to-night-800 p-7 sm:p-9">
+              <h2 className="text-2xl font-extrabold tracking-tight text-white">{services.models.title}</h2>
+              <p className="mt-3 text-lg leading-relaxed text-mist-200">{services.models.body}</p>
+            </Reveal>
+            <Reveal delay={110} className="rounded-3xl border border-gold-400/30 bg-gradient-to-br from-gold-600/20 to-night-800 p-7 sm:p-9">
+              <h2 className="text-2xl font-extrabold tracking-tight text-white">{services.notFit.title}</h2>
+              <ul className="mt-5 space-y-3.5">
                 {services.notFit.items.map((item) => (
-                  <li key={item} className="flex gap-3 text-lg leading-relaxed text-ink-700">
-                    <CircleSlash size={20} aria-hidden="true" className="mt-1 shrink-0 text-marigold-600" />
+                  <li key={item} className="flex gap-3 text-lg leading-relaxed text-mist-200">
+                    <CircleSlash size={20} aria-hidden="true" className="mt-1 shrink-0 text-gold-300" />
                     {item}
                   </li>
                 ))}
               </ul>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
-      <FinalCta dict={dict} />
+      <div className="pt-20 sm:pt-28">
+        <FinalCta dict={dict} />
+      </div>
     </>
   );
 }

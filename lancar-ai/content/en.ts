@@ -52,7 +52,7 @@ export const en = {
   home: {
     hero: {
       eyebrow: "On-site AI consulting · Bali and Jakarta",
-      title: "AI that fits the way your business really works",
+      title: "AI that fits the way your business *really works*",
       subtitle:
         "We come to your business, see how your team works and set up AI helpers for the repetitive part: replies in any language, bookings, invoices, reports. Then we stay by your side until it all runs smoothly.",
       secondaryCta: "Check your AI readiness",
@@ -65,8 +65,11 @@ export const en = {
         typing: "Typing",
       },
     },
+    languages: {
+      caption: "Your customers write in their own language. Your assistant answers in it.",
+    },
     pains: {
-      title: "Does this sound familiar?",
+      title: "Does this sound *familiar?*",
       items: [
         {
           title: "Messages wait until morning",
@@ -87,18 +90,18 @@ export const en = {
       ],
     },
     functions: {
-      title: "What AI can take off your team's plate",
+      title: "What AI can take off your *team's plate*",
       intro:
         "Not robots replacing people. Helpers that handle the repetitive part, so your team has time for customers and for the work that needs a human.",
       cta: "See all services",
     },
     process: {
-      title: "How we work",
+      title: "How *we work*",
       intro: "Four steps. You know the price before each one.",
       cta: "See the method in detail",
     },
     why: {
-      title: "Why not just subscribe to a chatbot?",
+      title: "Why not just subscribe to a *chatbot?*",
       intro:
         "You can, and sometimes that is the right answer. We will tell you when it is. But most of the value is not in the tool.",
       points: [
@@ -117,11 +120,11 @@ export const en = {
       ],
     },
     sectors: {
-      title: "Built for the businesses we know",
+      title: "Built for the businesses *we know*",
       intro: "Examples from the sectors we work with most. If yours is not here, the method is the same.",
     },
     try: {
-      title: "See it before you believe it",
+      title: "See it before you *believe it*",
       demoTitle: "Talk to a live AI assistant",
       demoBody:
         "Chat with the assistant of a fictional spa, restaurant, clinic or supplier. Write in any language and try to make a booking.",
@@ -132,12 +135,12 @@ export const en = {
       quizCta: "Take the quiz",
     },
     pricing: {
-      title: "Clear prices from the first step",
+      title: "Clear prices from the *first step*",
       intro: "The audit fee is deducted in full from your implementation if you go ahead.",
       cta: "See full pricing",
     },
     faq: {
-      title: "Questions owners ask us",
+      title: "Questions owners *ask us*",
       items: [
         {
           q: "Will AI replace my staff?",
@@ -170,7 +173,7 @@ export const en = {
       ],
     },
     cta: {
-      title: "Start with a 30-minute conversation",
+      title: "Start with a 30-minute *conversation*",
       body: "Tell us about your business. If AI is not the answer to your problem, we will say so.",
     },
   },
@@ -249,7 +252,7 @@ export const en = {
     metaTitle: "Services",
     metaDescription:
       "What Lancar AI sets up for small and medium businesses: customer replies and bookings, sales and marketing, finance and admin, operations, HR and owner reporting.",
-    title: "What we can set up for you",
+    title: "What we can *set up* for you",
     intro:
       "Every business is different, which is why we start with an audit. These are the areas where we most often find hours to give back.",
     examplesLabel: "Typical examples",
@@ -283,7 +286,7 @@ export const en = {
     metaTitle: "How we work",
     metaDescription:
       "The Lancar AI method: a free call, an on-site audit with a written report, implementation with staff training, and ongoing accompaniment.",
-    title: "From a first call to a team that runs it alone",
+    title: "From a first call to a team that *runs it alone*",
     intro: "Four steps. Each has a clear deliverable and a price you know in advance.",
     steps: [
       {
@@ -357,7 +360,7 @@ export const en = {
     metaTitle: "Sectors",
     metaDescription:
       "How Lancar AI helps hospitality and wellness, restaurants and retail, clinics and service firms, and trading and manufacturing businesses in Bali and Jakarta.",
-    title: "Sectors we work with",
+    title: "Sectors we *work with*",
     intro: "The method is the same everywhere. The examples are not. Pick the one closest to your business.",
     painsTitle: "Where the hours go",
     solutionsTitle: "What we typically set up",
@@ -520,7 +523,7 @@ export const en = {
     metaTitle: "Pricing",
     metaDescription:
       "Lancar AI pricing: a free 30-minute call, an on-site audit at a fixed price by company size and deducted from implementation, then fixed quotes per solution.",
-    title: "Pricing",
+    title: "Prices you know *in advance*",
     intro: "You always know the price before you commit to the next step.",
     call: { title: "Discovery call", price: "Free", body: "30 minutes by phone, video or WhatsApp. No obligation." },
     audit: {
@@ -584,7 +587,7 @@ export const en = {
     metaTitle: "About",
     metaDescription:
       "Lancar AI is an on-site AI consultancy for small and medium businesses in Bali and Jakarta. We speak Indonesian and English.",
-    title: "About Lancar AI",
+    title: "About *Lancar AI*",
     lead: "Lancar is the Indonesian word for smooth, flowing, without a hitch. It is what every owner wants from their business, and it is what we are here to help with.",
     story: [
       "Large companies have consultants who study their processes and bring in AI where it pays. Small and medium businesses usually get a software subscription and a tutorial video. Yet a spa with eight staff or a distributor with forty loses just as many hours to repetitive work, and feels it more.",
@@ -616,7 +619,7 @@ export const en = {
   contact: {
     metaTitle: "Contact",
     metaDescription: "Book a free 30-minute call with Lancar AI, by WhatsApp or with the contact form.",
-    title: "Let's talk about your business",
+    title: "Let's talk about *your business*",
     intro:
       "The first call is free and takes 30 minutes. Write to us on WhatsApp, or leave your details and we will call or message you back.",
     whatsappTitle: "Fastest: WhatsApp",
@@ -664,7 +667,7 @@ export const en = {
     metaTitle: "AI readiness quiz",
     metaDescription:
       "Ten questions, two minutes: find out how much AI could help your business and how ready you are to use it.",
-    title: "How ready is your business for AI?",
+    title: "How ready is your business *for AI?*",
     intro:
       "Ten questions, about two minutes. You get two scores and three concrete ideas for your business. No email needed to see the result.",
     progress: "Question {n} of {total}",
@@ -828,7 +831,7 @@ export const en = {
     metaTitle: "Live AI assistant demo",
     metaDescription:
       "Chat with a live AI assistant for a fictional spa, restaurant, clinic or supplier. Write in any language and try to make a booking.",
-    title: "Talk to a live AI assistant",
+    title: "Talk to a *live* AI assistant",
     intro:
       "These four businesses are fictional. The assistant is real: it runs on Claude and answers only from the fact sheet of the business, the same way we set one up for a client. Write in any language.",
     choose: "Choose a business",
@@ -852,7 +855,7 @@ export const en = {
     limit: "You have reached the limit for this demo. Thank you for trying it! Contact us to see more.",
     tooLong: "This conversation has reached its maximum length. Start a new one to continue.",
     error: "Something went wrong. Please try again.",
-    ctaTitle: "Want one for your business?",
+    ctaTitle: "Want one for *your business?*",
     ctaBody: "An assistant like this is one of the solutions we set up after an on-site audit, with your real prices, availability and rules.",
   },
 
@@ -865,7 +868,7 @@ export const en = {
     back: "All articles",
     published: "Published",
     minutes: "{n} min read",
-    ctaTitle: "Want to know what applies to your business?",
+    ctaTitle: "Want to know what applies to *your business?*",
   },
 
   privacy: {

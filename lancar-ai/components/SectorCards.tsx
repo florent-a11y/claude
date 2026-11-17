@@ -1,8 +1,9 @@
-import { ArrowRight, Factory, Flower2, Stethoscope, UtensilsCrossed } from "lucide-react";
+import { ArrowUpRight, Factory, Flower2, Stethoscope, UtensilsCrossed } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import type { AppLocale } from "@/i18n/routing";
 import type { Dictionary } from "@/content";
 import { SECTORS, SECTOR_IDS, type SectorId } from "@/lib/sectors";
+import { delay } from "./Reveal";
 
 export const SECTOR_ICONS = { hospitality: Flower2, food: UtensilsCrossed, services: Stethoscope, trading: Factory };
 
@@ -10,24 +11,27 @@ export function SectorCards({ dict, locale, exclude }: { dict: Dictionary; local
   const ids = SECTOR_IDS.filter((id) => id !== exclude);
   return (
     <div className={`grid gap-5 sm:grid-cols-2 ${ids.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4"}`}>
-      {ids.map((id) => {
+      {ids.map((id, index) => {
         const item = dict.sectors.items[id];
         const Icon = SECTOR_ICONS[id];
         return (
           <Link
             key={id}
             href={{ pathname: "/sectors/[slug]", params: { slug: SECTORS[id].slug[locale] } }}
-            className="card group flex flex-col transition hover:-translate-y-0.5 hover:border-sea-400 hover:shadow-lg hover:shadow-ink-950/5"
+            className="card glow-card reveal group flex flex-col"
+            style={delay(index * 90)}
           >
-            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-marigold-200 text-ink-950">
-              <Icon size={24} aria-hidden="true" />
-            </span>
-            <h3 className="mt-5 text-xl font-bold text-ink-950">{item.name}</h3>
-            <p className="mt-2 flex-1 leading-relaxed text-ink-600">{item.short}</p>
-            <span className="mt-5 inline-flex items-center gap-1.5 font-bold text-sea-700">
-              {dict.common.learnMore}
-              <ArrowRight size={18} aria-hidden="true" className="transition group-hover:translate-x-1" />
-            </span>
+            <div className="flex items-start justify-between">
+              <span className="icon-chip-gold">
+                <Icon size={24} aria-hidden="true" />
+              </span>
+              <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-mist-300 transition duration-300 group-hover:border-gold-400 group-hover:bg-gold-400 group-hover:text-night-950">
+                <ArrowUpRight size={18} aria-hidden="true" />
+              </span>
+            </div>
+            <h3 className="mt-6 text-xl font-bold text-white">{item.name}</h3>
+            <p className="mt-2 flex-1 leading-relaxed text-mist-300">{item.short}</p>
+            <span className="mt-5 font-bold text-azure-300 transition group-hover:text-white">{dict.common.learnMore}</span>
           </Link>
         );
       })}

@@ -8,6 +8,7 @@ import { formatPostDate, postsFor } from "@/lib/blog";
 import { pageMetadata } from "@/lib/seo";
 import { FinalCta } from "@/components/FinalCta";
 import { PageHeader } from "@/components/PageHeader";
+import { delay } from "@/components/Reveal";
 
 type Props = { params: Promise<{ locale: AppLocale }> };
 
@@ -25,21 +26,22 @@ export default async function BlogPage({ params }: Props) {
 
   return (
     <>
-      <PageHeader title={dict.blog.title} intro={dict.blog.intro} />
+      <PageHeader eyebrow={dict.nav.blog} title={dict.blog.intro} />
       <section className="section">
         <div className="container-page grid max-w-4xl gap-5">
-          {posts.map((post) => (
+          {posts.map((post, index) => (
             <Link
               key={post.key}
               href={{ pathname: "/blog/[slug]", params: { slug: post.slug } }}
-              className="card group transition hover:border-sea-400 hover:shadow-lg hover:shadow-ink-950/5 sm:p-9"
+              className="card glow-card reveal group sm:p-9"
+              style={delay(index * 90)}
             >
-              <p className="text-sm font-semibold text-ink-600">
+              <p className="text-sm font-semibold text-gold-300">
                 <time dateTime={post.date}>{formatPostDate(post.date, locale)}</time> · {fill(dict.blog.minutes, { n: post.minutes })}
               </p>
-              <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-ink-950 sm:text-3xl">{post.title}</h2>
-              <p className="mt-3 text-lg leading-relaxed text-ink-600">{post.description}</p>
-              <span className="mt-5 inline-flex items-center gap-1.5 font-bold text-sea-700">
+              <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-white sm:text-3xl">{post.title}</h2>
+              <p className="mt-3 text-lg leading-relaxed text-mist-300">{post.description}</p>
+              <span className="mt-5 inline-flex items-center gap-1.5 font-bold text-azure-300 transition group-hover:text-white">
                 {dict.blog.readMore}
                 <ArrowRight size={18} aria-hidden="true" className="transition group-hover:translate-x-1" />
               </span>

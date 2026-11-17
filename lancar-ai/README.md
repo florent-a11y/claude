@@ -34,6 +34,11 @@ npm run typecheck && npm test && npm run build
 | Blog | `/blog`, `/blog/<slug>` | `/en/blog`, `/en/blog/<slug>` | Markdown articles |
 | About, Contact, Privacy | `/tentang`, `/kontak`, `/privasi` | `/en/about`, `/en/contact`, `/en/privacy` | |
 
+Design: black base, electric blue light and gold accents, with an italic serif (Instrument Serif) for highlighted
+words. Sections fade up as they scroll into view, cards light up under the pointer, and the hero has drifting
+light and flowing lines. All motion is switched off for visitors who ask their device to reduce motion, and
+nothing depends on JavaScript to be readable.
+
 A first visit to `/` follows the browser language. `sitemap.xml`, `robots.txt` and `llms.txt` (a plain-text summary
 for AI assistants) are generated.
 
@@ -47,7 +52,8 @@ for AI assistants) are generated.
 | Sector pages | Text in `content/*.ts` under `sectors.items`; slugs in `lib/sectors.ts` |
 | Quiz questions and scoring | `lib/quiz.ts` (logic, tested in `tests/quiz.test.ts`) and `quiz` in `content/*.ts` (wording) |
 | Demo businesses and what the assistant knows | `lib/demo.ts` |
-| Colours and fonts | `app/globals.css` (`@theme`) |
+| Colours, fonts and animation | `app/globals.css` (`@theme` for the palette; motion at the bottom of the file) |
+| The gold italic words in headings | Wrap them in asterisks in `content/*.ts`: `"How *we work*"` |
 
 ### Adding a blog article
 Create a folder under `content/blog/` with one file per language:

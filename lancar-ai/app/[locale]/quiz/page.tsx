@@ -24,7 +24,7 @@ export default async function QuizPage({ params }: Props) {
   return (
     <>
       <PageHeader eyebrow={dict.nav.quiz} title={dict.quiz.title} intro={dict.quiz.intro} />
-      <section className="section">
+      <section className="section pt-12! sm:pt-16!">
         <div className="container-page max-w-3xl">
           <Quiz
             locale={locale}

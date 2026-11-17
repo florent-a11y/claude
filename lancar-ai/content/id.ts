@@ -51,7 +51,7 @@ export const id: Dictionary = {
   home: {
     hero: {
       eyebrow: "Konsultan AI di lokasi · Bali dan Jakarta",
-      title: "AI yang menyesuaikan cara kerja bisnis Anda",
+      title: "AI yang menyesuaikan *cara kerja* bisnis Anda",
       subtitle:
         "Kami datang ke tempat usaha Anda, melihat langsung cara tim bekerja, lalu memasang asisten AI untuk pekerjaan yang berulang: balasan dalam berbagai bahasa, booking, tagihan, laporan. Setelah itu kami terus mendampingi sampai semuanya berjalan lancar.",
       secondaryCta: "Cek kesiapan AI usaha Anda",
@@ -64,8 +64,11 @@ export const id: Dictionary = {
         typing: "Mengetik",
       },
     },
+    languages: {
+      caption: "Pelanggan menulis dalam bahasa mereka. Asisten Anda menjawab dalam bahasa yang sama.",
+    },
     pains: {
-      title: "Pernah mengalami ini?",
+      title: "Pernah *mengalami ini?*",
       items: [
         {
           title: "Pesan baru dibalas besok pagi",
@@ -86,18 +89,18 @@ export const id: Dictionary = {
       ],
     },
     functions: {
-      title: "Pekerjaan yang bisa diambil alih AI",
+      title: "Pekerjaan yang bisa *diambil alih AI*",
       intro:
         "Bukan robot pengganti karyawan, melainkan asisten yang mengerjakan bagian yang berulang, agar tim Anda punya waktu untuk pelanggan dan pekerjaan yang memang butuh manusia.",
       cta: "Lihat semua layanan",
     },
     process: {
-      title: "Cara kami bekerja",
+      title: "Cara kami *bekerja*",
       intro: "Empat langkah. Anda tahu harganya sebelum setiap langkah dimulai.",
       cta: "Lihat metode kami selengkapnya",
     },
     why: {
-      title: "Kenapa tidak langganan chatbot saja?",
+      title: "Kenapa tidak langganan *chatbot saja?*",
       intro:
         "Boleh saja, dan kadang itu memang pilihan yang tepat. Kalau begitu, kami akan mengatakannya. Tetapi sebagian besar manfaatnya bukan terletak pada alatnya.",
       points: [
@@ -116,11 +119,11 @@ export const id: Dictionary = {
       ],
     },
     sectors: {
-      title: "Untuk jenis usaha yang kami pahami",
+      title: "Untuk jenis usaha yang *kami pahami*",
       intro: "Contoh dari sektor yang paling sering kami tangani. Jika usaha Anda tidak ada di sini, metodenya tetap sama.",
     },
     try: {
-      title: "Lihat sendiri sebelum percaya",
+      title: "Lihat sendiri sebelum *percaya*",
       demoTitle: "Ngobrol dengan asisten AI langsung",
       demoBody:
         "Chat dengan asisten sebuah spa, restoran, klinik, atau pemasok fiktif. Tulis dalam bahasa apa pun dan coba lakukan booking.",
@@ -131,12 +134,12 @@ export const id: Dictionary = {
       quizCta: "Ikuti kuis",
     },
     pricing: {
-      title: "Harga jelas sejak langkah pertama",
+      title: "Harga jelas sejak *langkah pertama*",
       intro: "Biaya audit dipotong penuh dari biaya implementasi jika Anda melanjutkan.",
       cta: "Lihat harga selengkapnya",
     },
     faq: {
-      title: "Pertanyaan yang sering diajukan pemilik usaha",
+      title: "Pertanyaan yang sering diajukan *pemilik usaha*",
       items: [
         {
           q: "Apakah AI akan menggantikan karyawan saya?",
@@ -169,7 +172,7 @@ export const id: Dictionary = {
       ],
     },
     cta: {
-      title: "Mulai dengan obrolan 30 menit",
+      title: "Mulai dengan *obrolan* 30 menit",
       body: "Ceritakan usaha Anda. Jika AI bukan jawaban untuk masalah Anda, kami akan mengatakannya.",
     },
   },
@@ -247,7 +250,7 @@ export const id: Dictionary = {
     metaTitle: "Layanan",
     metaDescription:
       "Yang dikerjakan Lancar AI untuk UMKM: balasan pelanggan dan booking, penjualan dan pemasaran, keuangan dan administrasi, operasional, SDM, serta laporan untuk pemilik.",
-    title: "Yang bisa kami kerjakan untuk Anda",
+    title: "Yang bisa kami *kerjakan* untuk Anda",
     intro:
       "Setiap usaha berbeda, karena itu kami selalu mulai dengan audit. Berikut area tempat kami paling sering menemukan jam kerja yang bisa dikembalikan.",
     examplesLabel: "Contoh umum",
@@ -281,7 +284,7 @@ export const id: Dictionary = {
     metaTitle: "Cara kerja",
     metaDescription:
       "Metode Lancar AI: konsultasi gratis, audit di lokasi dengan laporan tertulis, implementasi dengan pelatihan staf, dan pendampingan berkelanjutan.",
-    title: "Dari obrolan pertama sampai tim Anda bisa menjalankannya sendiri",
+    title: "Dari obrolan pertama sampai tim Anda bisa *menjalankannya sendiri*",
     intro: "Empat langkah. Setiap langkah punya hasil yang jelas dan harga yang Anda ketahui sejak awal.",
     steps: [
       {
@@ -355,7 +358,7 @@ export const id: Dictionary = {
     metaTitle: "Sektor",
     metaDescription:
       "Cara Lancar AI membantu usaha perhotelan dan spa, restoran dan retail, klinik dan jasa profesional, serta perdagangan dan manufaktur di Bali dan Jakarta.",
-    title: "Sektor yang kami tangani",
+    title: "Sektor yang *kami tangani*",
     intro: "Metodenya sama di mana pun. Contohnya yang berbeda. Pilih yang paling dekat dengan usaha Anda.",
     painsTitle: "Ke mana waktu habis",
     solutionsTitle: "Yang biasanya kami pasang",
@@ -518,7 +521,7 @@ export const id: Dictionary = {
     metaTitle: "Harga",
     metaDescription:
       "Harga Lancar AI: konsultasi gratis 30 menit, audit di lokasi dengan harga tetap sesuai ukuran usaha dan dipotong dari biaya implementasi, lalu harga tetap per solusi.",
-    title: "Harga",
+    title: "Harga yang Anda ketahui *sejak awal*",
     intro: "Anda selalu tahu harganya sebelum memutuskan melangkah ke tahap berikutnya.",
     call: { title: "Konsultasi awal", price: "Gratis", body: "30 menit lewat telepon, video, atau WhatsApp. Tanpa kewajiban." },
     audit: {
@@ -582,7 +585,7 @@ export const id: Dictionary = {
     metaTitle: "Tentang kami",
     metaDescription:
       "Lancar AI adalah konsultan AI yang datang langsung ke lokasi, untuk UMKM di Bali dan Jakarta. Kami berbahasa Indonesia dan Inggris.",
-    title: "Tentang Lancar AI",
+    title: "Tentang *Lancar AI*",
     lead: "Lancar: berjalan mulus, tanpa hambatan. Itulah yang diinginkan setiap pemilik dari usahanya, dan untuk itulah kami ada.",
     story: [
       "Perusahaan besar punya konsultan yang mempelajari proses mereka dan menghadirkan AI di tempat yang menguntungkan. Usaha kecil dan menengah biasanya hanya mendapat langganan software dan video tutorial. Padahal spa dengan delapan karyawan atau distributor dengan empat puluh karyawan kehilangan jam kerja yang sama banyaknya untuk pekerjaan berulang, dan merasakannya lebih berat.",
@@ -614,7 +617,7 @@ export const id: Dictionary = {
   contact: {
     metaTitle: "Kontak",
     metaDescription: "Jadwalkan konsultasi gratis 30 menit dengan Lancar AI lewat WhatsApp atau formulir kontak.",
-    title: "Mari bicarakan usaha Anda",
+    title: "Mari bicarakan *usaha Anda*",
     intro:
       "Konsultasi pertama gratis dan berlangsung 30 menit. Tulis pesan lewat WhatsApp, atau tinggalkan data Anda dan kami akan menelepon atau mengirim pesan kepada Anda.",
     whatsappTitle: "Paling cepat: WhatsApp",
@@ -662,7 +665,7 @@ export const id: Dictionary = {
     metaTitle: "Kuis kesiapan AI",
     metaDescription:
       "Sepuluh pertanyaan, dua menit: ketahui seberapa besar AI bisa membantu usaha Anda dan seberapa siap Anda memakainya.",
-    title: "Seberapa siap usaha Anda memakai AI?",
+    title: "Seberapa siap usaha Anda *memakai AI?*",
     intro:
       "Sepuluh pertanyaan, sekitar dua menit. Anda mendapat dua skor dan tiga ide konkret untuk usaha Anda. Hasilnya langsung terlihat tanpa perlu email.",
     progress: "Pertanyaan {n} dari {total}",
@@ -826,7 +829,7 @@ export const id: Dictionary = {
     metaTitle: "Demo asisten AI langsung",
     metaDescription:
       "Chat dengan asisten AI sebuah spa, restoran, klinik, atau pemasok fiktif. Tulis dalam bahasa apa pun dan coba lakukan booking.",
-    title: "Ngobrol dengan asisten AI langsung",
+    title: "Ngobrol dengan asisten AI *langsung*",
     intro:
       "Keempat usaha ini fiktif. Asistennya nyata: ia berjalan di Claude dan hanya menjawab dari lembar fakta usaha tersebut, sama seperti yang kami pasang untuk klien. Tulis dalam bahasa apa pun.",
     choose: "Pilih usaha",
@@ -850,7 +853,7 @@ export const id: Dictionary = {
     limit: "Anda sudah mencapai batas demo ini. Terima kasih sudah mencoba! Hubungi kami untuk melihat lebih banyak.",
     tooLong: "Percakapan ini sudah mencapai panjang maksimum. Mulai percakapan baru untuk melanjutkan.",
     error: "Terjadi kesalahan. Silakan coba lagi.",
-    ctaTitle: "Ingin asisten seperti ini untuk usaha Anda?",
+    ctaTitle: "Ingin asisten seperti ini untuk *usaha Anda?*",
     ctaBody: "Asisten seperti ini adalah salah satu solusi yang kami pasang setelah audit di lokasi, dengan harga, ketersediaan, dan aturan Anda yang sebenarnya.",
   },
 
@@ -863,7 +866,7 @@ export const id: Dictionary = {
     back: "Semua artikel",
     published: "Terbit",
     minutes: "{n} menit baca",
-    ctaTitle: "Ingin tahu mana yang cocok untuk usaha Anda?",
+    ctaTitle: "Ingin tahu mana yang cocok untuk *usaha Anda?*",
   },
 
   privacy: {

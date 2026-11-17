@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowRight, Clock } from "lucide-react";
+import { ArrowRight, Clock, Quote } from "lucide-react";
 import { setRequestLocale } from "next-intl/server";
 import { Link, permanentRedirect } from "@/i18n/navigation";
 import { LOCALES, type AppLocale } from "@/i18n/routing";
@@ -10,6 +10,7 @@ import { pageMetadata, type Href } from "@/lib/seo";
 import { BookCallButton } from "@/components/Cta";
 import { FinalCta } from "@/components/FinalCta";
 import { PageHeader } from "@/components/PageHeader";
+import { Reveal } from "@/components/Reveal";
 import { SectorCards, SECTOR_ICONS } from "@/components/SectorCards";
 
 type Props = { params: Promise<{ locale: AppLocale; slug: string }> };
@@ -55,7 +56,7 @@ export default async function SectorPage({ params }: Props) {
     <>
       <PageHeader eyebrow={item.name} title={item.title} intro={item.intro}>
         <BookCallButton dict={dict} />
-        <Link href={{ pathname: "/demo", query: { business: SECTORS[id].persona } }} className="btn btn-outline">
+        <Link href={{ pathname: "/demo", query: { business: SECTORS[id].persona } }} className="btn btn-ghost">
           {dict.sectors.demoCta}
           <ArrowRight size={18} aria-hidden="true" />
         </Link>
@@ -63,49 +64,59 @@ export default async function SectorPage({ params }: Props) {
 
       <section className="section">
         <div className="container-page grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-          <div>
-            <h2 className="flex items-center gap-3 text-2xl font-extrabold tracking-tight text-ink-950">
-              <Clock size={26} aria-hidden="true" className="text-marigold-600" />
-              {dict.sectors.painsTitle}
-            </h2>
-            <ul className="mt-6 space-y-4">
-              {item.pains.map((pain) => (
-                <li key={pain} className="rounded-2xl bg-sand-100 px-5 py-4 text-lg leading-snug text-ink-800">
+          <div className="self-start lg:sticky lg:top-28">
+            <Reveal>
+              <h2 className="flex items-center gap-3 text-2xl font-extrabold tracking-tight text-white">
+                <Clock size={26} aria-hidden="true" className="text-gold-400" />
+                {dict.sectors.painsTitle}
+              </h2>
+            </Reveal>
+            <ul className="mt-6 space-y-3">
+              {item.pains.map((pain, index) => (
+                <Reveal as="li" key={pain} delay={index * 80} className="rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-lg leading-snug text-mist-200">
                   {pain}
-                </li>
+                </Reveal>
               ))}
             </ul>
           </div>
           <div>
-            <h2 className="flex items-center gap-3 text-2xl font-extrabold tracking-tight text-ink-950">
-              <Icon size={26} aria-hidden="true" className="text-sea-600" />
-              {dict.sectors.solutionsTitle}
-            </h2>
+            <Reveal>
+              <h2 className="flex items-center gap-3 text-2xl font-extrabold tracking-tight text-white">
+                <Icon size={26} aria-hidden="true" className="text-azure-300" />
+                {dict.sectors.solutionsTitle}
+              </h2>
+            </Reveal>
             <ul className="mt-6 space-y-4">
-              {item.solutions.map((solution) => (
-                <li key={solution.title} className="card">
-                  <h3 className="text-xl font-bold text-ink-950">{solution.title}</h3>
-                  <p className="mt-2 text-lg leading-relaxed text-ink-600">{solution.body}</p>
-                </li>
+              {item.solutions.map((solution, index) => (
+                <Reveal as="li" key={solution.title} delay={index * 80} className="card glow-card flex gap-5">
+                  <span className="font-serif text-4xl italic leading-none text-gold">{index + 1}</span>
+                  <div>
+                    <h3 className="text-xl font-bold text-white">{solution.title}</h3>
+                    <p className="mt-2 text-lg leading-relaxed text-mist-300">{solution.body}</p>
+                  </div>
+                </Reveal>
               ))}
             </ul>
           </div>
         </div>
       </section>
 
-      <section className="border-y border-sand-200 bg-white py-14 sm:py-16">
+      <section className="section-alt py-16 sm:py-20">
         <div className="container-page">
-          <figure className="mx-auto max-w-3xl border-l-4 border-marigold-400 pl-6 sm:pl-8">
-            <figcaption className="eyebrow">{dict.sectors.scenarioLabel}</figcaption>
-            <p className="mt-3 text-xl leading-relaxed text-ink-800 sm:text-2xl sm:leading-relaxed">{item.scenario}</p>
-          </figure>
+          <Reveal as="figure" className="mx-auto max-w-3xl">
+            <Quote size={36} aria-hidden="true" className="text-gold-400" />
+            <figcaption className="eyebrow mt-5">{dict.sectors.scenarioLabel}</figcaption>
+            <p className="mt-4 text-xl leading-relaxed text-white sm:text-2xl sm:leading-relaxed">{item.scenario}</p>
+          </Reveal>
         </div>
       </section>
 
       <section className="section">
         <div className="container-page">
-          <h2 className="h2">{dict.sectors.otherTitle}</h2>
-          <div className="mt-8">
+          <Reveal>
+            <h2 className="h2">{dict.sectors.otherTitle}</h2>
+          </Reveal>
+          <div className="mt-10">
             <SectorCards dict={dict} locale={locale} exclude={id} />
           </div>
         </div>

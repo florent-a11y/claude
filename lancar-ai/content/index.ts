@@ -14,3 +14,8 @@ export function getDictionary(locale: string): Dictionary {
 export function fill(template: string, values: Record<string, string | number>) {
   return template.replace(/\{(\w+)\}/g, (match, key: string) => (key in values ? String(values[key]) : match));
 }
+
+/** A heading without its *accent* markers, for page titles, link previews and anywhere plain text is needed. */
+export function plain(text: string) {
+  return text.replaceAll("*", "");
+}

@@ -23,17 +23,18 @@ export function Header({ dict }: { dict: Dictionary }) {
   ];
 
   return (
-    <header className="sticky top-0 z-40 border-b border-sand-200 bg-sand-50/95 backdrop-blur">
-      <div className="container-page relative flex h-16 items-center justify-between gap-4">
+    <header className="sticky top-0 z-40 border-b border-white/[0.07] bg-night-950/75 backdrop-blur-xl">
+      <div className="scroll-progress absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-azure-500 via-gold-300 to-gold-500" />
+      <div className="container-page relative flex h-[4.25rem] items-center justify-between gap-4">
         <Link href="/" aria-label={dict.nav.home} className="shrink-0">
           <Logo />
         </Link>
-        <nav className="hidden items-center gap-1 lg:flex">
+        <nav className="hidden items-center gap-0.5 lg:flex">
           {main.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="rounded-full px-3 py-2 text-[15px] font-semibold text-ink-700 transition hover:bg-ink-900/5 hover:text-ink-950"
+              className="rounded-full px-3.5 py-2 text-[15px] font-semibold text-mist-300 transition hover:bg-white/[0.07] hover:text-white"
             >
               {item.label}
             </Link>
@@ -45,7 +46,7 @@ export function Header({ dict }: { dict: Dictionary }) {
         </div>
         <MobileMenu items={mobile} openLabel={dict.nav.openMenu} closeLabel={dict.nav.closeMenu}>
           <LocaleSwitcher label={dict.nav.language} />
-          <BookCallButton dict={dict} />
+          <BookCallButton dict={dict} className="btn btn-primary w-full" />
         </MobileMenu>
       </div>
     </header>

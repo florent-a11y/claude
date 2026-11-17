@@ -79,10 +79,10 @@ export function LeadForm({ labels, locale, quiz }: { labels: Labels; locale: App
 
   if (status === "sent") {
     return (
-      <div role="status" className="rounded-3xl border border-sea-200 bg-sea-50 p-7">
-        <CircleCheck size={32} aria-hidden="true" className="text-sea-600" />
-        <h3 className="mt-3 text-xl font-bold text-ink-950">{labels.successTitle}</h3>
-        <p className="mt-2 text-lg text-ink-700">{labels.successBody}</p>
+      <div role="status" className="bubble-in rounded-3xl border border-gold-400/40 bg-gold-400/10 p-7">
+        <CircleCheck size={32} aria-hidden="true" className="text-gold-300" />
+        <h3 className="mt-3 text-xl font-bold text-white">{labels.successTitle}</h3>
+        <p className="mt-2 text-lg text-mist-200">{labels.successBody}</p>
       </div>
     );
   }
@@ -132,7 +132,7 @@ export function LeadForm({ labels, locale, quiz }: { labels: Labels; locale: App
           className={inputClass("whatsapp")}
         />
         {errorFor("whatsapp") || (
-          <p id={`${formId}-whatsapp-hint`} className="mt-1.5 text-sm text-ink-600">
+          <p id={`${formId}-whatsapp-hint`} className="mt-1.5 text-sm text-mist-400">
             {labels.whatsappHint}
           </p>
         )}
@@ -212,11 +212,11 @@ export function LeadForm({ labels, locale, quiz }: { labels: Labels; locale: App
           <input
             {...field("consent")}
             type="checkbox"
-            className="mt-1 h-5 w-5 shrink-0 rounded border-sand-300 text-sea-600 focus:ring-sea-500"
+            className="mt-1 h-5 w-5 shrink-0 rounded accent-gold-400"
           />
-          <label htmlFor={`${formId}-consent`} className="leading-relaxed text-ink-700">
+          <label htmlFor={`${formId}-consent`} className="leading-relaxed text-mist-300">
             {labels.consent}{" "}
-            <Link href="/privacy" className="font-semibold text-sea-700 underline underline-offset-2">
+            <Link href="/privacy" className="font-semibold text-azure-300 underline underline-offset-2 hover:text-white">
               {labels.consentLink}
             </Link>
             .
@@ -226,11 +226,11 @@ export function LeadForm({ labels, locale, quiz }: { labels: Labels; locale: App
       </div>
       <div className="sm:col-span-2">
         {formError && (
-          <p role="alert" className="mb-4 rounded-xl bg-red-50 px-4 py-3 font-semibold text-red-800">
+          <p role="alert" className="mb-4 rounded-xl border border-red-400/40 bg-red-500/10 px-4 py-3 font-semibold text-red-200">
             {formError}
           </p>
         )}
-        <button type="submit" disabled={status === "sending"} className="btn btn-dark w-full sm:w-auto">
+        <button type="submit" disabled={status === "sending"} className="btn btn-primary w-full sm:w-auto">
           {status === "sending" ? `${labels.sending}…` : labels.submit}
         </button>
       </div>

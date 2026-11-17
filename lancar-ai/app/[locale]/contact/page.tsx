@@ -7,6 +7,7 @@ import { site, whatsappLink } from "@/lib/config";
 import { pageMetadata } from "@/lib/seo";
 import { LeadForm } from "@/components/LeadForm";
 import { PageHeader } from "@/components/PageHeader";
+import { Reveal } from "@/components/Reveal";
 
 type Props = { params: Promise<{ locale: AppLocale }> };
 
@@ -28,34 +29,38 @@ export default async function ContactPage({ params }: Props) {
     <>
       <PageHeader eyebrow={dict.nav.contact} title={contact.title} intro={contact.intro} />
       <section className="section">
-        <div className={`container-page grid gap-10 ${hasDirectChannel ? "lg:grid-cols-[0.8fr_1.2fr] lg:gap-16" : "max-w-3xl"}`}>
+        <div className={`container-page grid gap-8 ${hasDirectChannel ? "lg:grid-cols-[0.8fr_1.2fr] lg:gap-12" : "max-w-3xl"}`}>
           {hasDirectChannel && (
             <div className="space-y-5">
               {wa && (
-                <div className="rounded-3xl bg-ink-950 p-7 text-white">
-                  <MessageCircle size={28} aria-hidden="true" className="text-marigold-400" />
-                  <h2 className="mt-4 text-xl font-bold">{contact.whatsappTitle}</h2>
-                  <p className="mt-2 leading-relaxed text-sand-100/80">{contact.whatsappBody}</p>
+                <Reveal className="rounded-3xl border border-gold-400/30 bg-gradient-to-br from-gold-600/25 to-night-800 p-7 sm:p-8">
+                  <span className="icon-chip-gold">
+                    <MessageCircle size={24} aria-hidden="true" />
+                  </span>
+                  <h2 className="mt-5 text-xl font-bold text-white">{contact.whatsappTitle}</h2>
+                  <p className="mt-2 leading-relaxed text-mist-200">{contact.whatsappBody}</p>
                   <a href={wa} target="_blank" rel="noopener noreferrer" className="btn btn-primary mt-6">
                     {dict.common.whatsapp}
                   </a>
-                </div>
+                </Reveal>
               )}
               {site.email && (
-                <div className="card">
-                  <Mail size={28} aria-hidden="true" className="text-sea-600" />
-                  <h2 className="mt-4 text-xl font-bold text-ink-950">{contact.emailTitle}</h2>
-                  <a href={`mailto:${site.email}`} className="mt-2 inline-block break-all text-lg font-semibold text-sea-700 underline underline-offset-2">
+                <Reveal delay={110} className="card">
+                  <span className="icon-chip">
+                    <Mail size={24} aria-hidden="true" />
+                  </span>
+                  <h2 className="mt-5 text-xl font-bold text-white">{contact.emailTitle}</h2>
+                  <a href={`mailto:${site.email}`} className="mt-2 inline-block break-all text-lg font-semibold text-azure-300 underline underline-offset-2 hover:text-white">
                     {site.email}
                   </a>
-                </div>
+                </Reveal>
               )}
             </div>
           )}
-          <div className="card sm:p-9">
-            <h2 className="mb-6 text-2xl font-extrabold tracking-tight text-ink-950">{contact.formTitle}</h2>
+          <Reveal delay={hasDirectChannel ? 110 : 0} className="card sm:p-9">
+            <h2 className="mb-7 text-2xl font-extrabold tracking-tight text-white">{contact.formTitle}</h2>
             <LeadForm labels={dict.form} locale={locale} />
-          </div>
+          </Reveal>
         </div>
       </section>
     </>

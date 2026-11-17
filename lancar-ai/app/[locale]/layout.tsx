@@ -3,7 +3,9 @@ import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import "@fontsource-variable/plus-jakarta-sans";
+import "@fontsource/instrument-serif/400-italic.css";
 import "../globals.css";
+import { Effects, REVEAL_BOOTSTRAP } from "@/components/Effects";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { getDictionary } from "@/content";
@@ -16,7 +18,7 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export const viewport: Viewport = { themeColor: "#06262b" };
+export const viewport: Viewport = { themeColor: "#04060c", colorScheme: "dark" };
 
 export async function generateMetadata({ params }: Omit<Props, "children">): Promise<Metadata> {
   const { locale } = await params;
@@ -57,9 +59,14 @@ export default async function LocaleLayout({ children, params }: Props) {
   const dict = getDictionary(locale);
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
+      <head>
+        {/* Sets html.js before the first paint (hence suppressHydrationWarning on <html>). See Effects.tsx. */}
+        <script dangerouslySetInnerHTML={{ __html: REVEAL_BOOTSTRAP }} />
+      </head>
       <body className="flex min-h-screen flex-col">
         <NextIntlClientProvider locale={locale} messages={{}}>
+          <Effects />
           <Header dict={dict} />
           <main className="flex-1">{children}</main>
           <Footer dict={dict} />

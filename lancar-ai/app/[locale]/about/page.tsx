@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { HeartHandshake, MapPin, MessagesSquare, ShieldCheck, Footprints } from "lucide-react";
+import { Footprints, HeartHandshake, MapPin, MessagesSquare, ShieldCheck } from "lucide-react";
 import { setRequestLocale } from "next-intl/server";
 import type { AppLocale } from "@/i18n/routing";
 import { getDictionary } from "@/content";
 import { pageMetadata } from "@/lib/seo";
 import { FinalCta } from "@/components/FinalCta";
 import { PageHeader } from "@/components/PageHeader";
+import { Reveal } from "@/components/Reveal";
 
 type Props = { params: Promise<{ locale: AppLocale }> };
 
@@ -28,41 +29,47 @@ export default async function AboutPage({ params }: Props) {
       <PageHeader eyebrow={dict.nav.about} title={about.title} intro={about.lead} />
 
       <section className="section">
-        <div className="container-page max-w-3xl space-y-6">
-          {about.story.map((paragraph) => (
-            <p key={paragraph} className="text-xl leading-relaxed text-ink-700">
+        <div className="container-page max-w-3xl space-y-7">
+          {about.story.map((paragraph, index) => (
+            <Reveal as="p" key={paragraph} delay={index * 110} className={index === 0 ? "text-2xl leading-relaxed text-white" : "text-xl leading-relaxed text-mist-300"}>
               {paragraph}
-            </p>
+            </Reveal>
           ))}
         </div>
       </section>
 
-      <section className="section border-y border-sand-200 bg-white">
+      <section className="section section-alt">
         <div className="container-page">
-          <h2 className="h2">{about.principlesTitle}</h2>
-          <div className="mt-10 grid gap-5 sm:grid-cols-2">
+          <Reveal>
+            <h2 className="h2">{about.principlesTitle}</h2>
+          </Reveal>
+          <div className="mt-12 grid gap-5 sm:grid-cols-2">
             {about.principles.map((principle, index) => {
               const Icon = PRINCIPLE_ICONS[index];
               return (
-                <div key={principle.title} className="rounded-3xl bg-sand-100 p-7">
-                  <Icon size={28} aria-hidden="true" className="text-sea-600" />
-                  <h3 className="mt-4 text-xl font-bold text-ink-950">{principle.title}</h3>
-                  <p className="mt-2 text-lg leading-relaxed text-ink-600">{principle.body}</p>
-                </div>
+                <Reveal key={principle.title} delay={(index % 2) * 110} className="card glow-card sm:p-8">
+                  <span className={index % 2 === 0 ? "icon-chip-gold" : "icon-chip"}>
+                    <Icon size={24} aria-hidden="true" />
+                  </span>
+                  <h3 className="mt-5 text-xl font-bold text-white">{principle.title}</h3>
+                  <p className="mt-2 text-lg leading-relaxed text-mist-300">{principle.body}</p>
+                </Reveal>
               );
             })}
           </div>
         </div>
       </section>
 
-      <section className="py-14 sm:py-16">
-        <div className="container-page flex max-w-3xl items-start gap-4">
-          <MapPin size={30} aria-hidden="true" className="mt-1 shrink-0 text-marigold-600" />
+      <section className="py-16 sm:py-20">
+        <Reveal className="container-page flex max-w-3xl items-start gap-5">
+          <span className="icon-chip-gold shrink-0">
+            <MapPin size={24} aria-hidden="true" />
+          </span>
           <div>
-            <h2 className="text-2xl font-extrabold tracking-tight text-ink-950">{about.whereTitle}</h2>
-            <p className="mt-2 text-xl leading-relaxed text-ink-600">{about.where}</p>
+            <h2 className="text-2xl font-extrabold tracking-tight text-white">{about.whereTitle}</h2>
+            <p className="mt-2 text-xl leading-relaxed text-mist-300">{about.where}</p>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       <FinalCta dict={dict} />

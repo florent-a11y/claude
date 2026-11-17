@@ -8,6 +8,7 @@ import { pageMetadata } from "@/lib/seo";
 import { BookCallButton } from "@/components/Cta";
 import { FinalCta } from "@/components/FinalCta";
 import { PageHeader } from "@/components/PageHeader";
+import { Reveal } from "@/components/Reveal";
 
 type Props = { params: Promise<{ locale: AppLocale }> };
 
@@ -21,8 +22,8 @@ function CheckList({ items }: { items: string[] }) {
   return (
     <ul className="space-y-3">
       {items.map((item) => (
-        <li key={item} className="flex gap-3 leading-relaxed text-ink-800">
-          <Check size={20} aria-hidden="true" className="mt-1 shrink-0 text-sea-600" />
+        <li key={item} className="flex gap-3 leading-relaxed text-mist-200">
+          <Check size={20} aria-hidden="true" className="mt-1 shrink-0 text-gold-400" />
           {item}
         </li>
       ))}
@@ -50,40 +51,40 @@ export default async function HowWeWorkPage({ params }: Props) {
       </PageHeader>
 
       <section className="section">
-        <ol className="container-page space-y-6">
+        <ol className="container-page relative space-y-6">
+          {/* The spine that links the four steps on wide screens. */}
+          <div aria-hidden="true" className="absolute bottom-10 left-[calc(2rem+1.4rem)] top-10 hidden w-px bg-gradient-to-b from-gold-400 via-azure-400/60 to-transparent lg:block" />
           {process.steps.map((step, index) => (
-            <li key={step.title} className="card grid gap-6 sm:p-9 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12">
-              <div>
-                <div className="flex items-center gap-4">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-ink-950 text-xl font-extrabold text-marigold-300">
-                    {index + 1}
-                  </span>
+            <Reveal as="li" key={step.title} className="relative lg:pl-24">
+              <span className="step-number mb-4 lg:absolute lg:left-[1.3rem] lg:top-8 lg:mb-0">{index + 1}</span>
+              <div className="card glow-card grid gap-7 sm:p-9 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12">
+                <div>
                   <span className="tag">{tags[index]}</span>
+                  <h2 className="mt-5 text-2xl font-extrabold tracking-tight text-white sm:text-3xl">{step.title}</h2>
+                  <p className="mt-3 text-lg leading-relaxed text-mist-300">{step.body}</p>
                 </div>
-                <h2 className="mt-5 text-2xl font-extrabold tracking-tight text-ink-950 sm:text-3xl">{step.title}</h2>
-                <p className="mt-3 text-lg leading-relaxed text-ink-600">{step.body}</p>
+                {index === AUDIT_STEP ? (
+                  <div className="space-y-7">
+                    {(
+                      [
+                        [process.audit.lookTitle, process.audit.look],
+                        [process.audit.receiveTitle, process.audit.receive],
+                        [process.audit.needTitle, process.audit.need],
+                      ] as const
+                    ).map(([title, items]) => (
+                      <div key={title}>
+                        <h3 className="mb-3 text-[13px] font-bold uppercase tracking-[0.16em] text-gold-300">{title}</h3>
+                        <CheckList items={items} />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="lg:pt-2">
+                    <CheckList items={step.bullets} />
+                  </div>
+                )}
               </div>
-              {index === AUDIT_STEP ? (
-                <div className="space-y-7">
-                  {(
-                    [
-                      [process.audit.lookTitle, process.audit.look],
-                      [process.audit.receiveTitle, process.audit.receive],
-                      [process.audit.needTitle, process.audit.need],
-                    ] as const
-                  ).map(([title, items]) => (
-                    <div key={title}>
-                      <h3 className="mb-3 text-lg font-bold text-ink-950">{title}</h3>
-                      <CheckList items={items} />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="lg:pt-2">
-                  <CheckList items={step.bullets} />
-                </div>
-              )}
-            </li>
+            </Reveal>
           ))}
         </ol>
       </section>

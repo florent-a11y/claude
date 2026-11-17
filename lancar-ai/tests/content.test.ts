@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { en } from "../content/en";
 import { id } from "../content/id";
-import { fill } from "../content";
+import { fill, plain } from "../content";
 import { allPosts } from "../lib/blog";
 import { HERO_CHAT } from "../lib/hero-chat";
 import { QUESTIONS } from "../lib/quiz";
@@ -75,4 +75,24 @@ test("the hero conversation alternates guest and assistant and confirms before s
   assert.ok(note > 0 && HERO_CHAT[note - 1].from === "assistant");
   const spoken = HERO_CHAT.filter((message) => message.from !== "note");
   spoken.forEach((message, index) => assert.equal(message.from, index % 2 === 0 ? "guest" : "assistant"));
+});
+
+test("accent markers in headings come in pairs, in both languages", () => {
+  for (const text of [...strings(en), ...strings(id)]) {
+    const stars = (text.match(/\*/g) ?? []).length;
+    assert.equal(stars % 2, 0, text);
+    // A highlighted phrase is never empty.
+    assert.equal(/\*\s*\*/.test(text), false, text);
+  }
+  assert.equal(plain("AI that fits the way your business *really works*"), "AI that fits the way your business really works");
+});
+
+test("text used as plain page titles and descriptions carries no accent markers", () => {
+  for (const dict of [en, id]) {
+    const plainOnly = [dict.meta.title, dict.meta.description, ...Object.values(dict.sectors.items).flatMap((item) => [item.title, item.name, item.intro])];
+    for (const key of ["services", "process", "sectors", "pricing", "about", "contact", "quiz", "demo", "blog", "privacy"] as const) {
+      plainOnly.push(dict[key].metaTitle, dict[key].metaDescription);
+    }
+    for (const text of plainOnly) assert.equal(text.includes("*"), false, text);
+  }
 });

@@ -23,7 +23,7 @@ export default async function DemoPage({ params }: Props) {
   return (
     <>
       <PageHeader eyebrow={dict.nav.demo} title={dict.demo.title} intro={dict.demo.intro} />
-      <section className="section">
+      <section className="section pt-12! sm:pt-16!">
         <div className="container-page">
           <DemoChat labels={dict.demo} heroLabels={{ ...dict.home.hero.chat, fictional: dict.common.fictional }} />
         </div>
