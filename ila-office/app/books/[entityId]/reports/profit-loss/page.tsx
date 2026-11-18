@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 import { requireUser } from "@/lib/auth";
 import { profitAndLoss, profitAndLossInRupiah, profitAndLossMonthly, profitAndLossMonthlyInRupiah, PL_SECTIONS, type ProfitAndLoss, type ZeroMode } from "@/lib/ledger";
 import { fmtDate } from "@/lib/dates";
-import { columnDecimals, fmtMoney, fmtNumber } from "@/lib/money";
+import { fmtMoneyAt, fmtNumber } from "@/lib/money";
 import { Dash, Notice, TableCard } from "@/components/ui";
 import { base, first, requireEntity, type Params, type Search } from "../../shared";
 import { loadReportData, defaultRange, previousRange } from "../_data";
@@ -30,6 +30,10 @@ export default async function ProfitLossPage({ params, searchParams }: { params:
   const zero: ZeroMode = showZero ? "show" : "hide";
   // The ledger keeps cents; the statement prints whole rupiah unless ?cents=1 ("Show cents").
   const cents = first(sp.cents) === "1";
+  // Ticked, every figure prints two decimals (",00" on whole amounts); unticked, whole rupiah.
+  const dec = cents ? 2 : 0;
+  const fmtMoney = (n: number) => fmtMoneyAt(n, dec);
+  const keep = cents ? "&cents=1" : "";
   const b = base(entityId);
   const apiBase = `/api/books/${entityId}/reports/profit-loss?from=${from}&to=${to}${monthly ? "&view=monthly" : compare ? "&compare=1" : ""}${showZero ? "&zero=1" : ""}${cents ? "&cents=1" : ""}`;
   const filters = (
@@ -47,8 +51,6 @@ export default async function ProfitLossPage({ params, searchParams }: { params:
     const exactMonthly = profitAndLossMonthly(data.accounts, data.entries, { from, to }, { zero });
     const m = cents ? exactMonthly : profitAndLossMonthlyInRupiah(exactMonthly);
     const cols = m.columns.length + 2;
-    // With cents, every figure prints two decimals as soon as one has some, so the columns line up.
-    const dec = cents ? columnDecimals("IDR", m.sections.flatMap((s) => [...s.rows.flatMap((r) => [...r.amounts, r.total]), ...s.totals, s.total])) : 0;
     const num = (n: number, strong = false) => <span className={`${n < 0 ? "text-red-700" : ""}${strong ? " font-semibold" : ""}`}>{fmtNumber(n, dec)}</span>;
     // The account column stays visible while the months scroll sideways; inline backgrounds keep it opaque on every row style.
     const sticky = (bg = "#fff"): CSSProperties => ({ position: "sticky", left: 0, backgroundColor: bg, boxShadow: "inset -1px 0 0 #e2e8f0" });
@@ -69,7 +71,7 @@ export default async function ProfitLossPage({ params, searchParams }: { params:
                     <tr key={`${s.key}-h`} className="row-section"><td style={sticky("#f8fafc")}>{s.label}</td><td colSpan={cols - 1} /></tr>,
                     ...s.rows.map((r) => (
                       <tr key={r.account.id}>
-                        <td className="indent" style={sticky()}><span className="code">{r.account.code}</span><Link href={`${b}/reports/general-ledger?accountId=${r.account.id}&from=${m.from}&to=${m.to}`} className="hover:underline">{r.account.name}</Link></td>
+                        <td className="indent" style={sticky()}><span className="code">{r.account.code}</span><Link href={`${b}/reports/general-ledger?accountId=${r.account.id}&from=${m.from}&to=${m.to}${keep}`} className="hover:underline">{r.account.name}</Link></td>
                         {r.amounts.map((a, i) => <td key={m.columns[i].period} className="num">{num(a)}</td>)}
                         <td className="num">{num(r.total, true)}</td>
                       </tr>
@@ -122,7 +124,7 @@ export default async function ProfitLossPage({ params, searchParams }: { params:
                 ...rows.map((a) => {
                   const cur = s?.rows.find((r) => r.account.id === a.id)?.amount ?? 0;
                   const pv = prevSection?.rows.find((r) => r.account.id === a.id)?.amount ?? 0;
-                  return <tr key={a.id}><td className="indent"><span className="code">{a.code}</span><Link href={`${b}/reports/general-ledger?accountId=${a.id}&from=${from}&to=${to}`} className="hover:underline">{a.name}</Link></td><td className="num">{money(cur)}</td>{plPrev && <td className="num">{money(pv)}</td>}{plPrev && <td className="num text-xs">{money(cur - pv)}</td>}</tr>;
+                  return <tr key={a.id}><td className="indent"><span className="code">{a.code}</span><Link href={`${b}/reports/general-ledger?accountId=${a.id}&from=${from}&to=${to}${keep}`} className="hover:underline">{a.name}</Link></td><td className="num">{money(cur)}</td>{plPrev && <td className="num">{money(pv)}</td>}{plPrev && <td className="num text-xs">{money(cur - pv)}</td>}</tr>;
                 }),
                 rows.length === 0 ? <tr key={`${d.key}-e`}><td className="indent text-xs text-ink-500" colSpan={plPrev ? 4 : 2}><Dash /> no entries</td></tr> : null,
                 <tr key={`${d.key}-t`} className="row-total"><td>Total {d.label.toLowerCase()}</td><td className="num">{money(total)}</td>{plPrev && <td className="num">{money(totalPrev)}</td>}{plPrev && <td className="num text-xs">{money(total - totalPrev)}</td>}</tr>,

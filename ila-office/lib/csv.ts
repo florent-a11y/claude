@@ -1,17 +1,24 @@
 /** CSV parsing and export. Cells are always quoted on export and formula-looking cells are neutralised. */
 
-export function csvCell(v: unknown): string {
+export interface CsvOptions { /** Numbers are written with this many decimals ("Show cents": 2 writes 1500000 as 1500000.00). */ decimals?: number }
+
+/**
+ * One quoted cell. Text that looks like a formula is neutralised with a leading apostrophe; a number is data, never
+ * a formula, so a negative amount keeps its minus sign as it is (-5000000, not '-5000000).
+ */
+export function csvCell(v: unknown, opts: CsvOptions = {}): string {
+  if (typeof v === "number" && Number.isFinite(v)) return `"${opts.decimals === undefined ? String(v) : v.toFixed(opts.decimals)}"`;
   let s = v === null || v === undefined ? "" : String(v);
   if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
   return `"${s.replace(/"/g, '""')}"`;
 }
 
-export function toCSV(header: string[], rows: unknown[][]): string {
-  return "﻿" + [header.map(csvCell).join(","), ...rows.map((r) => r.map(csvCell).join(","))].join("\r\n");
+export function toCSV(header: string[], rows: unknown[][], opts: CsvOptions = {}): string {
+  return "\ufeff" + [header.map((h) => csvCell(h)).join(","), ...rows.map((r) => r.map((c) => csvCell(c, opts)).join(","))].join("\r\n");
 }
 
-export function csvResponse(header: string[], rows: unknown[][], filename: string): Response {
-  return new Response(toCSV(header, rows), {
+export function csvResponse(header: string[], rows: unknown[][], filename: string, opts: CsvOptions = {}): Response {
+  return new Response(toCSV(header, rows, opts), {
     headers: {
       "content-type": "text/csv; charset=utf-8",
       "content-disposition": `attachment; filename="${filename}"`,

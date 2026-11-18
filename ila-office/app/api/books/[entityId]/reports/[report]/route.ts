@@ -7,7 +7,7 @@ import { entityAccounts, entityEntries } from "@/lib/books";
 import { trialBalance, profitAndLoss, profitAndLossInRupiah, profitAndLossMonthly, profitAndLossMonthlyInRupiah, balanceSheet, balanceSheetInRupiah, generalLedger, generalLedgerAll, arAging, apAging, fiscalYearStartOf, AGING_BUCKETS, PL_SECTIONS, entryTotal, type ProfitAndLoss, type ReportSection, type ZeroMode } from "@/lib/ledger";
 import { addDays, fmtDate, todayISO } from "@/lib/dates";
 import { naturalBalance, accountBalances } from "@/lib/balances";
-import { columnDecimals } from "@/lib/money";
+import { reportDecimals } from "@/lib/money";
 import type { Account, Entity, JournalEntry } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -17,6 +17,8 @@ type Format = "csv" | "xlsx" | "pdf";
 /** Rows for the PDF renderer, built lazily because only the statements have one. */
 interface PdfSpec { title: string; subtitle: string; columns: StatementColumn[]; rows: StatementRow[]; landscape?: boolean; note?: string; fontSize?: number }
 interface ReportOutput {
+  /** "Show cents": every amount of the file is written with two decimals (CSV text, Excel number format). */
+  fixedCents?: boolean;
   /** File name without extension. */
   file: string;
   /** The CSV table (the first workbook sheet unless the CSV flattens several). */
@@ -33,8 +35,10 @@ interface ReportOutput {
  * `zero=1` lists zero balances and empty sections on the three statements (and idle accounts on the all-accounts ledger);
  * by default they are hidden, as on the report pages.
  * The ledger keeps rupiah cents. The balance sheet and the profit & loss are rounded to whole rupiah unless `cents=1`;
- * the trial balance, the general ledger and the data exports always carry the exact amounts (the PDFs print two
- * decimals as soon as one figure has cents).
+ * the trial balance, the general ledger and the data exports always carry the exact amounts. `cents=1` ("Show cents")
+ * also prints two decimals on every figure of the four statements, whole amounts included: "1,500,000.00" in the
+ * PDF, a 0.00 number format in Excel and two decimals in the CSV. Without it the trial balance and the ledger print
+ * two decimals only when one of their figures has cents.
  */
 export async function GET(req: Request, ctx: { params: Promise<{ entityId: string; report: string }> }) {
   const user = await guard("read", (await ctx.params).entityId);
@@ -62,9 +66,9 @@ export async function GET(req: Request, ctx: { params: Promise<{ entityId: strin
       const headers = ["Code", "Account", "Type", "Debit", "Credit"];
       const rows: unknown[][] = [...tb.rows.map((r) => [r.account.code, r.account.name, r.account.type, r.debit, r.credit]), ["", "Total", "", tb.totalDebit, tb.totalCredit]];
       out = {
-        file: `${slug}-trial-balance-${asOf}`, csv: { headers, rows }, sheets: [{ name: "Trial balance", headers, rows, colWidths: [10, 40, 12, 18, 18] }],
+        fixedCents: cents, file: `${slug}-trial-balance-${asOf}`, csv: { headers, rows }, sheets: [{ name: "Trial balance", headers, rows, colWidths: [10, 40, 12, 18, 18] }],
         pdf: () => {
-          const d = columnDecimals("IDR", [...tb.rows.flatMap((r) => [r.debit, r.credit]), tb.totalDebit, tb.totalCredit]);
+          const d = reportDecimals(cents, [...tb.rows.flatMap((r) => [r.debit, r.credit]), tb.totalDebit, tb.totalCredit]);
           return {
             title: "Trial balance", subtitle: `As of ${fmtDate(asOf)} · ${tb.rows.length} accounts${tb.balanced ? "" : " · OUT OF BALANCE"}`,
             columns: [{ label: "Code", width: 55, align: "left" }, { label: "Account", width: 230, align: "left" }, { label: "Type", width: 60, align: "left" }, { label: "Debit", width: 85, align: "right" }, { label: "Credit", width: 85, align: "right" }],
@@ -81,7 +85,8 @@ export async function GET(req: Request, ctx: { params: Promise<{ entityId: strin
     case "balance-sheet": {
       const exact = balanceSheet(accounts, entries, asOf, entity.fiscalYearStartMonth, { zero });
       const bs = cents ? exact : balanceSheetInRupiah(exact);
-      const d = cents ? columnDecimals("IDR", [...[...bs.assets, ...bs.liabilities, ...bs.equity].flatMap((s) => [...s.rows.map((r) => r.amount), s.total]), bs.totalAssets, bs.totalLiabilities, bs.totalEquity]) : 0;
+      // Ticked, every figure prints two decimals; unticked, the statement is in whole rupiah.
+      const d = cents ? 2 : 0;
       const groups = [["Assets", bs.assets, bs.totalAssets], ["Liabilities", bs.liabilities, bs.totalLiabilities], ["Equity", bs.equity, bs.totalEquity]] as const;
       const rows: unknown[][] = [];
       for (const [group, sections, total] of groups) {
@@ -90,7 +95,7 @@ export async function GET(req: Request, ctx: { params: Promise<{ entityId: strin
       }
       const headers = ["Group", "Section", "Code", "Account", `As of ${asOf}`];
       out = {
-        file: `${slug}-balance-sheet-${asOf}`, csv: { headers, rows }, sheets: [{ name: "Balance sheet", headers, rows, colWidths: [12, 22, 10, 40, 18] }],
+        fixedCents: cents, file: `${slug}-balance-sheet-${asOf}`, csv: { headers, rows }, sheets: [{ name: "Balance sheet", headers, rows, colWidths: [12, 22, 10, 40, 18] }],
         pdf: () => {
           const pdfRows: StatementRow[] = [];
           for (const [group, sections, total] of groups) {
@@ -115,7 +120,7 @@ export async function GET(req: Request, ctx: { params: Promise<{ entityId: strin
       break;
     }
     case "general-ledger": {
-      if (q.get("accountId") === "all") { out = glAllOutput(accounts, entries, from, to, q.get("zero") === "1", slug); break; }
+      if (q.get("accountId") === "all") { out = glAllOutput(accounts, entries, from, to, q.get("zero") === "1", slug, cents); break; }
       const account = accounts.find((a) => a.id === q.get("accountId"));
       if (!account) return new Response("accountId required (or all)", { status: 400 });
       const gl = generalLedger(account, entries, { from, to });
@@ -127,7 +132,7 @@ export async function GET(req: Request, ctx: { params: Promise<{ entityId: strin
       ];
       const label = `${account.code} · ${account.name}`;
       out = {
-        file: `${slug}-gl-${account.code}-${from}-${to}`, csv: { headers, rows },
+        fixedCents: cents, file: `${slug}-gl-${account.code}-${from}-${to}`, csv: { headers, rows },
         sheets: [
           { name: "General ledger", headers, rows, colWidths: [12, 14, 36, 36, 24, 18, 18, 18] },
           { name: "Summary", headers: ["Account", "From", "To", "Opening balance", "Total debit", "Total credit", "Closing balance"], rows: [[label, from, to, gl.opening, gl.totalDebit, gl.totalCredit, gl.closing]], colWidths: [36, 12, 12, 18, 18, 18, 18] },
@@ -142,7 +147,7 @@ export async function GET(req: Request, ctx: { params: Promise<{ entityId: strin
             { cells: ["", "", `Opening balance at ${fmtDate(from)}`, "", "", "", "", n(gl.opening, d)], style: "total" },
             ...gl.rows.map((r): StatementRow => ({ cells: [fmtDate(r.date), r.number, r.memo, r.description && r.description !== r.memo ? r.description : "", r.counterpartyName ?? "", r.debit ? n(r.debit, d) : "", r.credit ? n(r.credit, d) : "", n(r.balance, d)] })),
             { cells: ["", "", `Closing balance at ${fmtDate(to)}`, "", "", n(gl.totalDebit, d), n(gl.totalCredit, d), n(gl.closing, d)], style: "grand" },
-          ])(glDecimals([gl])),
+          ])(glDecimals([gl], cents)),
         }),
       };
       break;
@@ -192,8 +197,9 @@ function parseFormat(raw: string | null): Format | null {
 }
 
 async function send(format: Format, out: ReportOutput, entity: Entity): Promise<Response> {
-  if (format === "csv") return csvResponse(out.csv.headers, out.csv.rows, `${out.file}.csv`);
-  if (format === "xlsx") return xlsxResponse(out.sheets, `${out.file}.xlsx`);
+  // "Show cents": 1500000 is written 1500000.00 in the CSV, and Excel shows every number with two decimals.
+  if (format === "csv") return csvResponse(out.csv.headers, out.csv.rows, `${out.file}.csv`, out.fixedCents ? { decimals: 2 } : {});
+  if (format === "xlsx") return xlsxResponse(out.fixedCents ? out.sheets.map((s) => ({ ...s, decimals: 2 })) : out.sheets, `${out.file}.xlsx`);
   if (!out.pdf) return new Response("PDF is available for the profit & loss, balance sheet, trial balance and general ledger only", { status: 400 });
   const pdf = await renderStatementPdf({ entity: { legalName: entity.legalName, name: entity.name, address: [entity.address, entity.city].filter(Boolean).join(", ") || undefined, npwp: entity.npwp }, ...out.pdf() });
   return new Response(new Uint8Array(pdf), {
@@ -203,9 +209,9 @@ async function send(format: Format, out: ReportOutput, entity: Entity): Promise<
 
 const ROUNDED_NOTE = "Amounts are rounded to whole rupiah for presentation; the ledger keeps the exact amounts.";
 
-/** Decimals for a general-ledger PDF: two as soon as one figure of the ledgers has cents. */
-function glDecimals(ledgers: Array<{ opening: number; closing: number; totalDebit: number; totalCredit: number; rows: Array<{ debit: number; credit: number; balance: number }> }>): number {
-  return columnDecimals("IDR", ledgers.flatMap((g) => [g.opening, g.closing, g.totalDebit, g.totalCredit, ...g.rows.flatMap((r) => [r.debit, r.credit, r.balance])]));
+/** Decimals for a general-ledger PDF: two on every figure with "Show cents", else two as soon as one figure of the ledgers has cents. */
+function glDecimals(ledgers: Array<{ opening: number; closing: number; totalDebit: number; totalCredit: number; rows: Array<{ debit: number; credit: number; balance: number }> }>, cents = false): number {
+  return reportDecimals(cents, ledgers.flatMap((g) => [g.opening, g.closing, g.totalDebit, g.totalCredit, ...g.rows.flatMap((r) => [r.debit, r.credit, r.balance])]));
 }
 
 const PL_SUMMARY: Array<[string, (p: ProfitAndLoss) => number, string]> = [["Gross profit", (p) => p.grossProfit, "cogs"], ["Operating profit", (p) => p.operatingProfit, "opex"], ["Profit before tax", (p) => p.profitBeforeTax, "other_expense"], ["Net profit", (p) => p.netProfit, "tax"]];
@@ -239,11 +245,11 @@ function plPeriodOutput(accounts: Account[], entries: JournalEntry[], from: stri
   }
   for (const [label, pick] of PL_SUMMARY) rows.push(["", "", label, pick(pl), ...(prev ? [pick(prev)] : [])]);
   const headers = ["Section", "Code", "Account", `${from} to ${to}`, ...(prev ? [`${prev.from} to ${prev.to}`] : [])];
-  // With cents, every figure prints two decimals as soon as one has some.
-  const d = cents ? columnDecimals("IDR", rows.flatMap((r) => r.slice(3) as number[])) : 0;
+  // Ticked, every figure prints two decimals; unticked, the statement is in whole rupiah.
+  const d = cents ? 2 : 0;
   const n = (v: number) => pdfNumber(v, d);
   return {
-    file: `${slug}-profit-loss-${from}-${to}`, csv: { headers, rows }, sheets: [{ name: "Profit & loss", headers, rows, colWidths: [20, 10, 40, 18, 18] }],
+    fixedCents: cents, file: `${slug}-profit-loss-${from}-${to}`, csv: { headers, rows }, sheets: [{ name: "Profit & loss", headers, rows, colWidths: [20, 10, 40, 18, 18] }],
     pdf: () => {
       const pdfRows: StatementRow[] = [];
       const amounts = (cur: number, pv?: number): string[] => (prev ? [n(cur), n(pv ?? 0), n(cur - (pv ?? 0))] : [n(cur)]);
@@ -285,11 +291,11 @@ function plMonthlyOutput(accounts: Account[], entries: JournalEntry[], from: str
     const sum = m.summary.find((x) => x.afterSection === d.key);
     if (sum) rows.push(["", "", sum.label, ...sum.amounts, sum.total]);
   }
-  const d = cents ? columnDecimals("IDR", rows.flatMap((r) => r.slice(3) as number[])) : 0;
+  const d = cents ? 2 : 0;
   const n = (v: number) => pdfNumber(v, d);
   const count = m.columns.length;
   return {
-    file: `${slug}-profit-loss-monthly-${m.from}-${m.to}`, csv: { headers, rows },
+    fixedCents: cents, file: `${slug}-profit-loss-monthly-${m.from}-${m.to}`, csv: { headers, rows },
     sheets: [{ name: "Monthly P&L", headers, rows, colWidths: [20, 10, 36, ...labels.map(() => 14), 16] }],
     pdf: () => {
       const pdfRows: StatementRow[] = [];
@@ -315,9 +321,9 @@ function plMonthlyOutput(accounts: Account[], entries: JournalEntry[], from: str
 }
 
 /** Every account's ledger in one file, grouped by account: a header row, opening, movements, closing per account. */
-function glAllOutput(accounts: Account[], entries: JournalEntry[], from: string, to: string, includeInactive: boolean, slug: string): ReportOutput {
+function glAllOutput(accounts: Account[], entries: JournalEntry[], from: string, to: string, includeInactive: boolean, slug: string, cents = false): ReportOutput {
   const all = generalLedgerAll(accounts, entries, { from, to }, { includeInactive });
-  const d = glDecimals(all.ledgers);
+  const d = glDecimals(all.ledgers, cents);
   const n = (v: number) => pdfNumber(v, d);
   const headers = ["Account code", "Account name", "Date", "Entry", "Memo", "Description", "Counterparty", "Debit", "Credit", "Balance"];
   const rows: unknown[][] = [];
@@ -338,7 +344,7 @@ function glAllOutput(accounts: Account[], entries: JournalEntry[], from: string,
   const summary: unknown[][] = all.ledgers.map((g) => [g.account.code, g.account.name, g.account.type, g.account.normalBalance, g.opening, g.totalDebit, g.totalCredit, g.closing]);
   summary.push(["", `Total (${all.ledgers.length} accounts)`, "", "", "", all.totalDebit, all.totalCredit, ""]);
   return {
-    file: `${slug}-general-ledger-all-${from}-${to}`, csv: { headers, rows },
+    fixedCents: cents, file: `${slug}-general-ledger-all-${from}-${to}`, csv: { headers, rows },
     sheets: [
       { name: "General ledger", headers, rows, colWidths: [12, 30, 12, 14, 36, 36, 24, 18, 18, 18] },
       { name: "Summary", headers: summaryHeaders, rows: summary, colWidths: [10, 36, 10, 14, 18, 18, 18, 18] },

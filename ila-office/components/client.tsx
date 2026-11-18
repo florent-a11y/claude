@@ -24,6 +24,11 @@ export function PrintButton({ label = "Print / PDF", className = "" }: { label?:
   return <button type="button" className={`btn-secondary no-print ${className}`} onClick={() => window.print()}>{label}</button>;
 }
 
+/** A filter checkbox that applies as soon as it is ticked or unticked (it submits the form it sits in). */
+export function AutoSubmitCheckbox({ name, value = "1", defaultChecked, className = "checkbox" }: { name: string; value?: string; defaultChecked?: boolean; className?: string }) {
+  return <input type="checkbox" name={name} value={value} defaultChecked={defaultChecked} className={className} onChange={(e) => e.currentTarget.form?.requestSubmit()} />;
+}
+
 /** Auto-submits a search form shortly after typing stops. */
 export function AutoSubmitInput({ name, defaultValue, placeholder, className = "input" }: { name: string; defaultValue?: string; placeholder?: string; className?: string }) {
   const ref = useRef<HTMLInputElement>(null);

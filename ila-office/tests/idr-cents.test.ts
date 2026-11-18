@@ -5,6 +5,10 @@ import { accountBalances, findByCode, findByTag, validateLines } from "../lib/ba
 import { applyJournalEdit } from "../lib/posting";
 import { trialBalance, generalLedger, profitAndLoss, profitAndLossInRupiah, profitAndLossMonthly, profitAndLossMonthlyInRupiah, balanceSheet, balanceSheetInRupiah, invoiceTotals, billTotals, depreciationSchedule } from "../lib/ledger";
 import { buildReconciliation } from "../lib/reconciliation";
+import { fmtMoney, fmtMoneyAt, reportDecimals } from "../lib/money";
+import { buildWorkbook } from "../lib/report-xlsx";
+import { csvCell, toCSV } from "../lib/csv";
+import * as XLSX from "xlsx";
 import type { Account, BankAccount, BankTransaction, FixedAsset, JournalEntry, JournalLine } from "../lib/types";
 
 // Rupiah cents: the ledger keeps the exact amount (bank statements carry cents in IDR too), the trial balance, the
@@ -133,4 +137,44 @@ test("reconciliation matches a statement with rupiah cents exactly, and one cent
   const off = buildReconciliation({ bank: acct, transactions: [...transactions.slice(0, 5), tx("T-6", "2026-03-01", -5_000_000.51, 94_994_733.9, entries[5].id)], entries, period: "2026-03" });
   assert.equal(off.difference !== null && Math.abs(off.difference), 0.01);
   assert.ok(!off.balanced, "a one-cent difference is reported, not rounded away");
+});
+
+test("Show cents: every figure prints two decimals, whole amounts included", () => {
+  // The default prints rupiah cents only when an amount has some; a report with the switch ticked prints them always.
+  assert.equal(fmtMoney(2_500_000), "Rp 2.500.000");
+  assert.equal(fmtMoneyAt(2_500_000, 2), "Rp 2.500.000,00");
+  assert.equal(fmtMoneyAt(2_500_000.5, 2), "Rp 2.500.000,50");
+  assert.equal(fmtMoneyAt(-1_000, 2), "−Rp 1.000,00");
+  assert.equal(fmtMoneyAt(0, 2), "Rp 0,00");
+  assert.equal(fmtMoneyAt(2_500_000.4, 0), "Rp 2.500.000", "a statement in whole rupiah");
+  assert.equal(fmtMoneyAt(1_315, 0, "USD"), "$1,315.00", "other currencies always keep their two decimals");
+  // Decimals of a report: two with the switch; without it, two only when one figure has cents.
+  assert.equal(reportDecimals(true, [1_000, 2_000]), 2);
+  assert.equal(reportDecimals(false, [1_000, 2_000]), 0);
+  assert.equal(reportDecimals(false, [1_000, 2_000.5]), 2);
+  assert.equal(reportDecimals(true, []), 2);
+});
+
+test("Show cents in the Excel export: whole amounts get the 0.00 format too", () => {
+  const read = (decimals?: number) => {
+    const wb = XLSX.read(buildWorkbook([{ name: "Balance sheet", headers: ["Account", "Amount"], rows: [["Bank", 1_232_067], ["Cash", 500.5]], decimals }]), { type: "buffer", cellNF: true });
+    const ws = wb.Sheets["Balance sheet"];
+    return [ws.B2.z, ws.B3.z, ws.B2.v, ws.B3.v];
+  };
+  assert.deepEqual(read(), ["#,##0", "#,##0.00", 1_232_067, 500.5], "by default only an amount with cents shows decimals");
+  assert.deepEqual(read(2), ["#,##0.00", "#,##0.00", 1_232_067, 500.5], "with the switch every amount does, and the values stay numbers");
+});
+
+test("CSV export: a negative number keeps its minus sign, text that looks like a formula is still neutralised", () => {
+  assert.equal(csvCell(-5_000_000), '"-5000000"', "a number is data: no apostrophe in front of a loss or a credit balance");
+  assert.equal(csvCell(1_232_067.44), '"1232067.44"');
+  assert.equal(csvCell("-5000000"), `"'-5000000"`, "the same characters typed as text are neutralised");
+  assert.equal(csvCell("=SUM(A1:A9)"), `"'=SUM(A1:A9)"`);
+  assert.equal(csvCell("@cmd"), `"'@cmd"`);
+  assert.equal(csvCell(null), '""');
+  // "Show cents": two decimals on every number, whole amounts included; text and headers are untouched.
+  assert.equal(csvCell(1_500_000, { decimals: 2 }), '"1500000.00"');
+  assert.equal(csvCell(-0.5, { decimals: 2 }), '"-0.50"');
+  assert.equal(toCSV(["Account", "2026"], [["Bank", 95_000_000], ["Net profit", -5_000_000]], { decimals: 2 }), '﻿"Account","2026"\r\n"Bank","95000000.00"\r\n"Net profit","-5000000.00"');
+  assert.equal(toCSV(["Account", "2026"], [["Net profit", -5_000_000]]), '﻿"Account","2026"\r\n"Net profit","-5000000"');
 });

@@ -2,11 +2,12 @@ import Link from "next/link";
 import { requireUser } from "@/lib/auth";
 import { generalLedger, generalLedgerAll } from "@/lib/ledger";
 import { fmtDate } from "@/lib/dates";
-import { fmtMoney } from "@/lib/money";
+import { fmtMoneyAt, reportDecimals } from "@/lib/money";
 import { Cols, Dash, EmptyState, TableCard } from "@/components/ui";
 import { accountLabel, base, first, requireEntity, type Params, type Search } from "../../shared";
 import { loadReportData, defaultRange } from "../_data";
-import { ReportHeader, exportHrefs } from "../ReportHeader";
+import { ReportHeader, exportHrefs, CentsToggle } from "../ReportHeader";
+import { AutoSubmitCheckbox } from "@/components/client";
 
 export const dynamic = "force-dynamic";
 
@@ -24,8 +25,15 @@ export default async function GeneralLedgerPage({ params, searchParams }: { para
   const gl = account ? generalLedger(account, data.entries, { from, to }) : null;
   const all = allAccounts ? generalLedgerAll(data.accounts, data.entries, { from, to }, { includeInactive: includeZero }) : null;
   const b = base(entityId);
+  // The ledger is always exact. "Show cents" (?cents=1) prints two decimals on every figure; otherwise the columns
+  // print cents only when one of their amounts has some.
+  const cents = first(sp.cents) === "1";
+  const shown = all ? all.ledgers : gl ? [gl] : [];
+  const dec = reportDecimals(cents, shown.flatMap((g) => [g.opening, g.closing, g.totalDebit, g.totalCredit, ...g.rows.flatMap((r) => [r.debit, r.credit, r.balance])]));
+  const fmtMoney = (n: number) => fmtMoneyAt(n, dec);
+  const keep = cents ? "&cents=1" : "";
   const sorted = [...data.accounts].sort((x, y) => x.code.localeCompare(y.code));
-  const exportBase = `/api/books/${entityId}/reports/general-ledger?accountId=${allAccounts ? "all" : accountId ?? ""}&from=${from}&to=${to}${allAccounts && includeZero ? "&zero=1" : ""}`;
+  const exportBase = `/api/books/${entityId}/reports/general-ledger?accountId=${allAccounts ? "all" : accountId ?? ""}&from=${from}&to=${to}${allAccounts && includeZero ? "&zero=1" : ""}${keep}`;
   return (
     <div className="report pb-8">
       {/* Seven columns: print sideways. */}
@@ -34,7 +42,8 @@ export default async function GeneralLedgerPage({ params, searchParams }: { para
         <label className="block"><span className="label">Account</span><select name="accountId" defaultValue={allAccounts ? "all" : accountId} className="input !w-72 !py-1"><option value="all">All accounts (one file, grouped by account)</option>{sorted.map((a) => <option key={a.id} value={a.id}>{a.code} · {a.name}{a.active ? "" : " (inactive)"}</option>)}</select></label>
         <label className="block"><span className="label">From</span><input name="from" type="date" defaultValue={from} className="input !py-1" /></label>
         <label className="block"><span className="label">To</span><input name="to" type="date" defaultValue={to} className="input !py-1" /></label>
-        <label className="flex items-center gap-2 pb-2 text-sm" title="Only applies to the all-accounts view"><input type="checkbox" name="zero" value="1" defaultChecked={includeZero} className="checkbox" /> Include accounts without movement</label>
+        <label className="flex items-center gap-2 pb-2 text-sm" title="Only applies to the all-accounts view"><AutoSubmitCheckbox name="zero" defaultChecked={includeZero} /> Include accounts without movement</label>
+        <CentsToggle checked={cents} exact />
       </ReportHeader>
       {all ? (
         <TableCard>
@@ -44,7 +53,7 @@ export default async function GeneralLedgerPage({ params, searchParams }: { para
             <tbody>
               {all.ledgers.length === 0 && <tr><td colSpan={7} className="p-4 text-center text-sm text-ink-500">No account has an opening balance or a movement in this range.</td></tr>}
               {all.ledgers.map((g) => [
-                <tr key={`${g.account.id}-h`} className="group-row"><td colSpan={7}><Link href={`${b}/reports/general-ledger?accountId=${g.account.id}&from=${from}&to=${to}`} className="hover:underline"><span className="font-mono">{g.account.code}</span> · {g.account.name}</Link><span className="ml-2 font-normal normal-case text-ink-500">{g.account.normalBalance} balance</span></td></tr>,
+                <tr key={`${g.account.id}-h`} className="group-row"><td colSpan={7}><Link href={`${b}/reports/general-ledger?accountId=${g.account.id}&from=${from}&to=${to}${keep}`} className="hover:underline"><span className="font-mono">{g.account.code}</span> · {g.account.name}</Link><span className="ml-2 font-normal normal-case text-ink-500">{g.account.normalBalance} balance</span></td></tr>,
                 <tr key={`${g.account.id}-o`} className="bg-slate-50 font-medium"><td colSpan={6}>Opening balance at {fmtDate(from)}</td><td className="num money">{fmtMoney(g.opening)}</td></tr>,
                 ...g.rows.map((r, i) => (
                   <tr key={`${g.account.id}-${r.entryId}-${i}`}>
