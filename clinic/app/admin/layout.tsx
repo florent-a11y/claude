@@ -16,11 +16,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <body className="min-h-screen bg-mist-50">
         <header className="border-b border-mist-200 bg-white">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
-            <nav className="flex items-center gap-6 text-sm font-semibold text-deep-900">
+            <nav className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-semibold text-deep-900">
               <a href="/admin" className="font-display text-2xl tracking-wide">{site.name} console</a>
               <a href="/admin" className="hover:underline">Orders</a>
               <a href="/admin/leads" className="hover:underline">Messages</a>
               <a href="/admin/blog" className="hover:underline">Blog</a>
+              <a href="/admin/seo" className="hover:underline">SEO &amp; AI</a>
               <a href="/" className="font-normal text-ink-500 hover:underline">View site</a>
             </nav>
             <p className="text-sm text-ink-700">

@@ -203,3 +203,27 @@ export async function deletePost(id: string): Promise<void> {
     await writeJson("posts.json", all.filter((p) => p.id !== id));
   });
 }
+
+// ---------- Settings (one small document per name, e.g. "seo") ----------
+
+export async function getSetting(name: string): Promise<unknown> {
+  const client = sb();
+  if (client) {
+    const { data, error } = await client.from("clinic_settings").select("value").eq("key", name).maybeSingle();
+    if (error) throw new Error(error.message);
+    return data?.value ?? null;
+  }
+  if (blobStoreEnabled()) return blobReadJson<unknown>(`settings/${name}.json`);
+  return readJson<unknown>(`settings-${name}.json`, null);
+}
+
+export async function saveSetting(name: string, value: unknown): Promise<void> {
+  const client = sb();
+  if (client) {
+    const { error } = await client.from("clinic_settings").upsert({ key: name, value, updated_at: new Date().toISOString() });
+    if (error) throw new Error(`clinic_settings upsert: ${error.message}`);
+    return;
+  }
+  if (blobStoreEnabled()) return blobWriteJson(`settings/${name}.json`, value);
+  await queued(() => writeJson(`settings-${name}.json`, value));
+}

@@ -906,5 +906,76 @@
     "all": "All articles",
     "otherLanguages": "Also available in",
     "feed": "{brand} journal"
+  },
+  "Seo": {
+    "pages": {
+      "home": {
+        "title": "IV drips, peptides and recovery in Bali | {brand}",
+        "description": "Nurse-administered IV drips, doctor-reviewed peptides and recovery essentials in Bali. At our lounge or delivered to your villa, from Canggu to Ubud."
+      },
+      "ivDrips": {
+        "title": "IV drips in Bali, at our lounge or your villa | {brand}",
+        "description": "IV drips for hydration, Bali belly, recovery and energy, given by a nurse at our lounge or your villa in Bali. Vital signs are checked before every drip."
+      },
+      "peptides": {
+        "title": "Peptides in Bali, reviewed by a doctor | {brand}",
+        "description": "Peptide and injectable protocols for recovery, sleep, skin and metabolic health in Bali. A licensed doctor reviews every order before anything is supplied."
+      },
+      "supplements": {
+        "title": "Supplements delivered in Bali | {brand}",
+        "description": "A short list of supplements worth taking: electrolytes, magnesium, creatine, collagen and omega-3. No doctor review needed, delivered across Bali."
+      },
+      "memberships": {
+        "title": "Memberships: monthly IV drips and doctor check-ins | {brand}",
+        "description": "One monthly price for regular IV drips, doctor check-ins and member pricing on everything else. Three plans to choose from, in Bali."
+      },
+      "howItWorks": {
+        "title": "How ordering works: doctor review, then pay | {brand}",
+        "description": "Choose a treatment, answer a short health questionnaire, and a licensed doctor reviews it. Prescription items are paid for only after approval."
+      },
+      "delivery": {
+        "title": "Delivery and nurse call-out areas in Bali | {brand}",
+        "description": "We deliver products and send nurses to villas, hotels and homes from Canggu to Uluwatu and Ubud, every day from {opens} to {closes}. Fees by area."
+      },
+      "blog": {
+        "title": "Blog: IV therapy, peptides and recovery in Bali | {brand}",
+        "description": "Plain-language articles on IV therapy, peptides and recovery. We say what the evidence supports, what it does not, and where each claim comes from."
+      },
+      "faq": {
+        "title": "IV drips and peptides in Bali: your questions | {brand}",
+        "description": "Straight answers about IV drips and peptides in Bali: who reviews your order, what is safe, how payment and delivery work, and what we will not supply."
+      },
+      "contact": {
+        "title": "Contact us on WhatsApp, every day | {brand}",
+        "description": "WhatsApp is the fastest way to reach us about IV drips, peptides or an order in Bali. We answer every day from {opens} to {closes}, Bali time."
+      }
+    },
+    "product": {
+      "iv": {
+        "title": "{name} IV drip in Bali | {brand}",
+        "more": "IV drip given by a nurse at our lounge or at your villa in Bali, after a check of your vital signs.",
+        "moreShort": "IV drip given by a nurse, at our lounge or your villa in Bali."
+      },
+      "shot": {
+        "title": "{name} in Bali | {brand}",
+        "more": "A quick injection given by a nurse, at our lounge or at your villa in Bali. Order online in a few minutes.",
+        "moreShort": "Given by a nurse, at our lounge or your villa in Bali."
+      },
+      "peptide": {
+        "title": "{name} in Bali, doctor-reviewed | {brand}",
+        "more": "Supplied in Bali only after a licensed doctor has reviewed your health questionnaire. You pay after approval.",
+        "moreShort": "Supplied in Bali only after a doctor has reviewed your order."
+      },
+      "supplement": {
+        "title": "{name}, delivered in Bali | {brand}",
+        "more": "No doctor review needed. Order online and we deliver to your villa, hotel or home in Bali.",
+        "moreShort": "Order online, delivered across Bali."
+      },
+      "membership": {
+        "title": "{name} membership: IV drips in Bali | {brand}",
+        "more": "A monthly membership in Bali: see what is included, the price and how to join.",
+        "moreShort": "A monthly membership in Bali."
+      }
+    }
   }
 }

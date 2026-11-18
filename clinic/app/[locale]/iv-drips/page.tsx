@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { productsOf } from "@/lib/catalog";
-import { pageMetadata } from "@/i18n/seo";
+import { pageSeo } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { CatalogGrid } from "@/components/CatalogGrid";
 import { Reveal } from "@/components/Reveal";
@@ -10,8 +10,7 @@ type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "Listing.iv" });
-  return pageMetadata(locale, "/iv-drips", { title: t("title"), description: t("intro") });
+  return pageSeo(locale, "/iv-drips");
 }
 
 export default async function IvDrips({ params }: Props) {

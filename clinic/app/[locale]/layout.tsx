@@ -11,6 +11,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { AREAS, demoMode, site } from "@/lib/config";
 import { routing } from "@/i18n/routing";
 import { alternatesFor } from "@/i18n/seo";
+import { seoSettings } from "@/lib/seo";
 
 type Props = { children: React.ReactNode; params: Promise<{ locale: string }> };
 
@@ -27,12 +28,14 @@ export const viewport: Viewport = { themeColor: "#ffffff" };
 export async function generateMetadata({ params }: Omit<Props, "children">): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });
+  const { verification: v } = await seoSettings();
   return {
     metadataBase: new URL(site.url),
     title: { default: t("defaultTitle", { brand: site.name }), template: t("titleTemplate", { brand: site.name }) },
     description: t("description"),
     alternates: alternatesFor(locale, "/"),
     ...(demoMode() ? { robots: { index: false, follow: false } } : {}),
+    verification: { ...(v.google ? { google: v.google } : {}), ...(v.yandex ? { yandex: v.yandex } : {}), ...(v.bing ? { other: { "msvalidate.01": v.bing } } : {}) },
   };
 }
 

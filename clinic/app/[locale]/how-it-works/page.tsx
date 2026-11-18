@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ShieldAlert, Stethoscope, HeartPulse, MessagesSquare } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import { pageMetadata } from "@/i18n/seo";
+import { pageSeo } from "@/lib/seo";
 import { site } from "@/lib/config";
 import { PageHeader } from "@/components/PageHeader";
 import { Photo } from "@/components/Photo";
@@ -12,8 +12,7 @@ type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "HowItWorks" });
-  return pageMetadata(locale, "/how-it-works", { title: t("title"), description: t("intro") });
+  return pageSeo(locale, "/how-it-works");
 }
 
 export default async function HowItWorks({ params }: Props) {

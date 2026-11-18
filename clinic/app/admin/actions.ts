@@ -1,12 +1,15 @@
 "use server";
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { redirect } from "next/navigation";
 import { randomUUID } from "node:crypto";
-import { parseFaq, parseLines, parseSources, parseTags, postInputSchema, slugify, type Post, type PostInput } from "@/lib/blog";
+import { isLive, parseFaq, parseLines, parseSources, parseTags, postInputSchema, slugify, type Post, type PostInput } from "@/lib/blog";
 import { samplePosts } from "@/lib/blog-seed";
 import { getProduct } from "@/lib/catalog";
 import { PHOTOS } from "@/lib/photos";
 import { refreshBlog } from "@/lib/posts";
+import { pingIndexNow } from "@/lib/seo";
+import { localizedPath } from "@/i18n/routing";
 import { canReview, staff } from "@/lib/admin";
 import { ORDER_STATUSES, PAY_METHODS, type OrderStatus, type PayMethod } from "@/lib/schema";
 import { deletePost, getLead, getOrder, listPosts, saveLead, savePost } from "@/lib/store";
@@ -101,6 +104,7 @@ export async function savePostAction(input: PostInput): Promise<SaveResult> {
   await savePost(post);
   refreshBlog();
   revalidatePath("/admin/blog");
+  if (isLive(post, new Date())) after(() => pingIndexNow([localizedPath(post.locale, `/blog/${post.slug}`), localizedPath(post.locale, "/blog")]));
   console.log(`[blog] ${who.role}:${who.user} saved ${post.locale}/${post.slug} (${post.status})`);
   return { ok: true, id };
 }

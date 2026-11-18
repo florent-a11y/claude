@@ -906,5 +906,76 @@
     "all": "Tous les articles",
     "otherLanguages": "Également disponible en",
     "feed": "Journal {brand}"
+  },
+  "Seo": {
+    "pages": {
+      "home": {
+        "title": "Perfusions IV, peptides et récupération à Bali | {brand}",
+        "description": "Perfusions IV posées par un infirmier, peptides validés par un médecin et essentiels de récupération à Bali. Dans notre lounge ou livrés dans votre villa."
+      },
+      "ivDrips": {
+        "title": "Perfusions IV à Bali, au lounge ou en villa | {brand}",
+        "description": "Perfusions IV pour l’hydratation, la récupération et l’énergie, posées par un infirmier dans notre lounge ou votre villa à Bali, après contrôle des constantes."
+      },
+      "peptides": {
+        "title": "Peptides à Bali, validés par un médecin | {brand}",
+        "description": "Protocoles de peptides et d’injectables pour la récupération, le sommeil, la peau et le métabolisme à Bali. Un médecin valide chaque commande avant remise."
+      },
+      "supplements": {
+        "title": "Compléments alimentaires livrés à Bali | {brand}",
+        "description": "Une courte liste de compléments utiles : électrolytes, magnésium, créatine, collagène et oméga-3. Sans validation médicale, livrés à travers Bali."
+      },
+      "memberships": {
+        "title": "Abonnements : perfusions et suivi médical | {brand}",
+        "description": "Un tarif mensuel pour des perfusions régulières, des points de suivi avec un médecin et des tarifs membres sur tout le reste. Trois formules au choix, à Bali."
+      },
+      "howItWorks": {
+        "title": "Commander : avis du médecin, puis paiement | {brand}",
+        "description": "Choisissez un soin, répondez à un court questionnaire de santé, un médecin l’examine. Les produits sur ordonnance ne se paient qu’après son accord."
+      },
+      "delivery": {
+        "title": "Livraison et infirmier à domicile à Bali | {brand}",
+        "description": "Nous livrons et envoyons nos infirmiers dans les villas, hôtels et domiciles de Canggu à Uluwatu et Ubud, tous les jours de {opens} à {closes}. Frais par zone."
+      },
+      "blog": {
+        "title": "Blog : perfusions, peptides et récupération | {brand}",
+        "description": "Des articles clairs sur les perfusions, les peptides et la récupération. Ce que les études confirment ou non, et d’où vient chaque affirmation."
+      },
+      "faq": {
+        "title": "Perfusions et peptides à Bali : vos questions | {brand}",
+        "description": "Des réponses franches sur les perfusions et les peptides à Bali : qui valide votre commande, ce qui est sûr, le paiement, la livraison et nos refus."
+      },
+      "contact": {
+        "title": "Nous contacter sur WhatsApp, tous les jours | {brand}",
+        "description": "WhatsApp est le moyen le plus rapide de nous joindre pour une perfusion, des peptides ou une commande à Bali. Réponse tous les jours de {opens} à {closes}."
+      }
+    },
+    "product": {
+      "iv": {
+        "title": "Perfusion {name} à Bali | {brand}",
+        "more": "Perfusion posée par un infirmier dans notre lounge ou votre villa à Bali, après contrôle de vos constantes.",
+        "moreShort": "Perfusion posée par un infirmier, au lounge ou en villa à Bali."
+      },
+      "shot": {
+        "title": "{name} à Bali | {brand}",
+        "more": "Une injection rapide réalisée par un infirmier, dans notre lounge ou votre villa à Bali. Commande en ligne.",
+        "moreShort": "Réalisée par un infirmier, au lounge ou en villa à Bali."
+      },
+      "peptide": {
+        "title": "{name} à Bali, sur avis médical | {brand}",
+        "more": "Fourni à Bali uniquement après examen de votre questionnaire de santé par un médecin. Paiement après son accord.",
+        "moreShort": "Fourni à Bali uniquement après validation par un médecin."
+      },
+      "supplement": {
+        "title": "{name} : livraison à Bali | {brand}",
+        "more": "Sans validation médicale. Commandez en ligne, nous livrons à votre villa, hôtel ou domicile à Bali.",
+        "moreShort": "Commandez en ligne, livraison à travers Bali."
+      },
+      "membership": {
+        "title": "Abonnement {name} : perfusions à Bali | {brand}",
+        "more": "Un abonnement mensuel à Bali : ce qu’il comprend, son prix et comment y souscrire.",
+        "moreShort": "Un abonnement mensuel à Bali."
+      }
+    }
   }
 }

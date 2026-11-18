@@ -50,6 +50,37 @@ Two sign-ins (browser password prompt):
 
 Every action is written to the order's activity log with who did it.
 
+## Blog (`/admin/blog`, public at `/blog`)
+
+Articles are written in the console, in Markdown with a toolbar and a live preview. Each article is in one
+language; link the translations together in the editor so each reader gets their version and search engines
+get the right language links. An article carries what search engines and AI assistants look for: a summary,
+key takeaways, section headings, sources, questions with answers, the author and the reviewing doctor. The
+checklist beside the editor shows what is still missing.
+
+Published articles appear on `/blog`, in `sitemap.xml`, in the Atom feed (`/api/feed/<language>`), and as
+plain Markdown for AI assistants (`/api/blog/<language>/<address>`). The sample articles (`lib/blog-seed.ts`)
+were written without a doctor: review or delete them before launch.
+
+## SEO & AI (`/admin/seo`)
+
+One screen to manage how the site presents itself to search engines and AI assistants:
+
+- **Health check**: reads the site's own settings and articles and lists what to fix (visibility, own domain,
+  title and description lengths, AI access, articles per language, doctor review, business details, search
+  consoles). It does not measure rankings.
+- **Titles and descriptions**: for the ten main pages and every product page, in the three languages, with a
+  character count and a search-result preview. Anything left empty uses the built-in wording
+  (`"Seo"` in `messages/*.json`).
+- **AI access**: which AI crawlers may read the public pages; written to `/robots.txt`. Crawlers that answer
+  questions (ChatGPT search, Claude, Perplexity…) are listed apart from those that collect training text.
+- **Facts for AI**: the statements about the business published in `/llms.txt`.
+- **Search engines**: ownership codes for Google Search Console, Bing Webmaster Tools and Yandex Webmaster,
+  and an IndexNow key that announces each new article to Bing and Yandex when it is published.
+
+The settings are stored with the orders (table `clinic_settings`, or the test site's Blob store). On a test
+site (`DEMO_MODE=on`) everything can be prepared, but crawlers are kept out until launch.
+
 ## Where to change things
 
 | What | Where |
@@ -57,6 +88,8 @@ Every action is written to the order's activity log with who did it.
 | Brand name, WhatsApp, address, company, dispensing facility | environment variables (see `.env.example`), defaults in `lib/config.ts` |
 | Products, prices, which items need a doctor | `lib/catalog.ts` |
 | Product wording, all site copy | `messages/en.json`, then `messages/ru.json` and `messages/fr.json` (a missing translation shows the English) |
+| Search titles and descriptions | console, **SEO & AI**; the built-in wording is under `"Seo"` in `messages/*.json` |
+| AI crawler list | `AI_CRAWLERS` in `lib/seo-settings.ts` (new crawlers appear over time) |
 | Service areas, delivery and call-out fees, free-delivery threshold, opening hours, arrival windows | `lib/config.ts` |
 | Terms, privacy, medical disclaimer, refunds (English only) | `lib/legal.ts` |
 | Colours and typeface | `app/globals.css` (palette at the top; the typeface is Onest, which covers Latin and Cyrillic) |

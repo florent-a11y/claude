@@ -4,7 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ArrowLeft, Clock, Snowflake, Stethoscope, Syringe, Truck, CalendarCheck } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { pageMetadata } from "@/i18n/seo";
+import { pageSeo } from "@/lib/seo";
 import { KIND_PATH, PRODUCTS, getProduct } from "@/lib/catalog";
 import { site } from "@/lib/config";
 import { idr } from "@/lib/money";
@@ -22,9 +22,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  if (!getProduct(slug)) return {};
-  const t = await getTranslations({ locale, namespace: "Catalog.items" });
-  return pageMetadata(locale, `/treatments/${slug}`, { title: t(`${slug}.name`), description: t(`${slug}.tagline`) });
+  return pageSeo(locale, `/treatments/${slug}`);
 }
 
 const SECTION_LABEL = { "/iv-drips": "ivDrips", "/peptides": "peptides", "/supplements": "supplements", "/memberships": "memberships" } as const;

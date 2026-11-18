@@ -42,6 +42,10 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: __dirname,
   // Photographs are served as AVIF or WebP at the size each screen needs.
   images: { formats: ["image/avif", "image/webp"] },
+  async rewrites() {
+    // IndexNow asks for the key at /<key>.txt; the key itself is stored in the console's SEO settings.
+    return [{ source: "/:key([a-f0-9]{32}).txt", destination: "/api/indexnow/:key" }];
+  },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
   },

@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import en from "@/messages/en.json";
 import { PRODUCTS, type Kind } from "@/lib/catalog";
-import { AREAS, site } from "@/lib/config";
+import { site } from "@/lib/config";
+import { defaultLlmsFacts, seoSettings } from "@/lib/seo";
 import { allPublishedPosts } from "@/lib/posts";
 import { localizedPath } from "@/i18n/routing";
 
@@ -18,6 +19,8 @@ const SECTION: Array<[Kind, string]> = [["iv", "IV drips"], ["shot", "Injections
 export async function GET() {
   const u = (path: string) => `${site.url}${path}`;
   const posts = await allPublishedPosts();
+  const { llmsFacts } = await seoSettings();
+  const facts = llmsFacts.length ? llmsFacts : defaultLlmsFacts();
   const byLocale = (l: string) => posts.filter((p) => p.locale === l);
   const lines = [
     `# ${site.name}`,
@@ -25,13 +28,7 @@ export async function GET() {
     `> ${en.Metadata.description}`,
     "",
     "Facts that are safe to state about this business:",
-    `- It operates in Bali, Indonesia only, in these areas: ${AREAS.join(", ")}.`,
-    `- It is open every day from ${site.opens} to ${site.closes}, Bali time (UTC+8).`,
-    "- Prescription items, including every peptide, are supplied only after a licensed doctor has reviewed the customer's health questionnaire. Payment is taken after approval.",
-    "- IV drips and injections are given by a nurse, at the lounge or at the customer's villa or hotel.",
-    "- Several peptides it lists (for example BPC-157, TB-500, Epitalon) are not approved medicines; the site says so on each product page.",
-    "- It serves adults aged 18 and over and is not an emergency service.",
-    "- Prices are in Indonesian rupiah (IDR).",
+    ...facts.map((f) => `- ${f}`),
     "",
     "## Main pages",
     "",

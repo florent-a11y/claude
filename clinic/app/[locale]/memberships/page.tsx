@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Check } from "lucide-react";
 import { productsOf } from "@/lib/catalog";
 import { idr } from "@/lib/money";
-import { pageMetadata } from "@/i18n/seo";
+import { pageSeo } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { AddToCart } from "@/components/cart";
 import { Photo } from "@/components/Photo";
@@ -13,8 +13,7 @@ type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "Listing.memberships" });
-  return pageMetadata(locale, "/memberships", { title: t("title"), description: t("intro") });
+  return pageSeo(locale, "/memberships");
 }
 
 export default async function Memberships({ params }: Props) {

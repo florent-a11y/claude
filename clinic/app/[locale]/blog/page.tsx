@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { pageMetadata } from "@/i18n/seo";
+import { pageSeo } from "@/lib/seo";
 import { site } from "@/lib/config";
 import { publishedPosts } from "@/lib/posts";
 import { PageHeader } from "@/components/PageHeader";
@@ -15,10 +15,8 @@ export const revalidate = 300;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Blog" });
-  return {
-    ...pageMetadata(locale, "/blog", { title: t("title"), description: t("intro") }),
-    alternates: { ...pageMetadata(locale, "/blog", { title: t("title") }).alternates, types: { "application/atom+xml": [{ url: `/api/feed/${locale}`, title: t("feed", { brand: site.name }) }] } },
-  };
+  const meta = await pageSeo(locale, "/blog");
+  return { ...meta, alternates: { ...meta.alternates, types: { "application/atom+xml": [{ url: `/api/feed/${locale}`, title: t("feed", { brand: site.name }) }] } } };
 }
 
 export default async function Blog({ params }: Props) {

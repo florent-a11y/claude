@@ -11,14 +11,15 @@ export function alternatesFor(locale: string, path: string): NonNullable<Metadat
   return { canonical: localizedPath(locale, path), languages };
 }
 
-/** Per-page metadata: localized title and description, hreflang alternates, Open Graph. `noindex` for private pages. */
-export function pageMetadata(locale: string, path: string, meta: { title: string; description?: string; noindex?: boolean }): Metadata {
+/** Per-page metadata: localized title and description, hreflang alternates, Open Graph. `noindex` for private pages;
+ *  `absolute` when the title is already complete and must not get the brand appended. */
+export function pageMetadata(locale: string, path: string, meta: { title: string; description?: string; noindex?: boolean; absolute?: boolean }): Metadata {
   return {
-    title: meta.title,
+    title: meta.absolute ? { absolute: meta.title } : meta.title,
     description: meta.description,
     alternates: meta.noindex ? { canonical: localizedPath(locale, path) } : alternatesFor(locale, path),
     openGraph: {
-      type: "website", siteName: site.name, title: `${meta.title} | ${site.name}`, description: meta.description,
+      type: "website", siteName: site.name, title: meta.absolute ? meta.title : `${meta.title} | ${site.name}`, description: meta.description,
       url: `${site.url}${localizedPath(locale, path)}`, locale: OG_LOCALES[locale as AppLocale] ?? OG_LOCALES.en,
     },
     ...(meta.noindex ? { robots: { index: false, follow: false } } : {}),

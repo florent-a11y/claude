@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Clock, MapPin, Plane, Snowflake } from "lucide-react";
-import { pageMetadata } from "@/i18n/seo";
+import { pageSeo } from "@/lib/seo";
 import { FREE_DELIVERY_FROM_IDR, ZONES, site } from "@/lib/config";
 import { idr } from "@/lib/money";
 import { PageHeader } from "@/components/PageHeader";
@@ -12,8 +12,7 @@ type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "Delivery" });
-  return pageMetadata(locale, "/delivery", { title: t("title"), description: t("intro", { opens: site.opens, closes: site.closes }) });
+  return pageSeo(locale, "/delivery");
 }
 
 export default async function Delivery({ params }: Props) {

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { pageMetadata } from "@/i18n/seo";
+import { pageSeo } from "@/lib/seo";
 import { site } from "@/lib/config";
 import { PageHeader } from "@/components/PageHeader";
 import { FaqList } from "@/components/Faq";
@@ -12,8 +12,7 @@ const KEYS = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11"
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "Faq" });
-  return pageMetadata(locale, "/faq", { title: t("title"), description: t("intro") });
+  return pageSeo(locale, "/faq");
 }
 
 export default async function Faq({ params }: Props) {

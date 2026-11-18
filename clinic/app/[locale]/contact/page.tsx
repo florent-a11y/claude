@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Clock, Mail, MapPin } from "lucide-react";
-import { pageMetadata } from "@/i18n/seo";
+import { pageSeo } from "@/lib/seo";
 import { site } from "@/lib/config";
 import { PageHeader } from "@/components/PageHeader";
 import { LeadForm } from "@/components/LeadForm";
@@ -12,8 +12,7 @@ type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "Contact" });
-  return pageMetadata(locale, "/contact", { title: t("title"), description: t("intro", { opens: site.opens, closes: site.closes }) });
+  return pageSeo(locale, "/contact");
 }
 
 export default async function Contact({ params }: Props) {

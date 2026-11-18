@@ -44,3 +44,11 @@ create table if not exists clinic_posts (
 );
 create index if not exists clinic_posts_updated_idx on clinic_posts (updated_at desc);
 alter table clinic_posts enable row level security;
+
+-- Console settings (the "SEO & AI" module keeps its choices here).
+create table if not exists clinic_settings (
+  key text primary key,
+  value jsonb not null,
+  updated_at timestamptz not null default now()
+);
+alter table clinic_settings enable row level security;
