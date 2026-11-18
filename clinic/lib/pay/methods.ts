@@ -2,14 +2,16 @@ import "server-only";
 import type { PayMethod } from "../schema";
 import { xenditConfigured } from "./xendit";
 import { airwallexConfigured, cardAmount, cardCurrency } from "./airwallex";
+import { demoMode } from "../config";
 
 export interface MethodInfo {
   method: PayMethod;
-  /** No provider keys and not in production: the payment is skipped and the order marked paid, to try the flow locally. */
+  /** No provider keys, in development or on a test site: the payment is skipped and the order marked paid, to try the flow. */
   simulated: boolean;
 }
 
-const dev = () => process.env.NODE_ENV !== "production";
+/** Development, or a test site: missing payment providers are replaced by simulations. */
+const dev = () => process.env.NODE_ENV !== "production" || demoMode();
 
 export function bankDetails() {
   const number = (process.env.BANK_ACCOUNT_NUMBER ?? "").trim();
@@ -19,8 +21,8 @@ export function bankDetails() {
 }
 
 /**
- * Payment methods offered right now, in display order. A method without its keys is hidden in production;
- * in development the two online methods are offered as simulations so the whole flow can be tried.
+ * Payment methods offered right now, in display order. A method without its keys is hidden on the live site;
+ * in development and on a test site (DEMO_MODE=on) the two online methods are offered as simulations.
  */
 export function availableMethods(): MethodInfo[] {
   const out: MethodInfo[] = [];

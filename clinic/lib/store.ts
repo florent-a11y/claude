@@ -3,11 +3,12 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import type { Lead, Order, OrderStatus } from "./schema";
+import { dataDir } from "./data-dir";
 
 /**
  * Storage layer. Supabase (tables clinic_orders, clinic_leads; see supabase/schema.sql) when SUPABASE_URL and
- * SUPABASE_SERVICE_ROLE_KEY are set, otherwise JSON files under ./data (development only: a serverless host
- * does not keep files between requests, and health answers must not sit in a plain file in production).
+ * SUPABASE_SERVICE_ROLE_KEY are set, otherwise JSON files (development, or a test site: see lib/data-dir.ts).
+ * A live site without a database refuses to store anything rather than lose orders quietly.
  */
 let supabase: SupabaseClient | null = null;
 function sb(): SupabaseClient | null {
@@ -22,13 +23,12 @@ export function databaseConfigured() {
   return Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
 }
 
-const DATA_DIR = path.join(process.cwd(), "data");
 async function readJson<T>(file: string, fallback: T): Promise<T> {
-  try { return JSON.parse(await fs.readFile(path.join(DATA_DIR, file), "utf8")) as T; } catch { return fallback; }
+  try { return JSON.parse(await fs.readFile(path.join(dataDir(), file), "utf8")) as T; } catch { return fallback; }
 }
 async function writeJson(file: string, value: unknown) {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  await fs.writeFile(path.join(DATA_DIR, file), JSON.stringify(value, null, 2));
+  await fs.mkdir(dataDir(), { recursive: true });
+  await fs.writeFile(path.join(dataDir(), file), JSON.stringify(value, null, 2));
 }
 
 /**

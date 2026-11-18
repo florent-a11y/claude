@@ -7,7 +7,7 @@ import "../globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CartProvider } from "@/components/cart";
-import { site } from "@/lib/config";
+import { demoMode, site } from "@/lib/config";
 import { routing } from "@/i18n/routing";
 import { alternatesFor } from "@/i18n/seo";
 
@@ -31,6 +31,7 @@ export async function generateMetadata({ params }: Omit<Props, "children">): Pro
     title: { default: t("defaultTitle", { brand: site.name }), template: t("titleTemplate", { brand: site.name }) },
     description: t("description"),
     alternates: alternatesFor(locale, "/"),
+    ...(demoMode() ? { robots: { index: false, follow: false } } : {}),
   };
 }
 
@@ -40,11 +41,13 @@ export default async function LocaleLayout({ children, params }: Props) {
   setRequestLocale(locale);
   const all = (await getMessages()) as Record<string, unknown>;
   const messages = Object.fromEntries(CLIENT_NAMESPACES.filter((ns) => ns in all).map((ns) => [ns, all[ns]]));
+  const c = await getTranslations("Common");
   return (
     <html lang={locale}>
       <body className="flex min-h-screen flex-col">
         <NextIntlClientProvider messages={messages}>
           <CartProvider>
+            {demoMode() && <p role="note" className="bg-lime-400 px-4 py-2 text-center text-xs font-semibold text-deep-950">{c("demoBanner")}</p>}
             <Header />
             <main id="main" className="flex-1">{children}</main>
             <Footer />

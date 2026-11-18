@@ -32,6 +32,9 @@ const securityHeaders = [
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
 ];
 
+// A test site (DEMO_MODE=on) tells search engines to stay away on every response.
+if ((process.env.DEMO_MODE ?? "").trim().toLowerCase() === "on") securityHeaders.push({ key: "X-Robots-Tag", value: "noindex, nofollow" });
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,

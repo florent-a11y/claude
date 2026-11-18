@@ -29,7 +29,8 @@
     "language": "Language",
     "skipToContent": "Skip to content",
     "whatsappGeneral": "Hello {brand}, I have a question.",
-    "whatsappProduct": "Hello {brand}, I have a question about {product}."
+    "whatsappProduct": "Hello {brand}, I have a question about {product}.",
+    "demoBanner": "Test site. Nothing here is for sale yet: orders are not real and are kept only for a short time."
   },
   "Nav": {
     "ivDrips": "IV drips",

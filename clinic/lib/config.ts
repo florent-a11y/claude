@@ -4,12 +4,29 @@
  */
 const env = (key: string, fallback = "") => (process.env[key] ?? "").trim() || fallback;
 
+/** Public address: the one you set, otherwise the address Vercel gave this deployment, otherwise the local dev server. */
+function siteUrl(): string {
+  const set = env("NEXT_PUBLIC_SITE_URL");
+  if (set) return set.replace(/\/$/, "");
+  const host = (process.env.VERCEL_ENV === "production" ? process.env.VERCEL_PROJECT_PRODUCTION_URL : undefined) ?? process.env.VERCEL_BRANCH_URL ?? process.env.VERCEL_URL;
+  return host ? `https://${host}` : "http://localhost:3200";
+}
+
+/**
+ * Test site switch (DEMO_MODE=on). It shows a "test site" banner on every page, hides the site from search engines,
+ * offers the online payment methods as simulations, and keeps orders in temporary storage when no database is set.
+ * Read on the server only. Never turn it on for the site that takes real orders.
+ */
+export function demoMode(): boolean {
+  return (process.env.DEMO_MODE ?? "").trim().toLowerCase() === "on";
+}
+
 export const site = {
   /** Brand name: change it here or with NEXT_PUBLIC_BRAND_NAME. "Vitanadi" = vita (life) + nadi (pulse), with NAD inside. */
   name: env("NEXT_PUBLIC_BRAND_NAME", "Vitanadi"),
   /** Letters of the name the logo picks out in the brand colour (empty for none). */
   nameAccent: env("NEXT_PUBLIC_BRAND_ACCENT", "nad"),
-  url: env("NEXT_PUBLIC_SITE_URL", "http://localhost:3200"),
+  url: siteUrl(),
   /** Legal entity that takes the orders (shown in the footer and legal pages once set). */
   company: env("NEXT_PUBLIC_COMPANY_NAME"),
   companyReg: env("NEXT_PUBLIC_COMPANY_REG"),

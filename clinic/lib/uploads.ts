@@ -3,10 +3,11 @@ import { createClient } from "@supabase/supabase-js";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
+import { dataDir } from "./data-dir";
 
 /**
- * Bank-transfer proofs. Private Supabase Storage bucket "clinic-proofs" when configured, otherwise ./data/uploads
- * (development only). Files are named by a random id; the browser-supplied name and MIME type are never used:
+ * Bank-transfer proofs. Private Supabase Storage bucket "clinic-proofs" when configured, otherwise a local folder
+ * (development or a test site: see lib/data-dir.ts). Files are named by a random id; the browser-supplied name and MIME type are never used:
  * the type comes from the file's magic bytes.
  */
 export const BUCKET = "clinic-proofs";
@@ -48,7 +49,7 @@ export async function storeProof(file: File): Promise<string> {
     if (error) throw new Error(`upload: ${error.message}`);
     return id;
   }
-  const dir = path.join(process.cwd(), "data", "uploads");
+  const dir = path.join(dataDir(), "uploads");
   await fs.mkdir(dir, { recursive: true });
   await fs.writeFile(path.join(dir, id), bytes);
   return id;
@@ -64,5 +65,5 @@ export async function readProof(id: string): Promise<{ url?: string; bytes?: Buf
     if (error || !data) throw new Error(`signed url: ${error?.message}`);
     return { url: data.signedUrl, contentType };
   }
-  return { bytes: await fs.readFile(path.join(process.cwd(), "data", "uploads", id)), contentType };
+  return { bytes: await fs.readFile(path.join(dataDir(), "uploads", id)), contentType };
 }
