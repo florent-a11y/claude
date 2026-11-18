@@ -5,7 +5,13 @@ import * as XLSX from "xlsx";
  * numeric (with a thousands format) so clients can sum and reconcile in Excel, dates are ISO strings, and column
  * widths come from `colWidths` (characters) or from the longest cell.
  */
-export interface XlsxSheet { name: string; headers: string[]; rows: unknown[][]; /** Width per column in characters. */ colWidths?: number[] }
+export interface XlsxSheet {
+  name: string; headers: string[]; rows: unknown[][];
+  /** Width per column in characters. */
+  colWidths?: number[];
+  /** 2: every number of the sheet shows two decimals, whole amounts included ("Show cents"). Unset: decimals only on numbers that have some. */
+  decimals?: number;
+}
 
 export const XLSX_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
@@ -50,7 +56,7 @@ export function buildWorkbook(sheets: XlsxSheet[]): Buffer {
     for (let r = 1; r <= ref.e.r; r++) {
       for (let c = 0; c <= ref.e.c; c++) {
         const cell = ws[XLSX.utils.encode_cell({ r, c })] as XLSX.CellObject | undefined;
-        if (cell && cell.t === "n" && typeof cell.v === "number") cell.z = Number.isInteger(cell.v) ? "#,##0" : "#,##0.00";
+        if (cell && cell.t === "n" && typeof cell.v === "number") cell.z = s.decimals === 2 || !Number.isInteger(cell.v) ? "#,##0.00" : "#,##0";
       }
     }
     ws["!cols"] = (s.colWidths ?? autoWidths(data)).map((wch) => ({ wch }));

@@ -2,11 +2,11 @@ import Link from "next/link";
 import { requireUser } from "@/lib/auth";
 import { trialBalance } from "@/lib/ledger";
 import { fmtDate } from "@/lib/dates";
-import { fmtMoney } from "@/lib/money";
+import { fmtMoneyAt, reportDecimals } from "@/lib/money";
 import { Cols, Notice, TableCard } from "@/components/ui";
 import { base, first, requireEntity, type Params, type Search } from "../../shared";
 import { loadReportData, defaultRange } from "../_data";
-import { ReportHeader, exportHrefs, ZeroBalancesToggle, HiddenZeroNote } from "../ReportHeader";
+import { ReportHeader, exportHrefs, ZeroBalancesToggle, HiddenZeroNote, CentsToggle } from "../ReportHeader";
 
 export const dynamic = "force-dynamic";
 
@@ -21,11 +21,18 @@ export default async function TrialBalancePage({ params, searchParams }: { param
   const showZero = first(sp.zero) === "1";
   const tb = trialBalance(data.accounts, data.entries, asOf, { zero: showZero ? "show" : "hide" });
   const b = base(entityId);
+  // The trial balance is always exact. "Show cents" (?cents=1) prints two decimals on every figure; otherwise the
+  // columns print cents only when one of their amounts has some.
+  const cents = first(sp.cents) === "1";
+  const dec = reportDecimals(cents, [...tb.rows.flatMap((r) => [r.debit, r.credit]), tb.totalDebit, tb.totalCredit]);
+  const fmtMoney = (n: number) => fmtMoneyAt(n, dec);
+  const keep = cents ? "&cents=1" : "";
   return (
     <div className="report pb-8">
-      <ReportHeader title="Trial balance" subtitle={`As of ${fmtDate(asOf)} · ${tb.rows.length} accounts`} entityLegalName={data.entity.legalName} {...exportHrefs(`/api/books/${entityId}/reports/trial-balance?asOf=${asOf}${showZero ? "&zero=1" : ""}`, true)}>
+      <ReportHeader title="Trial balance" subtitle={`As of ${fmtDate(asOf)} · ${tb.rows.length} accounts`} entityLegalName={data.entity.legalName} {...exportHrefs(`/api/books/${entityId}/reports/trial-balance?asOf=${asOf}${showZero ? "&zero=1" : ""}${keep}`, true)}>
         <label className="block"><span className="label">As of</span><input name="asOf" type="date" defaultValue={asOf} className="input !py-1" /></label>
         <ZeroBalancesToggle checked={showZero} />
+        <CentsToggle checked={cents} exact />
       </ReportHeader>
       {!tb.balanced && <div className="mb-3"><Notice tone="red">Out of balance: debits {fmtMoney(tb.totalDebit)} vs credits {fmtMoney(tb.totalCredit)}.</Notice></div>}
       <TableCard>
@@ -33,7 +40,7 @@ export default async function TrialBalancePage({ params, searchParams }: { param
           <Cols widths={[96, undefined, 120, 160, 160]} />
           <thead><tr><th>Code</th><th>Account</th><th>Type</th><th className="num">Debit</th><th className="num">Credit</th></tr></thead>
           <tbody>
-            {tb.rows.map((r) => <tr key={r.account.id}><td className="font-mono text-xs">{r.account.code}</td><td><Link href={`${b}/reports/general-ledger?accountId=${r.account.id}&to=${asOf}`} className="cell hover:underline" title={r.account.name}>{r.account.name}</Link></td><td className="text-xs text-ink-500">{r.account.type}</td><td className="num money">{r.debit ? fmtMoney(r.debit) : ""}</td><td className="num money">{r.credit ? fmtMoney(r.credit) : ""}</td></tr>)}
+            {tb.rows.map((r) => <tr key={r.account.id}><td className="font-mono text-xs">{r.account.code}</td><td><Link href={`${b}/reports/general-ledger?accountId=${r.account.id}&to=${asOf}${keep}`} className="cell hover:underline" title={r.account.name}>{r.account.name}</Link></td><td className="text-xs text-ink-500">{r.account.type}</td><td className="num money">{r.debit ? fmtMoney(r.debit) : ""}</td><td className="num money">{r.credit ? fmtMoney(r.credit) : ""}</td></tr>)}
             {tb.rows.length === 0 && <tr><td colSpan={5} className="p-4 text-center text-sm text-ink-500">No posted entries up to this date.</td></tr>}
           </tbody>
           <tfoot><tr><td colSpan={3}>Total</td><td className="num money">{fmtMoney(tb.totalDebit)}</td><td className="num money">{fmtMoney(tb.totalCredit)}</td></tr></tfoot>

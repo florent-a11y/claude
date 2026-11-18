@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { PrintButton } from "@/components/client";
+import { AutoSubmitCheckbox, PrintButton } from "@/components/client";
 
 /**
  * Title block with the filter form (GET), the export links (CSV · Excel · PDF, the PDF only where the API renders
@@ -40,20 +40,23 @@ export function exportHrefs(base: string, withPdf: boolean): { csvHref: string; 
 
 /** The "Show zero balances" switch of the statements (`?zero=1`): off by default, so zero rows and sections without balances are hidden. */
 export function ZeroBalancesToggle({ checked }: { checked: boolean }) {
-  return <label className="flex items-center gap-2 pb-2 text-sm" title="List every account of the chart, including those without a balance"><input type="checkbox" name="zero" value="1" defaultChecked={checked} className="checkbox" /> Show zero balances</label>;
+  return <label className="flex items-center gap-2 pb-2 text-sm" title="List every account of the chart, including those without a balance"><AutoSubmitCheckbox name="zero" defaultChecked={checked} /> Show zero balances</label>;
 }
 
 /**
- * The "Show cents" switch of the balance sheet and the profit & loss (`?cents=1`): off by default, so the statements
- * print whole rupiah as financial statements do; on, they print the ledger's exact amounts.
+ * The "Show cents" switch of the reports (`?cents=1`). Ticked, every figure prints two decimals, whole amounts
+ * included ("Rp 2.500.000,00"), and the balance sheet and the profit & loss print the ledger's exact amounts instead
+ * of whole rupiah. It applies as soon as it is ticked. `exact` is for the trial balance and the general ledger,
+ * which are never rounded: there the switch only decides how the figures print.
  */
-export function CentsToggle({ checked }: { checked: boolean }) {
-  return <label className="flex items-center gap-2 pb-2 text-sm" title="The ledger keeps rupiah cents; statements are rounded to whole rupiah unless this is ticked"><input type="checkbox" name="cents" value="1" defaultChecked={checked} className="checkbox" /> Show cents</label>;
+export function CentsToggle({ checked, exact = false }: { checked: boolean; exact?: boolean }) {
+  const title = exact ? "Print every amount with two decimals (,00 on whole amounts). Unticked, cents print only when an amount has some." : "Print the exact ledger amounts with two decimals (,00 on whole amounts). Unticked, the statement is rounded to whole rupiah.";
+  return <label className="flex items-center gap-2 pb-2 text-sm" title={title}><AutoSubmitCheckbox name="cents" defaultChecked={checked} /> Show cents</label>;
 }
 
-/** Small print under a statement presented in whole rupiah. */
+/** Small print under a statement presented in whole rupiah, or with its cents. */
 export function RoundedNote({ cents }: { cents: boolean }) {
-  return <p className="no-print mt-2 text-xs text-ink-500">{cents ? "Exact amounts from the ledger, to the cent." : "Amounts are rounded to whole rupiah for presentation; the ledger, the trial balance and the general ledger keep the exact amounts. Tick “Show cents” to print them here."}</p>;
+  return <p className="no-print mt-2 text-xs text-ink-500">{cents ? "Exact amounts from the ledger, with two decimals. Untick “Show cents” for the statement in whole rupiah." : "Amounts are rounded to whole rupiah for presentation; the ledger, the trial balance and the general ledger keep the exact amounts. Tick “Show cents” to print them here with two decimals."}</p>;
 }
 
 /** Footnote under a statement saying what the default view left out; renders nothing when nothing was hidden. */

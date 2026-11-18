@@ -48,6 +48,14 @@ export function displayDecimals(amount: number, currency = "IDR"): number {
   return Number.isInteger(roundMoney(amount)) ? 0 : MONEY_DECIMALS;
 }
 
+/**
+ * Decimals of a report: two for every figure when "Show cents" is ticked (whole amounts print ",00"), otherwise
+ * two only when one of its IDR figures has cents, so the columns line up either way.
+ */
+export function reportDecimals(showCents: boolean, values: Array<number | undefined | null>, currency = "IDR"): number {
+  return showCents ? MONEY_DECIMALS : columnDecimals(currency, values);
+}
+
 /** Decimals for a column or a form footer: two as soon as one IDR value has cents, so the column lines up. */
 export function columnDecimals(currency: string, values: Array<number | undefined | null>): number {
   if (currency !== "IDR") return MONEY_DECIMALS;
@@ -65,12 +73,21 @@ export function roundTaxDown(amount: number): number {
  * "HK$8,200.00"). The space after the symbol is non-breaking so an amount never wraps in the middle.
  */
 export function fmtMoney(amount: number, currency = "IDR", locale = "en-US"): string {
+  return fmtMoneyAt(amount, displayDecimals(amount, currency), currency, locale);
+}
+
+/**
+ * Money with a fixed number of decimals, for a statement or a column whose figures must all print the same way:
+ * with 2, a whole rupiah amount prints "Rp 2.500.000,00" (this is what "Show cents" asks for); with 0 it prints
+ * "Rp 2.500.000". Other currencies always print their two decimals, as in fmtMoney.
+ */
+export function fmtMoneyAt(amount: number, decimals: number, currency = "IDR", locale = "en-US"): string {
   const d = decimalsFor(currency);
   const rounded = roundMoney(amount, currency);
   const neg = rounded < 0;
   const abs = Math.abs(rounded);
   if (currency === "IDR") {
-    const dd = displayDecimals(abs, "IDR");
+    const dd = Math.min(Math.max(Math.trunc(decimals) || 0, 0), MONEY_DECIMALS);
     return `${neg ? "\u2212" : ""}Rp\u00a0${new Intl.NumberFormat("id-ID", { minimumFractionDigits: dd, maximumFractionDigits: dd }).format(abs)}`;
   }
   try {

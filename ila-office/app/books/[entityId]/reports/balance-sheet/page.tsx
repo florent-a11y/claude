@@ -2,7 +2,7 @@ import Link from "next/link";
 import { requireUser } from "@/lib/auth";
 import { balanceSheet, balanceSheetInRupiah, type ReportSection } from "@/lib/ledger";
 import { fmtDate } from "@/lib/dates";
-import { fmtMoney } from "@/lib/money";
+import { fmtMoneyAt } from "@/lib/money";
 import { Card, Dash, Notice, TableCard } from "@/components/ui";
 import { base, first, requireEntity, type Params, type Search } from "../../shared";
 import { loadReportData, defaultRange } from "../_data";
@@ -23,6 +23,10 @@ export default async function BalanceSheetPage({ params, searchParams }: { param
   const cents = first(sp.cents) === "1";
   const exact = balanceSheet(data.accounts, data.entries, asOf, data.entity.fiscalYearStartMonth, { zero: showZero ? "show" : "hide" });
   const bs = cents ? exact : balanceSheetInRupiah(exact);
+  // Ticked, every figure prints two decimals (",00" on whole amounts); unticked, whole rupiah.
+  const dec = cents ? 2 : 0;
+  const fmtMoney = (n: number) => fmtMoneyAt(n, dec);
+  const keep = cents ? "&cents=1" : "";
   const b = base(entityId);
   const money = (n: number) => <span className={n < 0 ? "text-red-700" : ""}>{fmtMoney(n)}</span>;
   const Section = ({ sections, total, label }: { sections: ReportSection[]; total: number; label: string }) => (
@@ -31,7 +35,7 @@ export default async function BalanceSheetPage({ params, searchParams }: { param
       <tbody>
         {sections.map((s) => [
           <tr key={`${s.key}-h`} className="row-section"><td colSpan={2}>{s.label}</td></tr>,
-          ...s.rows.map((r) => <tr key={r.account.id}><td className="indent"><span className="code">{r.account.code}</span>{r.account.id.startsWith("synthetic:") ? r.account.name : <Link href={`${b}/reports/general-ledger?accountId=${r.account.id}&to=${asOf}`} className="hover:underline">{r.account.name}</Link>}{r.account.taxTag === "current_earnings" && <span className="ml-1 text-xs text-ink-500">(from {fmtDate(bs.fiscalYearStart)})</span>}</td><td className="num">{money(r.amount)}</td></tr>),
+          ...s.rows.map((r) => <tr key={r.account.id}><td className="indent"><span className="code">{r.account.code}</span>{r.account.id.startsWith("synthetic:") ? r.account.name : <Link href={`${b}/reports/general-ledger?accountId=${r.account.id}&to=${asOf}${keep}`} className="hover:underline">{r.account.name}</Link>}{r.account.taxTag === "current_earnings" && <span className="ml-1 text-xs text-ink-500">(from {fmtDate(bs.fiscalYearStart)})</span>}</td><td className="num">{money(r.amount)}</td></tr>),
           s.rows.length === 0 ? <tr key={`${s.key}-e`}><td className="indent text-xs text-ink-500" colSpan={2}><Dash /> no balances</td></tr> : null,
           // A group with a single section gets one total line only (the grand total below), not "Total equity" twice.
           sections.length > 1 ? <tr key={`${s.key}-t`} className="row-total"><td>Total {s.label.toLowerCase()}</td><td className="num">{money(s.total)}</td></tr> : null,
@@ -48,7 +52,7 @@ export default async function BalanceSheetPage({ params, searchParams }: { param
         <ZeroBalancesToggle checked={showZero} />
         <CentsToggle checked={cents} />
       </ReportHeader>
-      {!bs.balanced && <div className="mb-3"><Notice tone="red">Assets {fmtMoney(exact.totalAssets)} ≠ liabilities + equity {fmtMoney(exact.totalLiabilitiesAndEquity)}. Check for unbalanced or mis-typed accounts.</Notice></div>}
+      {!bs.balanced && <div className="mb-3"><Notice tone="red">Assets {fmtMoneyAt(exact.totalAssets, 2)} ≠ liabilities + equity {fmtMoneyAt(exact.totalLiabilitiesAndEquity, 2)}. Check for unbalanced or mis-typed accounts.</Notice></div>}
       <div className="grid gap-4 lg:grid-cols-2">
         <TableCard><Section sections={bs.assets} total={bs.totalAssets} label="Total assets" /></TableCard>
         <div className="space-y-4">
