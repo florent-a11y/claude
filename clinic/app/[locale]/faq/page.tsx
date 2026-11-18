@@ -5,6 +5,7 @@ import { site } from "@/lib/config";
 import { PageHeader } from "@/components/PageHeader";
 import { FaqList } from "@/components/Faq";
 import { WhatsAppLink } from "@/components/WhatsAppLink";
+import { Reveal } from "@/components/Reveal";
 
 type Props = { params: Promise<{ locale: string }> };
 const KEYS = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "q12"] as const;
@@ -30,7 +31,7 @@ export default async function Faq({ params }: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <PageHeader title={t("title")} intro={t("intro")} />
       <section className="container-page max-w-4xl py-14">
-        <FaqList items={items} />
+        <Reveal><FaqList items={items} /></Reveal>
         <div className="mt-10"><WhatsAppLink label={c("chatOnWhatsapp")} text={c("whatsappGeneral", { brand: site.name })} className="btn-primary" /></div>
       </section>
     </>

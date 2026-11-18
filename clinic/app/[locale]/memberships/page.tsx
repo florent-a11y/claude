@@ -7,6 +7,7 @@ import { pageMetadata } from "@/i18n/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { AddToCart } from "@/components/cart";
 import { Photo } from "@/components/Photo";
+import { Reveal } from "@/components/Reveal";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -27,10 +28,11 @@ export default async function Memberships({ params }: Props) {
       <PageHeader eyebrow={t("eyebrow")} title={t("title")} intro={t("intro")} photo="villa-poolside-palms" />
       <section className="container-page py-14">
         <div className="grid gap-6 lg:grid-cols-3">
-          {productsOf("membership").map((p) => {
+          {productsOf("membership").map((p, i) => {
             const dark = Boolean(p.featured);
             return (
-              <article key={p.slug} className={`group flex flex-col overflow-hidden rounded-[2rem] border ${dark ? "border-deep-950 bg-deep-950 text-white shadow-2xl lg:-my-4" : "border-mist-200 bg-white"}`}>
+              <Reveal key={p.slug} index={i} className={dark ? "lg:-my-4" : ""}>
+              <article className={`group flex h-full flex-col overflow-hidden rounded-[2rem] border transition duration-300 hover:-translate-y-1 ${dark ? "border-deep-950 bg-deep-950 text-white shadow-2xl" : "border-mist-200 bg-white hover:shadow-[0_28px_50px_-30px_rgba(6,32,31,0.4)]"}`}>
                 <div className="relative">
                   <Photo name={p.photo} sizes="(min-width: 1024px) 400px, 100vw" className="aspect-[16/10]" />
                   {dark && <span className="absolute left-4 top-4 rounded-full bg-lime-400 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-deep-950">{t("popular")}</span>}
@@ -51,6 +53,7 @@ export default async function Memberships({ params }: Props) {
                   <div className="mt-8"><AddToCart slug={p.slug} session={false} className={dark ? "btn-light" : "btn-primary"} /></div>
                 </div>
               </article>
+              </Reveal>
             );
           })}
         </div>

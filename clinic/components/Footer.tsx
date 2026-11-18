@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { site, waLink } from "@/lib/config";
 import { Logo } from "./Logo";
+import { PulseLine } from "./PulseLine";
 
 export async function Footer() {
   const t = await getTranslations("Footer");
@@ -16,6 +17,7 @@ export async function Footer() {
   const wa = waLink(c("whatsappGeneral", { brand: site.name }));
   return (
     <footer className="mt-24 bg-deep-950 text-mist-100">
+      <PulseLine className="block h-12 w-full text-lime-400/70" />
       <div className="container-page grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
           <Logo className="text-white" onDark />

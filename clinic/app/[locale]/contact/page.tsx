@@ -6,6 +6,7 @@ import { site } from "@/lib/config";
 import { PageHeader } from "@/components/PageHeader";
 import { LeadForm } from "@/components/LeadForm";
 import { WhatsAppLink } from "@/components/WhatsAppLink";
+import { Reveal } from "@/components/Reveal";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -47,10 +48,10 @@ export default async function Contact({ params }: Props) {
           </dl>
           <p className="mt-10 rounded-2xl bg-coral-50 px-5 py-4 text-sm font-medium text-deep-900">{t("emergency")}</p>
         </div>
-        <div className="card p-8">
+        <Reveal index={1} className="card p-8">
           <h2 className="font-display text-3xl font-semibold text-deep-900">{t("form.title")}</h2>
           <div className="mt-6"><LeadForm /></div>
-        </div>
+        </Reveal>
       </section>
     </>
   );

@@ -164,6 +164,12 @@
       "title": "Vous ne savez pas par où commencer ?",
       "text": "Dites-nous comment vous vous sentez et ce que vous souhaitez obtenir. Nous vous proposerons un plan et, si nécessaire, ferons examiner votre demande par un médecin.",
       "cta": "Poser une question"
+    },
+    "stats": {
+      "areas": "{count, plural, one {zone desservie à Bali} other {zones desservies à Bali}}",
+      "products": "{count, plural, one {soin ou produit} other {soins et produits}}",
+      "days": "jours sur 7, de {opens} à {closes}",
+      "reviewed": "des produits sur ordonnance validés par un médecin"
     }
   },
   "Listing": {

@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { getProduct, type Goal } from "@/lib/catalog";
 import { ProductCard } from "./ProductCard";
+import { Reveal } from "./Reveal";
 
 /** Product grid with "chosen for" filter chips. Takes slugs so the server page stays in charge of what is listed. */
 export function CatalogGrid({ slugs, filter = true }: { slugs: string[]; filter?: boolean }) {
@@ -22,7 +23,7 @@ export function CatalogGrid({ slugs, filter = true }: { slugs: string[]; filter?
         <div className="mb-8 flex flex-wrap gap-2" role="group" aria-label={g("all")}>
           {(["all", ...goals] as const).map((x) => (
             <button key={x} type="button" aria-pressed={goal === x} onClick={() => setGoal(x)}
-              className={`chip cursor-pointer px-4 py-2 text-sm transition ${goal === x ? "chip-on" : "hover:border-deep-800/50"}`}>
+              className={`chip cursor-pointer px-4 py-2 text-sm transition duration-200 active:scale-95 ${goal === x ? "chip-on" : "hover:border-deep-900/40"}`}>
               {g(x)}
             </button>
           ))}
@@ -30,7 +31,7 @@ export function CatalogGrid({ slugs, filter = true }: { slugs: string[]; filter?
       )}
       {shown.length === 0 ? <p className="text-ink-500">{l("empty")}</p> : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {shown.map((p) => <ProductCard key={p.slug} product={p} />)}
+          {shown.map((p, i) => <Reveal key={p.slug} index={i % 3}><ProductCard product={p} /></Reveal>)}
         </div>
       )}
     </div>

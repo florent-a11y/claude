@@ -14,7 +14,7 @@ export function ProductCard({ product }: { product: Product }) {
   const locale = useLocale();
   const href = `/treatments/${product.slug}` as const;
   return (
-    <article className="group flex flex-col overflow-hidden rounded-3xl border border-mist-200 bg-white transition duration-300 hover:-translate-y-0.5 hover:border-mist-300 hover:shadow-[0_28px_50px_-30px_rgba(6,32,31,0.4)]">
+    <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-mist-200 bg-white transition duration-300 hover:-translate-y-0.5 hover:border-mist-300 hover:shadow-[0_28px_50px_-30px_rgba(6,32,31,0.4)]">
       <div className="relative">
         <Link href={href} tabIndex={-1} aria-hidden="true" className="block">
           <Photo name={product.photo} sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw" className="aspect-[4/3]" />

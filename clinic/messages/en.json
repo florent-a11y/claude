@@ -164,6 +164,12 @@
       "title": "Not sure where to start?",
       "text": "Tell us how you feel and what you want to achieve. We will suggest a plan and, where needed, arrange a doctor's review.",
       "cta": "Ask a question"
+    },
+    "stats": {
+      "areas": "{count, plural, one {area covered in Bali} other {areas covered in Bali}}",
+      "products": "{count, plural, one {treatment or product} other {treatments and products}}",
+      "days": "days a week, {opens} to {closes}",
+      "reviewed": "of prescription items reviewed by a doctor"
     }
   },
   "Listing": {

@@ -4,6 +4,7 @@ import { productsOf } from "@/lib/catalog";
 import { pageMetadata } from "@/i18n/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { CatalogGrid } from "@/components/CatalogGrid";
+import { Reveal } from "@/components/Reveal";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -24,8 +25,10 @@ export default async function IvDrips({ params }: Props) {
         <CatalogGrid slugs={productsOf("iv").map((p) => p.slug)} />
       </section>
       <section className="container-page pb-6">
-        <h2 className="h-display text-4xl">{t("shots.title")}</h2>
-        <p className="lead mt-3 max-w-2xl">{t("shots.intro")}</p>
+        <Reveal>
+          <h2 className="h-display text-4xl">{t("shots.title")}</h2>
+          <p className="lead mt-3 max-w-2xl">{t("shots.intro")}</p>
+        </Reveal>
         <div className="mt-8"><CatalogGrid slugs={productsOf("shot").map((p) => p.slug)} filter={false} /></div>
         <p className="mt-12 max-w-3xl border-l-2 border-tide-400 pl-4 text-sm leading-relaxed text-ink-500">{t("iv.note")}</p>
       </section>
