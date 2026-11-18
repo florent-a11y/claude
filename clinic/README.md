@@ -98,6 +98,14 @@ Set-up:
 
 ## Test site
 
+> **Current test deployment (18 Nov 2026):** <https://vitanadi.vercel.app>, Vercel project `vitanadi` in the ILA team
+> (root directory `clinic`, functions in Singapore), built from the branch `claude/eager-sagan-k33nma`.
+> `DEMO_MODE=on`; test orders are kept in the private Blob store `vitanadi-test-orders`. The two console
+> passwords are in Vercel > vitanadi > Settings > Environment Variables (`ADMIN_PASSWORD`, `DOCTOR_PASSWORD`).
+> The address is public to anyone who has it. A push to the branch builds a preview only: to update
+> vitanadi.vercel.app, redeploy the branch to production in Vercel.
+
+
 Set `DEMO_MODE=on` for a deployment that is only for looking around. It shows a "test site" banner on every page,
 keeps search engines away, offers the online payment methods as simulations, and keeps orders in a private
 Vercel Blob store connected to the project when no database is set. Remove it on the site that takes real
