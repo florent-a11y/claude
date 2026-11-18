@@ -1,7 +1,9 @@
 import "server-only";
 import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import { isLive, type Post } from "./blog";
-import { listPosts } from "./store";
+import { samplePosts } from "./blog-seed";
+import { demoMode } from "./config";
+import { getSetting, listPosts, savePost, saveSetting } from "./store";
 import { routing } from "@/i18n/routing";
 
 /**
@@ -9,7 +11,25 @@ import { routing } from "@/i18n/routing";
  * the moment an article is saved in the console (refreshBlog), so readers get fast pages and writers see their
  * changes at once.
  */
-const cachedPublished = unstable_cache(async () => (await listPosts()).filter((p) => p.status === "published" && p.publishedAt), ["clinic-published-posts"], { tags: ["posts"], revalidate: 300 });
+const cachedPublished = unstable_cache(async () => {
+  await seedTestSite();
+  return (await listPosts()).filter((p) => p.status === "published" && p.publishedAt);
+}, ["clinic-published-posts"], { tags: ["posts"], revalidate: 300 });
+
+/**
+ * A test site (DEMO_MODE=on) gets the sample articles once, so there is a blog to look at. "Once" is remembered
+ * in the settings: delete the samples in the console and they stay deleted. Never runs on the live site.
+ */
+async function seedTestSite(): Promise<void> {
+  if (!demoMode()) return;
+  try {
+    if (await getSetting("blog-samples")) return;
+    if ((await listPosts()).length === 0) for (const post of samplePosts()) await savePost(post);
+    await saveSetting("blog-samples", { addedAt: new Date().toISOString() });
+  } catch (e) {
+    console.error("[blog] could not add the sample articles", e);
+  }
+}
 
 /** Live articles in one language, newest first. */
 export async function publishedPosts(locale: string): Promise<Post[]> {

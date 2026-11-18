@@ -60,7 +60,8 @@ checklist beside the editor shows what is still missing.
 
 Published articles appear on `/blog`, in `sitemap.xml`, in the Atom feed (`/api/feed/<language>`), and as
 plain Markdown for AI assistants (`/api/blog/<language>/<address>`). The sample articles (`lib/blog-seed.ts`)
-were written without a doctor: review or delete them before launch.
+were written without a doctor: review or delete them before launch. A test site adds them once by itself;
+elsewhere, use the button on the empty Blog screen.
 
 ## SEO & AI (`/admin/seo`)
 
