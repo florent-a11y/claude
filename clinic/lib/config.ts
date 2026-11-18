@@ -5,8 +5,10 @@
 const env = (key: string, fallback = "") => (process.env[key] ?? "").trim() || fallback;
 
 export const site = {
-  /** Working name: change it here or with NEXT_PUBLIC_BRAND_NAME. */
-  name: env("NEXT_PUBLIC_BRAND_NAME", "Pulih"),
+  /** Brand name: change it here or with NEXT_PUBLIC_BRAND_NAME. "Vitanadi" = vita (life) + nadi (pulse), with NAD inside. */
+  name: env("NEXT_PUBLIC_BRAND_NAME", "Vitanadi"),
+  /** Letters of the name the logo picks out in the brand colour (empty for none). */
+  nameAccent: env("NEXT_PUBLIC_BRAND_ACCENT", "nad"),
   url: env("NEXT_PUBLIC_SITE_URL", "http://localhost:3200"),
   /** Legal entity that takes the orders (shown in the footer and legal pages once set). */
   company: env("NEXT_PUBLIC_COMPANY_NAME"),
@@ -24,7 +26,8 @@ export const site = {
   /** Daily opening hours, Bali time (WITA, UTC+8). */
   opens: "08:00",
   closes: "20:00",
-  orderPrefix: "PB",
+  /** Start of every order number ("VN-7K2M4Q"). */
+  orderPrefix: "VN",
 };
 
 /** wa.me link with a prefilled message, or null when no number is configured. */

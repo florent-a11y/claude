@@ -1,4 +1,4 @@
-# Bali recovery clinic storefront (working name: Pulih)
+# Vitanadi: Bali vitality and biohacking storefront
 
 Website and ops console for a Bali recovery and longevity service: IV drips, doctor-reviewed peptides,
 supplements and memberships, sold and delivered in Bali only. English, Russian and French.
@@ -66,7 +66,8 @@ Every action is written to the order's activity log with who did it.
 
 Sample content to replace:
 
-- [ ] Brand name (working name "Pulih") and domain
+- [ ] Brand name: "Vitanadi" (vita = life, nadi = pulse, with NAD inside). Before relying on it, check the Indonesian
+      trademark register (PDKI, classes 44, 5 and 35) and register the domain; it changes in one place, `lib/config.ts`
 - [ ] The whole catalogue in `lib/catalog.ts` and `messages/*.json`: products, contents, **prices**
 - [ ] Zones and fees in `lib/config.ts`
 - [ ] WhatsApp number, email, lounge address, company name

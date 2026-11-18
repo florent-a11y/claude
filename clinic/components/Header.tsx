@@ -22,15 +22,15 @@ export async function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-mist-200/70 bg-white/85 backdrop-blur-md">
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-full focus:bg-deep-900 focus:px-4 focus:py-2 focus:text-sm focus:text-white">{c("skipToContent")}</a>
-      <div className="container-page flex h-[4.25rem] items-center justify-between gap-4">
+      <div className="container-page flex h-[4.25rem] items-center justify-between gap-2 sm:gap-4">
         <Link href="/" className="text-deep-900" aria-label={site.name}><Logo /></Link>
         <nav className="hidden items-center gap-7 lg:flex" aria-label={c("menu")}>
           {main.map((l) => (
             <Link key={l.href} href={l.href} className="text-sm font-medium text-ink-700 transition hover:text-deep-900">{l.label}</Link>
           ))}
         </nav>
-        <div className="flex items-center gap-1.5">
-          <LocaleSwitcher className="mr-1 hidden sm:inline-flex" />
+        <div className="flex items-center gap-0.5 sm:gap-1.5">
+          <LocaleSwitcher className="mr-1 max-[339px]:hidden" />
           {wa && (
             <a href={wa} target="_blank" rel="noopener noreferrer" className="btn-secondary btn-sm hidden md:inline-flex">
               <WhatsAppIcon />{c("whatsapp")}

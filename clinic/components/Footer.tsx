@@ -18,7 +18,7 @@ export async function Footer() {
     <footer className="mt-24 bg-deep-950 text-mist-100">
       <div className="container-page grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
-          <Logo className="text-white" />
+          <Logo className="text-white" onDark />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-mist-200/80">{t("about")}</p>
           <ul className="mt-5 space-y-1.5 text-sm text-mist-200/90">
             {wa && <li><a className="underline-offset-4 hover:underline" href={wa} target="_blank" rel="noopener noreferrer">{c("chatOnWhatsapp")}</a></li>}

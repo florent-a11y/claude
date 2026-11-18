@@ -29,7 +29,7 @@ export function LocaleSwitcher({ className = "" }: { className?: string }) {
           aria-pressed={l === locale}
           disabled={pending}
           onClick={() => change(l)}
-          className={`rounded-full px-2 py-1 transition ${l === locale ? "bg-deep-900 text-white" : "text-ink-500 hover:text-deep-900"}`}
+          className={`rounded-full px-1.5 py-1 transition sm:px-2 ${l === locale ? "bg-deep-900 text-white" : "text-ink-500 hover:text-deep-900"}`}
         >
           {LOCALE_SHORT[l]}
         </button>
