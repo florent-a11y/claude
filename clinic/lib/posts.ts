@@ -24,7 +24,14 @@ async function seedTestSite(): Promise<void> {
   if (!demoMode()) return;
   try {
     if (await getSetting("blog-samples")) return;
-    if ((await listPosts()).length === 0) for (const post of samplePosts()) await savePost(post);
+    // Several servers can get here at the same moment (a build renders pages in parallel). Each one makes sure
+    // the full set is saved before it reads the list; the samples have fixed ids, so saving one twice is harmless.
+    // A blog that already holds someone's own articles is left alone.
+    const existing = await listPosts();
+    if (existing.every((p) => p.id.startsWith("sample-"))) {
+      const have = new Set(existing.map((p) => p.id));
+      for (const post of samplePosts()) if (!have.has(post.id)) await savePost(post);
+    }
     await saveSetting("blog-samples", { addedAt: new Date().toISOString() });
   } catch (e) {
     console.error("[blog] could not add the sample articles", e);
