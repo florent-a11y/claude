@@ -99,9 +99,9 @@ Set-up:
 ## Test site
 
 Set `DEMO_MODE=on` for a deployment that is only for looking around. It shows a "test site" banner on every page,
-keeps search engines away, offers the online payment methods as simulations, and keeps orders in temporary
-storage when no database is connected (they disappear when the host restarts the server). Remove it on the site
-that takes real orders: without a database and without `DEMO_MODE`, a hosted site refuses to store orders.
+keeps search engines away, offers the online payment methods as simulations, and keeps orders in a private
+Vercel Blob store connected to the project when no database is set. Remove it on the site that takes real
+orders: without a database and without `DEMO_MODE`, a hosted site refuses to store orders.
 
 ## Not built yet
 

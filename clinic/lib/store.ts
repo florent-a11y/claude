@@ -4,11 +4,13 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import type { Lead, Order, OrderStatus } from "./schema";
 import { dataDir } from "./data-dir";
+import { blobListJson, blobReadJson, blobStoreEnabled, blobWriteJson } from "./blob-store";
 
 /**
  * Storage layer. Supabase (tables clinic_orders, clinic_leads; see supabase/schema.sql) when SUPABASE_URL and
- * SUPABASE_SERVICE_ROLE_KEY are set, otherwise JSON files (development, or a test site: see lib/data-dir.ts).
- * A live site without a database refuses to store anything rather than lose orders quietly.
+ * SUPABASE_SERVICE_ROLE_KEY are set; on a hosted test site, a private Vercel Blob store (lib/blob-store.ts);
+ * on your own machine, JSON files under ./data. A live site without a database refuses to store anything
+ * rather than lose orders quietly.
  */
 let supabase: SupabaseClient | null = null;
 function sb(): SupabaseClient | null {
@@ -52,6 +54,7 @@ export async function saveOrder(order: Order): Promise<void> {
     if (error) throw new Error(`clinic_orders upsert: ${error.message}`);
     return;
   }
+  if (blobStoreEnabled()) return blobWriteJson(`orders/${order.id}.json`, order);
   await queued(async () => {
     const all = await readJson<Order[]>("orders.json", []);
     const i = all.findIndex((o) => o.id === order.id);
@@ -68,6 +71,7 @@ export async function getOrder(id: string): Promise<Order | null> {
     if (error) throw new Error(error.message);
     return data ? (data.payload as Order) : null;
   }
+  if (blobStoreEnabled()) return blobReadJson<Order>(`orders/${id}.json`);
   return (await readJson<Order[]>("orders.json", [])).find((o) => o.id === id) ?? null;
 }
 
@@ -77,7 +81,7 @@ export async function findOrderByAirwallexIntent(intentId: string): Promise<Orde
     const { data } = await client.from("clinic_orders").select("payload").eq("payload->>airwallexIntentId", intentId).maybeSingle();
     return data ? (data.payload as Order) : null;
   }
-  return (await readJson<Order[]>("orders.json", [])).find((o) => o.airwallexIntentId === intentId) ?? null;
+  return (await localOrders()).find((o) => o.airwallexIntentId === intentId) ?? null;
 }
 
 export async function listOrders(opts: { statuses?: OrderStatus[]; limit?: number } = {}): Promise<Order[]> {
@@ -90,8 +94,15 @@ export async function listOrders(opts: { statuses?: OrderStatus[]; limit?: numbe
     if (error) throw new Error(error.message);
     return (data as Array<{ payload: Order }>).map((r) => r.payload);
   }
-  const all = await readJson<Order[]>("orders.json", []);
+  const all = await localOrders();
   return all.filter((o) => !opts.statuses?.length || opts.statuses.includes(o.status)).slice(0, limit);
+}
+
+/** Every order outside the database, newest first: from the test site's Blob store, or the local file. */
+async function localOrders(): Promise<Order[]> {
+  if (!blobStoreEnabled()) return readJson<Order[]>("orders.json", []);
+  const all = await blobListJson<Order>("orders/", 500);
+  return all.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
 
 export async function updateOrder(id: string, patch: Partial<Order>): Promise<Order | null> {
@@ -109,6 +120,7 @@ export async function saveLead(lead: Lead): Promise<void> {
     if (error) throw new Error(`clinic_leads upsert: ${error.message}`);
     return;
   }
+  if (blobStoreEnabled()) return blobWriteJson(`leads/${lead.id}.json`, lead);
   await queued(async () => {
     const all = await readJson<Lead[]>("leads.json", []);
     const i = all.findIndex((l) => l.id === lead.id);
@@ -124,6 +136,7 @@ export async function listLeads(limit = 200): Promise<Lead[]> {
     if (error) throw new Error(error.message);
     return (data as Array<{ payload: Lead }>).map((r) => r.payload);
   }
+  if (blobStoreEnabled()) return (await blobListJson<Lead>("leads/", limit)).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   return (await readJson<Lead[]>("leads.json", [])).slice(0, limit);
 }
 

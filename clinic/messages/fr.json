@@ -30,7 +30,7 @@
     "skipToContent": "Aller au contenu",
     "whatsappGeneral": "Bonjour {brand}, j’ai une question.",
     "whatsappProduct": "Bonjour {brand}, j’ai une question concernant {product}.",
-    "demoBanner": "Site de test. Rien n’est encore en vente ici : les commandes sont fictives et ne sont conservées que peu de temps."
+    "demoBanner": "Site de test. Rien n’est encore en vente ici et les commandes sont fictives."
   },
   "Nav": {
     "ivDrips": "Perfusions IV",

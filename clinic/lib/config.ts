@@ -14,7 +14,7 @@ function siteUrl(): string {
 
 /**
  * Test site switch (DEMO_MODE=on). It shows a "test site" banner on every page, hides the site from search engines,
- * offers the online payment methods as simulations, and keeps orders in temporary storage when no database is set.
+ * offers the online payment methods as simulations, and keeps orders in a private Vercel Blob store when no database is set.
  * Read on the server only. Never turn it on for the site that takes real orders.
  */
 export function demoMode(): boolean {

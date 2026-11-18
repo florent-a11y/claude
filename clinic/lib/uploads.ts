@@ -4,10 +4,11 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
 import { dataDir } from "./data-dir";
+import { blobReadBytes, blobStoreEnabled, blobWriteBytes } from "./blob-store";
 
 /**
- * Bank-transfer proofs. Private Supabase Storage bucket "clinic-proofs" when configured, otherwise a local folder
- * (development or a test site: see lib/data-dir.ts). Files are named by a random id; the browser-supplied name and MIME type are never used:
+ * Bank-transfer proofs. Private Supabase Storage bucket "clinic-proofs" when configured, the private Blob store on a hosted
+ * test site, otherwise a local folder. Files are named by a random id; the browser-supplied name and MIME type are never used:
  * the type comes from the file's magic bytes.
  */
 export const BUCKET = "clinic-proofs";
@@ -49,6 +50,10 @@ export async function storeProof(file: File): Promise<string> {
     if (error) throw new Error(`upload: ${error.message}`);
     return id;
   }
+  if (blobStoreEnabled()) {
+    await blobWriteBytes(`proofs/${id}`, bytes, contentType);
+    return id;
+  }
   const dir = path.join(dataDir(), "uploads");
   await fs.mkdir(dir, { recursive: true });
   await fs.writeFile(path.join(dir, id), bytes);
@@ -64,6 +69,11 @@ export async function readProof(id: string): Promise<{ url?: string; bytes?: Buf
     const { data, error } = await client.storage.from(BUCKET).createSignedUrl(id, 300);
     if (error || !data) throw new Error(`signed url: ${error?.message}`);
     return { url: data.signedUrl, contentType };
+  }
+  if (blobStoreEnabled()) {
+    const file = await blobReadBytes(`proofs/${id}`);
+    if (!file) throw new Error("Proof not found");
+    return { bytes: file.bytes, contentType };
   }
   return { bytes: await fs.readFile(path.join(dataDir(), "uploads", id)), contentType };
 }

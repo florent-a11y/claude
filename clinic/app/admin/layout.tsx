@@ -28,7 +28,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             </p>
           </div>
           {!databaseConfigured() && (
-            <p className="bg-coral-50 px-4 py-2 text-center text-xs font-medium text-coral-600">{demoMode() ? "Test site, no database: orders are kept in temporary storage and disappear when the server restarts." : "No database connected: orders are kept in a local file."} Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY before taking real orders.</p>
+            <p className="bg-coral-50 px-4 py-2 text-center text-xs font-medium text-coral-600">{demoMode() ? "Test site, no database: orders are kept in the project's private Blob store." : "No database connected: orders are kept in a local file."} Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY before taking real orders.</p>
           )}
         </header>
         <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">{children}</main>
