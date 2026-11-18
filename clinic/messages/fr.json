@@ -1,0 +1,713 @@
+{
+  "Metadata": {
+    "defaultTitle": "{brand} | Perfusions IV, peptides et récupération à Bali",
+    "titleTemplate": "%s | {brand}",
+    "description": "Protocoles de peptides validés par un médecin, perfusions IV administrées par un infirmier et essentiels de récupération à Bali. Dans notre lounge ou dans votre villa, de Canggu à Uluwatu et Ubud."
+  },
+  "Common": {
+    "descriptor": "Récupération & longévité · Bali",
+    "whatsapp": "WhatsApp",
+    "chatOnWhatsapp": "Discuter sur WhatsApp",
+    "contactUs": "Nous contacter",
+    "addToCart": "Ajouter au panier",
+    "addToBooking": "Ajouter à la réservation",
+    "requestReview": "Demander la validation médicale",
+    "added": "Ajouté",
+    "viewBasket": "Voir le panier",
+    "details": "Détails",
+    "learnMore": "En savoir plus",
+    "doctorReview": "Validation médicale requise",
+    "doctorReviewShort": "Validation médicale",
+    "nurseGiven": "Administration par un infirmier",
+    "coldChain": "Livraison réfrigérée",
+    "minutes": "{count} min",
+    "perMonth": "par mois",
+    "basket": "Panier",
+    "basketCount": "Panier, {count, plural, =0 {vide} one {# article} other {# articles}}",
+    "menu": "Menu",
+    "close": "Fermer",
+    "language": "Langue",
+    "skipToContent": "Aller au contenu",
+    "whatsappGeneral": "Bonjour {brand}, j’ai une question.",
+    "whatsappProduct": "Bonjour {brand}, j’ai une question concernant {product}."
+  },
+  "Nav": {
+    "ivDrips": "Perfusions IV",
+    "peptides": "Peptides",
+    "supplements": "Compléments",
+    "memberships": "Abonnements",
+    "howItWorks": "Comment ça marche",
+    "delivery": "Livraison et zones",
+    "faq": "FAQ",
+    "contact": "Contact"
+  },
+  "Kinds": {
+    "iv": "Perfusion IV",
+    "shot": "Injection",
+    "peptide": "Peptide",
+    "supplement": "Complément",
+    "membership": "Abonnement"
+  },
+  "Goals": {
+    "all": "Tous",
+    "hydration": "Hydratation",
+    "recovery": "Récupération",
+    "energy": "Énergie",
+    "immunity": "Immunité",
+    "longevity": "Longévité",
+    "skin": "Peau",
+    "metabolic": "Métabolisme",
+    "sleep": "Sommeil"
+  },
+  "Home": {
+    "hero": {
+      "eyebrow": "Perfusions IV · Peptides · Récupération",
+      "title": "Des soins de récupération et de longévité, jusque dans votre villa.",
+      "text": "Protocoles de peptides validés par un médecin, perfusions IV administrées par un infirmier et essentiels de récupération. Dans notre lounge, ou livrés à travers Bali, de Canggu à Uluwatu et Ubud.",
+      "ctaPrimary": "Réserver une perfusion",
+      "ctaSecondary": "Découvrir les peptides",
+      "badge1": "Protocoles validés par un médecin",
+      "badge2": "Administration par un infirmier",
+      "badge3": "Livraison à travers Bali",
+      "cardLabel": "Le plus réservé",
+      "artAlt": "Illustration abstraite de rizières en terrasses balinaises sous un soleil matinal"
+    },
+    "pillars": {
+      "eyebrow": "Ce que nous proposons",
+      "title": "Quatre façons de vous sentir à nouveau vous-même",
+      "iv": { "title": "Perfusions IV", "text": "Perfusions d’hydratation, d’immunité, de récupération et de NAD+, administrées par un infirmier au lounge ou dans votre villa." },
+      "peptides": { "title": "Peptides", "text": "Protocoles pour la récupération, le sommeil, la peau et le métabolisme. Chacun est examiné par un médecin avant d’être fourni." },
+      "supplements": { "title": "Compléments", "text": "Une courte liste d’essentiels du quotidien que nous utilisons vraiment : électrolytes, magnésium, collagène, créatine, oméga-3." },
+      "memberships": { "title": "Abonnements", "text": "Perfusions mensuelles, points de suivi avec un médecin et tarifs membres pour ceux qui restent un moment à Bali." }
+    },
+    "how": {
+      "eyebrow": "Comment ça marche",
+      "title": "Le soin médical d’abord, la livraison ensuite",
+      "text": "Rien de ce qui exige une ordonnance ne quitte notre réfrigérateur sans l’accord d’un médecin.",
+      "step1": { "title": "Choisir", "text": "Choisissez une perfusion, un protocole ou un produit et dites-nous où vous séjournez." },
+      "step2": { "title": "Questionnaire de santé", "text": "Répondez à un court questionnaire de santé. Comptez environ deux minutes." },
+      "step3": { "title": "Validation médicale", "text": "Un médecin agréé approuve, ajuste ou refuse, et vous appelle si un point n’est pas clair." },
+      "step4": { "title": "Payer et recevoir", "text": "Payez par QRIS, virement, carte ou à la livraison. Un infirmier ou un coursier en transport réfrigéré vient jusqu’à vous." },
+      "cta": "Voir toutes les étapes"
+    },
+    "featured": {
+      "eyebrow": "Populaires en ce moment",
+      "title": "Commencez ici",
+      "cta": "Tout voir"
+    },
+    "villa": {
+      "eyebrow": "Déplacement en villa et à l’hôtel",
+      "title": "Le lounge vient à vous",
+      "text": "Un infirmier arrive avec tout le nécessaire, vérifie votre tension et votre pouls, et reste auprès de vous pendant toute la perfusion. Il vous suffit d’un fauteuil confortable.",
+      "point1": "Créneaux d’arrivée de deux heures, tous les jours de {opens} à {closes}",
+      "point2": "Frais de déplacement à partir de {fee}, affichés avant votre confirmation",
+      "point3": "Couples et groupes bienvenus : ajoutez une perfusion par personne",
+      "cta": "Voir les zones et les frais"
+    },
+    "standards": {
+      "eyebrow": "Nos exigences",
+      "title": "Des réponses franches, une médecine rigoureuse",
+      "item1": { "title": "Un médecin décide, pas un panier d’achat", "text": "Les produits sur ordonnance ne sont remis qu’après examen de votre questionnaire de santé par un médecin agréé." },
+      "item2": { "title": "Honnêtes sur les preuves", "text": "Nous vous disons ce qui est bien étudié et ce qui reste expérimental. Plusieurs peptides ne sont pas des médicaments autorisés, et nous le disons." },
+      "item3": { "title": "Chaîne du froid, du réfrigérateur à votre porte", "text": "Les produits sensibles à la température voyagent au frais dans des pochettes isothermes et sont remis en main propre." },
+      "item4": { "title": "Un contrôle avant chaque perfusion", "text": "Votre infirmier vérifie vos constantes vitales et vos antécédents avant de commencer, et refusera un soin qui ne vous convient pas." }
+    },
+    "areas": {
+      "eyebrow": "Où nous livrons",
+      "title": "Dans le sud de Bali et à Ubud",
+      "text": "Livraison de produits à partir de {delivery}. Gratuite dès {free} de produits.",
+      "cta": "Détails de livraison"
+    },
+    "faq": { "eyebrow": "Questions", "title": "Bon à savoir", "cta": "Toutes les questions" },
+    "final": {
+      "title": "Vous ne savez pas par où commencer ?",
+      "text": "Dites-nous comment vous vous sentez et ce que vous souhaitez obtenir. Nous vous proposerons un plan et, si nécessaire, ferons examiner votre demande par un médecin.",
+      "cta": "Poser une question"
+    }
+  },
+  "Listing": {
+    "iv": {
+      "eyebrow": "Perfusions intraveineuses",
+      "title": "Perfusions IV",
+      "intro": "Solutés, vitamines et minéraux administrés directement dans une veine par un infirmier, dans notre lounge ou dans votre villa. Votre infirmier vérifie vos constantes vitales et vos antécédents médicaux avant de commencer.",
+      "note": "Les perfusions bien-être favorisent l’hydratation et le confort. Elles ne traitent ni ne guérissent aucune maladie. Si vous êtes sérieusement malade, rendez-vous à l’hôpital."
+    },
+    "shots": {
+      "title": "Injections rapides",
+      "intro": "Dix minutes au lounge, ou en complément d’une visite en villa."
+    },
+    "peptides": {
+      "eyebrow": "Sur validation médicale",
+      "title": "Peptides et injectables",
+      "intro": "Protocoles pour la récupération, le sommeil, la peau, l’immunité et la santé métabolique. Chaque produit de cette page nécessite l’accord d’un médecin avant d’être fourni.",
+      "noticeTitle": "Comment se passe la commande",
+      "notice": "Ajoutez ce qui vous intéresse et remplissez le questionnaire de santé lors de la commande. Un médecin examine votre demande et peut l’approuver, l’ajuster ou la refuser. Vous ne payez qu’après approbation.",
+      "evidenceTitle": "Ce que vous devez savoir",
+      "evidence": "Certains produits présentés ici sont des médicaments enregistrés, prescrits dans leur indication autorisée. D’autres sont des peptides de recherche : ce ne sont pas des médicaments autorisés, l’essentiel des preuves provient d’études en laboratoire et chez l’animal, et leur sécurité à long terme chez l’humain n’est pas établie. Votre médecin vous expliquera ce qui est connu et ce qui ne l’est pas avant que vous ne décidiez. De nombreux peptides sont interdits dans le sport de compétition."
+    },
+    "supplements": {
+      "eyebrow": "Essentiels du quotidien",
+      "title": "Compléments alimentaires",
+      "intro": "Une liste volontairement courte. Aucune validation médicale nécessaire : commandez, nous livrons à travers Bali.",
+      "note": "Les compléments alimentaires ne remplacent pas une alimentation variée. Demandez l’avis de votre médecin avant utilisation si vous prenez des médicaments, si vous êtes enceinte ou si vous allaitez."
+    },
+    "memberships": {
+      "eyebrow": "Pour les longs séjours",
+      "title": "Abonnements",
+      "intro": "Un tarif mensuel unique pour des perfusions régulières, des points de suivi avec un médecin et des tarifs membres sur tout le reste.",
+      "note": "Les abonnements sont valables un mois à compter du jour du paiement et se renouvellent manuellement : nous vous envoyons un rappel, rien n’est prélevé automatiquement. Les perfusions incluses dans une formule sont soumises au contrôle infirmier habituel.",
+      "popular": "Le plus choisi",
+      "includes": "Comprend"
+    },
+    "empty": "Rien ici pour le moment."
+  },
+  "Product": {
+    "back": "Retour : {section}",
+    "contents": "Composition",
+    "includes": "Ce qui est inclus",
+    "unit": "Format",
+    "duration": "Durée à prévoir",
+    "goodFor": "Choisi pour",
+    "reviewTitle": "Un médecin examine d’abord votre demande",
+    "reviewText": "Vous remplissez un court questionnaire de santé lors de la commande. Un médecin approuve, ajuste ou refuse la demande, et vous ne payez qu’après approbation.",
+    "sessionTitle": "Administration par un infirmier",
+    "sessionText": "Au lounge, dans votre villa ou à votre hôtel. Votre infirmier vérifie votre tension artérielle, votre pouls et vos antécédents médicaux avant de commencer.",
+    "deliveryTitle": "Livraison à travers Bali",
+    "deliveryText": "Livraison à votre adresse dans un créneau de deux heures, ou retrait au lounge.",
+    "coldChainText": "Voyage au frais dans une pochette isotherme. À conserver au réfrigérateur, entre 2 et 8 °C.",
+    "membershipTitle": "Comment ça marche",
+    "membershipText": "Valable un mois à compter du paiement. Nous réservons vos séances avec vous sur WhatsApp. Pas de renouvellement automatique.",
+    "disclaimer": "Cette page fournit des informations générales, pas un avis médical. Les résultats varient d’une personne à l’autre. Ce produit n’est pas destiné à diagnostiquer, traiter, guérir ou prévenir une quelconque maladie.",
+    "question": "Poser une question sur WhatsApp",
+    "related": "Vous aimerez peut-être aussi"
+  },
+  "Catalog": {
+    "sample": "Carte d’exemple : les noms, les compositions et les prix sont provisoires.",
+    "items": {
+      "iv-hydration": {
+        "name": "Island Hydration",
+        "tagline": "Pour se remettre de la chaleur, d’un voyage ou d’une longue session de surf.",
+        "description": "Un litre de soluté équilibré, avec électrolytes et vitamines B, pour vous réhydrater plus vite qu’en buvant seulement. La perfusion la plus simple de notre carte, et un bon choix pour une première fois.",
+        "contents": "Solution d’électrolytes équilibrée 1 000 ml ; vitamines du complexe B",
+        "unit": "Une perfusion"
+      },
+      "iv-bali-belly": {
+        "name": "Bali Belly Relief",
+        "tagline": "Hydratation et réconfort quand votre estomac n’en peut plus.",
+        "description": "Une réhydratation en cas de diarrhée du voyageur et de vomissements, avec électrolytes et vitamines B. Un médicament contre les nausées ou pour l’estomac n’est ajouté que si l’infirmier et le médecin le jugent approprié. Une forte fièvre, du sang dans les selles ou des symptômes qui durent plus de trois jours relèvent de l’hôpital, pas d’une perfusion.",
+        "contents": "Solution d’électrolytes équilibrée 1 000 ml ; vitamines du complexe B ; médicament antinauséeux si cliniquement approprié",
+        "unit": "Une perfusion"
+      },
+      "iv-morning-after": {
+        "name": "Morning After",
+        "tagline": "Pour le lendemain d’une longue nuit.",
+        "description": "Solutés, électrolytes, vitamines B et vitamine C pour atténuer la déshydratation et la fatigue après l’alcool. Cette perfusion ne fait pas baisser votre alcoolémie et ne rend pas la conduite sûre.",
+        "contents": "Solution d’électrolytes équilibrée 1 000 ml ; vitamines du complexe B ; vitamine C 1 g",
+        "unit": "Une perfusion"
+      },
+      "iv-immune": {
+        "name": "Immune Support",
+        "tagline": "Vitamine C et zinc quand tout le monde renifle autour de vous.",
+        "description": "Une perfusion de vitamines et de minéraux, choisie par les voyageurs en début de séjour ou pendant une période chargée. Les preuves que les vitamines par voie IV préviennent les infections chez les personnes en bonne santé sont limitées.",
+        "contents": "Sérum physiologique 500 ml ; vitamine C 5 g ; zinc ; vitamines du complexe B",
+        "unit": "Une perfusion"
+      },
+      "iv-myers": {
+        "name": "Myers’ Cocktail",
+        "tagline": "La perfusion classique et polyvalente de vitamines et de minéraux.",
+        "description": "La perfusion bien-être la plus connue : magnésium, calcium, vitamines B et vitamine C. De nombreux clients la choisissent en cas de fatigue générale et de décalage horaire.",
+        "contents": "Sérum physiologique 500 ml ; magnésium ; calcium ; vitamines du complexe B ; vitamine B12 ; vitamine C 2 g",
+        "unit": "Une perfusion"
+      },
+      "iv-athlete": {
+        "name": "Surf & Train Recovery",
+        "tagline": "Pour les grosses semaines d’entraînement et les séances qui s’enchaînent.",
+        "description": "Des solutés avec acides aminés, magnésium et vitamines, choisis par les surfeurs, les pratiquants de CrossFit et les coureurs après des séances exigeantes dans la chaleur.",
+        "contents": "Solution d’électrolytes équilibrée 1 000 ml ; mélange d’acides aminés ; magnésium ; vitamines du complexe B ; vitamine C 2 g",
+        "unit": "Une perfusion"
+      },
+      "iv-glow": {
+        "name": "Glow",
+        "tagline": "Glutathion et vitamine C pour une peau qui a vu beaucoup de soleil.",
+        "description": "Une perfusion antioxydante au glutathion, à la vitamine C et à la biotine. Appréciée avant un événement. Les preuves d’un bénéfice du glutathion par voie IV pour la peau sont limitées et les effets, lorsqu’ils sont observés, sont temporaires.",
+        "contents": "Sérum physiologique 500 ml ; glutathion 1 200 mg ; vitamine C 2 g ; biotine",
+        "unit": "Une perfusion"
+      },
+      "iv-nad-250": {
+        "name": "NAD+ 250 mg",
+        "tagline": "Une perfusion lente pour l’énergie et la concentration.",
+        "description": "Le NAD+ est une coenzyme que chaque cellule utilise pour produire de l’énergie. Il est perfusé lentement, sur deux à trois heures, car un débit rapide peut provoquer une oppression thoracique, des nausées ou des crampes. La recherche chez l’humain en est à un stade précoce. Un médecin examine votre demande avant la réservation.",
+        "contents": "NAD+ 250 mg dans 500 ml de sérum physiologique",
+        "unit": "Une perfusion, 2 à 3 heures"
+      },
+      "shot-b12": {
+        "name": "Injection de vitamine B12",
+        "tagline": "Une injection rapide pour l’énergie, appréciée des personnes à l’alimentation végétale.",
+        "description": "Vitamine B12 par voie intramusculaire. Surtout utile si vos apports ou vos taux sont bas ; s’ils sont normaux, un supplément de B12 a peu d’effet.",
+        "contents": "Méthylcobalamine 1 000 µg",
+        "unit": "Une injection"
+      },
+      "shot-vitamin-d": {
+        "name": "Injection de vitamine D3",
+        "tagline": "Pour ceux qui évitent le soleil de midi.",
+        "description": "Une dose unique de vitamine D3 par voie intramusculaire. Mieux vaut s’appuyer sur une prise de sang : signalez à l’infirmier vos résultats récents et les compléments que vous prenez déjà.",
+        "contents": "Cholécalciférol 100 000 UI",
+        "unit": "Une injection"
+      },
+      "shot-glutathione": {
+        "name": "Injection de glutathion",
+        "tagline": "L’antioxydant de notre perfusion Glow, en quinze minutes.",
+        "description": "Une injection intraveineuse lente de glutathion, sans la perfusion complète. Les preuves d’un bénéfice pour la peau ou d’un effet détox sont limitées.",
+        "contents": "Glutathion 600 mg",
+        "unit": "Une injection"
+      },
+      "bpc-157": {
+        "name": "BPC-157",
+        "tagline": "Le peptide de récupération le plus demandé.",
+        "description": "Un peptide de synthèse étudié principalement en laboratoire et chez l’animal, sur les tissus des tendons, des ligaments, des muscles et de l’intestin. Les données cliniques chez l’humain sont très limitées et ce n’est pas un médicament autorisé. Interdit dans le sport de compétition. Fourni uniquement après validation par un médecin, avec des consignes de dosage écrites et un suivi.",
+        "contents": "BPC-157 5 mg (flacon lyophilisé) ; eau bactériostatique ; seringues et tampons désinfectants ; instructions écrites",
+        "unit": "Flacon de 5 mg avec kit d’injection"
+      },
+      "tb-500": {
+        "name": "TB-500",
+        "tagline": "Souvent associé au BPC-157 dans les protocoles de récupération.",
+        "description": "Un fragment synthétique de la thymosine bêta-4, étudié chez l’animal pour la réparation des tissus et l’inflammation. Aucun essai de grande ampleur chez l’humain n’a été mené à terme et ce n’est pas un médicament autorisé. Interdit dans le sport de compétition. Validation médicale requise.",
+        "contents": "TB-500 5 mg (flacon lyophilisé) ; eau bactériostatique ; seringues et tampons désinfectants ; instructions écrites",
+        "unit": "Flacon de 5 mg avec kit d’injection"
+      },
+      "recovery-stack": {
+        "name": "Recovery Stack",
+        "tagline": "BPC-157 et TB-500 réunis, avec un seul jeu d’instructions.",
+        "description": "Les deux peptides de récupération le plus souvent utilisés ensemble, fournis sous la forme d’un protocole de quatre semaines conçu par le médecin qui examine votre demande, en fonction de votre blessure ou de votre charge d’entraînement. Les mêmes limites s’appliquent : produits expérimentaux, qui ne sont pas des médicaments autorisés, interdits dans le sport de compétition.",
+        "contents": "BPC-157 5 mg ; TB-500 5 mg ; eau bactériostatique ; seringues et tampons désinfectants ; protocole écrit",
+        "unit": "Deux flacons avec kit d’injection"
+      },
+      "cjc-ipamorelin": {
+        "name": "CJC-1295 + Ipamorelin",
+        "tagline": "Un protocole du soir pour le sommeil et la récupération.",
+        "description": "Deux peptides qui stimulent la libération par l’organisme de sa propre hormone de croissance, utilisés le soir. De petites études chez l’humain montrent une hausse de l’hormone de croissance ; les bénéfices pour le sommeil, la composition corporelle ou la récupération ne sont pas prouvés. Ce n’est pas un médicament autorisé, il est interdit dans le sport de compétition et ne convient pas en cas d’antécédent de cancer. Validation médicale requise.",
+        "contents": "CJC-1295 (sans DAC) 5 mg et ipamorelin 5 mg ; eau bactériostatique ; seringues et tampons désinfectants ; instructions écrites",
+        "unit": "Flacon de mélange avec kit d’injection"
+      },
+      "ghk-cu": {
+        "name": "GHK-Cu",
+        "tagline": "Le peptide de cuivre des soins de la peau, sous forme de protocole.",
+        "description": "Un peptide liant le cuivre, naturellement présent dans l’organisme et largement utilisé dans les crèmes cosmétiques. Les preuves concernant son usage en injection se limitent à de petites études. Validation médicale requise.",
+        "contents": "GHK-Cu 50 mg (flacon lyophilisé) ; eau bactériostatique ; seringues et tampons désinfectants ; instructions écrites",
+        "unit": "Flacon de 50 mg avec kit d’injection"
+      },
+      "epitalon": {
+        "name": "Epitalon",
+        "tagline": "Une cure courte, prisée dans les cercles de la longévité.",
+        "description": "Un peptide de quatre acides aminés, étudié surtout en Russie pour le rythme du sommeil et le vieillissement. Les essais cliniques indépendants et modernes font défaut et ce n’est pas un médicament autorisé. Validation médicale requise.",
+        "contents": "Epitalon 10 mg (flacon lyophilisé) ; eau bactériostatique ; seringues et tampons désinfectants ; instructions écrites",
+        "unit": "Flacon de 10 mg avec kit d’injection"
+      },
+      "thymosin-alpha-1": {
+        "name": "Thymosin Alpha-1",
+        "tagline": "Un peptide immunomodulateur doté d’un historique clinique.",
+        "description": "Un peptide enregistré comme médicament dans un certain nombre de pays pour des affections précises. Son usage pour le soutien général de l’immunité chez les personnes en bonne santé n’est pas établi. Ne convient pas aux personnes greffées ni à celles sous immunosuppresseurs. Validation médicale requise.",
+        "contents": "Thymosine alpha-1 5 mg (flacon lyophilisé) ; eau bactériostatique ; seringues et tampons désinfectants ; instructions écrites",
+        "unit": "Flacon de 5 mg avec kit d’injection"
+      },
+      "nad-injection": {
+        "name": "Injections de NAD+",
+        "tagline": "Du NAD+ à petites doses chez vous, sans la longue perfusion.",
+        "description": "Du NAD+ par voie sous-cutanée, à petites doses fréquentes, comme alternative à la perfusion. Les injections peuvent piquer et provoquer de brèves bouffées de chaleur ou des nausées. La recherche chez l’humain en est à un stade précoce. Validation médicale requise.",
+        "contents": "NAD+ 500 mg (flacon) ; seringues et tampons désinfectants ; instructions écrites",
+        "unit": "Flacon de 500 mg avec kit d’injection"
+      },
+      "glp1-programme": {
+        "name": "Programme métabolique (GLP-1)",
+        "tagline": "Une prise en charge du poids encadrée par un médecin, avec un médicament enregistré.",
+        "description": "Un programme mensuel pour les adultes présentant une indication médicale de prise en charge du poids : consultation avec un médecin, médicament GLP-1 enregistré prescrit à la dose qui vous convient, et points de suivi sur les effets indésirables, la nutrition et la masse musculaire. Ne convient pas pendant la grossesse, ni en cas d’antécédent de pancréatite ou de certains cancers de la thyroïde. L’éligibilité est décidée par le médecin.",
+        "contents": "Consultation avec un médecin ; un mois de traitement GLP-1 prescrit ; mise en route avec un infirmier ; points de suivi toutes les deux semaines",
+        "unit": "Un mois, à partir de"
+      },
+      "electrolytes": {
+        "name": "Électrolytes du quotidien",
+        "tagline": "Sodium, potassium et magnésium pour les journées chaudes.",
+        "description": "Des sachets d’électrolytes sans sucre, pour le climat, le surf et la salle de sport. Un sachet dans 500 ml d’eau.",
+        "contents": "Sodium ; potassium ; magnésium ; arôme naturel d’agrumes",
+        "unit": "Boîte de 30 sachets"
+      },
+      "magnesium-glycinate": {
+        "name": "Glycinate de magnésium",
+        "tagline": "Une forme douce de magnésium, à prendre le soir.",
+        "description": "Du magnésium lié à la glycine, choisi parce qu’il est doux pour l’estomac. Le magnésium contribue à une fonction musculaire normale et à réduire la fatigue.",
+        "contents": "Bisglycinate de magnésium, 200 mg de magnésium élément pour deux gélules",
+        "unit": "90 gélules"
+      },
+      "collagen-peptides": {
+        "name": "Peptides de collagène marin",
+        "tagline": "Le seul peptide de notre liste à mélanger à votre café.",
+        "description": "Collagène marin hydrolysé, sans arôme, qui se dissout dans les boissons chaudes ou froides. Dix grammes par jour.",
+        "contents": "Collagène de poisson hydrolysé (types I et III)",
+        "unit": "Pot de 300 g, 30 portions"
+      },
+      "creatine": {
+        "name": "Créatine monohydrate",
+        "tagline": "Le complément le plus étudié dans le sport.",
+        "description": "Créatine monohydrate micronisée. Trois à cinq grammes par jour améliorent les performances physiques lors d’efforts brefs de haute intensité.",
+        "contents": "Créatine monohydrate, rien d’autre",
+        "unit": "Pot de 300 g, 60 portions"
+      },
+      "omega-3": {
+        "name": "Oméga-3",
+        "tagline": "EPA et DHA issus d’huile de poisson.",
+        "description": "Capsules molles d’huile de poisson concentrée. L’EPA et le DHA contribuent à une fonction cardiaque normale.",
+        "contents": "Concentré d’huile de poisson, 1 000 mg d’EPA et de DHA pour deux capsules molles",
+        "unit": "60 capsules molles"
+      },
+      "member-essentials": {
+        "name": "Essentials",
+        "tagline": "Faites le plein tout au long de votre séjour.",
+        "description": "Deux perfusions classiques par mois et des tarifs membres sur tout le reste.",
+        "contents": "2 perfusions IV classiques par mois (jusqu’au Myers’ Cocktail) ; 10 % de réduction sur les produits et les perfusions supplémentaires ; réservation prioritaire",
+        "unit": "Mensuel"
+      },
+      "member-performance": {
+        "name": "Performance",
+        "tagline": "Pour ceux qui s’entraînent dur et veulent un médecin à leurs côtés.",
+        "description": "Une perfusion par semaine, un point de suivi mensuel avec un médecin et la livraison gratuite.",
+        "contents": "4 perfusions IV par mois (toutes sauf NAD+) ; 1 point de suivi avec un médecin par mois ; 15 % de réduction sur les produits et les perfusions supplémentaires ; livraison gratuite des produits ; réservation prioritaire",
+        "unit": "Mensuel"
+      },
+      "member-longevity": {
+        "name": "Longevity",
+        "tagline": "Notre formule complète, construite autour du NAD+ et d’un suivi régulier.",
+        "description": "Des perfusions hebdomadaires, une perfusion de NAD+ par mois et un médecin qui suit votre protocole.",
+        "contents": "4 perfusions IV par mois ; 1 perfusion NAD+ 250 mg par mois ; suivi par un médecin chaque mois ; 20 % de réduction sur les produits ; déplacement en villa et livraison gratuits",
+        "unit": "Mensuel"
+      }
+    }
+  },
+  "HowItWorks": {
+    "eyebrow": "Le parcours",
+    "title": "Comment ça marche",
+    "intro": "Commander chez nous prend quelques minutes. La partie médicale se déroule en arrière-plan, et c’est notre raison d’être.",
+    "step1": { "title": "Choisissez ce qu’il vous faut", "text": "Parcourez les perfusions, les peptides, les compléments et les abonnements. Ajoutez-les à votre panier et dites-nous si vous venez au lounge ou si vous préférez que nous venions à vous." },
+    "step2": { "title": "Répondez au questionnaire de santé", "text": "Pour les perfusions, les injections et les produits sur ordonnance, nous vous interrogeons sur votre âge, vos problèmes de santé, vos allergies et vos traitements. Vos réponses ne sont vues que par l’équipe médicale." },
+    "step3": { "title": "Un médecin examine les produits sur ordonnance", "text": "Un médecin agréé lit votre questionnaire et approuve, ajuste ou refuse la demande. Si un point mérite d’être discuté, le médecin vous contacte sur WhatsApp. Les compléments et les perfusions classiques ne passent pas par cette étape." },
+    "step4": { "title": "Payez comme vous préférez", "text": "QRIS, virement sur compte virtuel, portefeuille électronique, carte internationale, virement bancaire manuel, ou espèces et QRIS à la livraison. Les produits sur ordonnance ne se règlent qu’après approbation." },
+    "step5": { "title": "Recevez", "text": "Nous confirmons votre créneau de deux heures sur WhatsApp. Un infirmier se déplace pour les séances ; les produits arrivent par coursier, au frais, ou avec l’infirmier." },
+    "team": {
+      "title": "Qui prend soin de vous",
+      "text": "Nous travaillons avec des médecins indonésiens indépendants et agréés, et avec des infirmiers diplômés. Le médecin est responsable de chaque décision de prescription ; l’infirmier, de l’administration sûre de votre soin.",
+      "doctor": { "title": "Médecins", "text": "Ils examinent les questionnaires, prescrivent, rédigent votre protocole et restent joignables pour vos questions de suivi." },
+      "nurse": { "title": "Infirmiers et infirmières", "text": "Ils vérifient vos constantes vitales, posent la perfusion, restent avec vous du début à la fin et savent quand arrêter." },
+      "care": { "title": "Équipe d’accompagnement", "text": "Elle planifie les visites, maintient la chaîne du froid et répond sur WhatsApp tous les jours de {opens} à {closes}." }
+    },
+    "safety": {
+      "title": "Quand nous disons non",
+      "text": "Nous ne prenons pas en charge les moins de 18 ans, et nous ne fournissons pas un produit que le médecin ne juge pas sûr pour vous, y compris pendant la grossesse et l’allaitement pour la plupart des produits. Si le médecin refuse, rien ne vous est débité.",
+      "emergency": "Nous ne sommes pas un service d’urgence. En cas de douleur thoracique, de difficultés à respirer, de déshydratation sévère ou de toute autre urgence, appelez le 112 ou rendez-vous à l’hôpital le plus proche."
+    },
+    "cta": "Commencer par la carte"
+  },
+  "Delivery": {
+    "eyebrow": "Bali uniquement",
+    "title": "Livraison et zones desservies",
+    "intro": "Nous livrons les produits et envoyons nos infirmiers dans les villas, les hôtels et à domicile dans les zones ci-dessous, tous les jours de {opens} à {closes}.",
+    "table": { "area": "Zones", "delivery": "Livraison de produits", "callout": "Déplacement infirmier", "eta": "Délai habituel" },
+    "eta": "environ {minutes} min",
+    "freeFrom": "La livraison de produits est gratuite à partir de {amount} de produits. Lorsqu’un infirmier se déplace, les produits voyagent avec lui, sans frais de livraison supplémentaires.",
+    "elsewhere": "Vous séjournez ailleurs à Bali ? Écrivez-nous, nous vous dirons ce qui est possible.",
+    "windows": { "title": "Créneaux d’arrivée", "text": "Vous choisissez un créneau de deux heures lors de la commande. Nous le confirmons sur WhatsApp et vous prévenons par message quand l’infirmier ou le coursier est en route." },
+    "cold": { "title": "Chaîne du froid", "text": "Les peptides et les autres produits sensibles à la température quittent notre réfrigérateur dans une pochette isotherme avec des pains de glace et vous sont remis en main propre. Placez-les au réfrigérateur (entre 2 et 8 °C) dès leur arrivée." },
+    "clinic": { "title": "Le lounge", "text": "Vous préférez venir à nous ? Choisissez « Au lounge » lors de la commande pour les séances et les retraits.", "pending": "L’adresse vous est envoyée avec votre confirmation de réservation." },
+    "abroad": { "title": "Hors de Bali", "text": "Nous n’expédions ni vers les autres îles ni à l’étranger. Si vous voyagez avec des produits injectables, les règles de votre compagnie aérienne et de votre destination s’appliquent : demandez-nous une lettre du médecin." }
+  },
+  "Faq": {
+    "title": "Questions fréquentes",
+    "intro": "Des réponses courtes et franches. Si votre question n’y figure pas, posez-la-nous sur WhatsApp.",
+    "q1": { "q": "Faut-il un médecin pour commander des peptides ?", "a": "Oui. Les peptides et les autres produits sur ordonnance ne sont fournis qu’après examen de votre questionnaire de santé par un médecin agréé. Le médecin peut approuver, ajuster ou refuser la demande, et peut vous contacter au préalable. Vous ne payez qu’après approbation." },
+    "q2": { "q": "Combien de temps prend la validation médicale ?", "a": "Nous visons une réponse le jour même pour les demandes reçues pendant les heures d’ouverture. Vous recevez un message avec un lien vers votre commande dès qu’une décision est prise." },
+    "q3": { "q": "Les peptides sont-ils des médicaments autorisés ?", "a": "Certains produits que nous fournissons sont des médicaments enregistrés, prescrits dans leur indication autorisée. Plusieurs autres, dont le BPC-157, le TB-500 et l’Epitalon, sont des peptides de recherche : ce ne sont pas des médicaments autorisés, l’essentiel des preuves provient d’études en laboratoire et chez l’animal, et leur sécurité à long terme chez l’humain n’est pas établie. Votre médecin vous l’explique avant que vous ne décidiez." },
+    "q4": { "q": "Je pratique un sport de compétition avec contrôles antidopage. Puis-je utiliser des peptides ?", "a": "Probablement pas. Le BPC-157, le TB-500, le CJC-1295, l’ipamorelin et plusieurs autres sont interdits en permanence par le Code mondial antidopage. Renseignez-vous auprès de votre fédération avant de commander, et signalez au médecin que vous faites l’objet de contrôles." },
+    "q5": { "q": "Qui pose la perfusion ?", "a": "Un infirmier diplômé. Avant de commencer, l’infirmier vérifie votre tension artérielle, votre pouls et vos antécédents médicaux, et peut ajuster ou refuser le soin. L’infirmier reste avec vous jusqu’à la fin de la perfusion." },
+    "q6": { "q": "Pouvez-vous venir dans ma villa ou à mon hôtel ?", "a": "Oui, dans les zones indiquées sur la page de livraison. Vous choisissez un créneau d’arrivée de deux heures, et les frais de déplacement pour votre zone sont affichés avant votre confirmation." },
+    "q7": { "q": "Comment les peptides sont-ils livrés et conservés ?", "a": "Au frais, dans une pochette isotherme, remis en main propre. Conservez-les au réfrigérateur, entre 2 et 8 °C. Chaque commande comprend un kit d’injection et les instructions écrites du médecin." },
+    "q8": { "q": "Comment puis-je payer ?", "a": "QRIS, virement bancaire sur compte virtuel, portefeuilles électroniques, cartes indonésiennes et internationales, virement bancaire manuel, ou espèces et QRIS à l’arrivée de l’infirmier ou du coursier. Les prix sont en roupies indonésiennes." },
+    "q9": { "q": "Qui ne devrait pas recevoir de perfusion ni suivre de protocole de peptides ?", "a": "Nous ne prenons pas en charge les moins de 18 ans. La plupart des produits ne conviennent pas pendant la grossesse et l’allaitement, et certains ne conviennent pas en cas de maladie cardiaque, rénale ou hépatique, d’antécédent de cancer ou de déficit en G6PD. C’est à cela que servent le questionnaire et la validation médicale." },
+    "q10": { "q": "Puis-je annuler ou reporter ?", "a": "Vous pouvez reporter ou annuler une visite sans frais jusqu’à trois heures avant votre créneau. Si le médecin refuse votre demande, rien ne vous est débité. Les compléments non ouverts peuvent être retournés sous sept jours. Les produits sur ordonnance et les produits réfrigérés ne peuvent pas être retournés une fois livrés." },
+    "q11": { "q": "Livrez-vous hors de Bali ?", "a": "Non. Nous livrons uniquement à Bali." },
+    "q12": { "q": "Est-ce un service d’urgence ?", "a": "Non. En cas de douleur thoracique, de difficultés à respirer, d’évanouissement, de déshydratation sévère ou de toute autre urgence, appelez le 112 ou rendez-vous à l’hôpital le plus proche." }
+  },
+  "Contact": {
+    "title": "Contact",
+    "intro": "WhatsApp est le moyen le plus rapide de nous joindre. Nous répondons tous les jours de {opens} à {closes}, heure de Bali.",
+    "whatsappCta": "Nous écrire sur WhatsApp",
+    "emailLabel": "E-mail",
+    "hoursLabel": "Horaires",
+    "hours": "Tous les jours, de {opens} à {closes} (heure de Bali)",
+    "addressLabel": "Lounge",
+    "addressPending": "Adresse envoyée avec votre confirmation de réservation",
+    "map": "Ouvrir dans Google Maps",
+    "emergency": "Pas pour les urgences : appelez le 112 ou rendez-vous à l’hôpital le plus proche.",
+    "form": {
+      "title": "Envoyez-nous un message",
+      "name": "Votre nom",
+      "contact": "Numéro WhatsApp ou e-mail",
+      "contactHint": "Pour que nous puissions vous répondre.",
+      "topic": "De quoi s’agit-il ?",
+      "topics": { "consult": "Je souhaite un conseil pour choisir", "booking": "Une réservation ou une visite", "order": "Une commande existante", "membership": "Abonnements", "other": "Autre chose" },
+      "message": "Votre message",
+      "messageHint": "Merci de ne pas indiquer ici d’informations médicales détaillées ; le questionnaire de santé, lors de la commande, est l’endroit sécurisé prévu pour cela.",
+      "send": "Envoyer le message",
+      "sending": "Envoi…",
+      "sent": "Merci. Nous vous répondrons rapidement.",
+      "error": "Votre message n’a pas pu être envoyé. Veuillez réessayer ou utiliser WhatsApp."
+    }
+  },
+  "Cart": {
+    "title": "Votre panier",
+    "empty": "Votre panier est vide.",
+    "emptyCta": "Découvrir les perfusions IV",
+    "quantity": "Quantité",
+    "decrease": "Diminuer la quantité",
+    "increase": "Augmenter la quantité",
+    "remove": "Retirer",
+    "subtotal": "Sous-total",
+    "feesNote": "Les frais de livraison ou de déplacement sont calculés lors de la commande, selon votre zone.",
+    "rxNote": "Votre panier contient des produits soumis à validation médicale. Rien ne vous sera débité tant qu’un médecin ne les aura pas approuvés.",
+    "sessionNote": "Les séances sont assurées par un infirmier. Vous choisirez le lieu et un créneau d’arrivée lors de la commande.",
+    "checkout": "Passer à la commande",
+    "continue": "Continuer mes achats"
+  },
+  "Checkout": {
+    "title": "Finaliser la commande",
+    "empty": "Votre panier est vide.",
+    "contact": {
+      "title": "Vos coordonnées",
+      "name": "Nom complet",
+      "nameHint": "Tel qu’il figure sur votre pièce d’identité.",
+      "email": "E-mail",
+      "phone": "Numéro WhatsApp",
+      "phoneHint": "Avec l’indicatif du pays, par exemple +62 812 3456 7890."
+    },
+    "fulfilment": {
+      "title": "Où et quand",
+      "clinicSession": "Au lounge",
+      "clinicSessionText": "Venez chez nous pour votre séance.",
+      "clinicPickup": "Retrait au lounge",
+      "clinicPickupText": "Sans frais de livraison.",
+      "address": "Dans ma villa, à mon hôtel ou à domicile",
+      "addressSessionText": "Un infirmier se déplace chez vous. Frais de déplacement selon la zone.",
+      "addressDeliveryText": "Livré chez vous. Frais selon la zone.",
+      "area": "Zone",
+      "areaPlaceholder": "Choisissez votre zone",
+      "addressLabel": "Adresse",
+      "addressHint": "Nom de la villa ou de l’hôtel, rue, numéro de chambre et tout ce qui nous aide à vous trouver.",
+      "date": "Date souhaitée",
+      "slot": "Créneau d’arrivée",
+      "slotPlaceholder": "Choisissez un créneau",
+      "slotNote": "Nous confirmons l’heure exacte sur WhatsApp. Tous les horaires sont à l’heure de Bali.",
+      "notes": "Remarques pour l’équipe (facultatif)",
+      "membershipOnly": "Les abonnements ne nécessitent aucune livraison. Nous vous contacterons sur WhatsApp pour réserver vos séances."
+    },
+    "health": {
+      "title": "Questionnaire de santé",
+      "intro": "Vu uniquement par l’équipe médicale. Merci de répondre avec sincérité : c’est ce qui assure la sécurité de votre soin.",
+      "dob": "Date de naissance",
+      "sex": "Sexe",
+      "sexOptions": { "female": "Féminin", "male": "Masculin", "other": "Autre" },
+      "weight": "Poids en kg (facultatif)",
+      "conditions": "L’une de ces situations vous concerne-t-elle ?",
+      "conditionOptions": {
+        "heart": "Maladie cardiaque ou troubles du rythme cardiaque",
+        "blood_pressure": "Hypertension artérielle",
+        "kidney": "Maladie rénale",
+        "liver": "Maladie du foie",
+        "diabetes": "Diabète",
+        "cancer": "Cancer, actuel ou passé",
+        "clotting": "Caillots sanguins ou trouble hémorragique",
+        "g6pd": "Déficit en G6PD",
+        "autoimmune": "Maladie auto-immune ou traitement immunosuppresseur",
+        "pregnant": "Grossesse en cours ou possible, ou allaitement",
+        "none": "Aucune de ces situations"
+      },
+      "allergies": "Allergies",
+      "allergiesHint": "Médicaments, aliments, latex. Écrivez « aucune » si vous n’en avez pas.",
+      "medications": "Médicaments et compléments que vous prenez",
+      "medicationsHint": "Écrivez « aucun » si vous ne prenez rien.",
+      "goals": "Que souhaitez-vous obtenir ?",
+      "goalsHint": "Blessure, charge d’entraînement, sommeil, énergie… et tout ce que le médecin devrait savoir."
+    },
+    "payment": {
+      "title": "Paiement",
+      "afterReview": "Rien à payer pour l’instant. Un médecin examine d’abord votre demande, puis nous vous envoyons un lien pour payer par QRIS, virement, carte ou à la livraison.",
+      "choose": "Comment souhaitez-vous payer ?",
+      "xendit": "QRIS, virement bancaire ou portefeuille électronique",
+      "xenditText": "Payez maintenant en roupies : QRIS, compte virtuel, GoPay, OVO, DANA ou carte indonésienne.",
+      "airwallex": "Carte internationale",
+      "airwallexText": "Visa, Mastercard ou Amex.",
+      "airwallexCharge": "Débit d’environ {amount}.",
+      "transfer": "Virement bancaire manuel",
+      "transferText": "Nous vous indiquons les coordonnées du compte. Envoyez votre justificatif de paiement et nous confirmons manuellement.",
+      "cod": "Payer à la livraison ou au lounge",
+      "codText": "Espèces, QRIS ou carte à l’arrivée de l’infirmier ou du coursier.",
+      "simulated": "Mode test : aucun prestataire de paiement n’est connecté, cette option marque donc la commande comme payée."
+    },
+    "consents": {
+      "adult": "J’ai 18 ans ou plus.",
+      "terms": "J’accepte les <terms>conditions générales de service</terms> et la <privacy>politique de confidentialité</privacy>.",
+      "medical": "Mes réponses sont exactes et complètes. J’accepte que ma demande soit examinée à distance par un médecin et que mes données de santé soient traitées à cette fin, et j’ai lu l’<disclaimer>avertissement médical</disclaimer>."
+    },
+    "summary": {
+      "title": "Récapitulatif",
+      "subtotal": "Sous-total",
+      "delivery": "Livraison",
+      "callout": "Déplacement infirmier",
+      "free": "Gratuit",
+      "chooseArea": "Choisissez une zone",
+      "total": "Total",
+      "edit": "Modifier le panier"
+    },
+    "submitReview": "Envoyer pour validation médicale",
+    "submitPay": "Commander et payer",
+    "submitOrder": "Valider la commande",
+    "submitting": "Envoi…",
+    "errors": {
+      "required": "Veuillez remplir ce champ.",
+      "name": "Veuillez saisir votre nom complet.",
+      "email": "Veuillez saisir une adresse e-mail valide.",
+      "phone": "Veuillez saisir un numéro de téléphone valide avec l’indicatif du pays.",
+      "area": "Veuillez choisir votre zone.",
+      "address": "Veuillez saisir votre adresse complète.",
+      "date": "Veuillez choisir une date dans les 30 jours à compter d’aujourd’hui.",
+      "slot": "Veuillez choisir un créneau d’arrivée.",
+      "slot_passed": "Ce créneau est déjà passé aujourd’hui. Veuillez en choisir un plus tardif.",
+      "dob": "Veuillez saisir votre date de naissance.",
+      "underage": "Nous sommes désolés : nous ne pouvons servir que des adultes de 18 ans ou plus.",
+      "conditions": "Veuillez cocher ce qui vous concerne, ou « Aucune de ces situations ».",
+      "allergies": "Veuillez indiquer vos allergies, ou écrire « aucune ».",
+      "medications": "Veuillez indiquer vos médicaments, ou écrire « aucun ».",
+      "consent": "Veuillez cocher cette case pour continuer.",
+      "payment": "Veuillez choisir votre mode de paiement.",
+      "items": "Certains articles de votre panier ne sont plus disponibles. Veuillez vérifier votre panier.",
+      "rate": "Trop de tentatives. Veuillez patienter une minute et réessayer.",
+      "generic": "Une erreur s’est produite. Veuillez réessayer, ou écrivez-nous sur WhatsApp.",
+      "summary": "Veuillez vérifier les champs signalés."
+    }
+  },
+  "Order": {
+    "title": "Commande {id}",
+    "notFound": { "title": "Commande introuvable", "text": "Ce lien n’est pas valide. Veuillez utiliser le lien figurant dans votre message de confirmation, ou contactez-nous." },
+    "placed": "Passée le {date}",
+    "status": {
+      "awaiting_review": { "label": "En attente de validation médicale", "text": "Un médecin examine votre questionnaire de santé. Nous vous écrirons dès qu’une décision sera prise. Rien n’a été débité." },
+      "awaiting_payment": { "label": "Prête pour le paiement", "text": "Choisissez ci-dessous votre mode de paiement. Nous préparons votre commande dès que le paiement est confirmé." },
+      "payment_review": { "label": "Vérification de votre virement", "text": "Merci. Nous avons votre justificatif de paiement et confirmerons dès que le virement apparaîtra sur notre compte." },
+      "confirmed": { "label": "Confirmée", "text": "Votre commande est confirmée. Nous vous écrirons sur WhatsApp pour confirmer l’horaire." },
+      "out_for_delivery": { "label": "En route", "text": "Votre infirmier ou votre coursier est en route." },
+      "completed": { "label": "Terminée", "text": "Merci de nous avoir choisis. Nous restons à votre disposition pour toute question." },
+      "declined": { "label": "Non approuvée", "text": "Le médecin n’a pas pu approuver cette demande. Rien n’a été débité." },
+      "cancelled": { "label": "Annulée", "text": "Cette commande a été annulée." },
+      "refunded": { "label": "Remboursée", "text": "Cette commande a été remboursée." }
+    },
+    "approvedNote": "Approuvée par le médecin.",
+    "partlyApprovedNote": "Le médecin a approuvé une partie de votre demande. Les articles ci-dessous n’ont pas été approuvés et ont été retirés.",
+    "doctorNote": "Note du médecin",
+    "codPending": "À payer à la livraison : {amount}",
+    "paid": "Payée",
+    "paidOn": "Payée le {date}",
+    "items": "Articles",
+    "removed": "Non approuvé",
+    "fulfilment": {
+      "title": "Où et quand",
+      "clinic": "Au lounge",
+      "address": "À votre adresse",
+      "window": "{date}, {slot}",
+      "toConfirm": "Horaire à confirmer sur WhatsApp"
+    },
+    "totals": { "subtotal": "Sous-total", "delivery": "Livraison", "callout": "Déplacement infirmier", "total": "Total" },
+    "pay": {
+      "title": "Régler votre commande",
+      "xendit": "QRIS, virement bancaire ou portefeuille électronique",
+      "xenditText": "Page de paiement sécurisée en roupies : QRIS, compte virtuel, GoPay, OVO, DANA, cartes indonésiennes.",
+      "airwallex": "Carte internationale",
+      "airwallexText": "Visa, Mastercard ou Amex sur une page de paiement sécurisée.",
+      "airwallexCharge": "Votre carte est débitée d’environ {amount}.",
+      "transfer": "Virement bancaire manuel",
+      "transferText": "Virez le montant exact, puis envoyez votre justificatif de paiement.",
+      "bank": "Banque",
+      "holder": "Titulaire du compte",
+      "number": "Numéro de compte",
+      "amount": "Montant",
+      "reference": "Référence",
+      "sampleBank": "Coordonnées bancaires d’exemple : à remplacer par les vraies avant le lancement.",
+      "proof": "Justificatif de paiement (photo, capture d’écran ou PDF)",
+      "upload": "Envoyer le justificatif",
+      "uploading": "Envoi en cours…",
+      "cod": "Payer à la livraison ou au lounge",
+      "codText": "Espèces, QRIS ou carte à l’arrivée de l’infirmier ou du coursier.",
+      "codConfirm": "Je confirme, je paierai à la livraison",
+      "payNow": "Payer maintenant",
+      "redirecting": "Ouverture de la page de paiement…",
+      "simulated": "Mode test : aucun prestataire de paiement n’est connecté, la commande est donc marquée comme payée.",
+      "processing": "Nous confirmons votre paiement. Cette page se met à jour toute seule.",
+      "failed": "Le paiement n’a pas abouti. Vous pouvez réessayer ou choisir un autre mode de paiement.",
+      "errors": {
+        "too_large": "Le fichier dépasse 8 Mo.",
+        "bad_file": "Veuillez envoyer un fichier JPG, PNG, WEBP ou PDF.",
+        "generic": "Une erreur s’est produite. Veuillez réessayer, ou écrivez-nous sur WhatsApp."
+      }
+    },
+    "help": "Des questions sur cette commande ?",
+    "whatsappText": "Bonjour {brand}, j’ai une question au sujet de ma commande {id}.",
+    "keepLink": "Conservez cette page : c’est votre lien privé pour suivre la commande."
+  },
+  "Legal": {
+    "englishOnly": "Ce document est fourni en anglais ; c’est la version qui fait foi.",
+    "updated": "Dernière mise à jour : {date}",
+    "terms": "Conditions générales de service",
+    "privacy": "Politique de confidentialité",
+    "medical": "Avertissement médical",
+    "refunds": "Annulations et remboursements"
+  },
+  "Footer": {
+    "about": "Soins de récupération et de longévité à Bali : perfusions IV, peptides validés par un médecin et essentiels du quotidien, dans notre lounge ou dans votre villa.",
+    "menu": "Notre carte",
+    "care": "Accompagnement",
+    "legal": "Informations légales",
+    "disclaimer": "Les informations de ce site sont générales et ne remplacent pas un avis médical. Les produits sur ordonnance ne sont fournis qu’après validation par un médecin agréé. Les perfusions bien-être et les compléments alimentaires ne sont pas destinés à diagnostiquer, traiter, guérir ou prévenir une quelconque maladie. Nous nous adressons aux adultes de 18 ans et plus. Ce n’est pas un service d’urgence : en cas d’urgence, appelez le 112.",
+    "dispensedBy": "Les produits sur ordonnance sont délivrés par {name}.",
+    "licence": "Licence n° {number}",
+    "rights": "© {year} {company}. Tous droits réservés."
+  },
+  "NotFound": {
+    "title": "Page introuvable",
+    "text": "La page que vous cherchez n’existe pas ou a été déplacée.",
+    "cta": "Retour à l’accueil"
+  },
+  "Email": {
+    "greeting": "Bonjour {name},",
+    "signoff": "L’équipe {brand}",
+    "viewOrder": "Voir votre commande",
+    "received": {
+      "subject": "{brand} : nous avons bien reçu votre commande {id}",
+      "review": "Merci pour votre commande. Un médecin examine actuellement votre questionnaire de santé. Nous vous écrirons dès qu’une décision sera prise. Rien n’a été débité.",
+      "pay": "Merci pour votre commande. Vous pouvez la régler et la suivre grâce au lien ci-dessous.",
+      "cod": "Merci pour votre commande. Elle est confirmée, et vous réglerez {amount} à la livraison. Nous vous écrirons sur WhatsApp pour confirmer l’horaire."
+    },
+    "approved": {
+      "subject": "{brand} : votre commande {id} est approuvée",
+      "text": "Bonne nouvelle : le médecin a approuvé votre demande. Utilisez le lien ci-dessous pour choisir votre mode de paiement. Nous préparons votre commande dès que le paiement est confirmé.",
+      "partly": "Le médecin a approuvé une partie de votre demande. Le lien ci-dessous indique ce qui a été approuvé et vous permet de choisir votre mode de paiement."
+    },
+    "declined": {
+      "subject": "{brand} : à propos de votre commande {id}",
+      "text": "Après examen de votre questionnaire de santé, le médecin n’a pas pu approuver cette demande. Rien n’a été débité. Répondez à ce message ou écrivez-nous sur WhatsApp si vous souhaitez en discuter."
+    },
+    "confirmed": {
+      "subject": "{brand} : commande {id} confirmée",
+      "text": "Nous avons bien reçu votre paiement et votre commande est confirmée. Nous vous écrirons sur WhatsApp pour confirmer l’horaire."
+    },
+    "onTheWay": {
+      "subject": "{brand} : votre commande {id} est en route",
+      "text": "Votre infirmier ou votre coursier est en route."
+    },
+    "doctorNote": "Note du médecin : {note}"
+  }
+}

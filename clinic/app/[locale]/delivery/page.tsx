@@ -1,0 +1,73 @@
+import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Clock, MapPin, Plane, Snowflake } from "lucide-react";
+import { pageMetadata } from "@/i18n/seo";
+import { FREE_DELIVERY_FROM_IDR, ZONES, site } from "@/lib/config";
+import { idr } from "@/lib/money";
+import { PageHeader } from "@/components/PageHeader";
+import { WhatsAppLink } from "@/components/WhatsAppLink";
+
+type Props = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Delivery" });
+  return pageMetadata(locale, "/delivery", { title: t("title"), description: t("intro", { opens: site.opens, closes: site.closes }) });
+}
+
+export default async function Delivery({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("Delivery");
+  const c = await getTranslations("Common");
+  const info = [
+    { key: "windows", icon: Clock, text: t("windows.text") },
+    { key: "cold", icon: Snowflake, text: t("cold.text") },
+    { key: "clinic", icon: MapPin, text: `${t("clinic.text")} ${site.address || t("clinic.pending")}` },
+    { key: "abroad", icon: Plane, text: t("abroad.text") },
+  ] as const;
+  return (
+    <>
+      <PageHeader eyebrow={t("eyebrow")} title={t("title")} intro={t("intro", { opens: site.opens, closes: site.closes })} />
+      <section className="container-page py-14">
+        <div className="overflow-x-auto rounded-3xl border border-sand-200 bg-white/70">
+          <table className="w-full min-w-[36rem] text-left text-sm">
+            <thead className="bg-sand-100 text-xs uppercase tracking-[0.16em] text-ink-500">
+              <tr>
+                <th scope="col" className="px-6 py-4 font-semibold">{t("table.area")}</th>
+                <th scope="col" className="px-6 py-4 font-semibold">{t("table.delivery")}</th>
+                <th scope="col" className="px-6 py-4 font-semibold">{t("table.callout")}</th>
+                <th scope="col" className="px-6 py-4 font-semibold">{t("table.eta")}</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-sand-200">
+              {ZONES.map((z) => (
+                <tr key={z.id}>
+                  <th scope="row" className="px-6 py-5 font-medium leading-relaxed text-forest-900">{z.areas.join(", ")}</th>
+                  <td className="px-6 py-5 text-ink-700">{idr(z.deliveryIdr, locale)}</td>
+                  <td className="px-6 py-5 text-ink-700">{idr(z.calloutIdr, locale)}</td>
+                  <td className="px-6 py-5 text-ink-700">{t("eta", { minutes: z.etaMin })}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-5 max-w-3xl text-sm leading-relaxed text-ink-700">{t("freeFrom", { amount: idr(FREE_DELIVERY_FROM_IDR, locale) })}</p>
+        <div className="mt-4 flex flex-wrap items-center gap-4">
+          <p className="text-sm text-ink-700">{t("elsewhere")}</p>
+          <WhatsAppLink label={c("chatOnWhatsapp")} text={c("whatsappGeneral", { brand: site.name })} className="btn-secondary btn-sm" />
+        </div>
+
+        <div className="mt-14 grid gap-5 sm:grid-cols-2">
+          {info.map(({ key, icon: Icon, text }) => (
+            <div key={key} className="card">
+              <Icon className="h-6 w-6 text-forest-700" strokeWidth={1.6} aria-hidden="true" />
+              <h2 className="mt-4 font-display text-2xl font-semibold text-forest-900">{t(`${key}.title`)}</h2>
+              <p className="mt-2 text-sm leading-relaxed text-ink-700">{text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
+  );
+}

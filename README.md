@@ -30,6 +30,7 @@ Without Airwallex keys, checkout skips payment and marks the order paid (dev onl
 | `app/api/news/refresh` | Cron (Vercel) that summarizes official announcements |
 | `supabase/schema.sql` | Tables, RLS, 30-day passport-data purge |
 | `ila-office/` | Separate app: ILA Global Consulting practice suite (CRM, quotes, projects, multi-entity books, Indonesian tax and payroll). See `ila-office/README.md` and `ila-office/docs/ila-office-spec.md` |
+| `clinic/` | Separate app: Bali recovery clinic storefront (IV drips, doctor-reviewed peptides, supplements, memberships; EN/RU/FR) with a doctor and ops console. See `clinic/README.md` |
 
 ## Checks
 ```bash

@@ -1,0 +1,713 @@
+{
+  "Metadata": {
+    "defaultTitle": "{brand} | IV therapy, peptides and recovery in Bali",
+    "titleTemplate": "%s | {brand}",
+    "description": "Doctor-reviewed peptide protocols, nurse-administered IV drips and recovery essentials in Bali. At our lounge or brought to your villa, from Canggu to Uluwatu and Ubud."
+  },
+  "Common": {
+    "descriptor": "Recovery & Longevity · Bali",
+    "whatsapp": "WhatsApp",
+    "chatOnWhatsapp": "Chat on WhatsApp",
+    "contactUs": "Contact us",
+    "addToCart": "Add to basket",
+    "addToBooking": "Add to booking",
+    "requestReview": "Request doctor review",
+    "added": "Added",
+    "viewBasket": "View basket",
+    "details": "Details",
+    "learnMore": "Learn more",
+    "doctorReview": "Doctor review required",
+    "doctorReviewShort": "Doctor review",
+    "nurseGiven": "Given by a nurse",
+    "coldChain": "Delivered chilled",
+    "minutes": "{count} min",
+    "perMonth": "per month",
+    "basket": "Basket",
+    "basketCount": "Basket, {count, plural, =0 {empty} one {# item} other {# items}}",
+    "menu": "Menu",
+    "close": "Close",
+    "language": "Language",
+    "skipToContent": "Skip to content",
+    "whatsappGeneral": "Hello {brand}, I have a question.",
+    "whatsappProduct": "Hello {brand}, I have a question about {product}."
+  },
+  "Nav": {
+    "ivDrips": "IV drips",
+    "peptides": "Peptides",
+    "supplements": "Supplements",
+    "memberships": "Memberships",
+    "howItWorks": "How it works",
+    "delivery": "Delivery & areas",
+    "faq": "FAQ",
+    "contact": "Contact"
+  },
+  "Kinds": {
+    "iv": "IV drip",
+    "shot": "Injection",
+    "peptide": "Peptide",
+    "supplement": "Supplement",
+    "membership": "Membership"
+  },
+  "Goals": {
+    "all": "All",
+    "hydration": "Hydration",
+    "recovery": "Recovery",
+    "energy": "Energy",
+    "immunity": "Immunity",
+    "longevity": "Longevity",
+    "skin": "Skin",
+    "metabolic": "Metabolic",
+    "sleep": "Sleep"
+  },
+  "Home": {
+    "hero": {
+      "eyebrow": "IV therapy · Peptides · Recovery",
+      "title": "Recovery and longevity care, brought to your villa.",
+      "text": "Doctor-reviewed peptide protocols, nurse-administered IV drips and recovery essentials. At our lounge, or delivered across Bali from Canggu to Uluwatu and Ubud.",
+      "ctaPrimary": "Book an IV drip",
+      "ctaSecondary": "Explore peptides",
+      "badge1": "Doctor-reviewed protocols",
+      "badge2": "Nurse-administered",
+      "badge3": "Delivered across Bali",
+      "cardLabel": "Most booked",
+      "artAlt": "Abstract illustration of Balinese rice terraces under a morning sun"
+    },
+    "pillars": {
+      "eyebrow": "What we offer",
+      "title": "Four ways to feel like yourself again",
+      "iv": { "title": "IV drips", "text": "Hydration, immunity, recovery and NAD+ infusions, given by a nurse at the lounge or at your villa." },
+      "peptides": { "title": "Peptides", "text": "Recovery, sleep, skin and metabolic protocols. Each one is reviewed by a doctor before it is supplied." },
+      "supplements": { "title": "Supplements", "text": "A short list of daily essentials we actually use: electrolytes, magnesium, collagen, creatine, omega-3." },
+      "memberships": { "title": "Memberships", "text": "Monthly drips, doctor check-ins and member pricing for people who stay in Bali a while." }
+    },
+    "how": {
+      "eyebrow": "How it works",
+      "title": "Medical care first, delivery second",
+      "text": "Nothing that needs a prescription leaves our fridge without a doctor's approval.",
+      "step1": { "title": "Choose", "text": "Pick a drip, a protocol or a product and tell us where you are staying." },
+      "step2": { "title": "Health check", "text": "Answer a short health questionnaire. It takes about two minutes." },
+      "step3": { "title": "Doctor review", "text": "A licensed doctor approves, adjusts or declines, and calls you if anything is unclear." },
+      "step4": { "title": "Pay and receive", "text": "Pay by QRIS, transfer, card or on delivery. A nurse or a chilled courier comes to you." },
+      "cta": "See the full process"
+    },
+    "featured": {
+      "eyebrow": "Popular right now",
+      "title": "Start here",
+      "cta": "See everything"
+    },
+    "villa": {
+      "eyebrow": "Villa and hotel call-out",
+      "title": "The lounge comes to you",
+      "text": "A nurse arrives with everything needed, checks your blood pressure and pulse, and stays with you for the whole infusion. All you need is a comfortable chair.",
+      "point1": "Two-hour arrival windows, every day from {opens} to {closes}",
+      "point2": "Call-out fee from {fee}, shown before you confirm",
+      "point3": "Couples and groups welcome: add a drip for each person",
+      "cta": "See areas and fees"
+    },
+    "standards": {
+      "eyebrow": "Our standards",
+      "title": "Straight answers, careful medicine",
+      "item1": { "title": "A doctor decides, not a shopping cart", "text": "Prescription items are released only after a licensed doctor has reviewed your health questionnaire." },
+      "item2": { "title": "Honest about the evidence", "text": "We tell you what is well studied and what is still experimental. Several peptides are not approved medicines, and we say so." },
+      "item3": { "title": "Cold chain from fridge to door", "text": "Temperature-sensitive products travel chilled in insulated pouches and are handed over in person." },
+      "item4": { "title": "Screened before every drip", "text": "Your nurse checks vital signs and history before starting, and will decline a treatment that is not right for you." }
+    },
+    "areas": {
+      "eyebrow": "Where we deliver",
+      "title": "Across South Bali and Ubud",
+      "text": "Product delivery from {delivery}. Free from {free} of products.",
+      "cta": "Delivery details"
+    },
+    "faq": { "eyebrow": "Questions", "title": "Good to know", "cta": "All questions" },
+    "final": {
+      "title": "Not sure where to start?",
+      "text": "Tell us how you feel and what you want to achieve. We will suggest a plan and, where needed, arrange a doctor's review.",
+      "cta": "Ask a question"
+    }
+  },
+  "Listing": {
+    "iv": {
+      "eyebrow": "IV therapy",
+      "title": "IV drips",
+      "intro": "Fluids, vitamins and minerals given directly into a vein by a nurse, at our lounge or at your villa. Your nurse checks your vital signs and medical history before starting.",
+      "note": "Wellness infusions support hydration and comfort. They do not treat or cure disease. If you are seriously unwell, go to a hospital."
+    },
+    "shots": {
+      "title": "Quick injections",
+      "intro": "Ten minutes at the lounge, or added to a villa visit."
+    },
+    "peptides": {
+      "eyebrow": "Doctor-reviewed",
+      "title": "Peptides and injectables",
+      "intro": "Protocols for recovery, sleep, skin, immunity and metabolic health. Every item on this page needs a doctor's approval before it is supplied.",
+      "noticeTitle": "How ordering works",
+      "notice": "Add what interests you and complete the health questionnaire at checkout. A doctor reviews your request and may approve, adjust or decline it. You pay only after approval.",
+      "evidenceTitle": "What you should know",
+      "evidence": "Some items here are registered medicines prescribed for their approved use. Others are research peptides: they are not approved medicines, most evidence comes from laboratory and animal studies, and long-term safety in humans is not established. Your doctor will explain what is and is not known before you decide. Many peptides are prohibited in competitive sport."
+    },
+    "supplements": {
+      "eyebrow": "Daily essentials",
+      "title": "Supplements",
+      "intro": "A deliberately short list. No doctor review needed: order and we deliver across Bali.",
+      "note": "Food supplements do not replace a varied diet. Ask your doctor before use if you take medication, are pregnant or breastfeeding."
+    },
+    "memberships": {
+      "eyebrow": "For longer stays",
+      "title": "Memberships",
+      "intro": "One monthly price for regular drips, doctor check-ins and member pricing on everything else.",
+      "note": "Memberships run for one month from the day of payment and are renewed by hand: we send you a reminder, nothing is charged automatically. Drips included in a plan are subject to the usual nurse screening.",
+      "popular": "Most chosen",
+      "includes": "Includes"
+    },
+    "empty": "Nothing here yet."
+  },
+  "Product": {
+    "back": "Back to {section}",
+    "contents": "What is in it",
+    "includes": "What is included",
+    "unit": "Format",
+    "duration": "Time needed",
+    "goodFor": "Chosen for",
+    "reviewTitle": "A doctor reviews this first",
+    "reviewText": "You complete a short health questionnaire at checkout. A doctor approves, adjusts or declines the request, and you pay only after approval.",
+    "sessionTitle": "Given by a nurse",
+    "sessionText": "At the lounge or at your villa or hotel. Your nurse checks blood pressure, pulse and medical history before starting.",
+    "deliveryTitle": "Delivery across Bali",
+    "deliveryText": "Delivered to your address in a two-hour window, or collected at the lounge.",
+    "coldChainText": "Travels chilled in an insulated pouch. Keep refrigerated at 2 to 8 °C.",
+    "membershipTitle": "How it works",
+    "membershipText": "Valid for one month from payment. We book your sessions with you on WhatsApp. No automatic renewal.",
+    "disclaimer": "This page is general information, not medical advice. Individual results vary. This product is not intended to diagnose, treat, cure or prevent any disease.",
+    "question": "Ask about this on WhatsApp",
+    "related": "You may also like"
+  },
+  "Catalog": {
+    "sample": "Sample menu: names, contents and prices are placeholders.",
+    "items": {
+      "iv-hydration": {
+        "name": "Island Hydration",
+        "tagline": "The reset after heat, travel or a long surf.",
+        "description": "A litre of balanced fluids with electrolytes and B vitamins to rehydrate faster than drinking alone. The simplest drip on our menu and a good first infusion.",
+        "contents": "Balanced electrolyte solution 1000 ml; B-complex vitamins",
+        "unit": "One infusion"
+      },
+      "iv-bali-belly": {
+        "name": "Bali Belly Relief",
+        "tagline": "Fluids and comfort when your stomach has had enough.",
+        "description": "Rehydration for traveller's diarrhoea and vomiting, with electrolytes and B vitamins. Anti-nausea or stomach medication is added only when the nurse and doctor consider it appropriate. High fever, blood in the stool or symptoms lasting more than three days need a hospital, not a drip.",
+        "contents": "Balanced electrolyte solution 1000 ml; B-complex vitamins; anti-nausea medication if clinically appropriate",
+        "unit": "One infusion"
+      },
+      "iv-morning-after": {
+        "name": "Morning After",
+        "tagline": "For the day after a long night.",
+        "description": "Fluids, electrolytes, B vitamins and vitamin C to ease dehydration and fatigue after alcohol. It will not lower your blood alcohol level and does not make driving safe.",
+        "contents": "Balanced electrolyte solution 1000 ml; B-complex vitamins; vitamin C 1 g",
+        "unit": "One infusion"
+      },
+      "iv-immune": {
+        "name": "Immune Support",
+        "tagline": "Vitamin C and zinc when everyone around you is sniffling.",
+        "description": "A vitamin and mineral infusion chosen by travellers at the start of a trip or during a busy season. Evidence that IV vitamins prevent infections in healthy people is limited.",
+        "contents": "Saline 500 ml; vitamin C 5 g; zinc; B-complex vitamins",
+        "unit": "One infusion"
+      },
+      "iv-myers": {
+        "name": "Myers' Cocktail",
+        "tagline": "The classic all-round vitamin and mineral drip.",
+        "description": "The best-known wellness infusion: magnesium, calcium, B vitamins and vitamin C. Many guests choose it for general tiredness and jet lag.",
+        "contents": "Saline 500 ml; magnesium; calcium; B-complex vitamins; vitamin B12; vitamin C 2 g",
+        "unit": "One infusion"
+      },
+      "iv-athlete": {
+        "name": "Surf & Train Recovery",
+        "tagline": "For heavy training weeks and back-to-back sessions.",
+        "description": "Fluids with amino acids, magnesium and vitamins, chosen by surfers, CrossFitters and runners after demanding sessions in the heat.",
+        "contents": "Balanced electrolyte solution 1000 ml; amino acid blend; magnesium; B-complex vitamins; vitamin C 2 g",
+        "unit": "One infusion"
+      },
+      "iv-glow": {
+        "name": "Glow",
+        "tagline": "Glutathione and vitamin C for skin that has seen a lot of sun.",
+        "description": "An antioxidant infusion with glutathione, vitamin C and biotin. Popular before events. Evidence for skin benefits from IV glutathione is limited and effects, where seen, are temporary.",
+        "contents": "Saline 500 ml; glutathione 1200 mg; vitamin C 2 g; biotin",
+        "unit": "One infusion"
+      },
+      "iv-nad-250": {
+        "name": "NAD+ 250 mg",
+        "tagline": "A slow infusion for energy and focus.",
+        "description": "NAD+ is a coenzyme every cell uses to produce energy. It is infused slowly over two to three hours because a fast drip can cause chest tightness, nausea or cramping. Research in humans is at an early stage. A doctor reviews your request before booking.",
+        "contents": "NAD+ 250 mg in saline 500 ml",
+        "unit": "One infusion, 2 to 3 hours"
+      },
+      "shot-b12": {
+        "name": "Vitamin B12 injection",
+        "tagline": "A quick shot for energy, popular with plant-based eaters.",
+        "description": "Intramuscular vitamin B12. Most useful if your intake or levels are low; if they are normal, extra B12 has little effect.",
+        "contents": "Methylcobalamin 1000 mcg",
+        "unit": "One injection"
+      },
+      "shot-vitamin-d": {
+        "name": "Vitamin D3 injection",
+        "tagline": "For people who stay out of the midday sun.",
+        "description": "A single intramuscular dose of vitamin D3. Best guided by a blood test, so tell the nurse about any recent results and supplements you already take.",
+        "contents": "Cholecalciferol 100,000 IU",
+        "unit": "One injection"
+      },
+      "shot-glutathione": {
+        "name": "Glutathione push",
+        "tagline": "The antioxidant from our Glow drip, in fifteen minutes.",
+        "description": "A slow intravenous injection of glutathione, without the full infusion. Evidence for skin or detox benefits is limited.",
+        "contents": "Glutathione 600 mg",
+        "unit": "One injection"
+      },
+      "bpc-157": {
+        "name": "BPC-157",
+        "tagline": "The most requested recovery peptide.",
+        "description": "A synthetic peptide studied mainly in laboratory and animal research on tendon, ligament, muscle and gut tissue. Human clinical data are very limited and it is not an approved medicine. Prohibited in competitive sport. Supplied only after a doctor's review, with written dosing guidance and follow-up.",
+        "contents": "BPC-157 5 mg (lyophilised vial); bacteriostatic water; syringes and swabs; written instructions",
+        "unit": "5 mg vial with injection kit"
+      },
+      "tb-500": {
+        "name": "TB-500",
+        "tagline": "Often paired with BPC-157 in recovery protocols.",
+        "description": "A synthetic fragment of thymosin beta-4, studied in animals for tissue repair and inflammation. There are no completed large human trials and it is not an approved medicine. Prohibited in competitive sport. Doctor review required.",
+        "contents": "TB-500 5 mg (lyophilised vial); bacteriostatic water; syringes and swabs; written instructions",
+        "unit": "5 mg vial with injection kit"
+      },
+      "recovery-stack": {
+        "name": "Recovery Stack",
+        "tagline": "BPC-157 and TB-500 together, with one set of instructions.",
+        "description": "The two recovery peptides most often used together, supplied as a four-week protocol designed by the reviewing doctor around your injury or training load. The same limits apply: experimental, not approved medicines, prohibited in competitive sport.",
+        "contents": "BPC-157 5 mg; TB-500 5 mg; bacteriostatic water; syringes and swabs; written protocol",
+        "unit": "Two vials with injection kit"
+      },
+      "cjc-ipamorelin": {
+        "name": "CJC-1295 + Ipamorelin",
+        "tagline": "A night-time protocol for sleep and recovery.",
+        "description": "Two peptides that stimulate the body's own growth hormone release, used in the evening. Small human studies show a rise in growth hormone; benefits for sleep, body composition or recovery are not proven. Not an approved medicine, prohibited in competitive sport, and not suitable with a history of cancer. Doctor review required.",
+        "contents": "CJC-1295 (no DAC) 5 mg and ipamorelin 5 mg; bacteriostatic water; syringes and swabs; written instructions",
+        "unit": "Blend vial with injection kit"
+      },
+      "ghk-cu": {
+        "name": "GHK-Cu",
+        "tagline": "The copper peptide from skincare, as a protocol.",
+        "description": "A copper-binding peptide found naturally in the body and widely used in cosmetic creams. Evidence for injected use is limited to small studies. Doctor review required.",
+        "contents": "GHK-Cu 50 mg (lyophilised vial); bacteriostatic water; syringes and swabs; written instructions",
+        "unit": "50 mg vial with injection kit"
+      },
+      "epitalon": {
+        "name": "Epitalon",
+        "tagline": "A short course popular in longevity circles.",
+        "description": "A four-amino-acid peptide studied mostly in Russia for sleep rhythm and ageing. Independent, modern clinical trials are lacking and it is not an approved medicine. Doctor review required.",
+        "contents": "Epitalon 10 mg (lyophilised vial); bacteriostatic water; syringes and swabs; written instructions",
+        "unit": "10 mg vial with injection kit"
+      },
+      "thymosin-alpha-1": {
+        "name": "Thymosin Alpha-1",
+        "tagline": "An immune-modulating peptide with clinical history.",
+        "description": "A peptide registered as a medicine in a number of countries for specific conditions. Its use for general immune support in healthy people is not established. Not suitable for transplant recipients or people on immunosuppressants. Doctor review required.",
+        "contents": "Thymosin alpha-1 5 mg (lyophilised vial); bacteriostatic water; syringes and swabs; written instructions",
+        "unit": "5 mg vial with injection kit"
+      },
+      "nad-injection": {
+        "name": "NAD+ injections",
+        "tagline": "NAD+ in small doses at home, without the long drip.",
+        "description": "Subcutaneous NAD+ in small, frequent doses as an alternative to an infusion. Injections can sting and cause brief flushing or nausea. Research in humans is at an early stage. Doctor review required.",
+        "contents": "NAD+ 500 mg (vial); syringes and swabs; written instructions",
+        "unit": "500 mg vial with injection kit"
+      },
+      "glp1-programme": {
+        "name": "Metabolic programme (GLP-1)",
+        "tagline": "Doctor-led weight management with registered medication.",
+        "description": "A monthly programme for adults with a medical indication for weight management: doctor consultation, a registered GLP-1 medicine prescribed at the dose that suits you, and check-ins on side effects, nutrition and muscle. Not suitable in pregnancy, with a history of pancreatitis or certain thyroid cancers. Eligibility is decided by the doctor.",
+        "contents": "Doctor consultation; one month of prescribed GLP-1 medication; nurse onboarding; fortnightly check-ins",
+        "unit": "One month, from"
+      },
+      "electrolytes": {
+        "name": "Daily Electrolytes",
+        "tagline": "Sodium, potassium and magnesium for hot days.",
+        "description": "Sugar-free electrolyte sachets for the climate, the surf and the gym. One sachet in 500 ml of water.",
+        "contents": "Sodium; potassium; magnesium; natural citrus flavour",
+        "unit": "Box of 30 sachets"
+      },
+      "magnesium-glycinate": {
+        "name": "Magnesium Glycinate",
+        "tagline": "A gentle form of magnesium, taken in the evening.",
+        "description": "Magnesium bound to glycine, chosen for being easy on the stomach. Magnesium contributes to normal muscle function and to the reduction of tiredness.",
+        "contents": "Magnesium bisglycinate, 200 mg elemental magnesium per two capsules",
+        "unit": "90 capsules"
+      },
+      "collagen-peptides": {
+        "name": "Marine Collagen Peptides",
+        "tagline": "The only peptide on our list you stir into coffee.",
+        "description": "Hydrolysed marine collagen, unflavoured, dissolves in hot or cold drinks. Ten grams a day.",
+        "contents": "Hydrolysed fish collagen (types I and III)",
+        "unit": "300 g tub, 30 servings"
+      },
+      "creatine": {
+        "name": "Creatine Monohydrate",
+        "tagline": "The most studied supplement in sport.",
+        "description": "Micronised creatine monohydrate. Three to five grams a day increases physical performance in short, high-intensity efforts.",
+        "contents": "Creatine monohydrate, nothing else",
+        "unit": "300 g tub, 60 servings"
+      },
+      "omega-3": {
+        "name": "Omega-3",
+        "tagline": "EPA and DHA from fish oil.",
+        "description": "Concentrated fish oil softgels. EPA and DHA contribute to the normal function of the heart.",
+        "contents": "Fish oil concentrate, 1000 mg EPA and DHA per two softgels",
+        "unit": "60 softgels"
+      },
+      "member-essentials": {
+        "name": "Essentials",
+        "tagline": "Stay topped up through your stay.",
+        "description": "Two classic drips a month and member pricing on everything else.",
+        "contents": "2 classic IV drips a month (up to Myers' Cocktail); 10% off products and extra drips; priority booking",
+        "unit": "Monthly"
+      },
+      "member-performance": {
+        "name": "Performance",
+        "tagline": "For people who train hard and want a doctor in their corner.",
+        "description": "A weekly drip, a monthly doctor check-in and free delivery.",
+        "contents": "4 IV drips a month (any except NAD+); 1 doctor check-in a month; 15% off products and extra drips; free product delivery; priority booking",
+        "unit": "Monthly"
+      },
+      "member-longevity": {
+        "name": "Longevity",
+        "tagline": "Our complete plan, built around NAD+ and regular review.",
+        "description": "Weekly drips, a monthly NAD+ infusion and a doctor who follows your protocol.",
+        "contents": "4 IV drips a month; 1 NAD+ 250 mg infusion a month; doctor review every month; 20% off products; free villa call-out and delivery",
+        "unit": "Monthly"
+      }
+    }
+  },
+  "HowItWorks": {
+    "eyebrow": "The process",
+    "title": "How it works",
+    "intro": "Ordering from us takes a few minutes. The medical part happens in the background, and it is the reason we exist.",
+    "step1": { "title": "Choose what you need", "text": "Browse drips, peptides, supplements and memberships. Add them to your basket and tell us whether you are coming to the lounge or want us to come to you." },
+    "step2": { "title": "Answer the health questionnaire", "text": "For drips, injections and prescription items we ask about your age, medical conditions, allergies and medication. Your answers are seen only by the medical team." },
+    "step3": { "title": "A doctor reviews prescription items", "text": "A licensed doctor reads your questionnaire and approves, adjusts or declines the request. If something needs discussing, the doctor contacts you on WhatsApp. Supplements and classic drips skip this step." },
+    "step4": { "title": "Pay the way you prefer", "text": "QRIS, virtual-account transfer, e-wallet, international card, manual bank transfer, or cash and QRIS on delivery. Prescription items are payable only after approval." },
+    "step5": { "title": "Receive", "text": "We confirm your two-hour window on WhatsApp. A nurse arrives for sessions; products come by chilled courier or with the nurse." },
+    "team": {
+      "title": "Who looks after you",
+      "text": "We work with independent, licensed Indonesian doctors and registered nurses. The doctor is responsible for every prescribing decision; the nurse for the safe administration of your treatment.",
+      "doctor": { "title": "Doctors", "text": "Review questionnaires, prescribe, write your protocol and are reachable for follow-up questions." },
+      "nurse": { "title": "Nurses", "text": "Check your vital signs, place the IV, stay with you throughout and know when to stop." },
+      "care": { "title": "Care team", "text": "Schedule visits, keep the cold chain and answer WhatsApp every day from {opens} to {closes}." }
+    },
+    "safety": {
+      "title": "When we say no",
+      "text": "We do not treat under-18s, and we will not supply a product the doctor considers unsafe for you, including during pregnancy and breastfeeding for most items. If the doctor declines, you are not charged.",
+      "emergency": "We are not an emergency service. For chest pain, difficulty breathing, severe dehydration or any emergency, call 112 or go to the nearest hospital."
+    },
+    "cta": "Start with the menu"
+  },
+  "Delivery": {
+    "eyebrow": "Bali only",
+    "title": "Delivery and service areas",
+    "intro": "We deliver products and send nurses to villas, hotels and homes in the areas below, every day from {opens} to {closes}.",
+    "table": { "area": "Areas", "delivery": "Product delivery", "callout": "Nurse call-out", "eta": "Typical lead time" },
+    "eta": "about {minutes} min",
+    "freeFrom": "Product delivery is free from {amount} of products. When a nurse visits, products travel with the nurse at no extra delivery fee.",
+    "elsewhere": "Staying somewhere else in Bali? Message us and we will tell you what is possible.",
+    "windows": { "title": "Arrival windows", "text": "You choose a two-hour window at checkout. We confirm it on WhatsApp and message you when the nurse or courier is on the way." },
+    "cold": { "title": "Cold chain", "text": "Peptides and other temperature-sensitive items leave our fridge in an insulated pouch with ice packs and are handed to you in person. Put them in the fridge (2 to 8 °C) on arrival." },
+    "clinic": { "title": "The lounge", "text": "Prefer to come to us? Choose 'At the lounge' at checkout for sessions and collection.", "pending": "The address is sent with your booking confirmation." },
+    "abroad": { "title": "Outside Bali", "text": "We do not ship to other islands or abroad. If you travel with injectable products, the rules of your airline and destination apply: ask us for a doctor's letter." }
+  },
+  "Faq": {
+    "title": "Frequently asked questions",
+    "intro": "Short, straight answers. If yours is missing, ask us on WhatsApp.",
+    "q1": { "q": "Do I need a doctor to order peptides?", "a": "Yes. Peptides and other prescription items are supplied only after a licensed doctor has reviewed your health questionnaire. The doctor may approve, adjust or decline the request, and may contact you first. You pay only after approval." },
+    "q2": { "q": "How long does the doctor's review take?", "a": "We aim to answer the same day for requests received during opening hours. You get a message with a link to your order as soon as there is a decision." },
+    "q3": { "q": "Are peptides approved medicines?", "a": "Some products we supply are registered medicines prescribed for their approved use. Several others, including BPC-157, TB-500 and Epitalon, are research peptides: they are not approved medicines, most of the evidence comes from laboratory and animal studies, and long-term safety in humans is not established. Your doctor explains this before you decide." },
+    "q4": { "q": "I compete in a tested sport. Can I use peptides?", "a": "Probably not. BPC-157, TB-500, CJC-1295, ipamorelin and several others are prohibited at all times under the World Anti-Doping Code. Check with your federation before ordering, and tell the doctor that you are tested." },
+    "q5": { "q": "Who gives the IV drip?", "a": "A registered nurse. Before starting, the nurse checks your blood pressure, pulse and medical history, and can adjust or decline the treatment. The nurse stays with you until the drip is finished." },
+    "q6": { "q": "Can you come to my villa or hotel?", "a": "Yes, in the areas listed on the delivery page. You choose a two-hour arrival window, and the call-out fee for your area is shown before you confirm." },
+    "q7": { "q": "How are peptides delivered and stored?", "a": "Chilled, in an insulated pouch, handed to you in person. Keep them in the fridge at 2 to 8 °C. Each order includes an injection kit and the doctor's written instructions." },
+    "q8": { "q": "How can I pay?", "a": "QRIS, virtual-account bank transfer, e-wallets, Indonesian and international cards, manual bank transfer, or cash and QRIS when the nurse or courier arrives. Prices are in Indonesian rupiah." },
+    "q9": { "q": "Who should not have a drip or a peptide protocol?", "a": "We do not treat under-18s. Most products are unsuitable during pregnancy and breastfeeding, and some are unsuitable with heart, kidney or liver disease, a history of cancer or G6PD deficiency. That is what the questionnaire and the doctor's review are for." },
+    "q10": { "q": "Can I cancel or reschedule?", "a": "You can reschedule or cancel a visit free of charge up to three hours before your window. If the doctor declines your request you are not charged. Unopened supplements can be returned within seven days. Prescription and chilled items cannot be returned once delivered." },
+    "q11": { "q": "Do you ship outside Bali?", "a": "No. We deliver in Bali only." },
+    "q12": { "q": "Is this an emergency service?", "a": "No. For chest pain, difficulty breathing, fainting, severe dehydration or any emergency, call 112 or go to the nearest hospital." }
+  },
+  "Contact": {
+    "title": "Contact",
+    "intro": "WhatsApp is the fastest way to reach us. We answer every day from {opens} to {closes}, Bali time.",
+    "whatsappCta": "Message us on WhatsApp",
+    "emailLabel": "Email",
+    "hoursLabel": "Hours",
+    "hours": "Every day, {opens} to {closes} (Bali time)",
+    "addressLabel": "Lounge",
+    "addressPending": "Address sent with your booking confirmation",
+    "map": "Open in Google Maps",
+    "emergency": "Not for emergencies: call 112 or go to the nearest hospital.",
+    "form": {
+      "title": "Send us a message",
+      "name": "Your name",
+      "contact": "WhatsApp number or email",
+      "contactHint": "So we can answer you.",
+      "topic": "What is it about?",
+      "topics": { "consult": "I would like advice on what to choose", "booking": "A booking or visit", "order": "An existing order", "membership": "Memberships", "other": "Something else" },
+      "message": "Your message",
+      "messageHint": "Please do not include detailed medical information here; the health questionnaire at checkout is the secure place for it.",
+      "send": "Send message",
+      "sending": "Sending…",
+      "sent": "Thank you. We will get back to you shortly.",
+      "error": "Your message could not be sent. Please try again or use WhatsApp."
+    }
+  },
+  "Cart": {
+    "title": "Your basket",
+    "empty": "Your basket is empty.",
+    "emptyCta": "Browse IV drips",
+    "quantity": "Quantity",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity",
+    "remove": "Remove",
+    "subtotal": "Subtotal",
+    "feesNote": "Delivery or call-out fee is calculated at checkout from your area.",
+    "rxNote": "Your basket contains items that need a doctor's review. You will not be charged until a doctor approves them.",
+    "sessionNote": "Sessions are given by a nurse. You will choose the place and an arrival window at checkout.",
+    "checkout": "Continue to checkout",
+    "continue": "Continue browsing"
+  },
+  "Checkout": {
+    "title": "Checkout",
+    "empty": "Your basket is empty.",
+    "contact": {
+      "title": "Your details",
+      "name": "Full name",
+      "nameHint": "As on your ID.",
+      "email": "Email",
+      "phone": "WhatsApp number",
+      "phoneHint": "With country code, for example +62 812 3456 7890."
+    },
+    "fulfilment": {
+      "title": "Where and when",
+      "clinicSession": "At the lounge",
+      "clinicSessionText": "Come to us for your session.",
+      "clinicPickup": "Collect at the lounge",
+      "clinicPickupText": "No delivery fee.",
+      "address": "At my villa, hotel or home",
+      "addressSessionText": "A nurse comes to you. Call-out fee by area.",
+      "addressDeliveryText": "Delivered to you. Fee by area.",
+      "area": "Area",
+      "areaPlaceholder": "Choose your area",
+      "addressLabel": "Address",
+      "addressHint": "Villa or hotel name, street, room number and anything that helps us find you.",
+      "date": "Preferred date",
+      "slot": "Arrival window",
+      "slotPlaceholder": "Choose a window",
+      "slotNote": "We confirm the exact time on WhatsApp. All times are Bali time.",
+      "notes": "Notes for the team (optional)",
+      "membershipOnly": "Memberships need no delivery. We will contact you on WhatsApp to book your sessions."
+    },
+    "health": {
+      "title": "Health questionnaire",
+      "intro": "Seen only by the medical team. Please answer truthfully: it is what keeps your treatment safe.",
+      "dob": "Date of birth",
+      "sex": "Sex",
+      "sexOptions": { "female": "Female", "male": "Male", "other": "Other" },
+      "weight": "Weight in kg (optional)",
+      "conditions": "Do any of these apply to you?",
+      "conditionOptions": {
+        "heart": "Heart disease or heart rhythm problems",
+        "blood_pressure": "High blood pressure",
+        "kidney": "Kidney disease",
+        "liver": "Liver disease",
+        "diabetes": "Diabetes",
+        "cancer": "Cancer, now or in the past",
+        "clotting": "Blood clots or a bleeding disorder",
+        "g6pd": "G6PD deficiency",
+        "autoimmune": "Autoimmune condition or immunosuppressant treatment",
+        "pregnant": "Pregnant, possibly pregnant or breastfeeding",
+        "none": "None of these"
+      },
+      "allergies": "Allergies",
+      "allergiesHint": "Medicines, foods, latex. Write 'none' if you have none.",
+      "medications": "Medication and supplements you take",
+      "medicationsHint": "Write 'none' if you take nothing.",
+      "goals": "What would you like to achieve?",
+      "goalsHint": "Injury, training load, sleep, energy… and anything the doctor should know."
+    },
+    "payment": {
+      "title": "Payment",
+      "afterReview": "Nothing to pay now. A doctor reviews your request first, then we send you a link to pay by QRIS, transfer, card or on delivery.",
+      "choose": "How would you like to pay?",
+      "xendit": "QRIS, bank transfer or e-wallet",
+      "xenditText": "Pay now in rupiah: QRIS, virtual account, GoPay, OVO, DANA or an Indonesian card.",
+      "airwallex": "International card",
+      "airwallexText": "Visa, Mastercard or Amex.",
+      "airwallexCharge": "Charged as about {amount}.",
+      "transfer": "Manual bank transfer",
+      "transferText": "We show you the account details. Upload your proof of payment and we confirm by hand.",
+      "cod": "Pay on delivery or at the lounge",
+      "codText": "Cash, QRIS or card when the nurse or courier arrives.",
+      "simulated": "Test mode: no payment provider is connected, so this option marks the order as paid."
+    },
+    "consents": {
+      "adult": "I am 18 or older.",
+      "terms": "I accept the <terms>terms of service</terms> and the <privacy>privacy policy</privacy>.",
+      "medical": "My answers are true and complete. I agree to a remote review by a doctor and to my health information being processed for that purpose, and I have read the <disclaimer>medical disclaimer</disclaimer>."
+    },
+    "summary": {
+      "title": "Summary",
+      "subtotal": "Subtotal",
+      "delivery": "Delivery",
+      "callout": "Nurse call-out",
+      "free": "Free",
+      "chooseArea": "Choose an area",
+      "total": "Total",
+      "edit": "Edit basket"
+    },
+    "submitReview": "Send for doctor review",
+    "submitPay": "Place order and pay",
+    "submitOrder": "Place order",
+    "submitting": "Sending…",
+    "errors": {
+      "required": "Please complete this field.",
+      "name": "Please enter your full name.",
+      "email": "Please enter a valid email address.",
+      "phone": "Please enter a valid phone number with country code.",
+      "area": "Please choose your area.",
+      "address": "Please enter your full address.",
+      "date": "Please choose a date between today and 30 days from now.",
+      "slot": "Please choose an arrival window.",
+      "slot_passed": "That window has already passed today. Please choose a later one.",
+      "dob": "Please enter your date of birth.",
+      "underage": "We are sorry: we can only serve adults aged 18 or older.",
+      "conditions": "Please tick what applies, or 'None of these'.",
+      "allergies": "Please tell us about allergies, or write 'none'.",
+      "medications": "Please list your medication, or write 'none'.",
+      "consent": "Please tick this box to continue.",
+      "payment": "Please choose how you would like to pay.",
+      "items": "Some items in your basket are no longer available. Please review your basket.",
+      "rate": "Too many attempts. Please wait a minute and try again.",
+      "generic": "Something went wrong. Please try again, or message us on WhatsApp.",
+      "summary": "Please check the highlighted fields."
+    }
+  },
+  "Order": {
+    "title": "Order {id}",
+    "notFound": { "title": "Order not found", "text": "This link is not valid. Please use the link in your confirmation message, or contact us." },
+    "placed": "Placed on {date}",
+    "status": {
+      "awaiting_review": { "label": "With the doctor", "text": "A doctor is reviewing your health questionnaire. We will message you as soon as there is a decision. Nothing has been charged." },
+      "awaiting_payment": { "label": "Ready for payment", "text": "Choose how you would like to pay below. We prepare your order as soon as payment is confirmed." },
+      "payment_review": { "label": "Checking your transfer", "text": "Thank you. We have your proof of payment and will confirm as soon as the transfer shows in our account." },
+      "confirmed": { "label": "Confirmed", "text": "Your order is confirmed. We will message you on WhatsApp to confirm the time." },
+      "out_for_delivery": { "label": "On the way", "text": "Your nurse or courier is on the way." },
+      "completed": { "label": "Completed", "text": "Thank you for choosing us. We are here if you have any questions." },
+      "declined": { "label": "Not approved", "text": "The doctor could not approve this request. Nothing has been charged." },
+      "cancelled": { "label": "Cancelled", "text": "This order was cancelled." },
+      "refunded": { "label": "Refunded", "text": "This order was refunded." }
+    },
+    "approvedNote": "Approved by the doctor.",
+    "partlyApprovedNote": "The doctor approved part of your request. The items below were not approved and have been removed.",
+    "doctorNote": "Note from the doctor",
+    "codPending": "To pay on delivery: {amount}",
+    "paid": "Paid",
+    "paidOn": "Paid on {date}",
+    "items": "Items",
+    "removed": "Not approved",
+    "fulfilment": {
+      "title": "Where and when",
+      "clinic": "At the lounge",
+      "address": "At your address",
+      "window": "{date}, {slot}",
+      "toConfirm": "Time to be confirmed on WhatsApp"
+    },
+    "totals": { "subtotal": "Subtotal", "delivery": "Delivery", "callout": "Nurse call-out", "total": "Total" },
+    "pay": {
+      "title": "Pay for your order",
+      "xendit": "QRIS, bank transfer or e-wallet",
+      "xenditText": "Secure payment page in rupiah: QRIS, virtual account, GoPay, OVO, DANA, Indonesian cards.",
+      "airwallex": "International card",
+      "airwallexText": "Visa, Mastercard or Amex on a secure payment page.",
+      "airwallexCharge": "Your card is charged about {amount}.",
+      "transfer": "Manual bank transfer",
+      "transferText": "Transfer the exact amount, then upload your proof of payment.",
+      "bank": "Bank",
+      "holder": "Account name",
+      "number": "Account number",
+      "amount": "Amount",
+      "reference": "Reference",
+      "sampleBank": "Sample account details: set the real ones before launch.",
+      "proof": "Proof of payment (photo, screenshot or PDF)",
+      "upload": "Upload proof",
+      "uploading": "Uploading…",
+      "cod": "Pay on delivery or at the lounge",
+      "codText": "Cash, QRIS or card when the nurse or courier arrives.",
+      "codConfirm": "Confirm, I will pay on delivery",
+      "payNow": "Pay now",
+      "redirecting": "Opening the payment page…",
+      "simulated": "Test mode: no payment provider is connected, so this marks the order as paid.",
+      "processing": "We are confirming your payment. This page updates by itself.",
+      "failed": "The payment was not completed. You can try again or choose another method.",
+      "errors": {
+        "too_large": "The file is larger than 8 MB.",
+        "bad_file": "Please upload a JPG, PNG, WEBP or PDF file.",
+        "generic": "Something went wrong. Please try again, or message us on WhatsApp."
+      }
+    },
+    "help": "Questions about this order?",
+    "whatsappText": "Hello {brand}, I have a question about my order {id}.",
+    "keepLink": "Keep this page: it is your private link to follow the order."
+  },
+  "Legal": {
+    "englishOnly": "This document is provided in English, which is the authoritative version.",
+    "updated": "Last updated: {date}",
+    "terms": "Terms of service",
+    "privacy": "Privacy policy",
+    "medical": "Medical disclaimer",
+    "refunds": "Cancellations and refunds"
+  },
+  "Footer": {
+    "about": "Recovery and longevity care in Bali: IV therapy, doctor-reviewed peptides and daily essentials, at our lounge or at your villa.",
+    "menu": "Menu",
+    "care": "Care",
+    "legal": "Legal",
+    "disclaimer": "The information on this site is general and does not replace medical advice. Prescription items are supplied only after review by a licensed doctor. Wellness infusions and supplements are not intended to diagnose, treat, cure or prevent any disease. We serve adults aged 18 and over. Not an emergency service: in an emergency call 112.",
+    "dispensedBy": "Prescription items are dispensed by {name}.",
+    "licence": "Licence {number}",
+    "rights": "© {year} {company}. All rights reserved."
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "text": "The page you are looking for does not exist or has moved.",
+    "cta": "Back to the home page"
+  },
+  "Email": {
+    "greeting": "Hello {name},",
+    "signoff": "The {brand} team",
+    "viewOrder": "View your order",
+    "received": {
+      "subject": "{brand}: we have your order {id}",
+      "review": "Thank you for your order. A doctor is now reviewing your health questionnaire. We will message you as soon as there is a decision. Nothing has been charged.",
+      "pay": "Thank you for your order. You can pay and follow it with the link below.",
+      "cod": "Thank you for your order. It is confirmed, and you pay {amount} on delivery. We will message you on WhatsApp to confirm the time."
+    },
+    "approved": {
+      "subject": "{brand}: your order {id} is approved",
+      "text": "Good news: the doctor has approved your request. Use the link below to choose how you would like to pay. We prepare your order as soon as payment is confirmed.",
+      "partly": "The doctor has approved part of your request. The link below shows what was approved and lets you choose how to pay."
+    },
+    "declined": {
+      "subject": "{brand}: about your order {id}",
+      "text": "After reviewing your health questionnaire, the doctor could not approve this request. Nothing has been charged. Reply to this message or write to us on WhatsApp if you would like to talk it through."
+    },
+    "confirmed": {
+      "subject": "{brand}: order {id} confirmed",
+      "text": "We have received your payment and your order is confirmed. We will message you on WhatsApp to confirm the time."
+    },
+    "onTheWay": {
+      "subject": "{brand}: order {id} is on the way",
+      "text": "Your nurse or courier is on the way."
+    },
+    "doctorNote": "Note from the doctor: {note}"
+  }
+}

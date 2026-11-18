@@ -1,0 +1,119 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { ArrowLeft, Clock, Snowflake, Stethoscope, Syringe, Truck, CalendarCheck } from "lucide-react";
+import { Link } from "@/i18n/navigation";
+import { routing } from "@/i18n/routing";
+import { pageMetadata } from "@/i18n/seo";
+import { KIND_PATH, PRODUCTS, getProduct } from "@/lib/catalog";
+import { site } from "@/lib/config";
+import { idr } from "@/lib/money";
+import { ProductArt } from "@/components/ProductArt";
+import { ProductCard } from "@/components/ProductCard";
+import { AddToCart } from "@/components/cart";
+import { WhatsAppLink } from "@/components/WhatsAppLink";
+
+type Props = { params: Promise<{ locale: string; slug: string }> };
+
+export function generateStaticParams() {
+  return routing.locales.flatMap((locale) => PRODUCTS.map((p) => ({ locale, slug: p.slug })));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale, slug } = await params;
+  if (!getProduct(slug)) return {};
+  const t = await getTranslations({ locale, namespace: "Catalog.items" });
+  return pageMetadata(locale, `/treatments/${slug}`, { title: t(`${slug}.name`), description: t(`${slug}.tagline`) });
+}
+
+const SECTION_LABEL = { "/iv-drips": "ivDrips", "/peptides": "peptides", "/supplements": "supplements", "/memberships": "memberships" } as const;
+
+export default async function Treatment({ params }: Props) {
+  const { locale, slug } = await params;
+  const product = getProduct(slug);
+  if (!product) notFound();
+  setRequestLocale(locale);
+  const t = await getTranslations("Product");
+  const cat = await getTranslations("Catalog.items");
+  const c = await getTranslations("Common");
+  const k = await getTranslations("Kinds");
+  const g = await getTranslations("Goals");
+  const n = await getTranslations("Nav");
+  const section = KIND_PATH[product.kind];
+  const name = cat(`${slug}.name`);
+  const related = PRODUCTS.filter((p) => p.slug !== slug && p.kind === product.kind).slice(0, 3);
+
+  const facts = [
+    product.rx && { icon: Stethoscope, title: t("reviewTitle"), text: t("reviewText"), accent: true },
+    product.session && { icon: Syringe, title: t("sessionTitle"), text: t("sessionText") },
+    !product.session && product.kind !== "membership" && { icon: Truck, title: t("deliveryTitle"), text: `${t("deliveryText")}${product.coldChain ? ` ${t("coldChainText")}` : ""}` },
+    product.kind === "membership" && { icon: CalendarCheck, title: t("membershipTitle"), text: t("membershipText") },
+  ].filter((x): x is { icon: typeof Stethoscope; title: string; text: string; accent?: boolean } => Boolean(x));
+
+  return (
+    <div className="container-page py-10 lg:py-14">
+      <Link href={section} className="inline-flex items-center gap-1.5 text-sm font-semibold text-forest-700 underline-offset-4 hover:underline">
+        <ArrowLeft className="h-4 w-4" aria-hidden="true" />{t("back", { section: n(SECTION_LABEL[section]) })}
+      </Link>
+      <div className="mt-6 grid gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="lg:sticky lg:top-28 lg:self-start">
+          <ProductArt kind={product.kind} tone={product.tone} className="aspect-[4/3] w-full rounded-[2rem]" />
+        </div>
+        <div>
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="chip">{k(product.kind)}</span>
+            {product.rx && <span className="chip-rx"><Stethoscope className="h-3.5 w-3.5" aria-hidden="true" />{c("doctorReview")}</span>}
+            {product.durationMin && <span className="chip"><Clock className="h-3.5 w-3.5" aria-hidden="true" />{c("minutes", { count: product.durationMin })}</span>}
+            {product.coldChain && <span className="chip"><Snowflake className="h-3.5 w-3.5" aria-hidden="true" />{c("coldChain")}</span>}
+          </div>
+          <h1 className="h-display mt-4 text-5xl sm:text-6xl">{name}</h1>
+          <p className="lead mt-3">{cat(`${slug}.tagline`)}</p>
+          <p className="mt-6">
+            <span className="font-display text-4xl font-semibold text-forest-900">{idr(product.priceIdr, locale)}</span>
+            <span className="ml-3 text-sm text-ink-500">{cat(`${slug}.unit`)}</span>
+          </p>
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <AddToCart slug={slug} session={product.session} />
+            <WhatsAppLink label={t("question")} text={c("whatsappProduct", { brand: site.name, product: name })} className="btn-secondary" />
+          </div>
+
+          <p className="mt-9 leading-relaxed text-ink-700">{cat(`${slug}.description`)}</p>
+
+          {product.goals.length > 0 && (
+            <div className="mt-7">
+              <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-clay-500">{t("goodFor")}</h2>
+              <ul className="mt-3 flex flex-wrap gap-2">{product.goals.map((goal) => <li key={goal} className="chip">{g(goal)}</li>)}</ul>
+            </div>
+          )}
+
+          <div className="mt-7">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-clay-500">{product.kind === "membership" ? t("includes") : t("contents")}</h2>
+            <ul className="mt-3 divide-y divide-sand-200 border-y border-sand-200 text-sm text-ink-700">
+              {cat(`${slug}.contents`).split(";").map((item) => <li key={item} className="py-2.5">{item.trim()}</li>)}
+            </ul>
+          </div>
+
+          <div className="mt-8 space-y-3">
+            {facts.map(({ icon: Icon, title, text, accent }) => (
+              <div key={title} className={`flex gap-4 rounded-2xl p-5 ${accent ? "bg-clay-50" : "bg-sage-100/70"}`}>
+                <Icon className={`mt-0.5 h-5 w-5 shrink-0 ${accent ? "text-clay-600" : "text-forest-700"}`} strokeWidth={1.6} aria-hidden="true" />
+                <div>
+                  <h2 className="font-semibold text-forest-900">{title}</h2>
+                  <p className="mt-1 text-sm leading-relaxed text-ink-700">{text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="mt-8 text-xs leading-relaxed text-ink-500">{t("disclaimer")}</p>
+        </div>
+      </div>
+
+      {related.length > 0 && (
+        <section className="mt-20">
+          <h2 className="h-display text-4xl">{t("related")}</h2>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{related.map((p) => <ProductCard key={p.slug} product={p} />)}</div>
+        </section>
+      )}
+    </div>
+  );
+}

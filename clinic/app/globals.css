@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  --color-sand-50: #fbf8f2;
+  --color-sand-100: #f4eee3;
+  --color-sand-200: #eae0cf;
+  --color-sand-300: #dccdb4;
+  --color-sand-400: #c5b08e;
+  --color-forest-950: #14221c;
+  --color-forest-900: #1c2f27;
+  --color-forest-800: #25392f;
+  --color-forest-700: #2f4a3d;
+  --color-forest-600: #3f6050;
+  --color-forest-500: #577b68;
+  --color-sage-100: #e6ece1;
+  --color-sage-200: #d3dccb;
+  --color-sage-300: #b4c3ab;
+  --color-sage-400: #92a688;
+  --color-clay-50: #f8ece4;
+  --color-clay-100: #f0d9cb;
+  --color-clay-400: #c98058;
+  --color-clay-500: #b0623c;
+  --color-clay-600: #964f2e;
+  --color-gold-400: #c2a56b;
+  --color-ink-900: #1d2822;
+  --color-ink-700: #3d4a42;
+  --color-ink-500: #67736b;
+  --font-sans: "Manrope Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Cormorant Garamond Variable", "Cormorant Garamond", Georgia, "Times New Roman", serif;
+}
+
+html { scroll-behavior: smooth; }
+body { @apply bg-sand-50 text-ink-900 antialiased; font-family: var(--font-sans); }
+::selection { background: var(--color-sage-200); }
+:focus-visible { outline: 2px solid var(--color-forest-600); outline-offset: 2px; }
+
+@layer components {
+  .container-page { @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8; }
+  .eyebrow { @apply text-xs font-semibold uppercase tracking-[0.22em] text-clay-500; }
+  .h-display { @apply font-display font-medium leading-[1.05] tracking-tight text-forest-900; }
+  .lead { @apply text-lg leading-relaxed text-ink-700; }
+
+  .btn, .btn-primary, .btn-clay, .btn-secondary, .btn-light { @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-6 py-3 text-sm font-semibold tracking-wide transition focus-visible:outline-2 disabled:cursor-not-allowed disabled:opacity-50; }
+  .btn-primary { @apply bg-forest-800 text-sand-50 hover:bg-forest-700; }
+  .btn-clay { @apply bg-clay-500 text-white hover:bg-clay-600; }
+  .btn-secondary { @apply border border-forest-800/25 bg-transparent text-forest-900 hover:border-forest-800/60 hover:bg-sand-100; }
+  .btn-light { @apply bg-sand-50 text-forest-900 hover:bg-white; }
+  .btn-sm { @apply px-4 py-2 text-[13px]; }
+
+  .card { @apply rounded-3xl border border-sand-200 bg-white/70 p-6 shadow-[0_1px_0_rgba(28,47,39,0.03),0_12px_32px_-18px_rgba(28,47,39,0.18)]; }
+  .chip { @apply inline-flex items-center gap-1.5 rounded-full border border-sand-300 bg-sand-50 px-3 py-1 text-xs font-medium text-ink-700; }
+  .chip-rx { @apply inline-flex items-center gap-1.5 rounded-full bg-clay-50 px-3 py-1 text-xs font-semibold text-clay-600; }
+  .chip-on { @apply border-forest-800 bg-forest-800 text-sand-50; }
+
+  .label { @apply mb-1.5 block text-sm font-semibold text-forest-900; }
+  .hint { @apply mt-1 text-xs leading-relaxed text-ink-500; }
+  .input { @apply w-full rounded-xl border border-sand-300 bg-white px-3.5 py-3 text-base text-ink-900 placeholder:text-ink-500/60 focus:border-forest-600 focus:outline-none focus:ring-2 focus:ring-forest-600/20; }
+  .input-error { @apply border-red-600 focus:border-red-600 focus:ring-red-600/20; }
+  .error { @apply mt-1.5 text-sm font-medium text-red-700; }
+  .checkbox { @apply mt-0.5 h-5 w-5 shrink-0 rounded border-sand-400 accent-forest-700; }
+
+  .prose-legal h2 { @apply mt-10 mb-3 font-display text-2xl font-semibold text-forest-900; }
+  .prose-legal p { @apply mb-4 leading-relaxed text-ink-700; }
+  .prose-legal ul { @apply mb-4 list-disc space-y-1.5 pl-6 text-ink-700; }
+  .prose-legal a { @apply text-forest-700 underline underline-offset-2; }
+}
+
+/* Paper grain over the sand background: keeps large flat areas from looking digital. */
+.grain { position: relative; isolation: isolate; }
+.grain::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0.35; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .5 0 0 0 0 .4 0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
