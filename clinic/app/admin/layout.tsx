@@ -20,6 +20,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               <a href="/admin" className="font-display text-2xl tracking-wide">{site.name} console</a>
               <a href="/admin" className="hover:underline">Orders</a>
               <a href="/admin/leads" className="hover:underline">Messages</a>
+              <a href="/admin/blog" className="hover:underline">Blog</a>
               <a href="/" className="font-normal text-ink-500 hover:underline">View site</a>
             </nav>
             <p className="text-sm text-ink-700">

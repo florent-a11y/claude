@@ -7,7 +7,8 @@ import "../globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CartProvider } from "@/components/cart";
-import { demoMode, site } from "@/lib/config";
+import { JsonLd } from "@/components/JsonLd";
+import { AREAS, demoMode, site } from "@/lib/config";
 import { routing } from "@/i18n/routing";
 import { alternatesFor } from "@/i18n/seo";
 
@@ -35,6 +36,27 @@ export async function generateMetadata({ params }: Omit<Props, "children">): Pro
   };
 }
 
+/** The business and the website, described once for search engines and AI assistants; pages refer to them by @id. */
+function siteGraph(locale: string, description: string) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["Organization", "HealthAndBeautyBusiness"], "@id": `${site.url}/#organization`, name: site.name, url: site.url, description,
+        ...(site.company ? { legalName: site.company } : {}),
+        logo: `${site.url}/icon.svg`, email: site.email,
+        ...(site.whatsapp ? { telephone: `+${site.whatsapp}` } : {}),
+        ...(site.address ? { address: { "@type": "PostalAddress", streetAddress: site.address, addressRegion: "Bali", addressCountry: "ID" } } : { address: { "@type": "PostalAddress", addressRegion: "Bali", addressCountry: "ID" } }),
+        areaServed: AREAS.map((name) => ({ "@type": "Place", name: `${name}, Bali` })),
+        openingHoursSpecification: { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], opens: site.opens, closes: site.closes },
+        currenciesAccepted: "IDR", knowsLanguage: ["en", "ru", "fr"],
+        ...(site.instagram ? { sameAs: [`https://instagram.com/${site.instagram.replace(/^@/, "")}`] } : {}),
+      },
+      { "@type": "WebSite", "@id": `${site.url}/#website`, name: site.name, url: site.url, description, inLanguage: locale, publisher: { "@id": `${site.url}/#organization` } },
+    ],
+  };
+}
+
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
@@ -45,6 +67,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html lang={locale}>
       <body className="flex min-h-screen flex-col">
+        <JsonLd data={siteGraph(locale, (all.Metadata as { description: string }).description)} />
         <NextIntlClientProvider messages={messages}>
           <CartProvider>
             {demoMode() && <p role="note" className="bg-lime-400 px-4 py-2 text-center text-xs font-semibold text-deep-950">{c("demoBanner")}</p>}

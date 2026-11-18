@@ -40,7 +40,8 @@
     "howItWorks": "Comment ça marche",
     "delivery": "Livraison et zones",
     "faq": "FAQ",
-    "contact": "Contact"
+    "contact": "Contact",
+    "blog": "Blog"
   },
   "Kinds": {
     "iv": "Perfusion IV",
@@ -881,5 +882,29 @@
       "text": "Votre infirmier ou votre coursier est en route."
     },
     "doctorNote": "Note du médecin : {note}"
+  },
+  "Blog": {
+    "eyebrow": "Journal",
+    "title": "Notes sur la récupération, les peptides et le bien-être à Bali",
+    "intro": "Des articles en langage clair sur les perfusions, les peptides et la récupération. Nous disons ce que les études confirment, ce qu’elles ne confirment pas, et d’où vient chaque affirmation.",
+    "empty": "Les premiers articles arrivent bientôt.",
+    "minutes": "{count} min de lecture",
+    "published": "Publié le {date}",
+    "updated": "Mis à jour le {date}",
+    "by": "Par {author}",
+    "reviewedBy": "Relecture médicale : {name}",
+    "takeaways": "L’essentiel",
+    "contents": "Dans cet article",
+    "sources": "Sources",
+    "faq": "Questions et réponses",
+    "related": "Soins et produits associés",
+    "disclaimer": "Cet article est une information générale et non un avis médical. Il ne remplace pas une consultation avec un médecin qui connaît votre dossier. En cas d’urgence, appelez le 112.",
+    "back": "Tous les articles",
+    "read": "Lire l’article",
+    "latest": "Dans le journal",
+    "latestTitle": "À lire avant de décider",
+    "all": "Tous les articles",
+    "otherLanguages": "Également disponible en",
+    "feed": "Journal {brand}"
   }
 }

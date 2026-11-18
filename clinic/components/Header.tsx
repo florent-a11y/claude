@@ -17,7 +17,8 @@ export async function Header() {
     { href: "/peptides", label: t("peptides") },
     { href: "/supplements", label: t("supplements") },
     { href: "/memberships", label: t("memberships") },
-    { href: "/how-it-works", label: t("howItWorks") },
+    { href: "/blog", label: t("blog") },
+    { href: "/how-it-works", label: t("howItWorks"), wide: true },
   ];
   const more = [{ href: "/delivery", label: t("delivery") }, { href: "/faq", label: t("faq") }, { href: "/contact", label: t("contact") }];
   const wa = waLink(c("whatsappGeneral", { brand: site.name }));
@@ -28,7 +29,7 @@ export async function Header() {
         <Link href="/" className="text-deep-900" aria-label={site.name}><Logo /></Link>
         <nav className="hidden items-center gap-7 lg:flex" aria-label={c("menu")}>
           {main.map((l) => (
-            <Link key={l.href} href={l.href} className="nav-link text-sm font-medium text-ink-700 transition-colors hover:text-deep-900">{l.label}</Link>
+            <Link key={l.href} href={l.href} className={`nav-link text-sm font-medium text-ink-700 transition-colors hover:text-deep-900 ${"wide" in l ? "hidden xl:inline" : ""}`}>{l.label}</Link>
           ))}
         </nav>
         <div className="flex items-center gap-0.5 sm:gap-1.5">

@@ -4,7 +4,8 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import type { Lead, Order, OrderStatus } from "./schema";
 import { dataDir } from "./data-dir";
-import { blobListJson, blobReadJson, blobStoreEnabled, blobWriteJson } from "./blob-store";
+import { blobDelete, blobListJson, blobReadJson, blobStoreEnabled, blobWriteJson } from "./blob-store";
+import type { Post } from "./blog";
 
 /**
  * Storage layer. Supabase (tables clinic_orders, clinic_leads; see supabase/schema.sql) when SUPABASE_URL and
@@ -142,4 +143,63 @@ export async function listLeads(limit = 200): Promise<Lead[]> {
 
 export async function getLead(id: string): Promise<Lead | null> {
   return (await listLeads(1000)).find((l) => l.id === id) ?? null;
+}
+
+// ---------- Blog articles ----------
+// Same three homes as orders: the database table clinic_posts, the test site's Blob store, or ./data/posts.json.
+
+export async function savePost(post: Post): Promise<void> {
+  const client = sb();
+  if (client) {
+    const { error } = await client.from("clinic_posts").upsert({ id: post.id, locale: post.locale, slug: post.slug, status: post.status, published_at: post.publishedAt ?? null, updated_at: post.updatedAt, payload: post });
+    if (error) throw new Error(`clinic_posts upsert: ${error.message}`);
+    return;
+  }
+  if (blobStoreEnabled()) return blobWriteJson(`posts/${post.id}.json`, post);
+  await queued(async () => {
+    const all = await readJson<Post[]>("posts.json", []);
+    const i = all.findIndex((p) => p.id === post.id);
+    if (i >= 0) all[i] = post; else all.unshift(post);
+    await writeJson("posts.json", all);
+  });
+}
+
+/** Every article, drafts included, most recently edited first. */
+export async function listPosts(): Promise<Post[]> {
+  const client = sb();
+  let all: Post[];
+  if (client) {
+    const { data, error } = await client.from("clinic_posts").select("payload").order("updated_at", { ascending: false }).limit(1000);
+    if (error) throw new Error(error.message);
+    all = (data as Array<{ payload: Post }>).map((r) => r.payload);
+  } else if (blobStoreEnabled()) all = await blobListJson<Post>("posts/", 500);
+  else all = await readJson<Post[]>("posts.json", []);
+  return all.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+}
+
+export async function getPost(id: string): Promise<Post | null> {
+  if (!/^[a-z0-9-]{6,60}$/.test(id)) return null;
+  const client = sb();
+  if (client) {
+    const { data, error } = await client.from("clinic_posts").select("payload").eq("id", id).maybeSingle();
+    if (error) throw new Error(error.message);
+    return data ? (data.payload as Post) : null;
+  }
+  if (blobStoreEnabled()) return blobReadJson<Post>(`posts/${id}.json`);
+  return (await readJson<Post[]>("posts.json", [])).find((p) => p.id === id) ?? null;
+}
+
+export async function deletePost(id: string): Promise<void> {
+  if (!/^[a-z0-9-]{6,60}$/.test(id)) return;
+  const client = sb();
+  if (client) {
+    const { error } = await client.from("clinic_posts").delete().eq("id", id);
+    if (error) throw new Error(error.message);
+    return;
+  }
+  if (blobStoreEnabled()) return blobDelete(`posts/${id}.json`);
+  await queued(async () => {
+    const all = await readJson<Post[]>("posts.json", []);
+    await writeJson("posts.json", all.filter((p) => p.id !== id));
+  });
 }

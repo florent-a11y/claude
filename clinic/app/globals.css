@@ -179,3 +179,24 @@ body { @apply bg-white text-ink-900 antialiased; font-family: var(--font-sans); 
   .reveal-left:not(.in) { transform: translateX(-34px); }
   .reveal-right:not(.in) { transform: translateX(34px); }
 }
+
+/* Article text (the blog). */
+@layer components {
+  .article { @apply text-[1.0625rem] leading-[1.75] text-ink-700; }
+  .article > :first-child { margin-top: 0; }
+  .article h2 { @apply mt-12 mb-4 scroll-mt-28 font-display text-[1.75rem] font-semibold leading-tight text-deep-900; letter-spacing: -0.03em; }
+  .article h3 { @apply mt-8 mb-3 scroll-mt-28 font-display text-xl font-semibold text-deep-900; }
+  .article p { @apply mb-5; }
+  .article ul { @apply mb-5 list-disc space-y-2 pl-6; }
+  .article ol { @apply mb-5 list-decimal space-y-2 pl-6; }
+  .article li::marker { color: var(--color-tide-500); }
+  .article a { @apply font-medium text-tide-600 underline decoration-tide-300 underline-offset-4 transition-colors hover:decoration-tide-600; }
+  .article strong { @apply font-semibold text-deep-900; }
+  .article blockquote { @apply my-6 border-l-2 border-tide-400 pl-5 text-deep-900; }
+  .article hr { @apply my-10 border-mist-200; }
+  .article code { @apply rounded bg-mist-100 px-1.5 py-0.5 text-[0.9em]; }
+  .article-table { @apply my-6 overflow-x-auto rounded-2xl border border-mist-200; }
+  .article table { @apply w-full min-w-[32rem] text-left text-sm; }
+  .article th { @apply bg-mist-50 px-4 py-3 font-semibold text-deep-900; }
+  .article td { @apply border-t border-mist-200 px-4 py-3 align-top; }
+}

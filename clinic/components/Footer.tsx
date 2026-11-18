@@ -11,7 +11,7 @@ export async function Footer() {
   const c = await getTranslations("Common");
   const cols = [
     { title: t("menu"), links: [["/iv-drips", n("ivDrips")], ["/peptides", n("peptides")], ["/supplements", n("supplements")], ["/memberships", n("memberships")]] },
-    { title: t("care"), links: [["/how-it-works", n("howItWorks")], ["/delivery", n("delivery")], ["/faq", n("faq")], ["/contact", n("contact")]] },
+    { title: t("care"), links: [["/how-it-works", n("howItWorks")], ["/delivery", n("delivery")], ["/blog", n("blog")], ["/faq", n("faq")], ["/contact", n("contact")]] },
     { title: t("legal"), links: [["/legal/terms", l("terms")], ["/legal/privacy", l("privacy")], ["/legal/medical", l("medical")], ["/legal/refunds", l("refunds")]] },
   ] as const;
   const wa = waLink(c("whatsappGeneral", { brand: site.name }));

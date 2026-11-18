@@ -40,7 +40,8 @@
     "howItWorks": "How it works",
     "delivery": "Delivery & areas",
     "faq": "FAQ",
-    "contact": "Contact"
+    "contact": "Contact",
+    "blog": "Blog"
   },
   "Kinds": {
     "iv": "IV drip",
@@ -881,5 +882,29 @@
       "text": "Your nurse or courier is on the way."
     },
     "doctorNote": "Note from the doctor: {note}"
+  },
+  "Blog": {
+    "eyebrow": "Journal",
+    "title": "Notes on recovery, peptides and living well in Bali",
+    "intro": "Plain-language articles on IV therapy, peptides and recovery. We say what the evidence supports, what it does not, and where each claim comes from.",
+    "empty": "The first articles are on their way.",
+    "minutes": "{count} min read",
+    "published": "Published {date}",
+    "updated": "Updated {date}",
+    "by": "By {author}",
+    "reviewedBy": "Medically reviewed by {name}",
+    "takeaways": "Key takeaways",
+    "contents": "In this article",
+    "sources": "Sources",
+    "faq": "Questions and answers",
+    "related": "Related treatments",
+    "disclaimer": "This article is general information, not medical advice. It does not replace a consultation with a doctor who knows your history. In an emergency call 112.",
+    "back": "All articles",
+    "read": "Read the article",
+    "latest": "From the journal",
+    "latestTitle": "Read before you decide",
+    "all": "All articles",
+    "otherLanguages": "Also available in",
+    "feed": "{brand} journal"
   }
 }

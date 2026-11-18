@@ -30,3 +30,17 @@ alter table clinic_leads enable row level security;
 -- Private bucket for bank-transfer proofs (served to the console through short-lived signed links).
 insert into storage.buckets (id, name, public) values ('clinic-proofs', 'clinic-proofs', false)
 on conflict (id) do nothing;
+
+-- Blog articles (one row per article per language).
+create table if not exists clinic_posts (
+  id text primary key,
+  locale text not null,
+  slug text not null,
+  status text not null,
+  published_at timestamptz,
+  updated_at timestamptz not null default now(),
+  payload jsonb not null,
+  unique (locale, slug)
+);
+create index if not exists clinic_posts_updated_idx on clinic_posts (updated_at desc);
+alter table clinic_posts enable row level security;

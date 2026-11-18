@@ -1,5 +1,5 @@
 import "server-only";
-import { get, list, put } from "@vercel/blob";
+import { del, get, list, put } from "@vercel/blob";
 import { demoMode } from "./config";
 
 /**
@@ -37,6 +37,10 @@ export async function blobWriteJson(pathname: string, value: unknown): Promise<v
 
 export async function blobWriteBytes(pathname: string, bytes: Buffer, contentType: string): Promise<void> {
   await put(pathname, bytes, { access: "private", allowOverwrite: false, addRandomSuffix: false, contentType, cacheControlMaxAge: 60 });
+}
+
+export async function blobDelete(pathname: string): Promise<void> {
+  await del(pathname);
 }
 
 /** Every JSON file under a folder, most recently written first (a test site holds a handful, so no paging). */

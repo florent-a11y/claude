@@ -12,6 +12,11 @@ import { WhatsAppLink } from "@/components/WhatsAppLink";
 import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
 import { Marquee } from "@/components/Marquee";
+import { PostCard } from "@/components/PostCard";
+import { publishedPosts } from "@/lib/posts";
+
+/** Rebuilt at most every five minutes so new articles appear, and at once when one is saved. */
+export const revalidate = 300;
 
 /** CSS custom property that staggers an animation among its neighbours. */
 const order = (i: number) => ({ "--i": i }) as React.CSSProperties;
@@ -45,6 +50,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
     { value: 100, suffix: "%", label: t("stats.reviewed") },
   ];
   const title = t("hero.title").split(" ");
+  const b = await getTranslations("Blog");
+  const posts = (await publishedPosts(locale)).slice(0, 3);
 
   return (
     <>
@@ -242,6 +249,22 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </div>
         </Reveal>
       </section>
+
+      {/* Journal: newest articles */}
+      {posts.length > 0 && (
+        <section className="container-page pt-14 lg:pt-20">
+          <Reveal className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="eyebrow">{b("latest")}</p>
+              <h2 className="h-display mt-3 text-4xl sm:text-5xl">{b("latestTitle")}</h2>
+            </div>
+            <Link href="/blog" className="nav-link inline-flex items-center gap-1.5 text-sm font-semibold text-deep-900">{b("all")}<ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
+          </Reveal>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {posts.map((p, i) => <Reveal key={p.id} index={i}><PostCard post={p} /></Reveal>)}
+          </div>
+        </section>
+      )}
 
       {/* FAQ teaser */}
       <section className="container-page py-14 lg:py-20">
