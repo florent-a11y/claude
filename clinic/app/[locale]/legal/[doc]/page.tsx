@@ -29,7 +29,7 @@ export default async function LegalPage({ params }: Props) {
     <article className="container-page max-w-3xl py-14">
       <h1 className="h-display text-5xl">{t(doc)}</h1>
       <p className="mt-3 text-sm text-ink-500">{t("updated", { date: content.updated })}</p>
-      {locale !== "en" && <p className="mt-6 rounded-2xl bg-sage-100 px-5 py-4 text-sm text-ink-700">{t("englishOnly")}</p>}
+      {locale !== "en" && <p className="mt-6 rounded-2xl bg-tide-100 px-5 py-4 text-sm text-ink-700">{t("englishOnly")}</p>}
       <div className="prose-legal mt-4" lang="en">
         {content.sections.map((s) => (
           <section key={s.h}>

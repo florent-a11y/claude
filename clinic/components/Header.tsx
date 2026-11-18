@@ -20,13 +20,13 @@ export async function Header() {
   const more = [{ href: "/delivery", label: t("delivery") }, { href: "/faq", label: t("faq") }, { href: "/contact", label: t("contact") }];
   const wa = waLink(c("whatsappGeneral", { brand: site.name }));
   return (
-    <header className="sticky top-0 z-50 border-b border-sand-200/80 bg-sand-50/90 backdrop-blur">
-      <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-full focus:bg-forest-800 focus:px-4 focus:py-2 focus:text-sm focus:text-sand-50">{c("skipToContent")}</a>
+    <header className="sticky top-0 z-50 border-b border-mist-200/70 bg-white/85 backdrop-blur-md">
+      <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-full focus:bg-deep-900 focus:px-4 focus:py-2 focus:text-sm focus:text-white">{c("skipToContent")}</a>
       <div className="container-page flex h-[4.25rem] items-center justify-between gap-4">
-        <Link href="/" className="text-forest-900" aria-label={site.name}><Logo /></Link>
+        <Link href="/" className="text-deep-900" aria-label={site.name}><Logo /></Link>
         <nav className="hidden items-center gap-7 lg:flex" aria-label={c("menu")}>
           {main.map((l) => (
-            <Link key={l.href} href={l.href} className="text-sm font-medium text-ink-700 transition hover:text-forest-900">{l.label}</Link>
+            <Link key={l.href} href={l.href} className="text-sm font-medium text-ink-700 transition hover:text-deep-900">{l.label}</Link>
           ))}
         </nav>
         <div className="flex items-center gap-1.5">

@@ -19,14 +19,14 @@ export function MobileMenu({ links, whatsappHref }: { links: Array<{ href: strin
   return (
     <div className="lg:hidden">
       <button type="button" aria-expanded={open} aria-controls="mobile-menu" aria-label={open ? t("close") : t("menu")} onClick={() => setOpen((o) => !o)}
-        className="inline-flex h-10 w-10 items-center justify-center rounded-full text-forest-900 hover:bg-sand-100">
+        className="inline-flex h-10 w-10 items-center justify-center rounded-full text-deep-900 hover:bg-mist-100">
         {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
       </button>
       {open && (
-        <div id="mobile-menu" className="fixed inset-x-0 bottom-0 top-[4.25rem] z-40 overflow-y-auto bg-sand-50 px-6 pb-10 pt-6">
+        <div id="mobile-menu" className="fixed inset-x-0 bottom-0 top-[4.25rem] z-40 overflow-y-auto bg-white px-6 pb-10 pt-6">
           <nav className="flex flex-col">
             {links.map((l) => (
-              <Link key={l.href} href={l.href} className="border-b border-sand-200 py-4 font-display text-2xl text-forest-900">{l.label}</Link>
+              <Link key={l.href} href={l.href} className="border-b border-mist-200 py-4 font-display text-2xl font-semibold text-deep-900">{l.label}</Link>
             ))}
           </nav>
           <div className="mt-8 flex items-center justify-between">

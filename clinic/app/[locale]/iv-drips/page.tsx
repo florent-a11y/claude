@@ -19,7 +19,7 @@ export default async function IvDrips({ params }: Props) {
   const t = await getTranslations("Listing");
   return (
     <>
-      <PageHeader eyebrow={t("iv.eyebrow")} title={t("iv.title")} intro={t("iv.intro")} />
+      <PageHeader eyebrow={t("iv.eyebrow")} title={t("iv.title")} intro={t("iv.intro")} photo="iv-bag" />
       <section className="container-page py-14">
         <CatalogGrid slugs={productsOf("iv").map((p) => p.slug)} />
       </section>
@@ -27,7 +27,7 @@ export default async function IvDrips({ params }: Props) {
         <h2 className="h-display text-4xl">{t("shots.title")}</h2>
         <p className="lead mt-3 max-w-2xl">{t("shots.intro")}</p>
         <div className="mt-8"><CatalogGrid slugs={productsOf("shot").map((p) => p.slug)} filter={false} /></div>
-        <p className="mt-12 max-w-3xl border-l-2 border-clay-400 pl-4 text-sm leading-relaxed text-ink-500">{t("iv.note")}</p>
+        <p className="mt-12 max-w-3xl border-l-2 border-tide-400 pl-4 text-sm leading-relaxed text-ink-500">{t("iv.note")}</p>
       </section>
     </>
   );

@@ -28,11 +28,11 @@ export default async function Delivery({ params }: Props) {
   ] as const;
   return (
     <>
-      <PageHeader eyebrow={t("eyebrow")} title={t("title")} intro={t("intro", { opens: site.opens, closes: site.closes })} />
+      <PageHeader eyebrow={t("eyebrow")} title={t("title")} intro={t("intro", { opens: site.opens, closes: site.closes })} photo="villa-aerial" />
       <section className="container-page py-14">
-        <div className="overflow-x-auto rounded-3xl border border-sand-200 bg-white/70">
+        <div className="overflow-x-auto rounded-3xl border border-mist-200 bg-white/70">
           <table className="w-full min-w-[36rem] text-left text-sm">
-            <thead className="bg-sand-100 text-xs uppercase tracking-[0.16em] text-ink-500">
+            <thead className="bg-mist-100 text-xs uppercase tracking-[0.16em] text-ink-500">
               <tr>
                 <th scope="col" className="px-6 py-4 font-semibold">{t("table.area")}</th>
                 <th scope="col" className="px-6 py-4 font-semibold">{t("table.delivery")}</th>
@@ -40,10 +40,10 @@ export default async function Delivery({ params }: Props) {
                 <th scope="col" className="px-6 py-4 font-semibold">{t("table.eta")}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-sand-200">
+            <tbody className="divide-y divide-mist-200">
               {ZONES.map((z) => (
                 <tr key={z.id}>
-                  <th scope="row" className="px-6 py-5 font-medium leading-relaxed text-forest-900">{z.areas.join(", ")}</th>
+                  <th scope="row" className="px-6 py-5 font-medium leading-relaxed text-deep-900">{z.areas.join(", ")}</th>
                   <td className="px-6 py-5 text-ink-700">{idr(z.deliveryIdr, locale)}</td>
                   <td className="px-6 py-5 text-ink-700">{idr(z.calloutIdr, locale)}</td>
                   <td className="px-6 py-5 text-ink-700">{t("eta", { minutes: z.etaMin })}</td>
@@ -61,8 +61,8 @@ export default async function Delivery({ params }: Props) {
         <div className="mt-14 grid gap-5 sm:grid-cols-2">
           {info.map(({ key, icon: Icon, text }) => (
             <div key={key} className="card">
-              <Icon className="h-6 w-6 text-forest-700" strokeWidth={1.6} aria-hidden="true" />
-              <h2 className="mt-4 font-display text-2xl font-semibold text-forest-900">{t(`${key}.title`)}</h2>
+              <Icon className="h-6 w-6 text-deep-700" strokeWidth={1.6} aria-hidden="true" />
+              <h2 className="mt-4 font-display text-2xl font-semibold text-deep-900">{t(`${key}.title`)}</h2>
               <p className="mt-2 text-sm leading-relaxed text-ink-700">{text}</p>
             </div>
           ))}

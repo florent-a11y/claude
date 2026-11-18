@@ -59,8 +59,8 @@ Every action is written to the order's activity log with who did it.
 | Product wording, all site copy | `messages/en.json`, then `messages/ru.json` and `messages/fr.json` (a missing translation shows the English) |
 | Service areas, delivery and call-out fees, free-delivery threshold, opening hours, arrival windows | `lib/config.ts` |
 | Terms, privacy, medical disclaimer, refunds (English only) | `lib/legal.ts` |
-| Colours and fonts | `app/globals.css` |
-| Hero and product illustrations (swap for photography) | `components/HeroArt.tsx`, `components/ProductArt.tsx` |
+| Colours and typeface | `app/globals.css` (palette at the top; the typeface is Onest, which covers Latin and Cyrillic) |
+| Photographs | files in `photos/`, listed in `lib/photos.ts`; each product names its photo in `lib/catalog.ts`. To swap one, replace the file under the same name |
 
 ## Before launch
 
@@ -70,6 +70,10 @@ Sample content to replace:
 - [ ] The whole catalogue in `lib/catalog.ts` and `messages/*.json`: products, contents, **prices**
 - [ ] Zones and fees in `lib/config.ts`
 - [ ] WhatsApp number, email, lounge address, company name
+- [ ] Photographs: the site ships with free stock photos from Pexels (sources in `photos/CREDITS.md`). They are
+      illustrative, not pictures of your lounge, team or products, and the site says so. Replace them with your own
+      photography when you have it. Do not add stock photos in which a recognisable person appears to use or
+      endorse a medical product
 - [ ] Legal pages in `lib/legal.ts`: reviewed by an Indonesian health-law adviser, with your real cancellation and
       return terms
 - [ ] Every statement the copy makes about the service must be true on day one: licensed doctors review every

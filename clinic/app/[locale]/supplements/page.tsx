@@ -19,10 +19,10 @@ export default async function Supplements({ params }: Props) {
   const t = await getTranslations("Listing.supplements");
   return (
     <>
-      <PageHeader eyebrow={t("eyebrow")} title={t("title")} intro={t("intro")} />
+      <PageHeader eyebrow={t("eyebrow")} title={t("title")} intro={t("intro")} photo="softgels-close" />
       <section className="container-page py-14">
         <CatalogGrid slugs={productsOf("supplement").map((p) => p.slug)} />
-        <p className="mt-12 max-w-3xl border-l-2 border-clay-400 pl-4 text-sm leading-relaxed text-ink-500">{t("note")}</p>
+        <p className="mt-12 max-w-3xl border-l-2 border-tide-400 pl-4 text-sm leading-relaxed text-ink-500">{t("note")}</p>
       </section>
     </>
   );

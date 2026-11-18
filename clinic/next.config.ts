@@ -37,6 +37,8 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   // This app lives in a subfolder of a repository that holds other apps: keep file tracing inside it.
   outputFileTracingRoot: __dirname,
+  // Photographs are served as AVIF or WebP at the size each screen needs.
+  images: { formats: ["image/avif", "image/webp"] },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
   },

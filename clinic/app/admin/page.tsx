@@ -27,18 +27,18 @@ export default async function AdminHome({ searchParams }: { searchParams: Promis
   const rows = inView(view);
   return (
     <>
-      <h1 className="font-display text-4xl font-semibold text-forest-900">Orders</h1>
+      <h1 className="font-display text-4xl font-semibold text-deep-900">Orders</h1>
       <nav className="mt-5 flex flex-wrap gap-2" aria-label="Order views">
         {VIEWS.map((v) => (
           <a key={v.key} href={`/admin?view=${v.key}`} aria-current={v.key === view.key ? "page" : undefined}
-            className={`rounded-full border px-4 py-2 text-sm font-semibold ${v.key === view.key ? "border-forest-800 bg-forest-800 text-sand-50" : "border-sand-300 bg-white text-forest-900 hover:border-forest-800/50"}`}>
+            className={`rounded-full border px-4 py-2 text-sm font-semibold ${v.key === view.key ? "border-deep-800 bg-deep-800 text-mist-50" : "border-mist-300 bg-white text-deep-900 hover:border-deep-800/50"}`}>
             {v.label} <span className="ml-1 opacity-70">{inView(v).length}</span>
           </a>
         ))}
       </nav>
-      <div className="mt-6 overflow-x-auto rounded-2xl border border-sand-200 bg-white">
+      <div className="mt-6 overflow-x-auto rounded-2xl border border-mist-200 bg-white">
         <table className="w-full min-w-[56rem] text-left text-sm">
-          <thead className="bg-sand-100 text-xs uppercase tracking-wider text-ink-500">
+          <thead className="bg-mist-100 text-xs uppercase tracking-wider text-ink-500">
             <tr>
               <th scope="col" className="px-4 py-3">Order</th>
               <th scope="col" className="px-4 py-3">Placed</th>
@@ -50,11 +50,11 @@ export default async function AdminHome({ searchParams }: { searchParams: Promis
               <th scope="col" className="px-4 py-3">Status</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-sand-200">
+          <tbody className="divide-y divide-mist-200">
             {rows.length === 0 && <tr><td colSpan={8} className="px-4 py-10 text-center text-ink-500">Nothing here.</td></tr>}
             {rows.map((o) => (
-              <tr key={o.id} className="align-top hover:bg-sand-50">
-                <td className="px-4 py-3"><a className="font-semibold text-forest-700 underline underline-offset-2" href={`/admin/orders/${o.id}`}>{o.id}</a></td>
+              <tr key={o.id} className="align-top hover:bg-mist-50">
+                <td className="px-4 py-3"><a className="font-semibold text-deep-700 underline underline-offset-2" href={`/admin/orders/${o.id}`}>{o.id}</a></td>
                 <td className="whitespace-nowrap px-4 py-3 text-ink-700">{baliTime(o.createdAt)}</td>
                 <td className="px-4 py-3"><span className="font-medium">{o.contact.name}</span><br /><span className="text-ink-500">{o.contact.phone}</span></td>
                 <td className="px-4 py-3 text-ink-700">{o.lines.map((l) => `${l.qty}× ${l.name}`).join(", ") || "—"}</td>

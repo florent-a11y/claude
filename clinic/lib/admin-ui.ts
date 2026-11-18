@@ -5,9 +5,9 @@ export const STATUS_LABEL: Record<OrderStatus, string> = {
   out_for_delivery: "On the way", completed: "Completed", declined: "Declined", cancelled: "Cancelled", refunded: "Refunded",
 };
 export const STATUS_TONE: Record<OrderStatus, string> = {
-  awaiting_review: "bg-clay-50 text-clay-600", awaiting_payment: "bg-sand-200 text-forest-900", payment_review: "bg-amber-100 text-amber-900",
-  confirmed: "bg-sage-200 text-forest-900", out_for_delivery: "bg-sky-100 text-sky-900", completed: "bg-sage-100 text-forest-700",
-  declined: "bg-sand-200 text-ink-500", cancelled: "bg-sand-200 text-ink-500", refunded: "bg-sand-200 text-ink-500",
+  awaiting_review: "bg-coral-50 text-coral-600", awaiting_payment: "bg-mist-200 text-deep-900", payment_review: "bg-amber-100 text-amber-900",
+  confirmed: "bg-tide-200 text-deep-900", out_for_delivery: "bg-sky-100 text-sky-900", completed: "bg-tide-100 text-deep-700",
+  declined: "bg-mist-200 text-ink-500", cancelled: "bg-mist-200 text-ink-500", refunded: "bg-mist-200 text-ink-500",
 };
 export const METHOD_LABEL = { xendit: "Xendit (QRIS / VA / e-wallet)", airwallex: "Airwallex card", transfer: "Bank transfer", cod: "Pay on delivery" } as const;
 

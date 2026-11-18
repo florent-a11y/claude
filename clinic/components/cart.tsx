@@ -71,10 +71,10 @@ export function CartButton() {
   const { count, ready } = useCart();
   const shown = ready ? count : 0;
   return (
-    <Link href="/cart" aria-label={t("basketCount", { count: shown })} className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-forest-900 transition hover:bg-sand-100">
+    <Link href="/cart" aria-label={t("basketCount", { count: shown })} className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-deep-900 transition hover:bg-mist-100">
       <ShoppingBag className="h-5 w-5" strokeWidth={1.6} aria-hidden="true" />
       {shown > 0 && (
-        <span className="absolute -right-0.5 -top-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-clay-500 px-1 text-[11px] font-bold text-white">{shown}</span>
+        <span className="absolute -right-0.5 -top-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-lime-400 px-1 text-[11px] font-bold text-deep-950">{shown}</span>
       )}
     </Link>
   );
@@ -98,7 +98,7 @@ export function AddToCart({ slug, session, className = "btn-primary", compact = 
         {added ? <Check className="h-4 w-4" aria-hidden="true" /> : <Plus className="h-4 w-4" aria-hidden="true" />}
         <span aria-live="polite">{added ? t("added") : session ? t("addToBooking") : t("addToCart")}</span>
       </button>
-      {added && <Link href="/cart" className="text-sm font-semibold text-forest-700 underline underline-offset-4">{t("viewBasket")}</Link>}
+      {added && <Link href="/cart" className="text-sm font-semibold text-deep-700 underline underline-offset-4">{t("viewBasket")}</Link>}
     </span>
   );
 }

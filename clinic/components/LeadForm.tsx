@@ -24,7 +24,7 @@ export function LeadForm() {
     }
   }
 
-  if (state === "sent") return <p role="status" className="rounded-2xl bg-sage-100 px-5 py-4 font-medium text-forest-900">{t("sent")}</p>;
+  if (state === "sent") return <p role="status" className="rounded-2xl bg-tide-100 px-5 py-4 font-medium text-deep-900">{t("sent")}</p>;
   return (
     <form onSubmit={submit} className="space-y-5">
       <div>

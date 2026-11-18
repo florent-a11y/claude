@@ -22,33 +22,33 @@ export default async function Contact({ params }: Props) {
   const c = await getTranslations("Common");
   return (
     <>
-      <PageHeader title={t("title")} intro={t("intro", { opens: site.opens, closes: site.closes })}>
+      <PageHeader title={t("title")} intro={t("intro", { opens: site.opens, closes: site.closes })} photo="villa-living-room">
         <div className="mt-7"><WhatsAppLink label={t("whatsappCta")} text={c("whatsappGeneral", { brand: site.name })} className="btn-primary" /></div>
       </PageHeader>
       <section className="container-page grid gap-12 py-14 lg:grid-cols-[0.8fr_1.2fr]">
         <div>
           <dl className="space-y-7">
             <div className="flex gap-4">
-              <Mail className="mt-1 h-5 w-5 shrink-0 text-forest-700" strokeWidth={1.6} aria-hidden="true" />
-              <div><dt className="text-xs font-semibold uppercase tracking-[0.2em] text-clay-500">{t("emailLabel")}</dt><dd className="mt-1"><a className="underline underline-offset-4" href={`mailto:${site.email}`}>{site.email}</a></dd></div>
+              <Mail className="mt-1 h-5 w-5 shrink-0 text-deep-700" strokeWidth={1.6} aria-hidden="true" />
+              <div><dt className="text-xs font-semibold uppercase tracking-[0.16em] text-tide-600">{t("emailLabel")}</dt><dd className="mt-1"><a className="underline underline-offset-4" href={`mailto:${site.email}`}>{site.email}</a></dd></div>
             </div>
             <div className="flex gap-4">
-              <Clock className="mt-1 h-5 w-5 shrink-0 text-forest-700" strokeWidth={1.6} aria-hidden="true" />
-              <div><dt className="text-xs font-semibold uppercase tracking-[0.2em] text-clay-500">{t("hoursLabel")}</dt><dd className="mt-1">{t("hours", { opens: site.opens, closes: site.closes })}</dd></div>
+              <Clock className="mt-1 h-5 w-5 shrink-0 text-deep-700" strokeWidth={1.6} aria-hidden="true" />
+              <div><dt className="text-xs font-semibold uppercase tracking-[0.16em] text-tide-600">{t("hoursLabel")}</dt><dd className="mt-1">{t("hours", { opens: site.opens, closes: site.closes })}</dd></div>
             </div>
             <div className="flex gap-4">
-              <MapPin className="mt-1 h-5 w-5 shrink-0 text-forest-700" strokeWidth={1.6} aria-hidden="true" />
+              <MapPin className="mt-1 h-5 w-5 shrink-0 text-deep-700" strokeWidth={1.6} aria-hidden="true" />
               <div>
-                <dt className="text-xs font-semibold uppercase tracking-[0.2em] text-clay-500">{t("addressLabel")}</dt>
+                <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-tide-600">{t("addressLabel")}</dt>
                 <dd className="mt-1">{site.address || t("addressPending")}</dd>
                 {site.mapsUrl && <dd className="mt-1"><a className="text-sm underline underline-offset-4" href={site.mapsUrl} target="_blank" rel="noopener noreferrer">{t("map")}</a></dd>}
               </div>
             </div>
           </dl>
-          <p className="mt-10 rounded-2xl bg-clay-50 px-5 py-4 text-sm font-medium text-forest-900">{t("emergency")}</p>
+          <p className="mt-10 rounded-2xl bg-coral-50 px-5 py-4 text-sm font-medium text-deep-900">{t("emergency")}</p>
         </div>
         <div className="card p-8">
-          <h2 className="font-display text-3xl font-semibold text-forest-900">{t("form.title")}</h2>
+          <h2 className="font-display text-3xl font-semibold text-deep-900">{t("form.title")}</h2>
           <div className="mt-6"><LeadForm /></div>
         </div>
       </section>

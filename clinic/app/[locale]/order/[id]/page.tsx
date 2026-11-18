@@ -20,9 +20,9 @@ export const dynamic = "force-dynamic";
 
 const TAGS: Record<string, string> = { en: "en-GB", ru: "ru-RU", fr: "fr-FR" };
 const TONE: Record<OrderStatus, string> = {
-  awaiting_review: "bg-clay-50 text-clay-600", awaiting_payment: "bg-sand-200 text-forest-900", payment_review: "bg-sand-200 text-forest-900",
-  confirmed: "bg-sage-200 text-forest-900", out_for_delivery: "bg-sage-200 text-forest-900", completed: "bg-sage-200 text-forest-900",
-  declined: "bg-sand-200 text-ink-700", cancelled: "bg-sand-200 text-ink-700", refunded: "bg-sand-200 text-ink-700",
+  awaiting_review: "bg-coral-50 text-coral-600", awaiting_payment: "bg-mist-200 text-deep-900", payment_review: "bg-mist-200 text-deep-900",
+  confirmed: "bg-tide-200 text-deep-900", out_for_delivery: "bg-tide-200 text-deep-900", completed: "bg-tide-200 text-deep-900",
+  declined: "bg-mist-200 text-ink-700", cancelled: "bg-mist-200 text-ink-700", refunded: "bg-mist-200 text-ink-700",
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -64,21 +64,21 @@ export default async function OrderPage({ params, searchParams }: Props) {
       <p className="eyebrow">{t("placed", { date: dateTime(order.createdAt) })}</p>
       <h1 className="h-display mt-3 text-5xl">{t("title", { id: order.id })}</h1>
 
-      <div className="mt-8 rounded-[2rem] border border-sand-200 bg-white/70 p-6 sm:p-8">
+      <div className="mt-8 rounded-[2rem] border border-mist-200 bg-white/70 p-6 sm:p-8">
         <span className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold ${TONE[order.status]}`}>
           <StatusIcon className="h-4 w-4" aria-hidden="true" />{t(`status.${order.status}.label`)}
         </span>
         <p className="mt-4 text-lg leading-relaxed text-ink-700">{t(`status.${order.status}.text`)}</p>
-        {order.review?.decision === "approved" && order.status === "awaiting_payment" && <p className="mt-2 font-semibold text-forest-900">{t("approvedNote")}</p>}
-        {order.review?.decision === "partly_approved" && <p className="mt-2 font-semibold text-forest-900">{t("partlyApprovedNote")}</p>}
+        {order.review?.decision === "approved" && order.status === "awaiting_payment" && <p className="mt-2 font-semibold text-deep-900">{t("approvedNote")}</p>}
+        {order.review?.decision === "partly_approved" && <p className="mt-2 font-semibold text-deep-900">{t("partlyApprovedNote")}</p>}
         {order.review?.note && (
-          <blockquote className="mt-4 border-l-2 border-clay-400 pl-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-clay-500">{t("doctorNote")}</p>
+          <blockquote className="mt-4 border-l-2 border-coral-400 pl-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-coral-500">{t("doctorNote")}</p>
             <p className="mt-1 whitespace-pre-line leading-relaxed text-ink-700">{order.review.note}</p>
           </blockquote>
         )}
-        {payOnDelivery && <p className="mt-4 font-semibold text-forest-900">{t("codPending", { amount: idr(order.totalIdr, locale) })}</p>}
-        {order.paid && order.paidAt && <p className="mt-4 inline-flex items-center gap-2 font-semibold text-forest-700"><CheckCircle2 className="h-4 w-4" aria-hidden="true" />{t("paidOn", { date: dateTime(order.paidAt) })}</p>}
+        {payOnDelivery && <p className="mt-4 font-semibold text-deep-900">{t("codPending", { amount: idr(order.totalIdr, locale) })}</p>}
+        {order.paid && order.paidAt && <p className="mt-4 inline-flex items-center gap-2 font-semibold text-deep-700"><CheckCircle2 className="h-4 w-4" aria-hidden="true" />{t("paidOn", { date: dateTime(order.paidAt) })}</p>}
       </div>
 
       {order.status === "awaiting_payment" && (
@@ -93,11 +93,11 @@ export default async function OrderPage({ params, searchParams }: Props) {
 
       <div className="mt-10 grid gap-8 md:grid-cols-[1.3fr_1fr]">
         <section aria-labelledby="order-items">
-          <h2 id="order-items" className="font-display text-2xl font-semibold text-forest-900">{t("items")}</h2>
-          <ul className="mt-3 divide-y divide-sand-200 border-y border-sand-200 text-sm">
+          <h2 id="order-items" className="font-display text-2xl font-semibold text-deep-900">{t("items")}</h2>
+          <ul className="mt-3 divide-y divide-mist-200 border-y border-mist-200 text-sm">
             {order.lines.map((l) => (
               <li key={l.slug} className="flex justify-between gap-4 py-3">
-                <span className="font-medium text-forest-900">{l.qty} × {lineName(l)}</span>
+                <span className="font-medium text-deep-900">{l.qty} × {lineName(l)}</span>
                 <span className="whitespace-nowrap">{idr(l.unitIdr * l.qty, locale)}</span>
               </li>
             ))}
@@ -112,9 +112,9 @@ export default async function OrderPage({ params, searchParams }: Props) {
             <div className="flex justify-between"><dt className="text-ink-700">{t("totals.subtotal")}</dt><dd>{idr(order.subtotalIdr, locale)}</dd></div>
             {order.deliveryIdr > 0 && <div className="flex justify-between"><dt className="text-ink-700">{t("totals.delivery")}</dt><dd>{idr(order.deliveryIdr, locale)}</dd></div>}
             {order.calloutIdr > 0 && <div className="flex justify-between"><dt className="text-ink-700">{t("totals.callout")}</dt><dd>{idr(order.calloutIdr, locale)}</dd></div>}
-            <div className="flex items-baseline justify-between border-t border-sand-200 pt-3">
-              <dt className="font-semibold text-forest-900">{t("totals.total")}</dt>
-              <dd className="font-display text-3xl font-semibold text-forest-900">{idr(order.totalIdr, locale)}</dd>
+            <div className="flex items-baseline justify-between border-t border-mist-200 pt-3">
+              <dt className="font-semibold text-deep-900">{t("totals.total")}</dt>
+              <dd className="font-display text-3xl font-semibold text-deep-900">{idr(order.totalIdr, locale)}</dd>
             </div>
           </dl>
         </section>
@@ -122,23 +122,23 @@ export default async function OrderPage({ params, searchParams }: Props) {
         <div className="space-y-6">
           {needsPlace && (
             <section className="card" aria-labelledby="order-where">
-              <h2 id="order-where" className="font-display text-2xl font-semibold text-forest-900">{t("fulfilment.title")}</h2>
+              <h2 id="order-where" className="font-display text-2xl font-semibold text-deep-900">{t("fulfilment.title")}</h2>
               <p className="mt-3 flex gap-2.5 text-sm text-ink-700">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-forest-700" aria-hidden="true" />
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-deep-700" aria-hidden="true" />
                 <span>
-                  <span className="font-semibold text-forest-900">{f.mode === "address" ? t("fulfilment.address") : t("fulfilment.clinic")}</span>
+                  <span className="font-semibold text-deep-900">{f.mode === "address" ? t("fulfilment.address") : t("fulfilment.clinic")}</span>
                   {f.mode === "address" && <span className="block">{f.area}<br />{f.address}</span>}
                   {f.mode === "clinic" && site.address && <span className="block">{site.address}</span>}
                 </span>
               </p>
               <p className="mt-3 flex gap-2.5 text-sm text-ink-700">
-                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-forest-700" aria-hidden="true" />
+                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-deep-700" aria-hidden="true" />
                 {f.date ? t("fulfilment.window", { date: day(f.date), slot: f.slot ? f.slot.replace("-", " – ") : "" }).replace(/,\s*$/, "") : t("fulfilment.toConfirm")}
               </p>
             </section>
           )}
-          <section className="rounded-3xl bg-sage-100/70 p-6">
-            <h2 className="font-semibold text-forest-900">{t("help")}</h2>
+          <section className="rounded-3xl bg-tide-100/70 p-6">
+            <h2 className="font-semibold text-deep-900">{t("help")}</h2>
             <div className="mt-3 flex flex-wrap gap-3">
               <WhatsAppLink label="WhatsApp" text={t("whatsappText", { brand: site.name, id: order.id })} className="btn-secondary btn-sm" fallback={<a className="btn-secondary btn-sm" href={`mailto:${site.email}?subject=${encodeURIComponent(order.id)}`}>{site.email}</a>} />
             </div>

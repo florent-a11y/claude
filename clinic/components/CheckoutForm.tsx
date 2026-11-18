@@ -216,7 +216,7 @@ export function CheckoutForm({ methods, card, today, maxDate }: Props) {
       <div className="space-y-12">
         {/* Contact */}
         <fieldset>
-          <legend className="font-display text-3xl font-semibold text-forest-900">{t("contact.title")}</legend>
+          <legend className="font-display text-3xl font-semibold text-deep-900">{t("contact.title")}</legend>
           <div className="mt-5 grid gap-5 sm:grid-cols-2">
             <div className="sm:col-span-2">
               <label className="label" htmlFor="co-name">{t("contact.name")}</label>
@@ -240,9 +240,9 @@ export function CheckoutForm({ methods, card, today, maxDate }: Props) {
 
         {/* Where and when */}
         <fieldset>
-          <legend className="font-display text-3xl font-semibold text-forest-900">{t("fulfilment.title")}</legend>
+          <legend className="font-display text-3xl font-semibold text-deep-900">{t("fulfilment.title")}</legend>
           {!q.needsFulfilment ? (
-            <p className="mt-4 rounded-2xl bg-sage-100 px-5 py-4 text-sm leading-relaxed text-forest-900">{t("fulfilment.membershipOnly")}</p>
+            <p className="mt-4 rounded-2xl bg-tide-100 px-5 py-4 text-sm leading-relaxed text-deep-900">{t("fulfilment.membershipOnly")}</p>
           ) : (
             <div className="mt-5 space-y-5">
               <div className="grid gap-3 sm:grid-cols-2" role="radiogroup" aria-label={t("fulfilment.title")}>
@@ -250,9 +250,9 @@ export function CheckoutForm({ methods, card, today, maxDate }: Props) {
                   { value: "address", title: t("fulfilment.address"), text: q.hasSession ? t("fulfilment.addressSessionText") : t("fulfilment.addressDeliveryText") },
                   { value: "clinic", title: q.hasSession ? t("fulfilment.clinicSession") : t("fulfilment.clinicPickup"), text: q.hasSession ? t("fulfilment.clinicSessionText") : t("fulfilment.clinicPickupText") },
                 ] as const).map((o) => (
-                  <label key={o.value} className={`flex cursor-pointer gap-3 rounded-2xl border p-4 transition ${mode === o.value ? "border-forest-800 bg-sage-100/60" : "border-sand-300 bg-white hover:border-forest-800/40"}`}>
-                    <input type="radio" name="mode" className="mt-1 h-4 w-4 accent-forest-700" checked={mode === o.value} onChange={() => setMode(o.value)} />
-                    <span><span className="block font-semibold text-forest-900">{o.title}</span><span className="mt-0.5 block text-sm text-ink-700">{o.text}</span></span>
+                  <label key={o.value} className={`flex cursor-pointer gap-3 rounded-2xl border p-4 transition ${mode === o.value ? "border-deep-800 bg-tide-100/60" : "border-mist-300 bg-white hover:border-deep-800/40"}`}>
+                    <input type="radio" name="mode" className="mt-1 h-4 w-4 accent-deep-700" checked={mode === o.value} onChange={() => setMode(o.value)} />
+                    <span><span className="block font-semibold text-deep-900">{o.title}</span><span className="mt-0.5 block text-sm text-ink-700">{o.text}</span></span>
                   </label>
                 ))}
               </div>
@@ -303,8 +303,8 @@ export function CheckoutForm({ methods, card, today, maxDate }: Props) {
         {/* Health questionnaire */}
         {q.needsHealth && (
           <fieldset>
-            <legend className="font-display text-3xl font-semibold text-forest-900">{t("health.title")}</legend>
-            <p className="mt-2 flex gap-2 text-sm leading-relaxed text-ink-700"><Stethoscope className="mt-0.5 h-4 w-4 shrink-0 text-clay-500" aria-hidden="true" />{t("health.intro")}</p>
+            <legend className="font-display text-3xl font-semibold text-deep-900">{t("health.title")}</legend>
+            <p className="mt-2 flex gap-2 text-sm leading-relaxed text-ink-700"><Stethoscope className="mt-0.5 h-4 w-4 shrink-0 text-coral-500" aria-hidden="true" />{t("health.intro")}</p>
             <div className="mt-5 grid gap-5 sm:grid-cols-3">
               <div>
                 <label className="label" htmlFor="co-dob">{t("health.dob")}</label>
@@ -326,7 +326,7 @@ export function CheckoutForm({ methods, card, today, maxDate }: Props) {
               <p id="co-conditions-label" className="label">{t("health.conditions")}</p>
               <div className="grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
                 {CONDITIONS.map((cond, i) => (
-                  <label key={cond} className={`flex cursor-pointer gap-2.5 text-sm text-ink-700 ${cond === "none" ? "font-semibold text-forest-900 sm:col-span-2" : ""}`}>
+                  <label key={cond} className={`flex cursor-pointer gap-2.5 text-sm text-ink-700 ${cond === "none" ? "font-semibold text-deep-900 sm:col-span-2" : ""}`}>
                     <input id={i === 0 ? "co-conditions" : undefined} type="checkbox" className="checkbox" checked={conditions.includes(cond)} onChange={() => toggleCondition(cond)} />
                     {t(`health.conditionOptions.${cond}`)}
                   </label>
@@ -358,18 +358,18 @@ export function CheckoutForm({ methods, card, today, maxDate }: Props) {
 
         {/* Payment */}
         <fieldset>
-          <legend className="font-display text-3xl font-semibold text-forest-900">{t("payment.title")}</legend>
+          <legend className="font-display text-3xl font-semibold text-deep-900">{t("payment.title")}</legend>
           {q.hasRx ? (
-            <p className="mt-4 flex gap-3 rounded-2xl bg-clay-50 px-5 py-4 text-sm leading-relaxed text-forest-900"><Stethoscope className="mt-0.5 h-4 w-4 shrink-0 text-clay-600" aria-hidden="true" />{t("payment.afterReview")}</p>
+            <p className="mt-4 flex gap-3 rounded-2xl bg-coral-50 px-5 py-4 text-sm leading-relaxed text-deep-900"><Stethoscope className="mt-0.5 h-4 w-4 shrink-0 text-coral-600" aria-hidden="true" />{t("payment.afterReview")}</p>
           ) : (
             <div className="mt-5 space-y-3" role="radiogroup" aria-label={t("payment.choose")}>
               {methods.map((m, i) => (
-                <label key={m.method} className={`flex cursor-pointer gap-3 rounded-2xl border p-4 transition ${payment === m.method ? "border-forest-800 bg-sage-100/60" : "border-sand-300 bg-white hover:border-forest-800/40"}`}>
-                  <input id={i === 0 ? "co-payment" : undefined} type="radio" name="payment" className="mt-1 h-4 w-4 accent-forest-700" checked={payment === m.method} onChange={() => editing<PayMethod | "">("payment", setPayment)(m.method)} />
+                <label key={m.method} className={`flex cursor-pointer gap-3 rounded-2xl border p-4 transition ${payment === m.method ? "border-deep-800 bg-tide-100/60" : "border-mist-300 bg-white hover:border-deep-800/40"}`}>
+                  <input id={i === 0 ? "co-payment" : undefined} type="radio" name="payment" className="mt-1 h-4 w-4 accent-deep-700" checked={payment === m.method} onChange={() => editing<PayMethod | "">("payment", setPayment)(m.method)} />
                   <span>
-                    <span className="block font-semibold text-forest-900">{methodCopy[m.method].title}</span>
+                    <span className="block font-semibold text-deep-900">{methodCopy[m.method].title}</span>
                     <span className="mt-0.5 block text-sm text-ink-700">{methodCopy[m.method].text}</span>
-                    {m.simulated && <span className="mt-1 block text-xs font-medium text-clay-600">{t("payment.simulated")}</span>}
+                    {m.simulated && <span className="mt-1 block text-xs font-medium text-coral-600">{t("payment.simulated")}</span>}
                   </span>
                 </label>
               ))}
@@ -391,8 +391,8 @@ export function CheckoutForm({ methods, card, today, maxDate }: Props) {
             <label className="flex cursor-pointer gap-3 text-sm text-ink-700">
               <input id="co-terms" type="checkbox" className="checkbox" checked={terms} onChange={(e) => editing("terms", setTerms)(e.target.checked)} {...aria("terms")} />
               <span>{t.rich("consents.terms", {
-                terms: (chunks) => <Link href="/legal/terms" target="_blank" className="font-semibold text-forest-700 underline underline-offset-2">{chunks}</Link>,
-                privacy: (chunks) => <Link href="/legal/privacy" target="_blank" className="font-semibold text-forest-700 underline underline-offset-2">{chunks}</Link>,
+                terms: (chunks) => <Link href="/legal/terms" target="_blank" className="font-semibold text-deep-700 underline underline-offset-2">{chunks}</Link>,
+                privacy: (chunks) => <Link href="/legal/privacy" target="_blank" className="font-semibold text-deep-700 underline underline-offset-2">{chunks}</Link>,
               })}</span>
             </label>
             {err("terms")}
@@ -402,7 +402,7 @@ export function CheckoutForm({ methods, card, today, maxDate }: Props) {
               <label className="flex cursor-pointer gap-3 text-sm text-ink-700">
                 <input id="co-medical" type="checkbox" className="checkbox" checked={medical} onChange={(e) => editing("medical", setMedical)(e.target.checked)} {...aria("medical")} />
                 <span>{t.rich("consents.medical", {
-                  disclaimer: (chunks) => <Link href="/legal/medical" target="_blank" className="font-semibold text-forest-700 underline underline-offset-2">{chunks}</Link>,
+                  disclaimer: (chunks) => <Link href="/legal/medical" target="_blank" className="font-semibold text-deep-700 underline underline-offset-2">{chunks}</Link>,
                 })}</span>
               </label>
               {err("medical")}
@@ -416,17 +416,17 @@ export function CheckoutForm({ methods, card, today, maxDate }: Props) {
       {/* Summary */}
       <aside className="card h-fit lg:sticky lg:top-28">
         <div className="flex items-baseline justify-between">
-          <h2 className="font-display text-2xl font-semibold text-forest-900">{t("summary.title")}</h2>
-          <Link href="/cart" className="text-sm font-semibold text-forest-700 underline-offset-4 hover:underline">{t("summary.edit")}</Link>
+          <h2 className="font-display text-2xl font-semibold text-deep-900">{t("summary.title")}</h2>
+          <Link href="/cart" className="text-sm font-semibold text-deep-700 underline-offset-4 hover:underline">{t("summary.edit")}</Link>
         </div>
-        <ul className="mt-4 divide-y divide-sand-200 border-y border-sand-200 text-sm">
+        <ul className="mt-4 divide-y divide-mist-200 border-y border-mist-200 text-sm">
           {q.lines.map((l) => (
             <li key={l.slug} className="flex justify-between gap-4 py-3">
               <span className="text-ink-700">
-                <span className="font-semibold text-forest-900">{l.qty} × {cat(`${l.slug}.name`)}</span>
-                {l.rx && <span className="mt-0.5 block text-xs font-medium text-clay-600">{c("doctorReview")}</span>}
+                <span className="font-semibold text-deep-900">{l.qty} × {cat(`${l.slug}.name`)}</span>
+                {l.rx && <span className="mt-0.5 block text-xs font-medium text-coral-600">{c("doctorReview")}</span>}
               </span>
-              <span className="whitespace-nowrap font-medium text-forest-900">{idr(l.unitIdr * l.qty, locale)}</span>
+              <span className="whitespace-nowrap font-medium text-deep-900">{idr(l.unitIdr * l.qty, locale)}</span>
             </li>
           ))}
         </ul>
@@ -438,9 +438,9 @@ export function CheckoutForm({ methods, card, today, maxDate }: Props) {
               <dd className="font-medium">{!area ? t("summary.chooseArea") : q.calloutIdr + q.deliveryIdr === 0 ? t("summary.free") : idr(q.calloutIdr + q.deliveryIdr, locale)}</dd>
             </div>
           )}
-          <div className="flex items-baseline justify-between border-t border-sand-200 pt-3">
-            <dt className="font-semibold text-forest-900">{t("summary.total")}</dt>
-            <dd className="font-display text-3xl font-semibold text-forest-900">{idr(q.totalIdr, locale)}</dd>
+          <div className="flex items-baseline justify-between border-t border-mist-200 pt-3">
+            <dt className="font-semibold text-deep-900">{t("summary.total")}</dt>
+            <dd className="font-display text-3xl font-semibold text-deep-900">{idr(q.totalIdr, locale)}</dd>
           </div>
         </dl>
         {banner && <p role="alert" className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-800">{banner}</p>}

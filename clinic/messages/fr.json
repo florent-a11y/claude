@@ -70,24 +70,48 @@
       "badge2": "Administration par un infirmier",
       "badge3": "Livraison à travers Bali",
       "cardLabel": "Le plus réservé",
-      "artAlt": "Illustration abstraite de rizières en terrasses balinaises sous un soleil matinal"
+      "artAlt": "Un bassin entouré de jungle à Bali ; une poche de perfusion ; des flacons en verre"
     },
     "pillars": {
       "eyebrow": "Ce que nous proposons",
       "title": "Quatre façons de vous sentir à nouveau vous-même",
-      "iv": { "title": "Perfusions IV", "text": "Perfusions d’hydratation, d’immunité, de récupération et de NAD+, administrées par un infirmier au lounge ou dans votre villa." },
-      "peptides": { "title": "Peptides", "text": "Protocoles pour la récupération, le sommeil, la peau et le métabolisme. Chacun est examiné par un médecin avant d’être fourni." },
-      "supplements": { "title": "Compléments", "text": "Une courte liste d’essentiels du quotidien que nous utilisons vraiment : électrolytes, magnésium, collagène, créatine, oméga-3." },
-      "memberships": { "title": "Abonnements", "text": "Perfusions mensuelles, points de suivi avec un médecin et tarifs membres pour ceux qui restent un moment à Bali." }
+      "iv": {
+        "title": "Perfusions IV",
+        "text": "Perfusions d’hydratation, d’immunité, de récupération et de NAD+, administrées par un infirmier au lounge ou dans votre villa."
+      },
+      "peptides": {
+        "title": "Peptides",
+        "text": "Protocoles pour la récupération, le sommeil, la peau et le métabolisme. Chacun est examiné par un médecin avant d’être fourni."
+      },
+      "supplements": {
+        "title": "Compléments",
+        "text": "Une courte liste d’essentiels du quotidien que nous utilisons vraiment : électrolytes, magnésium, collagène, créatine, oméga-3."
+      },
+      "memberships": {
+        "title": "Abonnements",
+        "text": "Perfusions mensuelles, points de suivi avec un médecin et tarifs membres pour ceux qui restent un moment à Bali."
+      }
     },
     "how": {
       "eyebrow": "Comment ça marche",
       "title": "Le soin médical d’abord, la livraison ensuite",
       "text": "Rien de ce qui exige une ordonnance ne quitte notre réfrigérateur sans l’accord d’un médecin.",
-      "step1": { "title": "Choisir", "text": "Choisissez une perfusion, un protocole ou un produit et dites-nous où vous séjournez." },
-      "step2": { "title": "Questionnaire de santé", "text": "Répondez à un court questionnaire de santé. Comptez environ deux minutes." },
-      "step3": { "title": "Validation médicale", "text": "Un médecin agréé approuve, ajuste ou refuse, et vous appelle si un point n’est pas clair." },
-      "step4": { "title": "Payer et recevoir", "text": "Payez par QRIS, virement, carte ou à la livraison. Un infirmier ou un coursier en transport réfrigéré vient jusqu’à vous." },
+      "step1": {
+        "title": "Choisir",
+        "text": "Choisissez une perfusion, un protocole ou un produit et dites-nous où vous séjournez."
+      },
+      "step2": {
+        "title": "Questionnaire de santé",
+        "text": "Répondez à un court questionnaire de santé. Comptez environ deux minutes."
+      },
+      "step3": {
+        "title": "Validation médicale",
+        "text": "Un médecin agréé approuve, ajuste ou refuse, et vous appelle si un point n’est pas clair."
+      },
+      "step4": {
+        "title": "Payer et recevoir",
+        "text": "Payez par QRIS, virement, carte ou à la livraison. Un infirmier ou un coursier en transport réfrigéré vient jusqu’à vous."
+      },
       "cta": "Voir toutes les étapes"
     },
     "featured": {
@@ -107,10 +131,22 @@
     "standards": {
       "eyebrow": "Nos exigences",
       "title": "Des réponses franches, une médecine rigoureuse",
-      "item1": { "title": "Un médecin décide, pas un panier d’achat", "text": "Les produits sur ordonnance ne sont remis qu’après examen de votre questionnaire de santé par un médecin agréé." },
-      "item2": { "title": "Honnêtes sur les preuves", "text": "Nous vous disons ce qui est bien étudié et ce qui reste expérimental. Plusieurs peptides ne sont pas des médicaments autorisés, et nous le disons." },
-      "item3": { "title": "Chaîne du froid, du réfrigérateur à votre porte", "text": "Les produits sensibles à la température voyagent au frais dans des pochettes isothermes et sont remis en main propre." },
-      "item4": { "title": "Un contrôle avant chaque perfusion", "text": "Votre infirmier vérifie vos constantes vitales et vos antécédents avant de commencer, et refusera un soin qui ne vous convient pas." }
+      "item1": {
+        "title": "Un médecin décide, pas un panier d’achat",
+        "text": "Les produits sur ordonnance ne sont remis qu’après examen de votre questionnaire de santé par un médecin agréé."
+      },
+      "item2": {
+        "title": "Honnêtes sur les preuves",
+        "text": "Nous vous disons ce qui est bien étudié et ce qui reste expérimental. Plusieurs peptides ne sont pas des médicaments autorisés, et nous le disons."
+      },
+      "item3": {
+        "title": "Chaîne du froid, du réfrigérateur à votre porte",
+        "text": "Les produits sensibles à la température voyagent au frais dans des pochettes isothermes et sont remis en main propre."
+      },
+      "item4": {
+        "title": "Un contrôle avant chaque perfusion",
+        "text": "Votre infirmier vérifie vos constantes vitales et vos antécédents avant de commencer, et refusera un soin qui ne vous convient pas."
+      }
     },
     "areas": {
       "eyebrow": "Où nous livrons",
@@ -118,7 +154,11 @@
       "text": "Livraison de produits à partir de {delivery}. Gratuite dès {free} de produits.",
       "cta": "Détails de livraison"
     },
-    "faq": { "eyebrow": "Questions", "title": "Bon à savoir", "cta": "Toutes les questions" },
+    "faq": {
+      "eyebrow": "Questions",
+      "title": "Bon à savoir",
+      "cta": "Toutes les questions"
+    },
     "final": {
       "title": "Vous ne savez pas par où commencer ?",
       "text": "Dites-nous comment vous vous sentez et ce que vous souhaitez obtenir. Nous vous proposerons un plan et, si nécessaire, ferons examiner votre demande par un médecin.",
@@ -179,7 +219,8 @@
     "membershipText": "Valable un mois à compter du paiement. Nous réservons vos séances avec vous sur WhatsApp. Pas de renouvellement automatique.",
     "disclaimer": "Cette page fournit des informations générales, pas un avis médical. Les résultats varient d’une personne à l’autre. Ce produit n’est pas destiné à diagnostiquer, traiter, guérir ou prévenir une quelconque maladie.",
     "question": "Poser une question sur WhatsApp",
-    "related": "Vous aimerez peut-être aussi"
+    "related": "Vous aimerez peut-être aussi",
+    "illustrative": "Photo d’illustration"
   },
   "Catalog": {
     "sample": "Carte d’exemple : les noms, les compositions et les prix sont provisoires.",
@@ -386,17 +427,41 @@
     "eyebrow": "Le parcours",
     "title": "Comment ça marche",
     "intro": "Commander chez nous prend quelques minutes. La partie médicale se déroule en arrière-plan, et c’est notre raison d’être.",
-    "step1": { "title": "Choisissez ce qu’il vous faut", "text": "Parcourez les perfusions, les peptides, les compléments et les abonnements. Ajoutez-les à votre panier et dites-nous si vous venez au lounge ou si vous préférez que nous venions à vous." },
-    "step2": { "title": "Répondez au questionnaire de santé", "text": "Pour les perfusions, les injections et les produits sur ordonnance, nous vous interrogeons sur votre âge, vos problèmes de santé, vos allergies et vos traitements. Vos réponses ne sont vues que par l’équipe médicale." },
-    "step3": { "title": "Un médecin examine les produits sur ordonnance", "text": "Un médecin agréé lit votre questionnaire et approuve, ajuste ou refuse la demande. Si un point mérite d’être discuté, le médecin vous contacte sur WhatsApp. Les compléments et les perfusions classiques ne passent pas par cette étape." },
-    "step4": { "title": "Payez comme vous préférez", "text": "QRIS, virement sur compte virtuel, portefeuille électronique, carte internationale, virement bancaire manuel, ou espèces et QRIS à la livraison. Les produits sur ordonnance ne se règlent qu’après approbation." },
-    "step5": { "title": "Recevez", "text": "Nous confirmons votre créneau de deux heures sur WhatsApp. Un infirmier se déplace pour les séances ; les produits arrivent par coursier, au frais, ou avec l’infirmier." },
+    "step1": {
+      "title": "Choisissez ce qu’il vous faut",
+      "text": "Parcourez les perfusions, les peptides, les compléments et les abonnements. Ajoutez-les à votre panier et dites-nous si vous venez au lounge ou si vous préférez que nous venions à vous."
+    },
+    "step2": {
+      "title": "Répondez au questionnaire de santé",
+      "text": "Pour les perfusions, les injections et les produits sur ordonnance, nous vous interrogeons sur votre âge, vos problèmes de santé, vos allergies et vos traitements. Vos réponses ne sont vues que par l’équipe médicale."
+    },
+    "step3": {
+      "title": "Un médecin examine les produits sur ordonnance",
+      "text": "Un médecin agréé lit votre questionnaire et approuve, ajuste ou refuse la demande. Si un point mérite d’être discuté, le médecin vous contacte sur WhatsApp. Les compléments et les perfusions classiques ne passent pas par cette étape."
+    },
+    "step4": {
+      "title": "Payez comme vous préférez",
+      "text": "QRIS, virement sur compte virtuel, portefeuille électronique, carte internationale, virement bancaire manuel, ou espèces et QRIS à la livraison. Les produits sur ordonnance ne se règlent qu’après approbation."
+    },
+    "step5": {
+      "title": "Recevez",
+      "text": "Nous confirmons votre créneau de deux heures sur WhatsApp. Un infirmier se déplace pour les séances ; les produits arrivent par coursier, au frais, ou avec l’infirmier."
+    },
     "team": {
       "title": "Qui prend soin de vous",
       "text": "Nous travaillons avec des médecins indonésiens indépendants et agréés, et avec des infirmiers diplômés. Le médecin est responsable de chaque décision de prescription ; l’infirmier, de l’administration sûre de votre soin.",
-      "doctor": { "title": "Médecins", "text": "Ils examinent les questionnaires, prescrivent, rédigent votre protocole et restent joignables pour vos questions de suivi." },
-      "nurse": { "title": "Infirmiers et infirmières", "text": "Ils vérifient vos constantes vitales, posent la perfusion, restent avec vous du début à la fin et savent quand arrêter." },
-      "care": { "title": "Équipe d’accompagnement", "text": "Elle planifie les visites, maintient la chaîne du froid et répond sur WhatsApp tous les jours de {opens} à {closes}." }
+      "doctor": {
+        "title": "Médecins",
+        "text": "Ils examinent les questionnaires, prescrivent, rédigent votre protocole et restent joignables pour vos questions de suivi."
+      },
+      "nurse": {
+        "title": "Infirmiers et infirmières",
+        "text": "Ils vérifient vos constantes vitales, posent la perfusion, restent avec vous du début à la fin et savent quand arrêter."
+      },
+      "care": {
+        "title": "Équipe d’accompagnement",
+        "text": "Elle planifie les visites, maintient la chaîne du froid et répond sur WhatsApp tous les jours de {opens} à {closes}."
+      }
     },
     "safety": {
       "title": "Quand nous disons non",
@@ -409,30 +474,84 @@
     "eyebrow": "Bali uniquement",
     "title": "Livraison et zones desservies",
     "intro": "Nous livrons les produits et envoyons nos infirmiers dans les villas, les hôtels et à domicile dans les zones ci-dessous, tous les jours de {opens} à {closes}.",
-    "table": { "area": "Zones", "delivery": "Livraison de produits", "callout": "Déplacement infirmier", "eta": "Délai habituel" },
+    "table": {
+      "area": "Zones",
+      "delivery": "Livraison de produits",
+      "callout": "Déplacement infirmier",
+      "eta": "Délai habituel"
+    },
     "eta": "environ {minutes} min",
     "freeFrom": "La livraison de produits est gratuite à partir de {amount} de produits. Lorsqu’un infirmier se déplace, les produits voyagent avec lui, sans frais de livraison supplémentaires.",
     "elsewhere": "Vous séjournez ailleurs à Bali ? Écrivez-nous, nous vous dirons ce qui est possible.",
-    "windows": { "title": "Créneaux d’arrivée", "text": "Vous choisissez un créneau de deux heures lors de la commande. Nous le confirmons sur WhatsApp et vous prévenons par message quand l’infirmier ou le coursier est en route." },
-    "cold": { "title": "Chaîne du froid", "text": "Les peptides et les autres produits sensibles à la température quittent notre réfrigérateur dans une pochette isotherme avec des pains de glace et vous sont remis en main propre. Placez-les au réfrigérateur (entre 2 et 8 °C) dès leur arrivée." },
-    "clinic": { "title": "Le lounge", "text": "Vous préférez venir à nous ? Choisissez « Au lounge » lors de la commande pour les séances et les retraits.", "pending": "L’adresse vous est envoyée avec votre confirmation de réservation." },
-    "abroad": { "title": "Hors de Bali", "text": "Nous n’expédions ni vers les autres îles ni à l’étranger. Si vous voyagez avec des produits injectables, les règles de votre compagnie aérienne et de votre destination s’appliquent : demandez-nous une lettre du médecin." }
+    "windows": {
+      "title": "Créneaux d’arrivée",
+      "text": "Vous choisissez un créneau de deux heures lors de la commande. Nous le confirmons sur WhatsApp et vous prévenons par message quand l’infirmier ou le coursier est en route."
+    },
+    "cold": {
+      "title": "Chaîne du froid",
+      "text": "Les peptides et les autres produits sensibles à la température quittent notre réfrigérateur dans une pochette isotherme avec des pains de glace et vous sont remis en main propre. Placez-les au réfrigérateur (entre 2 et 8 °C) dès leur arrivée."
+    },
+    "clinic": {
+      "title": "Le lounge",
+      "text": "Vous préférez venir à nous ? Choisissez « Au lounge » lors de la commande pour les séances et les retraits.",
+      "pending": "L’adresse vous est envoyée avec votre confirmation de réservation."
+    },
+    "abroad": {
+      "title": "Hors de Bali",
+      "text": "Nous n’expédions ni vers les autres îles ni à l’étranger. Si vous voyagez avec des produits injectables, les règles de votre compagnie aérienne et de votre destination s’appliquent : demandez-nous une lettre du médecin."
+    }
   },
   "Faq": {
     "title": "Questions fréquentes",
     "intro": "Des réponses courtes et franches. Si votre question n’y figure pas, posez-la-nous sur WhatsApp.",
-    "q1": { "q": "Faut-il un médecin pour commander des peptides ?", "a": "Oui. Les peptides et les autres produits sur ordonnance ne sont fournis qu’après examen de votre questionnaire de santé par un médecin agréé. Le médecin peut approuver, ajuster ou refuser la demande, et peut vous contacter au préalable. Vous ne payez qu’après approbation." },
-    "q2": { "q": "Combien de temps prend la validation médicale ?", "a": "Nous visons une réponse le jour même pour les demandes reçues pendant les heures d’ouverture. Vous recevez un message avec un lien vers votre commande dès qu’une décision est prise." },
-    "q3": { "q": "Les peptides sont-ils des médicaments autorisés ?", "a": "Certains produits que nous fournissons sont des médicaments enregistrés, prescrits dans leur indication autorisée. Plusieurs autres, dont le BPC-157, le TB-500 et l’Epitalon, sont des peptides de recherche : ce ne sont pas des médicaments autorisés, l’essentiel des preuves provient d’études en laboratoire et chez l’animal, et leur sécurité à long terme chez l’humain n’est pas établie. Votre médecin vous l’explique avant que vous ne décidiez." },
-    "q4": { "q": "Je pratique un sport de compétition avec contrôles antidopage. Puis-je utiliser des peptides ?", "a": "Probablement pas. Le BPC-157, le TB-500, le CJC-1295, l’ipamorelin et plusieurs autres sont interdits en permanence par le Code mondial antidopage. Renseignez-vous auprès de votre fédération avant de commander, et signalez au médecin que vous faites l’objet de contrôles." },
-    "q5": { "q": "Qui pose la perfusion ?", "a": "Un infirmier diplômé. Avant de commencer, l’infirmier vérifie votre tension artérielle, votre pouls et vos antécédents médicaux, et peut ajuster ou refuser le soin. L’infirmier reste avec vous jusqu’à la fin de la perfusion." },
-    "q6": { "q": "Pouvez-vous venir dans ma villa ou à mon hôtel ?", "a": "Oui, dans les zones indiquées sur la page de livraison. Vous choisissez un créneau d’arrivée de deux heures, et les frais de déplacement pour votre zone sont affichés avant votre confirmation." },
-    "q7": { "q": "Comment les peptides sont-ils livrés et conservés ?", "a": "Au frais, dans une pochette isotherme, remis en main propre. Conservez-les au réfrigérateur, entre 2 et 8 °C. Chaque commande comprend un kit d’injection et les instructions écrites du médecin." },
-    "q8": { "q": "Comment puis-je payer ?", "a": "QRIS, virement bancaire sur compte virtuel, portefeuilles électroniques, cartes indonésiennes et internationales, virement bancaire manuel, ou espèces et QRIS à l’arrivée de l’infirmier ou du coursier. Les prix sont en roupies indonésiennes." },
-    "q9": { "q": "Qui ne devrait pas recevoir de perfusion ni suivre de protocole de peptides ?", "a": "Nous ne prenons pas en charge les moins de 18 ans. La plupart des produits ne conviennent pas pendant la grossesse et l’allaitement, et certains ne conviennent pas en cas de maladie cardiaque, rénale ou hépatique, d’antécédent de cancer ou de déficit en G6PD. C’est à cela que servent le questionnaire et la validation médicale." },
-    "q10": { "q": "Puis-je annuler ou reporter ?", "a": "Vous pouvez reporter ou annuler une visite sans frais jusqu’à trois heures avant votre créneau. Si le médecin refuse votre demande, rien ne vous est débité. Les compléments non ouverts peuvent être retournés sous sept jours. Les produits sur ordonnance et les produits réfrigérés ne peuvent pas être retournés une fois livrés." },
-    "q11": { "q": "Livrez-vous hors de Bali ?", "a": "Non. Nous livrons uniquement à Bali." },
-    "q12": { "q": "Est-ce un service d’urgence ?", "a": "Non. En cas de douleur thoracique, de difficultés à respirer, d’évanouissement, de déshydratation sévère ou de toute autre urgence, appelez le 112 ou rendez-vous à l’hôpital le plus proche." }
+    "q1": {
+      "q": "Faut-il un médecin pour commander des peptides ?",
+      "a": "Oui. Les peptides et les autres produits sur ordonnance ne sont fournis qu’après examen de votre questionnaire de santé par un médecin agréé. Le médecin peut approuver, ajuster ou refuser la demande, et peut vous contacter au préalable. Vous ne payez qu’après approbation."
+    },
+    "q2": {
+      "q": "Combien de temps prend la validation médicale ?",
+      "a": "Nous visons une réponse le jour même pour les demandes reçues pendant les heures d’ouverture. Vous recevez un message avec un lien vers votre commande dès qu’une décision est prise."
+    },
+    "q3": {
+      "q": "Les peptides sont-ils des médicaments autorisés ?",
+      "a": "Certains produits que nous fournissons sont des médicaments enregistrés, prescrits dans leur indication autorisée. Plusieurs autres, dont le BPC-157, le TB-500 et l’Epitalon, sont des peptides de recherche : ce ne sont pas des médicaments autorisés, l’essentiel des preuves provient d’études en laboratoire et chez l’animal, et leur sécurité à long terme chez l’humain n’est pas établie. Votre médecin vous l’explique avant que vous ne décidiez."
+    },
+    "q4": {
+      "q": "Je pratique un sport de compétition avec contrôles antidopage. Puis-je utiliser des peptides ?",
+      "a": "Probablement pas. Le BPC-157, le TB-500, le CJC-1295, l’ipamorelin et plusieurs autres sont interdits en permanence par le Code mondial antidopage. Renseignez-vous auprès de votre fédération avant de commander, et signalez au médecin que vous faites l’objet de contrôles."
+    },
+    "q5": {
+      "q": "Qui pose la perfusion ?",
+      "a": "Un infirmier diplômé. Avant de commencer, l’infirmier vérifie votre tension artérielle, votre pouls et vos antécédents médicaux, et peut ajuster ou refuser le soin. L’infirmier reste avec vous jusqu’à la fin de la perfusion."
+    },
+    "q6": {
+      "q": "Pouvez-vous venir dans ma villa ou à mon hôtel ?",
+      "a": "Oui, dans les zones indiquées sur la page de livraison. Vous choisissez un créneau d’arrivée de deux heures, et les frais de déplacement pour votre zone sont affichés avant votre confirmation."
+    },
+    "q7": {
+      "q": "Comment les peptides sont-ils livrés et conservés ?",
+      "a": "Au frais, dans une pochette isotherme, remis en main propre. Conservez-les au réfrigérateur, entre 2 et 8 °C. Chaque commande comprend un kit d’injection et les instructions écrites du médecin."
+    },
+    "q8": {
+      "q": "Comment puis-je payer ?",
+      "a": "QRIS, virement bancaire sur compte virtuel, portefeuilles électroniques, cartes indonésiennes et internationales, virement bancaire manuel, ou espèces et QRIS à l’arrivée de l’infirmier ou du coursier. Les prix sont en roupies indonésiennes."
+    },
+    "q9": {
+      "q": "Qui ne devrait pas recevoir de perfusion ni suivre de protocole de peptides ?",
+      "a": "Nous ne prenons pas en charge les moins de 18 ans. La plupart des produits ne conviennent pas pendant la grossesse et l’allaitement, et certains ne conviennent pas en cas de maladie cardiaque, rénale ou hépatique, d’antécédent de cancer ou de déficit en G6PD. C’est à cela que servent le questionnaire et la validation médicale."
+    },
+    "q10": {
+      "q": "Puis-je annuler ou reporter ?",
+      "a": "Vous pouvez reporter ou annuler une visite sans frais jusqu’à trois heures avant votre créneau. Si le médecin refuse votre demande, rien ne vous est débité. Les compléments non ouverts peuvent être retournés sous sept jours. Les produits sur ordonnance et les produits réfrigérés ne peuvent pas être retournés une fois livrés."
+    },
+    "q11": {
+      "q": "Livrez-vous hors de Bali ?",
+      "a": "Non. Nous livrons uniquement à Bali."
+    },
+    "q12": {
+      "q": "Est-ce un service d’urgence ?",
+      "a": "Non. En cas de douleur thoracique, de difficultés à respirer, d’évanouissement, de déshydratation sévère ou de toute autre urgence, appelez le 112 ou rendez-vous à l’hôpital le plus proche."
+    }
   },
   "Contact": {
     "title": "Contact",
@@ -451,7 +570,13 @@
       "contact": "Numéro WhatsApp ou e-mail",
       "contactHint": "Pour que nous puissions vous répondre.",
       "topic": "De quoi s’agit-il ?",
-      "topics": { "consult": "Je souhaite un conseil pour choisir", "booking": "Une réservation ou une visite", "order": "Une commande existante", "membership": "Abonnements", "other": "Autre chose" },
+      "topics": {
+        "consult": "Je souhaite un conseil pour choisir",
+        "booking": "Une réservation ou une visite",
+        "order": "Une commande existante",
+        "membership": "Abonnements",
+        "other": "Autre chose"
+      },
       "message": "Votre message",
       "messageHint": "Merci de ne pas indiquer ici d’informations médicales détaillées ; le questionnaire de santé, lors de la commande, est l’endroit sécurisé prévu pour cela.",
       "send": "Envoyer le message",
@@ -511,7 +636,11 @@
       "intro": "Vu uniquement par l’équipe médicale. Merci de répondre avec sincérité : c’est ce qui assure la sécurité de votre soin.",
       "dob": "Date de naissance",
       "sex": "Sexe",
-      "sexOptions": { "female": "Féminin", "male": "Masculin", "other": "Autre" },
+      "sexOptions": {
+        "female": "Féminin",
+        "male": "Masculin",
+        "other": "Autre"
+      },
       "weight": "Poids en kg (facultatif)",
       "conditions": "L’une de ces situations vous concerne-t-elle ?",
       "conditionOptions": {
@@ -593,18 +722,48 @@
   },
   "Order": {
     "title": "Commande {id}",
-    "notFound": { "title": "Commande introuvable", "text": "Ce lien n’est pas valide. Veuillez utiliser le lien figurant dans votre message de confirmation, ou contactez-nous." },
+    "notFound": {
+      "title": "Commande introuvable",
+      "text": "Ce lien n’est pas valide. Veuillez utiliser le lien figurant dans votre message de confirmation, ou contactez-nous."
+    },
     "placed": "Passée le {date}",
     "status": {
-      "awaiting_review": { "label": "En attente de validation médicale", "text": "Un médecin examine votre questionnaire de santé. Nous vous écrirons dès qu’une décision sera prise. Rien n’a été débité." },
-      "awaiting_payment": { "label": "Prête pour le paiement", "text": "Choisissez ci-dessous votre mode de paiement. Nous préparons votre commande dès que le paiement est confirmé." },
-      "payment_review": { "label": "Vérification de votre virement", "text": "Merci. Nous avons votre justificatif de paiement et confirmerons dès que le virement apparaîtra sur notre compte." },
-      "confirmed": { "label": "Confirmée", "text": "Votre commande est confirmée. Nous vous écrirons sur WhatsApp pour confirmer l’horaire." },
-      "out_for_delivery": { "label": "En route", "text": "Votre infirmier ou votre coursier est en route." },
-      "completed": { "label": "Terminée", "text": "Merci de nous avoir choisis. Nous restons à votre disposition pour toute question." },
-      "declined": { "label": "Non approuvée", "text": "Le médecin n’a pas pu approuver cette demande. Rien n’a été débité." },
-      "cancelled": { "label": "Annulée", "text": "Cette commande a été annulée." },
-      "refunded": { "label": "Remboursée", "text": "Cette commande a été remboursée." }
+      "awaiting_review": {
+        "label": "En attente de validation médicale",
+        "text": "Un médecin examine votre questionnaire de santé. Nous vous écrirons dès qu’une décision sera prise. Rien n’a été débité."
+      },
+      "awaiting_payment": {
+        "label": "Prête pour le paiement",
+        "text": "Choisissez ci-dessous votre mode de paiement. Nous préparons votre commande dès que le paiement est confirmé."
+      },
+      "payment_review": {
+        "label": "Vérification de votre virement",
+        "text": "Merci. Nous avons votre justificatif de paiement et confirmerons dès que le virement apparaîtra sur notre compte."
+      },
+      "confirmed": {
+        "label": "Confirmée",
+        "text": "Votre commande est confirmée. Nous vous écrirons sur WhatsApp pour confirmer l’horaire."
+      },
+      "out_for_delivery": {
+        "label": "En route",
+        "text": "Votre infirmier ou votre coursier est en route."
+      },
+      "completed": {
+        "label": "Terminée",
+        "text": "Merci de nous avoir choisis. Nous restons à votre disposition pour toute question."
+      },
+      "declined": {
+        "label": "Non approuvée",
+        "text": "Le médecin n’a pas pu approuver cette demande. Rien n’a été débité."
+      },
+      "cancelled": {
+        "label": "Annulée",
+        "text": "Cette commande a été annulée."
+      },
+      "refunded": {
+        "label": "Remboursée",
+        "text": "Cette commande a été remboursée."
+      }
     },
     "approvedNote": "Approuvée par le médecin.",
     "partlyApprovedNote": "Le médecin a approuvé une partie de votre demande. Les articles ci-dessous n’ont pas été approuvés et ont été retirés.",
@@ -621,7 +780,12 @@
       "window": "{date}, {slot}",
       "toConfirm": "Horaire à confirmer sur WhatsApp"
     },
-    "totals": { "subtotal": "Sous-total", "delivery": "Livraison", "callout": "Déplacement infirmier", "total": "Total" },
+    "totals": {
+      "subtotal": "Sous-total",
+      "delivery": "Livraison",
+      "callout": "Déplacement infirmier",
+      "total": "Total"
+    },
     "pay": {
       "title": "Régler votre commande",
       "xendit": "QRIS, virement bancaire ou portefeuille électronique",
@@ -674,7 +838,8 @@
     "disclaimer": "Les informations de ce site sont générales et ne remplacent pas un avis médical. Les produits sur ordonnance ne sont fournis qu’après validation par un médecin agréé. Les perfusions bien-être et les compléments alimentaires ne sont pas destinés à diagnostiquer, traiter, guérir ou prévenir une quelconque maladie. Nous nous adressons aux adultes de 18 ans et plus. Ce n’est pas un service d’urgence : en cas d’urgence, appelez le 112.",
     "dispensedBy": "Les produits sur ordonnance sont délivrés par {name}.",
     "licence": "Licence n° {number}",
-    "rights": "© {year} {company}. Tous droits réservés."
+    "rights": "© {year} {company}. Tous droits réservés.",
+    "photos": "Les photographies sont des illustrations."
   },
   "NotFound": {
     "title": "Page introuvable",

@@ -79,7 +79,7 @@ export function PaymentPanel({ orderId, token, methods, bank, totalLabel, cardCh
 
   if (processing) {
     return (
-      <div role="status" className="rounded-2xl bg-sage-100 px-5 py-4 text-sm font-medium text-forest-900">
+      <div role="status" className="rounded-2xl bg-tide-100 px-5 py-4 text-sm font-medium text-deep-900">
         <AutoRefresh />
         {t("processing")}
       </div>
@@ -95,34 +95,34 @@ export function PaymentPanel({ orderId, token, methods, bank, totalLabel, cardCh
 
   return (
     <section aria-labelledby="pay-title">
-      <h2 id="pay-title" className="font-display text-3xl font-semibold text-forest-900">{t("title")}</h2>
-      {failed && <p role="alert" className="mt-4 rounded-xl bg-clay-50 px-4 py-3 text-sm font-medium text-clay-600">{t("failed")}</p>}
+      <h2 id="pay-title" className="font-display text-3xl font-semibold text-deep-900">{t("title")}</h2>
+      {failed && <p role="alert" className="mt-4 rounded-xl bg-coral-50 px-4 py-3 text-sm font-medium text-coral-600">{t("failed")}</p>}
       {error && <p role="alert" className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-800">{error}</p>}
       <ul className="mt-5 space-y-3">
         {methods.map((m) => {
           const Icon = ICONS[m.method];
           return (
-            <li key={m.method} className="rounded-2xl border border-sand-300 bg-white p-5">
+            <li key={m.method} className="rounded-2xl border border-mist-300 bg-white p-5">
               <div className="flex gap-4">
-                <Icon className="mt-0.5 h-5 w-5 shrink-0 text-forest-700" strokeWidth={1.6} aria-hidden="true" />
+                <Icon className="mt-0.5 h-5 w-5 shrink-0 text-deep-700" strokeWidth={1.6} aria-hidden="true" />
                 <div className="min-w-0 flex-1">
-                  <h3 className="font-semibold text-forest-900">{copy[m.method].title}</h3>
+                  <h3 className="font-semibold text-deep-900">{copy[m.method].title}</h3>
                   <p className="mt-0.5 text-sm leading-relaxed text-ink-700">{copy[m.method].text}</p>
-                  {m.simulated && <p className="mt-1 text-xs font-medium text-clay-600">{t("simulated")}</p>}
+                  {m.simulated && <p className="mt-1 text-xs font-medium text-coral-600">{t("simulated")}</p>}
 
                   {m.method === "transfer" && bank && (
                     <form onSubmit={upload} className="mt-4">
-                      <dl className="grid gap-x-6 gap-y-2 rounded-xl bg-sand-100 p-4 text-sm sm:grid-cols-2">
+                      <dl className="grid gap-x-6 gap-y-2 rounded-xl bg-mist-100 p-4 text-sm sm:grid-cols-2">
                         <div><dt className="text-xs uppercase tracking-wider text-ink-500">{t("bank")}</dt><dd className="font-semibold">{bank.bank}</dd></div>
                         <div><dt className="text-xs uppercase tracking-wider text-ink-500">{t("holder")}</dt><dd className="font-semibold">{bank.holder}</dd></div>
                         <div><dt className="text-xs uppercase tracking-wider text-ink-500">{t("number")}</dt><dd className="font-semibold tabular-nums">{bank.number}</dd></div>
                         <div><dt className="text-xs uppercase tracking-wider text-ink-500">{t("amount")}</dt><dd className="font-semibold">{totalLabel}</dd></div>
                         <div><dt className="text-xs uppercase tracking-wider text-ink-500">{t("reference")}</dt><dd className="font-semibold">{orderId}</dd></div>
                       </dl>
-                      {bank.sample && <p className="mt-2 text-xs font-medium text-clay-600">{t("sampleBank")}</p>}
+                      {bank.sample && <p className="mt-2 text-xs font-medium text-coral-600">{t("sampleBank")}</p>}
                       <label className="label mt-4" htmlFor="proof-file">{t("proof")}</label>
                       <input id="proof-file" type="file" accept="image/jpeg,image/png,image/webp,application/pdf" onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                        className="block w-full text-sm text-ink-700 file:mr-4 file:rounded-full file:border-0 file:bg-sage-100 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-forest-900" />
+                        className="block w-full text-sm text-ink-700 file:mr-4 file:rounded-full file:border-0 file:bg-tide-100 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-deep-900" />
                       <button type="submit" className="btn-primary btn-sm mt-4" disabled={!file || busy !== null}>{busy === "transfer" ? t("uploading") : t("upload")}</button>
                     </form>
                   )}

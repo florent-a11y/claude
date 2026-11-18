@@ -70,24 +70,48 @@
       "badge2": "Nurse-administered",
       "badge3": "Delivered across Bali",
       "cardLabel": "Most booked",
-      "artAlt": "Abstract illustration of Balinese rice terraces under a morning sun"
+      "artAlt": "A pool surrounded by jungle in Bali; an IV bag; glass vials"
     },
     "pillars": {
       "eyebrow": "What we offer",
       "title": "Four ways to feel like yourself again",
-      "iv": { "title": "IV drips", "text": "Hydration, immunity, recovery and NAD+ infusions, given by a nurse at the lounge or at your villa." },
-      "peptides": { "title": "Peptides", "text": "Recovery, sleep, skin and metabolic protocols. Each one is reviewed by a doctor before it is supplied." },
-      "supplements": { "title": "Supplements", "text": "A short list of daily essentials we actually use: electrolytes, magnesium, collagen, creatine, omega-3." },
-      "memberships": { "title": "Memberships", "text": "Monthly drips, doctor check-ins and member pricing for people who stay in Bali a while." }
+      "iv": {
+        "title": "IV drips",
+        "text": "Hydration, immunity, recovery and NAD+ infusions, given by a nurse at the lounge or at your villa."
+      },
+      "peptides": {
+        "title": "Peptides",
+        "text": "Recovery, sleep, skin and metabolic protocols. Each one is reviewed by a doctor before it is supplied."
+      },
+      "supplements": {
+        "title": "Supplements",
+        "text": "A short list of daily essentials we actually use: electrolytes, magnesium, collagen, creatine, omega-3."
+      },
+      "memberships": {
+        "title": "Memberships",
+        "text": "Monthly drips, doctor check-ins and member pricing for people who stay in Bali a while."
+      }
     },
     "how": {
       "eyebrow": "How it works",
       "title": "Medical care first, delivery second",
       "text": "Nothing that needs a prescription leaves our fridge without a doctor's approval.",
-      "step1": { "title": "Choose", "text": "Pick a drip, a protocol or a product and tell us where you are staying." },
-      "step2": { "title": "Health check", "text": "Answer a short health questionnaire. It takes about two minutes." },
-      "step3": { "title": "Doctor review", "text": "A licensed doctor approves, adjusts or declines, and calls you if anything is unclear." },
-      "step4": { "title": "Pay and receive", "text": "Pay by QRIS, transfer, card or on delivery. A nurse or a chilled courier comes to you." },
+      "step1": {
+        "title": "Choose",
+        "text": "Pick a drip, a protocol or a product and tell us where you are staying."
+      },
+      "step2": {
+        "title": "Health check",
+        "text": "Answer a short health questionnaire. It takes about two minutes."
+      },
+      "step3": {
+        "title": "Doctor review",
+        "text": "A licensed doctor approves, adjusts or declines, and calls you if anything is unclear."
+      },
+      "step4": {
+        "title": "Pay and receive",
+        "text": "Pay by QRIS, transfer, card or on delivery. A nurse or a chilled courier comes to you."
+      },
       "cta": "See the full process"
     },
     "featured": {
@@ -107,10 +131,22 @@
     "standards": {
       "eyebrow": "Our standards",
       "title": "Straight answers, careful medicine",
-      "item1": { "title": "A doctor decides, not a shopping cart", "text": "Prescription items are released only after a licensed doctor has reviewed your health questionnaire." },
-      "item2": { "title": "Honest about the evidence", "text": "We tell you what is well studied and what is still experimental. Several peptides are not approved medicines, and we say so." },
-      "item3": { "title": "Cold chain from fridge to door", "text": "Temperature-sensitive products travel chilled in insulated pouches and are handed over in person." },
-      "item4": { "title": "Screened before every drip", "text": "Your nurse checks vital signs and history before starting, and will decline a treatment that is not right for you." }
+      "item1": {
+        "title": "A doctor decides, not a shopping cart",
+        "text": "Prescription items are released only after a licensed doctor has reviewed your health questionnaire."
+      },
+      "item2": {
+        "title": "Honest about the evidence",
+        "text": "We tell you what is well studied and what is still experimental. Several peptides are not approved medicines, and we say so."
+      },
+      "item3": {
+        "title": "Cold chain from fridge to door",
+        "text": "Temperature-sensitive products travel chilled in insulated pouches and are handed over in person."
+      },
+      "item4": {
+        "title": "Screened before every drip",
+        "text": "Your nurse checks vital signs and history before starting, and will decline a treatment that is not right for you."
+      }
     },
     "areas": {
       "eyebrow": "Where we deliver",
@@ -118,7 +154,11 @@
       "text": "Product delivery from {delivery}. Free from {free} of products.",
       "cta": "Delivery details"
     },
-    "faq": { "eyebrow": "Questions", "title": "Good to know", "cta": "All questions" },
+    "faq": {
+      "eyebrow": "Questions",
+      "title": "Good to know",
+      "cta": "All questions"
+    },
     "final": {
       "title": "Not sure where to start?",
       "text": "Tell us how you feel and what you want to achieve. We will suggest a plan and, where needed, arrange a doctor's review.",
@@ -179,7 +219,8 @@
     "membershipText": "Valid for one month from payment. We book your sessions with you on WhatsApp. No automatic renewal.",
     "disclaimer": "This page is general information, not medical advice. Individual results vary. This product is not intended to diagnose, treat, cure or prevent any disease.",
     "question": "Ask about this on WhatsApp",
-    "related": "You may also like"
+    "related": "You may also like",
+    "illustrative": "Illustrative photo"
   },
   "Catalog": {
     "sample": "Sample menu: names, contents and prices are placeholders.",
@@ -386,17 +427,41 @@
     "eyebrow": "The process",
     "title": "How it works",
     "intro": "Ordering from us takes a few minutes. The medical part happens in the background, and it is the reason we exist.",
-    "step1": { "title": "Choose what you need", "text": "Browse drips, peptides, supplements and memberships. Add them to your basket and tell us whether you are coming to the lounge or want us to come to you." },
-    "step2": { "title": "Answer the health questionnaire", "text": "For drips, injections and prescription items we ask about your age, medical conditions, allergies and medication. Your answers are seen only by the medical team." },
-    "step3": { "title": "A doctor reviews prescription items", "text": "A licensed doctor reads your questionnaire and approves, adjusts or declines the request. If something needs discussing, the doctor contacts you on WhatsApp. Supplements and classic drips skip this step." },
-    "step4": { "title": "Pay the way you prefer", "text": "QRIS, virtual-account transfer, e-wallet, international card, manual bank transfer, or cash and QRIS on delivery. Prescription items are payable only after approval." },
-    "step5": { "title": "Receive", "text": "We confirm your two-hour window on WhatsApp. A nurse arrives for sessions; products come by chilled courier or with the nurse." },
+    "step1": {
+      "title": "Choose what you need",
+      "text": "Browse drips, peptides, supplements and memberships. Add them to your basket and tell us whether you are coming to the lounge or want us to come to you."
+    },
+    "step2": {
+      "title": "Answer the health questionnaire",
+      "text": "For drips, injections and prescription items we ask about your age, medical conditions, allergies and medication. Your answers are seen only by the medical team."
+    },
+    "step3": {
+      "title": "A doctor reviews prescription items",
+      "text": "A licensed doctor reads your questionnaire and approves, adjusts or declines the request. If something needs discussing, the doctor contacts you on WhatsApp. Supplements and classic drips skip this step."
+    },
+    "step4": {
+      "title": "Pay the way you prefer",
+      "text": "QRIS, virtual-account transfer, e-wallet, international card, manual bank transfer, or cash and QRIS on delivery. Prescription items are payable only after approval."
+    },
+    "step5": {
+      "title": "Receive",
+      "text": "We confirm your two-hour window on WhatsApp. A nurse arrives for sessions; products come by chilled courier or with the nurse."
+    },
     "team": {
       "title": "Who looks after you",
       "text": "We work with independent, licensed Indonesian doctors and registered nurses. The doctor is responsible for every prescribing decision; the nurse for the safe administration of your treatment.",
-      "doctor": { "title": "Doctors", "text": "Review questionnaires, prescribe, write your protocol and are reachable for follow-up questions." },
-      "nurse": { "title": "Nurses", "text": "Check your vital signs, place the IV, stay with you throughout and know when to stop." },
-      "care": { "title": "Care team", "text": "Schedule visits, keep the cold chain and answer WhatsApp every day from {opens} to {closes}." }
+      "doctor": {
+        "title": "Doctors",
+        "text": "Review questionnaires, prescribe, write your protocol and are reachable for follow-up questions."
+      },
+      "nurse": {
+        "title": "Nurses",
+        "text": "Check your vital signs, place the IV, stay with you throughout and know when to stop."
+      },
+      "care": {
+        "title": "Care team",
+        "text": "Schedule visits, keep the cold chain and answer WhatsApp every day from {opens} to {closes}."
+      }
     },
     "safety": {
       "title": "When we say no",
@@ -409,30 +474,84 @@
     "eyebrow": "Bali only",
     "title": "Delivery and service areas",
     "intro": "We deliver products and send nurses to villas, hotels and homes in the areas below, every day from {opens} to {closes}.",
-    "table": { "area": "Areas", "delivery": "Product delivery", "callout": "Nurse call-out", "eta": "Typical lead time" },
+    "table": {
+      "area": "Areas",
+      "delivery": "Product delivery",
+      "callout": "Nurse call-out",
+      "eta": "Typical lead time"
+    },
     "eta": "about {minutes} min",
     "freeFrom": "Product delivery is free from {amount} of products. When a nurse visits, products travel with the nurse at no extra delivery fee.",
     "elsewhere": "Staying somewhere else in Bali? Message us and we will tell you what is possible.",
-    "windows": { "title": "Arrival windows", "text": "You choose a two-hour window at checkout. We confirm it on WhatsApp and message you when the nurse or courier is on the way." },
-    "cold": { "title": "Cold chain", "text": "Peptides and other temperature-sensitive items leave our fridge in an insulated pouch with ice packs and are handed to you in person. Put them in the fridge (2 to 8 °C) on arrival." },
-    "clinic": { "title": "The lounge", "text": "Prefer to come to us? Choose 'At the lounge' at checkout for sessions and collection.", "pending": "The address is sent with your booking confirmation." },
-    "abroad": { "title": "Outside Bali", "text": "We do not ship to other islands or abroad. If you travel with injectable products, the rules of your airline and destination apply: ask us for a doctor's letter." }
+    "windows": {
+      "title": "Arrival windows",
+      "text": "You choose a two-hour window at checkout. We confirm it on WhatsApp and message you when the nurse or courier is on the way."
+    },
+    "cold": {
+      "title": "Cold chain",
+      "text": "Peptides and other temperature-sensitive items leave our fridge in an insulated pouch with ice packs and are handed to you in person. Put them in the fridge (2 to 8 °C) on arrival."
+    },
+    "clinic": {
+      "title": "The lounge",
+      "text": "Prefer to come to us? Choose 'At the lounge' at checkout for sessions and collection.",
+      "pending": "The address is sent with your booking confirmation."
+    },
+    "abroad": {
+      "title": "Outside Bali",
+      "text": "We do not ship to other islands or abroad. If you travel with injectable products, the rules of your airline and destination apply: ask us for a doctor's letter."
+    }
   },
   "Faq": {
     "title": "Frequently asked questions",
     "intro": "Short, straight answers. If yours is missing, ask us on WhatsApp.",
-    "q1": { "q": "Do I need a doctor to order peptides?", "a": "Yes. Peptides and other prescription items are supplied only after a licensed doctor has reviewed your health questionnaire. The doctor may approve, adjust or decline the request, and may contact you first. You pay only after approval." },
-    "q2": { "q": "How long does the doctor's review take?", "a": "We aim to answer the same day for requests received during opening hours. You get a message with a link to your order as soon as there is a decision." },
-    "q3": { "q": "Are peptides approved medicines?", "a": "Some products we supply are registered medicines prescribed for their approved use. Several others, including BPC-157, TB-500 and Epitalon, are research peptides: they are not approved medicines, most of the evidence comes from laboratory and animal studies, and long-term safety in humans is not established. Your doctor explains this before you decide." },
-    "q4": { "q": "I compete in a tested sport. Can I use peptides?", "a": "Probably not. BPC-157, TB-500, CJC-1295, ipamorelin and several others are prohibited at all times under the World Anti-Doping Code. Check with your federation before ordering, and tell the doctor that you are tested." },
-    "q5": { "q": "Who gives the IV drip?", "a": "A registered nurse. Before starting, the nurse checks your blood pressure, pulse and medical history, and can adjust or decline the treatment. The nurse stays with you until the drip is finished." },
-    "q6": { "q": "Can you come to my villa or hotel?", "a": "Yes, in the areas listed on the delivery page. You choose a two-hour arrival window, and the call-out fee for your area is shown before you confirm." },
-    "q7": { "q": "How are peptides delivered and stored?", "a": "Chilled, in an insulated pouch, handed to you in person. Keep them in the fridge at 2 to 8 °C. Each order includes an injection kit and the doctor's written instructions." },
-    "q8": { "q": "How can I pay?", "a": "QRIS, virtual-account bank transfer, e-wallets, Indonesian and international cards, manual bank transfer, or cash and QRIS when the nurse or courier arrives. Prices are in Indonesian rupiah." },
-    "q9": { "q": "Who should not have a drip or a peptide protocol?", "a": "We do not treat under-18s. Most products are unsuitable during pregnancy and breastfeeding, and some are unsuitable with heart, kidney or liver disease, a history of cancer or G6PD deficiency. That is what the questionnaire and the doctor's review are for." },
-    "q10": { "q": "Can I cancel or reschedule?", "a": "You can reschedule or cancel a visit free of charge up to three hours before your window. If the doctor declines your request you are not charged. Unopened supplements can be returned within seven days. Prescription and chilled items cannot be returned once delivered." },
-    "q11": { "q": "Do you ship outside Bali?", "a": "No. We deliver in Bali only." },
-    "q12": { "q": "Is this an emergency service?", "a": "No. For chest pain, difficulty breathing, fainting, severe dehydration or any emergency, call 112 or go to the nearest hospital." }
+    "q1": {
+      "q": "Do I need a doctor to order peptides?",
+      "a": "Yes. Peptides and other prescription items are supplied only after a licensed doctor has reviewed your health questionnaire. The doctor may approve, adjust or decline the request, and may contact you first. You pay only after approval."
+    },
+    "q2": {
+      "q": "How long does the doctor's review take?",
+      "a": "We aim to answer the same day for requests received during opening hours. You get a message with a link to your order as soon as there is a decision."
+    },
+    "q3": {
+      "q": "Are peptides approved medicines?",
+      "a": "Some products we supply are registered medicines prescribed for their approved use. Several others, including BPC-157, TB-500 and Epitalon, are research peptides: they are not approved medicines, most of the evidence comes from laboratory and animal studies, and long-term safety in humans is not established. Your doctor explains this before you decide."
+    },
+    "q4": {
+      "q": "I compete in a tested sport. Can I use peptides?",
+      "a": "Probably not. BPC-157, TB-500, CJC-1295, ipamorelin and several others are prohibited at all times under the World Anti-Doping Code. Check with your federation before ordering, and tell the doctor that you are tested."
+    },
+    "q5": {
+      "q": "Who gives the IV drip?",
+      "a": "A registered nurse. Before starting, the nurse checks your blood pressure, pulse and medical history, and can adjust or decline the treatment. The nurse stays with you until the drip is finished."
+    },
+    "q6": {
+      "q": "Can you come to my villa or hotel?",
+      "a": "Yes, in the areas listed on the delivery page. You choose a two-hour arrival window, and the call-out fee for your area is shown before you confirm."
+    },
+    "q7": {
+      "q": "How are peptides delivered and stored?",
+      "a": "Chilled, in an insulated pouch, handed to you in person. Keep them in the fridge at 2 to 8 °C. Each order includes an injection kit and the doctor's written instructions."
+    },
+    "q8": {
+      "q": "How can I pay?",
+      "a": "QRIS, virtual-account bank transfer, e-wallets, Indonesian and international cards, manual bank transfer, or cash and QRIS when the nurse or courier arrives. Prices are in Indonesian rupiah."
+    },
+    "q9": {
+      "q": "Who should not have a drip or a peptide protocol?",
+      "a": "We do not treat under-18s. Most products are unsuitable during pregnancy and breastfeeding, and some are unsuitable with heart, kidney or liver disease, a history of cancer or G6PD deficiency. That is what the questionnaire and the doctor's review are for."
+    },
+    "q10": {
+      "q": "Can I cancel or reschedule?",
+      "a": "You can reschedule or cancel a visit free of charge up to three hours before your window. If the doctor declines your request you are not charged. Unopened supplements can be returned within seven days. Prescription and chilled items cannot be returned once delivered."
+    },
+    "q11": {
+      "q": "Do you ship outside Bali?",
+      "a": "No. We deliver in Bali only."
+    },
+    "q12": {
+      "q": "Is this an emergency service?",
+      "a": "No. For chest pain, difficulty breathing, fainting, severe dehydration or any emergency, call 112 or go to the nearest hospital."
+    }
   },
   "Contact": {
     "title": "Contact",
@@ -451,7 +570,13 @@
       "contact": "WhatsApp number or email",
       "contactHint": "So we can answer you.",
       "topic": "What is it about?",
-      "topics": { "consult": "I would like advice on what to choose", "booking": "A booking or visit", "order": "An existing order", "membership": "Memberships", "other": "Something else" },
+      "topics": {
+        "consult": "I would like advice on what to choose",
+        "booking": "A booking or visit",
+        "order": "An existing order",
+        "membership": "Memberships",
+        "other": "Something else"
+      },
       "message": "Your message",
       "messageHint": "Please do not include detailed medical information here; the health questionnaire at checkout is the secure place for it.",
       "send": "Send message",
@@ -511,7 +636,11 @@
       "intro": "Seen only by the medical team. Please answer truthfully: it is what keeps your treatment safe.",
       "dob": "Date of birth",
       "sex": "Sex",
-      "sexOptions": { "female": "Female", "male": "Male", "other": "Other" },
+      "sexOptions": {
+        "female": "Female",
+        "male": "Male",
+        "other": "Other"
+      },
       "weight": "Weight in kg (optional)",
       "conditions": "Do any of these apply to you?",
       "conditionOptions": {
@@ -593,18 +722,48 @@
   },
   "Order": {
     "title": "Order {id}",
-    "notFound": { "title": "Order not found", "text": "This link is not valid. Please use the link in your confirmation message, or contact us." },
+    "notFound": {
+      "title": "Order not found",
+      "text": "This link is not valid. Please use the link in your confirmation message, or contact us."
+    },
     "placed": "Placed on {date}",
     "status": {
-      "awaiting_review": { "label": "With the doctor", "text": "A doctor is reviewing your health questionnaire. We will message you as soon as there is a decision. Nothing has been charged." },
-      "awaiting_payment": { "label": "Ready for payment", "text": "Choose how you would like to pay below. We prepare your order as soon as payment is confirmed." },
-      "payment_review": { "label": "Checking your transfer", "text": "Thank you. We have your proof of payment and will confirm as soon as the transfer shows in our account." },
-      "confirmed": { "label": "Confirmed", "text": "Your order is confirmed. We will message you on WhatsApp to confirm the time." },
-      "out_for_delivery": { "label": "On the way", "text": "Your nurse or courier is on the way." },
-      "completed": { "label": "Completed", "text": "Thank you for choosing us. We are here if you have any questions." },
-      "declined": { "label": "Not approved", "text": "The doctor could not approve this request. Nothing has been charged." },
-      "cancelled": { "label": "Cancelled", "text": "This order was cancelled." },
-      "refunded": { "label": "Refunded", "text": "This order was refunded." }
+      "awaiting_review": {
+        "label": "With the doctor",
+        "text": "A doctor is reviewing your health questionnaire. We will message you as soon as there is a decision. Nothing has been charged."
+      },
+      "awaiting_payment": {
+        "label": "Ready for payment",
+        "text": "Choose how you would like to pay below. We prepare your order as soon as payment is confirmed."
+      },
+      "payment_review": {
+        "label": "Checking your transfer",
+        "text": "Thank you. We have your proof of payment and will confirm as soon as the transfer shows in our account."
+      },
+      "confirmed": {
+        "label": "Confirmed",
+        "text": "Your order is confirmed. We will message you on WhatsApp to confirm the time."
+      },
+      "out_for_delivery": {
+        "label": "On the way",
+        "text": "Your nurse or courier is on the way."
+      },
+      "completed": {
+        "label": "Completed",
+        "text": "Thank you for choosing us. We are here if you have any questions."
+      },
+      "declined": {
+        "label": "Not approved",
+        "text": "The doctor could not approve this request. Nothing has been charged."
+      },
+      "cancelled": {
+        "label": "Cancelled",
+        "text": "This order was cancelled."
+      },
+      "refunded": {
+        "label": "Refunded",
+        "text": "This order was refunded."
+      }
     },
     "approvedNote": "Approved by the doctor.",
     "partlyApprovedNote": "The doctor approved part of your request. The items below were not approved and have been removed.",
@@ -621,7 +780,12 @@
       "window": "{date}, {slot}",
       "toConfirm": "Time to be confirmed on WhatsApp"
     },
-    "totals": { "subtotal": "Subtotal", "delivery": "Delivery", "callout": "Nurse call-out", "total": "Total" },
+    "totals": {
+      "subtotal": "Subtotal",
+      "delivery": "Delivery",
+      "callout": "Nurse call-out",
+      "total": "Total"
+    },
     "pay": {
       "title": "Pay for your order",
       "xendit": "QRIS, bank transfer or e-wallet",
@@ -674,7 +838,8 @@
     "disclaimer": "The information on this site is general and does not replace medical advice. Prescription items are supplied only after review by a licensed doctor. Wellness infusions and supplements are not intended to diagnose, treat, cure or prevent any disease. We serve adults aged 18 and over. Not an emergency service: in an emergency call 112.",
     "dispensedBy": "Prescription items are dispensed by {name}.",
     "licence": "Licence {number}",
-    "rights": "© {year} {company}. All rights reserved."
+    "rights": "© {year} {company}. All rights reserved.",
+    "photos": "Photographs are illustrative."
   },
   "NotFound": {
     "title": "Page not found",

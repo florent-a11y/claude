@@ -36,7 +36,7 @@ function messageKind(o: Order): CustomerEmail | null {
 
 function Card({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="rounded-2xl border border-sand-200 bg-white p-5">
+    <section className="rounded-2xl border border-mist-200 bg-white p-5">
       <h2 className="text-xs font-bold uppercase tracking-[0.16em] text-ink-500">{title}</h2>
       <div className="mt-3">{children}</div>
     </section>
@@ -59,11 +59,11 @@ export default async function AdminOrder({ params }: { params: Promise<{ id: str
 
   return (
     <>
-      <a href="/admin" className="text-sm font-semibold text-forest-700 underline underline-offset-2">← All orders</a>
+      <a href="/admin" className="text-sm font-semibold text-deep-700 underline underline-offset-2">← All orders</a>
       <div className="mt-3 flex flex-wrap items-center gap-3">
-        <h1 className="font-display text-4xl font-semibold text-forest-900">{order.id}</h1>
+        <h1 className="font-display text-4xl font-semibold text-deep-900">{order.id}</h1>
         <span className={`rounded-full px-3 py-1 text-xs font-bold ${STATUS_TONE[order.status]}`}>{STATUS_LABEL[order.status]}</span>
-        <span className={`rounded-full px-3 py-1 text-xs font-bold ${order.paid ? "bg-sage-200 text-forest-900" : "bg-sand-200 text-ink-700"}`}>{order.paid ? "Paid" : "Unpaid"}</span>
+        <span className={`rounded-full px-3 py-1 text-xs font-bold ${order.paid ? "bg-tide-200 text-deep-900" : "bg-mist-200 text-ink-700"}`}>{order.paid ? "Paid" : "Unpaid"}</span>
         <span className="text-sm text-ink-500">placed {baliTime(order.createdAt)} (Bali time)</span>
       </div>
 
@@ -86,7 +86,7 @@ export default async function AdminOrder({ params }: { params: Promise<{ id: str
                       <div className="sm:col-span-2">
                         <dt className="text-ink-500">Conditions declared</dt>
                         <dd className="mt-1 flex flex-wrap gap-1.5">
-                          {h.conditions.map((c) => <span key={c} className={`rounded-full px-2.5 py-1 text-xs font-bold ${c === "none" ? "bg-sage-100 text-forest-700" : "bg-clay-50 text-clay-600"}`}>{CONDITION_LABEL[c] ?? c}</span>)}
+                          {h.conditions.map((c) => <span key={c} className={`rounded-full px-2.5 py-1 text-xs font-bold ${c === "none" ? "bg-tide-100 text-deep-700" : "bg-coral-50 text-coral-600"}`}>{CONDITION_LABEL[c] ?? c}</span>)}
                         </dd>
                       </div>
                       <div className="sm:col-span-2"><dt className="text-ink-500">Allergies</dt><dd className="whitespace-pre-line font-semibold">{h.allergies}</dd></div>
@@ -96,10 +96,10 @@ export default async function AdminOrder({ params }: { params: Promise<{ id: str
                   ) : <p className="text-sm text-ink-500">No questionnaire on this order.</p>}
 
                   {order.status === "awaiting_review" && (
-                    <form action={reviewAction} className="mt-6 border-t border-sand-200 pt-5">
+                    <form action={reviewAction} className="mt-6 border-t border-mist-200 pt-5">
                       <input type="hidden" name="id" value={order.id} />
                       <fieldset>
-                        <legend className="text-sm font-semibold text-forest-900">Prescription items requested (untick to refuse an item)</legend>
+                        <legend className="text-sm font-semibold text-deep-900">Prescription items requested (untick to refuse an item)</legend>
                         <div className="mt-2 space-y-2">
                           {rxLines.map((l) => (
                             <label key={l.slug} className="flex items-center gap-2.5 text-sm">
@@ -121,7 +121,7 @@ export default async function AdminOrder({ params }: { params: Promise<{ id: str
                 </>
               )}
               {order.review && (
-                <p className="mt-4 border-t border-sand-200 pt-4 text-sm text-ink-700">
+                <p className="mt-4 border-t border-mist-200 pt-4 text-sm text-ink-700">
                   <span className="font-semibold">{order.review.decision.replace("_", " ")}</span> by {order.review.by} on {baliTime(order.review.at)}
                   {order.review.note ? <><br /><span className="text-ink-500">Note to patient:</span> {order.review.note}</> : null}
                 </p>
@@ -130,10 +130,10 @@ export default async function AdminOrder({ params }: { params: Promise<{ id: str
           )}
 
           <Card title="Items">
-            <ul className="divide-y divide-sand-200 text-sm">
+            <ul className="divide-y divide-mist-200 text-sm">
               {order.lines.map((l) => (
                 <li key={l.slug} className="flex justify-between gap-4 py-2.5">
-                  <span>{l.qty} × <span className="font-semibold">{l.name}</span>{l.rx ? <span className="ml-2 rounded-full bg-clay-50 px-2 py-0.5 text-xs font-bold text-clay-600">Rx</span> : null}{l.session ? <span className="ml-2 rounded-full bg-sage-100 px-2 py-0.5 text-xs font-bold text-forest-700">nurse</span> : null}</span>
+                  <span>{l.qty} × <span className="font-semibold">{l.name}</span>{l.rx ? <span className="ml-2 rounded-full bg-coral-50 px-2 py-0.5 text-xs font-bold text-coral-600">Rx</span> : null}{l.session ? <span className="ml-2 rounded-full bg-tide-100 px-2 py-0.5 text-xs font-bold text-deep-700">nurse</span> : null}</span>
                   <span>{idr(l.unitIdr * l.qty)}</span>
                 </li>
               ))}
@@ -141,7 +141,7 @@ export default async function AdminOrder({ params }: { params: Promise<{ id: str
                 <li key={`x-${l.slug}`} className="flex justify-between gap-4 py-2.5 text-ink-500 line-through"><span>{l.qty} × {l.name}</span><span>not approved</span></li>
               ))}
             </ul>
-            <dl className="mt-3 space-y-1 border-t border-sand-200 pt-3 text-sm">
+            <dl className="mt-3 space-y-1 border-t border-mist-200 pt-3 text-sm">
               <div className="flex justify-between"><dt>Subtotal</dt><dd>{idr(order.subtotalIdr)}</dd></div>
               {order.deliveryIdr > 0 && <div className="flex justify-between"><dt>Delivery</dt><dd>{idr(order.deliveryIdr)}</dd></div>}
               {order.calloutIdr > 0 && <div className="flex justify-between"><dt>Nurse call-out</dt><dd>{idr(order.calloutIdr)}</dd></div>}
@@ -154,7 +154,7 @@ export default async function AdminOrder({ params }: { params: Promise<{ id: str
               {order.paid ? `Paid ${order.paidAt ? baliTime(order.paidAt) : ""}` : "Not paid yet"}
               {order.paymentMethod ? ` · ${METHOD_LABEL[order.paymentMethod]}` : ""}
             </p>
-            {order.proofId && <p className="mt-2 text-sm"><a className="font-semibold text-forest-700 underline underline-offset-2" href={`/api/admin/proof/${order.proofId}`} target="_blank" rel="noopener noreferrer">Open the transfer proof</a></p>}
+            {order.proofId && <p className="mt-2 text-sm"><a className="font-semibold text-deep-700 underline underline-offset-2" href={`/api/admin/proof/${order.proofId}`} target="_blank" rel="noopener noreferrer">Open the transfer proof</a></p>}
             {!order.paid && ["awaiting_payment", "payment_review", "confirmed", "out_for_delivery", "completed"].includes(order.status) && (
               <form action={markPaidAction} className="mt-4 flex flex-wrap items-end gap-3">
                 <input type="hidden" name="id" value={order.id} />
@@ -181,7 +181,7 @@ export default async function AdminOrder({ params }: { params: Promise<{ id: str
 
         <div className="space-y-5">
           <Card title="Customer">
-            <p className="font-semibold text-forest-900">{order.contact.name}</p>
+            <p className="font-semibold text-deep-900">{order.contact.name}</p>
             <p className="mt-1 text-sm text-ink-700">{order.contact.phone}<br />{order.contact.email}<br />Language: {order.contact.locale.toUpperCase()}</p>
             <div className="mt-4 flex flex-wrap gap-2">
               <a className="btn-primary btn-sm" href={wa} target="_blank" rel="noopener noreferrer">{message ? "WhatsApp: send status + link" : "Open WhatsApp"}</a>
@@ -191,7 +191,7 @@ export default async function AdminOrder({ params }: { params: Promise<{ id: str
 
           <Card title="Where and when">
             <p className="text-sm text-ink-700">
-              <span className="font-semibold text-forest-900">{f.mode === "address" ? `Address · ${f.area}` : "At the lounge"}</span>
+              <span className="font-semibold text-deep-900">{f.mode === "address" ? `Address · ${f.area}` : "At the lounge"}</span>
               {f.address ? <><br /><span className="whitespace-pre-line">{f.address}</span></> : null}
               <br />{f.date ? `${f.date} · ${f.slot ?? "no window chosen"}` : "Time to agree on WhatsApp"}
               {f.notes ? <><br /><span className="text-ink-500">Customer note:</span> {f.notes}</> : null}

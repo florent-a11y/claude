@@ -22,7 +22,7 @@ export function CatalogGrid({ slugs, filter = true }: { slugs: string[]; filter?
         <div className="mb-8 flex flex-wrap gap-2" role="group" aria-label={g("all")}>
           {(["all", ...goals] as const).map((x) => (
             <button key={x} type="button" aria-pressed={goal === x} onClick={() => setGoal(x)}
-              className={`chip cursor-pointer px-4 py-2 text-sm transition ${goal === x ? "chip-on" : "hover:border-forest-800/50"}`}>
+              className={`chip cursor-pointer px-4 py-2 text-sm transition ${goal === x ? "chip-on" : "hover:border-deep-800/50"}`}>
               {g(x)}
             </button>
           ))}
