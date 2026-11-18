@@ -15,6 +15,7 @@ export const id: Dictionary = {
     sectors: "Sektor",
     pricing: "Harga",
     about: "Tentang",
+    caseStudy: "Studi kasus",
     blog: "Blog",
     contact: "Kontak",
     demo: "Demo langsung",
@@ -612,6 +613,66 @@ export const id: Dictionary = {
     ],
     whereTitle: "Wilayah kerja kami",
     where: "Kunjungan langsung di seluruh Bali dan Jabodetabek. Wilayah lain di Indonesia sesuai permintaan.",
+  },
+
+  caseStudy: {
+    metaTitle: "Studi kasus: ILA Global Consulting",
+    metaDescription:
+      "Bagaimana ILA Global Consulting, kantor akuntansi, pajak, dan penggajian di Indonesia, memindahkan rutinitas hariannya ke satu sistem berbantuan AI: rekening koran, berkas pajak, penggajian, dan laporan.",
+    eyebrow: "Studi kasus",
+    title: "Bagaimana sebuah kantor akuntansi dan pajak memindahkan *rutinitas hariannya* ke AI",
+    client: "ILA Global Consulting",
+    clientKind: "Kantor akuntansi, pajak, dan penggajian · Indonesia",
+    intro:
+      "ILA Global Consulting mengelola pembukuan, pelaporan pajak, dan penggajian perusahaan kliennya. Sebagian besar pekerjaan itu berulang dan tidak boleh salah: langkah yang sama setiap bulan, dan satu angka keliru berakibat panjang.",
+    disclosure:
+      "ILA Global Consulting dipimpin oleh salah satu pendiri Lancar AI. Di sanalah kami mengembangkan dan membuktikan metode kami sebelum menawarkannya kepada usaha lain.",
+    challengeTitle: "Kondisi awal",
+    challenge: [
+      "Rekening koran dari enam bank, masing-masing dengan format berbeda, dimasukkan ke pembukuan baris demi baris",
+      "Bukti potong dan laporan bulanan disiapkan manual untuk setiap perusahaan klien",
+      "Penggajian, kurs, dan penyusutan dihitung ulang setiap bulan",
+      "Berkas terpisah untuk setiap klien, tanpa satu tampilan bersama bagi tim",
+    ],
+    builtTitle: "Yang kami pasang",
+    built: [
+      {
+        title: "Rekening koran terbaca otomatis",
+        body: "Rekening koran PDF dari BCA, BNI, BRI, CIMB Niaga, Mandiri, dan OCBC dibaca seluruhnya, dan setiap mata uang dicocokkan dengan saldo berjalan bank sebelum ada yang dibukukan.",
+      },
+      {
+        title: "Berkas pajak dalam format resmi",
+        body: "Bukti potong dan berkas karyawan bulanan dihasilkan sebagai file impor massal Coretax, siap diperiksa dan diunggah konsultan.",
+      },
+      {
+        title: "Penggajian dari perhitungan sampai slip gaji",
+        body: "Penggajian bulanan dengan PPh 21 dan BPJS, slip gaji untuk karyawan, dan jurnalnya langsung masuk ke pembukuan.",
+      },
+      {
+        title: "Jurnal rutin yang terbukukan sendiri",
+        body: "Tagihan berulang, kurs Bank Indonesia sesuai tanggal dokumen, dan penyusutan bulanan.",
+      },
+      {
+        title: "Pindah sepenuhnya dari software lama",
+        body: "Seluruh riwayat sebuah perusahaan dipindahkan dari QuickBooks dalam satu proses terpandu dan dicocokkan dengan neraca saldonya.",
+      },
+      {
+        title: "Visibilitas di asisten AI",
+        body: "Pemeriksaan mingguan seberapa sering ChatGPT, Claude, Gemini, dan Perplexity menyebut kantor ini saat calon klien bertanya, disertai draf artikel untuk diperiksa konsultan.",
+      },
+    ],
+    changedTitle: "Yang berubah bagi tim",
+    changed: [
+      "Satu sistem menampung pembukuan kantor sendiri dan pembukuan setiap perusahaan klien",
+      "Sistem yang menyiapkan; konsultan yang memeriksa dan menyetujui",
+      "Setiap impor dicocokkan dengan angka bank sebelum masuk ke pembukuan",
+      "Setiap perubahan tercatat: siapa membuat, mengubah, atau membukukan apa, dan kapan",
+    ],
+    note: "Angka terukur mengenai waktu yang dihemat akan ditambahkan ke halaman ini setelah tersedia.",
+    teaserTitle: "Studi kasus dari rumah kami sendiri",
+    teaserBody:
+      "Sebelum menawarkan metode kami kepada pihak lain, kami menerapkannya di sebuah kantor akuntansi dan pajak: rekening koran, berkas pajak, penggajian, dan laporan.",
+    cta: "Baca studi kasus",
   },
 
   founders: {

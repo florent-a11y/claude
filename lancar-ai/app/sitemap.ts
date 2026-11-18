@@ -4,7 +4,7 @@ import { allPosts, translationOf } from "@/lib/blog";
 import { SECTORS, SECTOR_IDS } from "@/lib/sectors";
 import { absoluteUrl, type Href } from "@/lib/seo";
 
-const STATIC_PAGES: StaticPathname[] = ["/", "/services", "/how-we-work", "/sectors", "/pricing", "/about", "/contact", "/quiz", "/demo", "/blog", "/privacy"];
+const STATIC_PAGES: StaticPathname[] = ["/", "/services", "/how-we-work", "/sectors", "/pricing", "/case-study", "/about", "/contact", "/quiz", "/demo", "/blog", "/privacy"];
 
 /** One entry per page and language, each listing its translations so search engines pair them up. */
 function entries(hrefs: Record<AppLocale, Href>, lastModified?: string): MetadataRoute.Sitemap {

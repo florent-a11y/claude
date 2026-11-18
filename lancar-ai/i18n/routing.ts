@@ -26,6 +26,7 @@ export const routing = defineRouting({
     "/sectors": { id: "/sektor", en: "/sectors" },
     "/sectors/[slug]": { id: "/sektor/[slug]", en: "/sectors/[slug]" },
     "/pricing": { id: "/harga", en: "/pricing" },
+    "/case-study": { id: "/studi-kasus", en: "/case-study" },
     "/about": { id: "/tentang", en: "/about" },
     "/contact": { id: "/kontak", en: "/contact" },
     "/quiz": { id: "/kuis", en: "/quiz" },

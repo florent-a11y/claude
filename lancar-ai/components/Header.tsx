@@ -17,6 +17,7 @@ export function Header({ dict }: { dict: Dictionary }) {
   ];
   const mobile: { href: StaticPathname; label: string }[] = [
     ...main,
+    { href: "/case-study", label: dict.nav.caseStudy },
     { href: "/quiz", label: dict.nav.quiz },
     { href: "/about", label: dict.nav.about },
     { href: "/contact", label: dict.nav.contact },

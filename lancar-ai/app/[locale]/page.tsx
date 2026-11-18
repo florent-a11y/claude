@@ -284,6 +284,26 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
+      <section className="section">
+        <div className="container-page">
+          <Reveal className="grid items-center gap-8 rounded-[2rem] bg-night-950 p-8 text-white sm:p-12 lg:grid-cols-[1.3fr_0.7fr]">
+            <div>
+              <p className="text-[13px] font-bold uppercase tracking-[0.18em] text-gold-300">
+                {dict.caseStudy.eyebrow} · {dict.caseStudy.client}
+              </p>
+              <h2 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">{dict.caseStudy.teaserTitle}</h2>
+              <p className="mt-4 max-w-xl text-lg leading-relaxed text-mist-300">{dict.caseStudy.teaserBody}</p>
+            </div>
+            <div className="lg:justify-self-end">
+              <Link href="/case-study" className="btn btn-primary">
+                {dict.caseStudy.cta}
+                <ArrowRight size={18} aria-hidden="true" />
+              </Link>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       <Founders dict={dict} />
 
       <section className="section section-alt">

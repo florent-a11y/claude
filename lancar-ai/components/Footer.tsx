@@ -11,6 +11,7 @@ export function Footer({ dict }: { dict: Dictionary }) {
     { href: "/how-we-work", label: dict.nav.process },
     { href: "/sectors", label: dict.nav.sectors },
     { href: "/pricing", label: dict.nav.pricing },
+    { href: "/case-study", label: dict.nav.caseStudy },
     { href: "/about", label: dict.nav.about },
     { href: "/blog", label: dict.nav.blog },
   ];

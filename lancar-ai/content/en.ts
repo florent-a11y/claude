@@ -16,6 +16,7 @@ export const en = {
     sectors: "Sectors",
     pricing: "Pricing",
     about: "About",
+    caseStudy: "Case study",
     blog: "Blog",
     contact: "Contact",
     demo: "Live demo",
@@ -614,6 +615,66 @@ export const en = {
     ],
     whereTitle: "Where we work",
     where: "On site across Bali and Greater Jakarta. Elsewhere in Indonesia on request.",
+  },
+
+  caseStudy: {
+    metaTitle: "Case study: ILA Global Consulting",
+    metaDescription:
+      "How ILA Global Consulting, an accounting, tax and payroll firm in Indonesia, moved its daily routine onto one AI-assisted system: bank statements, tax files, payroll and reporting.",
+    eyebrow: "Case study",
+    title: "How an accounting and tax firm put its *daily routine* on AI",
+    client: "ILA Global Consulting",
+    clientKind: "Accounting, tax and payroll firm · Indonesia",
+    intro:
+      "ILA Global Consulting keeps the books, files the taxes and runs the payroll of its client companies. Most of that work is repetitive and unforgiving: the same steps every month, where one wrong figure matters.",
+    disclosure:
+      "ILA Global Consulting is led by a founder of Lancar AI. It is where we developed and proved our method before offering it to other businesses.",
+    challengeTitle: "The starting point",
+    challenge: [
+      "Bank statements from six banks, each in its own format, entered into the books line by line",
+      "Tax slips and monthly filings prepared by hand for every client company",
+      "Payroll, exchange rates and depreciation recalculated every month",
+      "A separate set of files for each client, with no single view for the team",
+    ],
+    builtTitle: "What we set up",
+    built: [
+      {
+        title: "Bank statements read automatically",
+        body: "PDF statements from BCA, BNI, BRI, CIMB Niaga, Mandiri and OCBC are read in full, and each currency is checked against the bank's running balance before anything is posted.",
+      },
+      {
+        title: "Tax files in the official format",
+        body: "Withholding slips and the monthly employee file are produced as bulk-import files for Coretax, ready for a consultant to review and upload.",
+      },
+      {
+        title: "Payroll from run to payslip",
+        body: "Monthly payroll with income tax and BPJS, payslips for employees and the accounting entries posted to the books.",
+      },
+      {
+        title: "Routine entries that post themselves",
+        body: "Recurring invoices and bills, exchange rates taken from Bank Indonesia for the document date, and monthly depreciation.",
+      },
+      {
+        title: "A complete move from the old software",
+        body: "A company's full history is migrated from QuickBooks in one guided run and checked against its trial balance.",
+      },
+      {
+        title: "Visibility in AI assistants",
+        body: "A weekly check of how often ChatGPT, Claude, Gemini and Perplexity name the firm when prospects ask, with article drafts for a consultant to review.",
+      },
+    ],
+    changedTitle: "What changed for the team",
+    changed: [
+      "One system holds the firm's own books and those of every client company",
+      "The system prepares; a consultant reviews and approves",
+      "Every import is checked against the bank's figures before it reaches the books",
+      "Every change is recorded: who created, edited or posted what, and when",
+    ],
+    note: "Measured figures on time saved will be added to this page as they become available.",
+    teaserTitle: "A case study from our own house",
+    teaserBody:
+      "Before offering our method to others, we applied it to an accounting and tax firm: bank statements, tax files, payroll and reporting.",
+    cta: "Read the case study",
   },
 
   founders: {
