@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { NEW_BANK, NEW_GL, nextBankGlCode, planSections, suggestBankName, suggestGlAccount, type SectionBank } from "../lib/bank-sections";
+import { NEW_BANK, NEW_GL, SWITCH_PREFIX, canChangeBankCurrency, nextBankGlCode, planSections, suggestBankName, suggestGlAccount, type SectionBank } from "../lib/bank-sections";
 
 // One statement, several currencies: where each section goes by default. Invented accounts only.
 
@@ -51,4 +51,28 @@ test("code of the GL account created with a bank account: ten after the highest 
   assert.equal(nextBankGlCode([...chart, { code: "1-1120", subtype: "other_receivable" }]), "1-1121", "a code taken by any account is skipped");
   assert.equal(nextBankGlCode([{ code: "1-1200", subtype: "ar" }]), "1-1100", "a chart without bank accounts");
   assert.equal(nextBankGlCode([{ code: "1-1100", subtype: "cash" }]), "1-1101");
+});
+
+test("an account named for the currency but saved in another one is offered, and switched when it is the only fit", () => {
+  // The form's default currency is IDR: "Bank Contoh USD" was saved as an IDR account and has no statement line yet.
+  const misnamed: SectionBank = { id: "b-x", name: "Bank Contoh USD", currency: "IDR", active: true, lines: 0 };
+  const plan = planSections({ IDR: 5, USD: 3 }, [idr, misnamed], idr);
+  assert.deepEqual(plan[1].convertible.map((b) => b.id), ["b-x"]);
+  assert.equal(plan[1].target, `${SWITCH_PREFIX}b-x`, "no USD account: the misnamed one is switched");
+  assert.deepEqual(plan[0].convertible, [], "nothing to switch for the opened account's own currency");
+  // With a real USD account the lines go there; the misnamed one stays an option.
+  const both = planSections({ USD: 3 }, [idr, usd, misnamed], idr);
+  assert.equal(both[0].target, "b-usd");
+  assert.deepEqual(both[0].convertible.map((b) => b.id), ["b-x"]);
+  // An account that already holds statement lines, or whose lines were not counted, is never switched.
+  assert.deepEqual(planSections({ USD: 3 }, [idr, { ...misnamed, lines: 4 }], idr)[0].target, NEW_BANK);
+  assert.deepEqual(planSections({ USD: 3 }, [idr, { ...misnamed, lines: undefined }], idr)[0].convertible, []);
+  // The name must carry the code as a word; the opened account is never switched away from its own currency.
+  assert.deepEqual(planSections({ USD: 3 }, [idr, { id: "b-y", name: "Bank Contoh dana", currency: "IDR", active: true, lines: 0 }], idr)[0].target, NEW_BANK);
+  assert.deepEqual(planSections({ USD: 3 }, [{ ...idr, name: "Bank Contoh USD", lines: 0 }], { ...idr, name: "Bank Contoh USD", lines: 0 })[0].convertible, []);
+  // Two misnamed accounts: the user chooses.
+  assert.equal(planSections({ USD: 3 }, [idr, misnamed, { ...misnamed, id: "b-z", name: "Bank Lain USD" }], idr)[0].target, "");
+  assert.equal(canChangeBankCurrency(0), true);
+  assert.equal(canChangeBankCurrency(1), false);
+  assert.equal(canChangeBankCurrency(undefined), false);
 });
