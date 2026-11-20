@@ -4,7 +4,7 @@ import { errorMessage } from "@/lib/books";
 import { chooseSheet, sheetsFromFile } from "@/lib/statement-file";
 import { presetById, PRESETS, type PresetId } from "@/lib/bank-formats";
 import type { ParsedBankRow } from "@/lib/ledger";
-import { extractPdfPages } from "@/lib/pdf-text";
+import { extractPdfPages, PdfPasswordError } from "@/lib/pdf-text";
 import { parseBankPdf, PDF_PRESET_OPTIONS } from "@/lib/bank-pdf";
 
 export const runtime = "nodejs";
@@ -38,7 +38,15 @@ export async function POST(req: Request, ctx: { params: Promise<{ entityId: stri
     if (!bank || bank.entityId !== entityId) return Response.json({ error: "Bank account not found" }, { status: 404 });
     const buf = Buffer.from(await file.arrayBuffer());
     if (/\.pdf$/i.test(file.name) || file.type === "application/pdf" || buf.subarray(0, 5).toString("latin1") === "%PDF-") {
-      const pages = await extractPdfPages(buf);
+      // A locked e-statement: the password typed on the import screen opens it for this read; it is not stored or logged.
+      const password = typeof fd.get("password") === "string" ? String(fd.get("password")) : "";
+      let pages: Awaited<ReturnType<typeof extractPdfPages>>;
+      try {
+        pages = await extractPdfPages(buf, { password });
+      } catch (e) {
+        if (e instanceof PdfPasswordError) return Response.json({ error: e.wrong ? "That password does not open this PDF. Check it and try again." : "This PDF is protected by a password. Type it below to read the statement.", needsPassword: true, wrongPassword: e.wrong }, { status: 400 });
+        throw e;
+      }
       const r = parseBankPdf(pages, { preset: forced || undefined });
       if (r.scanned) return Response.json({ error: "This PDF has no text layer (it is a scanned image), so it cannot be read. Ask the bank for the e-statement PDF, or export CSV / Excel from internet banking." }, { status: 400 });
       // Unreadable lines on one side, balance checks on the other; `coverage` says per currency section what was read.

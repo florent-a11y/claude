@@ -50,16 +50,20 @@ export function StatementImport({ entityId, bankAccountId, currency, bankName, l
   const [targets, setTargets] = useState<Record<string, string>>({});
   const [newBank, setNewBank] = useState<Record<string, { name: string; gl: string }>>({});
   const [knownBanks, setKnownBanks] = useState<SectionBank[]>(banks);
+  // A locked e-statement: the password is typed here, sent with the file for that one read and kept nowhere.
+  const [needsPassword, setNeedsPassword] = useState(false);
+  const [password, setPassword] = useState("");
   const opened: SectionBank = useMemo(() => ({ id: bankAccountId, name: bankName, currency, active: true }), [bankAccountId, bankName, currency]);
 
-  const parse = async (f: File, preset?: string) => {
+  const parse = async (f: File, preset?: string, pw = password) => {
     setBusy("parse"); setError(null); setResults(null);
     try {
       const fd = new FormData();
-      fd.append("file", f); fd.append("bankAccountId", bankAccountId); if (preset) fd.append("preset", preset);
+      fd.append("file", f); fd.append("bankAccountId", bankAccountId); if (preset) fd.append("preset", preset); if (pw) fd.append("password", pw);
       const res = await fetch(`/api/books/${entityId}/bank/parse`, { method: "POST", body: fd });
       const data = await res.json().catch(() => ({ error: res.statusText }));
-      if (!res.ok) { setError(String(data.error ?? "Could not read the file")); setParsed(null); return; }
+      if (!res.ok) { setError(String(data.error ?? "Could not read the file")); setNeedsPassword(Boolean(data.needsPassword)); setParsed(null); return; }
+      setNeedsPassword(false);
       const p = data as Parsed;
       setParsed(p);
       // Statement tagged by currency: every section gets its default destination; the preview starts on the account's
@@ -78,7 +82,7 @@ export function StatementImport({ entityId, bankAccountId, currency, bankName, l
       }
     } catch (e) { setError(String(e)); } finally { setBusy(null); }
   };
-  const onFile = async (f: File | undefined) => { if (!f) return; setFile(f); await parse(f); };
+  const onFile = async (f: File | undefined) => { if (!f) return; setFile(f); setPassword(""); setNeedsPassword(false); await parse(f, undefined, ""); };
   const onPreset = async (id: string) => { if (file) await parse(file, id); };
 
   const generic = parsed?.preset === "generic";
@@ -163,6 +167,13 @@ export function StatementImport({ entityId, bankAccountId, currency, bankName, l
         <label className="block"><span className="label">Statement file</span><input type="file" accept=".pdf,application/pdf,.csv,.txt,.xls,.xlsx,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange={(e) => onFile(e.target.files?.[0])} className="input" /></label>
         <p className="-mt-2 text-xs text-ink-500">PDF e-statements from BCA, BNI, BRI, CIMB Niaga, Mandiri and OCBC are read directly. Exports from OCBC (xlsx), Mandiri Kopra (csv), BNI (xls) and Aspire (xlsx) are recognised too; any other CSV or Excel file can be mapped column by column. A statement that covers several currencies (OCBC) is imported in one go: each currency goes to its own bank account.</p>
         {busy === "parse" && <p className="text-sm text-ink-500">Reading the file…</p>}
+        {needsPassword && file && (
+          <form className="flex flex-wrap items-end gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3" onSubmit={(e) => { e.preventDefault(); void parse(file); }}>
+            <label className="block"><span className="label">Password of this PDF</span><input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="input !w-64" autoComplete="off" autoFocus aria-label="Password of the statement PDF" /></label>
+            <button type="submit" className="btn-secondary" disabled={!password || busy !== null}>Open the statement</button>
+            <p className="w-full text-xs text-amber-900">Banks often lock the e-statements they e-mail; the password is given in that e-mail or by the bank. It is used to read this file once and is not stored.</p>
+          </form>
+        )}
         {parsed && (
           <>
             <div className="flex flex-wrap items-center gap-4 text-sm">
