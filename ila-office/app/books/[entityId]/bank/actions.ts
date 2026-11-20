@@ -4,6 +4,7 @@ import { requirePermission } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { createBankAccount, transfer, matchBankTransaction, postBankTransaction, linkBankTransaction, setBankTransactionStatus, unmatchBankTransaction } from "@/lib/books";
 import { bool, num, str, rateOf } from "@/lib/util";
+import { updateBankAccountDetails } from "@/lib/bank-accounts";
 import { act, base } from "../shared";
 
 const bankSchema = z.object({
@@ -23,6 +24,16 @@ export async function createBankAccountAction(entityId: string, fd: FormData) {
     });
     const bank = await createBankAccount(entityId, { ...v, newAccount: v.accountId ? undefined : { code: v.newCode ?? "", name: `${v.bankName ? `${v.bankName} ` : ""}${v.name}`.trim(), subtype: v.newSubtype ?? "bank" } });
     return `${to}/${bank.id}?ok=${encodeURIComponent(`Bank account ${bank.name} created`)}`;
+  }, to);
+}
+
+/** "Edit details" on a bank account: name, bank, account number, and the currency while the account has no statement line. */
+export async function updateBankAccountAction(entityId: string, bankAccountId: string, fd: FormData) {
+  const to = `${base(entityId)}/bank/${bankAccountId}`;
+  await act(entityId, async () => {
+    await requirePermission("books:write");
+    const bank = await updateBankAccountDetails(entityId, bankAccountId, { name: str(fd, "name") ?? "", bankName: str(fd, "bankName") ?? "", accountNumber: str(fd, "accountNumber") ?? "", currency: str(fd, "currency") });
+    return `${to}?ok=${encodeURIComponent(`${bank.name} updated (${bank.currency})`)}`;
   }, to);
 }
 

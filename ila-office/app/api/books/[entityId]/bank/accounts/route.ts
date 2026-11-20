@@ -3,6 +3,7 @@ import { guard } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { createBankAccount, entityAccounts, errorMessage } from "@/lib/books";
 import { NEW_GL, nextBankGlCode } from "@/lib/bank-sections";
+import { updateBankAccountDetails } from "@/lib/bank-accounts";
 
 export const runtime = "nodejs";
 
@@ -39,6 +40,34 @@ export async function POST(req: Request, ctx: { params: Promise<{ entityId: stri
       name: v.name, bankName: v.bankName || undefined, accountNumber: v.accountNumber || undefined, currency, accountId: existing,
       newAccount: existing ? undefined : { code: nextBankGlCode(accounts), name: v.name, subtype: "bank" },
     });
+    return Response.json({ id: bank.id, name: bank.name, currency: bank.currency });
+  } catch (e) {
+    return Response.json({ error: errorMessage(e) }, { status: 400 });
+  }
+}
+
+const patchSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().trim().min(1).max(120).optional(),
+  bankName: z.string().trim().max(80).optional(),
+  accountNumber: z.string().trim().max(60).optional(),
+  currency: z.string().trim().regex(/^[A-Za-z]{3}$/, "Currency is a three-letter code").optional(),
+});
+
+/**
+ * PATCH → corrects a bank account (name, bank, account number, currency). The statement import uses it to switch an
+ * account that is named for a currency but was saved in another one; the currency only changes while the account has
+ * no statement line (lib/bank-accounts.ts).
+ */
+export async function PATCH(req: Request, ctx: { params: Promise<{ entityId: string }> }) {
+  const user = await guard("books:write", (await ctx.params).entityId);
+  if (user instanceof Response) return user;
+  const { entityId } = await ctx.params;
+  const parsed = patchSchema.safeParse(await req.json().catch(() => null));
+  if (!parsed.success) return Response.json({ error: errorMessage(parsed.error) }, { status: 400 });
+  try {
+    const { id, ...patch } = parsed.data;
+    const bank = await updateBankAccountDetails(entityId, id, patch);
     return Response.json({ id: bank.id, name: bank.name, currency: bank.currency });
   } catch (e) {
     return Response.json({ error: errorMessage(e) }, { status: 400 });

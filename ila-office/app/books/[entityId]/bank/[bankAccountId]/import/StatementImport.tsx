@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { mapBankRows, type CsvMapping, type DateFormat, type ParsedBankRow } from "@/lib/ledger";
 import { columnDecimals, fmtNumber } from "@/lib/money";
-import { NEW_BANK, NEW_GL, SKIP_SECTION, planSections, suggestBankName, suggestGlAccount, type GlOption, type SectionBank } from "@/lib/bank-sections";
+import { NEW_BANK, NEW_GL, SKIP_SECTION, SWITCH_PREFIX, planSections, suggestBankName, suggestGlAccount, type GlOption, type SectionBank } from "@/lib/bank-sections";
 import { Cols, Dash, TableCard } from "@/components/ui";
 
 type Col = "date" | "description" | "amount" | "debit" | "credit" | "balance" | "reference";
@@ -113,8 +113,8 @@ export function StatementImport({ entityId, bankAccountId, currency, bankName, l
   const totals = useMemo(() => rows.reduce((t, r) => ({ in: t.in + (r.amount > 0 ? r.amount : 0), out: t.out + (r.amount < 0 ? -r.amount : 0) }), { in: 0, out: 0 }), [rows]);
   const range = rows.length ? `${rows.reduce((a, r) => (r.date < a ? r.date : a), rows[0].date)} → ${rows.reduce((a, r) => (r.date > a ? r.date : a), rows[0].date)}` : "";
 
-  const post = async (url: string, body: unknown) => {
-    const res = await fetch(url, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+  const post = async (url: string, body: unknown, method = "POST") => {
+    const res = await fetch(url, { method, headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
     const data = await res.json().catch(() => ({ error: res.statusText }));
     return { ok: res.ok, data };
   };
@@ -144,8 +144,16 @@ export function StatementImport({ entityId, bankAccountId, currency, bankName, l
           const made = await post(`/api/books/${entityId}/bank/accounts`, { name: nb.name.trim(), currency: x.currency, accountId: nb.gl || NEW_GL });
           if (!made.ok) { failed = `${x.currency}: ${String(made.data.error ?? "the bank account could not be created")}`; break; }
           target = String(made.data.id); name = String(made.data.name);
-          banksNow = [...banksNow, { id: target, name, currency: x.currency, active: true }];
+          banksNow = [...banksNow, { id: target, name, currency: x.currency, active: true, lines: 0 }];
           targetsNow[x.currency] = target;
+        } else if (target.startsWith(SWITCH_PREFIX)) {
+          // An account named for this currency but saved in another one: its currency is corrected first.
+          const id = target.slice(SWITCH_PREFIX.length);
+          const fixed = await post(`/api/books/${entityId}/bank/accounts`, { id, currency: x.currency }, "PATCH");
+          if (!fixed.ok) { failed = `${x.currency}: ${String(fixed.data.error ?? "the bank account could not be switched")}`; break; }
+          target = id; name = String(fixed.data.name);
+          banksNow = banksNow.map((b) => (b.id === id ? { ...b, currency: x.currency } : b));
+          targetsNow[x.currency] = id;
         }
         const { ok, data } = await post(`/api/books/${entityId}/bank/import`, { bankAccountId: target, fileName: parsed.fileName, rows: rowsOf(x.currency) });
         if (!ok) { failed = `${x.currency}: ${String(data.error ?? "Import failed")}`; break; }
@@ -203,7 +211,8 @@ export function StatementImport({ entityId, bankAccountId, currency, bankName, l
                               <select value={target} onChange={(e) => setTarget(x.currency, e.target.value)} className="input !w-auto !py-1" aria-label={`Where the ${x.currency} lines go`}>
                                 {target === "" && <option value="">— choose the {x.currency} account —</option>}
                                 {x.candidates.map((b) => <option key={b.id} value={b.id}>{b.name}{b.id === bankAccountId ? " (this account)" : ""}</option>)}
-                                <option value={NEW_BANK}>Create a {x.currency} bank account…</option>
+                                {x.convertible.map((b) => <option key={b.id} value={`${SWITCH_PREFIX}${b.id}`}>{b.name} (set to {b.currency} today: switch it to {x.currency})</option>)}
+                                <option value={NEW_BANK}>Create {/^[AEIOU]/.test(x.currency) ? "an" : "a"} {x.currency} bank account…</option>
                                 <option value={SKIP_SECTION}>Do not import these lines</option>
                               </select>
                               {target === NEW_BANK && (
@@ -216,7 +225,8 @@ export function StatementImport({ entityId, bankAccountId, currency, bankName, l
                               )}
                             </div>
                             {target === NEW_BANK && <p className="mt-1 text-xs text-ink-500">This entity has no {x.currency} bank account{x.candidates.length ? " selected" : " yet"}: it is created with the import. Pick the GL account that already carries this account&apos;s balance when there is one (a migrated chart usually has it); otherwise a new one is created.</p>}
-                            {target === "" && <p className="mt-1 text-xs text-amber-800">Several {x.currency} bank accounts exist: choose the one this statement belongs to.</p>}
+                            {target.startsWith(SWITCH_PREFIX) && <p className="mt-1 text-xs text-ink-500">This account is named for {x.currency} but was saved with another currency and holds no statement line yet: the import sets its currency to {x.currency}, then stores the lines in it.</p>}
+                            {target === "" && <p className="mt-1 text-xs text-amber-800">Several accounts could take the {x.currency} lines: choose the one this statement belongs to.</p>}
                           </td>
                         </tr>
                       );

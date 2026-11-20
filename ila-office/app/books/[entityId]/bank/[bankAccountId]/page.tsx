@@ -3,11 +3,11 @@ import { notFound } from "next/navigation";
 import { requireUser, can } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { fmtDate, periodLabel } from "@/lib/dates";
-import { fmtMoney } from "@/lib/money";
+import { currencyOptions, fmtMoney } from "@/lib/money";
 import { Badge, statusTone, Chips, Cols, Dash, EmptyState, TableCard, withParams, Stat } from "@/components/ui";
 import { ConfirmForm } from "@/components/client";
 import { ErrorNotice, base, first, requireEntity, type Search } from "../../shared";
-import { excludeTxAction, unmatchTxAction } from "../actions";
+import { excludeTxAction, unmatchTxAction, updateBankAccountAction } from "../actions";
 
 export const dynamic = "force-dynamic";
 
@@ -35,8 +35,25 @@ export default async function BankTransactions({ params, searchParams }: { param
       <ErrorNotice error={first(sp.error)} ok={first(sp.ok)} />
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div><p className="text-xs text-ink-500"><Link href={`${b}/bank`} className="hover:underline">Bank</Link> / {bank.name}</p><h2 className="text-xl font-bold">{bank.name} <span className="text-sm font-normal text-ink-500">{bank.bankName} {bank.accountNumber} · {bank.currency}</span></h2></div>
-        <div className="flex gap-2"><Link href={`${here}/reconcile`} className="btn-secondary">Reconciliation</Link><Link href={`${here}/import`} className="btn-primary">Import CSV</Link></div>
+        <div className="flex gap-2"><Link href={`${here}/reconcile`} className="btn-secondary">Reconciliation</Link><Link href={`${here}/import`} className="btn-primary">Import statement</Link></div>
       </div>
+      {writable && (
+        <details className="card !py-3 text-sm">
+          <summary className="cursor-pointer font-medium text-brand-700">Edit account details</summary>
+          <form action={updateBankAccountAction.bind(null, entityId, bank.id)} className="mt-3 grid gap-3 md:grid-cols-[1fr_1fr_1fr_200px_auto] md:items-end">
+            <label className="block"><span className="label">Name</span><input name="name" defaultValue={bank.name} required className="input" /></label>
+            <label className="block"><span className="label">Bank</span><input name="bankName" defaultValue={bank.bankName} className="input" /></label>
+            <label className="block"><span className="label">Account number</span><input name="accountNumber" defaultValue={bank.accountNumber} className="input" /></label>
+            <label className="block"><span className="label">Currency</span>
+              {all.length === 0 && !(bank.reconciliations?.length)
+                ? <select name="currency" defaultValue={bank.currency} className="input">{currencyOptions().map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}</select>
+                : <><input value={bank.currency} disabled className="input" aria-label="Currency" /><input type="hidden" name="currency" value={bank.currency} /></>}
+            </label>
+            <button type="submit" className="btn-secondary">Save</button>
+          </form>
+          <p className="mt-2 text-xs text-ink-500">{all.length === 0 ? "The currency is the one the bank keeps this account in (USD for a USD account). It can be corrected while no statement line is imported." : `The currency is fixed: ${all.length} statement line${all.length === 1 ? " is" : "s are"} stored in ${bank.currency}.`}</p>
+        </details>
+      )}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <Stat label="Unmatched" value={counts.unmatched} tone={counts.unmatched ? "text-amber-700" : ""} />
         <Stat label="Matched" value={counts.matched} />

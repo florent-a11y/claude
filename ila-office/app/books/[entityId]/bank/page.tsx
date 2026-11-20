@@ -96,7 +96,7 @@ export default async function Bank({ params, searchParams }: { params: Params; s
               <div className="grid grid-cols-2 gap-3">
                 <Field label="Bank"><input name="bankName" className="input" placeholder="OCBC / Mandiri / BNI / Aspire / Aspire" /></Field>
                 <Field label="Account number"><input name="accountNumber" className="input" /></Field>
-                <Field label="Currency"><Select name="currency" defaultValue="IDR" options={currencyOptions()} /></Field>
+                <Field label="Currency" hint="The currency the bank keeps the account in: USD for a USD account."><Select name="currency" defaultValue="IDR" options={currencyOptions()} /></Field>
                 <Field label="Opening date"><input name="openingDate" type="date" className="input" /></Field>
                 <Field label="Opening balance" hint="Statement balance at the opening date." className="col-span-2"><MoneyInput name="openingBalance" currencyField="currency" allowNegative placeholder="" /></Field>
               </div>
