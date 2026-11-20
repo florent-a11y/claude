@@ -307,7 +307,14 @@ export function disposalJournalLines(p: { asset: FixedAsset; proceedsIDR: number
 // ---------- Depreciation ----------
 
 export interface DepreciationRow { period: string; amount: number; accumulated: number; nbv: number }
-export type ScheduleInput = Pick<FixedAsset, "cost" | "salvageValue" | "acquisitionDate" | "method" | "usefulLifeMonths" | "fiscalGroup">;
+/** Where the previous books left an asset brought into the register (`FixedAsset.takeOn`): the schedule continues from there. */
+export interface TakeOnStart { accumulated: number; through?: string }
+export type ScheduleInput = Pick<FixedAsset, "cost" | "salvageValue" | "acquisitionDate" | "method" | "usefulLifeMonths" | "fiscalGroup"> & { takeOn?: TakeOnStart };
+
+/** Months from period `from` to period `to` ("2025-11" → "2026-02" = 3; negative when `to` is earlier). */
+function periodsApart(from: string, to: string): number {
+  return (Number(to.slice(0, 4)) - Number(from.slice(0, 4))) * 12 + (Number(to.slice(5, 7)) - Number(from.slice(5, 7)));
+}
 
 export function fiscalYearStartOf(date: string, startMonth = 1): string {
   const y = Number(date.slice(0, 4));
@@ -333,21 +340,33 @@ export function defaultUsefulLifeMonths(group: FixedAsset["fiscalGroup"]): numbe
  * spreads (cost − salvage) evenly; declining balance applies the group rate to the opening net book value of each
  * fiscal year (pro rata by month) and writes the remainder off over the final fiscal year of the useful life.
  * Rounding is absorbed by the last month so the schedule ends exactly at the salvage value.
+ *
+ * An asset brought in from a ledger that had already depreciated it (`takeOn.through` set) continues from there: no
+ * row up to and including `through`, the accumulated amount starts at `takeOn.accumulated`, and what is left runs over
+ * the useful life less the months from the acquisition month through `through` (at least one month while something
+ * is left). Straight line spreads the remainder evenly; declining balance applies the same rule as above from that
+ * accumulated amount (for the rest of the fiscal year of the take-on the rate applies to the net book value taken
+ * on). `takeOn` without `through` (never depreciated in the previous books) is the ordinary schedule.
  */
 export function depreciationSchedule(asset: ScheduleInput, opts: { fiscalYearStartMonth?: number } = {}): DepreciationRow[] {
-  const n = Math.max(0, Math.round(asset.usefulLifeMonths));
+  const life = Math.max(0, Math.round(asset.usefulLifeMonths));
   const cost = roundMoney(asset.cost);
   const salvage = roundMoney(asset.salvageValue ?? 0);
   const base = roundMoney(cost - salvage);
-  if (n <= 0 || base <= 0 || asset.fiscalGroup === "land") return [];
+  if (life <= 0 || base <= 0 || asset.fiscalGroup === "land") return [];
   const rate = FISCAL_ASSET_GROUPS[asset.fiscalGroup]?.decliningRate ?? 0;
   const declining = asset.method === "declining_balance" && rate > 0;
   const fyStart = opts.fiscalYearStartMonth ?? 1;
   const rows: DepreciationRow[] = [];
-  let period = periodOf(asset.acquisitionDate);
-  let accumulated = 0;
+  const acquired = periodOf(asset.acquisitionDate);
+  const through = asset.takeOn?.through && /^\d{4}-\d{2}$/.test(asset.takeOn.through) && asset.takeOn.through >= acquired ? asset.takeOn.through : undefined;
+  let accumulated = through ? Math.min(base, Math.max(0, roundMoney(asset.takeOn?.accumulated ?? 0))) : 0;
+  if (base - accumulated <= 0) return [];
+  // Months still to depreciate: the whole life, or what is left of it after the months the previous books covered.
+  const n = through ? Math.max(1, life - (periodsApart(acquired, through) + 1)) : life;
+  let period = through ? nextPeriod(through) : acquired;
   // Monthly amounts are whole rupiah; a cost with cents is absorbed by the last month.
-  const slMonthly = roundRupiah(base / n);
+  const slMonthly = roundRupiah((base - accumulated) / n);
   // Fiscal year of the last month of the schedule (declining balance writes off the remainder within it).
   let lastPeriod = period;
   for (let i = 1; i < n; i++) lastPeriod = nextPeriod(lastPeriod);

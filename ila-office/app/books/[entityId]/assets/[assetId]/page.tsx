@@ -6,7 +6,7 @@ import { db } from "@/lib/db";
 import { depreciationStarted } from "@/lib/books";
 import { depreciationSchedule, netBookValue } from "@/lib/ledger";
 import { FISCAL_ASSET_GROUPS } from "@/lib/types";
-import { fmtDate, todayISO, periodLabel } from "@/lib/dates";
+import { fmtDate, fmtDateTime, todayISO, periodLabel, periodOf, nextPeriod, prevPeriod } from "@/lib/dates";
 import { fmtMoney, roundMoney } from "@/lib/money";
 import { Card, Badge, statusTone, DL, CardTable, Cols, Dash, Notice } from "@/components/ui";
 import { ConfirmForm } from "@/components/client";
@@ -22,7 +22,9 @@ export const dynamic = "force-dynamic";
 
 /**
  * One asset: schedule, where it came from, its journals, and the three things an accountant does with it: confirm
- * it (registered automatically from a purchase, see lib/asset-auto.ts) or correct it, and sell or dispose of it.
+ * it (registered automatically from a purchase, see lib/asset-auto.ts, or brought in from the ledger, see
+ * lib/asset-takeon.ts) or correct it, and sell or dispose of it. For an asset brought in from the ledger the
+ * schedule shows what the register posts after the previous books' last month.
  * `?tx=<statement line>&date=&proceeds=&bankAccountId=` (from the bank matching page) prefills the sale.
  */
 export default async function AssetPage({ params, searchParams }: { params: Promise<{ entityId: string; assetId: string }>; searchParams: Search }) {
@@ -45,6 +47,9 @@ export default async function AssetPage({ params, searchParams }: { params: Prom
   const here = `${b}/assets/${asset.id}`;
   const disposed = asset.status === "disposed";
   const started = depreciationStarted(asset);
+  // Brought in from the ledger (lib/asset-takeon.ts): what the previous books had depreciated, and where the cost came from.
+  const takeOn = asset.takeOn;
+  const origin = takeOn ? (takeOn.mode === "account" ? `Brought in from the ledger: account ${accName(asset.assetAccountId)}, balance at ${fmtDateTime(takeOn.at)}` : "Brought in from the ledger") : undefined;
   const disposal = journals.find((j) => j.id === asset.disposalJournalId) ?? (disposed ? journals.find((j) => j.source === "adjustment" && j.sourceId === asset.id) : undefined);
   // Assets disposed of before the result was stored: accumulated depreciation is frozen at the disposal, so it can still be derived.
   const result = disposed ? asset.disposalGainLoss ?? roundMoney((asset.disposalProceeds ?? 0) - netBookValue(asset)) : 0;
@@ -70,15 +75,18 @@ export default async function AssetPage({ params, searchParams }: { params: Prom
       action={updateAssetAction.bind(null, entityId, asset.id)} defaultDate={asset.acquisitionDate}
       assetAccounts={active.filter((a) => a.subtype === "fixed_asset").map(opt)} accumAccounts={active.filter((a) => a.subtype === "accum_depr").map(opt)}
       expenseAccounts={active.filter((a) => a.subtype === "depreciation" || a.type === "expense").sort((x, y) => (x.subtype === "depreciation" ? -1 : 1) - (y.subtype === "depreciation" ? -1 : 1)).map(opt)}
-      edit={{ name: asset.name, fiscalGroup: asset.fiscalGroup, method: asset.method, usefulLifeMonths: asset.usefulLifeMonths, salvageValue: asset.salvageValue, assetAccountId: asset.assetAccountId, accumDeprAccountId: asset.accumDeprAccountId, deprExpenseAccountId: asset.deprExpenseAccountId, notes: asset.notes, cost: asset.cost, acquisitionDate: asset.acquisitionDate, locked: started, confirm: Boolean(asset.needsReview), keep }}
+      edit={{ name: asset.name, fiscalGroup: asset.fiscalGroup, method: asset.method, usefulLifeMonths: asset.usefulLifeMonths, salvageValue: asset.salvageValue, assetAccountId: asset.assetAccountId, accumDeprAccountId: asset.accumDeprAccountId, deprExpenseAccountId: asset.deprExpenseAccountId, notes: asset.notes, cost: asset.cost, acquisitionDate: asset.acquisitionDate, locked: started, confirm: Boolean(asset.needsReview), keep,
+        takeOn: takeOn && asset.needsReview ? { accumulated: takeOn.accumulated, through: takeOn.through, fiscalYearStartMonth: entity.fiscalYearStartMonth, lastMonth: prevPeriod(periodOf(todayISO())) } : undefined,
+      }}
     />
   );
   const details: Array<[ReactNode, ReactNode]> = [
     ["Acquired", fmtDate(asset.acquisitionDate)], ["Cost", fmtMoney(asset.cost)], ["Salvage", fmtMoney(asset.salvageValue)], ["Group", FISCAL_ASSET_GROUPS[asset.fiscalGroup].label], ["Method", asset.method.replace("_", " ")], ["Useful life", `${asset.usefulLifeMonths} months`],
     ["Accumulated", fmtMoney(asset.accumulatedDepreciation)], [disposed ? "Net book value when disposed" : "Net book value", <strong key="n">{fmtMoney(netBookValue(asset))}</strong>], ["Depreciated through", asset.depreciatedThrough ?? "—"],
     ["Asset account", accName(asset.assetAccountId)], ["Accum. account", accName(asset.accumDeprAccountId)], ["Expense account", accName(asset.deprExpenseAccountId)],
-    ["Registered from", source ? <Link key="s" href={source.href} className="text-brand-600 underline">{source.label}</Link> : "by hand"],
+    ["Registered from", source ? <span key="s"><Link href={source.href} className="text-brand-600 underline">{source.label}</Link>{origin && <span className="block text-xs text-ink-500">{origin}</span>}</span> : origin ?? "by hand"],
   ];
+  if (takeOn) details.push(["Previous books", takeOn.through ? `${fmtMoney(takeOn.accumulated)} depreciated through ${periodLabel(takeOn.through)}` : "never depreciated"]);
   if (disposed) details.push(
     ["Disposed", `${fmtDate(asset.disposedAt)} for ${fmtMoney(asset.disposalProceeds ?? 0)}`],
     [result >= 0 ? "Gain on disposal" : "Loss on disposal", <strong key="g" className={result > 0 ? "text-green-700" : result < 0 ? "text-red-700" : ""}>{fmtMoney(Math.abs(result))}</strong>],
@@ -86,7 +94,7 @@ export default async function AssetPage({ params, searchParams }: { params: Prom
   );
   const remove = writable && !disposed && !started && !(asset.attachments?.length) && (
     <ConfirmForm action={deleteAssetAction.bind(null, entityId, asset.id)} message={`Remove "${asset.name}" from the asset register? The ledger is not changed.`}>
-      <button type="submit" className="text-xs text-red-700 underline">{asset.needsReview ? "Not a new asset: remove it from the register" : "Remove from the register (nothing is posted on it)"}</button>
+      <button type="submit" className="text-xs text-red-700 underline">{asset.needsReview ? (takeOn ? "Not to be in the register: remove it (its account can then be left out on the Assets page)" : "Not a new asset: remove it from the register") : "Remove from the register (nothing is posted on it)"}</button>
     </ConfirmForm>
   );
   return (
@@ -103,7 +111,11 @@ export default async function AssetPage({ params, searchParams }: { params: Prom
       {asset.needsReview && !disposed && (
         <div className="space-y-3">
           <Notice tone="amber">
-            {asset.sourceJournalId ? <>This asset was registered automatically{source ? <> from <Link href={source.href} className="underline">{source.label}</Link></> : null}.</> : <>This asset needs review.</>} Check the fiscal group, the useful life and the accounts, then confirm: until then it is not depreciated and cannot be sold or disposed of.
+            {takeOn ? (
+              <>This asset was already in the ledger and was brought into the register{takeOn.mode === "account" ? <> as the balance of {accName(asset.assetAccountId)}</> : source ? <> from <Link href={source.href} className="underline">{source.label}</Link></> : null}. Check the acquisition date (an opening entry carries the date the books were taken over), the cost, the fiscal group, the useful life, the accounts and what the previous books had depreciated, then confirm: the register then posts the months that follow. Until then it is not depreciated and cannot be sold or disposed of. An asset that is not in use yet (construction in progress) is better removed and its account left out of the register until it is.</>
+            ) : (
+              <>{asset.sourceJournalId ? <>This asset was registered automatically{source ? <> from <Link href={source.href} className="underline">{source.label}</Link></> : null}.</> : <>This asset needs review.</>} Check the fiscal group, the useful life and the accounts, then confirm: until then it is not depreciated and cannot be sold or disposed of.</>
+            )}
             {asset.notes && <span className="mt-1 block whitespace-pre-line">{asset.notes}</span>}
           </Notice>
           {writable && form}
@@ -112,8 +124,9 @@ export default async function AssetPage({ params, searchParams }: { params: Prom
       )}
       <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
         <div className="min-w-0 space-y-4">
-          <Card title={`Depreciation schedule (${schedule.length} months)`} className="min-w-0">
-            {schedule.length === 0 ? <p className="text-sm text-ink-500">Not depreciated.</p> : (
+          <Card title={`Depreciation schedule (${schedule.length} months${takeOn?.through ? " left" : ""})`} className="min-w-0">
+            {takeOn?.through && asset.fiscalGroup !== "land" && <p className="mb-3 text-sm text-ink-500">The previous books depreciated {fmtMoney(takeOn.accumulated)} through {periodLabel(takeOn.through)}. {schedule.length > 0 ? <>The register continues from {periodLabel(nextPeriod(takeOn.through))}{asset.needsReview ? ", once the asset is confirmed" : ""}.</> : <>Nothing is left to depreciate.</>}</p>}
+            {schedule.length === 0 ? <p className="text-sm text-ink-500">{takeOn?.through && asset.fiscalGroup !== "land" ? "Fully depreciated." : "Not depreciated."}</p> : (
               <CardTable>
                 <table className="table table-data min-w-[600px]">
                   <Cols widths={[undefined, 140, 140, 140, 80]} />
@@ -156,7 +169,7 @@ export default async function AssetPage({ params, searchParams }: { params: Prom
                 {asset.needsReview ? <p className="text-sm text-ink-500">Confirm the asset first: the depreciation posted up to the disposal, and so the gain or loss, depend on its fiscal group and useful life.</p> : (
                   <DisposeForm
                     action={disposeAssetAction.bind(null, entityId, asset.id)} fiscalYearStartMonth={entity.fiscalYearStartMonth} banks={banks.map((x) => ({ id: x.id, name: x.name, currency: x.currency }))} defaults={defaults} tx={tx} keep={keep}
-                    asset={{ cost: asset.cost, salvageValue: asset.salvageValue, acquisitionDate: asset.acquisitionDate, method: asset.method, usefulLifeMonths: asset.usefulLifeMonths, fiscalGroup: asset.fiscalGroup, depreciatedThrough: asset.depreciatedThrough, status: asset.status, accumulatedDepreciation: asset.accumulatedDepreciation }}
+                    asset={{ cost: asset.cost, salvageValue: asset.salvageValue, acquisitionDate: asset.acquisitionDate, method: asset.method, usefulLifeMonths: asset.usefulLifeMonths, fiscalGroup: asset.fiscalGroup, depreciatedThrough: asset.depreciatedThrough, status: asset.status, accumulatedDepreciation: asset.accumulatedDepreciation, takeOn: takeOn && { accumulated: takeOn.accumulated, through: takeOn.through } }}
                   />
                 )}
               </Card>

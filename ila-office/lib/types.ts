@@ -102,6 +102,12 @@ export interface Entity {
   status: "active" | "dormant" | "closed";
   /** Fixed assets: post last month's depreciation automatically with the daily run (lib/asset-auto.ts). On when undefined. */
   autoDepreciation?: boolean;
+  /**
+   * Fixed assets: ids of the cost accounts (subtype `fixed_asset`) the accountant keeps outside the asset register
+   * (construction in progress, an account followed elsewhere). The take-on of lib/asset-takeon.ts neither offers
+   * them nor counts them as missing from the register; reversible from the Assets page.
+   */
+  assetAccountsOutsideRegister?: string[];
   createdAt: string;
   updatedAt?: string;
   attachments?: Attachment[];
@@ -536,6 +542,22 @@ export interface FixedAsset {
   paymentId?: string;
   /** Registered automatically and not yet confirmed by an accountant (fiscal group, useful life, accounts): not depreciated and not disposable until it is. */
   needsReview?: boolean;
+  /**
+   * Take-on (lib/asset-takeon.ts): the asset was already in the ledger (QuickBooks history, opening balances) and was
+   * brought into the register from there. The schedule continues from what the previous books had depreciated
+   * (`depreciationSchedule` in lib/ledger.ts) instead of starting again at the acquisition date.
+   */
+  takeOn?: {
+    /** Accumulated depreciation the ledger already carried for this asset when it was brought in (IDR). */
+    accumulated: number;
+    /** Last month (YYYY-MM) depreciated in the previous books; undefined = never depreciated, the schedule starts at the acquisition month. */
+    through?: string;
+    /** "line": one purchase line of the ledger (`sourceJournalId` + `sourceLineIndex`); "account": the balance of the whole cost account. */
+    mode: "line" | "account";
+    /** When it was brought in (ISO timestamp), and by whom when a user did it. */
+    at: string;
+    byUserId?: string;
+  };
   disposalJournalId?: string;
   /** Result of the sale or disposal in IDR: proceeds − net book value after catch-up depreciation. Positive = gain, negative = loss. */
   disposalGainLoss?: number;

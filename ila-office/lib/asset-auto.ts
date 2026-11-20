@@ -8,7 +8,8 @@
  *    depreciation account, the usual expense account and a fiscal group guessed from the asset account. Until an
  *    accountant confirms it on the asset page it is neither depreciated nor disposable. One asset per journal line
  *    (`assetSourceKey`), so registering twice changes nothing. Never from opening / closing / fx / depreciation
- *    entries, QuickBooks history (`sourceId` "qbo:…") or a disposal entry. Voiding the document removes an asset
+ *    entries, QuickBooks history (`sourceId` "qbo:…") or a disposal entry: what a ledger already carried when it
+ *    arrived is brought in by the take-on instead (lib/asset-takeon.ts). Voiding the document removes an asset
  *    nothing was posted on and flags the others; editing a hand-written journal re-points, re-prices, removes or
  *    adds assets for the lines that changed (`planAssetSync`).
  * 2. Sale and disposal live in `disposeAsset` (lib/books.ts) with the figures of `disposalPreview` (lib/ledger.ts);
@@ -19,7 +20,7 @@
  * Everything above "Services" is pure (no database) and unit-tested in tests/asset-auto.test.ts.
  */
 import { db } from "./db";
-import { BooksError, createAccount, createAsset, entityAccounts, errorMessage, runDepreciation } from "./books";
+import { BooksError, createAccount, createAsset, depreciationStarted, entityAccounts, errorMessage, runDepreciation } from "./books";
 import { periodOf, prevPeriod, todayISO } from "./dates";
 import { defaultUsefulLifeMonths } from "./ledger";
 import { fmtMoney, roundMoney } from "./money";
@@ -189,9 +190,12 @@ export function planAssetSync<A extends Linked>(before: AssetDraft[], after: Ass
 
 // ---------- Pure: leaving the register, first automatic run ----------
 
-/** Nothing was posted or filed on the asset, so it can simply leave the register when its purchase is voided. */
-export function isUntouched(asset: Pick<FixedAsset, "status" | "accumulatedDepreciation" | "depreciatedThrough" | "attachments">): boolean {
-  return asset.status === "active" && !(asset.accumulatedDepreciation > 0) && !asset.depreciatedThrough && !asset.attachments?.length;
+/**
+ * Nothing was posted or filed on the asset from this register, so it can simply leave it when its purchase is voided.
+ * What an asset brought in from the ledger carried over from the previous books (`takeOn`) is not a posting of the register.
+ */
+export function isUntouched(asset: Pick<FixedAsset, "status" | "accumulatedDepreciation" | "depreciatedThrough" | "attachments" | "takeOn">): boolean {
+  return asset.status === "active" && !depreciationStarted(asset) && !asset.attachments?.length;
 }
 
 /**
@@ -199,10 +203,12 @@ export function isUntouched(asset: Pick<FixedAsset, "status" | "accumulatedDepre
  * posting would reach back before `period`. Such assets come from opening balances or migrated history, where the
  * ledger usually carries the earlier depreciation already; posting it again unasked would double it. One manual
  * "Run depreciation" from the Assets page, where the amount due is shown, starts them; assets registered from a
- * purchase are never held.
+ * purchase are never held. Nor is an asset brought in from the ledger (`takeOn`, lib/asset-takeon.ts): its
+ * confirmation states what the previous books had depreciated (through which month, or never), so the run knows
+ * where to continue.
  */
-export function heldForFirstRun(asset: Pick<FixedAsset, "status" | "needsReview" | "depreciatedThrough" | "sourceJournalId" | "acquisitionDate" | "fiscalGroup">, period: string): boolean {
-  return asset.status === "active" && !asset.needsReview && !asset.depreciatedThrough && !asset.sourceJournalId && asset.fiscalGroup !== "land" && periodOf(asset.acquisitionDate) < period;
+export function heldForFirstRun(asset: Pick<FixedAsset, "status" | "needsReview" | "depreciatedThrough" | "sourceJournalId" | "acquisitionDate" | "fiscalGroup" | "takeOn">, period: string): boolean {
+  return asset.status === "active" && !asset.needsReview && !asset.depreciatedThrough && !asset.sourceJournalId && !asset.takeOn && asset.fiscalGroup !== "land" && periodOf(asset.acquisitionDate) < period;
 }
 
 /** On unless the entity switched it off (Assets page). */
