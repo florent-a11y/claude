@@ -15,15 +15,31 @@ function workerUrl(): string {
 }
 
 /**
+ * A PDF that opens only with a password (banks often lock the e-statements they e-mail): `wrong` tells a missing
+ * password from one that was given and refused.
+ */
+export class PdfPasswordError extends Error {
+  constructor(public readonly wrong: boolean) {
+    super(wrong ? "That password does not open this PDF." : "This PDF is protected by a password.");
+    this.name = "PdfPasswordError";
+  }
+}
+
+/**
  * Text extraction for PDF bank statements: every text run with its position, grouped into visual lines.
  * Uses pdf.js (server only). Scanned statements have no text layer and come back with (almost) no tokens.
+ * `password` opens a protected file; it is handed to pdf.js for this read only and kept nowhere.
  */
-export async function extractPdfPages(data: Uint8Array | Buffer): Promise<PdfPage[]> {
+export async function extractPdfPages(data: Uint8Array | Buffer, opts: { password?: string } = {}): Promise<PdfPage[]> {
   // pdf.js needs a DOMMatrix at import time; hosted Node runtimes have none (see lib/dom-matrix.ts).
   ensureDomMatrix();
   const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
   if (!pdfjs.GlobalWorkerOptions.workerSrc) pdfjs.GlobalWorkerOptions.workerSrc = workerUrl();
-  const doc = await pdfjs.getDocument({ data: new Uint8Array(data), isEvalSupported: false, useSystemFonts: true, disableFontFace: true, verbosity: 0 }).promise;
+  const doc = await pdfjs.getDocument({ data: new Uint8Array(data), password: opts.password || undefined, isEvalSupported: false, useSystemFonts: true, disableFontFace: true, verbosity: 0 }).promise.catch((e: unknown) => {
+    // pdf.js: PasswordException, code 1 = a password is needed, 2 = the one given is wrong.
+    if (e && typeof e === "object" && (e as { name?: string }).name === "PasswordException") throw new PdfPasswordError((e as { code?: number }).code === 2 || Boolean(opts.password));
+    throw e;
+  });
   const pages: PdfPage[] = [];
   try {
     for (let p = 1; p <= doc.numPages; p++) {
