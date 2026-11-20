@@ -345,6 +345,12 @@ export function MigrationWizard({ targets, statuses, initialTarget }: { targets:
               </tbody>
             </table>
           </div>
+          {result.takeOn && (result.takeOn.created > 0 || result.takeOn.problems.length > 0) && (
+            <p className="mt-3 text-sm">
+              {result.takeOn.created > 0 && <>{result.takeOn.created} fixed asset{result.takeOn.created === 1 ? "" : "s"} brought into the Assets register for review. <Link className="underline" href={`/books/${result.entityId}/assets?show=review`}>Review {result.takeOn.created === 1 ? "it" : "them"}</Link> </>}
+              {result.takeOn.problems.length > 0 && <span className="text-amber-700">Fixed assets not brought in ({result.takeOn.problems.join("; ")}): see Books › Assets.</span>}
+            </p>
+          )}
           <div className="mt-4">{result.check ? <CheckPanel check={result.check} /> : !result.failed && <Notice tone="blue">No Trial Balance was given, so the result is not checked against QuickBooks yet. Upload Reports › Trial Balance (as of the last day you used QuickBooks) for this company at any time to run the check.</Notice>}</div>
         </Card>
       )}

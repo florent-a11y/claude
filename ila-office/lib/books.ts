@@ -518,6 +518,36 @@ export interface AssetInput {
   fiscalGroup: FixedAsset["fiscalGroup"]; method?: FixedAsset["method"]; usefulLifeMonths?: number; billId?: string;
   /** Set by lib/asset-auto.ts for an asset registered from a posted purchase: it waits for review and may still lack its depreciation accounts. */
   sourceJournalId?: string; sourceLineIndex?: number; paymentId?: string; needsReview?: boolean; notes?: string;
+  /**
+   * Set by lib/asset-takeon-services.ts for an asset the ledger already carried (QuickBooks history, opening balances):
+   * the accumulated depreciation the previous books posted and the last month they covered. The register starts from
+   * there (`accumulatedDepreciation`, `depreciatedThrough`) and posts only the months after it.
+   */
+  takeOn?: { accumulated: number; through?: string; mode: "line" | "account"; byUserId?: string };
+}
+
+const ISO_DAY = /^\d{4}-\d{2}-\d{2}$/;
+const ISO_MONTH = /^\d{4}-\d{2}$/;
+
+/**
+ * What the previous books had depreciated on an asset brought in from the ledger, checked against the asset: the
+ * amount between zero and cost less salvage value, the month not before the acquisition month, and no amount without
+ * the month it runs through (the schedule could not continue from it).
+ */
+function checkedTakeOn(p: { accumulated: number; through?: string; cost: number; salvageValue: number; acquisitionDate: string }): { accumulated: number; through?: string } {
+  const accumulated = roundMoney(p.accumulated || 0);
+  const through = p.through?.trim() || undefined;
+  const room = roundMoney(p.cost - p.salvageValue);
+  if (accumulated < 0 || accumulated > room + 0.005) throw new BooksError(`The accumulated depreciation to date must be between zero and the cost less the salvage value (${fmtMoney(room)}).`);
+  if (through && !ISO_MONTH.test(through)) throw new BooksError("“Depreciated through” must be a month (YYYY-MM).");
+  if (through && through < periodOf(p.acquisitionDate)) throw new BooksError(`“Depreciated through” (${through}) cannot be before the acquisition month (${periodOf(p.acquisitionDate)}).`);
+  if (!through && accumulated >= 0.005) throw new BooksError("Enter the month the asset was depreciated through, or set the accumulated depreciation to zero when it was never depreciated.");
+  return { accumulated: Math.min(accumulated, room), through };
+}
+
+/** Nothing is left to depreciate: everything but land with a useful life whose accumulated depreciation reached cost less salvage value. */
+function fullyDepreciated(a: Pick<FixedAsset, "fiscalGroup" | "usefulLifeMonths" | "cost" | "salvageValue">, accumulated: number): boolean {
+  return a.fiscalGroup !== "land" && a.usefulLifeMonths > 0 && accumulated > roundMoney(a.cost - a.salvageValue) - 0.005;
 }
 
 export async function createAsset(entityId: string, input: AssetInput): Promise<FixedAsset> {
@@ -525,19 +555,29 @@ export async function createAsset(entityId: string, input: AssetInput): Promise<
   for (const id of [input.assetAccountId, input.accumDeprAccountId, input.deprExpenseAccountId]) if (id || !input.needsReview) accountById(accounts, id);
   if (input.cost <= 0) throw new BooksError("Cost must be positive.");
   const usefulLifeMonths = input.fiscalGroup === "land" ? 0 : (input.usefulLifeMonths && input.usefulLifeMonths > 0 ? input.usefulLifeMonths : defaultUsefulLifeMonths(input.fiscalGroup));
+  const cost = roundMoney(input.cost);
+  const salvageValue = roundMoney(input.salvageValue ?? 0);
+  const now = new Date().toISOString();
+  const carried = input.takeOn ? checkedTakeOn({ ...input.takeOn, cost, salvageValue, acquisitionDate: input.acquisitionDate }) : undefined;
   const asset: FixedAsset = {
     id: db.newId(), entityId, name: input.name, assetAccountId: input.assetAccountId, accumDeprAccountId: input.accumDeprAccountId, deprExpenseAccountId: input.deprExpenseAccountId,
-    acquisitionDate: input.acquisitionDate, cost: roundMoney(input.cost), salvageValue: roundMoney(input.salvageValue ?? 0), fiscalGroup: input.fiscalGroup,
-    method: input.method ?? "straight_line", usefulLifeMonths, accumulatedDepreciation: 0, status: "active", billId: input.billId,
+    acquisitionDate: input.acquisitionDate, cost, salvageValue, fiscalGroup: input.fiscalGroup,
+    method: input.method ?? "straight_line", usefulLifeMonths, accumulatedDepreciation: carried?.accumulated ?? 0, depreciatedThrough: carried?.through, status: "active", billId: input.billId,
     sourceJournalId: input.sourceJournalId, sourceLineIndex: input.sourceLineIndex, paymentId: input.paymentId, needsReview: input.needsReview || undefined, notes: input.notes?.trim() || undefined,
-    createdAt: new Date().toISOString(),
+    takeOn: carried && input.takeOn ? { ...carried, mode: input.takeOn.mode, at: now, byUserId: input.takeOn.byUserId } : undefined,
+    createdAt: now,
   };
   await db.insert("fixed_assets", asset);
   return asset;
 }
 
-/** Depreciation has been posted on the asset: its schedule and its name (printed on those entries) are fixed from then on. */
-export function depreciationStarted(asset: Pick<FixedAsset, "accumulatedDepreciation" | "depreciatedThrough">): boolean {
+/**
+ * Depreciation has been posted on the asset from this register: its schedule and its name (printed on those entries)
+ * are fixed from then on. An asset brought in from the ledger starts with what the previous books had posted
+ * (`takeOn`): only what the register added since counts.
+ */
+export function depreciationStarted(asset: Pick<FixedAsset, "accumulatedDepreciation" | "depreciatedThrough" | "takeOn">): boolean {
+  if (asset.takeOn) return asset.accumulatedDepreciation > asset.takeOn.accumulated + 0.005 || (asset.depreciatedThrough ?? "") > (asset.takeOn.through ?? "");
   return asset.accumulatedDepreciation > 0 || Boolean(asset.depreciatedThrough);
 }
 
@@ -546,12 +586,23 @@ export interface AssetUpdate {
   assetAccountId?: string; accumDeprAccountId?: string; deprExpenseAccountId?: string; notes?: string;
   /** The accountant has checked the fiscal group, the useful life and the accounts: clears `needsReview`, so depreciation starts. */
   confirm?: boolean;
+  /**
+   * Only for an asset brought in from the ledger (`takeOn`) that still waits for review: what came from the ledger can
+   * be corrected before it is confirmed. The journal date is often the migration date, not the purchase date, and an
+   * asset standing for a whole account may need its cost adjusted.
+   */
+  acquisitionDate?: string; cost?: number;
+  /** Accumulated depreciation the previous books carried, and the last month they depreciated (YYYY-MM); `null` = never depreciated: the schedule starts at the acquisition month. */
+  takeOnAccumulated?: number; takeOnThrough?: string | null;
 }
 
 /**
  * Corrects or confirms an asset. What drives the schedule (fiscal group, method, useful life, salvage value) and the
- * name carried by the depreciation entries can change only while nothing has been depreciated; the accounts and the
- * notes until the asset is disposed of. Cost and acquisition date are not edited here: they come from the purchase.
+ * name carried by the depreciation entries can change only while nothing has been depreciated from the register; the
+ * accounts and the notes until the asset is disposed of. Cost and acquisition date are not edited here: they come
+ * from the purchase. The exception is an asset brought in from the ledger (`takeOn`) that waits for review: its cost,
+ * acquisition date, accumulated depreciation to date and "depreciated through" month are confirmed here too, and
+ * lock once it is confirmed.
  */
 export async function updateAsset(entityId: string, id: string, patch: AssetUpdate): Promise<FixedAsset> {
   const [accounts, asset] = await Promise.all([entityAccounts(entityId), db.get("fixed_assets", id)]);
@@ -565,8 +616,19 @@ export async function updateAsset(entityId: string, id: string, patch: AssetUpda
   // A new group brings its own default life unless one is given with it.
   const life = patch.usefulLifeMonths ?? (fiscalGroup === asset.fiscalGroup ? asset.usefulLifeMonths : 0);
   const usefulLifeMonths = land ? 0 : life > 0 ? Math.trunc(life) : defaultUsefulLifeMonths(fiscalGroup);
+  const reviewing = asset.takeOn && asset.needsReview ? asset.takeOn : undefined;
+  const cost = patch.cost === undefined ? asset.cost : roundMoney(patch.cost);
+  const acquisitionDate = patch.acquisitionDate ?? asset.acquisitionDate;
+  const carriedChange = (patch.takeOnAccumulated !== undefined && Math.abs(roundMoney(patch.takeOnAccumulated) - (asset.takeOn?.accumulated ?? 0)) >= 0.005) || (patch.takeOnThrough !== undefined && (patch.takeOnThrough || undefined) !== asset.takeOn?.through);
+  if (!reviewing && (Math.abs(cost - asset.cost) >= 0.005 || acquisitionDate !== asset.acquisitionDate || carriedChange)) {
+    throw new BooksError(asset.takeOn ? "This asset is confirmed: its cost, acquisition date and the depreciation taken over from the previous books can no longer change." : "Cost and acquisition date come from the purchase and are not edited here.");
+  }
+  if (cost <= 0) throw new BooksError("Cost must be positive.");
+  if (!ISO_DAY.test(acquisitionDate)) throw new BooksError("Acquisition date is required.");
   const salvageValue = roundMoney(patch.salvageValue ?? asset.salvageValue);
-  if (salvageValue < 0 || salvageValue > asset.cost) throw new BooksError("The salvage value must be between zero and the cost.");
+  if (salvageValue < 0 || salvageValue > cost) throw new BooksError("The salvage value must be between zero and the cost.");
+  // A confirmed take-on already carries depreciation before the register posts any: the salvage value must leave room for it.
+  if (!reviewing && asset.takeOn && asset.accumulatedDepreciation > roundMoney(cost - salvageValue) + 0.005) throw new BooksError(`The salvage value cannot be more than the cost less what is already depreciated (${fmtMoney(roundMoney(cost - asset.accumulatedDepreciation))}).`);
   const fixed = name !== asset.name || fiscalGroup !== asset.fiscalGroup || method !== asset.method || usefulLifeMonths !== asset.usefulLifeMonths || Math.abs(salvageValue - asset.salvageValue) >= 0.005;
   if (fixed && depreciationStarted(asset)) throw new BooksError("Depreciation is already posted on this asset: its name, fiscal group, method, useful life and salvage value can no longer change.");
   const ids = { assetAccountId: patch.assetAccountId ?? asset.assetAccountId, accumDeprAccountId: patch.accumDeprAccountId ?? asset.accumDeprAccountId, deprExpenseAccountId: patch.deprExpenseAccountId ?? asset.deprExpenseAccountId };
@@ -574,8 +636,20 @@ export async function updateAsset(entityId: string, id: string, patch: AssetUpda
     if (!accountId) throw new BooksError(`Choose the ${key === "assetAccountId" ? "asset (cost)" : key === "accumDeprAccountId" ? "accumulated depreciation" : "depreciation expense"} account.`);
     accountById(accounts, accountId);
   }
+  // What the previous books had depreciated, as corrected on review: the register starts from it.
+  let carried: Partial<FixedAsset> = {};
+  if (reviewing) {
+    const through = patch.takeOnThrough === undefined ? reviewing.through : patch.takeOnThrough || undefined;
+    // "Never depreciated" (no month) without an amount given clears the amount taken over with it.
+    const amount = patch.takeOnAccumulated ?? (patch.takeOnThrough === null ? 0 : reviewing.accumulated);
+    const checked = checkedTakeOn({ accumulated: amount, through, cost, salvageValue, acquisitionDate });
+    carried = {
+      cost, acquisitionDate, takeOn: { ...reviewing, ...checked }, accumulatedDepreciation: checked.accumulated, depreciatedThrough: checked.through,
+      status: fullyDepreciated({ fiscalGroup, usefulLifeMonths, cost, salvageValue }, checked.accumulated) ? "fully_depreciated" : "active",
+    };
+  }
   return (await db.update("fixed_assets", id, {
-    name, fiscalGroup, method, usefulLifeMonths, salvageValue, ...ids,
+    name, fiscalGroup, method, usefulLifeMonths, salvageValue, ...ids, ...carried,
     notes: patch.notes === undefined ? asset.notes : patch.notes.trim() || undefined, needsReview: patch.confirm ? false : asset.needsReview,
   }))!;
 }
@@ -594,7 +668,8 @@ export async function deleteAsset(entityId: string, id: string): Promise<void> {
  * day). Idempotent: assets already depreciated through that period are skipped; skipped months are caught up.
  * Assets waiting for review (`needsReview`) and assets acquired after the period are left out. The automatic
  * monthly run (`opts.automatic`, lib/asset-auto.ts) also holds back the hand-registered assets it must not start on
- * its own and returns them under `held`.
+ * its own and returns them under `held`. An asset brought in from the ledger (`takeOn`) is posted only for the months
+ * after the one the previous books depreciated it through (`depreciationSchedule` continues from there), and is never held.
  */
 export async function runDepreciation(entityId: string, period: string, userId?: string, opts: { automatic?: boolean } = {}): Promise<{ journal?: JournalEntry; runs: Array<{ asset: FixedAsset; amount: number; periods: string[] }>; held: FixedAsset[] }> {
   const [entity, accounts, assets] = await Promise.all([loadEntity(entityId), entityAccounts(entityId), db.list("fixed_assets", { where: { entityId, status: "active" } })]);

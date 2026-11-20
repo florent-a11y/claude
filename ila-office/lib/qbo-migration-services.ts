@@ -13,6 +13,8 @@
  * 4. Proof: the app's trial balance at the date of the QuickBooks Trial Balance file, per account, against the
  *    QuickBooks figures; kept with the migration status (`settings` row `qbo_migration:<entityId>`) together with
  *    the QuickBooks figures, so the check can be run again later.
+ * 5. Fixed assets: once the ledger is written, the fixed assets it carries are brought into the Assets register for
+ *    review, with their accumulated depreciation (lib/asset-takeon-services.ts); a problem there never fails the run.
  */
 import { createHash } from "node:crypto";
 import { gunzipSync, gzipSync } from "node:zlib";
@@ -433,12 +435,15 @@ export interface MigrationResult {
   failed: boolean;
   check?: TbCheck;
   migration: QboMigration;
+  /** Fixed assets of the migrated ledger brought into the Assets register for review (present when ledger entries were committed). */
+  takeOn?: { created: number; problems: string[] };
 }
 
 /**
  * Writes the pending migration of `target` into `entity` (which exists: the caller creates the books of a company
  * without books first). The plan is rebuilt from the stored files against the store, committed step by step, then
- * checked against the trial balance; the status is saved and, when every step ran, the uploads are deleted.
+ * checked against the trial balance; the status is saved and, when every step ran, the uploads are deleted. The fixed
+ * assets the ledger now carries are then brought into the Assets register (`takeOnAssets`: idempotent, for review).
  */
 export async function runMigration(user: { id: string; name?: string }, target: string, entity: Entity): Promise<MigrationResult> {
   const draft = await loadWizard(user.id, target);
@@ -471,5 +476,17 @@ export async function runMigration(user: { id: string; name?: string }, target: 
   let check: TbCheck | undefined;
   if (!failed && migration.trialBalance) { const r = await checkMigration(entity, user.id); if (r) { migration = r.migration; check = trimCheck(r.check); } }
   if (!failed) await discardWizard(user.id, target);
-  return { entityId: entity.id, entityName: entity.name, steps, failed, check, migration };
+  // The migrated ledger carries fixed assets and their accumulated depreciation: they go into the Assets register,
+  // flagged for review, so depreciation continues from there. Only after a step that writes the ledger was
+  // committed, and never at the cost of the migration: a failure is reported in the result.
+  let takeOn: MigrationResult["takeOn"];
+  if (steps.some((s) => !s.failed && (s.key === "journal" || s.key === "opening"))) {
+    try {
+      const r = await (await import("./asset-takeon-services")).takeOnAssets(entity.id, {}, user.id);
+      takeOn = { created: r.created.length, problems: r.problems.map((p) => `${p.account}: ${p.message}`) };
+    } catch (e) {
+      takeOn = { created: 0, problems: [e instanceof Error ? e.message : String(e)] };
+    }
+  }
+  return { entityId: entity.id, entityName: entity.name, steps, failed, check, migration, takeOn };
 }

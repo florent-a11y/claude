@@ -3,6 +3,9 @@ import { z } from "zod";
 import { requirePermission } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { createAsset, updateAsset, deleteAsset, runDepreciation, disposeAsset } from "@/lib/books";
+import { TAKE_ON_CHOICES, takeOnNote, type TakeOnChoice } from "@/lib/asset-takeon";
+import { setAssetAccountOutside, takeOnAssets } from "@/lib/asset-takeon-services";
+import { nextPeriod, periodLabel } from "@/lib/dates";
 import { fmtMoney, roundMoney } from "@/lib/money";
 import { bool, num, str } from "@/lib/util";
 import { act, base, withFlash } from "../shared";
@@ -39,25 +42,37 @@ const updateSchema = z.object({
   name: z.string().min(1, "Name is required").max(160).optional(), fiscalGroup: z.enum(GROUPS).optional(), method: z.enum(METHODS).optional(),
   usefulLifeMonths: z.number().int().min(0).optional(), salvageValue: z.number().min(0).optional(),
   assetAccountId: z.string().optional(), accumDeprAccountId: z.string().optional(), deprExpenseAccountId: z.string().optional(), notes: z.string().max(2000).optional(),
+  // An asset brought in from the ledger, while it waits for review (the form sends them only then).
+  acquisitionDate: z.string().regex(ISO_DATE, "Acquisition date is required").optional(), cost: z.number().positive("Cost must be positive").optional(),
+  takeOnAccumulated: z.number().min(0, "The accumulated depreciation cannot be negative").optional(), takeOnThrough: z.string().regex(/^\d{4}-\d{2}$/, "“Depreciated through” must be a month").nullable().optional(),
 });
 
 /**
  * Saves the asset form of the detail page. With `confirm` it also clears "needs review", which lets depreciation
- * start. Fields the form shows locked (depreciation already posted) are not sent and stay as they are.
+ * start. Fields the form shows locked (depreciation already posted) are not sent and stay as they are. The review of
+ * an asset brought in from the ledger (`takeOnReview`) also carries its cost, its acquisition date and what the
+ * previous books had depreciated: an amount and the month it runs through, or "never depreciated".
  */
 export async function updateAssetAction(entityId: string, assetId: string, fd: FormData) {
   const to = `${base(entityId)}/assets/${assetId}${keepQuery(fd)}`;
   await act(entityId, async () => {
     await requirePermission("books:write");
     const confirm = bool(fd, "confirm");
+    const takeOn = bool(fd, "takeOnReview");
+    const never = bool(fd, "neverDepreciated");
     const v = updateSchema.parse({
+      acquisitionDate: takeOn ? str(fd, "acquisitionDate") : undefined, cost: takeOn && fd.has("cost") ? num(fd, "cost", 0) : undefined,
+      takeOnAccumulated: takeOn ? (never ? 0 : num(fd, "takeOnAccumulated", 0)) : undefined, takeOnThrough: takeOn ? (never ? null : str(fd, "takeOnThrough") ?? null) : undefined,
       name: str(fd, "name"), fiscalGroup: str(fd, "fiscalGroup"), method: str(fd, "method"), usefulLifeMonths: fd.has("usefulLifeMonths") ? num(fd, "usefulLifeMonths", 0) : undefined,
       salvageValue: fd.has("salvageValue") ? num(fd, "salvageValue", 0) : undefined, assetAccountId: str(fd, "assetAccountId"), accumDeprAccountId: str(fd, "accumDeprAccountId"), deprExpenseAccountId: str(fd, "deprExpenseAccountId"),
       // An emptied box clears the notes; a form without the box leaves them.
       notes: fd.has("notes") ? str(fd, "notes") ?? "" : undefined,
     });
     const asset = await updateAsset(entityId, assetId, { ...v, confirm });
-    return withFlash(to, !confirm ? "Asset updated" : asset.fiscalGroup === "land" ? "Asset confirmed (land is not depreciated)" : "Asset confirmed: the next depreciation run posts it from its acquisition month");
+    return withFlash(to, !confirm ? "Asset updated" : asset.fiscalGroup === "land" ? "Asset confirmed (land is not depreciated)"
+      : asset.status === "fully_depreciated" ? "Asset confirmed: it is fully depreciated, nothing more is posted on it"
+      : asset.takeOn?.through ? `Asset confirmed: depreciation continues from ${periodLabel(nextPeriod(asset.takeOn.through))}, after what the previous books posted`
+      : "Asset confirmed: the next depreciation run posts it from its acquisition month");
   }, to);
 }
 
@@ -78,6 +93,41 @@ export async function runDepreciationAction(entityId: string, fd: FormData) {
     const r = await runDepreciation(entityId, period, user.id);
     const total = roundMoney(r.runs.reduce((s, x) => s + x.amount, 0));
     return `${to}?ok=${encodeURIComponent(r.journal ? `Depreciation through ${period} posted: ${r.journal.number}, ${r.runs.length} asset(s), IDR ${total.toLocaleString("en-US")}` : `Nothing to post: all assets already depreciated through ${period}`)}`;
+  }, to);
+}
+
+/**
+ * "Bring into the register" on the Assets page: the fixed assets the ledger carries and the register lacks become
+ * assets waiting for review (lib/asset-takeon-services.ts). One select per account (`mode:<accountId>`): one asset
+ * per purchase line, one asset for the account, or leave the account out of the register.
+ */
+export async function takeOnAction(entityId: string, fd: FormData) {
+  const to = `${base(entityId)}/assets`;
+  await act(entityId, async () => {
+    const user = await requirePermission("books:write");
+    const choices: Record<string, TakeOnChoice> = {};
+    for (const [key, value] of fd.entries()) {
+      if (key.startsWith("mode:") && typeof value === "string" && (TAKE_ON_CHOICES as readonly string[]).includes(value)) choices[key.slice(5)] = value as TakeOnChoice;
+    }
+    const r = await takeOnAssets(entityId, choices, user.id);
+    const parts = [
+      takeOnNote(r.created.length) && `${takeOnNote(r.created.length)}: check each one, then confirm`,
+      r.leftOut.length ? `${r.leftOut.length} account${r.leftOut.length === 1 ? "" : "s"} left out of the register` : "",
+      ...r.problems.map((p) => `${p.account}: ${p.message}`),
+    ].filter(Boolean);
+    if (r.created.length === 0 && r.leftOut.length === 0 && r.problems.length) throw new Error(parts.join("; "));
+    return withFlash(r.created.length ? `${to}?show=review` : to, parts.length ? parts.join("; ") : "Nothing to bring in: the register already carries what the ledger does");
+  }, to);
+}
+
+/** Keeps a cost account outside the register (`outside` = 1), or brings it back so it is offered again. */
+export async function setAssetAccountOutsideAction(entityId: string, accountId: string, fd: FormData) {
+  const to = `${base(entityId)}/assets`;
+  await act(entityId, async () => {
+    await requirePermission("books:write");
+    const outside = bool(fd, "outside");
+    await setAssetAccountOutside(entityId, accountId, outside);
+    return withFlash(to, outside ? "Account left out of the asset register" : "Account back in: its balance is offered again below");
   }, to);
 }
 
