@@ -1,7 +1,7 @@
 "use server";
 import { requirePermission } from "@/lib/auth";
 import { removeInvoiceLogo, resetInvoiceSettings, saveInvoiceSettings, setInvoiceLogo } from "@/lib/invoice-settings-services";
-import type { InvoiceLanguage, LogoSize } from "@/lib/invoice-settings";
+import type { InvoiceLanguage, LogoSize, NotesSize } from "@/lib/invoice-settings";
 import { bool, num } from "@/lib/util";
 import { act, base, withFlash } from "../../shared";
 
@@ -35,6 +35,7 @@ export async function saveInvoiceSettingsAction(entityId: string, fd: FormData) 
       dueDays: num(fd, "dueDays", 3), dueDaysKind: raw(fd, "dueDaysKind") === "calendar" ? "calendar" : "working", showQty: bool(fd, "showQty"),
       settlementNotes: autoText(fd, "settlementNotes"), defaultNotes: raw(fd, "defaultNotes"), footerText: autoText(fd, "footerText"),
       signature: { show: bool(fd, "signatureShow"), name: raw(fd, "signatureName"), title: raw(fd, "signatureTitle") },
+      notesSize: raw(fd, "notesSize") as NotesSize,
     }, user.id);
     return withFlash(to, logo ? "Invoice settings and logo saved" : "Invoice settings saved");
   }, to);

@@ -441,6 +441,8 @@ export interface InvoiceSettings {
   footerText?: string;
   /** Signature block at the bottom right. */
   signature?: { show: boolean; name?: string; title?: string };
+  /** Text size of the settlement notes and the notes at the bottom of the invoice; "small" when undefined. */
+  notesSize?: "xsmall" | "small" | "normal";
   updatedAt?: string;
   updatedByUserId?: string;
 }
