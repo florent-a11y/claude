@@ -7,7 +7,8 @@ import { db } from "./db";
 import { assertPeriodOpen, postJournal, voidJournal, postedEntries } from "./posting";
 import { accountBalances, findByTag, findByCode } from "./balances";
 import { normalBalanceOf } from "./coa";
-import { addWorkingDays, lastDayOfMonth, periodOf, todayISO } from "./dates";
+import { lastDayOfMonth, periodOf, todayISO } from "./dates";
+import { dueDateFor, resolveInvoiceSettings } from "./invoice-settings";
 import { fmtMoney, roundMoney, toIDR } from "./money";
 import { sha256 } from "./util";
 import {
@@ -102,18 +103,25 @@ export interface InvoiceInput {
   notes?: string;
   paymentInstructions?: string;
   fakturNumber?: string;
+  /** The unit prices and the discount include PPN (PKP entities only; see `invoiceTotals`). Exclusive when absent. */
+  pricesIncludeTax?: boolean;
 }
 
 function buildInvoice(entity: Entity, accounts: Account[], input: InvoiceInput, base: Pick<Invoice, "id" | "number" | "createdAt" | "amountPaid" | "status" | "journalId">): Invoice {
   if (input.lines.length === 0) throw new BooksError("An invoice needs at least one line.");
-  const totals = invoiceTotals(input.lines, { discount: input.discount, pkp: entity.tax.pkp, ppnRate: entity.tax.ppnRate, currency: input.currency });
+  const totals = invoiceTotals(input.lines, { discount: input.discount, pkp: entity.tax.pkp, ppnRate: entity.tax.ppnRate, currency: input.currency, pricesIncludeTax: input.pricesIncludeTax });
+  const inclusive = totals.pricesIncludeTax;
   const lines: InvoiceLine[] = input.lines.map((l, i) => {
     accountById(accounts, l.accountId);
-    return { id: db.newId(), serviceId: l.serviceId, description: l.description, qty: l.qty, unitPrice: l.unitPrice, amount: totals.lineAmounts[i], accountId: l.accountId, taxCode: l.taxCode };
+    return { id: db.newId(), serviceId: l.serviceId, description: l.description, qty: l.qty, unitPrice: l.unitPrice, amount: totals.lineAmounts[i], grossAmount: inclusive ? totals.lineGross[i] : undefined, accountId: l.accountId, taxCode: l.taxCode };
   });
   return {
-    ...base, entityId: entity.id, customer: input.customer, date: input.date, dueDate: input.dueDate ?? addWorkingDays(input.date, 3), currency: input.currency, fxRate: input.currency === "IDR" ? 1 : input.fxRate,
-    lines, subtotal: totals.subtotal, discount: totals.discount, ppnAmount: totals.ppnAmount, total: totals.total, notes: input.notes, paymentInstructions: input.paymentInstructions,
+    // Without a due date the entity's payment term applies (invoice settings; 3 working days when none is set).
+    ...base, entityId: entity.id, customer: input.customer, date: input.date, dueDate: input.dueDate ?? dueDateFor(input.date, resolveInvoiceSettings(entity)), currency: input.currency, fxRate: input.currency === "IDR" ? 1 : input.fxRate,
+    lines, subtotal: totals.subtotal, discount: totals.discount, ppnAmount: totals.ppnAmount, total: totals.total,
+    pricesIncludeTax: inclusive || undefined, grossSubtotal: inclusive ? totals.grossSubtotal : undefined, grossDiscount: inclusive ? totals.grossDiscount : undefined,
+    taxableBase: entity.tax.pkp ? totals.taxableBase : undefined,
+    notes: input.notes, paymentInstructions: input.paymentInstructions,
     fakturNumber: input.fakturNumber, updatedAt: new Date().toISOString(),
   };
 }

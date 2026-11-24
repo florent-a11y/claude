@@ -110,7 +110,9 @@ export function templateFromInvoice(inv: Invoice): RecurringDraft {
   const payload: InvoicePayload = {
     customer: inv.customer, currency: inv.currency, fxRate: inv.fxRate,
     lines: inv.lines.map((l) => ({ description: l.description, qty: l.qty, unitPrice: l.unitPrice, accountId: l.accountId, taxCode: l.taxCode, serviceId: l.serviceId })),
-    discount: inv.discount || undefined, notes: inv.notes, paymentInstructions: inv.paymentInstructions,
+    // The discount as entered: before PPN is taken out when the prices include it.
+    discount: (inv.pricesIncludeTax ? inv.grossDiscount ?? inv.discount : inv.discount) || undefined, notes: inv.notes, paymentInstructions: inv.paymentInstructions,
+    pricesIncludeTax: inv.pricesIncludeTax || undefined,
   };
   return draft("invoice", inv, `Invoice · ${inv.customer.name}`, payload, { autoPost: true, dueDays: Math.max(0, daysBetween(inv.date, inv.dueDate)) });
 }

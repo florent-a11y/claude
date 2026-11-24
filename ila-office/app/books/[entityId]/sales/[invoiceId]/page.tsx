@@ -15,6 +15,7 @@ import { postInvoiceAction, receiptAction, voidInvoiceAction, voidPaymentAction 
 import { SendPanel } from "./SendPanel";
 import { defaultPaymentInstructions } from "../_data";
 import { fullName } from "@/lib/util";
+import { resolveInvoiceSettings } from "@/lib/invoice-settings";
 import { FxRateField } from "@/components/FxRateField";
 
 export const dynamic = "force-dynamic";
@@ -48,6 +49,9 @@ export default async function InvoicePage({ params, searchParams }: { params: Pr
   const b = base(entityId);
   const here = `${b}/sales/${invoice.id}`;
   const ccy = invoice.currency;
+  // Prices that include PPN: the lines, the subtotal and the discount read as they were entered and are printed.
+  const inclusive = Boolean(invoice.pricesIncludeTax);
+  const settings = resolveInvoiceSettings(entity);
   const sameCcyBanks = banks.filter((x) => x.currency === ccy);
   const bankOpts = (sameCcyBanks.length ? sameCcyBanks : banks).map((x) => ({ value: x.id, label: `${x.name} (${x.currency})` }));
   return (
@@ -56,11 +60,12 @@ export default async function InvoicePage({ params, searchParams }: { params: Pr
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="text-xs text-ink-500"><Link href={`${b}/sales`} className="hover:underline">Sales</Link> / {invoice.number}</p>
-          <h2 className="text-xl font-bold">{invoice.number} <Badge tone={statusTone(display)}>{display}</Badge></h2>
+          <h2 className="text-xl font-bold">{invoice.number} <Badge tone={statusTone(display)}>{display}</Badge>{inclusive && <> <Badge tone="blue" title="The unit prices include PPN: revenue is posted net of it">prices include {settings.taxLabel}</Badge></>}</h2>
           <p className="text-sm text-ink-700">{invoice.customer.name} · {fmtDate(invoice.date)} · due {fmtDate(invoice.dueDate)}</p>
         </div>
         <div className="flex flex-wrap gap-2 no-print">
           <Link href={`${here}/print`} className="btn-secondary">Print / PDF</Link>
+          {writable && <Link href={`${b}/sales/settings`} className="btn-secondary" title="Colours, logo, tax, settlement notes">Invoice settings</Link>}
           {writable && <Link href={`${b}/recurring/new?from=invoice:${invoice.id}`} className="btn-secondary" title="Repeat this invoice every week, month, quarter or year">Make recurring</Link>}
           {writable && invoice.status === "draft" && <Link href={`${here}/edit`} className="btn-secondary">Edit</Link>}
           {writable && invoice.status === "draft" && <ConfirmForm action={postInvoiceAction.bind(null, entityId, invoice.id)} message={`Post ${invoice.number}? This books Dr AR / Cr revenue${invoice.ppnAmount ? " / Cr PPN output" : ""} dated ${invoice.date}.`}><button className="btn-primary" type="submit">Post invoice</button></ConfirmForm>}
@@ -72,7 +77,7 @@ export default async function InvoicePage({ params, searchParams }: { params: Pr
           <TableCard>
             <table className="table table-data min-w-[760px]">
               <Cols widths={[undefined, 56, 130, 170, 70, 136]} />
-              <thead><tr><th>Description</th><th className="num">Qty</th><th className="num">Unit price</th><th>Account</th><th>Tax</th><th className="num">Amount</th></tr></thead>
+              <thead><tr><th>Description</th><th className="num">Qty</th><th className="num">Unit price</th><th>Account</th><th>Tax</th><th className="num">Amount{inclusive ? " (incl. tax)" : ""}</th></tr></thead>
               <tbody>
                 {invoice.lines.map((l) => (
                   <tr key={l.id}>
@@ -81,15 +86,16 @@ export default async function InvoicePage({ params, searchParams }: { params: Pr
                     <td className="num"><span className="money">{fmtMoney(l.unitPrice, ccy)}</span></td>
                     <td><span className="cell text-xs" title={accName(l.accountId)}>{accName(l.accountId)}</span></td>
                     <td className="whitespace-nowrap text-xs">{l.taxCode === "ppn" ? "PPN" : l.taxCode === "out_of_scope" ? "no PPN" : <Dash />}</td>
-                    <td className="num"><span className="money">{fmtMoney(l.amount, ccy)}</span></td>
+                    <td className="num"><span className="money">{fmtMoney(inclusive ? l.grossAmount ?? l.amount : l.amount, ccy)}</span>{inclusive && l.taxCode === "ppn" && <span className="cell-sub" title="Revenue posted for this line, net of PPN">net {fmtMoney(l.amount, ccy)}</span>}</td>
                   </tr>
                 ))}
               </tbody>
               <tfoot>
-                <tr><td colSpan={5} className="text-right !font-normal text-ink-500">Subtotal</td><td className="num !font-normal">{fmtMoney(invoice.subtotal, ccy)}</td></tr>
-                {invoice.discount > 0 && <tr><td colSpan={5} className="text-right !font-normal text-ink-500">Discount</td><td className="num !font-normal">−{fmtMoney(invoice.discount, ccy)}</td></tr>}
-                {invoice.ppnAmount > 0 && <tr><td colSpan={5} className="text-right !font-normal text-ink-500">PPN</td><td className="num !font-normal">{fmtMoney(invoice.ppnAmount, ccy)}</td></tr>}
+                <tr><td colSpan={5} className="text-right !font-normal text-ink-500">Subtotal</td><td className="num !font-normal">{fmtMoney(inclusive ? invoice.grossSubtotal ?? invoice.subtotal : invoice.subtotal, ccy)}</td></tr>
+                {invoice.discount > 0 && <tr><td colSpan={5} className="text-right !font-normal text-ink-500">Discount</td><td className="num !font-normal">−{fmtMoney(inclusive ? invoice.grossDiscount ?? invoice.discount : invoice.discount, ccy)}</td></tr>}
+                {!inclusive && invoice.ppnAmount > 0 && <tr><td colSpan={5} className="text-right !font-normal text-ink-500">{settings.taxLabel}</td><td className="num !font-normal">{fmtMoney(invoice.ppnAmount, ccy)}</td></tr>}
                 <tr><td colSpan={5} className="text-right">Total</td><td className="num">{fmtMoney(invoice.total, ccy)}</td></tr>
+                {inclusive && invoice.ppnAmount > 0 && <tr><td colSpan={5} className="text-right !font-normal text-ink-500">Includes {settings.taxLabel} (base {fmtMoney(invoice.taxableBase ?? invoice.subtotal - invoice.discount, ccy)})</td><td className="num !font-normal">{fmtMoney(invoice.ppnAmount, ccy)}</td></tr>}
                 <tr><td colSpan={5} className="text-right !font-normal text-ink-500">Paid</td><td className="num !font-normal">{fmtMoney(invoice.amountPaid, ccy)}</td></tr>
                 <tr><td colSpan={5} className="text-right">Outstanding</td><td className="num">{fmtMoney(outstanding, ccy)}</td></tr>
               </tfoot>

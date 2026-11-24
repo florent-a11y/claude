@@ -6,7 +6,7 @@ import { todayISO } from "@/lib/dates";
 import { ErrorNotice, base, first, requireEntity, type Params, type Search } from "../../shared";
 import { InvoiceForm } from "../InvoiceForm";
 import { createInvoiceAction } from "../actions";
-import { customerOptions, defaultPaymentInstructions, serviceOptions } from "../_data";
+import { customerOptions, defaultPaymentInstructions, invoiceFormDefaults, serviceOptions } from "../_data";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +22,7 @@ export default async function NewInvoice({ params, searchParams }: { params: Par
     <div className="space-y-4 pb-8">
       <ErrorNotice error={first(sp.error)} />
       <div className="flex items-center justify-between"><h2 className="text-base font-semibold">New invoice</h2><Link href={`${base(entityId)}/sales`} className="text-xs text-brand-600 underline">Back to sales</Link></div>
-      <InvoiceForm action={createInvoiceAction.bind(null, entityId)} entity={{ pkp: entity.tax.pkp, ppnRate: entity.tax.ppnRate }} customers={customers} accounts={revenue} services={services} defaultAccountId={def} defaultDate={todayISO()} defaultPaymentInstructions={instructions} />
+      <InvoiceForm action={createInvoiceAction.bind(null, entityId)} entity={{ pkp: entity.tax.pkp, ppnRate: entity.tax.ppnRate }} customers={customers} accounts={revenue} services={services} defaultAccountId={def} defaultDate={todayISO()} defaultPaymentInstructions={instructions} defaults={invoiceFormDefaults(entity)} settingsHref={`${base(entityId)}/sales/settings`} />
     </div>
   );
 }

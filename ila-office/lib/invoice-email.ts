@@ -1,5 +1,6 @@
 import { fmtDate } from "./dates";
 import { fmtAmount } from "./money";
+import { fillPlaceholders, resolveInvoiceSettings } from "./invoice-settings";
 import type { Entity, Invoice } from "./types";
 
 /**
@@ -27,7 +28,8 @@ export function invoiceEmailDraft(invoice: Invoice, entity: Entity, opts: { gree
     `Please find attached invoice ${invoice.number} for ${invoiceDescription(invoice)}, for ${invoiceAmountText(invoice)}.`,
     `Payment is due by ${fmtDate(invoice.dueDate)}. Please let us know if you have any questions.`,
   ];
-  const pay = (opts.paymentInstructions ?? invoice.paymentInstructions ?? "").trim();
+  // Settlement notes may carry {number}, {due_date}…: they read the same in the message as on the invoice.
+  const pay = fillPlaceholders((opts.paymentInstructions ?? invoice.paymentInstructions ?? "").trim(), invoice, resolveInvoiceSettings(entity).language);
   if (pay) parts.push(pay);
   parts.push(`Kind regards,\n${signer}`);
   return { to: opts.to ?? invoice.customer.email ?? "", subject: `Invoice ${invoice.number} from ${signer}`, text: parts.join("\n\n"), filename: `${invoice.number}.pdf` };

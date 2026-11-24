@@ -44,7 +44,7 @@ export default async function Sales({ params, searchParams }: { params: Params; 
           <AutoSubmitInput name="q" defaultValue={q} placeholder="Search number or customer…" className="input !w-64 !py-1" />
           <button className="btn-secondary !py-1 text-xs">Filter</button>
         </form>
-        <div className="flex gap-2"><Link href={`${b}/reports/ar-aging`} className="btn-secondary">AR aging</Link><Link href={`${b}/sales/new`} className="btn-primary">New invoice</Link></div>
+        <div className="flex flex-wrap gap-2"><Link href={`${b}/sales/settings`} className="btn-secondary" title="Colours, logo, tax, payment term, settlement notes">Invoice settings</Link><Link href={`${b}/reports/ar-aging`} className="btn-secondary">AR aging</Link><Link href={`${b}/sales/new`} className="btn-primary">New invoice</Link></div>
       </div>
       <Chips items={[{ href: withParams(url, current, { status: undefined }), label: `All (${all.length})`, active: !status }, ...STATUSES.map((s) => ({ href: withParams(url, current, { status: s }), label: `${s} (${all.filter((x) => x.display === s).length})`, active: status === s }))]} />
       {rows.length === 0 ? <EmptyState title="No invoices" hint="Create the first invoice for this entity." action={<Link href={`${b}/sales/new`} className="btn-primary">New invoice</Link>} /> : (

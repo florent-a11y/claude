@@ -60,7 +60,8 @@ export function buildPpnRegister(input: PpnRegisterInput): { rows: PpnRow[]; sum
   for (const inv of input.invoices) {
     if (!isPosted(inv.status) || inv.date.slice(0, 7) !== input.period || inv.ppnAmount <= 0) continue;
     const fx = inv.fxRate || 1;
-    const dpp = floorRp(inv.lines.filter((l) => l.taxCode === "ppn").reduce((s, l) => s + l.amount, 0) * fx);
+    // The base stored with the invoice is after discount (and net of PPN when prices include it); older invoices have only their lines.
+    const dpp = floorRp((inv.taxableBase ?? inv.lines.filter((l) => l.taxCode === "ppn").reduce((s, l) => s + l.amount, 0)) * fx);
     const ppn = floorRp(inv.ppnAmount * fx);
     rows.push({ key: `inv:${inv.id}`, direction: "output", date: inv.date, counterparty: inv.customer.name, npwp: inv.customer.npwp, fakturNumber: inv.fakturNumber, docNumber: inv.number, dpp, ppn, rate: dpp > 0 ? ppn / dpp : 0, creditable: true, source: "invoice", sourceId: inv.id });
   }
