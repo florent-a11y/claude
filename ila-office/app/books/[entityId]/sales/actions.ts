@@ -5,8 +5,7 @@ import { createInvoice, updateInvoice, postInvoice, recordReceipt, voidInvoice, 
 import { num, str, rateOf } from "@/lib/util";
 import { db } from "@/lib/db";
 import { emailConfigured, defaultBcc, sendEmail } from "@/lib/email";
-import { renderInvoicePdf } from "@/lib/invoice-pdf";
-import { defaultPaymentInstructions } from "./_data";
+import { invoicePdf } from "@/lib/invoice-settings-services";
 import { act, base } from "../shared";
 
 const lineSchema = z.object({
@@ -25,6 +24,7 @@ const schema = z.object({
   notes: z.string().max(2000).optional(),
   paymentInstructions: z.string().max(2000).optional(),
   fakturNumber: z.string().max(40).optional(),
+  pricesIncludeTax: z.boolean().optional(),
 });
 
 function readInvoice(fd: FormData): InvoiceInput {
@@ -34,6 +34,7 @@ function readInvoice(fd: FormData): InvoiceInput {
   const v = schema.parse({
     customer, date: str(fd, "date"), dueDate: str(fd, "dueDate"), currency, fxRate: currency === "IDR" ? 1 : rateOf(fd, "fxRate"), lines, discount: num(fd, "discount", 0),
     notes: str(fd, "notes"), paymentInstructions: str(fd, "paymentInstructions"), fakturNumber: str(fd, "fakturNumber"),
+    pricesIncludeTax: str(fd, "pricesIncludeTax") === "1",
   });
   if (v.currency !== "IDR" && v.fxRate <= 0) throw new Error("An FX rate (IDR per 1 unit) is required for foreign-currency invoices.");
   return v;
@@ -113,7 +114,7 @@ export async function sendInvoiceAction(entityId: string, invoiceId: string, fd:
     const now = new Date().toISOString();
     let note: string;
     if (emailConfigured()) {
-      const pdf = await renderInvoicePdf(invoice, entity, { paymentInstructions: invoice.paymentInstructions ?? (await defaultPaymentInstructions(entityId)) });
+      const pdf = await invoicePdf(entity, invoice);
       const cc = (v.cc ?? "").split(",").map((x) => x.trim()).filter(Boolean);
       await sendEmail({ to: [v.to], cc, bcc: defaultBcc(), subject: v.subject, text: v.message, attachments: [{ filename: `${invoice.number}.pdf`, content: pdf, contentType: "application/pdf" }] });
       note = `${invoice.number} emailed to ${v.to}${cc.length ? ` (cc ${cc.join(", ")})` : ""} with the PDF attached`;

@@ -1,6 +1,8 @@
 import { db } from "@/lib/db";
 import { fullName } from "@/lib/util";
-import type { CustomerOpt, ServiceOpt } from "./InvoiceForm";
+import { defaultSettlementNotes, resolveInvoiceSettings } from "@/lib/invoice-settings";
+import { invoiceBanks } from "@/lib/invoice-settings-services";
+import type { CustomerOpt, InvoiceFormDefaults, ServiceOpt } from "./InvoiceForm";
 import type { Entity } from "@/lib/types";
 
 /** Customers come from the CRM: companies first (the entity's own client excluded when billing from a client's books is unusual), then contacts. */
@@ -18,8 +20,15 @@ export async function serviceOptions(entity: Entity): Promise<ServiceOpt[]> {
   return services.map((s) => ({ id: s.id, name: s.name, priceIDR: s.priceIDR, priceUSD: s.priceUSD, priceEUR: s.priceEUR, taxTreatment: s.taxTreatment }));
 }
 
+/** The settlement notes a new invoice starts with: the entity's own (invoice settings), else built from its bank accounts. */
 export async function defaultPaymentInstructions(entityId: string): Promise<string> {
-  const banks = await db.list("bank_accounts", { where: { entityId, active: true } });
-  if (banks.length === 0) return "Payment by bank transfer within 3 working days.";
-  return ["Payment by bank transfer within 3 working days to:", ...banks.map((b) => `${b.bankName ?? b.name} ${b.accountNumber ?? ""} (${b.currency})`.trim())].join("\n");
+  const [entity, banks] = await Promise.all([db.get("entities", entityId), invoiceBanks(entityId)]);
+  if (!entity) return "";
+  return defaultSettlementNotes(entity, banks);
+}
+
+/** What the invoice form needs from the invoice settings. */
+export function invoiceFormDefaults(entity: Entity): InvoiceFormDefaults {
+  const s = resolveInvoiceSettings(entity);
+  return { pricesIncludeTax: s.pricesIncludeTax, dueDays: s.dueDays, dueDaysKind: s.dueDaysKind, notes: s.defaultNotes, taxLabel: s.taxLabel };
 }

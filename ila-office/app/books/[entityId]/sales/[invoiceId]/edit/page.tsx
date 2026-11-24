@@ -8,7 +8,7 @@ import { todayISO } from "@/lib/dates";
 import { ErrorNotice, base, first, requireEntity, type Search } from "../../../shared";
 import { InvoiceForm } from "../../InvoiceForm";
 import { updateInvoiceAction } from "../../actions";
-import { customerOptions, serviceOptions } from "../../_data";
+import { customerOptions, invoiceFormDefaults, serviceOptions } from "../../_data";
 
 export const dynamic = "force-dynamic";
 
@@ -27,7 +27,7 @@ export default async function EditInvoice({ params, searchParams }: { params: Pr
     <div className="space-y-4 pb-8">
       <ErrorNotice error={first(sp.error)} />
       <div className="flex items-center justify-between"><h2 className="text-base font-semibold">Edit {invoice.number} (draft)</h2><Link href={`${base(entityId)}/sales/${invoiceId}`} className="text-xs text-brand-600 underline">Back to invoice</Link></div>
-      <InvoiceForm action={updateInvoiceAction.bind(null, entityId, invoiceId)} entity={{ pkp: entity.tax.pkp, ppnRate: entity.tax.ppnRate }} customers={customers} accounts={revenue} services={services} defaultAccountId={def} defaultDate={todayISO()} invoice={invoice} />
+      <InvoiceForm action={updateInvoiceAction.bind(null, entityId, invoiceId)} entity={{ pkp: entity.tax.pkp, ppnRate: entity.tax.ppnRate }} customers={customers} accounts={revenue} services={services} defaultAccountId={def} defaultDate={todayISO()} defaults={invoiceFormDefaults(entity)} settingsHref={`${base(entityId)}/sales/settings`} invoice={invoice} />
     </div>
   );
 }

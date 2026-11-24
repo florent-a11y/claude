@@ -30,22 +30,56 @@ export function defaultWithholdingRate(type: WithholdingType): number {
 
 // ---------- Document totals ----------
 
-export interface InvoiceTotals { lineAmounts: number[]; subtotal: number; discount: number; taxableBase: number; ppnAmount: number; total: number }
+export interface InvoiceTotals {
+  /** Revenue per line, net of PPN. */
+  lineAmounts: number[];
+  /** Per line as entered (qty × unit price); differs from `lineAmounts` only when prices include PPN. */
+  lineGross: number[];
+  subtotal: number; discount: number; taxableBase: number; ppnAmount: number; total: number;
+  /** As entered: lines and discount before the PPN is taken out (equal to subtotal and discount otherwise). */
+  grossSubtotal: number; grossDiscount: number;
+  /** The prices were read as including PPN (asked for, and the entity is PKP). */
+  pricesIncludeTax: boolean;
+}
 
 /**
  * Invoice totals in the document currency. PPN is charged only when the entity is PKP and the line's taxCode is
  * "ppn"; a discount reduces the PPN base pro rata.
+ *
+ * `pricesIncludeTax` (PKP only): the unit prices and the discount are what the customer pays, PPN included. The total
+ * is then lines − discount, the PPN is the part of it contained in the taxable lines (rate ÷ (1 + rate)), and the
+ * revenue per line, the subtotal and the discount are returned net of PPN so that subtotal − discount + PPN = total
+ * and the journal of lib/ledger.ts posts them as it does for any invoice. The last taxable line absorbs the rounding.
  */
-export function invoiceTotals(lines: Array<Pick<InvoiceLine, "qty" | "unitPrice" | "taxCode">>, opts: { discount?: number; pkp: boolean; ppnRate: number; currency?: string }): InvoiceTotals {
+export function invoiceTotals(lines: Array<Pick<InvoiceLine, "qty" | "unitPrice" | "taxCode">>, opts: { discount?: number; pkp: boolean; ppnRate: number; currency?: string; pricesIncludeTax?: boolean }): InvoiceTotals {
   const ccy = opts.currency ?? "IDR";
-  const lineAmounts = lines.map((l) => roundMoney((Number(l.qty) || 0) * (Number(l.unitPrice) || 0), ccy));
-  const subtotal = roundMoney(lineAmounts.reduce((s, a) => s + a, 0), ccy);
-  const discount = Math.min(Math.max(roundMoney(opts.discount ?? 0, ccy), 0), subtotal);
-  const taxable = lineAmounts.reduce((s, a, i) => s + (lines[i].taxCode === "ppn" ? a : 0), 0);
-  const taxableBase = opts.pkp && subtotal > 0 ? roundMoney(taxable * (1 - discount / subtotal), ccy) : 0;
-  const ppnAmount = opts.pkp ? roundTax(taxableBase * opts.ppnRate, ccy) : 0;
-  const total = roundMoney(subtotal - discount + ppnAmount, ccy);
-  return { lineAmounts, subtotal, discount, taxableBase, ppnAmount, total };
+  const lineGross = lines.map((l) => roundMoney((Number(l.qty) || 0) * (Number(l.unitPrice) || 0), ccy));
+  const grossSubtotal = roundMoney(lineGross.reduce((s, a) => s + a, 0), ccy);
+  const grossDiscount = Math.min(Math.max(roundMoney(opts.discount ?? 0, ccy), 0), grossSubtotal);
+  const taxableGross = lineGross.reduce((s, a, i) => s + (lines[i].taxCode === "ppn" ? a : 0), 0);
+  const kept = grossSubtotal > 0 ? 1 - grossDiscount / grossSubtotal : 0;
+  if (!(opts.pkp && opts.pricesIncludeTax)) {
+    const taxableBase = opts.pkp && grossSubtotal > 0 ? roundMoney(taxableGross * kept, ccy) : 0;
+    const ppnAmount = opts.pkp ? roundTax(taxableBase * opts.ppnRate, ccy) : 0;
+    const total = roundMoney(grossSubtotal - grossDiscount + ppnAmount, ccy);
+    return { lineAmounts: lineGross, lineGross, subtotal: grossSubtotal, discount: grossDiscount, taxableBase, ppnAmount, total, grossSubtotal, grossDiscount, pricesIncludeTax: false };
+  }
+  const contained = opts.ppnRate / (1 + opts.ppnRate);
+  // PPN contained in the taxable lines, before and after the discount.
+  const ppnBeforeDiscount = roundTax(taxableGross * contained, ccy);
+  const ppnAmount = Math.max(roundTax(taxableGross * kept * contained, ccy), roundMoney(ppnBeforeDiscount - grossDiscount, ccy), 0);
+  const total = roundMoney(grossSubtotal - grossDiscount, ccy);
+  const lineAmounts = lineGross.map((g, i) => (lines[i].taxCode === "ppn" ? roundMoney(g / (1 + opts.ppnRate), ccy) : g));
+  const subtotal = roundMoney(grossSubtotal - ppnBeforeDiscount, ccy);
+  const drift = roundMoney(subtotal - lineAmounts.reduce((s, a) => s + a, 0), ccy);
+  if (drift !== 0) {
+    let last = -1;
+    lines.forEach((l, i) => { if (l.taxCode === "ppn" && lineGross[i] !== 0) last = i; });
+    if (last >= 0) lineAmounts[last] = roundMoney(lineAmounts[last] + drift, ccy);
+  }
+  const discount = roundMoney(subtotal - (total - ppnAmount), ccy);
+  const taxableBase = roundMoney(taxableGross * kept - ppnAmount, ccy);
+  return { lineAmounts, lineGross, subtotal, discount, taxableBase, ppnAmount, total, grossSubtotal, grossDiscount, pricesIncludeTax: true };
 }
 
 export interface BillLineTotals { amount: number; ppn: number; withholdingRate: number; withholdingAmount: number }

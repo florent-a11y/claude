@@ -108,6 +108,8 @@ export interface Entity {
    * them nor counts them as missing from the register; reversible from the Assets page.
    */
   assetAccountsOutsideRegister?: string[];
+  /** How this entity's invoices look and default (lib/invoice-settings.ts); every field falls back to a default. */
+  invoiceSettings?: InvoiceSettings;
   createdAt: string;
   updatedAt?: string;
   attachments?: Attachment[];
@@ -393,9 +395,54 @@ export interface InvoiceLine {
   description: string;
   qty: number;
   unitPrice: number;
+  /** Revenue of the line, net of PPN. */
   amount: number;
+  /** Prices include PPN (`Invoice.pricesIncludeTax`): qty × unit price as printed on the invoice. */
+  grossAmount?: number;
   accountId: string; // revenue account
   taxCode: TaxCode;
+}
+
+/** Invoice layout and defaults of an entity. Every field is optional: lib/invoice-settings.ts resolves the defaults. */
+export interface InvoiceSettings {
+  /** Main colour ("#rrggbb"): company name, document title, table header, total. */
+  mainColor?: string;
+  /** Accent colour ("#rrggbb"): the small labels and the rules. */
+  accentColor?: string;
+  /** Table header: tinted with the main colour (default) or filled with it. */
+  tableHeader?: "tinted" | "solid";
+  /** Company logo (PNG or JPEG), stored like an attachment; width and height in pixels. */
+  logo?: Attachment & { width?: number; height?: number };
+  logoSize?: "small" | "medium" | "large";
+  /** The logo already carries the company name: do not print the name beside it. */
+  hideCompanyName?: boolean;
+  /** Lines under the company name (address, tax number, phone, email); the entity's address and NPWP when undefined. */
+  companyDetails?: string;
+  /** Document title; "INVOICE" (or "FAKTUR") when empty. */
+  title?: string;
+  /** Language of the labels printed on the invoice. */
+  language?: "en" | "id";
+  /** Default for new invoices of a PKP entity: line prices include PPN. */
+  pricesIncludeTax?: boolean;
+  /** Name of the tax on the invoice: "PPN" (default), "VAT", "VAT (PPN)". */
+  taxLabel?: string;
+  /** Printed in the totals when no PPN is charged; "Not applicable (non-PKP)" for a non-PKP entity when undefined, nothing when "". */
+  noTaxNote?: string;
+  /** Payment term for new invoices: days after the invoice date (default 3 working days). */
+  dueDays?: number;
+  dueDaysKind?: "working" | "calendar";
+  /** Print the quantity and unit price columns (default true). */
+  showQty?: boolean;
+  /** Settlement notes at the bottom of the invoice (bank details, how to pay); built from the bank accounts when undefined. */
+  settlementNotes?: string;
+  /** Notes prefilled on a new invoice. */
+  defaultNotes?: string;
+  /** Line at the foot of the page; the company name and address when undefined, nothing when "". */
+  footerText?: string;
+  /** Signature block at the bottom right. */
+  signature?: { show: boolean; name?: string; title?: string };
+  updatedAt?: string;
+  updatedByUserId?: string;
 }
 
 export interface Invoice {
@@ -408,10 +455,19 @@ export interface Invoice {
   currency: string;
   fxRate: number; // IDR per unit; 1 for IDR
   lines: InvoiceLine[];
+  /** Revenue of the lines, net of PPN. */
   subtotal: number;
+  /** Discount, net of PPN: subtotal − discount + ppnAmount = total. */
   discount: number;
   ppnAmount: number;
   total: number;
+  /** Line prices include PPN: the invoice prints `grossSubtotal`, `grossDiscount` and the PPN contained in the total. */
+  pricesIncludeTax?: boolean;
+  /** As printed when prices include PPN: lines and discount before the PPN is taken out. */
+  grossSubtotal?: number;
+  grossDiscount?: number;
+  /** PPN base (DPP) after discount; absent on invoices saved before it was stored. */
+  taxableBase?: number;
   amountPaid: number;
   status: DocStatus;
   journalId?: string;
