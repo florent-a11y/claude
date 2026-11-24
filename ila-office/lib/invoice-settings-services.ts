@@ -11,7 +11,7 @@ import { BooksError, loadEntity } from "./books";
 import { deleteAttachment, extensionOf, putAttachment, readAttachment } from "./files";
 import { ImageError, readImageInfo } from "./image-info";
 import { renderInvoicePdf } from "./invoice-pdf";
-import { INVOICE_LANGUAGES, LOGO_LIMIT, LOGO_SIZES, LOGO_TYPES, MAX_DUE_DAYS, parseHexColor, type InvoiceLanguage, type LogoSize } from "./invoice-settings";
+import { DEFAULT_NOTES_SIZE, INVOICE_LANGUAGES, LOGO_LIMIT, LOGO_SIZES, LOGO_TYPES, MAX_DUE_DAYS, NOTES_SIZES, parseHexColor, type InvoiceLanguage, type LogoSize, type NotesSize } from "./invoice-settings";
 import type { BankAccount, Entity, Invoice, InvoiceSettings } from "./types";
 
 export const LOGO_DOC_TYPE = "invoice-logo";
@@ -28,6 +28,7 @@ export interface InvoiceSettingsInput {
   dueDays?: number; dueDaysKind?: "working" | "calendar"; showQty?: boolean;
   settlementNotes?: string; defaultNotes?: string; footerText?: string;
   signature?: { show: boolean; name?: string; title?: string };
+  notesSize?: NotesSize;
 }
 
 const LIMITS = { title: 40, taxLabel: 24, noTaxNote: 120, companyDetails: 600, settlementNotes: 2000, defaultNotes: 2000, footerText: 300, signature: 80 } as const;
@@ -78,6 +79,7 @@ export async function saveInvoiceSettings(entityId: string, input: InvoiceSettin
     signature: input.signature?.show || input.signature?.name || input.signature?.title
       ? { show: Boolean(input.signature.show), name: text(input.signature.name, LIMITS.signature, "Signatory name") || undefined, title: text(input.signature.title, LIMITS.signature, "Signatory title") || undefined }
       : undefined,
+    notesSize: input.notesSize && NOTES_SIZES.includes(input.notesSize) && input.notesSize !== DEFAULT_NOTES_SIZE ? input.notesSize : undefined,
     updatedAt: now, updatedByUserId: userId,
   };
   return (await db.update("entities", entityId, { invoiceSettings: next, updatedAt: now }))!;

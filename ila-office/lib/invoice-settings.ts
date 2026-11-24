@@ -96,6 +96,17 @@ export const INVOICE_LANGUAGE_LABELS: Record<InvoiceLanguage, string> = { en: "E
 
 export const MAX_DUE_DAYS = 365;
 
+/**
+ * Text size of the settlement notes and the notes at the bottom of the invoice: pixels on the page, points in the PDF.
+ * "normal" is the size of the invoice lines; the default is one step smaller, so a few lines of payment instructions
+ * do not weigh as much as the invoice itself (accounting team request).
+ */
+export const NOTES_SIZES = ["xsmall", "small", "normal"] as const;
+export type NotesSize = (typeof NOTES_SIZES)[number];
+export const NOTES_SIZE_LABELS: Record<NotesSize, string> = { xsmall: "Extra small", small: "Small", normal: "Normal (as the invoice lines)" };
+export const NOTES_FONT: Record<NotesSize, { px: number; pt: number }> = { xsmall: { px: 11, pt: 7 }, small: { px: 12, pt: 8 }, normal: { px: 14, pt: 9 } };
+export const DEFAULT_NOTES_SIZE: NotesSize = "small";
+
 /** The settings with every default filled in. */
 export interface ResolvedInvoiceSettings {
   mainColor: string;
@@ -121,6 +132,7 @@ export interface ResolvedInvoiceSettings {
   defaultNotes: string;
   footerText: string;
   signature: { show: boolean; name: string; title: string };
+  notesSize: NotesSize;
 }
 
 type SettingsEntity = Pick<Entity, "name" | "legalName" | "isOwn" | "tax"> & Partial<Pick<Entity, "address" | "city" | "npwp" | "invoiceSettings">>;
@@ -166,6 +178,7 @@ export function resolveInvoiceSettings(entity: SettingsEntity): ResolvedInvoiceS
     defaultNotes: s.defaultNotes?.trim() ?? "",
     footerText: TEXT(s.footerText, defaultFooterText(entity)),
     signature: { show: Boolean(s.signature?.show), name: s.signature?.name?.trim() ?? "", title: s.signature?.title?.trim() ?? "" },
+    notesSize: NOTES_SIZES.includes(s.notesSize as NotesSize) ? (s.notesSize as NotesSize) : DEFAULT_NOTES_SIZE,
   };
 }
 
@@ -286,6 +299,8 @@ export interface InvoiceDoc {
   totalsNote?: string;
   /** Settlement notes, then the invoice's own notes. */
   blocks: Array<{ label: string; text: string }>;
+  /** Size of the text of those blocks: pixels on the page, points in the PDF. */
+  blocksFont: { px: number; pt: number };
   signature?: { label: string; issuer: string; name: string; title: string };
   footer: string;
 }
@@ -372,6 +387,7 @@ export function invoiceDocument({ invoice, entity, banks = [] }: InvoiceDocInput
     totals,
     totalsNote: ccy !== "IDR" && invoice.fxRate > 1 ? `${L.rate}: 1 ${ccy} = ${fmtMoneyAt(invoice.fxRate, columnDecimals("IDR", [invoice.fxRate]), "IDR")}` : undefined,
     blocks,
+    blocksFont: NOTES_FONT[s.notesSize],
     signature: s.signature.show ? { label: L.signature, issuer: issuerName(entity), name: s.signature.name, title: s.signature.title } : undefined,
     footer: s.footerText,
   };

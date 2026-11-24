@@ -220,6 +220,7 @@ test("without settings an invoice looks as it did", () => {
   assert.equal(s.footerText, "PT CONTOH VILLA INVESTAMA · Jl. Contoh No. 7");
   assert.equal(s.settlementNotes, undefined);
   assert.equal(s.signature.show, false);
+  assert.equal(s.notesSize, "small", "the settlement notes print one step smaller than the invoice lines");
   assert.equal(resolveInvoiceSettings(entityOf({}, { pkp: false })).noTaxNote, "Not applicable (non-PKP)");
   assert.ok(resolveInvoiceSettings(entityOf({ isOwn: true })).tagline, "ILA's own invoices keep their tagline");
 });
@@ -243,6 +244,15 @@ test("settings override the defaults; an empty text prints nothing, a bad value 
   assert.equal(resolveInvoiceSettings(withSettings({ language: "id" })).title, "FAKTUR");
   assert.equal(resolveInvoiceSettings(withSettings({ dueDays: 9999 })).dueDays, 365);
   assert.equal(resolveInvoiceSettings(withSettings({ dueDays: -4 })).dueDays, 0);
+});
+
+test("settlement notes: their text size is a setting, small unless chosen otherwise", () => {
+  const line = [{ description: "Advisory", qty: 1, unitPrice: 1_000_000, taxCode: "ppn" as const }];
+  const fontOf = (s: InvoiceSettings) => { const e = withSettings(s); return invoiceDocument({ invoice: invoiceOf(e, line), entity: e }).blocksFont; };
+  assert.deepEqual(fontOf({}), { px: 12, pt: 8 });
+  assert.deepEqual(fontOf({ notesSize: "xsmall" }), { px: 11, pt: 7 });
+  assert.deepEqual(fontOf({ notesSize: "normal" }), { px: 14, pt: 9 }, "the size of the invoice lines");
+  assert.deepEqual(fontOf({ notesSize: "huge" as never }), { px: 12, pt: 8 }, "anything else falls back");
 });
 
 test("payment term: working or calendar days", () => {
@@ -441,6 +451,9 @@ test("store: settings are saved as chosen, defaults are not stored, wrong values
   assert.equal(s.defaultNotes, "Thank you.");
   assert.equal(s.signature, undefined);
   assert.equal(s.updatedByUserId, "user-1");
+  assert.equal(s.notesSize, undefined, "the default size is not stored");
+  assert.equal((await S.saveInvoiceSettings(ENTITY, { ...s, logoSize: undefined, signature: undefined, notesSize: "xsmall" }, "user-1")).invoiceSettings!.notesSize, "xsmall");
+  assert.equal((await S.saveInvoiceSettings(ENTITY, { ...s, logoSize: undefined, signature: undefined, notesSize: "small" }, "user-1")).invoiceSettings!.notesSize, undefined);
 });
 
 test("store: a new invoice takes the payment term, and prices that include PPN post revenue net of it", async () => {

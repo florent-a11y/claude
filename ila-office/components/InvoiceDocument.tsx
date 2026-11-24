@@ -72,7 +72,7 @@ export function InvoiceDocument({ doc, logoSrc }: { doc: InvoiceDoc; logoSrc?: s
       {(doc.blocks.length > 0 || doc.signature) && (
         <div className="mt-8 flex items-start justify-between gap-8 pt-5" style={{ borderTop: `1px solid ${c.rule}` }}>
           <div className="min-w-0 flex-1 space-y-4">
-            {doc.blocks.map((b) => <div key={b.label}><p style={label}>{b.label}</p><p className="mt-1 whitespace-pre-line">{b.text}</p></div>)}
+            {doc.blocks.map((b) => <div key={b.label}><p style={label}>{b.label}</p><p className="mt-1 whitespace-pre-line" style={{ fontSize: doc.blocksFont.px, lineHeight: 1.5 }}>{b.text}</p></div>)}
           </div>
           {doc.signature && (
             <div className="w-52 shrink-0 text-center">

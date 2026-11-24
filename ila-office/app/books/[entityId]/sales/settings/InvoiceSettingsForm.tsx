@@ -4,9 +4,9 @@ import { SubmitButton } from "@/components/client";
 import { InvoiceDocument } from "@/components/InvoiceDocument";
 import { invoiceTotals } from "@/lib/ledger";
 import {
-  INVOICE_COLOR_PRESETS, INVOICE_LABELS, INVOICE_LANGUAGES, INVOICE_LANGUAGE_LABELS, INVOICE_PLACEHOLDERS, LOGO_HINT, LOGO_LIMIT, LOGO_SIZES, LOGO_TYPES, MAX_DUE_DAYS,
+  INVOICE_COLOR_PRESETS, INVOICE_LABELS, INVOICE_LANGUAGES, INVOICE_LANGUAGE_LABELS, INVOICE_PLACEHOLDERS, LOGO_HINT, LOGO_LIMIT, LOGO_SIZES, LOGO_TYPES, MAX_DUE_DAYS, NOTES_SIZES, NOTES_SIZE_LABELS,
   automaticSettlementNotes, bankAccountLines, contrastRatio, defaultCompanyDetails, defaultFooterText, dueDateFor, invoiceDocument, parseHexColor, paymentTermText, resolveInvoiceSettings,
-  type InvoiceLanguage, type LogoSize,
+  type InvoiceLanguage, type LogoSize, type NotesSize,
 } from "@/lib/invoice-settings";
 import type { Entity, Invoice, InvoiceSettings, TaxCode } from "@/lib/types";
 
@@ -74,6 +74,7 @@ export function InvoiceSettingsForm({ action, entity, settings, banks, logoUrl, 
   const [showQty, setShowQty] = useState(initial.showQty);
   const [settlement, setSettlement] = useState(auto(settings.settlementNotes));
   const [defaultNotes, setDefaultNotes] = useState(settings.defaultNotes ?? "");
+  const [notesSize, setNotesSize] = useState<NotesSize>(initial.notesSize);
   const [footer, setFooter] = useState(auto(settings.footerText));
   const [sigShow, setSigShow] = useState(initial.signature.show);
   const [sigName, setSigName] = useState(initial.signature.name);
@@ -110,7 +111,7 @@ export function InvoiceSettingsForm({ action, entity, settings, banks, logoUrl, 
     companyDetails: companyDetails.auto ? undefined : companyDetails.text, title: title.trim() || undefined, language,
     pricesIncludeTax: inclusive, taxLabel: taxLabel.trim() || undefined, noTaxNote: noTaxNote.auto ? undefined : noTaxNote.text,
     dueDays: days, dueDaysKind: dueKind, showQty, settlementNotes: settlement.auto ? undefined : settlement.text,
-    defaultNotes: defaultNotes.trim() || undefined, footerText: footer.auto ? undefined : footer.text, signature: { show: sigShow, name: sigName, title: sigTitle },
+    defaultNotes: defaultNotes.trim() || undefined, footerText: footer.auto ? undefined : footer.text, signature: { show: sigShow, name: sigName, title: sigTitle }, notesSize,
   };
   const draftEntity = { ...entity, invoiceSettings: draft };
   const resolved = resolveInvoiceSettings(draftEntity);
@@ -236,6 +237,10 @@ export function InvoiceSettingsForm({ action, entity, settings, banks, logoUrl, 
           <p className="text-xs text-ink-500">A new invoice is due {paymentTermText({ dueDays: days, dueDaysKind: dueKind })} after its date; the due date can be changed on each invoice.</p>
           <AutoField label="Settlement notes (bottom of the invoice)" name="settlementNotes" rows={6} max={2000} value={settlement} automatic={automatic.settlement} onChange={setSettlement}
             hint={<>Automatic: the payment term and the active bank accounts. A new invoice starts with this text and it can be changed there. {INVOICE_PLACEHOLDERS.map((p) => p.token).join(", ")} are replaced with the invoice&apos;s own.{banks.length > 0 && <> <button type="button" className="text-brand-600 underline" onClick={insertBanks}>Insert the bank accounts</button></>}</>} />
+          <label className="block"><span className="label">Text size of the settlement notes</span>
+            <select name="notesSize" value={notesSize} onChange={(e) => setNotesSize(e.target.value as NotesSize)} className="input">{NOTES_SIZES.map((x) => <option key={x} value={x}>{NOTES_SIZE_LABELS[x]}</option>)}</select>
+            <span className="mt-1 block text-xs text-ink-500">On the printed invoice and the PDF; the notes under them follow.</span>
+          </label>
           <label className="block"><span className="label">Notes on a new invoice</span><textarea name="defaultNotes" rows={2} maxLength={2000} value={defaultNotes} onChange={(e) => setDefaultNotes(e.target.value)} className="input" placeholder="Terms, thanks, anything printed under the settlement notes" /></label>
         </div>
 

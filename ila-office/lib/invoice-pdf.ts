@@ -119,9 +119,11 @@ export function renderInvoiceDocPdf(d: InvoiceDoc, opts: { logo?: Buffer; author
       if (total) { doc.moveTo(labelX + 40, y - 2).lineTo(right, y - 2).lineWidth(1).strokeColor(c.main).stroke(); y += 3; }
       const size = total ? 11 : muted ? 8 : 9;
       doc.font(total ? "Helvetica-Bold" : "Helvetica").fontSize(size);
-      // A note in place of an amount ("Not applicable (non-PKP)") may be wider than the amount column.
-      const wide = doc.widthOfString(T(t.value)) > valueW;
-      const vX = wide ? 380 : valueX, vW = wide ? 159 : valueW, lW = wide ? 75 : labelW;
+      // A note in place of an amount ("Not applicable (non-PKP)") may be wider than the amount column: it keeps the
+      // right edge of the amounts and its label moves left to stay beside it.
+      const valueWidth = Math.min(Math.ceil(doc.widthOfString(T(t.value))) + 2, 200);
+      const wide = valueWidth > valueW;
+      const vX = wide ? valueX + valueW - valueWidth : valueX, vW = wide ? valueWidth : valueW, lW = wide ? vX - 12 - labelX : labelW;
       doc.fillColor(total ? c.mainText : c.grey).text(T(t.label), labelX, y, { width: lW, align: "right" });
       const labelEnd = doc.y;
       doc.fillColor(muted ? c.grey : c.ink).text(T(t.value), vX, y, { width: vW, align: "right" });
@@ -136,7 +138,7 @@ export function renderInvoiceDocPdf(d: InvoiceDoc, opts: { logo?: Buffer; author
     y += 12;
     const sig = d.signature;
     const blockWidth = sig ? 300 : width;
-    const blocksHeight = d.blocks.reduce((s, b) => s + 12 + doc.font("Helvetica").fontSize(9).heightOfString(T(b.text), { width: blockWidth }) + 12, 0);
+    const blocksHeight = d.blocks.reduce((s, b) => s + 12 + doc.font("Helvetica").fontSize(d.blocksFont.pt).heightOfString(T(b.text), { width: blockWidth, lineGap: 1.5 }) + 12, 0);
     const needed = Math.max(blocksHeight, sig ? 110 : 0);
     if (needed > 0) {
       // Keep the closing section together when it fits on a page of its own.
@@ -147,7 +149,7 @@ export function renderInvoiceDocPdf(d: InvoiceDoc, opts: { logo?: Buffer; author
       for (const b of d.blocks) {
         if (y > bottom - 30) { doc.addPage(); y = top; }
         doc.fillColor(c.accentText).font("Helvetica-Bold").fontSize(8).text(T(b.label.toUpperCase()), left, y, { characterSpacing: 0.4 });
-        doc.fillColor(c.ink).font("Helvetica").fontSize(9).text(T(b.text), left, y + 12, { width: blockWidth });
+        doc.fillColor(c.ink).font("Helvetica").fontSize(d.blocksFont.pt).text(T(b.text), left, y + 12, { width: blockWidth, lineGap: 1.5 });
         y = doc.y + 12;
       }
       if (sig) {
