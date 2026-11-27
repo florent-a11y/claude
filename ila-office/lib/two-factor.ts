@@ -7,6 +7,8 @@ import { createCipheriv, createDecipheriv, createHash, createHmac, hkdfSync, ran
  *
  * - The authenticator secret is kept encrypted (AES-256-GCM) under a key derived from `TWO_FACTOR_KEY`, or from
  *   `SESSION_SECRET` when that is not set: a copy of the database alone does not let anyone compute codes.
+ *   A secret sealed before `TWO_FACTOR_KEY` existed still opens (under `SESSION_SECRET`) and is sealed again under
+ *   the new key at its owner's next sign-in, so adding the key later never locks anyone out.
  * - Recovery codes are stored as SHA-256 hashes: they are random, so a plain hash is enough, and each works once.
  * - A code is accepted for the current 30-second step and the one on either side (clock drift), and never twice:
  *   the last step used is remembered and anything at or before it is refused.
@@ -130,8 +132,18 @@ export function sealSecret(secretBase32: string, material: string = twoFactorKey
   return ["v1", iv.toString("base64url"), cipher.getAuthTag().toString("base64url"), body.toString("base64url")].join(".");
 }
 
-/** The secret back from its sealed form, or null when it was sealed under another key or has been altered. */
-export function openSecret(sealed: string, material: string = twoFactorKeyMaterial()): string | null {
+/**
+ * Every key a stored secret may have been sealed under, the current one first: `TWO_FACTOR_KEY`, then
+ * `SESSION_SECRET` (what was used before `TWO_FACTOR_KEY` was set on this installation).
+ */
+export function twoFactorKeyMaterials(): string[] {
+  const out = [twoFactorKeyMaterial()];
+  const session = process.env.SESSION_SECRET;
+  if (session && session.length >= 16 && !out.includes(session)) out.push(session);
+  return out;
+}
+
+function openWith(sealed: string, material: string): string | null {
   const [version, iv, tag, body] = sealed.split(".");
   if (version !== "v1" || !iv || !tag || !body) return null;
   try {
@@ -141,6 +153,23 @@ export function openSecret(sealed: string, material: string = twoFactorKeyMateri
   } catch {
     return null;
   }
+}
+
+/**
+ * The secret back from its sealed form, or null when it was sealed under another key or has been altered. Without
+ * `material`, every key of this installation is tried (`twoFactorKeyMaterials`).
+ */
+export function openSecret(sealed: string, material?: string): string | null {
+  for (const m of material === undefined ? twoFactorKeyMaterials() : [material]) {
+    const secret = openWith(sealed, m);
+    if (secret !== null) return secret;
+  }
+  return null;
+}
+
+/** Whether a sealed secret opens with the current key (else it was sealed under an earlier one and should be sealed again). */
+export function sealedUnderCurrentKey(sealed: string): boolean {
+  return openWith(sealed, twoFactorKeyMaterial()) !== null;
 }
 
 // ---------- Recovery codes ----------

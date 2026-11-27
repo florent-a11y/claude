@@ -5,7 +5,7 @@ import os from "node:os";
 import path from "node:path";
 import {
   RECOVERY_CODE_COUNT, base32Decode, base32Encode, cleanTotpInput, groupSecret, hashRecoveryCode, looksLikeRecoveryCode, matchRecoveryCode, newRecoveryCodes, newTotpSecret,
-  normalizeRecoveryCode, openSecret, otpauthUri, sealSecret, totpCode, totpStep, verifyTotp,
+  normalizeRecoveryCode, openSecret, otpauthUri, sealSecret, sealedUnderCurrentKey, totpCode, totpStep, verifyTotp,
 } from "../lib/two-factor";
 import type { User } from "../lib/types";
 
@@ -253,15 +253,42 @@ test("recovery codes: each signs in once; new ones cancel the old", async () => 
   assert.equal((await S.checkSecondStep(u.id, fresh[0], now)).ok, true);
 });
 
-test("a secret sealed under a key that changed: recovery codes and the administrator still open the account", async () => {
+test("adding TWO_FACTOR_KEY later locks nobody out, and the session secret can then be renewed", async () => {
+  const u = await account();
+  const { secret } = await enrol(u.id, T0);
+  const sealedBefore = (await row(u.id)).twoFactor!.secret;
+  const session = process.env.SESSION_SECRET!;
+  process.env.TWO_FACTOR_KEY = "a key added after this account was set up";
+  try {
+    assert.equal(sealedUnderCurrentKey(sealedBefore), false);
+    assert.equal(openSecret(sealedBefore), secret, "still opens, under the session secret it was sealed with");
+    let now = T0 + minutes(10);
+    assert.equal((await S.checkSecondStep(u.id, totpCode(secret, totpStep(now)), now)).ok, true, "the code still works");
+    const sealedAfter = (await row(u.id)).twoFactor!.secret;
+    assert.notEqual(sealedAfter, sealedBefore);
+    assert.equal(sealedUnderCurrentKey(sealedAfter), true, "that sign-in sealed it again under the new key");
+    // The session secret is renewed: the account is unaffected.
+    process.env.SESSION_SECRET = "a renewed session secret, long enough";
+    now = T0 + minutes(20);
+    assert.equal((await S.checkSecondStep(u.id, totpCode(secret, totpStep(now)), now)).ok, true);
+    // A new setup is sealed under the new key from the start.
+    const v = await account();
+    await enrol(v.id, now);
+    assert.equal(sealedUnderCurrentKey((await row(v.id)).twoFactor!.secret), true);
+  } finally { delete process.env.TWO_FACTOR_KEY; process.env.SESSION_SECRET = session; }
+});
+
+test("a secret whose key is gone: recovery codes and the administrator still open the account", async () => {
   const u = await account();
   const { secret, recoveryCodes } = await enrol(u.id, T0);
   const now = T0 + minutes(10);
+  const session = process.env.SESSION_SECRET!;
   process.env.TWO_FACTOR_KEY = "a different key than the one it was sealed with";
+  process.env.SESSION_SECRET = "and the session secret was renewed as well";
   try {
     assert.deepEqual(await S.checkSecondStep(u.id, totpCode(secret, totpStep(now)), now), { ok: false, reason: "invalid" });
     assert.equal((await S.checkSecondStep(u.id, recoveryCodes[0], now)).ok, true);
-  } finally { delete process.env.TWO_FACTOR_KEY; }
+  } finally { delete process.env.TWO_FACTOR_KEY; process.env.SESSION_SECRET = session; }
   await S.adminResetTwoFactor(u.id);
   const stored = await row(u.id);
   assert.equal(S.hasTwoFactor(stored), false);

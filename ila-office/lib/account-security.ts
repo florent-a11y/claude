@@ -14,7 +14,7 @@
 import { db } from "./db";
 import { hashPassword, verifyPassword } from "./password";
 import {
-  hashRecoveryCode, looksLikeRecoveryCode, matchRecoveryCode, newRecoveryCodes, newTotpSecret, openSecret, otpauthUri, sealSecret, verifyTotp,
+  hashRecoveryCode, looksLikeRecoveryCode, matchRecoveryCode, newRecoveryCodes, newTotpSecret, openSecret, otpauthUri, sealSecret, sealedUnderCurrentKey, verifyTotp,
 } from "./two-factor";
 import type { Role, User } from "./types";
 
@@ -143,10 +143,12 @@ export async function checkSecondStep(userId: string, input: string, now: number
     const i = matchRecoveryCode(input, tf.recoveryHashes);
     if (i >= 0) { next = { ...tf, recoveryHashes: tf.recoveryHashes.filter((_, j) => j !== i) }; recoveryUsed = true; }
   } else {
-    // A secret sealed under a key that has since changed cannot be opened: only a recovery code or an admin reset helps then.
+    // A secret sealed under a key that is no longer on this installation cannot be opened: only a recovery code or an
+    // admin reset helps then. One sealed under the earlier key (before TWO_FACTOR_KEY was set) opens, and is sealed
+    // again under the current key now, so the earlier key can be renewed afterwards.
     const secret = openSecret(tf.secret);
     const step = secret ? verifyTotp(secret, input, { now, lastStep: tf.tokenStep }) : null;
-    if (step !== null) next = { ...tf, tokenStep: step };
+    if (secret && step !== null) next = { ...tf, tokenStep: step, ...(sealedUnderCurrentKey(tf.secret) ? {} : { secret: sealSecret(secret) }) };
   }
   if (!next) {
     const until = await registerFailure(user, now);
