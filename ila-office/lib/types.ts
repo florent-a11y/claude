@@ -32,6 +32,17 @@ export interface User {
   active: boolean;
   createdAt: string;
   lastLoginAt?: string;
+  passwordChangedAt?: string;
+  /**
+   * Two-step sign-in (lib/two-factor.ts, lib/account-security.ts): the authenticator secret, sealed; the recovery
+   * codes still unused, hashed; the last 30-second step a code was accepted for (a code never works twice).
+   */
+  twoFactor?: { secret: string; recoveryHashes: string[]; enabledAt: string; tokenStep?: number };
+  /** A setup that was started and not confirmed with a first code yet. */
+  twoFactorSetup?: { secret: string; startedAt: string };
+  /** Wrong passwords or codes in a row; five lock the account until `lockedUntil`. */
+  failedLogins?: number;
+  lockedUntil?: string;
 }
 
 export const ENTITY_TYPES = ["pt_pma", "pt_pmdn", "pt_perorangan", "cv", "hk_ltd", "ph_opc", "individual", "other"] as const;

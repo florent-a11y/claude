@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { requirePermission, hashPassword } from "@/lib/auth";
+import { TWO_FACTOR_POLICIES, adminResetTwoFactor, adminUnlock, setTwoFactorPolicy } from "@/lib/account-security";
 import { db } from "@/lib/db";
 import { ENTITY_TYPES, ROLES, type User } from "@/lib/types";
 import { bool, num, str } from "@/lib/util";
@@ -158,6 +159,27 @@ export async function setUserRole(id: string, fd: FormData) {
 export async function resetPassword(id: string, fd: FormData) {
   await requirePermission("admin");
   const password = z.string().min(10).max(200).parse(str(fd, "password"));
-  await db.update("users", id, { passwordHash: hashPassword(password) });
+  // A new password also lifts a lock: the person was most likely locked out by guessing the old one.
+  await db.update("users", id, { passwordHash: hashPassword(password), passwordChangedAt: new Date().toISOString(), failedLogins: 0, lockedUntil: undefined });
+  revalidatePath("/settings/users");
+}
+
+/** Lost phone: removes a user's two-step sign-in, so the password alone signs in until it is set up again. */
+export async function resetTwoFactor(id: string) {
+  await requirePermission("admin");
+  await adminResetTwoFactor(id);
+  revalidatePath("/settings/users");
+}
+
+export async function unlockUser(id: string) {
+  await requirePermission("admin");
+  await adminUnlock(id);
+  revalidatePath("/settings/users");
+}
+
+/** Whether two-step sign-in is optional, required for the team, or required for everyone. Applies at each person's next sign-in. */
+export async function saveTwoFactorPolicy(fd: FormData) {
+  await requirePermission("admin");
+  await setTwoFactorPolicy(z.enum(TWO_FACTOR_POLICIES).parse(str(fd, "policy")));
   revalidatePath("/settings/users");
 }
