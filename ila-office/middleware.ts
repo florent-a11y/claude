@@ -6,12 +6,25 @@ import { NextResponse, type NextRequest } from "next/server";
  *
  * A session marked "setup" (the policy requires two-step sign-in and the account has none yet) reaches only the
  * account security page and the sign-out route until the setup is done there.
+ *
+ * Pages asked for at an address the app has moved away from (`MOVED_HOSTS`) are sent to the current one.
  */
 export const config = { matcher: ["/((?!_next/|favicon.ico|.*\\.(?:png|jpg|jpeg|gif|svg|webp|ico|css|js|map|woff2?|ttf)$).*)"] };
 
 const PUBLIC = [/^\/login$/, /^\/login\/verify$/, /^\/api\/auth\//, /^\/api\/health$/];
 const COOKIE = "ila_session";
 const SECURITY_PATH = "/account/security";
+
+/**
+ * Earlier addresses of this installation and where each now lives. Only page requests (GET) are sent on:
+ * - API routes keep answering there, because the scheduled jobs of vercel.json call the deployment and do not follow
+ *   a redirect, and so does `/api/health`;
+ * - a form posted from a page that was still open there goes through, so nobody loses what they were typing; the
+ *   next page they open is at the new address, where they sign in once (sessions belong to one address).
+ * The redirect is temporary (307) on purpose: browsers do not remember it, so the old address can be opened up again
+ * by removing its line here if the new one ever has a DNS problem.
+ */
+const MOVED_HOSTS: Readonly<Record<string, string>> = { "ila-office.vercel.app": "office.ilaglobalconsulting.com" };
 
 function secret(): string {
   const s = process.env.SESSION_SECRET;
@@ -40,6 +53,10 @@ async function verify(token: string | undefined): Promise<"ok" | "setup" | null>
 
 export async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
+  const movedTo = MOVED_HOSTS[(req.headers.get("host") ?? "").toLowerCase()];
+  if (movedTo && (req.method === "GET" || req.method === "HEAD") && !path.startsWith("/api/")) {
+    return NextResponse.redirect(`https://${movedTo}${path}${req.nextUrl.search}`, 307);
+  }
   if (PUBLIC.some((re) => re.test(path))) return NextResponse.next();
   // The Bank Indonesia rate sync is called by the Vercel cron with a bearer token that the route itself verifies.
   if (path === "/api/fx/sync" && req.headers.get("authorization")?.startsWith("Bearer ")) return NextResponse.next();
