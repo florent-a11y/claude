@@ -10,13 +10,23 @@ import { can as canDo, canAccessEntity, isClient, type Permission } from "./acce
 export { allowedEntityIds, canAccessEntity, isClient, scopeByEntity, scopeEntities, type Permission } from "./access";
 
 /**
- * Authentication: email + password (scrypt) and an HMAC-signed session cookie.
- * The cookie carries `userId.expires.signature`; middleware.ts verifies the signature on the Edge,
+ * Authentication: email + password (scrypt), an optional second step (lib/account-security.ts) and an HMAC-signed
+ * session cookie. The cookie carries `userId.expires.signature`; middleware.ts verifies the signature on the Edge,
  * server code re-reads the user record so deactivated users are locked out immediately.
+ *
+ * Two variations of the token:
+ * - `userId.expires.setup.signature`: signed in, but the policy requires two-step sign-in and this account has none
+ *   yet. middleware.ts lets such a session reach only the account security page until the setup is done.
+ * - The "pending" cookie between the password and the second step: same shape, signed over a different text, so it
+ *   can never be presented as a session.
  */
 
 export const SESSION_COOKIE = "ila_session";
+export const PENDING_COOKIE = "ila_2fa";
 const SESSION_DAYS = 14;
+const PENDING_MINUTES = 5;
+/** Where a session marked "setup" is sent, and the only page it may use. */
+export const SECURITY_PATH = "/account/security";
 
 export function sessionSecret(): string {
   const s = process.env.SESSION_SECRET;
@@ -29,35 +39,75 @@ function sign(payload: string): string {
   return createHmac("sha256", sessionSecret()).update(payload).digest("base64url");
 }
 
-export function createSessionToken(userId: string, days = SESSION_DAYS): string {
+export function createSessionToken(userId: string, days = SESSION_DAYS, opts: { setupRequired?: boolean } = {}): string {
   const expires = Date.now() + days * 864e5;
-  const payload = `${userId}.${expires}`;
+  const payload = `${userId}.${expires}${opts.setupRequired ? ".setup" : ""}`;
   return `${payload}.${sign(payload)}`;
 }
 
-export function parseSessionToken(token: string | undefined): { userId: string } | null {
+/** Splits `payload.signature` and checks the signature against `signed(payload)`; the payload when it holds and has not expired. */
+function readToken(token: string | undefined, signed: (payload: string) => string): { userId: string; flag?: string } | null {
   if (!token) return null;
   const i = token.lastIndexOf(".");
   if (i < 0) return null;
   const payload = token.slice(0, i);
   const sig = token.slice(i + 1);
-  const expected = sign(payload);
+  const expected = signed(payload);
   if (sig.length !== expected.length || !timingSafeEqual(Buffer.from(sig), Buffer.from(expected))) return null;
-  const [userId, expires] = payload.split(".");
-  if (!userId || !expires || Number(expires) < Date.now()) return null;
-  return { userId };
+  const [userId, expires, flag] = payload.split(".");
+  if (!userId || !expires || !(Number(expires) > Date.now())) return null;
+  return { userId, flag };
 }
 
-export async function setSessionCookie(userId: string) {
+export function parseSessionToken(token: string | undefined): { userId: string; setupRequired: boolean } | null {
+  const t = readToken(token, sign);
+  return t ? { userId: t.userId, setupRequired: t.flag === "setup" } : null;
+}
+
+const cookieOptions = (maxAge: number) => ({ httpOnly: true, sameSite: "lax" as const, secure: process.env.NODE_ENV === "production", path: "/", maxAge });
+
+/** Signs the user in. `setupRequired`: only as far as the account security page, until two-step sign-in is set up. */
+export async function setSessionCookie(userId: string, opts: { setupRequired?: boolean } = {}) {
   const jar = await cookies();
-  jar.set(SESSION_COOKIE, createSessionToken(userId), {
-    httpOnly: true, sameSite: "lax", secure: process.env.NODE_ENV === "production", path: "/", maxAge: SESSION_DAYS * 86400,
-  });
+  jar.set(SESSION_COOKIE, createSessionToken(userId, SESSION_DAYS, opts), cookieOptions(SESSION_DAYS * 86400));
 }
 
 export async function clearSessionCookie() {
   const jar = await cookies();
   jar.set(SESSION_COOKIE, "", { httpOnly: true, path: "/", maxAge: 0 });
+}
+
+/** Whether the current session is held at the setup of two-step sign-in. */
+export async function sessionSetupRequired(): Promise<boolean> {
+  return parseSessionToken((await cookies()).get(SESSION_COOKIE)?.value)?.setupRequired ?? false;
+}
+
+// ---------- Between the password and the second step ----------
+
+const signPending = (payload: string) => sign(`two-step-pending:${payload}`);
+
+export function createPendingToken(userId: string, minutes = PENDING_MINUTES): string {
+  const payload = `${userId}.${Date.now() + minutes * 60_000}`;
+  return `${payload}.${signPending(payload)}`;
+}
+
+export function parsePendingToken(token: string | undefined): { userId: string } | null {
+  const t = readToken(token, signPending);
+  return t ? { userId: t.userId } : null;
+}
+
+/** The password was right and the account has a second step: remembered for five minutes, for the code page only. */
+export async function setPendingCookie(userId: string) {
+  (await cookies()).set(PENDING_COOKIE, createPendingToken(userId), cookieOptions(PENDING_MINUTES * 60));
+}
+
+export async function clearPendingCookie() {
+  (await cookies()).set(PENDING_COOKIE, "", { httpOnly: true, path: "/", maxAge: 0 });
+}
+
+/** The user who passed the password step and now owes a code, or null. */
+export async function pendingUserId(): Promise<string | null> {
+  return parsePendingToken((await cookies()).get(PENDING_COOKIE)?.value)?.userId ?? null;
 }
 
 export type SessionUser = Pick<User, "id" | "email" | "name" | "role" | "entityIds">;
@@ -142,13 +192,9 @@ export async function guard(perm: Permission = "read", entityId?: string): Promi
   return user;
 }
 
-export async function authenticate(email: string, password: string): Promise<User | null> {
-  const users = await db.list("users", { where: (u) => u.email.toLowerCase() === email.toLowerCase() });
-  const user = users[0];
-  if (!user || !user.active) return null;
-  if (!verifyPassword(password, user.passwordHash)) return null;
-  await db.update("users", user.id, { lastLoginAt: new Date().toISOString() });
-  return user;
+/** Only safe, in-app paths are followed after sign-in. */
+export function safeNext(next: string | null | undefined): string {
+  return next && next.startsWith("/") && !next.startsWith("//") && !next.startsWith("/\\") ? next : "/";
 }
 
 export async function hasAnyUser(): Promise<boolean> {
@@ -166,7 +212,10 @@ export async function createFirstAdmin(input: { email: string; name: string; pas
   return user;
 }
 
-/** Base-level ratelimit for the login form (per process). */
+/**
+ * First, cheap limit for the sign-in forms, per process and per address: it stops a burst from one place. The lock
+ * that holds across processes is on the user record (lib/account-security.ts).
+ */
 const attempts = new Map<string, { n: number; until: number }>();
 export function loginAllowed(key: string): boolean {
   const a = attempts.get(key);

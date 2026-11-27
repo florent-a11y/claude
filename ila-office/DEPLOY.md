@@ -2,9 +2,12 @@
 
 This puts ILA Office on a web address your team signs in to, with the data in a Postgres database in Singapore.
 
-> **Current installation (26 Oct 2026):** the app runs at <https://ila-office.vercel.app> from the `main` branch,
-> Vercel project `ila-office` (functions in Singapore), Supabase project `ila-office` (`qrrcsfznyppiirpxejxs`,
-> Singapore). The steps below are kept for a rebuild or a second installation.
+> **Current installation (27 Nov 2026):** the app runs at <https://office.ilaglobalconsulting.com> from the `main`
+> branch (the first address, <https://ila-office.vercel.app>, still answers). Vercel project `ila-office`, functions in
+> Singapore; the address is a CNAME record `office` at Hostinger pointing to the target Vercel shows under
+> Settings → Domains. Supabase project `ila-office` (`qrrcsfznyppiirpxejxs`, Singapore) in the organisation
+> **ILA Global Consulting** on the Pro plan (daily backups kept 7 days, never paused). The steps below are kept for a
+> rebuild or a second installation.
 
 Budget about 30 minutes. You need a GitHub account that can see the repository (you have one), a Supabase account
 and a Vercel account; both sign up with GitHub.
@@ -33,6 +36,7 @@ and a Vercel account; both sign up with GitHub.
      | Name | Value |
      |---|---|
      | `SESSION_SECRET` | a long random string: in Terminal run `openssl rand -base64 48` and paste the result |
+     | `TWO_FACTOR_KEY` | another long random string, made the same way; seals the two-step sign-in secrets (see §7b) |
      | `SUPABASE_URL` | the Project URL from step 1 |
      | `SUPABASE_SERVICE_ROLE_KEY` | the service_role key from step 1 |
      | `RESEND_API_KEY` | optional, for the *Send to client* button on invoices (see §6) |
@@ -92,6 +96,33 @@ dashboard (upcoming filings, cash position), its books, tax calendar and bank re
   bank data: when the team is comfortable, put the address behind Cloudflare Access or a VPN as well.
 - The laptop copy keeps working for experiments; its data is separate from the online database. Nothing from
   the laptop is uploaded automatically.
+
+## 7b. Sign-in security
+
+- **Two-step sign-in.** Each user turns it on under **Account security** (foot of the menu): scan the QR code with
+  an authenticator app (Google Authenticator, Microsoft Authenticator, 1Password, Authy), type a first code, save the
+  eight recovery codes shown once. Sign-in then asks for the password and a 6-digit code. An administrator makes it
+  **required** under Settings → Users → Sign-in security (for the team, or for everyone): a user without it is taken
+  to the setup right after the password at the next sign-in and can open nothing else first.
+- **Lost phone.** A recovery code signs in once. With none left, an administrator clicks **Reset** in the Two-step
+  column of Settings → Users; the password alone then signs in until the user sets it up again. If the only
+  administrator is locked out with no recovery code, `npm run reset-password` (see §8, "Nobody can sign in") sets a
+  new password and removes that account's two-step sign-in and any lock.
+- **Lock.** Five wrong passwords or codes in a row lock an account for 15 minutes. An administrator can unlock it
+  at once (Settings → Users), and a password reset unlocks it too.
+- **Own password.** Every user changes their own password under Account security; administrators still reset one
+  from Settings → Users.
+- **Keys.** The authenticator secrets are stored encrypted under `TWO_FACTOR_KEY` (Vercel environment variable, a
+  long random string), or under `SESSION_SECRET` when `TWO_FACTOR_KEY` is not set. **Set `TWO_FACTOR_KEY` before the
+  team sets two-step sign-in up, and never change it afterwards**: with it in place `SESSION_SECRET` can be renewed
+  at any time (that only signs everyone out). Changing the key the secrets were sealed with makes every
+  authenticator code fail until each user is reset.
+- **Renewing the keys** (do it once after go-live, then whenever someone who had access leaves): in Vercel →
+  Settings → Environment Variables replace `SESSION_SECRET` and `CRON_SECRET` with new random strings
+  (`openssl rand -base64 48`); in Supabase → Project Settings → API create a new secret key, put it in
+  `SUPABASE_SERVICE_ROLE_KEY` and revoke the old one; then redeploy. Never paste a key into a chat or an email.
+- **Accounts behind the app.** Turn on two-factor authentication on GitHub, Vercel, Supabase and Hostinger: whoever
+  holds one of those accounts can reach the data or the address.
 
 ## 8. If something goes wrong
 

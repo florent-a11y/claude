@@ -23,7 +23,10 @@ export async function Shell({ children }: { children: ReactNode }) {
         <div className="mt-auto border-t border-slate-200 px-4 py-3 text-xs">
           <p className="truncate font-medium">{user.name}</p>
           <p className="truncate text-ink-500">{user.email} · {user.role}</p>
-          <form method="post" action="/api/auth/logout" className="mt-2"><button className="text-brand-600 underline">Sign out</button></form>
+          <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+            <Link href="/account/security" className="text-brand-600 underline" title="Password and two-step sign-in">Account security</Link>
+            <form method="post" action="/api/auth/logout"><button className="text-brand-600 underline">Sign out</button></form>
+          </div>
         </div>
       </aside>
       <div className="min-w-0 flex-1">
@@ -31,7 +34,13 @@ export async function Shell({ children }: { children: ReactNode }) {
           <Link href="/" className="font-bold text-brand-700">ILA Office</Link>
           <details className="relative">
             <summary className="btn-secondary !py-1 cursor-pointer list-none text-xs">Menu</summary>
-            <div className="absolute right-0 z-40 mt-2 w-64 rounded-xl border border-slate-200 bg-white p-2 shadow-lg"><ShellNav entities={items} ownEntityId={own?.id} role={user.role} companies={companies} /></div>
+            <div className="absolute right-0 z-40 mt-2 w-64 rounded-xl border border-slate-200 bg-white p-2 shadow-lg">
+              <ShellNav entities={items} ownEntityId={own?.id} role={user.role} companies={companies} />
+              <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-slate-200 px-2 pt-2 text-xs">
+                <Link href="/account/security" className="text-brand-600 underline">Account security</Link>
+                <form method="post" action="/api/auth/logout"><button className="text-brand-600 underline">Sign out</button></form>
+              </div>
+            </div>
           </details>
         </header>
         <main>{children}</main>

@@ -3,11 +3,15 @@ import { NextResponse, type NextRequest } from "next/server";
 /**
  * Edge gate: every page and API route needs a session cookie with a valid HMAC signature, except the login flow.
  * The server (lib/auth.ts) re-validates the user record on each request; this only keeps anonymous traffic out.
+ *
+ * A session marked "setup" (the policy requires two-step sign-in and the account has none yet) reaches only the
+ * account security page and the sign-out route until the setup is done there.
  */
 export const config = { matcher: ["/((?!_next/|favicon.ico|.*\\.(?:png|jpg|jpeg|gif|svg|webp|ico|css|js|map|woff2?|ttf)$).*)"] };
 
-const PUBLIC = [/^\/login$/, /^\/api\/auth\//, /^\/api\/health$/];
+const PUBLIC = [/^\/login$/, /^\/login\/verify$/, /^\/api\/auth\//, /^\/api\/health$/];
 const COOKIE = "ila_session";
+const SECURITY_PATH = "/account/security";
 
 function secret(): string {
   const s = process.env.SESSION_SECRET;
@@ -15,21 +19,23 @@ function secret(): string {
   return "dev-only-insecure-secret-change-me";
 }
 
-async function verify(token: string | undefined): Promise<boolean> {
-  if (!token) return false;
+/** "ok" for a full session, "setup" for one held at the two-step setup, null for none. */
+async function verify(token: string | undefined): Promise<"ok" | "setup" | null> {
+  if (!token) return null;
   const i = token.lastIndexOf(".");
-  if (i < 0) return false;
+  if (i < 0) return null;
   const payload = token.slice(0, i);
   const sig = token.slice(i + 1);
-  const [, expires] = payload.split(".");
-  if (!expires || Number(expires) < Date.now()) return false;
+  const [, expires, flag] = payload.split(".");
+  if (!expires || !(Number(expires) > Date.now())) return null;
   const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret()), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
   const mac = new Uint8Array(await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(payload)));
   const expected = btoa(String.fromCharCode(...mac)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-  if (expected.length !== sig.length) return false;
+  if (expected.length !== sig.length) return null;
   let diff = 0;
   for (let j = 0; j < expected.length; j++) diff |= expected.charCodeAt(j) ^ sig.charCodeAt(j);
-  return diff === 0;
+  if (diff !== 0) return null;
+  return flag === "setup" ? "setup" : "ok";
 }
 
 export async function middleware(req: NextRequest) {
@@ -41,7 +47,15 @@ export async function middleware(req: NextRequest) {
   if (path === "/api/recurring/run" && req.headers.get("authorization")?.startsWith("Bearer ")) return NextResponse.next();
   // And for the weekly AI visibility run (app/api/visibility/run verifies the token).
   if (path === "/api/visibility/run" && req.method === "GET" && req.headers.get("authorization")?.startsWith("Bearer ")) return NextResponse.next();
-  if (await verify(req.cookies.get(COOKIE)?.value)) {
+  const session = await verify(req.cookies.get(COOKIE)?.value);
+  if (session === "setup" && path !== SECURITY_PATH) {
+    if (path.startsWith("/api/")) return new NextResponse("Set up two-step sign-in first.", { status: 403 });
+    const url = req.nextUrl.clone();
+    url.pathname = SECURITY_PATH;
+    url.search = "?required=1";
+    return NextResponse.redirect(url);
+  }
+  if (session) {
     const res = NextResponse.next();
     res.headers.set("cache-control", "private, no-store");
     return res;
