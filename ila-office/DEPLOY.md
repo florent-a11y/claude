@@ -113,10 +113,11 @@ dashboard (upcoming filings, cash position), its books, tax calendar and bank re
 - **Own password.** Every user changes their own password under Account security; administrators still reset one
   from Settings → Users.
 - **Keys.** The authenticator secrets are stored encrypted under `TWO_FACTOR_KEY` (Vercel environment variable, a
-  long random string), or under `SESSION_SECRET` when `TWO_FACTOR_KEY` is not set. **Set `TWO_FACTOR_KEY` before the
-  team sets two-step sign-in up, and never change it afterwards**: with it in place `SESSION_SECRET` can be renewed
-  at any time (that only signs everyone out). Changing the key the secrets were sealed with makes every
-  authenticator code fail until each user is reset.
+  long random string; set on this installation on 27 Nov 2026). **Never change or delete it**: every authenticator
+  code would fail until each user is reset (recovery codes keep working). With it in place `SESSION_SECRET` can be
+  renewed at any time, which only signs everyone out. On an installation without `TWO_FACTOR_KEY` the secrets are
+  sealed under `SESSION_SECRET`; adding the key later is safe, since such a secret still opens and is sealed again
+  under the new key at its owner's next sign-in. Renew `SESSION_SECRET` only once everyone has signed in after that.
 - **Renewing the keys** (do it once after go-live, then whenever someone who had access leaves): in Vercel →
   Settings → Environment Variables replace `SESSION_SECRET` and `CRON_SECRET` with new random strings
   (`openssl rand -base64 48`); in Supabase → Project Settings → API create a new secret key, put it in
