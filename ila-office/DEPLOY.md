@@ -3,7 +3,8 @@
 This puts ILA Office on a web address your team signs in to, with the data in a Postgres database in Singapore.
 
 > **Current installation (27 Nov 2026):** the app runs at <https://office.ilaglobalconsulting.com> from the `main`
-> branch (the first address, <https://ila-office.vercel.app>, still answers). Vercel project `ila-office`, functions in
+> branch. Pages opened at the first address, <https://ila-office.vercel.app>, are sent there (`MOVED_HOSTS` in
+> `middleware.ts`; its API routes still answer, for the scheduled jobs). Vercel project `ila-office`, functions in
 > Singapore; the address is a CNAME record `office` at Hostinger pointing to the target Vercel shows under
 > Settings → Domains. Supabase project `ila-office` (`qrrcsfznyppiirpxejxs`, Singapore) in the organisation
 > **ILA Global Consulting** on the Pro plan (daily backups kept 7 days, never paused). The steps below are kept for a
